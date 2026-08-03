@@ -45,6 +45,7 @@ public static class RuleSetPackageSourceValidator
     private static readonly string[] RequiredPackageSourceFiles =
     [
         "Chronicle.RuleSets.Werewolf.csproj",
+        "CharacterCreation/WerewolfAttributePrioritySelection.cs",
         "CharacterCreation/WerewolfAuspiceSelection.cs",
         "CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
         "CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
@@ -275,6 +276,7 @@ public static class RuleSetPackageSourceValidator
         var declared = new HashSet<string>(StringComparer.Ordinal)
         {
             "Chronicle.RuleSets.Werewolf.csproj",
+            "CharacterCreation/WerewolfAttributePrioritySelection.cs",
             "CharacterCreation/WerewolfAuspiceSelection.cs",
             "CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
             "CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",

@@ -336,5 +336,25 @@
       "generatedOutputStaging": "passed: generated bin/obj and restore scratch outputs are ignored and not staged"
     },
     "notCreated": ["Gift runtime effects", "additional Gift purchase", "allocations", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
+  },
+  "implement014Evidence": {
+    "completedDate": "2026-08-03",
+    "auspiceGiftScopeVerification": "verified: current-slice initial Gift review approves Auspice Gifts only for gift.auspice.ragabash.open-seal and gift.auspice.philodox.resist-pain; Gift catalog was not expanded",
+    "createdTypes": ["WerewolfAttributePrioritySelectionRequest", "WerewolfAttributeCategoryIdentifiers", "WerewolfAttributePriorityIdentifiers", "WerewolfAttributePrioritySelectionResult", "WerewolfAttributePrioritySelectionFinding", "WerewolfAttributePrioritySelectionFindingSeverity", "WerewolfAttributePrioritySelectionErrorCode", "WerewolfAttributePrioritySelectionService"],
+    "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAttributePrioritySelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfAttributePrioritySelectionTests.cs"],
+    "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs", "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"],
+    "categoryIdentifiers": ["physical", "social", "mental"],
+    "budgets": {"primary": 7, "secondary": 5, "tertiary": 3},
+    "transitionRules": ["requires initialized draft and exact expected draft version", "requires physical, social, and mental exactly once", "rejects missing, duplicate, unknown, malformed, and whitespace-padded identifiers", "stores complete ordered priority selection atomically", "allows replacement through the same operation", "updates draft immutably and increments draft version exactly once", "projects selected priority budgets without allocating individual Attribute dots", "preserves classifications, deformity, Gifts, disabled capabilities, and unrelated state", "keeps allocation rules inside the Werewolf Rule Set"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false; required approved NuGet network access after sandbox network failure",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
+      "test": "passed: dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false; 227 tests passed",
+      "architectureRules": "passed: 11 architecture tests passed",
+      "focusedRuntimeExecution": "passed: create-character -> select-attribute-priorities through runtime registry flow",
+      "sideEffects": "passed: no persistence, Campaign binding, UI, filesystem mutation, network, provider access, dice, randomness, or automatic Attribute allocation",
+      "generatedOutputStaging": "passed: generated bin/obj and restore scratch outputs are ignored and not staged"
+    },
+    "notCreated": ["individual Attribute allocation", "Abilities", "Backgrounds", "resources", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
   }
 }

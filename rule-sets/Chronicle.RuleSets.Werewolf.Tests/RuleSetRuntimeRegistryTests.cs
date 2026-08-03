@@ -118,6 +118,7 @@ public sealed class RuleSetRuntimeRegistryTests
             [
                 WerewolfReferenceRuntime.CreateCharacterOperation,
                 WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation,
+                WerewolfReferenceRuntime.SelectAttributePrioritiesOperation,
                 WerewolfReferenceRuntime.SelectAuspiceOperation,
                 WerewolfReferenceRuntime.SelectAuspiceGiftOperation,
                 WerewolfReferenceRuntime.SelectMetisDeformityOperation,

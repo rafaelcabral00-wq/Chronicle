@@ -1190,3 +1190,71 @@ Deferred:
 - final Werewolf PackageId governance.
 
 Next executable task: implement the next explicit current-slice character-creation operation after explicit authorization.
+
+## IMPLEMENT-014 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Auspice Gift scope verification:
+
+- current-slice initial Gift evidence approves Auspice Gifts only for `gift.auspice.ragabash.open-seal` and `gift.auspice.philodox.resist-pain`;
+- the Gift catalog was not expanded.
+
+Created Attribute priority selection contracts and implementation:
+
+- `WerewolfAttributePrioritySelectionRequest`
+- `WerewolfAttributeCategoryIdentifiers`
+- `WerewolfAttributePriorityIdentifiers`
+- `WerewolfAttributePrioritySelectionResult`
+- `WerewolfAttributePrioritySelectionFinding`
+- `WerewolfAttributePrioritySelectionErrorCode`
+- `WerewolfAttributePrioritySelectionService`
+
+Category identifiers and budgets:
+
+- categories: `physical`, `social`, `mental`
+- primary budget: 7
+- secondary budget: 5
+- tertiary budget: 3
+
+Transition rules:
+
+- requires initialized draft and exact expected draft version;
+- requires `physical`, `social`, and `mental` exactly once;
+- rejects missing, duplicate, unknown, malformed, and whitespace-padded identifiers;
+- stores the complete ordered priority selection atomically;
+- allows replacement through the same operation;
+- updates the draft immutably and increments version exactly once;
+- exposes selected priority budgets without allocating individual Attribute dots;
+- preserves classifications, deformity, Gifts, disabled capabilities, and unrelated state;
+- keeps allocation rules inside the Werewolf Rule Set.
+
+Runtime changes:
+
+- added enabled operation `character-creation.select-attribute-priorities`;
+- runtime envelope requires `draftId`, `draftVersion`, `expectedDraftVersion`, `primaryCategoryId`, `secondaryCategoryId`, and `tertiaryCategoryId`;
+- runtime returns deterministic updated draft id, version, Attribute priority order, Attribute budgets, classifications, selected Gift ids, deformity id, and next-step output fields.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed after approved NuGet network access;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 227 tests;
+- architecture rules: passed;
+- focused create-character to select-attribute-priorities runtime execution: passed.
+
+Deferred:
+
+- individual Attribute allocation;
+- Abilities;
+- Backgrounds;
+- resources;
+- completion validation;
+- finalization;
+- persistence;
+- UI;
+- dice;
+- Campaign association;
+- final Werewolf PackageId governance.
+
+Next executable task: implement the next explicit current-slice character-creation operation after explicit authorization.

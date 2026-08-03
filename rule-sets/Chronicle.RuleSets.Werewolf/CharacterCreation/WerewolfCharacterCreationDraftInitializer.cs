@@ -67,6 +67,8 @@ public static class WerewolfCharacterCreationDraftFactory
             RaceGift: null,
             AuspiceGift: null,
             TribeGift: null,
+            AttributePriorityOrder: [],
+            AttributeBudgets: new ReadOnlyDictionary<string, int>(new Dictionary<string, int>(StringComparer.Ordinal)),
             Attributes: UnsetDictionary(AttributeKeys),
             Abilities: UnsetDictionary(AbilityKeys),
             Backgrounds: UnsetDictionary(BackgroundKeys),
