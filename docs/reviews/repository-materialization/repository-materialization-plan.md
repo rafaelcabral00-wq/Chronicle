@@ -924,3 +924,61 @@ Deferred:
 - final Werewolf PackageId governance.
 
 Next executable task: implement the next explicit current-slice selection operation, likely Auspice or Tribe, after explicit authorization.
+
+## IMPLEMENT-010 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created Auspice selection contracts and implementation:
+
+- `WerewolfAuspiceSelectionRequest`
+- `WerewolfAuspiceIdentifiers`
+- `WerewolfAuspiceSelectionResult`
+- `WerewolfAuspiceSelectionFinding`
+- `WerewolfAuspiceSelectionErrorCode`
+- `WerewolfAuspiceSelectionService`
+
+Auspice identifiers and behavior:
+
+- supported canonical identifiers: `ragabash`, `theurge`, `philodox`, `galliard`, `ahroun`;
+- identifiers are stable and localization-independent;
+- missing, unknown, whitespace-padded, or malformed identifiers are rejected;
+- successful selection updates the draft immutably and increments the draft version exactly once.
+
+Draft transition rules:
+
+- requires initialized draft and exact expected draft version;
+- allows explicit Auspice replacement;
+- preserves Race, Metis deformity requirement, and unrelated draft state;
+- does not choose Gifts, resources, Tribe, or other options;
+- preserves disabled additional Gift purchase and runtime Gift effects.
+
+Runtime changes:
+
+- added enabled operation `character-creation.select-auspice`;
+- runtime envelope requires `draftId`, `draftVersion`, `expectedDraftVersion`, and `auspiceId`;
+- runtime returns deterministic updated draft id, version, Auspice id, Race id, and next-step output fields.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed after approved NuGet network access;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 132 tests;
+- architecture rules: passed;
+- focused create-character to select-race to select-auspice runtime execution: passed.
+
+Deferred:
+
+- Tribe selection;
+- Gifts;
+- allocations;
+- deformity selection;
+- completion validation;
+- finalization;
+- persistence;
+- UI;
+- dice;
+- Campaign association;
+- final Werewolf PackageId governance.
+
+Next executable task: implement explicit Tribe selection for the current-slice draft after explicit authorization.

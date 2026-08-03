@@ -7,6 +7,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
 {
     public const string CreateCharacterOperation = "character-creation.create-character";
     public const string SelectRaceOperation = "character-creation.select-race";
+    public const string SelectAuspiceOperation = "character-creation.select-auspice";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -30,6 +31,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         WerewolfRuleSetPackage.DeclaredReleaseScope,
         [
             new RuleSetOperationDescriptor(CreateCharacterOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(SelectAuspiceOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectRaceOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
             new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
@@ -42,6 +44,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, SelectRaceOperation))
         {
             return ExecuteSelectRace(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, SelectAuspiceOperation))
+        {
+            return ExecuteSelectAuspice(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -137,6 +144,66 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
                 ["raceId"] = result.Draft.Race ?? string.Empty,
                 ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteSelectAuspice(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("auspiceId", out var auspiceId) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAuspiceSelectionRequest", "Auspice selection requires draftId, draftVersion, expectedDraftVersion, and auspiceId.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentRace = request.Inputs.GetValueOrDefault("currentRace");
+        var currentAuspice = request.Inputs.GetValueOrDefault("currentAuspice");
+        var metisRequirement = request.Inputs.TryGetValue("requiresMetisDeformity", out var requiresMetisDeformity) &&
+            StringComparer.Ordinal.Equals(requiresMetisDeformity, "true");
+        var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
+            .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
+            .ToList();
+
+        if (metisRequirement && !nextSteps.Contains("select-metis-deformity", StringComparer.Ordinal))
+        {
+            nextSteps.Add("select-metis-deformity");
+        }
+
+        var draft = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion) with
+        {
+            Race = string.IsNullOrWhiteSpace(currentRace) ? null : currentRace,
+            Auspice = string.IsNullOrWhiteSpace(currentAuspice) ? null : currentAuspice,
+            RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
+        };
+
+        var result = WerewolfAuspiceSelectionService.SelectAuspice(new WerewolfAuspiceSelectionRequest(draft, expectedVersion, auspiceId));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["auspiceId"] = result.Draft.Auspice ?? string.Empty,
+                ["draftId"] = result.Draft.DraftIdentity.Value,
+                ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps),
+                ["raceId"] = result.Draft.Race ?? string.Empty
             });
     }
 }
