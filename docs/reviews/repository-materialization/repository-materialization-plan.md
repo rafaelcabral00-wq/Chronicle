@@ -266,7 +266,7 @@ Physical repository bootstrap is executable as a scoped bootstrap task, provided
 
 It must not publish or install packages, create Campaign bindings, select unapproved package serialization or installation layouts, or treat the Werewolf documentation prototype as package source.
 
-Current next executable bootstrap task: `BOOT-004`, implement canonical test harness packages and architecture rules without expanding runtime behavior.
+Current next executable bootstrap task: `BOOT-005`, create Werewolf package source skeleton and package-adjacent tests after explicit authorization.
 
 ## BOOT-003 Execution Evidence
 
@@ -316,3 +316,49 @@ Not created:
 - Release outputs.
 
 Next executable bootstrap task: `BOOT-004`, implement canonical test harness packages and architecture rules without expanding runtime behavior.
+
+## BOOT-004 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Packages added through central package management:
+
+- `Microsoft.NET.Test.Sdk` 17.12.0
+- `xunit` 2.9.3
+- `xunit.runner.visualstudio` 2.8.2
+
+Test infrastructure added:
+
+- xUnit harness configuration for the six bootstrap test projects.
+- Deterministic test-discovery convention tests for non-architecture bootstrap test projects.
+- Project-file graph inspection architecture tests in `tests/Chronicle.Architecture.Tests/`.
+
+Architecture rules implemented:
+
+- Domain depends on no Chronicle production project.
+- Contracts depends on no concrete infrastructure project.
+- Application does not depend on Infrastructure, Persistence, provider implementations, Presentation, or Desktop.
+- Abstractions do not depend on concrete implementations.
+- Infrastructure and Persistence do not depend on Presentation or Desktop.
+- Presentation does not own persistence or provider implementations.
+- Desktop is the composition root and may depend only on authorized projects.
+- No circular project references.
+- Test projects do not introduce forbidden production dependencies.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed.
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors.
+- `dotnet test Chronicle.sln --no-build`: passed with 15 tests.
+- Intentional forbidden dependency check: passed; temporary `Chronicle.Application -> Chronicle.Infrastructure` reference failed architecture tests, then the valid state was restored.
+- Generated output staging: passed; `bin/`, `obj/`, and local NuGet scratch outputs are ignored and not staged.
+
+Not created:
+
+- Rule Set package source.
+- Werewolf executable package.
+- Werewolf package tests.
+- Tool projects.
+- UI, database, provider, or Rule Set runtime logic.
+
+Next executable bootstrap task: `BOOT-005`, create Werewolf package source skeleton and package-adjacent tests after explicit authorization.
