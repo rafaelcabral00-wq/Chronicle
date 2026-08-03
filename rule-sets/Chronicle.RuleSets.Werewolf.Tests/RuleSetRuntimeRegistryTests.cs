@@ -1,5 +1,6 @@
 using Chronicle.RuleSets.Abstractions.PackageSources;
 using Chronicle.RuleSets.Abstractions.Runtime;
+using Chronicle.RuleSets.Werewolf.CharacterCreation;
 using Xunit;
 
 namespace Chronicle.RuleSets.Werewolf.Tests;
@@ -135,19 +136,32 @@ public sealed class RuleSetRuntimeRegistryTests
     }
 
     [Fact]
-    public void EnabledOperationsReturnDeterministicNotImplementedUntilImplemented()
+    public void EnabledOperationInitializesDraftThroughRuntime()
     {
-        var registry = RegisteredRuntimeRegistry();
+        var registry = RegisteredRuntimeRegistry(new TestIdentitySource("runtime-draft-001"));
 
-        var first = registry.Execute(Request(WerewolfReferenceRuntime.CreateCharacterOperation));
-        var second = registry.Execute(Request(WerewolfReferenceRuntime.CreateCharacterOperation));
+        var result = registry.Execute(Request(WerewolfReferenceRuntime.CreateCharacterOperation));
 
-        Assert.Equal(first.Succeeded, second.Succeeded);
-        Assert.Equal(first.FailureCode, second.FailureCode);
-        Assert.Equal(Format(first.Findings), Format(second.Findings));
-        Assert.Equal(first.Outputs.OrderBy(output => output.Key, StringComparer.Ordinal), second.Outputs.OrderBy(output => output.Key, StringComparer.Ordinal));
-        Assert.False(first.Succeeded);
-        Assert.Equal(RuleSetOperationFailureCode.OperationNotImplemented, first.FailureCode);
+        Assert.True(result.Succeeded);
+        Assert.Null(result.FailureCode);
+        Assert.Equal("runtime-draft-001", result.Outputs["draftId"]);
+        Assert.Equal("Initialized", result.Outputs["draftStatus"]);
+        Assert.Contains("select-race", result.Outputs["nextSteps"], StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void RuntimeRejectsMissingCreateCharacterRequestId()
+    {
+        var registry = RegisteredRuntimeRegistry(new TestIdentitySource("unused"));
+
+        var result = registry.Execute(new RuleSetOperationRequest(
+            WerewolfRuleSetPackage.ProvisionalPackageId,
+            WerewolfRuleSetPackage.PackageVersion,
+            WerewolfReferenceRuntime.CreateCharacterOperation,
+            new Dictionary<string, string>(StringComparer.Ordinal)));
+
+        Assert.False(result.Succeeded);
+        Assert.Equal(RuleSetOperationFailureCode.InvalidRequest, result.FailureCode);
     }
 
     [Fact]
@@ -190,7 +204,10 @@ public sealed class RuleSetRuntimeRegistryTests
             WerewolfRuleSetPackage.ProvisionalPackageId,
             WerewolfRuleSetPackage.PackageVersion,
             operationKey,
-            new Dictionary<string, string>(StringComparer.Ordinal));
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = "request-001"
+            });
     }
 
     private static string Format(IEnumerable<RegisteredRuleSetRuntimeDescriptor> descriptors)
@@ -211,6 +228,11 @@ public sealed class RuleSetRuntimeRegistryTests
     private static RuleSetRuntimeRegistry RegisteredRuntimeRegistry()
     {
         return RuleSetRuntimeRegistrationService.Register(new RuleSetRuntimeRegistrationRequest(RegisteredCatalog(), [new WerewolfReferenceRuntime()])).Registry;
+    }
+
+    private static RuleSetRuntimeRegistry RegisteredRuntimeRegistry(TestIdentitySource identitySource)
+    {
+        return RuleSetRuntimeRegistrationService.Register(new RuleSetRuntimeRegistrationRequest(RegisteredCatalog(), [new WerewolfReferenceRuntime(identitySource)])).Registry;
     }
 
     private static RuleSetPackageCatalog RegisteredCatalog()
@@ -261,6 +283,14 @@ public sealed class RuleSetRuntimeRegistryTests
                 RuleSetOperationFailureCode.OperationNotImplemented,
                 [],
                 new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+    }
+
+    private sealed class TestIdentitySource(string identity) : IWerewolfCharacterDraftIdentitySource
+    {
+        public WerewolfCharacterDraftIdentity CreateDraftIdentity(WerewolfCreateCharacterRequest request)
+        {
+            return new WerewolfCharacterDraftIdentity(identity);
         }
     }
 

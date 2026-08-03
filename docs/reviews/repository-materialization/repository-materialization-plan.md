@@ -799,3 +799,68 @@ Deferred:
 - final Werewolf PackageId governance.
 
 Next executable task: implement the first enabled Werewolf current-slice operation behavior behind the runtime boundary, or expose runtime/catalog inspection through authorized tooling after explicit authorization.
+
+## IMPLEMENT-008 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created character-creation initialization contracts and implementation:
+
+- `WerewolfCreateCharacterRequest`
+- `WerewolfCharacterDraftIdentity`
+- `WerewolfCharacterDraftStatus`
+- `WerewolfInitializedCharacterState`
+- `WerewolfCreateCharacterResultPayload`
+- `WerewolfCharacterInitializationFinding`
+- `IWerewolfCharacterDraftIdentitySource`
+- `WerewolfCharacterCreationDraftInitializer`
+
+Initialized draft shape:
+
+- status: `Initialized`;
+- draft version: `1`;
+- identity: created through injected Chronicle-owned identity abstraction;
+- unset choices: Race, Auspice, Tribe, Attributes, Abilities, Backgrounds, Gifts, resources, and narrative fields;
+- required next steps expose selection/allocation work without choosing values;
+- disabled capabilities: additional Gift purchase and runtime Gift effects.
+
+Runtime changes:
+
+- `character-creation.create-character` now invokes the real initializer;
+- missing request id returns deterministic invalid-request result;
+- successful runtime invocation returns deterministic draft id, status, version, and next-step output fields.
+
+Tests added:
+
+- successful draft initialization;
+- unique identity abstraction usage;
+- missing/malformed request;
+- deterministic initial state;
+- no automatic Race/Auspice/Tribe selection;
+- disabled capabilities preserved;
+- immutable returned collections;
+- repeated requests do not share mutable state;
+- no persistence, filesystem, network, provider, UI, Campaign, dice, or randomness dependency;
+- runtime invocation through discovery, registration, and runtime registry.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed after approved NuGet network access;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 96 tests;
+- architecture rules: passed;
+- focused real runtime invocation: passed.
+
+Deferred:
+
+- allocation;
+- selection;
+- validation completion;
+- finalization;
+- persistence;
+- UI;
+- dice;
+- Campaign association;
+- final Werewolf PackageId governance.
+
+Next executable task: implement the first explicit selection/allocation operation for the Werewolf current-slice draft, or expose the runtime operation through authorized tooling after explicit authorization.
