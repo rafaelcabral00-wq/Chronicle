@@ -555,3 +555,68 @@ Deferred:
 - runtime implementation details.
 
 Next executable task: integrate package source validation into authorized tooling or continue with the next package contract work item after explicit authorization.
+
+## IMPLEMENT-004 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Authorization result:
+
+- `docs/reviews/repository-materialization/tools-project-plan.json` authorizes `Chronicle.Tools.PackageValidator`;
+- allowed dependencies: Rule Set abstractions and contracts;
+- forbidden behavior: executing untrusted arbitrary package code without security review.
+
+Created projects:
+
+- `tools/Chronicle.Tools.PackageValidator/Chronicle.Tools.PackageValidator.csproj`
+- `tests/Chronicle.Tools.PackageValidator.Tests/Chronicle.Tools.PackageValidator.Tests.csproj`
+
+Created files:
+
+- `tools/Chronicle.Tools.PackageValidator/PackageValidatorExitCode.cs`
+- `tools/Chronicle.Tools.PackageValidator/PackageValidatorCommand.cs`
+- `tools/Chronicle.Tools.PackageValidator/Program.cs`
+- `tests/Chronicle.Tools.PackageValidator.Tests/PackageValidatorCommandTests.cs`
+
+Command usage:
+
+- `dotnet run --project tools/Chronicle.Tools.PackageValidator/Chronicle.Tools.PackageValidator.csproj -- <package-source-path>`
+
+Exit codes:
+
+- `0`: valid package source;
+- `1`: validation failure;
+- `2`: invalid invocation;
+- `3`: unexpected internal failure.
+
+Tests added:
+
+- valid Werewolf package;
+- invalid package;
+- missing path;
+- path outside repository when explicitly supplied;
+- deterministic output;
+- stable exit codes;
+- no filesystem mutation;
+- no forbidden runtime/provider/persistence/UI dependencies.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed after approved NuGet network access for the new test project;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 53 tests;
+- architecture rules: passed;
+- real invocation against `rule-sets/Chronicle.RuleSets.Werewolf`: passed with exit code `0`, `Status: valid`, and `Findings: 0`;
+- generated output staging: passed.
+
+Deferred:
+
+- canonical JSON output;
+- package discovery;
+- dynamic assembly loading;
+- package installation and publication;
+- Campaign binding;
+- packaged artifact serialization;
+- final PackageId governance.
+
+Next executable task: integrate package validation into CI only if explicitly authorized, or continue the next Rule Set package contract work item.

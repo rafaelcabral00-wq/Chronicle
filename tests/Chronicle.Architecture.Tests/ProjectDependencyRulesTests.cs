@@ -57,6 +57,11 @@ public sealed class ProjectDependencyRulesTests
             [
                 "Chronicle.Contracts",
                 "Chronicle.RuleSets.Abstractions"
+            ],
+            ["Chronicle.Tools.PackageValidator"] =
+            [
+                "Chronicle.Contracts",
+                "Chronicle.RuleSets.Abstractions"
             ]
         };
 
@@ -74,6 +79,10 @@ public sealed class ProjectDependencyRulesTests
                 "Chronicle.Contracts",
                 "Chronicle.RuleSets.Abstractions",
                 "Chronicle.RuleSets.Werewolf"
+            ],
+            ["Chronicle.Tools.PackageValidator.Tests"] =
+            [
+                "Chronicle.Tools.PackageValidator"
             ]
         };
 
