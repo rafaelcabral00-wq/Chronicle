@@ -5,53 +5,6 @@ namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
 
 public sealed class WerewolfCharacterCreationDraftInitializer
 {
-    private static readonly string[] AttributeKeys =
-    [
-        "mental",
-        "physical",
-        "social"
-    ];
-
-    private static readonly string[] AbilityKeys =
-    [
-        "knowledge",
-        "skills",
-        "talents"
-    ];
-
-    private static readonly string[] BackgroundKeys =
-    [
-        "background-selection"
-    ];
-
-    private static readonly string[] ResourceKeys =
-    [
-        "gnosis",
-        "rage",
-        "willpower"
-    ];
-
-    private static readonly string[] NarrativeFieldKeys =
-    [
-        "character-concept",
-        "character-goals",
-        "character-relationships",
-        "name"
-    ];
-
-    private static readonly string[] RequiredNextSteps =
-    [
-        "select-race",
-        "select-auspice",
-        "select-tribe",
-        "allocate-attributes",
-        "allocate-abilities",
-        "select-backgrounds",
-        "select-initial-gifts",
-        "review-resources",
-        "add-narrative-fields"
-    ];
-
     private readonly IWerewolfCharacterDraftIdentitySource identitySource;
 
     public WerewolfCharacterCreationDraftInitializer(IWerewolfCharacterDraftIdentitySource identitySource)
@@ -74,10 +27,39 @@ public sealed class WerewolfCharacterCreationDraftInitializer
             return Invalid("InvalidDraftIdentity", "Chronicle identity source returned an invalid draft identity.");
         }
 
-        var draft = new WerewolfInitializedCharacterState(
+        var draft = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(identity, 1);
+
+        return new WerewolfCreateCharacterResultPayload(
+            true,
+            draft,
+            [new WerewolfCharacterInitializationFinding(WerewolfCharacterInitializationFindingSeverity.Information, "DraftInitialized", "Character creation draft initialized.")]);
+    }
+
+    private static WerewolfCreateCharacterResultPayload Invalid(string code, string message)
+    {
+        return new WerewolfCreateCharacterResultPayload(
+            false,
+            null,
+            [new WerewolfCharacterInitializationFinding(WerewolfCharacterInitializationFindingSeverity.Error, code, message)]);
+    }
+
+}
+
+public static class WerewolfCharacterCreationDraftFactory
+{
+    private static readonly string[] AttributeKeys = ["mental", "physical", "social"];
+    private static readonly string[] AbilityKeys = ["knowledge", "skills", "talents"];
+    private static readonly string[] BackgroundKeys = ["background-selection"];
+    private static readonly string[] ResourceKeys = ["gnosis", "rage", "willpower"];
+    private static readonly string[] NarrativeFieldKeys = ["character-concept", "character-goals", "character-relationships", "name"];
+    private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "select-backgrounds", "select-initial-gifts", "review-resources", "add-narrative-fields"];
+
+    public static WerewolfInitializedCharacterState CreateInitializedDraft(WerewolfCharacterDraftIdentity identity, int draftVersion)
+    {
+        return new WerewolfInitializedCharacterState(
             identity,
             WerewolfCharacterDraftStatus.Initialized,
-            1,
+            draftVersion,
             Race: null,
             Auspice: null,
             Tribe: null,
@@ -93,19 +75,6 @@ public sealed class WerewolfCharacterCreationDraftInitializer
                 ["additional-gift-purchase"] = "disabled",
                 ["runtime-gift-execution"] = "disabled"
             }));
-
-        return new WerewolfCreateCharacterResultPayload(
-            true,
-            draft,
-            [new WerewolfCharacterInitializationFinding(WerewolfCharacterInitializationFindingSeverity.Information, "DraftInitialized", "Character creation draft initialized.")]);
-    }
-
-    private static WerewolfCreateCharacterResultPayload Invalid(string code, string message)
-    {
-        return new WerewolfCreateCharacterResultPayload(
-            false,
-            null,
-            [new WerewolfCharacterInitializationFinding(WerewolfCharacterInitializationFindingSeverity.Error, code, message)]);
     }
 
     private static ReadOnlyDictionary<string, int?> UnsetDictionary(IEnumerable<string> keys)

@@ -864,3 +864,63 @@ Deferred:
 - final Werewolf PackageId governance.
 
 Next executable task: implement the first explicit selection/allocation operation for the Werewolf current-slice draft, or expose the runtime operation through authorized tooling after explicit authorization.
+
+## IMPLEMENT-009 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created Race selection contracts and implementation:
+
+- `WerewolfRaceSelectionRequest`
+- `WerewolfRaceIdentifiers`
+- `WerewolfRaceSelectionResult`
+- `WerewolfRaceSelectionFinding`
+- `WerewolfRaceSelectionErrorCode`
+- `WerewolfRaceSelectionService`
+
+Race identifiers and behavior:
+
+- supported canonical identifiers: `homid`, `metis`, `lupus`;
+- identifiers are stable and localization-independent;
+- unknown, missing, whitespace-padded, or malformed identifiers are rejected;
+- successful selection updates the draft immutably and increments the draft version exactly once.
+
+Draft transition rules:
+
+- requires initialized draft and exact expected draft version;
+- allows explicit Race replacement;
+- preserves unrelated draft state;
+- Metis adds `select-metis-deformity`;
+- changing away from Metis removes only `select-metis-deformity`;
+- does not select deformity or any other character option;
+- preserves disabled additional Gift purchase and runtime Gift effects.
+
+Runtime changes:
+
+- added enabled operation `character-creation.select-race`;
+- runtime envelope requires `draftId`, `draftVersion`, `expectedDraftVersion`, and `raceId`;
+- runtime returns deterministic updated draft id, version, Race id, and next-step output fields.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 114 tests;
+- architecture rules: passed;
+- focused create-character to select-race runtime execution: passed.
+
+Deferred:
+
+- Auspice selection;
+- Tribe selection;
+- allocations;
+- deformity selection;
+- completion validation;
+- finalization;
+- persistence;
+- UI;
+- dice;
+- Campaign association;
+- final Werewolf PackageId governance.
+
+Next executable task: implement the next explicit current-slice selection operation, likely Auspice or Tribe, after explicit authorization.

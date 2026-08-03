@@ -240,5 +240,23 @@
       "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
     },
     "notCreated": ["allocation", "selection", "validation completion", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
+  },
+  "implement009Evidence": {
+    "completedDate": "2026-08-03",
+    "createdTypes": ["WerewolfRaceSelectionRequest", "WerewolfRaceIdentifiers", "WerewolfRaceSelectionResult", "WerewolfRaceSelectionFinding", "WerewolfRaceSelectionFindingSeverity", "WerewolfRaceSelectionErrorCode", "WerewolfRaceSelectionService"],
+    "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRaceSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRaceSelectionTests.cs"],
+    "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"],
+    "raceIdentifiers": ["homid", "metis", "lupus"],
+    "draftTransitionRules": ["requires initialized draft and exact expected draft version", "accepts only canonical current-slice Race identifiers", "updates draft immutably", "increments draft version exactly once on success", "allows explicit Race replacement", "Metis adds select-metis-deformity next step", "changing away from Metis removes only select-metis-deformity", "preserves unrelated draft state and disabled capabilities"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
+      "test": "passed: dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false; 114 tests passed",
+      "architectureRules": "passed: 11 architecture tests passed",
+      "focusedRuntimeExecution": "passed: create-character -> select-race through runtime registry flow",
+      "sideEffects": "passed: no persistence, Campaign binding, UI, network, provider, filesystem access, dice, or randomness",
+      "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
+    },
+    "notCreated": ["Auspice selection", "Tribe selection", "allocations", "deformity selection", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
   }
 }
