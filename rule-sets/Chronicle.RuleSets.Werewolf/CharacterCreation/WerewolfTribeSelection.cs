@@ -99,6 +99,7 @@ public static class WerewolfTribeSelectionService
             return Invalid(WerewolfTribeSelectionErrorCode.UnknownTribe, "Tribe identifier is not declared by the current slice.");
         }
 
+        var tribeChanged = !StringComparer.Ordinal.Equals(request.Draft.Tribe, tribe);
         var nextSteps = request.Draft.RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-tribe"))
             .Order(StringComparer.Ordinal)
@@ -107,6 +108,7 @@ public static class WerewolfTribeSelectionService
         var updated = request.Draft with
         {
             Tribe = tribe,
+            TribeGift = tribeChanged ? null : request.Draft.TribeGift,
             DraftVersion = request.Draft.DraftVersion + 1,
             RequiredNextSteps = Array.AsReadOnly(nextSteps),
             Attributes = CopyNumeric(request.Draft.Attributes),
@@ -116,6 +118,11 @@ public static class WerewolfTribeSelectionService
             Resources = CopyNumeric(request.Draft.Resources),
             NarrativeFields = CopyOptionalText(request.Draft.NarrativeFields),
             DisabledCapabilities = CopyRequiredText(request.Draft.DisabledCapabilities)
+        };
+
+        updated = updated with
+        {
+            RequiredNextSteps = WerewolfInitialGiftSelectionService.ReconcileInitialGiftNextSteps(updated)
         };
 
         return new WerewolfTribeSelectionResult(

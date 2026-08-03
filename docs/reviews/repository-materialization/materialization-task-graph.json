@@ -313,5 +313,28 @@
       "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
     },
     "notCreated": ["deformity runtime effects", "Gifts", "allocations", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
+  },
+  "implement013Evidence": {
+    "completedDate": "2026-08-03",
+    "createdTypes": ["WerewolfInitialGiftSelectionRequest", "WerewolfInitialGiftSource", "WerewolfInitialGiftIdentifiers", "WerewolfInitialGiftSelectionResult", "WerewolfInitialGiftSelectionFinding", "WerewolfInitialGiftSelectionFindingSeverity", "WerewolfInitialGiftSelectionErrorCode", "WerewolfInitialGiftSelectionService"],
+    "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfInitialGiftSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfInitialGiftSelectionTests.cs"],
+    "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRaceSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAuspiceSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfTribeSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"],
+    "giftIdentifiers": {
+      "race": ["gift.race.homid.master-of-fire", "gift.race.metis.create-element", "gift.race.lupus.hare-leap"],
+      "auspice": ["gift.auspice.ragabash.open-seal", "gift.auspice.philodox.resist-pain"],
+      "tribe": ["gift.tribe.glass-walkers.control-simple-machine"]
+    },
+    "eligibilityAndTransitionRules": ["requires initialized draft and exact expected draft version", "requires corresponding Race, Auspice, or Tribe selection before choosing that source Gift", "accepts only approved level-one current-slice initial Gift identifiers", "rejects missing, unknown, malformed, whitespace-padded, wrong-source, wrong-level, and out-of-scope Gift identifiers", "stores exactly one initial Gift per source category", "allows replacement within the same source category", "updates draft immutably and increments draft version exactly once", "preserves unrelated draft state and compatible Gift selections", "keeps additional Gift purchase and runtime Gift effects disabled"],
+    "classificationOperationAdjustments": ["draft state now carries RaceGift, AuspiceGift, and TribeGift", "Race changes clear only incompatible RaceGift and reintroduce select-race-gift", "Auspice changes clear only incompatible AuspiceGift and reintroduce select-auspice-gift", "Tribe changes clear only incompatible TribeGift and reintroduce select-tribe-gift", "compatible Gift selections from unchanged sources are preserved"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false; required approved NuGet network access after sandbox network failure",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
+      "test": "passed: dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false; 209 tests passed",
+      "architectureRules": "passed: 11 architecture tests passed",
+      "focusedRuntimeExecution": "passed: create-character -> select-race -> select-auspice -> select-tribe -> select-race-gift -> select-auspice-gift -> select-tribe-gift through runtime registry flow",
+      "sideEffects": "passed: no persistence, Campaign binding, UI, filesystem mutation, network, provider access, dice, randomness, additional Gift purchase, or Gift runtime effects",
+      "generatedOutputStaging": "passed: generated bin/obj and restore scratch outputs are ignored and not staged"
+    },
+    "notCreated": ["Gift runtime effects", "additional Gift purchase", "allocations", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
   }
 }

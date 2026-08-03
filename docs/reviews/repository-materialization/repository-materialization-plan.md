@@ -1121,3 +1121,72 @@ Deferred:
 - final Werewolf PackageId governance.
 
 Next executable task: implement the next explicit current-slice character-creation operation after explicit authorization.
+
+## IMPLEMENT-013 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created initial Gift selection contracts and implementation:
+
+- `WerewolfInitialGiftSelectionRequest`
+- `WerewolfInitialGiftSource`
+- `WerewolfInitialGiftIdentifiers`
+- `WerewolfInitialGiftSelectionResult`
+- `WerewolfInitialGiftSelectionFinding`
+- `WerewolfInitialGiftSelectionErrorCode`
+- `WerewolfInitialGiftSelectionService`
+
+Supported Gift identifiers and source mapping:
+
+- Race: `gift.race.homid.master-of-fire`, `gift.race.metis.create-element`, `gift.race.lupus.hare-leap`
+- Auspice: `gift.auspice.ragabash.open-seal`, `gift.auspice.philodox.resist-pain`
+- Tribe: `gift.tribe.glass-walkers.control-simple-machine`
+
+Eligibility and transition rules:
+
+- requires initialized draft and exact expected draft version;
+- requires the corresponding Race, Auspice, or Tribe selection first;
+- accepts only approved level-one current-slice initial Gift identifiers;
+- rejects missing, unknown, malformed, whitespace-padded, wrong-source, wrong-level, and out-of-scope Gift identifiers;
+- stores exactly one selected initial Gift for each source category;
+- allows replacement within the same source category;
+- updates the draft immutably and increments version exactly once;
+- preserves unrelated state, compatible Gift selections, disabled additional Gift purchase, and disabled runtime Gift effects;
+- does not execute Gift effects.
+
+Classification operation adjustments:
+
+- draft state now carries `RaceGift`, `AuspiceGift`, and `TribeGift`;
+- changing Race clears only incompatible `RaceGift` and reintroduces `select-race-gift`;
+- changing Auspice clears only incompatible `AuspiceGift` and reintroduces `select-auspice-gift`;
+- changing Tribe clears only incompatible `TribeGift` and reintroduces `select-tribe-gift`;
+- compatible Gift selections from unchanged sources are preserved.
+
+Runtime changes:
+
+- added enabled operations `character-creation.select-race-gift`, `character-creation.select-auspice-gift`, and `character-creation.select-tribe-gift`;
+- runtime envelope requires `draftId`, `draftVersion`, `expectedDraftVersion`, and `giftId`;
+- runtime returns deterministic updated draft id, version, Race, Auspice, Tribe, selected Gift ids, deformity id, and next-step output fields.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed after approved NuGet network access;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 209 tests;
+- architecture rules: passed;
+- focused create-character to select-race to select-auspice to select-tribe to select-race-gift to select-auspice-gift to select-tribe-gift runtime execution: passed.
+
+Deferred:
+
+- Gift runtime effects;
+- additional Gift purchase;
+- allocations;
+- completion validation;
+- finalization;
+- persistence;
+- UI;
+- dice;
+- Campaign association;
+- final Werewolf PackageId governance.
+
+Next executable task: implement the next explicit current-slice character-creation operation after explicit authorization.

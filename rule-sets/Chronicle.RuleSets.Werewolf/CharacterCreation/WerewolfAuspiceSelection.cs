@@ -82,6 +82,7 @@ public static class WerewolfAuspiceSelectionService
             return Invalid(WerewolfAuspiceSelectionErrorCode.UnknownAuspice, "Auspice identifier is not declared by the current slice.");
         }
 
+        var auspiceChanged = !StringComparer.Ordinal.Equals(request.Draft.Auspice, auspice);
         var nextSteps = request.Draft.RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-auspice"))
             .Order(StringComparer.Ordinal)
@@ -90,6 +91,7 @@ public static class WerewolfAuspiceSelectionService
         var updated = request.Draft with
         {
             Auspice = auspice,
+            AuspiceGift = auspiceChanged ? null : request.Draft.AuspiceGift,
             DraftVersion = request.Draft.DraftVersion + 1,
             RequiredNextSteps = Array.AsReadOnly(nextSteps),
             Attributes = CopyNumeric(request.Draft.Attributes),
@@ -99,6 +101,11 @@ public static class WerewolfAuspiceSelectionService
             Resources = CopyNumeric(request.Draft.Resources),
             NarrativeFields = CopyOptionalText(request.Draft.NarrativeFields),
             DisabledCapabilities = CopyRequiredText(request.Draft.DisabledCapabilities)
+        };
+
+        updated = updated with
+        {
+            RequiredNextSteps = WerewolfInitialGiftSelectionService.ReconcileInitialGiftNextSteps(updated)
         };
 
         return new WerewolfAuspiceSelectionResult(

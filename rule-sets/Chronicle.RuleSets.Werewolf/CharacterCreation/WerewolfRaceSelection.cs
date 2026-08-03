@@ -82,6 +82,7 @@ public static class WerewolfRaceSelectionService
             return Invalid(WerewolfRaceSelectionErrorCode.UnknownRace, "Race identifier is not declared by the current slice.");
         }
 
+        var raceChanged = !StringComparer.Ordinal.Equals(request.Draft.Race, race);
         var nextSteps = request.Draft.RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, MetisDeformityStep))
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
@@ -98,6 +99,7 @@ public static class WerewolfRaceSelectionService
             MetisDeformity = StringComparer.Ordinal.Equals(race, WerewolfRaceIdentifiers.Metis)
                 ? request.Draft.MetisDeformity
                 : null,
+            RaceGift = raceChanged ? null : request.Draft.RaceGift,
             DraftVersion = request.Draft.DraftVersion + 1,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray()),
             Attributes = CopyNumeric(request.Draft.Attributes),
@@ -107,6 +109,11 @@ public static class WerewolfRaceSelectionService
             Resources = CopyNumeric(request.Draft.Resources),
             NarrativeFields = CopyOptionalText(request.Draft.NarrativeFields),
             DisabledCapabilities = CopyRequiredText(request.Draft.DisabledCapabilities)
+        };
+
+        updated = updated with
+        {
+            RequiredNextSteps = WerewolfInitialGiftSelectionService.ReconcileInitialGiftNextSteps(updated)
         };
 
         return new WerewolfRaceSelectionResult(
