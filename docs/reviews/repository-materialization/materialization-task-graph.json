@@ -294,5 +294,24 @@
       "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
     },
     "notCreated": ["Gifts", "allocations", "deformity selection", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
+  },
+  "implement012Evidence": {
+    "completedDate": "2026-08-03",
+    "createdTypes": ["WerewolfMetisDeformitySelectionRequest", "WerewolfMetisDeformityIdentifiers", "WerewolfMetisDeformitySelectionResult", "WerewolfMetisDeformitySelectionFinding", "WerewolfMetisDeformitySelectionFindingSeverity", "WerewolfMetisDeformitySelectionErrorCode", "WerewolfMetisDeformitySelectionService"],
+    "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfMetisDeformitySelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfMetisDeformitySelectionTests.cs"],
+    "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRaceSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfCharacterCreationDraftInitializerTests.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRaceSelectionTests.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"],
+    "deformityIdentifiers": ["horns"],
+    "eligibilityAndTransitionRules": ["requires initialized draft and exact expected draft version", "available only while Race is metis", "rejects unset Race, homid, and lupus", "accepts only canonical current-slice deformity identifiers", "rejects cataloged non-current-slice deformities as out of scope", "updates draft immutably", "increments draft version exactly once on success", "allows explicit deformity replacement while Race remains metis", "resolves select-metis-deformity next step", "preserves Auspice, Tribe, unrelated state, and disabled Gift capabilities", "does not apply deformity runtime effects"],
+    "raceOperationAdjustments": ["draft state now carries MetisDeformity", "changing away from metis clears MetisDeformity and removes select-metis-deformity", "changing to metis requires select-metis-deformity", "unrelated state is preserved"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false; required approved NuGet network access after sandbox network failure",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
+      "test": "passed: dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false; 187 tests passed",
+      "architectureRules": "passed: 11 architecture tests passed",
+      "focusedRuntimeExecution": "passed: create-character -> select-race -> select-auspice -> select-tribe -> select-metis-deformity through runtime registry flow",
+      "sideEffects": "passed: no persistence, Campaign binding, UI, filesystem, network, provider access, dice, randomness, or deformity runtime effects",
+      "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
+    },
+    "notCreated": ["deformity runtime effects", "Gifts", "allocations", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
   }
 }

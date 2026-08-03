@@ -1039,3 +1039,68 @@ Deferred:
 - final Werewolf PackageId governance.
 
 Next executable task: implement the next explicit current-slice character-creation operation after explicit authorization.
+
+## IMPLEMENT-012 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created Metis deformity selection contracts and implementation:
+
+- `WerewolfMetisDeformitySelectionRequest`
+- `WerewolfMetisDeformityIdentifiers`
+- `WerewolfMetisDeformitySelectionResult`
+- `WerewolfMetisDeformitySelectionFinding`
+- `WerewolfMetisDeformitySelectionErrorCode`
+- `WerewolfMetisDeformitySelectionService`
+
+Supported deformity identifiers:
+
+- `horns`
+
+Eligibility and transition rules:
+
+- requires initialized draft and exact expected draft version;
+- available only while Race is `metis`;
+- rejects unset Race, Homid, and Lupus;
+- rejects missing, unknown, malformed, whitespace-padded, and cataloged non-current-slice deformity identifiers;
+- updates draft immutably and increments draft version exactly once on success;
+- resolves `select-metis-deformity`;
+- allows replacement while Race remains Metis;
+- preserves Auspice, Tribe, unrelated state, and disabled Gift capabilities;
+- does not apply deformity runtime effects.
+
+Race operation adjustments:
+
+- draft state now carries `MetisDeformity`;
+- changing away from Metis clears the selected Metis deformity and removes the deformity requirement;
+- changing to Metis requires deformity selection;
+- unrelated state remains preserved.
+
+Runtime changes:
+
+- added enabled operation `character-creation.select-metis-deformity`;
+- runtime envelope requires `draftId`, `draftVersion`, `expectedDraftVersion`, and `deformityId`;
+- runtime returns deterministic updated draft id, version, Race, Auspice, Tribe, selected deformity, and next-step output fields.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed after approved NuGet network access;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 187 tests;
+- architecture rules: passed;
+- focused create-character to select-race to select-auspice to select-tribe to select-metis-deformity runtime execution: passed.
+
+Deferred:
+
+- deformity runtime effects;
+- Gifts;
+- allocations;
+- completion validation;
+- finalization;
+- persistence;
+- UI;
+- dice;
+- Campaign association;
+- final Werewolf PackageId governance.
+
+Next executable task: implement the next explicit current-slice character-creation operation after explicit authorization.

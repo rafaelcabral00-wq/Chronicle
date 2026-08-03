@@ -9,6 +9,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string SelectRaceOperation = "character-creation.select-race";
     public const string SelectAuspiceOperation = "character-creation.select-auspice";
     public const string SelectTribeOperation = "character-creation.select-tribe";
+    public const string SelectMetisDeformityOperation = "character-creation.select-metis-deformity";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -33,6 +34,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         [
             new RuleSetOperationDescriptor(CreateCharacterOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAuspiceOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(SelectMetisDeformityOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectRaceOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectTribeOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
@@ -56,6 +58,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, SelectTribeOperation))
         {
             return ExecuteSelectTribe(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, SelectMetisDeformityOperation))
+        {
+            return ExecuteSelectMetisDeformity(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -149,6 +156,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             {
                 ["draftId"] = result.Draft.DraftIdentity.Value,
                 ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["metisDeformityId"] = result.Draft.MetisDeformity ?? string.Empty,
                 ["raceId"] = result.Draft.Race ?? string.Empty,
                 ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps)
             });
@@ -172,6 +180,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
 
         var currentRace = request.Inputs.GetValueOrDefault("currentRace");
         var currentAuspice = request.Inputs.GetValueOrDefault("currentAuspice");
+        var currentMetisDeformity = request.Inputs.GetValueOrDefault("currentMetisDeformity");
         var metisRequirement = request.Inputs.TryGetValue("requiresMetisDeformity", out var requiresMetisDeformity) &&
             StringComparer.Ordinal.Equals(requiresMetisDeformity, "true");
         var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
@@ -187,6 +196,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         {
             Race = string.IsNullOrWhiteSpace(currentRace) ? null : currentRace,
             Auspice = string.IsNullOrWhiteSpace(currentAuspice) ? null : currentAuspice,
+            MetisDeformity = string.IsNullOrWhiteSpace(currentMetisDeformity) ? null : currentMetisDeformity,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
         };
 
@@ -209,6 +219,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["auspiceId"] = result.Draft.Auspice ?? string.Empty,
                 ["draftId"] = result.Draft.DraftIdentity.Value,
                 ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["metisDeformityId"] = result.Draft.MetisDeformity ?? string.Empty,
                 ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps),
                 ["raceId"] = result.Draft.Race ?? string.Empty
             });
@@ -233,6 +244,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         var currentRace = request.Inputs.GetValueOrDefault("currentRace");
         var currentAuspice = request.Inputs.GetValueOrDefault("currentAuspice");
         var currentTribe = request.Inputs.GetValueOrDefault("currentTribe");
+        var currentMetisDeformity = request.Inputs.GetValueOrDefault("currentMetisDeformity");
         var metisRequirement = request.Inputs.TryGetValue("requiresMetisDeformity", out var requiresMetisDeformity) &&
             StringComparer.Ordinal.Equals(requiresMetisDeformity, "true");
         var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
@@ -250,6 +262,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             Race = string.IsNullOrWhiteSpace(currentRace) ? null : currentRace,
             Auspice = string.IsNullOrWhiteSpace(currentAuspice) ? null : currentAuspice,
             Tribe = string.IsNullOrWhiteSpace(currentTribe) ? null : currentTribe,
+            MetisDeformity = string.IsNullOrWhiteSpace(currentMetisDeformity) ? null : currentMetisDeformity,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
         };
 
@@ -272,6 +285,73 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["auspiceId"] = result.Draft.Auspice ?? string.Empty,
                 ["draftId"] = result.Draft.DraftIdentity.Value,
                 ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["metisDeformityId"] = result.Draft.MetisDeformity ?? string.Empty,
+                ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps),
+                ["raceId"] = result.Draft.Race ?? string.Empty,
+                ["tribeId"] = result.Draft.Tribe ?? string.Empty
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteSelectMetisDeformity(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("deformityId", out var deformityId) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidMetisDeformitySelectionRequest", "Metis deformity selection requires draftId, draftVersion, expectedDraftVersion, and deformityId.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentRace = request.Inputs.GetValueOrDefault("currentRace");
+        var currentAuspice = request.Inputs.GetValueOrDefault("currentAuspice");
+        var currentTribe = request.Inputs.GetValueOrDefault("currentTribe");
+        var currentMetisDeformity = request.Inputs.GetValueOrDefault("currentMetisDeformity");
+        var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
+            .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
+            .Where(step => !StringComparer.Ordinal.Equals(step, "select-auspice"))
+            .Where(step => !StringComparer.Ordinal.Equals(step, "select-tribe"))
+            .ToList();
+
+        if (!nextSteps.Contains("select-metis-deformity", StringComparer.Ordinal))
+        {
+            nextSteps.Add("select-metis-deformity");
+        }
+
+        var draft = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion) with
+        {
+            Race = string.IsNullOrWhiteSpace(currentRace) ? null : currentRace,
+            Auspice = string.IsNullOrWhiteSpace(currentAuspice) ? null : currentAuspice,
+            Tribe = string.IsNullOrWhiteSpace(currentTribe) ? null : currentTribe,
+            MetisDeformity = string.IsNullOrWhiteSpace(currentMetisDeformity) ? null : currentMetisDeformity,
+            RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
+        };
+
+        var result = WerewolfMetisDeformitySelectionService.SelectDeformity(new WerewolfMetisDeformitySelectionRequest(draft, expectedVersion, deformityId));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["auspiceId"] = result.Draft.Auspice ?? string.Empty,
+                ["draftId"] = result.Draft.DraftIdentity.Value,
+                ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["metisDeformityId"] = result.Draft.MetisDeformity ?? string.Empty,
                 ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps),
                 ["raceId"] = result.Draft.Race ?? string.Empty,
                 ["tribeId"] = result.Draft.Tribe ?? string.Empty

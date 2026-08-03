@@ -63,6 +63,7 @@ public static class WerewolfCharacterCreationDraftFactory
             Race: null,
             Auspice: null,
             Tribe: null,
+            MetisDeformity: null,
             Attributes: UnsetDictionary(AttributeKeys),
             Abilities: UnsetDictionary(AbilityKeys),
             Backgrounds: UnsetDictionary(BackgroundKeys),

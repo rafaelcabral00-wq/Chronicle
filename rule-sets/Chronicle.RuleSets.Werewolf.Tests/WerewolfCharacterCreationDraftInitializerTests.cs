@@ -61,6 +61,7 @@ public sealed class WerewolfCharacterCreationDraftInitializerTests
         Assert.Null(draft.Race);
         Assert.Null(draft.Auspice);
         Assert.Null(draft.Tribe);
+        Assert.Null(draft.MetisDeformity);
     }
 
     [Fact]
@@ -150,6 +151,7 @@ public sealed class WerewolfCharacterCreationDraftInitializerTests
             draft?.Race ?? "<unset>",
             draft?.Auspice ?? "<unset>",
             draft?.Tribe ?? "<unset>",
+            draft?.MetisDeformity ?? "<unset>",
             string.Join(",", draft?.Attributes.Select(entry => $"{entry.Key}:{entry.Value?.ToString(CultureInfo.InvariantCulture) ?? "<unset>"}") ?? []),
             string.Join(",", draft?.RequiredNextSteps ?? []),
             string.Join(",", payload.Findings.Select(finding => finding.Code)));

@@ -16,6 +16,7 @@ public sealed record WerewolfInitializedCharacterState(
     string? Race,
     string? Auspice,
     string? Tribe,
+    string? MetisDeformity,
     IReadOnlyDictionary<string, int?> Attributes,
     IReadOnlyDictionary<string, int?> Abilities,
     IReadOnlyDictionary<string, int?> Backgrounds,

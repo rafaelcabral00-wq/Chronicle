@@ -95,6 +95,9 @@ public static class WerewolfRaceSelectionService
         var updated = request.Draft with
         {
             Race = race,
+            MetisDeformity = StringComparer.Ordinal.Equals(race, WerewolfRaceIdentifiers.Metis)
+                ? request.Draft.MetisDeformity
+                : null,
             DraftVersion = request.Draft.DraftVersion + 1,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray()),
             Attributes = CopyNumeric(request.Draft.Attributes),

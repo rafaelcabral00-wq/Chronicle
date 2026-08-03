@@ -46,11 +46,15 @@ public sealed class WerewolfRaceSelectionTests
     [Fact]
     public void ChangingAwayFromMetisRemovesOnlyMetisDeformityRequirement()
     {
-        var metis = Select(Draft(), WerewolfRaceIdentifiers.Metis).Draft!;
+        var metis = Select(Draft(), WerewolfRaceIdentifiers.Metis).Draft! with
+        {
+            MetisDeformity = WerewolfMetisDeformityIdentifiers.Horns
+        };
 
         var homid = Select(metis, WerewolfRaceIdentifiers.Homid);
 
         Assert.Equal(WerewolfRaceIdentifiers.Homid, homid.Draft?.Race);
+        Assert.Null(homid.Draft?.MetisDeformity);
         Assert.DoesNotContain("select-metis-deformity", homid.Draft?.RequiredNextSteps ?? []);
         Assert.Contains("select-auspice", homid.Draft?.RequiredNextSteps ?? []);
     }
@@ -107,6 +111,7 @@ public sealed class WerewolfRaceSelectionTests
         Assert.NotSame(draft.Attributes, result.Draft?.Attributes);
         Assert.Equal(draft.Auspice, result.Draft?.Auspice);
         Assert.Equal(draft.Tribe, result.Draft?.Tribe);
+        Assert.Equal(draft.MetisDeformity, result.Draft?.MetisDeformity);
         Assert.Equal(draft.DisabledCapabilities, result.Draft?.DisabledCapabilities);
     }
 
