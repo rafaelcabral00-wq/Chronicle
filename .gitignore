@@ -15,6 +15,14 @@ build/output/
 *.sqlite3
 *.log
 logs/
+!src/Chronicle.Persistence.Sqlite/
+!src/Chronicle.Persistence.Sqlite/**
+src/Chronicle.Persistence.Sqlite/bin/
+src/Chronicle.Persistence.Sqlite/obj/
+!tests/Chronicle.Persistence.Sqlite.Tests/
+!tests/Chronicle.Persistence.Sqlite.Tests/**
+tests/Chronicle.Persistence.Sqlite.Tests/bin/
+tests/Chronicle.Persistence.Sqlite.Tests/obj/
 
 # User and machine-local files
 .vs/
@@ -38,6 +46,9 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+.dotnet-home/
+.nuget-home/
+.nuget-packages/
 
 # OS files
 Thumbs.db

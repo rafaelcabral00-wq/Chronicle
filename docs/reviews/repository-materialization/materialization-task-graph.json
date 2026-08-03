@@ -3,14 +3,14 @@
   "tasks": [
     {"id": "BOOT-001", "name": "Create root governance and build config files", "dependsOn": [], "authoritativeSource": "ADR-0043; ADR-0044; ADR-0001; ADR-0012", "outputs": ["README.md", "LICENSE", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md", "SUPPORT.md", "CHANGELOG.md", ".gitignore", ".editorconfig", "global.json", "Directory.Build.props", "Directory.Packages.props", "Chronicle.sln", "docs/README.md", "docs/adrs/README.md", "docs/rfcs/README.md", "docs/specs/README.md", "docs/rule-sets/README.md"], "status": "completed", "requiredForBootstrap": true, "acceptanceCriteria": ["No unsupported claims.", "No secrets.", "Build settings align with ADR-0043.", "global.json targets .NET 10 LTS SDK 10.0.302.", "CODE_OF_CONDUCT.md uses Contributor Covenant 2.1 attribution.", "SECURITY.md avoids personal data and uses owner-controlled placeholders until GitHub security reporting exists.", "Chronicle.sln is empty and valid."]},
     {"id": "BOOT-002", "name": "Create canonical source/test/rule-set/tool/build/sample/artifact directories", "dependsOn": ["BOOT-001"], "authoritativeSource": "ADR-0043", "outputs": ["src/", "tests/", "rule-sets/", "tools/", "build/", "samples/", "artifacts/"], "status": "completed", "requiredForBootstrap": true, "acceptanceCriteria": ["No unauthorized project directories.", "No projects created.", "No Werewolf documentation prototype copied into rule-sets/.", "No packaged or installed Rule Set artifacts created.", "No generated output placed under artifacts/."]},
-    {"id": "BOOT-003", "name": "Create Chronicle.sln and canonical production projects", "dependsOn": ["BOOT-002"], "authoritativeSource": "ADR-0043 sections 7-44", "outputs": ["Chronicle.sln", "src/Chronicle.*"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Projects follow boundary map and dependency direction."]},
-    {"id": "BOOT-004", "name": "Create canonical test projects and architecture tests", "dependsOn": ["BOOT-003"], "authoritativeSource": "ADR-0043 sections 58-71, 127-130", "outputs": ["tests/Chronicle.*.Tests/"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Architecture tests enforce forbidden references."]},
+    {"id": "BOOT-003", "name": "Create Chronicle.sln and canonical production and bootstrap test project skeletons", "dependsOn": ["BOOT-002"], "authoritativeSource": "ADR-0043 sections 7-44, 58-71, 127-130", "outputs": ["Chronicle.sln", "src/Chronicle.*", "tests/Chronicle.*.Tests/"], "status": "completed", "requiredForBootstrap": true, "acceptanceCriteria": ["Projects follow boundary map and dependency direction.", "Solution restore/build/test validation succeeds.", "No Werewolf package source, packaged artifact, installed artifact, Campaign binding, or release output is created."]},
+    {"id": "BOOT-004", "name": "Implement canonical test harness packages and architecture rules", "dependsOn": ["BOOT-003"], "authoritativeSource": "ADR-0043 sections 58-71, 127-130", "outputs": ["tests/Chronicle.*.Tests/"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Architecture tests enforce forbidden references."]},
     {"id": "BOOT-005", "name": "Create Werewolf package source skeleton and package-adjacent tests", "dependsOn": ["BOOT-003", "BOOT-004"], "authoritativeSource": "ADR-0043 sections 45-61; SPEC-0001 sections 3.3-3.6", "outputs": ["rule-sets/Chronicle.RuleSets.Werewolf/", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Skeleton distinguishes package source from documentation prototype."]},
     {"id": "BOOT-006", "name": "Create CI workflow", "dependsOn": ["BOOT-003", "BOOT-004"], "authoritativeSource": "ADR-0012; ADR-0043 section 120", "outputs": [".github/workflows/ci.yml"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Restore/build/test/scan run without secrets."]},
     {"id": "BOOT-007", "name": "Create optional tooling projects", "dependsOn": ["BOOT-003"], "authoritativeSource": "ADR-0043 sections 72-74", "outputs": ["tools/Chronicle.Tools.*"], "status": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["Tools are not runtime dependencies."]},
     {"id": "BOOT-008", "name": "Create package artifact/release workflows", "dependsOn": ["BOOT-005", "BOOT-006"], "authoritativeSource": "RFC-0027; RFC-0041; SPEC-0001", "outputs": ["rule-sets/packages/", "build/installer/windows/", ".github/workflows/release.yml"], "status": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["No package is published or installed by build alone."]}
   ],
-  "firstExecutableBootstrapTask": "BOOT-003",
+  "firstExecutableBootstrapTask": "BOOT-004",
   "boot001Evidence": {
     "completedDate": "2026-08-03",
     "selectedSdk": "10.0.302",
@@ -37,5 +37,22 @@
       "gitStatus": "passed: only expected BOOT-002 files and directories changed"
     },
     "notCreated": ["src/*.csproj", "tests/*.csproj", "rule-sets/Chronicle.RuleSets.Werewolf/", "rule-sets/packages/", ".github/"]
+  },
+  "boot003Evidence": {
+    "completedDate": "2026-08-03",
+    "createdProductionProjects": ["src/Chronicle.Domain/Chronicle.Domain.csproj", "src/Chronicle.Application/Chronicle.Application.csproj", "src/Chronicle.Contracts/Chronicle.Contracts.csproj", "src/Chronicle.RuleSets.Abstractions/Chronicle.RuleSets.Abstractions.csproj", "src/Chronicle.NarrativeIntelligence.Abstractions/Chronicle.NarrativeIntelligence.Abstractions.csproj", "src/Chronicle.Infrastructure/Chronicle.Infrastructure.csproj", "src/Chronicle.Persistence.Sqlite/Chronicle.Persistence.Sqlite.csproj", "src/Chronicle.NarrativeIntelligence.OpenAI/Chronicle.NarrativeIntelligence.OpenAI.csproj", "src/Chronicle.Presentation.Desktop/Chronicle.Presentation.Desktop.csproj", "src/Chronicle.Desktop/Chronicle.Desktop.csproj"],
+    "createdBootstrapTestProjects": ["tests/Chronicle.Domain.Tests/Chronicle.Domain.Tests.csproj", "tests/Chronicle.Application.Tests/Chronicle.Application.Tests.csproj", "tests/Chronicle.Architecture.Tests/Chronicle.Architecture.Tests.csproj", "tests/Chronicle.Contracts.Tests/Chronicle.Contracts.Tests.csproj", "tests/Chronicle.Infrastructure.Tests/Chronicle.Infrastructure.Tests.csproj", "tests/Chronicle.Persistence.Sqlite.Tests/Chronicle.Persistence.Sqlite.Tests.csproj"],
+    "createdToolProjects": [],
+    "validation": {
+      "dotnetVersion": "passed: 10.0.302",
+      "solutionList": "passed: 16 projects",
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false",
+      "test": "passed: dotnet test Chronicle.sln --no-build",
+      "referenceGraph": "passed: acyclic; no forbidden production-to-test or Domain outgoing references",
+      "generatedOutputStaging": "passed: bin/obj outputs are ignored and not staged",
+      "gitStatus": "passed: only expected BOOT-003 source, test, solution, gitignore, and materialization evidence changes"
+    },
+    "notCreated": ["rule-sets/Chronicle.RuleSets.Werewolf/", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/", "tools/*.csproj", "rule-sets/packages/", "artifacts/*", "Campaign bindings", "release outputs"]
   }
 }

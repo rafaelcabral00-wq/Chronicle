@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chronicle.Domain\Chronicle.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.Contracts\Chronicle.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.RuleSets.Abstractions\Chronicle.RuleSets.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.NarrativeIntelligence.Abstractions\Chronicle.NarrativeIntelligence.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.Application\Chronicle.Application.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.Infrastructure\Chronicle.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.Persistence.Sqlite\Chronicle.Persistence.Sqlite.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.NarrativeIntelligence.OpenAI\Chronicle.NarrativeIntelligence.OpenAI.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.Presentation.Desktop\Chronicle.Presentation.Desktop.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.Desktop\Chronicle.Desktop.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

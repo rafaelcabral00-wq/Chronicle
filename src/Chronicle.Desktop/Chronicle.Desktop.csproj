@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chronicle.Application\Chronicle.Application.csproj" />
+    <ProjectReference Include="..\Chronicle.Contracts\Chronicle.Contracts.csproj" />
+    <ProjectReference Include="..\Chronicle.Infrastructure\Chronicle.Infrastructure.csproj" />
+    <ProjectReference Include="..\Chronicle.Persistence.Sqlite\Chronicle.Persistence.Sqlite.csproj" />
+    <ProjectReference Include="..\Chronicle.NarrativeIntelligence.OpenAI\Chronicle.NarrativeIntelligence.OpenAI.csproj" />
+    <ProjectReference Include="..\Chronicle.Presentation.Desktop\Chronicle.Presentation.Desktop.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

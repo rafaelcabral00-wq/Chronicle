@@ -266,4 +266,53 @@ Physical repository bootstrap is executable as a scoped bootstrap task, provided
 
 It must not publish or install packages, create Campaign bindings, select unapproved package serialization or installation layouts, or treat the Werewolf documentation prototype as package source.
 
-First executable bootstrap task: `BOOT-003`, create Chronicle.sln project skeletons after explicit authorization.
+Current next executable bootstrap task: `BOOT-004`, implement canonical test harness packages and architecture rules without expanding runtime behavior.
+
+## BOOT-003 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created production project skeletons:
+
+- `src/Chronicle.Domain/`
+- `src/Chronicle.Application/`
+- `src/Chronicle.Contracts/`
+- `src/Chronicle.RuleSets.Abstractions/`
+- `src/Chronicle.NarrativeIntelligence.Abstractions/`
+- `src/Chronicle.Infrastructure/`
+- `src/Chronicle.Persistence.Sqlite/`
+- `src/Chronicle.NarrativeIntelligence.OpenAI/`
+- `src/Chronicle.Presentation.Desktop/`
+- `src/Chronicle.Desktop/`
+
+Created bootstrap test project skeletons:
+
+- `tests/Chronicle.Domain.Tests/`
+- `tests/Chronicle.Application.Tests/`
+- `tests/Chronicle.Architecture.Tests/`
+- `tests/Chronicle.Contracts.Tests/`
+- `tests/Chronicle.Infrastructure.Tests/`
+- `tests/Chronicle.Persistence.Sqlite.Tests/`
+
+Validation:
+
+- `dotnet --version`: passed with `10.0.302`.
+- `dotnet sln Chronicle.sln list`: passed with 16 projects.
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed.
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed.
+- `dotnet test Chronicle.sln --no-build`: passed for current placeholder test assemblies.
+- Project reference graph: passed; acyclic and no forbidden bootstrap references found.
+- Generated output staging: passed; `bin/` and `obj/` outputs are ignored and not staged.
+
+Not created:
+
+- Rule Set package source.
+- Werewolf executable package.
+- Werewolf package tests.
+- Tool projects.
+- Packaged artifacts.
+- Installed artifacts.
+- Campaign bindings.
+- Release outputs.
+
+Next executable bootstrap task: `BOOT-004`, implement canonical test harness packages and architecture rules without expanding runtime behavior.
