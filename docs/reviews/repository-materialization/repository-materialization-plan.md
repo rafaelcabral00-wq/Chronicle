@@ -54,6 +54,17 @@ Production projects:
 - `src/Chronicle.Presentation.Desktop/`
 - `src/Chronicle.Desktop/`
 
+Narrative Intelligence provider strategy:
+
+- provider-neutral contracts come first;
+- deterministic development provider supports tests, CI, demos, and reproducible development;
+- Ollama is the first real local provider target;
+- OpenAI remains an optional remote provider;
+- provider selection and configuration follow adapter availability;
+- no provider is required for normal build, CI, tests, application startup, or non-narrative functionality.
+
+The existing `src/Chronicle.NarrativeIntelligence.OpenAI/` skeleton is a project-boundary placeholder for the optional remote adapter. It does not make OpenAI implementation, credentials, live calls, or paid API access a bootstrap requirement.
+
 Rule Set package source:
 
 - `rule-sets/Chronicle.RuleSets.Werewolf/`
@@ -151,6 +162,11 @@ Prohibited claims:
 ## Deferred Items
 
 - Dynamic Rule Set loading, marketplace, signing, sandboxing, and remote registry.
+- Narrative Intelligence provider-neutral contracts beyond the current skeleton.
+- Deterministic development Narrative Intelligence provider.
+- Ollama provider adapter.
+- OpenAI provider implementation beyond the existing optional adapter skeleton.
+- Provider selection and configuration UX.
 - Package artifact creation and publication.
 - Installed package layout creation.
 - Campaign binding creation.
@@ -159,6 +175,7 @@ Prohibited claims:
 - Release installer workflow.
 - Code of conduct text until selected by maintainers.
 - Exact package serialization format and final Werewolf PackageId.
+- Exact Narrative Intelligence provider-selection UX and provider health display.
 
 ## Unresolved Materialization Issues
 

@@ -4,7 +4,7 @@ title: Narrative Intelligence Architecture
 status: Draft
 version: 0.1.0
 owner: Chronicle Team
-last_updated: 2026-07-31
+last_updated: 2026-08-03
 category: Architecture
 depends_on:
   - RFC-0000
@@ -70,6 +70,14 @@ These capabilities may be implemented by:
 - a hybrid system.
 
 Chronicle MUST remain functional as an architecture when one implementation is replaced by another.
+
+The implementation strategy is:
+
+1. define generic Narrative Intelligence provider contracts;
+2. provide a deterministic development provider for tests, CI, demos, and reproducible development;
+3. implement Ollama as the first real local provider;
+4. keep OpenAI as an optional remote provider;
+5. implement provider selection and configuration after the adapters exist.
 
 ## 2. Scope
 
@@ -139,6 +147,48 @@ Chronicle Core MUST NOT depend on:
 - provider-specific conversation history.
 
 These details belong in infrastructure adapters.
+
+Application and Domain code depend on Narrative Intelligence abstractions, not concrete providers.
+
+OpenAI, Ollama, deterministic development providers, and future providers are replaceable adapters behind the same contracts.
+
+No provider has authority over rules, randomness, persistence, canonical state, or Campaign truth.
+
+Provider responses remain untrusted proposals and are subject to Chronicle-owned structural validation, authority boundaries, and operation-specific acceptance rules.
+
+## 4.1 Provider Modes
+
+Chronicle recognizes these provider modes:
+
+```text
+DeterministicDevelopmentProvider
+    Used for normal tests, CI, demos, fixtures, and reproducible local development.
+
+OllamaLocalProvider
+    First real local provider target after provider-neutral contracts exist.
+
+OpenAIRemoteProvider
+    Optional remote provider adapter.
+
+UnavailableProvider
+    Normal state when no provider is configured, credentials are missing, Ollama is not installed, a local model is absent, or an adapter is disabled.
+```
+
+The deterministic development provider is not a quality benchmark for creative output. It exists to prove contracts, validation, recovery, startup, CI behavior, and deterministic flows.
+
+The initial Ollama integration MUST NOT automatically download models or start/manage Ollama processes. It detects configured availability and reports unavailable state when requirements are absent.
+
+Provider selection and capability-specific configuration occur after provider contracts and adapters exist.
+
+## 4.2 Startup and Non-Narrative Operation
+
+Chronicle MUST open and support non-narrative functionality with no Narrative Intelligence provider configured.
+
+Provider absence MUST NOT be treated as application startup failure.
+
+If a narrative capability requires an unavailable provider, the capability fails or degrades explicitly with a provider-neutral unavailable state.
+
+Application startup MAY validate provider configuration opportunistically, but failed OpenAI credential lookup, missing Ollama installation, missing local model, or disabled provider profile MUST NOT block startup or deterministic non-narrative workflows.
 
 ## 5. Capability-Oriented Design
 
@@ -1045,6 +1095,10 @@ It requires invariant preservation:
 
 Chronicle MUST support a deterministic or scripted test implementation for Narrative Intelligence capabilities.
 
+This provider is required for normal development, default CI, demos, contract tests, and reproducible test fixtures.
+
+Normal tests MUST NOT require paid API access, OpenAI credentials, Ollama, an installed local model, or any real LLM service.
+
 The test provider SHOULD support:
 
 - fixed responses;
@@ -1060,9 +1114,13 @@ The test provider SHOULD support:
 
 A local Narrative Intelligence provider MAY be supported.
 
+Ollama is the first real local provider target under the 2026-08-03 provider strategy.
+
 It MUST use the same capability ports and validation pipeline.
 
 Local execution does not become trusted merely because it runs on the same device.
+
+The initial local provider implementation MUST NOT automatically download models, install Ollama, or start/manage Ollama processes. Missing local-provider prerequisites are represented as provider unavailable, not application failure.
 
 ## 62. Privacy Boundary
 
@@ -1376,6 +1434,10 @@ Test:
 
 Test at least one concrete provider adapter behind the provider-neutral contract.
 
+Real-provider integration tests MUST be explicit and opt-in.
+
+Default CI and normal local test runs MUST use deterministic providers, recorded fixtures, or transport-level fakes rather than OpenAI, Ollama, or any other real LLM service.
+
 ## 86. Required Test Cases
 
 Tests MUST cover:
@@ -1460,7 +1522,11 @@ The MVP adopts:
 - Archivist;
 - Plan Reviser;
 - optional Structured Output Repairer;
-- one concrete provider implementation initially;
+- generic provider contracts first;
+- deterministic development provider for tests, CI, demos, and reproducible development;
+- Ollama as the first real local provider target;
+- OpenAI as an optional remote provider;
+- provider selection and configuration after adapters exist;
 - provider-neutral contracts;
 - versioned structured output;
 - stateless or reconstructable requests;
@@ -1471,7 +1537,8 @@ The MVP adopts:
 - no direct provider persistence tools;
 - no authoritative provider conversation memory;
 - no unbounded autonomous agent;
-- no requirement for multiple providers in the first release.
+- no requirement for multiple providers in the first release;
+- no requirement for paid API access for normal development, build, CI, tests, startup, or non-narrative functionality.
 
 ## 89. Architecture Horizon
 
@@ -1497,6 +1564,9 @@ The MVP MUST NOT implement these capabilities without a later milestone.
 The following remain open:
 
 - Which provider will be used first?
+- What exact project materialization step introduces the Ollama adapter?
+- What exact project materialization step packages the deterministic development provider?
+- What provider-selection UX is required after adapters exist?
 - Which model profiles are required for MVP?
 - Will Narrator output stream to the UI?
 - What exact structured-output mechanism will be used?

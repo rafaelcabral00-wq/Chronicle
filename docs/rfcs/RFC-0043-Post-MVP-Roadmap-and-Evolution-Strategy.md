@@ -4,7 +4,7 @@ title: Post-MVP Roadmap and Evolution Strategy
 status: Draft
 version: 0.1.0
 owner: Chronicle Team
-last_updated: 2026-08-01
+last_updated: 2026-08-03
 category: Product
 depends_on:
   - RFC-0000
@@ -352,6 +352,16 @@ The goal is not maximum quantity.
 
 The goal is proof that Chronicle can support variation without changing Core contracts.
 
+The Narrative Intelligence provider implementation order is:
+
+1. generic provider contracts;
+2. deterministic development provider for tests, CI, demos, and reproducible development;
+3. Ollama as the first real local provider;
+4. OpenAI as an optional remote provider;
+5. provider selection and configuration after the adapters exist.
+
+This order does not imply that Ollama or OpenAI is implemented already.
+
 ## 20. Additional Provider Adapter
 
 A second provider adapter SHOULD be added only after:
@@ -361,6 +371,10 @@ A second provider adapter SHOULD be added only after:
 - adapter conformance tests exist;
 - data-handling policy is explicit;
 - model differences are measurable.
+
+Under the current provider strategy, Ollama is the first real local provider adapter target and OpenAI remains the first official remote provider target.
+
+Neither provider becomes mandatory for normal development, build, CI, tests, startup, or non-narrative functionality.
 
 ## 21. Provider Selection UX
 
@@ -439,6 +453,12 @@ Local Narrative Intelligence MAY support:
 - lower recurring cost;
 - custom models;
 - user-controlled infrastructure.
+
+Ollama is the first real local provider target.
+
+The initial implementation MUST NOT automatically download models or start/manage Ollama processes.
+
+Missing Ollama installation or missing local model is a normal unavailable-provider state, not a startup failure.
 
 ## 29. Local Provider Risks
 
@@ -1229,14 +1249,17 @@ The current recommended order is:
 
 1. stabilize MVP;
 2. improve continuity and usability;
-3. prove a second provider;
-4. prove a second Rule Set;
-5. strengthen local/offline intelligence;
-6. build creator tooling;
-7. introduce sandboxed extensibility;
-8. design multiplayer foundations;
-9. design cloud and multi-device continuity;
-10. expand ecosystem experiences.
+3. complete provider-neutral contracts and deterministic development provider;
+4. prove Ollama as the first real local provider;
+5. keep OpenAI as an optional remote provider and prove it through opt-in live tests;
+6. add provider selection and configuration after adapters exist;
+7. prove a second Rule Set;
+8. strengthen local/offline intelligence beyond the initial Ollama adapter;
+9. build creator tooling;
+10. introduce sandboxed extensibility;
+11. design multiplayer foundations;
+12. design cloud and multi-device continuity;
+13. expand ecosystem experiences.
 
 This order may change only through explicit review.
 

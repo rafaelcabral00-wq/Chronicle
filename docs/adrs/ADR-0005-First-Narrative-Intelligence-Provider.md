@@ -4,7 +4,7 @@ title: First Narrative Intelligence Provider
 status: Proposed
 version: 0.1.0
 owner: Chronicle Team
-last_updated: 2026-08-01
+last_updated: 2026-08-03
 category: Technology
 supersedes: []
 superseded_by: null
@@ -38,6 +38,16 @@ This ADR selects **OpenAI through the Responses API** as Chronicle's first offic
 
 The provider implementation will be isolated behind Chronicle's provider-neutral contracts.
 
+It does not make OpenAI mandatory for normal development, build, CI, tests, application startup, or non-narrative functionality.
+
+This ADR is refined by the 2026-08-03 provider strategy:
+
+1. generic Narrative Intelligence provider contracts;
+2. deterministic development provider for tests, CI, demos, and reproducible development;
+3. Ollama as the first real local provider;
+4. OpenAI as an optional remote provider;
+5. provider selection and configuration after the adapters exist.
+
 The decision becomes **Accepted** after a provider spike demonstrates:
 
 - Narrator capability;
@@ -57,6 +67,8 @@ The decision becomes **Accepted** after a provider spike demonstrates:
 - deterministic scripted-provider parity for tests.
 
 No concrete OpenAI model name becomes a Domain contract.
+
+OpenAI provider acceptance is not a prerequisite for deterministic development workflows, normal CI, application startup, or non-narrative functionality.
 
 ## 2. Context
 
@@ -118,7 +130,16 @@ Chronicle will implement:
 
 ```text
 Provider
-    OpenAI API
+    OpenAI API as the first official remote provider
+
+Development Provider
+    Deterministic scripted provider for tests, CI, demos, and reproducible local development
+
+First Real Local Provider
+    Ollama adapter after provider-neutral contracts exist
+
+Provider Selection
+    Deferred until deterministic, local, and remote adapter boundaries exist
 
 Primary API Surface
     Responses API
@@ -160,9 +181,11 @@ Model Selection
     no concrete model names in Domain or Application contracts
 ```
 
+The deterministic development provider and Ollama adapter use the same provider-neutral contracts as OpenAI. They are not granted authority over rules, randomness, persistence, Campaign truth, or canonical state.
+
 ## 5. Why OpenAI
 
-OpenAI is selected as the first provider because its current API platform provides:
+OpenAI is selected as the first official remote provider because its current API platform provides:
 
 - the Responses API as the recommended primitive for new projects;
 - structured model outputs;
@@ -172,7 +195,7 @@ OpenAI is selected as the first provider because its current API platform provid
 - data-control documentation;
 - official SDK support.
 
-This is an implementation choice, not an endorsement of permanent provider dependence.
+This is an implementation choice for the first official remote provider, not an endorsement of permanent provider dependence or paid-provider dependence.
 
 ## 6. Responses API
 
@@ -1074,9 +1097,13 @@ Privacy Tests
 Bounded Live API Tests
 ```
 
+Normal development tests and normal CI MUST use deterministic provider implementations, recorded fixtures, or adapter tests that do not call a real LLM service.
+
+Real-provider integration tests are explicit, opt-in, credential-gated, cost-bounded, and excluded from default CI and deterministic release correctness.
+
 ## 81. Scripted Provider Parity
 
-Every Application test uses Chronicle's scripted provider, not the live OpenAI API.
+Every Application test uses Chronicle's scripted or deterministic development provider, not the live OpenAI API or an installed local model.
 
 The scripted provider must reproduce:
 
@@ -1112,6 +1139,8 @@ Live tests SHOULD be:
 - excluded from deterministic release correctness;
 - run against synthetic content;
 - compatible with current rate limits.
+
+Absence of OpenAI credentials, absence of Ollama, or absence of a local model is a normal unavailable-provider state for live-provider tests and application operation. It is not a startup failure.
 
 ## 84. Required Test Cases
 
@@ -1150,7 +1179,7 @@ Tests MUST cover:
 
 ## 85. Evaluation Gate
 
-The first provider must pass RFC-0026 evaluations for:
+The first official remote provider must pass RFC-0026 evaluations for:
 
 - continuity;
 - Character consistency;
@@ -1212,7 +1241,7 @@ Strengths:
 
 Not selected first because local-model packaging, hardware variability, process management, and structured reliability add risk beyond the initial vertical slice.
 
-Local support remains a post-MVP priority candidate.
+Local support is refined by the 2026-08-03 provider strategy: Ollama is the first real local provider adapter to be implemented after generic provider contracts and the deterministic development provider. Chronicle will not automatically download models or start/manage Ollama processes in the initial implementation.
 
 ### Multi-Provider Gateway
 
@@ -1319,6 +1348,9 @@ The adapter MUST:
 The official application documentation MUST explain:
 
 - an OpenAI API account and key are required for this provider;
+- OpenAI is optional and only required when the user enables the OpenAI provider;
+- Chronicle can build, run deterministic tests, start, and support non-narrative functionality without OpenAI credentials;
+- Ollama availability is optional and its absence is reported as a local-provider unavailable state;
 - usage may incur provider charges;
 - provider availability is external;
 - Campaign data may be transmitted according to configured operations;
@@ -1376,7 +1408,10 @@ An implementation complies when:
 - raw prompts and responses are not logged by default;
 - data classification is enforced before transmission;
 - provider failures never authorize state;
-- deterministic tests do not call the live API.
+- deterministic tests do not call the live API;
+- normal CI does not call OpenAI, Ollama, or any real LLM service;
+- application startup does not require OpenAI credentials, Ollama installation, or a local model;
+- unavailable providers degrade Narrative Intelligence capabilities without blocking non-narrative functionality.
 
 ## 95. Review Triggers
 
@@ -1421,14 +1456,19 @@ Later ADRs MAY define:
 - provider cost estimation;
 - second provider selection;
 - local provider process architecture;
+- Ollama adapter materialization;
+- deterministic development provider packaging;
+- provider selection and configuration UX;
 - user-facing provider privacy disclosures.
 
 ## 98. Final Decision
 
 Chronicle will use OpenAI through the Responses API as its first official remote Narrative Intelligence provider.
 
+Chronicle will first rely on provider-neutral contracts and deterministic development providers for normal development, tests, CI, demos, and reproducible workflows. Ollama is the first real local provider target. OpenAI remains supported as an optional remote provider.
+
 The adapter will use structured output, explicit capability profiles, secure credential aliases, bounded retries, safe observability, and Chronicle-managed context.
 
-OpenAI is the first voice Chronicle will learn to use.
+OpenAI is the first remote voice Chronicle will learn to use.
 
 It is not the owner of the story, the memory, the rules, or the truth.

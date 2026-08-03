@@ -4,7 +4,7 @@ title: Testing Strategy and Quality Gates
 status: Draft
 version: 0.1.0
 owner: Chronicle Team
-last_updated: 2026-08-01
+last_updated: 2026-08-03
 category: Quality
 depends_on:
   - RFC-0000
@@ -448,6 +448,12 @@ Live-provider tests SHOULD be:
 - tagged;
 - tolerant of approved provider variability;
 - focused on contract compatibility and quality signals.
+
+Normal CI MUST NOT call a real LLM service.
+
+Normal tests MUST NOT require paid API access, OpenAI credentials, Ollama, an installed local model, or provider network availability.
+
+Real-provider integration tests MUST be explicit and opt-in.
 
 ## 21. Test Fixtures
 
@@ -1190,6 +1196,12 @@ Packaging Validation
 Artifact Publication
 ```
 
+The default CI graph runs deterministic provider tests, adapter contract tests, recorded fixtures, and fakes only.
+
+Default CI MUST NOT call OpenAI, Ollama, or any other real LLM service.
+
+Provider credentials MUST NOT be required for default CI.
+
 ## 75. Pull Request Gate
 
 A pull request SHOULD require:
@@ -1450,6 +1462,7 @@ The MVP adopts:
 - reusable contract-test suites;
 - real local-storage integration tests;
 - scripted provider;
+- deterministic development provider for CI, tests, demos, and reproducible development;
 - fake clock and deterministic random source;
 - canonical, complex, and adversarial Campaign fixtures;
 - golden mechanical and progression fixtures;
@@ -1460,6 +1473,9 @@ The MVP adopts:
 - accessibility smoke tests;
 - bounded end-to-end smoke suite;
 - no dependence on live providers for release correctness;
+- no real LLM calls in default CI;
+- no API key or installed local model requirement for normal tests;
+- real-provider integration tests are explicit opt-in suites;
 - explicit release gates;
 - no tolerated permanent flaky tests.
 
