@@ -46,11 +46,9 @@ Examples of representing the community include using an official project account
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported through:
 
-```text
-PROJECT_CODE_OF_CONDUCT_CONTACT_PLACEHOLDER
-```
+https://github.com/rafaelcabral00-wq/Chronicle/issues/new?labels=conduct
 
-This placeholder must be replaced by a repository-owner-controlled, non-personal contact before public community intake is opened.
+Use a public issue only for reports that are safe to disclose publicly. If a report includes private or sensitive information, ask maintainers to provide a private repository-owned reporting path first.
 
 All complaints will be reviewed and investigated promptly and fairly.
 

@@ -9,14 +9,11 @@ There is currently no user support channel for an installable application becaus
 - For contributor setup, read [CONTRIBUTING.md](CONTRIBUTING.md).
 - For architecture, start with [docs/README.md](docs/README.md).
 - For security reporting, read [SECURITY.md](SECURITY.md).
+- For general repository support, use GitHub Issues:
+  https://github.com/rafaelcabral00-wq/Chronicle/issues
 
-## Placeholder Values
+## GitHub Discussions
 
-Project-owned support locations will be added after the public GitHub repository exists.
+GitHub Discussions are not documented as enabled for this repository yet.
 
-```text
-PROJECT_SUPPORT_URL_PLACEHOLDER
-PROJECT_DISCUSSION_URL_PLACEHOLDER
-```
-
-Do not replace these placeholders with personal contact details.
+Do not use Discussions as an official support path until maintainers enable and document it.

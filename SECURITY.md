@@ -6,15 +6,11 @@ The repository is in bootstrap and active development. Please do not report susp
 
 ## Reporting a Vulnerability
 
-Private vulnerability reporting will be enabled after the public GitHub repository is created.
+Private vulnerability reporting should use GitHub's private vulnerability reporting for this repository:
 
-Until then, use this repository-owner-controlled placeholder:
+https://github.com/rafaelcabral00-wq/Chronicle/security/advisories/new
 
-```text
-PROJECT_SECURITY_CONTACT_PLACEHOLDER
-```
-
-Do not include personal email addresses in repository files. The placeholder should be replaced with GitHub private vulnerability reporting or a project-owned security alias before public release.
+Do not include personal email addresses in repository files. If GitHub private vulnerability reporting is not yet enabled for the repository, wait for the repository owner to enable it rather than opening a public vulnerability issue.
 
 ## Supported Versions
 

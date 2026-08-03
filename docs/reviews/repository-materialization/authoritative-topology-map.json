@@ -43,7 +43,7 @@
       "authoritativeSource": "ADR-0043 section 7",
       "allowedDependencies": [],
       "forbiddenDependencies": ["alternate dependency rules"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-001",
       "requiredForBootstrap": true,
       "acceptanceCriteria": ["Contains canonical MVP projects and test projects without circular references."]
     },
@@ -54,7 +54,7 @@
       "authoritativeSource": "ADR-0043 sections 9-44",
       "allowedDependencies": ["canonical production project references only"],
       "forbiddenDependencies": ["Werewolf package implementation from Core projects", "provider SDKs inward", "desktop UI inward", "persistence inward"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-002",
       "requiredForBootstrap": true,
       "acceptanceCriteria": ["Contains only canonical production projects."]
     },
@@ -65,7 +65,7 @@
       "authoritativeSource": "ADR-0043 sections 58-71",
       "allowedDependencies": ["projects under test", "test tooling"],
       "forbiddenDependencies": ["new production responsibilities"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-002",
       "requiredForBootstrap": true,
       "acceptanceCriteria": ["Contains tests by architectural boundary and architecture enforcement tests."]
     },
@@ -76,7 +76,7 @@
       "authoritativeSource": "ADR-0043 sections 45-61; SPEC-0001 section 5",
       "allowedDependencies": ["Chronicle.RuleSets.Abstractions", "Chronicle.Contracts", "approved Domain primitives"],
       "forbiddenDependencies": ["Presentation", "Persistence.Sqlite", "provider SDKs", "ChronicleDbContext"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-002",
       "requiredForBootstrap": true,
       "acceptanceCriteria": ["Separates package source from documentation prototype, packaged artifact, and installed artifact."]
     },
@@ -87,7 +87,7 @@
       "authoritativeSource": "ADR-0043 sections 72-74",
       "allowedDependencies": ["public or internal tooling contracts"],
       "forbiddenDependencies": ["runtime dependency from Domain or Application"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-002",
       "requiredForBootstrap": false,
       "acceptanceCriteria": ["Tool projects do not become runtime dependencies."]
     },
@@ -98,7 +98,7 @@
       "authoritativeSource": "ADR-0043 sections 75-77; RFC-0041",
       "allowedDependencies": ["release tooling inputs"],
       "forbiddenDependencies": ["committed secrets", "production project references to installer artifacts"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-002",
       "requiredForBootstrap": false,
       "acceptanceCriteria": ["No signing credentials or secrets committed."]
     },
@@ -120,7 +120,7 @@
       "authoritativeSource": "ADR-0043 sections 81-82",
       "allowedDependencies": ["sample-only references"],
       "forbiddenDependencies": ["production dependency from Core"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-002",
       "requiredForBootstrap": false,
       "acceptanceCriteria": ["Samples do not become production dependencies."]
     },
@@ -131,7 +131,7 @@
       "authoritativeSource": "ADR-0043 sections 83-84",
       "allowedDependencies": [],
       "forbiddenDependencies": ["committed build outputs unless approved fixtures"],
-      "initialMaterializationStatus": "planned",
+      "initialMaterializationStatus": "created-empty-by-BOOT-002",
       "requiredForBootstrap": false,
       "acceptanceCriteria": ["Ignored by default except intentionally published fixtures."]
     }
