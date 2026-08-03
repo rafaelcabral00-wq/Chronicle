@@ -362,3 +362,36 @@ Not created:
 - UI, database, provider, or Rule Set runtime logic.
 
 Next executable bootstrap task: `BOOT-005`, create Werewolf package source skeleton and package-adjacent tests after explicit authorization.
+
+## BOOT-005 CI Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created:
+
+- `.github/workflows/ci.yml`
+
+Workflow:
+
+- runner: `windows-latest`
+- .NET SDK: `10.0.302`
+- steps: checkout, setup .NET, restore `Chronicle.sln`, build `Chronicle.sln`, test `Chronicle.sln`
+
+Validation:
+
+- workflow YAML syntax: passed;
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 15 tests;
+- README unsupported-claims check: passed; README was not modified;
+- secrets, personal data, provider credential, and OpenAI-call check: passed for the workflow.
+
+Not created:
+
+- pull request template;
+- issue templates;
+- cache;
+- matrix;
+- package, installer, release, publish, signing, deployment, or artifact upload steps.
+
+Next executable implementation task: create the Werewolf package source skeleton and package-adjacent tests after explicit authorization, or first reconcile the BOOT numbering if CI is retained as BOOT-005 in the task graph.

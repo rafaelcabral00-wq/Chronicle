@@ -6,7 +6,7 @@
     {"id": "BOOT-003", "name": "Create Chronicle.sln and canonical production and bootstrap test project skeletons", "dependsOn": ["BOOT-002"], "authoritativeSource": "ADR-0043 sections 7-44, 58-71, 127-130", "outputs": ["Chronicle.sln", "src/Chronicle.*", "tests/Chronicle.*.Tests/"], "status": "completed", "requiredForBootstrap": true, "acceptanceCriteria": ["Projects follow boundary map and dependency direction.", "Solution restore/build/test validation succeeds.", "No Werewolf package source, packaged artifact, installed artifact, Campaign binding, or release output is created."]},
     {"id": "BOOT-004", "name": "Implement canonical test harness packages and architecture rules", "dependsOn": ["BOOT-003"], "authoritativeSource": "ADR-0043 sections 58-71, 127-130; RFC-0040", "outputs": ["Directory.Packages.props", "tests/Chronicle.*.Tests/", "tests/Chronicle.Architecture.Tests/ProjectDependencyRulesTests.cs"], "status": "completed", "requiredForBootstrap": true, "acceptanceCriteria": ["Architecture tests enforce forbidden references.", "Test packages are centrally versioned.", "Full restore/build/test validation succeeds with no warnings or errors."]},
     {"id": "BOOT-005", "name": "Create Werewolf package source skeleton and package-adjacent tests", "dependsOn": ["BOOT-003", "BOOT-004"], "authoritativeSource": "ADR-0043 sections 45-61; SPEC-0001 sections 3.3-3.6", "outputs": ["rule-sets/Chronicle.RuleSets.Werewolf/", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Skeleton distinguishes package source from documentation prototype."]},
-    {"id": "BOOT-006", "name": "Create CI workflow", "dependsOn": ["BOOT-003", "BOOT-004"], "authoritativeSource": "ADR-0012; ADR-0043 section 120", "outputs": [".github/workflows/ci.yml"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Restore/build/test/scan run without secrets."]},
+    {"id": "BOOT-006", "name": "Create CI workflow", "dependsOn": ["BOOT-003", "BOOT-004"], "authoritativeSource": "ADR-0012; ADR-0043 section 120", "outputs": [".github/workflows/ci.yml"], "status": "completed-by-BOOT-005-request", "requiredForBootstrap": true, "acceptanceCriteria": ["Restore/build/test run without secrets.", "No packaging, release, installer, publishing, signing, deployment, cache, matrix expansion, provider credentials, OpenAI calls, or uploaded artifacts."]},
     {"id": "BOOT-007", "name": "Create optional tooling projects", "dependsOn": ["BOOT-003"], "authoritativeSource": "ADR-0043 sections 72-74", "outputs": ["tools/Chronicle.Tools.*"], "status": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["Tools are not runtime dependencies."]},
     {"id": "BOOT-008", "name": "Create package artifact/release workflows", "dependsOn": ["BOOT-005", "BOOT-006"], "authoritativeSource": "RFC-0027; RFC-0041; SPEC-0001", "outputs": ["rule-sets/packages/", "build/installer/windows/", ".github/workflows/release.yml"], "status": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["No package is published or installed by build alone."]}
   ],
@@ -69,5 +69,23 @@
       "gitStatus": "passed: only expected BOOT-004 package, test, and materialization evidence changes"
     },
     "notCreated": ["rule-sets/Chronicle.RuleSets.Werewolf/", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/", "tools/*.csproj", "UI logic", "database logic", "provider logic", "Rule Set runtime logic"]
+  },
+  "boot005CiEvidence": {
+    "completedDate": "2026-08-03",
+    "createdFiles": [".github/workflows/ci.yml"],
+    "runner": "windows-latest",
+    "dotnetSdk": "10.0.302",
+    "workflowSteps": ["checkout", "setup-dotnet", "restore Chronicle.sln", "build Chronicle.sln", "test Chronicle.sln"],
+    "validation": {
+      "yamlSyntax": "passed: parsed successfully",
+      "commandsMatchLocalValidation": "passed",
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
+      "test": "passed: dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false; 15 tests passed",
+      "unsupportedReadmeClaims": "passed: README was not modified",
+      "secretsAndPersonalData": "passed: workflow introduces no secrets, provider credentials, OpenAI calls, or personal data",
+      "gitStatus": "passed: only expected BOOT-005 workflow and materialization evidence changes"
+    },
+    "notCreated": [".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/", ".github/workflows/release.yml", "packaging", "installer", "publishing", "signing", "deployment", "cache", "matrix", "uploaded artifacts"]
   }
 }
