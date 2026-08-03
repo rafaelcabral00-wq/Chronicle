@@ -173,5 +173,21 @@
       "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
     },
     "notCreated": ["canonical JSON output", "package discovery", "dynamic assembly loading", "package installation", "package publication", "Campaign binding", "packaged artifact serialization", "PackageId governance"]
+  },
+  "implement005Evidence": {
+    "completedDate": "2026-08-03",
+    "createdTypes": ["RuleSetPackageSourceDiscoveryRequest", "RuleSetPackageSourceDiscoveryResult", "RuleSetPackageSourceDescriptor", "RuleSetPackageSourceRejection", "RuleSetPackageSourceDiscoveryValidationStatus", "RuleSetPackageSourceDiscoveryErrorCode", "RuleSetPackageSourceDiscoveryService"],
+    "createdFiles": ["src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceDiscovery.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetPackageSourceDiscoveryTests.cs"],
+    "discoveryBehavior": ["requires explicit authorized search roots", "inspects only direct child candidate package-source directories", "identifies candidates by Metadata/werewolf.package-manifest.json", "invokes canonical package-source validation", "returns immutable validated descriptors and rejections", "records path, manifest identity, version, declared scope, capabilities, validation status, and findings", "orders roots, candidates, descriptors, and rejections deterministically", "rejects duplicate PackageId/version candidates"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false; required approved NuGet network access for repository signature metadata",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
+      "test": "passed: dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false; 63 tests passed",
+      "architectureRules": "passed: 11 architecture tests passed",
+      "realDiscovery": "passed: focused discovery test against the real rule-sets directory found Chronicle.RuleSets.Werewolf",
+      "sideEffects": "passed: discovery performs no assembly loading, installation, publication, activation, Campaign binding, mutation, persistence, provider, UI, or network access",
+      "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
+    },
+    "notCreated": ["PackageId governance finalization", "dynamic loading", "packaged artifact serialization", "Desktop integration", "Campaign integration", "installation", "publication", "activation"]
   }
 }

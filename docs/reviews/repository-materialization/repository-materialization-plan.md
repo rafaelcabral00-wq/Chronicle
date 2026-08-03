@@ -620,3 +620,65 @@ Deferred:
 - final PackageId governance.
 
 Next executable task: integrate package validation into CI only if explicitly authorized, or continue the next Rule Set package contract work item.
+
+## IMPLEMENT-005 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created discovery contracts and service:
+
+- `RuleSetPackageSourceDiscoveryRequest`
+- `RuleSetPackageSourceDiscoveryResult`
+- `RuleSetPackageSourceDescriptor`
+- `RuleSetPackageSourceRejection`
+- `RuleSetPackageSourceDiscoveryValidationStatus`
+- `RuleSetPackageSourceDiscoveryErrorCode`
+- `RuleSetPackageSourceDiscoveryService`
+
+Files:
+
+- `src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceDiscovery.cs`
+- `rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetPackageSourceDiscoveryTests.cs`
+
+Discovery behavior:
+
+- requires one or more explicit authorized search roots;
+- inspects only direct child candidate package-source directories;
+- identifies candidates by canonical manifest presence;
+- invokes the canonical package-source validator;
+- returns immutable validated descriptors and rejections;
+- records package path, manifest identity, version, declared scope, capabilities, validation status, and findings;
+- preserves deterministic ordering;
+- detects duplicate PackageId/version candidates.
+
+Tests added:
+
+- valid Werewolf package discovery from `rule-sets/`;
+- empty root;
+- nonexistent root;
+- malformed candidate;
+- valid and invalid candidates together;
+- duplicate identity/version candidates;
+- deterministic ordering;
+- no traversal outside authorized roots;
+- no filesystem mutation;
+- no forbidden runtime/provider/persistence/UI dependencies.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed after approved NuGet network access for repository signature metadata;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 63 tests;
+- architecture rules: passed;
+- real discovery against `rule-sets/`: passed through focused discovery test;
+- generated output staging: passed.
+
+Deferred:
+
+- final PackageId governance;
+- dynamic loading;
+- packaged artifact serialization;
+- Desktop or Campaign integration;
+- package installation, publication, or activation.
+
+Next executable task: expose controlled discovery through authorized tooling, or continue the next Rule Set package contract work item after explicit authorization.
