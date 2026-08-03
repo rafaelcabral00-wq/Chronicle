@@ -395,3 +395,56 @@ Not created:
 - package, installer, release, publish, signing, deployment, or artifact upload steps.
 
 Next executable implementation task: create the Werewolf package source skeleton and package-adjacent tests after explicit authorization, or first reconcile the BOOT numbering if CI is retained as BOOT-005 in the task graph.
+
+## IMPLEMENT-001 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created package source:
+
+- `rule-sets/Chronicle.RuleSets.Werewolf/Chronicle.RuleSets.Werewolf.csproj`
+- `rule-sets/Chronicle.RuleSets.Werewolf/WerewolfRuleSetPackage.cs`
+- `rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json`
+- `rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json`
+- `rule-sets/Chronicle.RuleSets.Werewolf/Localization/en/current-slice.json`
+- `rule-sets/Chronicle.RuleSets.Werewolf/Localization/pt-BR/current-slice.json`
+
+Created package-adjacent tests:
+
+- `rule-sets/Chronicle.RuleSets.Werewolf.Tests/Chronicle.RuleSets.Werewolf.Tests.csproj`
+- `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfPackageSourceTests.cs`
+
+Package-source mapping:
+
+- documentation prototype: `docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype`;
+- package source: `rule-sets/Chronicle.RuleSets.Werewolf`;
+- package-adjacent tests: `rule-sets/Chronicle.RuleSets.Werewolf.Tests`;
+- copied review/evidence ledgers: no;
+- copied raw source/sourcebook text: no.
+
+PackageId status:
+
+- value used: `chronicle.rulesets.werewolf`;
+- status: provisional governance-pending.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 21 tests;
+- package dependency graph: passed; Werewolf source references only `Chronicle.RuleSets.Abstractions` and `Chronicle.Contracts`;
+- Core dependency boundary: passed; architecture tests verify Core projects do not reference `Chronicle.RuleSets.Werewolf`;
+- no prototype review/evidence ledgers copied into package source;
+- no raw sourcebook text or protected source file included;
+- no network, persistence, secret, UI, or provider dependency in package source.
+
+Deferred:
+
+- dynamic loading;
+- publication, promotion, installation, packaged artifact creation, and Campaign binding;
+- persistence, UI, provider access, and network access;
+- additional Gift purchase implementation;
+- runtime Gift effects;
+- full source-system completeness.
+
+Next executable implementation task: implement package manifest contract types or package source validation tooling after explicit authorization.

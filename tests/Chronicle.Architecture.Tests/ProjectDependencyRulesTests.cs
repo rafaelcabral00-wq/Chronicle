@@ -52,6 +52,11 @@ public sealed class ProjectDependencyRulesTests
                 "Chronicle.Persistence.Sqlite",
                 "Chronicle.NarrativeIntelligence.OpenAI",
                 "Chronicle.Presentation.Desktop"
+            ],
+            ["Chronicle.RuleSets.Werewolf"] =
+            [
+                "Chronicle.Contracts",
+                "Chronicle.RuleSets.Abstractions"
             ]
         };
 
@@ -63,7 +68,13 @@ public sealed class ProjectDependencyRulesTests
             ["Chronicle.Architecture.Tests"] = AllowedProductionReferences.Keys.ToArray(),
             ["Chronicle.Contracts.Tests"] = ["Chronicle.Contracts"],
             ["Chronicle.Infrastructure.Tests"] = ["Chronicle.Infrastructure"],
-            ["Chronicle.Persistence.Sqlite.Tests"] = ["Chronicle.Persistence.Sqlite"]
+            ["Chronicle.Persistence.Sqlite.Tests"] = ["Chronicle.Persistence.Sqlite"],
+            ["Chronicle.RuleSets.Werewolf.Tests"] =
+            [
+                "Chronicle.Contracts",
+                "Chronicle.RuleSets.Abstractions",
+                "Chronicle.RuleSets.Werewolf"
+            ]
         };
 
     [Fact]
@@ -202,6 +213,20 @@ public sealed class ProjectDependencyRulesTests
         }
 
         Assert.Empty(violations);
+    }
+
+    [Fact]
+    public void CoreProjectsDoNotDependOnWerewolfPackageImplementation()
+    {
+        var graph = LoadProjectReferenceGraph();
+        var coreProjects = AllowedProductionReferences.Keys
+            .Where(project => project != "Chronicle.RuleSets.Werewolf")
+            .ToArray();
+
+        foreach (var project in coreProjects)
+        {
+            Assert.DoesNotContain("Chronicle.RuleSets.Werewolf", graph[project]);
+        }
     }
 
     private static Dictionary<string, string[]> LoadProjectReferenceGraph()

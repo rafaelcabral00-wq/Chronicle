@@ -1,0 +1,43 @@
+{
+  "contractVersion": 1,
+  "sliceId": "werewolf3e.character-creation.current-slice",
+  "sliceStatus": "source-skeleton",
+  "prototypeBaseline": "approved-current-slice-reference-baseline",
+  "prototypeCompletion": {
+    "requiredIdentitiesFinalized": "46/46",
+    "catalogReviewWorkPackage": "complete",
+    "promotionEligibility": "eligible-not-published",
+    "packagePublished": false
+  },
+  "supportedCapabilities": [
+    "character-model",
+    "character-creation",
+    "character-validation",
+    "character-sheet",
+    "fixture-driven-tests"
+  ],
+  "disabledCapabilities": [
+    "additional-gift-purchase",
+    "runtime-gift-execution",
+    "generic-dice",
+    "post-creation-character-operations",
+    "combat",
+    "progression",
+    "rites",
+    "umbra"
+  ],
+  "knownLimitations": [
+    "Package source is metadata-only in this implementation step.",
+    "Runtime mechanics are not implemented.",
+    "Package is not promoted, published, installed, enabled, active, or Campaign-bound.",
+    "Final PackageId remains a governance decision; packageId value is provisional."
+  ],
+  "enforcement": {
+    "additionalGiftPurchase": "disabled",
+    "runtimeGiftEffects": "disabled",
+    "networkAccess": "forbidden",
+    "providerAccess": "forbidden",
+    "persistenceAccess": "forbidden",
+    "uiAccess": "forbidden"
+  }
+}

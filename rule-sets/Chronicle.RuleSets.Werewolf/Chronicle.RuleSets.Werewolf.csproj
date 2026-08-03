@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chronicle.RuleSets.Abstractions\Chronicle.RuleSets.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Chronicle.Contracts\Chronicle.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Metadata\werewolf.package-manifest.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Metadata\current-slice.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Localization\en\current-slice.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Localization\pt-BR\current-slice.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

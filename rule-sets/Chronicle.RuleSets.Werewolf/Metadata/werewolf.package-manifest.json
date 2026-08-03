@@ -1,0 +1,103 @@
+{
+  "contractVersion": 1,
+  "manifestRole": "rule-set-package-source-manifest",
+  "packageId": "chronicle.rulesets.werewolf",
+  "packageIdStatus": "provisional-governance-pending",
+  "packageVersion": "0.1.0-source-skeleton",
+  "publisherId": "chronicle",
+  "packageKind": "rule-set",
+  "displayNameResourceKey": "ruleset.werewolf.display-name",
+  "descriptionResourceKey": "ruleset.werewolf.description",
+  "publicationStatus": "source-skeleton-not-published",
+  "promotionStatus": "not-promoted",
+  "canonicalLanguage": "en",
+  "supportedLocales": [
+    "en",
+    "pt-BR"
+  ],
+  "declaredReleaseScope": {
+    "scopeId": "werewolf3e.character-creation.current-slice",
+    "scopeStatus": "source-skeleton",
+    "sourceSystemCompleteness": "not-complete",
+    "declaredScopeCompleteness": "metadata-only",
+    "implementationCompleteness": "not-implemented",
+    "validationCompleteness": "bootstrap-manifest-tests-only",
+    "publicationStatus": "not-published"
+  },
+  "prototypeMapping": {
+    "documentationPrototypePath": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype",
+    "prototypeRole": "review-and-authoring-evidence-only",
+    "packageSourcePath": "rule-sets/Chronicle.RuleSets.Werewolf",
+    "transformationStatus": "initial-source-skeleton",
+    "copiedReviewEvidence": false,
+    "copiedRawSource": false,
+    "prototypeFingerprint": {
+      "readinessFingerprint": "9e78eda950ef877b2539e57272d82521d47c0214f89258d15f9050778bb25820",
+      "catalogReviewResultFingerprint": "3c2cca2418c0edd9898e3cbc3465dbb31a8643eff601a26f6dd998fe303e56cf",
+      "workStatusFingerprint": "c3adca3b6a09f28cddec5fc1e9831f1d1575c5cf28753b0a333a90094dbd7c8e"
+    }
+  },
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceLanguage": "pt-BR",
+    "rawSourceIncluded": false,
+    "sourcebookTextIncluded": false
+  },
+  "capabilities": [
+    {
+      "capabilityKey": "character-model",
+      "status": "declared-source-skeleton"
+    },
+    {
+      "capabilityKey": "character-creation",
+      "status": "declared-source-skeleton"
+    },
+    {
+      "capabilityKey": "character-validation",
+      "status": "declared-source-skeleton"
+    },
+    {
+      "capabilityKey": "character-sheet",
+      "status": "declared-source-skeleton"
+    },
+    {
+      "capabilityKey": "fixture-driven-tests",
+      "status": "declared-source-skeleton"
+    }
+  ],
+  "excludedMechanics": [
+    "complete-source-rpg-system",
+    "combat",
+    "progression",
+    "rites",
+    "umbra",
+    "post-creation-character-operations"
+  ],
+  "disabledOperations": [
+    {
+      "operationKey": "character-creation.purchase-additional-gift",
+      "status": "disabled",
+      "reasonKey": "additional-gift-eligibility-unresolved"
+    },
+    {
+      "operationKey": "gift-runtime.execute-gift-effect",
+      "status": "disabled",
+      "reasonKey": "runtime-gift-execution-outside-current-slice"
+    }
+  ],
+  "security": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "persistenceAccessRequired": false,
+    "uiAccessRequired": false,
+    "containsProviderSecrets": false,
+    "containsProductionUserData": false
+  },
+  "dependencies": [],
+  "authorizedProjectReferences": [
+    "Chronicle.RuleSets.Abstractions",
+    "Chronicle.Contracts"
+  ]
+}
