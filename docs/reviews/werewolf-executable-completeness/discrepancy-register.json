@@ -1,0 +1,177 @@
+{
+  "auditId": "AUDIT-WEREWOLF-EXECUTABLE-COMPLETENESS-2026-08-03",
+  "discrepancies": [
+    {
+      "id": "WEC-001",
+      "title": "Runtime permits all five Auspices while executable initial Auspice Gift support covers only Ragabash and Philodox",
+      "classification": "contradiction between authoritative artifacts",
+      "evidence": [
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAuspiceSelection.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfInitialGiftSelection.cs",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/initial-gift-review-record.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/initial-gifts.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json"
+      ],
+      "completionImpact": "Theurge, Galliard, and Ahroun paths cannot satisfy required one Auspice Gift selection.",
+      "requiredRemediation": "Create a decision request or implementation-scope work package to either approve/implement executable Auspice Gifts for Theurge, Galliard, and Ahroun or restrict runtime-supported Auspices until completion support exists."
+    },
+    {
+      "id": "WEC-002",
+      "title": "Package metadata and localization still report metadata-only/runtime-not-implemented status",
+      "classification": "contradiction between authoritative artifacts",
+      "evidence": [
+        "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/Localization/en/current-slice.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/Localization/pt-BR/current-slice.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+        "docs/reviews/repository-materialization/repository-materialization-plan.md"
+      ],
+      "completionImpact": "Does not directly block mechanics, but violates status/claim accuracy for executable completeness.",
+      "requiredRemediation": "Create a clerical package-status update after audit review; do not change supported mechanics silently."
+    },
+    {
+      "id": "WEC-003",
+      "title": "Attribute priority selection exists but individual Attribute allocation does not",
+      "classification": "runtime omission",
+      "evidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/attributes.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/set-attribute-priorities.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/set-attribute-rating.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAttributePrioritySelection.cs"
+      ],
+      "completionImpact": "All paths blocked at required Attribute allocation.",
+      "requiredRemediation": "IMPLEMENT-015: individual Attribute allocation and validation."
+    },
+    {
+      "id": "WEC-004",
+      "title": "Ability priorities, allocation, catalog materialization, and Lupus base restrictions are not executable",
+      "classification": "runtime omission",
+      "evidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/abilities.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/set-ability-priorities.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/set-ability-rating.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/creation-mechanics-review.json"
+      ],
+      "completionImpact": "All paths blocked at required Ability allocation; Lupus paths require additional restriction handling.",
+      "requiredRemediation": "IMPLEMENT-016/017: Ability priority selection, allocation, and Lupus base restriction enforcement."
+    },
+    {
+      "id": "WEC-005",
+      "title": "Background allocation and Tribe restrictions are not executable",
+      "classification": "runtime omission",
+      "evidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/backgrounds.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/set-background-rating.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/background-review-record.json"
+      ],
+      "completionImpact": "All paths blocked at required Background allocation.",
+      "requiredRemediation": "IMPLEMENT-018: Background allocation and Glass Walker restriction validation."
+    },
+    {
+      "id": "WEC-006",
+      "title": "Initial resources, Renown, and Rank are not represented as executable draft state",
+      "classification": "runtime omission",
+      "evidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/fields/resources.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/fields/renown-and-rank.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/ranks.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs"
+      ],
+      "completionImpact": "All paths blocked by missing derived starting values and required Rank.",
+      "requiredRemediation": "IMPLEMENT-019: deterministic initialization/recalculation for resources, Renown, and Rank."
+    },
+    {
+      "id": "WEC-007",
+      "title": "Completion-required identity name is not executable",
+      "classification": "runtime omission",
+      "evidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/fields/identity.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs"
+      ],
+      "completionImpact": "All paths blocked because name is required for completion.",
+      "requiredRemediation": "IMPLEMENT-020: identity-name operation and completion-required field validation."
+    },
+    {
+      "id": "WEC-008",
+      "title": "Completion validation, creation ledger, package binding, invalidation lifecycle, and atomic completion are not executable",
+      "classification": "runtime omission",
+      "evidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/complete-character.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/creation/creation-ledger.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/creation/invalidations.json"
+      ],
+      "completionImpact": "All paths blocked from valid completion state.",
+      "requiredRemediation": "IMPLEMENT-021: completion validation and completion boundary after mandatory data operations exist."
+    },
+    {
+      "id": "WEC-009",
+      "title": "Additional Gift purchase and runtime Gift effects remain unavailable",
+      "classification": "intentional and executable out-of-scope limitation",
+      "evidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/current-slice-boundary-review.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/prototype-readiness.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs"
+      ],
+      "completionImpact": "Does not block completion if initial three Gift selections remain sufficient.",
+      "requiredRemediation": "Keep disabled; ensure UI/package status never presents additional purchase or runtime effects as supported."
+    }
+  ],
+  "classificationSummary": {
+    "source absence": 0,
+    "extraction omission": 0,
+    "extraction ambiguity": 0,
+    "decision omission": 1,
+    "prototype omission": 0,
+    "package-source omission": 0,
+    "localization omission": 0,
+    "runtime omission": 6,
+    "intentional and executable out-of-scope limitation": 1,
+    "contradiction between authoritative artifacts": 2
+  },
+  "dataPresentButAbsentDownstream": [
+    {
+      "data": "candidate level-one Auspice Gift entries for Theurge, Galliard, and Ahroun",
+      "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/initial-gifts.json",
+      "absentFrom": "approved current-slice Gift decision set and runtime Gift selection",
+      "classification": "decision omission"
+    },
+    {
+      "data": "Ability catalog and 13/9/5 priority allocation",
+      "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/abilities.json",
+      "absentFrom": "package runtime",
+      "classification": "runtime omission"
+    },
+    {
+      "data": "Background catalog and 5-point allocation",
+      "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/backgrounds.json",
+      "absentFrom": "package runtime",
+      "classification": "runtime omission"
+    },
+    {
+      "data": "Race/Auspice/Tribe-derived resources and Auspice-derived Renown",
+      "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/creation-mechanics-review.json",
+      "absentFrom": "package runtime",
+      "classification": "runtime omission"
+    },
+    {
+      "data": "Cliath rank requirement",
+      "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/ranks.json",
+      "absentFrom": "package runtime",
+      "classification": "runtime omission"
+    }
+  ],
+  "intentionalExclusionsThatMustRemainRuntimeRestrictions": [
+    "additional-gift-purchase",
+    "runtime-gift-execution",
+    "generic-dice",
+    "post-creation-character-operations",
+    "combat",
+    "progression",
+    "rites",
+    "umbra"
+  ]
+}

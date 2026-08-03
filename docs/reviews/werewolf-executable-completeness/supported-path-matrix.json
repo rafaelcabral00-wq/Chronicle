@@ -1,0 +1,292 @@
+{
+  "auditId": "AUDIT-WEREWOLF-EXECUTABLE-COMPLETENESS-2026-08-03",
+  "pathBasis": {
+    "races": [
+      "homid",
+      "metis",
+      "lupus"
+    ],
+    "auspices": [
+      "ragabash",
+      "theurge",
+      "philodox",
+      "galliard",
+      "ahroun"
+    ],
+    "tribes": [
+      "glass-walkers"
+    ],
+    "evidence": [
+      "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRaceSelection.cs",
+      "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAuspiceSelection.cs",
+      "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfTribeSelection.cs",
+      "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfInitialGiftSelection.cs",
+      "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/initial-gift-review-record.json",
+      "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json"
+    ]
+  },
+  "currentlyCompletablePaths": [],
+  "currentlyBlockedPaths": [
+    {
+      "race": "homid",
+      "auspice": "ragabash",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": true,
+      "blockingReasons": [
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "homid",
+      "auspice": "theurge",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for theurge",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "homid",
+      "auspice": "philodox",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": true,
+      "blockingReasons": [
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "homid",
+      "auspice": "galliard",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for galliard",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "homid",
+      "auspice": "ahroun",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for ahroun",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "metis",
+      "auspice": "ragabash",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": true,
+      "blockingReasons": [
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ],
+      "conditionalRequirementsExecutable": [
+        "select-metis-deformity with horns"
+      ]
+    },
+    {
+      "race": "metis",
+      "auspice": "theurge",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for theurge",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ],
+      "conditionalRequirementsExecutable": [
+        "select-metis-deformity with horns"
+      ]
+    },
+    {
+      "race": "metis",
+      "auspice": "philodox",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": true,
+      "blockingReasons": [
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ],
+      "conditionalRequirementsExecutable": [
+        "select-metis-deformity with horns"
+      ]
+    },
+    {
+      "race": "metis",
+      "auspice": "galliard",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for galliard",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ],
+      "conditionalRequirementsExecutable": [
+        "select-metis-deformity with horns"
+      ]
+    },
+    {
+      "race": "metis",
+      "auspice": "ahroun",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for ahroun",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ],
+      "conditionalRequirementsExecutable": [
+        "select-metis-deformity with horns"
+      ]
+    },
+    {
+      "race": "lupus",
+      "auspice": "ragabash",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": true,
+      "blockingReasons": [
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Lupus base Ability restrictions not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "lupus",
+      "auspice": "theurge",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for theurge",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Lupus base Ability restrictions not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "lupus",
+      "auspice": "philodox",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": true,
+      "blockingReasons": [
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Lupus base Ability restrictions not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "lupus",
+      "auspice": "galliard",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for galliard",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Lupus base Ability restrictions not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    },
+    {
+      "race": "lupus",
+      "auspice": "ahroun",
+      "tribe": "glass-walkers",
+      "mandatorySelectionsExecutable": false,
+      "blockingReasons": [
+        "No approved executable current-slice Auspice Gift for ahroun",
+        "Attribute dot allocation not implemented",
+        "Ability priority/allocation not implemented",
+        "Lupus base Ability restrictions not implemented",
+        "Background allocation/restrictions not implemented",
+        "resource and Renown initialization not implemented",
+        "Rank initialization not implemented",
+        "completion-required name not implemented",
+        "completion validation/ledger/package binding not implemented"
+      ]
+    }
+  ],
+  "summary": {
+    "runtimePermittedPathCount": 15,
+    "currentlyCompletablePathCount": 0,
+    "blockedPathCount": 15,
+    "pathsBlockedByAuspiceGiftGap": 9,
+    "pathsWithMandatorySelectionsExecutableButCompletionBlockedLater": 6
+  }
+}
