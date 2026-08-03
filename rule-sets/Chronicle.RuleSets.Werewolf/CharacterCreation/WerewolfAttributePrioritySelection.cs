@@ -128,7 +128,7 @@ public static class WerewolfAttributePrioritySelectionService
             AttributeBudgets = new ReadOnlyDictionary<string, int>(budgets),
             DraftVersion = request.Draft.DraftVersion + 1,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray()),
-            Attributes = CopyNumeric(request.Draft.Attributes),
+            Attributes = ResetAttributes(request.Draft.Attributes),
             Abilities = CopyNumeric(request.Draft.Abilities),
             Backgrounds = CopyNumeric(request.Draft.Backgrounds),
             Gifts = Array.AsReadOnly(request.Draft.Gifts.ToArray()),
@@ -154,6 +154,11 @@ public static class WerewolfAttributePrioritySelectionService
     private static ReadOnlyDictionary<string, int?> CopyNumeric(IReadOnlyDictionary<string, int?> values)
     {
         return new ReadOnlyDictionary<string, int?>(values.ToDictionary(entry => entry.Key, entry => entry.Value, StringComparer.Ordinal));
+    }
+
+    private static ReadOnlyDictionary<string, int?> ResetAttributes(IReadOnlyDictionary<string, int?> values)
+    {
+        return new ReadOnlyDictionary<string, int?>(values.ToDictionary(entry => entry.Key, _ => (int?)null, StringComparer.Ordinal));
     }
 
     private static ReadOnlyDictionary<string, string?> CopyOptionalText(IReadOnlyDictionary<string, string?> values)

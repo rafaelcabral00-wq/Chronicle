@@ -116,6 +116,7 @@ public sealed class RuleSetRuntimeRegistryTests
         Assert.Equal(Format(first), Format(second));
         Assert.Equal(
             [
+                WerewolfReferenceRuntime.AllocateAttributesOperation,
                 WerewolfReferenceRuntime.CreateCharacterOperation,
                 WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation,
                 WerewolfReferenceRuntime.SelectAttributePrioritiesOperation,

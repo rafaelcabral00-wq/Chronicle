@@ -14,6 +14,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string SelectAuspiceGiftOperation = "character-creation.select-auspice-gift";
     public const string SelectTribeGiftOperation = "character-creation.select-tribe-gift";
     public const string SelectAttributePrioritiesOperation = "character-creation.select-attribute-priorities";
+    public const string AllocateAttributesOperation = "character-creation.allocate-attributes";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -39,6 +40,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(CreateCharacterOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAuspiceOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAuspiceGiftOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(AllocateAttributesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAttributePrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectMetisDeformityOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectRaceOperation, "character-creation", RuleSetOperationStatus.Enabled),
@@ -91,6 +93,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, SelectAttributePrioritiesOperation))
         {
             return ExecuteSelectAttributePriorities(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, AllocateAttributesOperation))
+        {
+            return ExecuteAllocateAttributes(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -522,6 +529,43 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray());
     }
 
+    private static RuleSetOperationResult ExecuteAllocateAttributes(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("attributes", out var attributesText) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAttributeAllocationRequest", "Attribute allocation requires draftId, draftVersion, expectedDraftVersion, and attributes.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var draft = BuildDraftFromInputs(request, draftId, draftVersion);
+        var allocations = ParseAttributeAllocations(attributesText);
+        var result = WerewolfAttributeAllocationService.AllocateAttributes(new WerewolfAttributeAllocationRequest(draft, expectedVersion, allocations));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["attributeCategoryTotals"] = FormatAttributeCategoryTotals(result.CategoryTotals)
+                });
+        }
+
+        return ToDraftOperationResult(
+            result.Draft,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray(),
+            result.CategoryTotals);
+    }
+
     private static WerewolfInitializedCharacterState BuildDraftFromInputs(RuleSetOperationRequest request, string draftId, int draftVersion)
     {
         var currentRace = request.Inputs.GetValueOrDefault("currentRace");
@@ -533,6 +577,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         var currentTribeGift = request.Inputs.GetValueOrDefault("currentTribeGift");
         var attributePriorityOrder = ParseCsv(request.Inputs.GetValueOrDefault("attributePriorityOrder"));
         var attributeBudgets = ParseBudgets(request.Inputs.GetValueOrDefault("attributeBudgets"));
+        var attributes = ParseNullableAttributes(request.Inputs.GetValueOrDefault("attributes"));
 
         var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
@@ -551,6 +596,9 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             TribeGift = string.IsNullOrWhiteSpace(currentTribeGift) ? null : currentTribeGift,
             AttributePriorityOrder = Array.AsReadOnly(attributePriorityOrder),
             AttributeBudgets = attributeBudgets,
+            Attributes = attributes.Count == 0
+                ? WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).Attributes
+                : attributes,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
         };
 
@@ -562,7 +610,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
 
     private static RuleSetOperationResult ToDraftOperationResult(
         WerewolfInitializedCharacterState draft,
-        IReadOnlyList<RuleSetRuntimeFinding> findings)
+        IReadOnlyList<RuleSetRuntimeFinding> findings,
+        IReadOnlyList<WerewolfAttributeAllocationCategoryTotal>? attributeCategoryTotals = null)
     {
         return new RuleSetOperationResult(
             true,
@@ -571,6 +620,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new Dictionary<string, string>(StringComparer.Ordinal)
             {
                 ["attributeBudgets"] = FormatBudgets(draft.AttributeBudgets),
+                ["attributeCategoryTotals"] = FormatAttributeCategoryTotals(attributeCategoryTotals ?? []),
+                ["attributes"] = FormatNullableAttributes(draft.Attributes),
                 ["attributePriorityOrder"] = string.Join(",", draft.AttributePriorityOrder),
                 ["auspiceGiftId"] = draft.AuspiceGift ?? string.Empty,
                 ["auspiceId"] = draft.Auspice ?? string.Empty,
@@ -613,6 +664,69 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         }
 
         return values;
+    }
+
+    private static List<WerewolfAttributeDotAllocation> ParseAttributeAllocations(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return [];
+        }
+
+        var allocations = new List<WerewolfAttributeDotAllocation>();
+        foreach (var entry in value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            var parts = entry.Split(':', StringSplitOptions.TrimEntries);
+            if (parts.Length == 2 && int.TryParse(parts[1], System.Globalization.NumberStyles.AllowLeadingSign, System.Globalization.CultureInfo.InvariantCulture, out var rating))
+            {
+                allocations.Add(new WerewolfAttributeDotAllocation(parts[0], rating));
+            }
+            else
+            {
+                allocations.Add(new WerewolfAttributeDotAllocation(entry, 0));
+            }
+        }
+
+        return allocations;
+    }
+
+    private static System.Collections.ObjectModel.ReadOnlyDictionary<string, int?> ParseNullableAttributes(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return new System.Collections.ObjectModel.ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal));
+        }
+
+        var values = new Dictionary<string, int?>(StringComparer.Ordinal);
+        foreach (var entry in value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            var parts = entry.Split(':', StringSplitOptions.TrimEntries);
+            if (parts.Length == 2 && int.TryParse(parts[1], System.Globalization.NumberStyles.AllowLeadingSign, System.Globalization.CultureInfo.InvariantCulture, out var rating))
+            {
+                values[parts[0]] = rating;
+            }
+        }
+
+        return new System.Collections.ObjectModel.ReadOnlyDictionary<string, int?>(values);
+    }
+
+    private static string FormatNullableAttributes(IReadOnlyDictionary<string, int?> attributes)
+    {
+        return string.Join(
+            ",",
+            attributes
+                .Where(entry => entry.Value.HasValue)
+                .OrderBy(entry => entry.Key, StringComparer.Ordinal)
+                .Select(entry => $"{entry.Key}:{entry.Value!.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}"));
+    }
+
+    private static string FormatAttributeCategoryTotals(IReadOnlyList<WerewolfAttributeAllocationCategoryTotal> totals)
+    {
+        return string.Join(
+            ",",
+            totals
+                .OrderBy(total => total.CategoryId, StringComparer.Ordinal)
+                .Select(total => $"{total.CategoryId}:{total.Spent.ToString(System.Globalization.CultureInfo.InvariantCulture)}/{total.Budget.ToString(System.Globalization.CultureInfo.InvariantCulture)}/{total.Remaining.ToString(System.Globalization.CultureInfo.InvariantCulture)}"));
     }
 
     private static string FormatBudgets(IReadOnlyDictionary<string, int> budgets)

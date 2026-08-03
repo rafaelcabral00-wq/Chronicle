@@ -27,8 +27,8 @@
     "umbra"
   ],
   "knownLimitations": [
-    "Runtime implements deterministic character-creation increments through classification, Metis deformity, initial Gifts, and Attribute priority selection.",
-    "Character creation is not complete; Attribute allocation, Abilities, Backgrounds, resources, Rank, identity fields, and completion validation remain unimplemented.",
+    "Runtime implements deterministic character-creation increments through classification, Metis deformity, initial Gifts, Attribute priority selection, and Attribute allocation.",
+    "Character creation is not complete; Abilities, Backgrounds, resources, Rank, identity fields, and completion validation remain unimplemented.",
     "Package is not promoted, published, installed, enabled, active, or Campaign-bound.",
     "Final PackageId remains a governance decision; packageId value is provisional."
   ],

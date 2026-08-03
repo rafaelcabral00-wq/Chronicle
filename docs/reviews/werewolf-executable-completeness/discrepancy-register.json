@@ -47,7 +47,13 @@
         "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAttributePrioritySelection.cs"
       ],
       "completionImpact": "All paths blocked at required Attribute allocation.",
-      "requiredRemediation": "IMPLEMENT-015: individual Attribute allocation and validation."
+      "requiredRemediation": "IMPLEMENT-015: individual Attribute allocation and validation.",
+      "remediationStatus": "remediated-by-IMPLEMENT-015-2026-08-03",
+      "remediationEvidence": [
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAttributeAllocation.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfAttributeAllocationTests.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs"
+      ]
     },
     {
       "id": "WEC-004",

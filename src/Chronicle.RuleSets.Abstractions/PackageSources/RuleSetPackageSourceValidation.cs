@@ -46,6 +46,7 @@ public static class RuleSetPackageSourceValidator
     [
         "Chronicle.RuleSets.Werewolf.csproj",
         "CharacterCreation/WerewolfAttributePrioritySelection.cs",
+        "CharacterCreation/WerewolfAttributeAllocation.cs",
         "CharacterCreation/WerewolfAuspiceSelection.cs",
         "CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
         "CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
@@ -277,6 +278,7 @@ public static class RuleSetPackageSourceValidator
         {
             "Chronicle.RuleSets.Werewolf.csproj",
             "CharacterCreation/WerewolfAttributePrioritySelection.cs",
+            "CharacterCreation/WerewolfAttributeAllocation.cs",
             "CharacterCreation/WerewolfAuspiceSelection.cs",
             "CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
             "CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
