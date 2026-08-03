@@ -15,6 +15,11 @@
     "en",
     "pt-BR"
   ],
+  "compatibility": {
+    "minimumChronicleVersion": "0.1.0",
+    "maximumChronicleVersionPolicy": "same-major-contract",
+    "ruleSetContractVersion": 1
+  },
   "declaredReleaseScope": {
     "scopeId": "werewolf3e.character-creation.current-slice",
     "scopeStatus": "source-skeleton",
@@ -47,19 +52,19 @@
   },
   "capabilities": [
     {
-      "capabilityKey": "character-model",
-      "status": "declared-source-skeleton"
-    },
-    {
       "capabilityKey": "character-creation",
       "status": "declared-source-skeleton"
     },
     {
-      "capabilityKey": "character-validation",
+      "capabilityKey": "character-model",
       "status": "declared-source-skeleton"
     },
     {
       "capabilityKey": "character-sheet",
+      "status": "declared-source-skeleton"
+    },
+    {
+      "capabilityKey": "character-validation",
       "status": "declared-source-skeleton"
     },
     {
@@ -68,21 +73,23 @@
     }
   ],
   "excludedMechanics": [
-    "complete-source-rpg-system",
     "combat",
+    "complete-source-rpg-system",
+    "post-creation-character-operations",
     "progression",
     "rites",
-    "umbra",
-    "post-creation-character-operations"
+    "umbra"
   ],
   "disabledOperations": [
     {
       "operationKey": "character-creation.purchase-additional-gift",
+      "capabilityKey": "additional-gift-purchase",
       "status": "disabled",
       "reasonKey": "additional-gift-eligibility-unresolved"
     },
     {
       "operationKey": "gift-runtime.execute-gift-effect",
+      "capabilityKey": "runtime-gift-execution",
       "status": "disabled",
       "reasonKey": "runtime-gift-execution-outside-current-slice"
     }
