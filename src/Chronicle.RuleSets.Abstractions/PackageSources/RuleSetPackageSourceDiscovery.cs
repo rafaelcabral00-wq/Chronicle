@@ -14,8 +14,14 @@ public sealed record RuleSetPackageSourceDescriptor(
     string PackageIdStatus,
     string PackageVersion,
     string DeclaredScopeId,
+    string MinimumChronicleVersion,
+    string MaximumChronicleVersionPolicy,
+    int RuleSetContractVersion,
+    IReadOnlyList<string> SupportedLocales,
     IReadOnlyList<string> Capabilities,
+    IReadOnlyList<string> DisabledOperations,
     RuleSetPackageSourceDiscoveryValidationStatus ValidationStatus,
+    string ValidationEvidence,
     IReadOnlyList<RuleSetPackageSourceFinding> Findings);
 
 public sealed record RuleSetPackageSourceRejection(
@@ -144,10 +150,16 @@ public static class RuleSetPackageSourceDiscoveryService
             identity.PackageIdStatus,
             identity.PackageVersion,
             identity.DeclaredScopeId,
+            identity.MinimumChronicleVersion,
+            identity.MaximumChronicleVersionPolicy,
+            identity.RuleSetContractVersion,
+            identity.SupportedLocales,
             identity.Capabilities,
+            identity.DisabledOperations,
             validationResult.IsValid
                 ? RuleSetPackageSourceDiscoveryValidationStatus.Valid
                 : RuleSetPackageSourceDiscoveryValidationStatus.Rejected,
+            validationResult.IsValid ? "canonical-package-source-validation-passed:v1" : string.Empty,
             validationResult.Findings);
 
         if (validationResult.IsValid)
@@ -193,9 +205,22 @@ public static class RuleSetPackageSourceDiscoveryService
             manifest.GetProperty("packageIdStatus").GetString() ?? string.Empty,
             manifest.GetProperty("packageVersion").GetString() ?? string.Empty,
             manifest.GetProperty("declaredReleaseScope").GetProperty("scopeId").GetString() ?? string.Empty,
+            manifest.GetProperty("compatibility").GetProperty("minimumChronicleVersion").GetString() ?? string.Empty,
+            manifest.GetProperty("compatibility").GetProperty("maximumChronicleVersionPolicy").GetString() ?? string.Empty,
+            manifest.GetProperty("compatibility").GetProperty("ruleSetContractVersion").GetInt32(),
+            manifest.GetProperty("supportedLocales")
+                .EnumerateArray()
+                .Select(locale => locale.GetString() ?? string.Empty)
+                .Order(StringComparer.Ordinal)
+                .ToArray(),
             manifest.GetProperty("capabilities")
                 .EnumerateArray()
                 .Select(capability => capability.GetProperty("capabilityKey").GetString() ?? string.Empty)
+                .Order(StringComparer.Ordinal)
+                .ToArray(),
+            manifest.GetProperty("disabledOperations")
+                .EnumerateArray()
+                .Select(operation => operation.GetProperty("operationKey").GetString() ?? string.Empty)
                 .Order(StringComparer.Ordinal)
                 .ToArray());
     }
@@ -205,5 +230,10 @@ public static class RuleSetPackageSourceDiscoveryService
         string PackageIdStatus,
         string PackageVersion,
         string DeclaredScopeId,
-        IReadOnlyList<string> Capabilities);
+        string MinimumChronicleVersion,
+        string MaximumChronicleVersionPolicy,
+        int RuleSetContractVersion,
+        IReadOnlyList<string> SupportedLocales,
+        IReadOnlyList<string> Capabilities,
+        IReadOnlyList<string> DisabledOperations);
 }

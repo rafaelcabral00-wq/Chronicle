@@ -682,3 +682,68 @@ Deferred:
 - package installation, publication, or activation.
 
 Next executable task: expose controlled discovery through authorized tooling, or continue the next Rule Set package contract work item after explicit authorization.
+
+## IMPLEMENT-006 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created registration and catalog contracts:
+
+- `RuleSetPackageRegistrationRequest`
+- `RuleSetPackageRegistrationResult`
+- `RegisteredRuleSetPackageDescriptor`
+- `RuleSetPackageRegistrationRejection`
+- `RuleSetPackageRegistrationStatus`
+- `RuleSetPackageRegistrationErrorCode`
+- `RuleSetPackageCatalog`
+- `RuleSetPackageRegistrationService`
+
+Files:
+
+- `src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageRegistration.cs`
+- `rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetPackageRegistrationTests.cs`
+- updated `src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceDiscovery.cs` to carry registration evidence and manifest fields.
+
+Registration behavior:
+
+- accepts only validated discovered descriptors with canonical validation evidence;
+- rejects invalid, rejected, or manually fabricated descriptors lacking evidence;
+- registers identity, version, scope, compatibility, localization, capabilities, disabled operations, and source location;
+- exposes immutable catalog snapshots;
+- supports lookup by PackageId and PackageId/version;
+- detects duplicate PackageId/version registrations;
+- distinguishes available, compatible, incompatible, and rejected outcomes;
+- preserves deterministic ordering.
+
+Tests added:
+
+- registering the discovered Werewolf package;
+- rejecting a nonvalidated descriptor;
+- duplicate PackageId/version;
+- multiple versions of one PackageId;
+- compatible and incompatible contract versions;
+- immutable catalog results;
+- deterministic ordering;
+- lookup by identity and version;
+- no filesystem mutation or implicit discovery;
+- forbidden dependency boundaries;
+- focused discovery to registration to catalog lookup flow.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 74 tests;
+- architecture rules: passed;
+- focused flow against `rule-sets/`: passed.
+
+Deferred:
+
+- final Werewolf PackageId governance;
+- dynamic assembly loading;
+- runtime Rule Set behavior;
+- Desktop or Campaign integration;
+- packaged artifact serialization;
+- package installation, publication, or activation.
+
+Next executable task: expose registration/catalog inspection through authorized tooling, or continue the next Rule Set package contract work item after explicit authorization.
