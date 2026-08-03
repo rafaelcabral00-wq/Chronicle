@@ -46,6 +46,7 @@ public static class RuleSetPackageSourceValidator
     [
         "Chronicle.RuleSets.Werewolf.csproj",
         "WerewolfRuleSetPackage.cs",
+        "WerewolfReferenceRuntime.cs",
         "Metadata/current-slice.json",
         ManifestRelativePath
     ];
@@ -268,6 +269,7 @@ public static class RuleSetPackageSourceValidator
         {
             "Chronicle.RuleSets.Werewolf.csproj",
             "WerewolfRuleSetPackage.cs",
+            "WerewolfReferenceRuntime.cs",
             "Metadata/current-slice.json",
             ManifestRelativePath
         };
