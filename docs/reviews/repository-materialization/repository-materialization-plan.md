@@ -498,3 +498,60 @@ Deferred:
 - schema file publication or external schema tooling.
 
 Next executable task: implement package source validation tooling or package manifest loader integration after explicit authorization.
+
+## IMPLEMENT-003 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created package source validation contracts and validator:
+
+- `RuleSetPackageSourceValidationResult`
+- `RuleSetPackageSourceFinding`
+- `RuleSetPackageSourceFindingSeverity`
+- `RuleSetPackageSourceErrorCode`
+- `RuleSetPackageSourceValidator`
+
+Files:
+
+- `src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs`
+- `rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetPackageSourceValidatorTests.cs`
+
+Werewolf package source changes:
+
+- no package source files changed;
+- the existing Werewolf package source is now covered by deterministic package-source validation tests.
+
+Validation coverage:
+
+- required manifest presence and parsing;
+- manifest contract validation;
+- declared localization resource existence;
+- required package-source files;
+- path containment under package root;
+- duplicate, missing, malformed, and undeclared resources;
+- prohibited review/evidence/sourcebook files;
+- forbidden binaries, secrets, generated outputs, and absolute paths;
+- disabled operation enforcement;
+- deterministic file inventory and finding ordering;
+- no filesystem mutation.
+
+Validation:
+
+- `dotnet test rule-sets/Chronicle.RuleSets.Werewolf.Tests/Chronicle.RuleSets.Werewolf.Tests.csproj --no-build --filter FullyQualifiedName~RuleSetPackageSourceValidatorTests`: passed with 14 tests;
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 45 tests;
+- architecture rules: passed;
+- Werewolf boundaries: passed; no persistence, presentation, provider, network, secret, protected source, or prototype-evidence dependency accepted;
+- generated output staging: passed.
+
+Deferred:
+
+- package discovery;
+- dynamic assembly loading;
+- publication, installation, and Campaign binding;
+- packaged artifact serialization;
+- final PackageId governance;
+- runtime implementation details.
+
+Next executable task: integrate package source validation into authorized tooling or continue with the next package contract work item after explicit authorization.
