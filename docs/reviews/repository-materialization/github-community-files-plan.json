@@ -1,0 +1,27 @@
+{
+  "created": "2026-08-03",
+  "authoritativeSources": ["ADR-0044", "ADR-0041", "ADR-0043 sections 116-119"],
+  "governanceSelections": {
+    "codeOfConduct": {
+      "selected": "Contributor Covenant Code of Conduct version 2.1",
+      "attribution": "Adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct/",
+      "ownerControlledPlaceholders": ["enforcement contact", "project maintainer/team contact", "repository URL"]
+    },
+    "securityReporting": {
+      "approach": "SECURITY.md should state that there are no supported production releases yet, ask reporters not to file public issues for vulnerabilities, and direct reports to GitHub private vulnerability reporting once the repository enables it. Until then, use a repository-owner-maintained placeholder contact rather than personal data.",
+      "ownerControlledPlaceholders": ["GitHub private vulnerability reporting URL", "security contact alias", "supported versions table after first release"]
+    }
+  },
+  "files": [
+    {"path": "README.md", "projectType": "open-source-product-artifact", "purpose": "Public project identity, status, architecture, getting-started, and contribution orientation.", "authoritativeSource": "ADR-0043; RFC-0000; RFC-0002; ADR-0044", "allowedDependencies": [], "forbiddenDependencies": ["unsupported product claims"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["States materialization/planning status honestly and directs contributors to docs."]},
+    {"path": "CONTRIBUTING.md", "projectType": "community-governance-file", "purpose": "Contribution flow, DCO/provenance, tests, docs, package authoring rules.", "authoritativeSource": "ADR-0044", "allowedDependencies": [], "forbiddenDependencies": ["contributions without provenance"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Includes license/provenance and AI-assisted contribution responsibilities."]},
+    {"path": "SECURITY.md", "projectType": "security-policy-file", "purpose": "Coordinated vulnerability reporting and private disclosure process.", "authoritativeSource": "ADR-0041; ADR-0044", "allowedDependencies": [], "forbiddenDependencies": ["public disclosure of sensitive reports before coordination"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Defines supported versions or explicitly says no release is supported yet."]},
+    {"path": "CODE_OF_CONDUCT.md", "projectType": "community-governance-file", "purpose": "Contributor community conduct expectations.", "authoritativeSource": "open-source governance need; ADR-0044 contributor governance", "allowedDependencies": [], "forbiddenDependencies": ["conflict with license/provenance policy"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Uses Contributor Covenant 2.1 with explicit attribution and owner-controlled contact placeholders."]},
+    {"path": ".github/workflows/ci.yml", "projectType": "ci-workflow", "purpose": "Restore, build, test, scan, and package validation workflow.", "authoritativeSource": "ADR-0012; ADR-0043 section 120", "allowedDependencies": ["CI runner permissions"], "forbiddenDependencies": ["signing secrets on fork-based CI"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Runs no privileged release tasks for forks."]},
+    {"path": ".github/pull_request_template.md", "projectType": "community-governance-file", "purpose": "PR checklist for tests, architecture boundaries, provenance, docs updates.", "authoritativeSource": "ADR-0044", "allowedDependencies": [], "forbiddenDependencies": ["missing sign-off/provenance prompts"], "initialMaterializationStatus": "planned", "requiredForBootstrap": false, "acceptanceCriteria": ["Mentions DCO, tests, docs, license/provenance."]}
+  ],
+  "issues": [
+    {"id": "GH-ISSUE-001", "summary": "Exact security contact is not present in inspected docs.", "impact": "Non-blocking for BOOT-001. SECURITY.md may use GitHub private vulnerability reporting and a repository-owner-controlled placeholder until the public repository exists.", "status": "non-blocking-placeholder", "resolvedDate": "2026-08-03"},
+    {"id": "GH-ISSUE-002", "summary": "Code of conduct text/source is not selected by an ADR.", "impact": "Resolved for BOOT-001 by selecting Contributor Covenant 2.1 with explicit attribution.", "status": "resolved-for-boot-001", "resolvedDate": "2026-08-03"}
+  ]
+}

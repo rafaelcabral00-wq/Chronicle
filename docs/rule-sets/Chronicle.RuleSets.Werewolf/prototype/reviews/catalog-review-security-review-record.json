@@ -1,0 +1,49 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "catalog-review.security-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "scope": "CurrentSliceSecurityReview",
+  "executedAt": "2026-08-03T00:00:00.000Z",
+  "checks": [
+    {
+      "checkKey": "security.network-provider-disabled",
+      "status": "passed"
+    },
+    {
+      "checkKey": "security.additional-gift-purchase-disabled",
+      "status": "passed"
+    },
+    {
+      "checkKey": "security.runtime-gift-effects-disabled",
+      "status": "passed"
+    },
+    {
+      "checkKey": "security.authority-boundaries-enforced",
+      "status": "passed"
+    },
+    {
+      "checkKey": "security.no-sourcebook-text-or-secret-leakage",
+      "status": "passed"
+    },
+    {
+      "checkKey": "security.encrypted-storage-required",
+      "status": "passed"
+    }
+  ],
+  "artifactFingerprints": [
+    {
+      "artifactRef": "../tests/test-environment.json",
+      "algorithm": "SHA-256",
+      "value": "c284671654ef58514de788230de15ca195e630cb90f5373e690c0beb1e8dcd13"
+    },
+    {
+      "artifactRef": "../security/runtime-enforcement.json",
+      "algorithm": "SHA-256",
+      "value": "1b7ebdf6374e83cdbfced131a285dda568440e64e5d74b7b8749c6ac170d4675"
+    }
+  ],
+  "overallStatus": "passed",
+  "failureKeys": [],
+  "recordFingerprint": "118f6f8bcd259def8c0304c60ca33070a7b90c2b2a7ebf080c6bcf3d313bf5c4"
+}

@@ -1,0 +1,284 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "abilities",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.abilities",
+  "publicationStatus": "candidate",
+  "ownership": "Character",
+  "catalogRef": "../catalogs/abilities.json",
+  "fieldModel": {
+    "mode": "catalog-backed-rank-fields",
+    "entryFieldTemplate": {
+      "fieldType": "RankTrack",
+      "authority": "RuleSetAuthoritative",
+      "minimum": 0,
+      "maximum": 5,
+      "creationBase": 0,
+      "specializationEligibilityMinimum": 4
+    }
+  },
+  "fields": [
+    {
+      "fieldKey": "character.abilities",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.abilities",
+      "descriptionResourceKey": "character.abilities.description",
+      "requiredness": {
+        "duringDraft": "required-structure",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "itemIdentitySource": "../catalogs/abilities.json#entries",
+      "itemValueShape": {
+        "abilityKey": "Reference",
+        "rating": "Integer",
+        "specializationRefs": "ReferenceCollection",
+        "creationStageSources": "StructuredCollection"
+      },
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5,
+          "PostCreationProgression": 5
+        }
+      },
+      "creationPolicy": {
+        "initialRating": 0,
+        "allocationProfileRef": "../catalogs/abilities.json#creationAllocation",
+        "prioritySelectionRequired": true,
+        "priorityValues": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        }
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-abilities.json"
+      ]
+    },
+    {
+      "fieldKey": "character.abilities.priority-assignment",
+      "fieldType": "StructuredObject",
+      "displayNameResourceKey": "character.abilities.priority-assignment",
+      "descriptionResourceKey": "character.abilities.priority-assignment.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "valueShape": {
+        "primaryCategoryKey": "Reference",
+        "secondaryCategoryKey": "Reference",
+        "tertiaryCategoryKey": "Reference"
+      },
+      "constraints": [
+        {
+          "constraintKey": "abilities.priority-assignment.distinct",
+          "operator": "all-distinct",
+          "targetProperties": [
+            "primaryCategoryKey",
+            "secondaryCategoryKey",
+            "tertiaryCategoryKey"
+          ]
+        },
+        {
+          "constraintKey": "abilities.priority-assignment.valid-categories",
+          "operator": "all-in-catalog",
+          "catalogPath": "../catalogs/abilities.json#categories"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-ability-priorities.json"
+      ]
+    }
+  ],
+  "untrainedResolutionPolicy": {
+    "sourceCatalogRef": "../catalogs/abilities.json#categories[].untrainedPolicy",
+    "modes": [
+      {
+        "modeKey": "attribute-only",
+        "description": "Use only the governing Attribute when the Ability rating is zero."
+      },
+      {
+        "modeKey": "test-prohibited",
+        "description": "The test is normally unavailable when the Ability rating is zero."
+      }
+    ],
+    "storytellerOverridePolicy": {
+      "authority": "ChronicleDirectorValidatedByRuleSet",
+      "silentOverrideAllowed": false,
+      "reasonRequired": true,
+      "auditRequired": true
+    }
+  },
+  "raceRestrictionLink": {
+    "sourceCatalogRef": "../catalogs/abilities.json#raceRestrictions",
+    "applicationStage": "CreationBaseAllocation",
+    "validationMode": "rule-set-authoritative",
+    "unresolvedBehavior": {
+      "ambiguityRef": "ambiguity.werewolf3e.creation.lupus-restricted-abilities",
+      "freebiePurchasePolicy": "not-enforced",
+      "reason": "The same-workflow freebie exception remains unresolved."
+    }
+  },
+  "specializationLink": {
+    "fieldGroupRef": "specializations.json",
+    "eligibilityRule": {
+      "minimumRating": 4,
+      "status": "candidate"
+    },
+    "resolutionRuleRef": "../../dice/resolution/specialization.json",
+    "resolutionReadiness": "blocked"
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.abilities.all-present",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "collectionField": "character.abilities",
+        "operator": "contains-every-catalog-entry",
+        "catalogRef": "../catalogs/abilities.json#entries"
+      },
+      "errorKey": "character.creation.abilities-missing"
+    },
+    {
+      "ruleKey": "character.creation.abilities.minimum-zero",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "minimum": 0,
+      "targetPath": "character.abilities[].rating",
+      "errorKey": "character.creation.ability-below-minimum"
+    },
+    {
+      "ruleKey": "character.creation.abilities.maximum-five",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "maximum": 5,
+      "targetPath": "character.abilities[].rating",
+      "errorKey": "character.creation.ability-above-maximum"
+    },
+    {
+      "ruleKey": "character.creation.abilities.base-allocation-maximum-three",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "appliesDuring": [
+        "CreationBaseAllocation"
+      ],
+      "maximum": 3,
+      "targetPath": "character.abilities[].rating",
+      "errorKey": "character.creation.ability-base-maximum-exceeded"
+    },
+    {
+      "ruleKey": "character.creation.abilities.priority-allocation",
+      "ruleVersion": 1,
+      "ruleType": "allocation",
+      "status": "candidate",
+      "priorityField": "character.abilities.priority-assignment",
+      "categoryPointTotals": {
+        "primary": 13,
+        "secondary": 9,
+        "tertiary": 5
+      },
+      "pointCalculation": "sum(rating) by category during CreationBaseAllocation",
+      "errorKey": "character.creation.ability-allocation-invalid"
+    },
+    {
+      "ruleKey": "character.creation.abilities.race-restrictions",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "lookupSource": "../catalogs/abilities.json#raceRestrictions",
+      "errorKey": "character.creation.ability-race-restriction-violated"
+    },
+    {
+      "ruleKey": "character.creation.abilities.specialization-rating",
+      "ruleVersion": 1,
+      "ruleType": "permission",
+      "status": "candidate",
+      "minimumRating": 4,
+      "targetRef": "character.specializations",
+      "errorKey": "character.creation.ability-specialization-rating-too-low"
+    }
+  ],
+  "changePolicy": {
+    "creationChangesAllowed": true,
+    "postCompletionDirectEditAllowed": false,
+    "postCompletionOperations": [
+      "progression.ability.increase",
+      "narrative.ability.modify",
+      "correction.ability.set",
+      "import.ability.restore"
+    ],
+    "operationReadiness": {
+      "progression.ability.increase": "unavailable",
+      "narrative.ability.modify": "unavailable",
+      "correction.ability.set": "future",
+      "import.ability.restore": "future"
+    }
+  },
+  "layoutHints": {
+    "sectionStyle": "three-column-rating-grid",
+    "groupBy": "categoryKey",
+    "categoryOrder": [
+      "ability-category.talents",
+      "ability-category.skills",
+      "ability-category.knowledges"
+    ],
+    "showPrioritySelector": true,
+    "showRating": true,
+    "showSpecializationIndicator": true,
+    "showUntrainedPolicyHelp": true,
+    "preferredControl": "dot-rating"
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.lupus-restricted-abilities",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "May a Lupus purchase restricted Abilities with freebie points during the same Character creation workflow?",
+      "prototypeDecision": "Enforce the restriction only during CreationBaseAllocation."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.dice.specialization",
+      "severity": "critical",
+      "status": "source-search-required",
+      "question": "What is the exact resolution behavior for Ability specializations?",
+      "prototypeDecision": "Store specialization references but keep specialized Dice resolution disabled."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.abilities.priority-revision",
+      "severity": "low",
+      "status": "implementation-decision-required",
+      "question": "How should category-priority changes affect already allocated Ability points?",
+      "prototypeDecision": "Preview invalid allocations and require correction before completion."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The thirty Ability identities and their categories are supplied by the catalog rather than duplicated as hardcoded fields.",
+    "All ratings begin at 0.",
+    "The 13 / 9 / 5 category allocation applies during CreationBaseAllocation.",
+    "No Ability may exceed 3 during base allocation, while later creation spending may reach 5 subject to Rule Set validation.",
+    "Untrained policies are category-driven and must be represented in the Dice plan rather than applied by the Narrator silently.",
+    "Lupus restrictions are enforced only for base allocation until the freebie exception is resolved.",
+    "Chronicle Core remains unaware of Talents, Skills, Knowledges, and all individual Ability identities."
+  ]
+}

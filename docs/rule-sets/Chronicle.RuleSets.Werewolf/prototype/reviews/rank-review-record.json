@@ -1,0 +1,702 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.rank-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.rank-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceRankCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for the Rank identity required by the current Character creation slice.",
+    "Review the Cliath identity name, normalized key, numeric Rank binding, initial-Rank marker, and dependent Character creation references.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, and tests.",
+    "Prevent structural catalog presence from being treated as substantive Rank approval."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/ranks.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "metisDeformityReviewRecordArtifactRef": "./metis-deformity-review-record.json",
+    "taskKey": "catalog-review.task.review-rank",
+    "catalogKey": "character-model.catalog.ranks"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "approved-partial-evidence",
+    "overallDecision": "approved",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-03T00:00:00.000-03:00",
+    "completedAt": "2026-08-03T00:00:00.000-03:00",
+    "requiredIdentityCount": 1,
+    "reviewedIdentityCount": 1,
+    "approvedIdentityCount": 1,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 3,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.rank.cliath",
+      "expectedSourceName": "Cliath",
+      "expectedNumericRank": 1,
+      "expectedInitialRank": true,
+      "expectedOrder": 10,
+      "status": "approved",
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "decisionId": "catalog-identity-decision.rank.cliath",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77",
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a",
+        "catalog-review.evidence.formal-decision-record.rank.cliath.0e7c98ca77571887"
+      ],
+      "notes": "Cliath is approved as current-slice initial Rank 1 only."
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "rank-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "rank-review.finding.cliath-identity",
+        "rank-review.finding.stable-order"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.source-identity-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "rank-review.finding.cliath-identity"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.normalized-key-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "rank-review.finding.cliath-identity"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.numeric-rank-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.ranks.numeric-rank-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "rank-review.finding.numeric-rank-one"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77",
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.initial-rank-marker-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.ranks.initial-rank-marker-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "rank-review.finding.initial-rank-marker"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77",
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.stable-order-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.ranks.stable-order-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "rank-review.finding.stable-order"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.creation-bindings-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve"
+      ],
+      "required": true,
+      "status": "not-executed",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.localization-binding-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "not-executed",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.fixture-and-test-references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "not-executed",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "rank-review.formal-decision-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "rank-review.finding.cliath-identity",
+        "rank-review.finding.numeric-rank-one",
+        "rank-review.finding.initial-rank-marker"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.rank.cliath.0e7c98ca77571887"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "numeric-rank",
+    "initial-rank-marker",
+    "stable-order",
+    "creation-binding",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "rank-review.finding.cliath-identity",
+      "identityKey": "character.rank.cliath",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "sourceName": "Cliath"
+      },
+      "catalogClaim": {
+        "entryKey": "character.rank.cliath",
+        "sourceLabelPtBr": "Cliath"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.creation.initial-rank-cliath-rank-1",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/ranks.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Cleaned extraction identifies Cliath in the initial Rank section."
+    },
+    {
+      "findingId": "rank-review.finding.numeric-rank-one",
+      "identityKey": "character.rank.cliath",
+      "findingType": "numeric-rank",
+      "sourceClaim": {
+        "numericRank": 1
+      },
+      "catalogClaim": {
+        "numericRank": 1
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.creation.initial-rank-cliath-rank-1",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/ranks.json",
+        "../character-model/fields/renown-and-rank.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Cleaned extraction and creation slice both record initial Rank/level 1."
+    },
+    {
+      "findingId": "rank-review.finding.initial-rank-marker",
+      "identityKey": "character.rank.cliath",
+      "findingType": "initial-rank-marker",
+      "sourceClaim": {
+        "initialRank": true
+      },
+      "catalogClaim": {
+        "initialCharacterRank": true,
+        "selectionMode": "system-assigned",
+        "userSelectableDuringCreation": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.creation.initial-rank-cliath-rank-1",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/ranks.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Rank is system-assigned during standard Character creation."
+    },
+    {
+      "findingId": "rank-review.finding.creation-renown-binding",
+      "identityKey": "character.rank.cliath",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "creationImplication": "initialize rank after initial Renown in creation flow",
+        "rankKey": "rank.cliath",
+        "rankLevel": 1
+      },
+      "catalogClaim": {
+        "initializationRule": "character.creation.rank.initialize-cliath",
+        "validationRules": [
+          "character.creation.rank-is-cliath",
+          "character.rank.numeric-value-is-one-at-creation"
+        ],
+        "fieldGroupRule": "character.creation.rank.cliath",
+        "effectiveRankStatus": "active"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.creation.initial-rank-cliath-rank-1",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/ranks.json",
+        "../character-model/fields/renown-and-rank.json",
+        "../character-model/fields/classification.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Initial Rank is related to Renown only as adjacent creation resources; advancement and Renown thresholds remain unavailable/ambiguous."
+    },
+    {
+      "findingId": "rank-review.finding.stable-order",
+      "identityKey": "character.rank.cliath",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceRankOrder": "only executable Rank identity in slice"
+      },
+      "catalogClaim": {
+        "expectedOrder": 10,
+        "entries": [
+          "character.rank.cliath"
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.creation.initial-rank-cliath-rank-1",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/ranks.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order is stable for the single current-slice Rank identity."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "rank-review.claim.cliath-identity",
+      "identityKey": "character.rank.cliath",
+      "claim": {
+        "sourceName": "Cliath"
+      },
+      "status": "candidate-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "rank-review.claim.cliath-numeric-rank",
+      "identityKey": "character.rank.cliath",
+      "claim": {
+        "numericRank": 1
+      },
+      "status": "candidate-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "rank-review.claim.cliath-initial-rank",
+      "identityKey": "character.rank.cliath",
+      "claim": {
+        "initialRank": true
+      },
+      "status": "candidate-source-claim",
+      "sourceEvidenceRef": null
+    }
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/ranks.json",
+    "../character-model/fields/renown-and-rank.json",
+    "../character-model/creation/profile.json",
+    "../character-model/creation/dependency-graph.json",
+    "../character-model/validation/character-creation.json",
+    "../character-model/validation/character-completion.json",
+    "../operations/character-creation/initialize-character-draft.json",
+    "../operations/character-creation/validate-character.json",
+    "../operations/character-creation/complete-character.json",
+    "../character-sheet/default-sheet.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.metis-missing-deformity",
+    "character-creation.lupus-restricted-ability",
+    "character-creation.classification-change-invalidates-state",
+    "character-creation.complete-character-atomicity"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.dependency-and-invalidation",
+    "tests.character-sheet-projection",
+    "tests.completion-atomicity"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.rank.cliath"
+    ],
+    "decisionEntryMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "decisionRequiredForReviewCompletion": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "cliath-identity-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "one-active-final-identity-decision-recorded",
+      "numeric-rank-reviewed",
+      "initial-rank-marker-reviewed",
+      "stable-order-reviewed",
+      "all-creation-operation-and-validation-bindings-reconciled",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-pass",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateClaimsMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchOpensIssueType": "ambiguous-source-identity",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingRankIdentityOpensIssueType": "missing-required-identity",
+    "invalidNumericRankOrInitialMarkerOpensIssueType": "invalid-catalog-binding",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "rankCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "rank-review-record.required-identity-complete",
+      "severity": "blocking",
+      "requirement": "Cliath appears exactly once"
+    },
+    {
+      "ruleKey": "rank-review-record.numeric-rank-valid",
+      "severity": "blocking",
+      "requirement": "the current-slice initial Rank declares numeric value 1"
+    },
+    {
+      "ruleKey": "rank-review-record.initial-marker-unique",
+      "severity": "blocking",
+      "requirement": "exactly one required current-slice Rank is marked initial"
+    },
+    {
+      "ruleKey": "rank-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every Rank review check key is unique"
+    },
+    {
+      "ruleKey": "rank-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "rank-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references the required Rank identity"
+    },
+    {
+      "ruleKey": "rank-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "rank-review-record.final-decision-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires an active final decision for Cliath"
+    },
+    {
+      "ruleKey": "rank-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, and decisions"
+    },
+    {
+      "ruleKey": "rank-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixture usage, initialization behavior, or candidate claims do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentity": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceAndDecisionRefs": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-status",
+      "numeric-rank",
+      "initial-rank-marker",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-id",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "numericRankValues",
+      "initialRankFlags",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfRankCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfRankCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfRankCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "blockedIdentityKeys": "ReferenceCollection",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "draft",
+    "reconciliationStatus": "pending",
+    "taskCompletionStatus": "not-eligible",
+    "lastReviewedAt": "2026-08-03T00:00:00.000-03:00",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "Cliath as current-slice initial Rank 1 is approved from cleaned extraction evidence.",
+    "Rank remains system-assigned during standard Character creation and required for completion as Cliath/Rank 1.",
+    "Renown advancement, higher-rank hierarchy, Rank benefits, and Rank loss/effective-status transitions are not approved by this review."
+  ]
+}

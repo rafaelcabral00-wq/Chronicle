@@ -1,0 +1,213 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "specializations",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.specializations",
+  "publicationStatus": "candidate-partial",
+  "ownership": "Character",
+  "fields": [
+    {
+      "fieldKey": "character.specializations",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.specializations",
+      "descriptionResourceKey": "character.specializations.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "conditional"
+      },
+      "authority": "RuleSetAuthoritative",
+      "itemValueShape": {
+        "specializationId": "Text",
+        "targetFieldKey": "Reference",
+        "label": "Text",
+        "sourceType": "Text",
+        "sourceCatalogEntryKey": "Reference",
+        "createdAtStage": "Text",
+        "status": "Text"
+      },
+      "targetFieldKinds": [
+        "character.attribute",
+        "character.ability"
+      ],
+      "creationPolicy": {
+        "eligibilityMinimumRating": 4,
+        "selectionRequiredAtEligibility": "unresolved",
+        "userAuthoredLabelAllowed": true,
+        "suggestedCatalogLabelAllowed": true,
+        "duplicateLabelsOnSameTargetAllowed": false,
+        "maximumPerTarget": "unresolved"
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/specialization-rule-summary.json"
+      ]
+    }
+  ],
+  "eligibilityRules": [
+    {
+      "ruleKey": "character.specialization.attribute-rating-minimum",
+      "ruleVersion": 1,
+      "ruleType": "permission",
+      "status": "candidate",
+      "appliesWhen": {
+        "targetFieldKind": "character.attribute"
+      },
+      "requirement": {
+        "targetRating": {
+          "operator": "greater-than-or-equal",
+          "value": 4
+        }
+      },
+      "errorKey": "character.specialization.attribute-rating-too-low"
+    },
+    {
+      "ruleKey": "character.specialization.ability-rating-minimum",
+      "ruleVersion": 1,
+      "ruleType": "permission",
+      "status": "candidate",
+      "appliesWhen": {
+        "targetFieldKind": "character.ability"
+      },
+      "requirement": {
+        "targetRating": {
+          "operator": "greater-than-or-equal",
+          "value": 4
+        }
+      },
+      "errorKey": "character.specialization.ability-rating-too-low"
+    }
+  ],
+  "resolutionBoundary": {
+    "resolutionRuleRef": "../../dice/resolution/specialization.json",
+    "readiness": "blocked",
+    "ownershipPersistenceSupported": true,
+    "eligibilityValidationSupported": true,
+    "additionalDiceGenerationSupported": false,
+    "chainedAdditionalDiceSupported": false,
+    "resultOneHandlingSupported": false,
+    "reason": "The exact specialization Dice algorithm remains unresolved and must not be inferred from general system knowledge."
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.specialization.target-exists",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "field": "character.specializations[].targetFieldKey",
+        "operator": "references-existing-character-field"
+      },
+      "errorKey": "character.specialization.target-missing"
+    },
+    {
+      "ruleKey": "character.specialization.target-rating-valid",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "minimumRating": 4,
+      "errorKey": "character.specialization.target-rating-too-low"
+    },
+    {
+      "ruleKey": "character.specialization.label-required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "prototype",
+      "requirement": {
+        "field": "character.specializations[].label",
+        "operator": "non-empty"
+      },
+      "errorKey": "character.specialization.label-required"
+    },
+    {
+      "ruleKey": "character.specialization.no-duplicate-label-on-target",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "prototype",
+      "operator": "unique-by",
+      "properties": [
+        "targetFieldKey",
+        "label"
+      ],
+      "comparison": "case-insensitive-trimmed",
+      "errorKey": "character.specialization.duplicate"
+    }
+  ],
+  "changePolicy": {
+    "creationChangesAllowed": true,
+    "removeWhenTargetFallsBelowEligibility": true,
+    "removalPreviewRequired": true,
+    "postCompletionDirectEditAllowed": false,
+    "postCompletionOperations": [
+      "progression.specialization.add",
+      "narrative.specialization.add",
+      "correction.specialization.add",
+      "correction.specialization.remove",
+      "import.specialization.restore"
+    ],
+    "operationReadiness": {
+      "progression.specialization.add": "unavailable",
+      "narrative.specialization.add": "future",
+      "correction.specialization.add": "future",
+      "correction.specialization.remove": "future",
+      "import.specialization.restore": "future"
+    },
+    "auditRequired": true
+  },
+  "layoutHints": {
+    "sectionStyle": "inline-specialization-badges",
+    "showUnderTargetField": true,
+    "allowFreeTextEntry": true,
+    "showSuggestedOptions": true,
+    "showResolutionUnavailableIndicator": true
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.dice.specialization",
+      "severity": "critical",
+      "status": "source-search-required",
+      "question": "What is the exact specialization resolution algorithm, including additional Dice, chaining, and result-of-1 behavior?",
+      "prototypeDecision": "Persist specialization selections but keep specialization Dice resolution disabled."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.specialization.required-at-four",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Does reaching rating 4 require choosing a specialization, or merely permit one?",
+      "prototypeDecision": "Treat specialization as optional at rating 4+."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.specialization.maximum-per-field",
+      "severity": "medium",
+      "status": "source-search-required",
+      "question": "How many specializations may one Attribute or Ability have?",
+      "prototypeDecision": "Allow one active specialization per target during Slice 001."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.specialization.custom-labels",
+      "severity": "medium",
+      "status": "implementation-decision-required",
+      "question": "May the player define a custom specialization label outside the source suggestions?",
+      "prototypeDecision": "Allow custom labels subject to Rule Set validation and normalization."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "medium",
+    "semanticReviewStatus": "changes-required",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Specializations may target Attributes or Abilities with rating 4 or higher.",
+    "The prototype stores specialization identity and label independently from Dice execution.",
+    "Specialization is treated as optional at rating 4+ until the source requirement is reviewed.",
+    "Only one active specialization per target is recommended for Slice 001, but this remains provisional.",
+    "Suggested specialization labels come from package catalogs; user-authored labels are permitted as prototype data.",
+    "No additional Dice, chained Dice, result-of-10, or result-of-1 behavior is implemented.",
+    "Chronicle Core remains unaware of Werewolf specialization mechanics."
+  ]
+}

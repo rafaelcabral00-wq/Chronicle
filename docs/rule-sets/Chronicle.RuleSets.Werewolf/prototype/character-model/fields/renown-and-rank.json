@@ -1,0 +1,285 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "renown-and-rank",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.renown-and-rank",
+  "publicationStatus": "candidate-partial",
+  "ownership": "Character",
+  "fields": [
+    {
+      "fieldKey": "character.renown",
+      "fieldType": "StructuredObject",
+      "displayNameResourceKey": "character.renown",
+      "descriptionResourceKey": "character.renown.description",
+      "requiredness": {
+        "duringDraft": "system-initialized-after-auspice",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "valueShape": {
+        "glory": {
+          "permanent": "Integer",
+          "temporary": "Integer"
+        },
+        "honor": {
+          "permanent": "Integer",
+          "temporary": "Integer"
+        },
+        "wisdom": {
+          "permanent": "Integer",
+          "temporary": "Integer"
+        }
+      },
+      "initialization": {
+        "sourceCatalogRef": "../catalogs/auspices.json",
+        "lookupPath": "entries[].mechanicalData.initialRenown",
+        "status": "candidate",
+        "initialValueTarget": "permanent",
+        "temporaryInitialization": "unresolved"
+      },
+      "dimensions": [
+        {
+          "dimensionKey": "character.renown.glory",
+          "displayNameResourceKey": "character.renown.glory",
+          "sourceLabelPtBr": "Glória"
+        },
+        {
+          "dimensionKey": "character.renown.honor",
+          "displayNameResourceKey": "character.renown.honor",
+          "sourceLabelPtBr": "Honra"
+        },
+        {
+          "dimensionKey": "character.renown.wisdom",
+          "displayNameResourceKey": "character.renown.wisdom",
+          "sourceLabelPtBr": "Sabedoria"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-renown.json"
+      ]
+    },
+    {
+      "fieldKey": "character.rank",
+      "fieldType": "StructuredObject",
+      "displayNameResourceKey": "character.rank",
+      "descriptionResourceKey": "character.rank.description",
+      "requiredness": {
+        "duringDraft": "system-assigned",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "catalogRef": "../catalogs/ranks.json",
+      "editableByUser": false,
+      "valueShape": {
+        "rankKey": "Reference",
+        "numericRank": "Integer",
+        "effectiveRankStatus": "Text"
+      },
+      "initialization": {
+        "rankKey": "character.rank.cliath",
+        "numericRank": 1,
+        "status": "candidate"
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-rank.json"
+      ]
+    }
+  ],
+  "initializationRules": [
+    {
+      "ruleKey": "character.creation.renown.from-auspice",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "trigger": {
+        "fieldChanged": "character.classification.auspice"
+      },
+      "lookupSource": "../catalogs/auspices.json#entries[].mechanicalData.initialRenown",
+      "targetField": "character.renown",
+      "changeBehavior": {
+        "previewRequired": true,
+        "replaceSourceInitializedValues": true,
+        "preserveLaterEarnedValues": false,
+        "reason": "Character creation remains a draft and initial Renown is classification-derived."
+      }
+    },
+    {
+      "ruleKey": "character.creation.rank.cliath",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "targetField": "character.rank",
+      "value": {
+        "rankKey": "character.rank.cliath",
+        "numericRank": 1,
+        "effectiveRankStatus": "active"
+      }
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.renown.nonnegative",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "targetPaths": [
+        "character.renown.glory.permanent",
+        "character.renown.glory.temporary",
+        "character.renown.honor.permanent",
+        "character.renown.honor.temporary",
+        "character.renown.wisdom.permanent",
+        "character.renown.wisdom.temporary"
+      ],
+      "operator": "greater-than-or-equal",
+      "value": 0,
+      "errorKey": "character.renown.value-negative"
+    },
+    {
+      "ruleKey": "character.creation.renown.matches-auspice",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "sourceCatalogRef": "../catalogs/auspices.json",
+      "lookupPath": "entries[].mechanicalData.initialRenown",
+      "errorKey": "character.creation.initial-renown-invalid"
+    },
+    {
+      "ruleKey": "character.creation.rank.is-cliath",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "field": "character.rank.rankKey",
+        "operator": "equals",
+        "value": "character.rank.cliath"
+      },
+      "errorKey": "character.creation.initial-rank-invalid"
+    },
+    {
+      "ruleKey": "character.creation.rank.numeric-is-one",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "field": "character.rank.numericRank",
+        "operator": "equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.initial-rank-number-invalid"
+    }
+  ],
+  "progressionBoundary": {
+    "renownAwardSupported": false,
+    "renownLossSupported": false,
+    "rankAdvancementSupported": false,
+    "rankLossSupported": false,
+    "reason": "Slice 001 only supports initial Character creation values. Exact temporary/permanent Renown rules, higher-rank requirements, challenges, privileges, and rank-loss behavior remain unsegmented or incomplete."
+  },
+  "futureOperations": [
+    {
+      "operationKey": "progression.renown.award",
+      "readiness": "unavailable"
+    },
+    {
+      "operationKey": "progression.renown.loss",
+      "readiness": "unavailable"
+    },
+    {
+      "operationKey": "progression.renown.convert-temporary-to-permanent",
+      "readiness": "unavailable"
+    },
+    {
+      "operationKey": "progression.rank.challenge",
+      "readiness": "unavailable"
+    },
+    {
+      "operationKey": "progression.rank.recognize",
+      "readiness": "unavailable"
+    },
+    {
+      "operationKey": "progression.rank.reduce-effective-status",
+      "readiness": "unavailable"
+    },
+    {
+      "operationKey": "correction.renown.set",
+      "readiness": "future"
+    },
+    {
+      "operationKey": "correction.rank.set",
+      "readiness": "future"
+    },
+    {
+      "operationKey": "import.renown-and-rank.restore",
+      "readiness": "future"
+    }
+  ],
+  "layoutHints": {
+    "sectionStyle": "renown-tracks-with-rank-badge",
+    "renownOrder": [
+      "character.renown.glory",
+      "character.renown.honor",
+      "character.renown.wisdom"
+    ],
+    "showPermanentAndTemporarySeparately": true,
+    "showRankBadge": true,
+    "showNumericRank": false,
+    "showProgressionUnavailableIndicator": true
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.initial-renown",
+      "severity": "high",
+      "status": "source-search-required",
+      "question": "Are all source-listed initial Renown values permanent, and are unspecified dimensions explicitly zero?",
+      "prototypeDecision": "Store listed values as permanent and initialize unspecified dimensions to zero."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.renown-temporary-initialization",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Do temporary Renown tracks begin at zero, equal permanent values, or use another initialization rule?",
+      "prototypeDecision": "Represent temporary values but do not assert a final source-derived initialization rule."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.rank.hierarchy",
+      "severity": "critical",
+      "status": "source-search-required",
+      "question": "What is the exact higher-rank hierarchy in the submitted source?",
+      "prototypeDecision": "Only Cliath is executable."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.rank.renown-requirements",
+      "severity": "critical",
+      "status": "source-search-required",
+      "question": "What permanent Renown values are required by Auspice for each higher rank?",
+      "prototypeDecision": "Rank advancement remains unavailable."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.rank.effective-status",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "How should loss of permanent Renown affect current rank identity, privileges, and retained knowledge?",
+      "prototypeDecision": "Reserve effectiveRankStatus without implementing transitions."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high-for-initial-values",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The field group models Glory, Honor, and Wisdom separately from Rank.",
+    "Initial Renown is derived from the selected Auspice.",
+    "The prototype stores permanent and temporary dimensions separately because later rules may distinguish them.",
+    "Only Cliath, numeric Rank 1, is executable during Slice 001.",
+    "No higher-rank hierarchy, requirement table, or progression operation is invented.",
+    "Chronicle Core remains unaware of Renown dimensions, Cliath, and all Werewolf rank mechanics."
+  ]
+}

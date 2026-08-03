@@ -1,0 +1,1338 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.race-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.race-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceRaceCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for Race identities required by the current Character creation slice.",
+    "Review Homid, Metis, and Lupus identity names, normalized keys, initial Gnosis bindings, initial Gift-slot ownership bindings, and Metis deformity applicability.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, and tests.",
+    "Prevent structural catalog presence from being treated as substantive Race approval."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/races.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "taskKey": "catalog-review.task.review-races",
+    "catalogKey": "character-model.catalog.races"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved-with-warnings",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-02T20:53:04.145Z",
+    "completedAt": "2026-08-02T20:53:04.145Z",
+    "requiredIdentityCount": 3,
+    "reviewedIdentityCount": 3,
+    "approvedIdentityCount": 3,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 3,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.race.homid",
+      "expectedSourceName": "Homid",
+      "expectedInitialGnosis": 1,
+      "expectedInitialGiftSlotType": "Race",
+      "metisDeformityRequired": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.race.metis",
+      "expectedSourceName": "Metis",
+      "expectedInitialGnosis": 3,
+      "expectedInitialGiftSlotType": "Race",
+      "metisDeformityRequired": true,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.race.lupus",
+      "expectedSourceName": "Lupus",
+      "expectedInitialGnosis": 5,
+      "expectedInitialGiftSlotType": "Race",
+      "metisDeformityRequired": false,
+      "status": "reviewed-approved"
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "race-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "race-review.finding.homid.reference-integrity",
+        "race-review.finding.metis.reference-integrity",
+        "race-review.finding.lupus.reference-integrity"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.source-identities-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "race-review.finding.homid.identity-name",
+        "race-review.finding.metis.identity-name",
+        "race-review.finding.lupus.identity-name"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.normalized-keys-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "race-review.finding.homid.normalized-key",
+        "race-review.finding.metis.normalized-key",
+        "race-review.finding.lupus.normalized-key"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.initial-gnosis-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.races.gnosis-values-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "race-review.finding.homid.initial-gnosis",
+        "race-review.finding.metis.initial-gnosis",
+        "race-review.finding.lupus.initial-gnosis"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b",
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.initial-gift-slot-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.races.gift-eligibility-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "race-review.finding.homid.initial-gift-slot",
+        "race-review.finding.metis.initial-gift-slot",
+        "race-review.finding.lupus.initial-gift-slot"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b",
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.metis-deformity-applicability-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.races.metis-deformity-applicability-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "race-review.finding.homid.metis-deformity-applicability",
+        "race-review.finding.metis.metis-deformity-applicability",
+        "race-review.finding.lupus.metis-deformity-applicability"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b",
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.localization-bindings-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [
+        "race-review.finding.homid.reference-integrity",
+        "race-review.finding.metis.reference-integrity",
+        "race-review.finding.lupus.reference-integrity"
+      ],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "race-review.formal-decisions-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.races.095712b66f03ba84"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "initial-gnosis",
+    "initial-gift-slot",
+    "metis-deformity-applicability",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "race-review.finding.homid.identity-name",
+      "identityKey": "character.race.homid",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Homid"
+      },
+      "catalogClaim": {
+        "entryKey": "character.race.homid",
+        "displayNameResourceKey": "character.race.homid"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Source-derived identity name aligns with catalog identity mapping."
+    },
+    {
+      "findingId": "race-review.finding.homid.normalized-key",
+      "identityKey": "character.race.homid",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.race.homid"
+      },
+      "catalogClaim": {
+        "entryKey": "character.race.homid"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Stable key format remains normalized and deterministic."
+    },
+    {
+      "findingId": "race-review.finding.homid.initial-gnosis",
+      "identityKey": "character.race.homid",
+      "findingType": "initial-gnosis",
+      "sourceClaim": {
+        "initialGnosis": 1
+      },
+      "catalogClaim": {
+        "initialGnosis": 1
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-model/fields/resources.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Initial Gnosis matches source-derived value."
+    },
+    {
+      "findingId": "race-review.finding.homid.initial-gift-slot",
+      "identityKey": "character.race.homid",
+      "findingType": "initial-gift-slot",
+      "sourceClaim": {
+        "initialRaceGiftRequired": true,
+        "slotType": "Race"
+      },
+      "catalogClaim": {
+        "initialGiftEligibilityCount": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.initial-race-gift-slot",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Race entry exposes explicit initial Race Gift eligibility list."
+    },
+    {
+      "findingId": "race-review.finding.homid.metis-deformity-applicability",
+      "identityKey": "character.race.homid",
+      "findingType": "metis-deformity-applicability",
+      "sourceClaim": {
+        "metisDeformityRequired": false
+      },
+      "catalogClaim": {
+        "metisDeformityRequiredInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.metis-deformity",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-creation/select-metis-deformity.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Metis deformity requirement is encoded only for Metis and not for Homid/Lupus."
+    },
+    {
+      "findingId": "race-review.finding.homid.reference-integrity",
+      "identityKey": "character.race.homid",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "raceSelectionAffectsDownstreamState": true
+      },
+      "catalogClaim": {
+        "dependencyImpactAffects": [
+          "character.resource.gnosis",
+          "character.initial-gift.race",
+          "character.metis-deformity",
+          "character.abilities"
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.downstream-state-impact",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/fields/classification.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.dependency-and-invalidation"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Race classification binding declares deterministic downstream impact and preview-before-change semantics."
+    },
+    {
+      "findingId": "race-review.finding.metis.identity-name",
+      "identityKey": "character.race.metis",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Metis"
+      },
+      "catalogClaim": {
+        "entryKey": "character.race.metis",
+        "displayNameResourceKey": "character.race.metis"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Source-derived identity name aligns with catalog identity mapping."
+    },
+    {
+      "findingId": "race-review.finding.metis.normalized-key",
+      "identityKey": "character.race.metis",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.race.metis"
+      },
+      "catalogClaim": {
+        "entryKey": "character.race.metis"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Stable key format remains normalized and deterministic."
+    },
+    {
+      "findingId": "race-review.finding.metis.initial-gnosis",
+      "identityKey": "character.race.metis",
+      "findingType": "initial-gnosis",
+      "sourceClaim": {
+        "initialGnosis": 3
+      },
+      "catalogClaim": {
+        "initialGnosis": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-model/fields/resources.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Initial Gnosis matches source-derived value."
+    },
+    {
+      "findingId": "race-review.finding.metis.initial-gift-slot",
+      "identityKey": "character.race.metis",
+      "findingType": "initial-gift-slot",
+      "sourceClaim": {
+        "initialRaceGiftRequired": true,
+        "slotType": "Race"
+      },
+      "catalogClaim": {
+        "initialGiftEligibilityCount": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.initial-race-gift-slot",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Race entry exposes explicit initial Race Gift eligibility list."
+    },
+    {
+      "findingId": "race-review.finding.metis.metis-deformity-applicability",
+      "identityKey": "character.race.metis",
+      "findingType": "metis-deformity-applicability",
+      "sourceClaim": {
+        "metisDeformityRequired": true
+      },
+      "catalogClaim": {
+        "metisDeformityRequiredInCatalog": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.metis-deformity",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-creation/select-metis-deformity.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Metis deformity requirement is encoded only for Metis and not for Homid/Lupus."
+    },
+    {
+      "findingId": "race-review.finding.metis.reference-integrity",
+      "identityKey": "character.race.metis",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "raceSelectionAffectsDownstreamState": true
+      },
+      "catalogClaim": {
+        "dependencyImpactAffects": [
+          "character.resource.gnosis",
+          "character.initial-gift.race",
+          "character.metis-deformity",
+          "character.abilities"
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.downstream-state-impact",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/fields/classification.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.dependency-and-invalidation"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Race classification binding declares deterministic downstream impact and preview-before-change semantics."
+    },
+    {
+      "findingId": "race-review.finding.lupus.identity-name",
+      "identityKey": "character.race.lupus",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Lupus"
+      },
+      "catalogClaim": {
+        "entryKey": "character.race.lupus",
+        "displayNameResourceKey": "character.race.lupus"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Source-derived identity name aligns with catalog identity mapping."
+    },
+    {
+      "findingId": "race-review.finding.lupus.normalized-key",
+      "identityKey": "character.race.lupus",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.race.lupus"
+      },
+      "catalogClaim": {
+        "entryKey": "character.race.lupus"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Stable key format remains normalized and deterministic."
+    },
+    {
+      "findingId": "race-review.finding.lupus.initial-gnosis",
+      "identityKey": "character.race.lupus",
+      "findingType": "initial-gnosis",
+      "sourceClaim": {
+        "initialGnosis": 5
+      },
+      "catalogClaim": {
+        "initialGnosis": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-model/fields/resources.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Initial Gnosis matches source-derived value."
+    },
+    {
+      "findingId": "race-review.finding.lupus.initial-gift-slot",
+      "identityKey": "character.race.lupus",
+      "findingType": "initial-gift-slot",
+      "sourceClaim": {
+        "initialRaceGiftRequired": true,
+        "slotType": "Race"
+      },
+      "catalogClaim": {
+        "initialGiftEligibilityCount": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.initial-race-gift-slot",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Race entry exposes explicit initial Race Gift eligibility list."
+    },
+    {
+      "findingId": "race-review.finding.lupus.metis-deformity-applicability",
+      "identityKey": "character.race.lupus",
+      "findingType": "metis-deformity-applicability",
+      "sourceClaim": {
+        "metisDeformityRequired": false
+      },
+      "catalogClaim": {
+        "metisDeformityRequiredInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.metis-deformity",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-creation/select-metis-deformity.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Metis deformity requirement is encoded only for Metis and not for Homid/Lupus."
+    },
+    {
+      "findingId": "race-review.finding.lupus.reference-integrity",
+      "identityKey": "character.race.lupus",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "raceSelectionAffectsDownstreamState": true
+      },
+      "catalogClaim": {
+        "dependencyImpactAffects": [
+          "character.resource.gnosis",
+          "character.initial-gift.race",
+          "character.metis-deformity",
+          "character.abilities"
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.downstream-state-impact",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/fields/classification.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.dependency-and-invalidation"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Race classification binding declares deterministic downstream impact and preview-before-change semantics."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "race-review.claim.homid-initial-gnosis",
+      "identityKey": "character.race.homid",
+      "claim": {
+        "initialGnosis": 1
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis"
+    },
+    {
+      "claimKey": "race-review.claim.metis-initial-gnosis",
+      "identityKey": "character.race.metis",
+      "claim": {
+        "initialGnosis": 3
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis"
+    },
+    {
+      "claimKey": "race-review.claim.lupus-initial-gnosis",
+      "identityKey": "character.race.lupus",
+      "claim": {
+        "initialGnosis": 5
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis"
+    },
+    {
+      "claimKey": "race-review.claim.metis-deformity-required",
+      "identityKey": "character.race.metis",
+      "claim": {
+        "metisDeformityRequired": true
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.metis-deformity"
+    }
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/races.json",
+    "../character-model/fields/classification.json",
+    "../character-model/fields/resources.json",
+    "../character-model/fields/gifts.json",
+    "../character-model/creation/dependency-graph.json",
+    "../character-model/creation/invalidations.json",
+    "../character-model/validation/character-creation.json",
+    "../operations/character-creation/preview-classification-change.json",
+    "../operations/character-creation/apply-classification-change.json",
+    "../operations/character-creation/select-metis-deformity.json",
+    "../operations/character-creation/select-initial-gift.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.metis-missing-deformity",
+    "character-creation.lupus-restricted-ability",
+    "character-creation.classification-change-invalidates-state"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.dependency-and-invalidation",
+    "tests.character-sheet-projection"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.race.homid",
+      "catalog-identity-decision.race.metis",
+      "catalog-identity-decision.race.lupus"
+    ],
+    "decisionEntriesMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "allThreeDecisionsRequiredForReviewCompletion": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "all-three-race-identities-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "all-three-active-final-identity-decisions-recorded",
+      "initial-gnosis-bindings-reviewed",
+      "initial-gift-slot-bindings-reviewed",
+      "metis-deformity-applicability-reviewed",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-pass",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateClaimsMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchOpensIssueType": "ambiguous-source-identity",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingRaceIdentityOpensIssueType": "missing-required-identity",
+    "invalidBindingOpensIssueType": "invalid-catalog-binding",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "raceCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "race-review-record.required-identities-complete",
+      "severity": "blocking",
+      "requirement": "Homid, Metis, and Lupus each appear exactly once"
+    },
+    {
+      "ruleKey": "race-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every race review check key is unique"
+    },
+    {
+      "ruleKey": "race-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "race-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references one required Race identity"
+    },
+    {
+      "ruleKey": "race-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "race-review-record.final-decisions-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires active final decisions for all three Race identities"
+    },
+    {
+      "ruleKey": "race-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, and decisions"
+    },
+    {
+      "ruleKey": "race-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixtures, or candidate source claims do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentities": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceAndDecisionRefs": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-statuses",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-ids",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfRaceCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfRaceCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfRaceCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "blockedIdentityKeys": "ReferenceCollection",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "draft",
+    "reconciliationStatus": "pending",
+    "taskCompletionStatus": "not-eligible"
+  },
+  "prototypeNotes": [
+    "This artifact defines the Race review record and contains no fabricated findings or approvals.",
+    "The expected Gnosis values are candidate source claims until evidence references are recorded.",
+    "Metis deformity applicability is reviewed here, while the deformity identity itself remains a separate catalog review.",
+    "Race Gift-slot ownership review does not approve individual Gift identities or runtime Gift effects.",
+    "Chronicle owns contract validation, evidence integrity, staleness detection, diagnostics, fingerprints, task-status integration, and promotion enforcement.",
+    "Assigned Rule Set reviewers own substantive source-backed findings and final Race identity recommendations."
+  ],
+  "executionResult": {
+    "executionStatus": "executed",
+    "reviewer": "RuleSetExtractionAndReview",
+    "executedAtUtc": "2026-08-02T20:53:04.145Z",
+    "sourceIdentity": "source.werewolf3e.cleaned-ptbr",
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "catalogFingerprint": "a91df42221adf75b4c0110d5bfd0bed3a7de78fab68bf06870bd866fb14f562f",
+    "raceLevelResults": [
+      {
+        "identityKey": "character.race.homid",
+        "sourceIdentityName": "Homid",
+        "reviewResult": "approved-with-warnings",
+        "inScopePropertyResults": [
+          {
+            "property": "canonical-identity-name",
+            "status": "supported"
+          },
+          {
+            "property": "stable-identity-key",
+            "status": "supported"
+          },
+          {
+            "property": "display-name-mapping",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "description-summary-fields",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "source-backed-classification-meaning",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "initial-gnosis",
+            "status": "supported"
+          },
+          {
+            "property": "metis-deformity-requirement",
+            "status": "supported"
+          },
+          {
+            "property": "initial-race-gift-role",
+            "status": "supported"
+          },
+          {
+            "property": "current-slice-creation-implications",
+            "status": "supported"
+          },
+          {
+            "property": "field-and-catalog-references",
+            "status": "supported"
+          },
+          {
+            "property": "candidate-final-status",
+            "status": "supported"
+          },
+          {
+            "property": "unresolved-ambiguities",
+            "status": "ambiguous"
+          }
+        ]
+      },
+      {
+        "identityKey": "character.race.metis",
+        "sourceIdentityName": "Metis",
+        "reviewResult": "approved-with-warnings",
+        "inScopePropertyResults": [
+          {
+            "property": "canonical-identity-name",
+            "status": "supported"
+          },
+          {
+            "property": "stable-identity-key",
+            "status": "supported"
+          },
+          {
+            "property": "display-name-mapping",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "description-summary-fields",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "source-backed-classification-meaning",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "initial-gnosis",
+            "status": "supported"
+          },
+          {
+            "property": "metis-deformity-requirement",
+            "status": "supported"
+          },
+          {
+            "property": "initial-race-gift-role",
+            "status": "supported"
+          },
+          {
+            "property": "current-slice-creation-implications",
+            "status": "supported"
+          },
+          {
+            "property": "field-and-catalog-references",
+            "status": "supported"
+          },
+          {
+            "property": "candidate-final-status",
+            "status": "supported"
+          },
+          {
+            "property": "unresolved-ambiguities",
+            "status": "ambiguous"
+          }
+        ]
+      },
+      {
+        "identityKey": "character.race.lupus",
+        "sourceIdentityName": "Lupus",
+        "reviewResult": "approved-with-warnings",
+        "inScopePropertyResults": [
+          {
+            "property": "canonical-identity-name",
+            "status": "supported"
+          },
+          {
+            "property": "stable-identity-key",
+            "status": "supported"
+          },
+          {
+            "property": "display-name-mapping",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "description-summary-fields",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "source-backed-classification-meaning",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "initial-gnosis",
+            "status": "supported"
+          },
+          {
+            "property": "metis-deformity-requirement",
+            "status": "supported"
+          },
+          {
+            "property": "initial-race-gift-role",
+            "status": "supported"
+          },
+          {
+            "property": "current-slice-creation-implications",
+            "status": "supported"
+          },
+          {
+            "property": "field-and-catalog-references",
+            "status": "supported"
+          },
+          {
+            "property": "candidate-final-status",
+            "status": "supported"
+          },
+          {
+            "property": "unresolved-ambiguities",
+            "status": "ambiguous"
+          }
+        ]
+      }
+    ],
+    "propertyLevelMismatches": [],
+    "ambiguityRecords": [
+      {
+        "ambiguityKey": "ambiguity.werewolf3e.terminology.race-breed",
+        "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+        "sourceLocator": "A-017 Metis Terminology and Localization",
+        "impactScope": "normalization-only",
+        "status": "open",
+        "blocking": false,
+        "notes": "The source language uses Raça terminology while technical keys remain normalized under character.race.* in the package."
+      }
+    ],
+    "issueReferences": [],
+    "blockerReferences": [
+      "catalog-review.blocker.validated-evidence-missing"
+    ],
+    "proposedDecisions": [
+      "catalog-identity-decision.race.homid",
+      "catalog-identity-decision.race.metis",
+      "catalog-identity-decision.race.lupus"
+    ],
+    "completionEligibility": {
+      "substantiveReviewComplete": true,
+      "fullEvidenceWorkItemComplete": false
+    }
+  },
+  "sourceEvidence": [
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 5.2 Race, lines 230-252",
+      "sourceSectionPath": [
+        "5.2 Race"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "The cleaned source classification lists the three current-slice Race identities and assigns initial Gnosis values: Homid 1, Metis 3, Lupus 5."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.initial-race-gift-slot",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 5.2 Race and Section 9.1 Initial Gift Selection, lines 241-252 and 719-722",
+      "sourceSectionPath": [
+        "5.2 Race",
+        "9.1 Initial Gift Selection"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Each Race record includes one initial Race Gift choice and the creation slice requires one Race Gift among the three initial Level One Gifts."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.metis-deformity",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+      "sourceLocator": "A-008 Metis Deformity Representation, lines 452-456",
+      "sourceSectionPath": [
+        "A-008 Metis Deformity Representation"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "The cleaned source states that a Metis character must have at least one deformity."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.downstream-state-impact",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+      "sourceLocator": "CF-003 Character Creation Is a Workflow and CF-004 Classification Selections Initialize Other Values",
+      "sourceSectionPath": [
+        "CF-003",
+        "CF-004"
+      ],
+      "supportType": "derived",
+      "confidence": "high",
+      "paraphrase": "Race selection is upstream of resource initialization and dependent eligibility, and therefore changing Race affects downstream creation state."
+    }
+  ],
+  "evidenceRefs": [],
+  "ambiguityRecords": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.terminology.race-breed",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+      "sourceLocator": "A-017 Metis Terminology and Localization",
+      "impactScope": "normalization-only",
+      "status": "open",
+      "blocking": false,
+      "notes": "The source language uses Raça terminology while technical keys remain normalized under character.race.* in the package."
+    }
+  ],
+  "reviewRecordFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "4bd42d7d40f5d95b9e7eb458bfaca107ae84ee48c49ab5853e5cfdf3d2bfb86f",
+    "calculatedAt": "2026-08-02T20:53:04.145Z"
+  }
+}

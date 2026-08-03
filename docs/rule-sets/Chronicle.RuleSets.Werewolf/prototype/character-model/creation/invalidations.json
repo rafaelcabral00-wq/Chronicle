@@ -1,0 +1,481 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.invalidations",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.invalidations.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "purpose": [
+    "Represent creation-time state that became inconsistent after a valid upstream change.",
+    "Prevent silent cascading edits when classifications, priorities, allocations, or selections change.",
+    "Give the user an explicit list of items that must be reviewed or repaired before completion.",
+    "Support deterministic validation, UI guidance, audit, and recovery."
+  ],
+  "authority": {
+    "invalidationRuleAuthority": "RuleSet",
+    "invalidationPersistenceAuthority": "Chronicle",
+    "invalidationProposalAuthority": "RuleSet",
+    "resolutionCommitAuthority": "Chronicle",
+    "narratorMayCreate": false,
+    "narratorMayResolve": false,
+    "chronicleDirectorMayBypass": false
+  },
+  "collectionShape": {
+    "characterId": "Reference",
+    "draftVersion": "Integer",
+    "items": "CharacterCreationInvalidationCollection",
+    "openCount": "Integer",
+    "blockingCount": "Integer",
+    "contentFingerprint": "Text",
+    "updatedAt": "Text"
+  },
+  "itemShape": {
+    "invalidationId": "Reference",
+    "invalidationKey": "Reference",
+    "category": "Text",
+    "severity": "Text",
+    "status": "Text",
+    "ownerOperationId": "Reference",
+    "causedByOperationId": "Reference",
+    "causedByFieldKeys": "ReferenceCollection",
+    "affectedFieldKeys": "ReferenceCollection",
+    "affectedItemRefs": "ReferenceCollection",
+    "messageKey": "Reference",
+    "messageArguments": "StructuredObject",
+    "requiredResolutionType": "Text",
+    "allowedResolutionOperationKeys": "ReferenceCollection",
+    "createdAt": "Text",
+    "resolvedAt": "Text",
+    "resolvedByOperationId": "Reference",
+    "supersededByInvalidationId": "Reference",
+    "ruleRefs": "ReferenceCollection",
+    "ambiguityRefs": "ReferenceCollection",
+    "metadata": "StructuredObject",
+    "itemFingerprint": "Text"
+  },
+  "statusPolicy": {
+    "allowedStatuses": [
+      "open",
+      "resolved",
+      "superseded"
+    ],
+    "initialStatus": "open",
+    "openBlocksCompletionWhenSeverity": [
+      "blocking",
+      "error"
+    ],
+    "resolvedItemsRemainAuditable": true,
+    "hardDeleteAllowed": false,
+    "automaticResolutionAllowed": "only-when-the-owning-rule-can-prove-consistency"
+  },
+  "severityPolicy": {
+    "allowedSeverities": [
+      "blocking",
+      "error",
+      "warning",
+      "information"
+    ],
+    "completionBehavior": {
+      "blocking": "completion-forbidden",
+      "error": "completion-forbidden",
+      "warning": "acknowledgement-may-be-required",
+      "information": "does-not-block"
+    }
+  },
+  "categories": [
+    {
+      "category": "classification-dependency",
+      "description": "A classification change invalidated a derived value or dependent selection."
+    },
+    {
+      "category": "allocation-overflow",
+      "description": "A rating or allocation no longer fits its current creation-stage limit or budget."
+    },
+    {
+      "category": "selection-eligibility",
+      "description": "A selected item is no longer eligible from the current Character state."
+    },
+    {
+      "category": "required-selection-missing",
+      "description": "A required slot or conditional choice is currently empty."
+    },
+    {
+      "category": "specialization-validity",
+      "description": "A specialization is attached to a rating that no longer qualifies."
+    },
+    {
+      "category": "resource-reconciliation",
+      "description": "A classification-derived Resource value requires review or recalculation."
+    },
+    {
+      "category": "ledger-integrity",
+      "description": "The creation ledger and Character state no longer reconcile."
+    },
+    {
+      "category": "package-binding",
+      "description": "The Character draft no longer matches the installed Rule Set package binding."
+    },
+    {
+      "category": "workflow",
+      "description": "A creation step must be repeated or explicitly reviewed."
+    }
+  ],
+  "invalidationDefinitions": [
+    {
+      "invalidationKey": "character-creation.classification-dependent-state-review-required",
+      "category": "classification-dependency",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.classification-dependent-state-review-required",
+      "trigger": "a Race, Auspice, or Tribe change affects derived or eligible state",
+      "requiredResolutionType": "review-and-apply",
+      "candidateResolutionOperationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.initial-gift-no-longer-eligible",
+      "category": "selection-eligibility",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.initial-gift-no-longer-eligible",
+      "trigger": "a selected initial Gift no longer matches its Race, Auspice, or Tribe slot",
+      "requiredResolutionType": "replace-selection",
+      "candidateResolutionOperationKeys": [
+        "character-creation.select-initial-gift"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.required-initial-gift-missing",
+      "category": "required-selection-missing",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.required-initial-gift-missing",
+      "trigger": "one of the Race, Auspice, or Tribe initial Gift slots is empty",
+      "requiredResolutionType": "make-selection",
+      "candidateResolutionOperationKeys": [
+        "character-creation.select-initial-gift"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.metis-deformity-required",
+      "category": "required-selection-missing",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.metis-deformity-required",
+      "trigger": "Race is Metis and no valid deformity is selected",
+      "requiredResolutionType": "make-selection",
+      "candidateResolutionOperationKeys": [
+        "character-creation.select-metis-deformity"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.metis-deformity-no-longer-applicable",
+      "category": "classification-dependency",
+      "defaultSeverity": "error",
+      "messageKey": "character-creation.invalidation.metis-deformity-no-longer-applicable",
+      "trigger": "Race changes from Metis while a deformity remains selected",
+      "requiredResolutionType": "clear-dependent-selection",
+      "candidateResolutionOperationKeys": [
+        "character-creation.apply-classification-change",
+        "character-creation.select-metis-deformity"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.attribute-allocation-invalid",
+      "category": "allocation-overflow",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.attribute-allocation-invalid",
+      "trigger": "Attribute priorities, ratings, or ledger entries no longer reconcile",
+      "requiredResolutionType": "reallocate",
+      "candidateResolutionOperationKeys": [
+        "character-creation.set-attribute-priorities",
+        "character-creation.set-attribute-rating"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.ability-allocation-invalid",
+      "category": "allocation-overflow",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.ability-allocation-invalid",
+      "trigger": "Ability priorities, ratings, restrictions, or ledger entries no longer reconcile",
+      "requiredResolutionType": "reallocate",
+      "candidateResolutionOperationKeys": [
+        "character-creation.set-ability-priorities",
+        "character-creation.set-ability-rating"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.background-allocation-invalid",
+      "category": "allocation-overflow",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.background-allocation-invalid",
+      "trigger": "Background ratings or ledger entries no longer reconcile",
+      "requiredResolutionType": "reallocate",
+      "candidateResolutionOperationKeys": [
+        "character-creation.set-background-rating"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.specialization-no-longer-valid",
+      "category": "specialization-validity",
+      "defaultSeverity": "error",
+      "messageKey": "character-creation.invalidation.specialization-no-longer-valid",
+      "trigger": "the parent Attribute or Ability rating no longer qualifies for the specialization",
+      "requiredResolutionType": "replace-or-clear-selection",
+      "candidateResolutionOperationKeys": [
+        "character-creation.set-specialization"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.resource-state-review-required",
+      "category": "resource-reconciliation",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.resource-state-review-required",
+      "trigger": "classification-derived Rage, Gnosis, or Willpower changed or failed reconciliation",
+      "requiredResolutionType": "recalculate-and-confirm",
+      "candidateResolutionOperationKeys": [
+        "character-creation.apply-classification-change",
+        "character-creation.set-resource-rating"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.freebie-budget-overspent",
+      "category": "ledger-integrity",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.freebie-budget-overspent",
+      "trigger": "freebie purchases exceed the fifteen-point budget",
+      "requiredResolutionType": "refund-or-reallocate",
+      "candidateResolutionOperationKeys": [
+        "character-creation.set-attribute-rating",
+        "character-creation.set-ability-rating",
+        "character-creation.set-background-rating",
+        "character-creation.set-resource-rating",
+        "character-creation.remove-additional-gift"
+      ]
+    },
+    {
+      "invalidationKey": "character-creation.ledger-reconciliation-failed",
+      "category": "ledger-integrity",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.ledger-reconciliation-failed",
+      "trigger": "Character state and creation ledger cannot be deterministically reconciled",
+      "requiredResolutionType": "audited-recovery",
+      "candidateResolutionOperationKeys": []
+    },
+    {
+      "invalidationKey": "character-creation.package-binding-incompatible",
+      "category": "package-binding",
+      "defaultSeverity": "blocking",
+      "messageKey": "character-creation.invalidation.package-binding-incompatible",
+      "trigger": "the bound package version or contract version is unavailable or incompatible",
+      "requiredResolutionType": "package-recovery",
+      "candidateResolutionOperationKeys": []
+    },
+    {
+      "invalidationKey": "character-creation.stage-review-required",
+      "category": "workflow",
+      "defaultSeverity": "warning",
+      "messageKey": "character-creation.invalidation.stage-review-required",
+      "trigger": "an upstream change affects a previously completed creation stage without proving it invalid",
+      "requiredResolutionType": "explicit-review",
+      "candidateResolutionOperationKeys": [
+        "character-creation.validate-character"
+      ]
+    }
+  ],
+  "creationPolicy": {
+    "createOnlyFromExplicitRule": true,
+    "freeTextInvalidationKeysAllowed": false,
+    "duplicateOpenItemPolicy": "merge-causes-and-affected-references",
+    "stableIdentityComponents": [
+      "invalidationKey",
+      "affectedFieldKeys",
+      "affectedItemRefs"
+    ],
+    "causingOperationRequired": true,
+    "ownerOperationRequired": true,
+    "ruleReferenceRequired": true,
+    "persistInsideCausingTransaction": true
+  },
+  "resolutionPolicy": {
+    "resolutionMustBeRuleVerified": true,
+    "userDismissalWithoutRepairAllowed": false,
+    "chronicleDirectorDismissalAllowed": false,
+    "narratorDismissalAllowed": false,
+    "warningAcknowledgementIsNotResolution": true,
+    "resolvingOperationMustBeAllowed": true,
+    "resolutionPersistedInsideRepairTransaction": true,
+    "resolvedItemRetained": true,
+    "reopenBehavior": "create-new-item-and-reference-previous-item",
+    "automaticResolutionCases": [
+      "required-selection-now-present-and-valid",
+      "dependent-selection-cleared-by-authorized-operation",
+      "budget-reconciles-after-authorized-refund",
+      "specialization-parent-rating-restored",
+      "resource-state-recalculated-and-valid"
+    ]
+  },
+  "dependencyImpactPolicy": {
+    "previewBeforeDestructiveChangePreferred": true,
+    "silentCascadeAllowed": false,
+    "derivedFieldRecalculationAllowedWhenDeterministic": true,
+    "userSelectionReplacementAllowedAutomatically": false,
+    "manualReviewRequiredForAmbiguousImpact": true,
+    "classificationChangeOperationMustReturn": [
+      "createdInvalidations",
+      "resolvedInvalidations",
+      "preservedSelections",
+      "recalculatedDerivedValues"
+    ]
+  },
+  "completionPolicy": {
+    "openBlockingItemsAllowed": false,
+    "openErrorItemsAllowed": false,
+    "openWarningsAllowedOnlyWhenCompletionRulePermitsAcknowledgement": true,
+    "freshValidationMustReconcileInvalidationCollection": true,
+    "completionOperationMayNotDeleteInvalidations": true
+  },
+  "projectionPolicy": {
+    "uiGroupingOrder": [
+      "blocking",
+      "error",
+      "warning",
+      "information"
+    ],
+    "groupByCategory": true,
+    "showAffectedStage": true,
+    "showAllowedResolutionActions": true,
+    "showTechnicalRuleRefsInDeveloperMode": true,
+    "showRawNarrativeContent": false
+  },
+  "integrityRules": [
+    {
+      "ruleKey": "character-creation.invalidations.id-unique",
+      "severity": "blocking",
+      "requirement": "invalidationId is unique for the Character"
+    },
+    {
+      "ruleKey": "character-creation.invalidations.key-known",
+      "severity": "blocking",
+      "requirement": "every invalidationKey exists in this artifact"
+    },
+    {
+      "ruleKey": "character-creation.invalidations.owner-operation-present",
+      "severity": "blocking",
+      "requirement": "every item references the operation responsible for maintaining it"
+    },
+    {
+      "ruleKey": "character-creation.invalidations.resolution-audited",
+      "severity": "blocking",
+      "requirement": "resolved items contain resolvedAt and resolvedByOperationId"
+    },
+    {
+      "ruleKey": "character-creation.invalidations.open-count-reconciles",
+      "severity": "blocking",
+      "requirement": "stored summary counts equal deterministic counts from items"
+    },
+    {
+      "ruleKey": "character-creation.invalidations.fingerprint-valid",
+      "severity": "blocking",
+      "requirement": "item and collection fingerprints recompute successfully"
+    }
+  ],
+  "recoveryPolicy": {
+    "automaticRepairAllowed": false,
+    "rebuildProjectionFromCharacterAndLedgerAllowed": true,
+    "rebuildMayCreateOrResolveItems": false,
+    "rebuildOutputIsDiagnosticUntilAuditedCommit": true,
+    "repairRequires": [
+      "explicit-recovery-operation",
+      "fresh-rule-set-validation",
+      "before-and-after-fingerprints",
+      "audited-reason"
+    ]
+  },
+  "securityPolicy": {
+    "encryptedAtRest": true,
+    "rawNarrativeTextStored": false,
+    "messageArgumentsMayContain": "references-counts-and-non-sensitive-values-only",
+    "ordinaryLogsMayContain": [
+      "characterId",
+      "invalidationId",
+      "invalidationKey",
+      "severity",
+      "status",
+      "operationIds",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-narrative-text",
+      "provider-secrets",
+      "sourcebook-text"
+    ],
+    "networkAccessRequired": false
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationInvalidationOpened",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "invalidationId": "Reference",
+        "invalidationKey": "Reference",
+        "severity": "Text",
+        "causedByOperationId": "Reference",
+        "draftVersion": "Integer",
+        "createdAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationInvalidationResolved",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "invalidationId": "Reference",
+        "invalidationKey": "Reference",
+        "resolvedByOperationId": "Reference",
+        "draftVersion": "Integer",
+        "resolvedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationInvalidationSuperseded",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "invalidationId": "Reference",
+        "supersededByInvalidationId": "Reference",
+        "draftVersion": "Integer",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-dependent-mechanics",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "recoveryReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Invalidations record inconsistent dependent state; they are not generic validation errors.",
+    "An upstream change may create an invalidation instead of silently replacing a user selection.",
+    "Warnings may require acknowledgement, but acknowledgement never resolves an invalidation.",
+    "Open blocking or error invalidations prevent Character completion.",
+    "Resolved and superseded items remain part of the audit history.",
+    "Chronicle owns persistence, encryption, fingerprints, transactionality, and events.",
+    "The Rule Set owns trigger conditions, severity, allowed resolutions, and proof of resolution."
+  ]
+}

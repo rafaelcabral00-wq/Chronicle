@@ -1,0 +1,237 @@
+{
+  "contractVersion": 1,
+  "modelId": "chronicle.rulesets.werewolf.character-model",
+  "modelVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "ruleset.werewolf.character-model.display-name",
+  "publicationStatus": "prototype-candidate",
+  "canonicalLanguage": "en",
+  "fieldRegistry": [
+    {
+      "fieldGroupKey": "identity",
+      "artifactRef": "fields/identity.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "classification",
+      "artifactRef": "fields/classification.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "attributes",
+      "artifactRef": "fields/attributes.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "abilities",
+      "artifactRef": "fields/abilities.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "backgrounds",
+      "artifactRef": "fields/backgrounds.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "gifts",
+      "artifactRef": "fields/gifts.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "renown-and-rank",
+      "artifactRef": "fields/renown-and-rank.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "resources",
+      "artifactRef": "fields/resources.json",
+      "required": true
+    },
+    {
+      "fieldGroupKey": "specializations",
+      "artifactRef": "fields/specializations.json",
+      "required": false
+    },
+    {
+      "fieldGroupKey": "narrative",
+      "artifactRef": "fields/narrative.json",
+      "required": false
+    }
+  ],
+  "catalogRegistry": [
+    {
+      "catalogKey": "character.races",
+      "artifactRef": "catalogs/races.json",
+      "readiness": "candidate"
+    },
+    {
+      "catalogKey": "character.auspices",
+      "artifactRef": "catalogs/auspices.json",
+      "readiness": "candidate"
+    },
+    {
+      "catalogKey": "character.tribes",
+      "artifactRef": "catalogs/tribes.json",
+      "readiness": "blocked"
+    },
+    {
+      "catalogKey": "character.attributes",
+      "artifactRef": "catalogs/attributes.json",
+      "readiness": "candidate"
+    },
+    {
+      "catalogKey": "character.abilities",
+      "artifactRef": "catalogs/abilities.json",
+      "readiness": "candidate"
+    },
+    {
+      "catalogKey": "character.backgrounds",
+      "artifactRef": "catalogs/backgrounds.json",
+      "readiness": "candidate"
+    },
+    {
+      "catalogKey": "character.initial-gifts",
+      "artifactRef": "catalogs/initial-gifts.json",
+      "readiness": "blocked"
+    },
+    {
+      "catalogKey": "character.ranks",
+      "artifactRef": "catalogs/ranks.json",
+      "readiness": "candidate"
+    },
+    {
+      "catalogKey": "character.metis-deformities",
+      "artifactRef": "catalogs/metis-deformities.json",
+      "readiness": "candidate"
+    }
+  ],
+  "resourceRegistry": [
+    {
+      "resourceKey": "character.resource.rage",
+      "artifactRef": "resources/rage.json",
+      "readiness": "candidate"
+    },
+    {
+      "resourceKey": "character.resource.gnosis",
+      "artifactRef": "resources/gnosis.json",
+      "readiness": "candidate"
+    },
+    {
+      "resourceKey": "character.resource.willpower",
+      "artifactRef": "resources/willpower.json",
+      "readiness": "candidate"
+    },
+    {
+      "resourceKey": "character.resource.renown",
+      "artifactRef": "resources/renown.json",
+      "readiness": "candidate"
+    },
+    {
+      "resourceKey": "character.resource.health",
+      "artifactRef": "resources/health.json",
+      "readiness": "unavailable"
+    }
+  ],
+  "creationProfiles": [
+    {
+      "profileKey": "character-creation.standard",
+      "artifactRef": "creation/profile.json",
+      "readiness": "prototype"
+    }
+  ],
+  "validationRegistry": [
+    {
+      "validationGroupKey": "character-creation",
+      "artifactRef": "validation/character-creation.json",
+      "readiness": "candidate"
+    },
+    {
+      "validationGroupKey": "character-completion",
+      "artifactRef": "validation/character-completion.json",
+      "readiness": "candidate"
+    }
+  ],
+  "sheetProfiles": [
+    {
+      "sheetKey": "character-sheet.default",
+      "artifactRef": "../character-sheet/default-sheet.json",
+      "readiness": "prototype"
+    }
+  ],
+  "operationProfiles": [
+    {
+      "operationGroupKey": "character-creation",
+      "artifactRef": "../operations/character-creation/",
+      "readiness": "prototype"
+    },
+    {
+      "operationGroupKey": "generic-dice-test",
+      "artifactRef": "../operations/dice/",
+      "readiness": "candidate"
+    }
+  ],
+  "fieldTypeRegistry": [
+    "Text",
+    "LongText",
+    "Integer",
+    "Boolean",
+    "SingleChoice",
+    "MultipleChoice",
+    "RankTrack",
+    "ResourceTrack",
+    "Reference",
+    "ReferenceCollection",
+    "StructuredObject",
+    "StructuredCollection",
+    "ComputedDisplay"
+  ],
+  "authorityPolicy": {
+    "allowedAuthorities": [
+      "UserAuthored",
+      "RuleSetAuthoritative",
+      "ChronicleAuthoritative",
+      "Derived",
+      "ReadOnlyHistorical"
+    ],
+    "defaultMechanicalAuthority": "RuleSetAuthoritative",
+    "defaultNarrativeAuthority": "UserAuthored"
+  },
+  "ownershipPolicy": {
+    "supportedOwners": [
+      "Character",
+      "Group",
+      "Campaign",
+      "Contribution",
+      "Derived"
+    ],
+    "defaultOwner": "Character"
+  },
+  "creationStageRegistry": [
+    "CreationBaseAllocation",
+    "CreationBonusPurchase",
+    "PostCreationProgression",
+    "NarrativeChange",
+    "Correction",
+    "Import"
+  ],
+  "capabilityRequirements": [
+    "character-model",
+    "character-creation",
+    "character-sheet"
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "provenanceRefs": [
+    "../../provenance/source-document.json",
+    "../../provenance/artifact-links/character-model.json"
+  ],
+  "prototypeNotes": [
+    "Tribe and initial Gift catalogs remain blocked until complete mechanical extraction.",
+    "Health is reserved but unavailable in Slice 001.",
+    "Permanent/current resource semantics remain candidate until semantic review.",
+    "No Chronicle Core field assumes Race, Auspice, Tribe, Rage, Gnosis, or Renown."
+  ]
+}

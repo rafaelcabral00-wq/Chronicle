@@ -1,0 +1,46 @@
+﻿{
+  "contradictions": [
+    {
+      "id": "CONTRADICTION-001",
+      "affectedDocument": "docs/adrs/ADR-0002-Repository-and-Solution-Structure.md",
+      "exactSection": "Repository/project layout examples including sections 4, 18, 19, 29, and later source tree examples",
+      "problem": "ADR-0002 places Rule Set projects under src/ and tests under tests/Chronicle.Tests.RuleSets.Werewolf, while ADR-0043 v0.2.0 moves official Rule Set implementations under rule-sets/ and allows package-adjacent tests.",
+      "evidence": "ADR-0043 sections 4-5 state ADR-0002 remains architecture authority but ADR-0043 defines folders, project names, solution organization, and conflict resolution. ADR-0043 sections 45-61 define rule-sets/Chronicle.RuleSets.Werewolf and rule-sets/Chronicle.RuleSets.Werewolf.Tests. Werewolf baseline currently exists under docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype as a declarative reference, not src/.",
+      "severity": "high",
+      "proposedCorrection": "Add explicit non-architectural note to ADR-0002 that concrete repository topology examples are superseded by ADR-0043 v0.2.0 where they conflict; keep ADR-0002 as architecture authority.",
+      "architectureChange": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0001",
+      "resolutionDate": "2026-08-03",
+      "resolution": "Accepted Option B. ADR-0002 remains authoritative for repository and solution architecture semantics. ADR-0043 v0.2.0 is authoritative for concrete current repository topology, project boundaries, paths, project names, and dependency layout. Where concrete topology statements conflict, ADR-0043 prevails."
+    },
+    {
+      "id": "CONTRADICTION-002",
+      "affectedDocument": "docs/rfcs/RFC-0027-Rule-Set-Package-Architecture.md",
+      "exactSection": "Abstract and package lifecycle sections",
+      "problem": "RFC-0027 says MVP may statically register one complete Rule Set package, but Werewolf evidence shows an executable package path must support current-slice, blocked, candidate, promotion-eligible, and publication states before completion.",
+      "evidence": "prototype-readiness.json overallReadiness has prototypeIntegrationReady=true, implementationReady=false, promotionReady=false, runtimePublicationReady=false. tests/promotion-gate.json defines promotion gates separate from publication.",
+      "severity": "high",
+      "proposedCorrection": "Clarify complete package versus complete current MVP slice; add lifecycle state contract. This needs decision confirmation if it changes MVP acceptance semantics.",
+      "architectureChange": true,
+      "status": "resolved",
+      "resolvedBy": "DR-0002, DR-0003",
+      "resolutionDate": "2026-08-03",
+      "resolution": "DR-0002 resolved completeness as complete declared release scope with explicit enforceable exclusions, not complete source-system implementation. DR-0003 resolved lifecycle state and promotion/publication semantics by defining one shared normative Rule Set lifecycle across RFC-0027 and SPEC-0001. Promotion means the declared quality gate is satisfied; publication means distribution through an approved channel; publication never implies installation, enablement, or activation."
+    },
+    {
+      "id": "CONTRADICTION-003",
+      "affectedDocument": "docs/specs/SPEC-0001-rule-set-package-artifact-model-and-extraction-contract.md",
+      "exactSection": "Installed Package Layout and Repository Layout",
+      "problem": "SPEC-0001 recommended installed layout uses versioned rule-sets/<package-id>/<package-version>, while the finalized Werewolf reference baseline is a repository prototype under docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype. Authority between installed artifact layout, repository materialization, and docs prototype baseline is underspecified.",
+      "evidence": "SPEC-0001 section 4 shows installed package layout. Werewolf baseline path is docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype. ADR-0043 section 45 uses repository rule-sets/ for official implementations.",
+      "severity": "medium",
+      "proposedCorrection": "Add a repository-to-installed-artifact mapping spec distinguishing docs prototype, source package project, packaged artifact, and installed package path.",
+      "architectureChange": true,
+      "status": "resolved",
+      "resolvedBy": "DR-0004",
+      "resolutionDate": "2026-08-03",
+      "resolution": "Accepted Option B. SPEC-0001 now defines the normative mapping between documentation prototype, package source, packaged artifact, and installed artifact. The documentation prototype is review and authoring evidence only and never executable, packaging, installation, activation, Campaign-binding, or publication authority merely because it exists in the repository. Progression between roles requires explicit transformation, identity preservation, fingerprints, validation, reconciliation, and accepted evidence."
+    }
+  ]
+}

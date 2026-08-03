@@ -1,0 +1,661 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.prototype-readiness",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.readiness.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeReadiness",
+  "purpose": [
+    "Provide the canonical readiness projection for the complete Werewolf prototype.",
+    "Aggregate artifact, capability, source-review, semantic-review, implementation, fixture, test, security, packaging, and promotion status.",
+    "Make blockers, accepted exclusions, unresolved ambiguities, and next required actions explicit.",
+    "Support developer diagnostics, planning, review, and deterministic promotion-gate evaluation."
+  ],
+  "authority": {
+    "readinessDefinitionAuthority": "ChronicleArchitecture",
+    "statusEvidenceAuthority": "VersionedReviewAndTestArtifacts",
+    "readinessCalculationAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualStatusOverrideAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "readinessScale": [
+    {
+      "status": "not-started",
+      "meaning": "Required work has not begun or no acceptable evidence exists."
+    },
+    {
+      "status": "in-progress",
+      "meaning": "Work exists but required review, implementation, or validation remains incomplete."
+    },
+    {
+      "status": "candidate-partial",
+      "meaning": "The artifact or capability is structurally usable but contains explicitly bounded unresolved content."
+    },
+    {
+      "status": "prototype-candidate",
+      "meaning": "The artifact is ready for prototype integration and testing but is not publication authority."
+    },
+    {
+      "status": "blocked",
+      "meaning": "A known unresolved requirement prevents the capability or promotion step."
+    },
+    {
+      "status": "approved-for-promotion",
+      "meaning": "All required evidence exists and the promotion gate has passed."
+    },
+    {
+      "status": "published",
+      "meaning": "Versioned artifacts have been promoted into the package publication surface."
+    }
+  ],
+  "overallReadiness": {
+    "status": "in-progress",
+    "prototypeIntegrationReady": true,
+    "implementationReady": false,
+    "promotionReady": false,
+    "runtimePublicationReady": false,
+    "reasonKeys": [
+      "werewolf-prototype.readiness.implementation-pending",
+      "werewolf-prototype.readiness.test-execution-pending",
+      "werewolf-prototype.readiness.security-review-pending",
+      "werewolf-prototype.readiness.package-build-pending"
+    ]
+  },
+  "artifactReadiness": [
+    {
+      "artifactKey": "werewolf-prototype.manifest",
+      "artifactRef": "./manifest.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "werewolf-prototype.prototype-index",
+      "artifactRef": "./prototype-index.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "werewolf-prototype.prototype-package-index",
+      "artifactRef": "./prototype-package-index.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "./character-model/character-model-index.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "./operations/character-creation/operation-index.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "character-sheet.character-sheet-index",
+      "artifactRef": "./character-sheet/character-sheet-index.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "werewolf-prototype.fixture-index",
+      "artifactRef": "./fixtures/fixture-index.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-model-index",
+      "artifactRef": "./tests/test-model-index.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    },
+    {
+      "artifactKey": "werewolf-prototype.promotion-gate",
+      "artifactRef": "./tests/promotion-gate.json",
+      "status": "prototype-candidate",
+      "blocking": false
+    }
+  ],
+  "capabilityReadiness": [
+    {
+      "capabilityKey": "character-model",
+      "status": "prototype-candidate",
+      "supportedInPrototype": true,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": []
+    },
+    {
+      "capabilityKey": "character-creation",
+      "status": "prototype-candidate",
+      "supportedInPrototype": true,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": []
+    },
+    {
+      "capabilityKey": "character-validation",
+      "status": "prototype-candidate",
+      "supportedInPrototype": true,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": []
+    },
+    {
+      "capabilityKey": "character-sheet",
+      "status": "prototype-candidate",
+      "supportedInPrototype": true,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": []
+    },
+    {
+      "capabilityKey": "fixture-driven-tests",
+      "status": "prototype-candidate",
+      "supportedInPrototype": true,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": []
+    },
+    {
+      "capabilityKey": "additional-gift-purchase",
+      "status": "blocked",
+      "supportedInPrototype": false,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": [
+        "werewolf-prototype.capability.additional-gift-purchase.eligibility-unresolved"
+      ]
+    },
+    {
+      "capabilityKey": "generic-dice",
+      "status": "blocked",
+      "supportedInPrototype": false,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": [
+        "werewolf-prototype.capability.dice.algorithm-not-frozen"
+      ]
+    },
+    {
+      "capabilityKey": "post-creation-character-operations",
+      "status": "not-started",
+      "supportedInPrototype": false,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": [
+        "werewolf-prototype.capability.runtime-character.outside-current-slice"
+      ]
+    },
+    {
+      "capabilityKey": "runtime-gift-execution",
+      "status": "not-started",
+      "supportedInPrototype": false,
+      "supportedInPublishedPackage": false,
+      "blockingReasonKeys": [
+        "werewolf-prototype.capability.gift-runtime.outside-current-slice"
+      ]
+    }
+  ],
+  "reviewReadiness": {
+    "architecture": {
+      "status": "prototype-candidate",
+      "requiredForPromotion": true,
+      "evidenceStatus": "pending-formal-review-record"
+    },
+    "source": {
+      "status": "in-progress",
+      "requiredForPromotion": true,
+      "evidenceStatus": "pending",
+      "openItems": [
+        "review-all-promoted-mechanical-claims",
+        "resolve-or-exclude-source-ambiguities",
+        "confirm-no-raw-sourcebook-text-embedded"
+      ]
+    },
+    "semantics": {
+      "status": "prototype-candidate",
+      "requiredForPromotion": true,
+      "evidenceStatus": "catalog-identity-review-complete",
+      "openItems": [
+        "review-creation-rules",
+        "review-validation-rules",
+        "review-operation-semantics",
+        "review-fixture-expectations"
+      ]
+    },
+    "contracts": {
+      "status": "prototype-candidate",
+      "requiredForPromotion": true,
+      "evidenceStatus": "pending-executable-validation"
+    },
+    "security": {
+      "status": "in-progress",
+      "requiredForPromotion": true,
+      "evidenceStatus": "pending",
+      "openItems": [
+        "verify-sqlite-encryption-implementation",
+        "verify-backup-encryption",
+        "verify-log-redaction",
+        "verify-package-root-isolation",
+        "verify-provider-authority-boundaries"
+      ]
+    },
+    "packaging": {
+      "status": "not-started",
+      "requiredForPromotion": true,
+      "evidenceStatus": "missing"
+    },
+    "migration": {
+      "status": "not-started",
+      "requiredForPromotion": true,
+      "evidenceStatus": "missing"
+    }
+  },
+  "implementationReadiness": {
+    "status": "not-started",
+    "requiredComponents": [
+      {
+        "componentKey": "declarative-artifact-loader",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "compiled-rule-module",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "character-creation-operation-dispatch",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "validation-dispatch",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "creation-ledger-persistence",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "invalidation-lifecycle",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "projection-rebuild",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "character-sheet-rendering",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "complete-character-transaction",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "encrypted-sqlite-storage",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "encrypted-backup-and-restore",
+        "status": "not-started"
+      },
+      {
+        "componentKey": "test-infrastructure",
+        "status": "not-started"
+      }
+    ]
+  },
+  "fixtureReadiness": {
+    "status": "candidate-partial",
+    "readyFixtureKeys": [
+      "character-creation.minimal-valid-character",
+      "character-creation.metis-missing-deformity",
+      "character-creation.freebie-budget-overspent",
+      "character-creation.classification-change-invalidates-state",
+      "character-creation.complete-character-atomicity"
+    ],
+    "partialFixtureKeys": [
+      "character-creation.metis-valid-character",
+      "character-creation.lupus-restricted-ability"
+    ],
+    "blockingContentIdentityActions": []
+  },
+  "testReadiness": {
+    "status": "prototype-candidate",
+    "testModelDefined": true,
+    "testEnvironmentDefined": true,
+    "canonicalReportDefined": true,
+    "promotionGateDefined": true,
+    "testsImplemented": false,
+    "testsExecuted": false,
+    "promotionEvidenceAvailable": false,
+    "requiredNextActions": [
+      "implement-test-harness",
+      "materialize-fixtures",
+      "execute-required-suites",
+      "record-artifact-fingerprints",
+      "produce-canonical-test-report"
+    ]
+  },
+  "sourceReadiness": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "status": "in-progress",
+    "adequateForGuidedExtraction": true,
+    "adequateForDirectRuntimeAuthority": false,
+    "adequateForAutomaticPublication": false,
+    "requiredActions": [
+      "review-extracted-mechanics",
+      "resolve-normalized-content-identities",
+      "preserve-ambiguities-explicitly",
+      "exclude-unsupported-mechanics-from-promotion"
+    ]
+  },
+  "openAmbiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.lupus-ability-purchase-timing",
+      "status": "source-review-required",
+      "promotionImpact": "does-not-block-current-slice-when-freebie-and-later-purchase-remain-excluded"
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.additional-gift-eligibility",
+      "status": "source-review-required",
+      "promotionImpact": "does-not-block-current-slice-when-capability-remains-blocked"
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.dice.generic-algorithm",
+      "status": "pending-extraction",
+      "promotionImpact": "does-not-block-character-creation-only-promotion"
+    }
+  ],
+  "currentPromotionBlockers": [
+    {
+      "blockerKey": "prototype-readiness.blocker.semantic-review",
+      "category": "review",
+      "requiredForCurrentSlicePromotion": true,
+      "resolution": "Approve source-backed semantic review for all promoted artifacts."
+    },
+    {
+      "blockerKey": "prototype-readiness.blocker.candidate-content-identities",
+      "category": "content",
+      "requiredForCurrentSlicePromotion": true,
+      "resolution": "Resolve candidate deformity and Gift keys against reviewed catalogs."
+    },
+    {
+      "blockerKey": "prototype-readiness.blocker.implementation",
+      "category": "implementation",
+      "requiredForCurrentSlicePromotion": true,
+      "resolution": "Implement package loading, operations, validation, persistence, projections, and completion transaction."
+    },
+    {
+      "blockerKey": "prototype-readiness.blocker.tests",
+      "category": "tests",
+      "requiredForCurrentSlicePromotion": true,
+      "resolution": "Implement and pass all ready required suites in the promotion profile."
+    },
+    {
+      "blockerKey": "prototype-readiness.blocker.security-review",
+      "category": "security",
+      "requiredForCurrentSlicePromotion": true,
+      "resolution": "Approve encryption, package isolation, logging, backup, and provider-boundary implementation."
+    },
+    {
+      "blockerKey": "prototype-readiness.blocker.packaging",
+      "category": "packaging",
+      "requiredForCurrentSlicePromotion": true,
+      "resolution": "Produce a reproducible package build and clean-install load report."
+    },
+    {
+      "blockerKey": "prototype-readiness.blocker.migration",
+      "category": "migration",
+      "requiredForCurrentSlicePromotion": true,
+      "resolution": "Define prototype-to-package version mapping and rollback strategy."
+    }
+  ],
+  "acceptedCurrentSliceExclusions": [
+    {
+      "exclusionKey": "prototype-readiness.exclusion.generic-dice",
+      "capabilityKey": "generic-dice",
+      "reason": "The exact algorithm remains pending extraction.",
+      "mustRemainUnavailable": true
+    },
+    {
+      "exclusionKey": "prototype-readiness.exclusion.additional-gift-purchase",
+      "capabilityKey": "additional-gift-purchase",
+      "reason": "Creation-time eligibility remains unresolved.",
+      "mustRemainUnavailable": true
+    },
+    {
+      "exclusionKey": "prototype-readiness.exclusion.post-creation-runtime",
+      "capabilityKey": "post-creation-character-operations",
+      "reason": "The current prototype slice ends at Character activation.",
+      "mustRemainUnavailable": true
+    },
+    {
+      "exclusionKey": "prototype-readiness.exclusion.gift-runtime",
+      "capabilityKey": "runtime-gift-execution",
+      "reason": "Gift ownership is modeled before runtime execution.",
+      "mustRemainUnavailable": true
+    }
+  ],
+  "nextActions": [
+    {
+      "order": 20,
+      "actionKey": "prototype-readiness.next.resolve-fixture-candidate-keys",
+      "ownerType": "RuleSetExtractionAndReview",
+      "blocking": true
+    },
+    {
+      "order": 30,
+      "actionKey": "prototype-readiness.next.implement-artifact-loader",
+      "ownerType": "ChronicleImplementation",
+      "blocking": true
+    },
+    {
+      "order": 40,
+      "actionKey": "prototype-readiness.next.implement-character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "blocking": true
+    },
+    {
+      "order": 50,
+      "actionKey": "prototype-readiness.next.implement-test-model",
+      "ownerType": "ChronicleTestInfrastructure",
+      "blocking": true
+    },
+    {
+      "order": 60,
+      "actionKey": "prototype-readiness.next.run-promotion-profile",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "blocking": true
+    },
+    {
+      "order": 70,
+      "actionKey": "prototype-readiness.next.complete-security-review",
+      "ownerType": "ChronicleSecurityReview",
+      "blocking": true
+    },
+    {
+      "order": 80,
+      "actionKey": "prototype-readiness.next.define-migration-and-package-build",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "blocking": true
+    }
+  ],
+  "calculationPolicy": {
+    "deterministic": true,
+    "sourceArtifacts": [
+      "./prototype-package-index.json",
+      "./prototype-index.json",
+      "./character-model/character-model-index.json",
+      "./fixtures/fixture-index.json",
+      "./tests/test-model-index.json",
+      "./tests/promotion-gate.json"
+    ],
+    "recalculateWhenSourceFingerprintChanges": true,
+    "persistProjection": true,
+    "persistedProjectionAuthoritative": false,
+    "manualStatusMutationAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "prototype-readiness.artifact-refs-resolve",
+      "severity": "blocking",
+      "requirement": "all readiness artifact references resolve inside the prototype root"
+    },
+    {
+      "ruleKey": "prototype-readiness.capability-status-explicit",
+      "severity": "blocking",
+      "requirement": "every current, blocked, or future capability has an explicit status"
+    },
+    {
+      "ruleKey": "prototype-readiness.blockers-have-resolution",
+      "severity": "blocking",
+      "requirement": "every promotion blocker has a stable resolution statement"
+    },
+    {
+      "ruleKey": "prototype-readiness.exclusions-remain-unavailable",
+      "severity": "blocking",
+      "requirement": "accepted exclusions are not advertised or loaded as supported capabilities"
+    },
+    {
+      "ruleKey": "prototype-readiness.overall-status-reconciles",
+      "severity": "blocking",
+      "requirement": "overall readiness deterministically reconciles with reviews, implementation, fixtures, tests, security, packaging, and promotion"
+    },
+    {
+      "ruleKey": "prototype-readiness.no-promotion-with-blockers",
+      "severity": "blocking",
+      "requirement": "promotionReady is false while any required current-slice blocker remains open"
+    }
+  ],
+  "fingerprintPolicy": {
+    "readinessFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeArtifactReadiness": true,
+    "includeCapabilityReadiness": true,
+    "includeReviewReadiness": true,
+    "includeImplementationReadiness": true,
+    "includeFixtureAndTestReadiness": true,
+    "includePromotionBlockers": true,
+    "includeAcceptedExclusions": true,
+    "includeNextActions": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overallReadiness",
+      "artifactStatuses",
+      "capabilityStatuses",
+      "reviewStatuses",
+      "implementationStatuses",
+      "fixtureStatuses",
+      "testStatuses",
+      "promotionBlockers",
+      "acceptedExclusions",
+      "nextActions"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "rawCharacterStateIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "capabilityKeys",
+      "readinessStatuses",
+      "blockerKeys",
+      "exclusionKeys",
+      "actionKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeReadinessRecalculated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "overallStatus": "Text",
+        "openBlockerKeys": "ReferenceCollection",
+        "readinessFingerprint": "Text",
+        "calculatedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-runtime-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "catalog-identity-review-complete",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "promotionReviewStatus": "eligible-not-published",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "ChronicleDeliveryInfrastructure"
+  },
+  "prototypeNotes": [
+    "This artifact is a rebuildable readiness projection and is not promotion authority by itself.",
+    "The current prototype artifacts are sufficiently defined for implementation work, but implementation and formal reviews have not yet been completed.",
+    "Blocked capabilities may remain excluded without blocking promotion of the Character creation slice.",
+    "Candidate content identities, semantic review, implementation, required tests, security, packaging, and migration remain promotion blockers.",
+    "Chronicle owns readiness calculation, evidence validation, diagnostics, persistence, and promotion integration.",
+    "The Rule Set package owns the mechanical artifacts, ambiguities, and evidence required to improve readiness."
+  ],
+  "catalogReviewDecisionSetFinalization": {
+    "status": "finalized-current-slice",
+    "taskKey": "catalog-review.task.finalize-decision-set",
+    "nextExecutableTaskKey": "catalog-review.task.calculate-final-result",
+    "decisionSetFingerprint": "2a3ca7df370a45736622e60c9768643c317b9e344eb999cc994fd9d9cefffd95",
+    "finalizedAt": "2026-08-03T00:00:00.000Z",
+    "packagePublished": false
+  },
+  "catalogReviewFinalResult": {
+    "status": "approved-current-slice-reference-baseline",
+    "taskKey": "catalog-review.task.calculate-final-result",
+    "resultFingerprint": "3c2cca2418c0edd9898e3cbc3465dbb31a8643eff601a26f6dd998fe303e56cf",
+    "calculatedAt": "2026-08-03T00:00:00.000Z",
+    "packagePublished": false,
+    "currentSliceReferenceBaselineComplete": true,
+    "nextExecutableTaskKey": "catalog-review.task.complete-work-package"
+  },
+  "catalogReviewWorkPackageCompletion": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "status": "complete",
+    "completedAt": "2026-08-03T00:00:00.000Z",
+    "evidenceId": "catalog-review.evidence.work-package-completion.20260803",
+    "workStatusFingerprint": "c3adca3b6a09f28cddec5fc1e9831f1d1575c5cf28753b0a333a90094dbd7c8e",
+    "resultFingerprint": "3c2cca2418c0edd9898e3cbc3465dbb31a8643eff601a26f6dd998fe303e56cf",
+    "packagePublished": false,
+    "branchCheckpointReady": true
+  },
+  "readinessFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "9e78eda950ef877b2539e57272d82521d47c0214f89258d15f9050778bb25820",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,388 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.prototype-package-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.package-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypePackage",
+  "purpose": [
+    "Provide the canonical top-level discovery surface for the complete Werewolf prototype package.",
+    "Bind the prototype manifest, runtime model indexes, fixture model, test model, package boundaries, readiness, and promotion metadata.",
+    "Allow Chronicle tooling to load, validate, test, diagnose, and promote the prototype without Werewolf-specific registration.",
+    "Define the exact boundary between prototype-only artifacts and future published package artifacts."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "packageDiscoveryAuthority": "Chronicle",
+    "packageContractValidationAuthority": "Chronicle",
+    "testModelAuthority": "ChronicleTestInfrastructure",
+    "promotionAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "mechanicalSemanticsAuthority": "RuleSet",
+    "hardcodedWerewolfRegistrationAllowed": false
+  },
+  "packageIdentity": {
+    "packageId": "chronicle.rulesets.werewolf",
+    "prototypeVersion": "0.1.0-prototype",
+    "packageKind": "rule-set-prototype",
+    "canonicalTechnicalLanguage": "en",
+    "runtimePublicationStatus": "not-published",
+    "sourceType": "reviewed-extraction-candidate",
+    "localFirst": true,
+    "networkRequired": false
+  },
+  "rootArtifacts": [
+    {
+      "artifactKey": "werewolf-prototype.manifest",
+      "artifactRef": "./manifest.json",
+      "artifactRole": "prototype-manifest",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "werewolf-prototype.prototype-index",
+      "artifactRef": "./prototype-index.json",
+      "artifactRole": "runtime-prototype-index",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.manifest"
+      ]
+    },
+    {
+      "artifactKey": "werewolf-prototype.fixture-index",
+      "artifactRef": "./fixtures/fixture-index.json",
+      "artifactRole": "fixture-model-index",
+      "loadOrder": 30,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.prototype-index"
+      ]
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-model-index",
+      "artifactRef": "./tests/test-model-index.json",
+      "artifactRole": "test-model-index",
+      "loadOrder": 40,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.prototype-index",
+        "werewolf-prototype.fixture-index"
+      ]
+    }
+  ],
+  "runtimeModelBindings": [
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "./character-model/character-model-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "./operations/character-creation/operation-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-sheet.character-sheet-index",
+      "artifactRef": "./character-sheet/character-sheet-index.json",
+      "required": true
+    }
+  ],
+  "testAndPromotionBindings": [
+    {
+      "artifactKey": "werewolf-prototype.test-suite-index",
+      "artifactRef": "./tests/test-suite-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-environment",
+      "artifactRef": "./tests/test-environment.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-run-report-schema",
+      "artifactRef": "./tests/test-run-report-schema.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.promotion-gate",
+      "artifactRef": "./tests/promotion-gate.json",
+      "required": true
+    }
+  ],
+  "capabilitySummary": {
+    "supportedPrototypeCapabilities": [
+      "character-model",
+      "character-creation",
+      "character-validation",
+      "character-sheet",
+      "fixture-driven-tests",
+      "deterministic-test-environment",
+      "promotion-gate-evaluation"
+    ],
+    "blockedPrototypeCapabilities": [
+      {
+        "capabilityKey": "generic-dice",
+        "reasonKey": "werewolf-prototype.capability.dice.algorithm-not-frozen"
+      },
+      {
+        "capabilityKey": "additional-gift-purchase",
+        "reasonKey": "werewolf-prototype.capability.additional-gift-purchase.eligibility-unresolved"
+      }
+    ],
+    "futureCapabilities": [
+      "post-creation-character-operations",
+      "runtime-gift-execution",
+      "additional-rule-set-mechanics",
+      "print-character-sheet"
+    ]
+  },
+  "boundaryPolicy": {
+    "prototypeArtifactsMayRunInProduction": false,
+    "prototypeArtifactsMayBeLoadedByDeveloperTools": true,
+    "prototypeArtifactsMayBeLoadedByTestInfrastructure": true,
+    "prototypeArtifactsMayBeUsedAsPromotionInputs": true,
+    "prototypeArtifactsMayBeCopiedDirectlyToPublishedPackage": false,
+    "promotionMustCreateNewVersionedArtifacts": true,
+    "rawSourceDocumentsMayEnterRuntimePackage": false,
+    "prototypeFixturesMayEnterRuntimePackage": false,
+    "prototypeTestsMayEnterRuntimePackage": false
+  },
+  "directoryContract": {
+    "prototypeRoot": "./",
+    "requiredDirectories": [
+      "./character-model",
+      "./operations",
+      "./character-sheet",
+      "./fixtures",
+      "./tests"
+    ],
+    "allowedTopLevelFiles": [
+      "./manifest.json",
+      "./prototype-index.json",
+      "./prototype-package-index.json"
+    ],
+    "unknownTopLevelEntryBehavior": "diagnostic-and-promotion-block",
+    "artifactEscapeAllowed": false
+  },
+  "loadPolicy": {
+    "loadMode": "top-level-index-driven",
+    "sortBy": "loadOrder",
+    "duplicateArtifactKeyBehavior": "prototype-package-load-failure",
+    "missingRequiredArtifactBehavior": "prototype-package-load-failure",
+    "unsupportedContractVersionBehavior": "prototype-package-load-failure",
+    "artifactOutsidePrototypeRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false,
+    "nestedIndexesValidatedRecursively": true
+  },
+  "dependencyPolicy": {
+    "allDeclaredDependenciesMustResolve": true,
+    "cyclesAllowed": false,
+    "cycleBehavior": "prototype-package-load-failure-with-cycle-path",
+    "loadOrderMustRespectDependencies": true,
+    "runtimeModelValidatedBeforeFixtures": true,
+    "fixturesValidatedBeforeTests": true,
+    "testsValidatedBeforePromotionEvaluation": true
+  },
+  "readinessPolicy": {
+    "allowedValues": [
+      "prototype-candidate",
+      "candidate-partial",
+      "blocked",
+      "future"
+    ],
+    "requiredBlockedRootArtifactBehavior": "prototype-package-unavailable",
+    "partialRuntimeArtifactBehavior": "dependent-capability-disabled",
+    "blockedOptionalCapabilityBehavior": "remain-visible-but-unavailable",
+    "futureCapabilitiesDoNotBlockCurrentSlice": true,
+    "promotionRequiresAllCurrentRequiredArtifactsReady": true
+  },
+  "validationPolicy": {
+    "validateOnLoad": true,
+    "validatePackageIdentity": true,
+    "validateManifestBinding": true,
+    "validateRootArtifactKeys": true,
+    "validateArtifactReferences": true,
+    "validateContractVersions": true,
+    "validateDependencyGraphAcyclic": true,
+    "validateNestedIndexes": true,
+    "validateRuntimeModelBindings": true,
+    "validateFixtureBindings": true,
+    "validateTestBindings": true,
+    "validatePromotionBindings": true,
+    "validateDirectoryContract": true,
+    "validateSecurityDeclarations": true,
+    "validateFingerprints": true
+  },
+  "promotionIntegration": {
+    "promotionGateArtifactKey": "werewolf-prototype.promotion-gate",
+    "testModelArtifactKey": "werewolf-prototype.test-model-index",
+    "promotionTargetRoot": "../package",
+    "promotionAllowedOnlyWhenGatePassed": true,
+    "promotionRequiresCleanWorkingTree": true,
+    "promotionRequiresReproducibleBuild": true,
+    "promotionRequiresCanonicalTestReport": true,
+    "promotionRecordsPrototypePackageIndexFingerprint": true,
+    "promotionPreservesPrototypeHistory": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "prototype-package-index.package-identity-consistent",
+      "severity": "blocking",
+      "requirement": "packageId and prototypeVersion reconcile across all root artifacts"
+    },
+    {
+      "ruleKey": "prototype-package-index.root-artifact-keys-unique",
+      "severity": "blocking",
+      "requirement": "every root artifact key is unique"
+    },
+    {
+      "ruleKey": "prototype-package-index.refs-resolve",
+      "severity": "blocking",
+      "requirement": "all required root, runtime, fixture, test, and promotion references resolve"
+    },
+    {
+      "ruleKey": "prototype-package-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "all top-level and nested artifact dependencies are acyclic"
+    },
+    {
+      "ruleKey": "prototype-package-index.directory-contract-valid",
+      "severity": "blocking",
+      "requirement": "the prototype directory contains only allowed roots and declared artifacts"
+    },
+    {
+      "ruleKey": "prototype-package-index.runtime-boundaries-valid",
+      "severity": "blocking",
+      "requirement": "prototype-only fixtures, tests, reviews, and source documents are excluded from runtime publication"
+    },
+    {
+      "ruleKey": "prototype-package-index.capability-readiness-explicit",
+      "severity": "blocking",
+      "requirement": "supported, blocked, and future capabilities are explicitly declared"
+    },
+    {
+      "ruleKey": "prototype-package-index.promotion-bindings-valid",
+      "severity": "blocking",
+      "requirement": "test model, report schema, promotion gate, and target package bindings reconcile"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeRootArtifactFingerprints": true,
+    "includeRuntimeModelFingerprints": true,
+    "includeFixtureIndexFingerprint": true,
+    "includeTestModelFingerprint": true,
+    "includeCapabilitySummary": true,
+    "includeBoundaryPolicy": true,
+    "includeDirectoryContract": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "artifactKey",
+      "artifactRef",
+      "artifactRole",
+      "required",
+      "readiness",
+      "dependencyStatus",
+      "contractStatus",
+      "referenceStatus",
+      "fingerprintStatus",
+      "capabilityImpact",
+      "promotionImpact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawCharacterStateIncluded": false,
+    "rawNarrativeTextIncluded": false,
+    "sourcebookTextIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "filesystemAccess": "prototype-root-read-only",
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "artifactRefs",
+      "readiness",
+      "capabilityKeys",
+      "contractVersions",
+      "fingerprints",
+      "diagnosticKeys",
+      "promotionStatus"
+    ],
+    "ordinaryLogsMustExclude": [
+      "production-character-state",
+      "production-narrative-text",
+      "sourcebook-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypePackageLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "rootArtifactCount": "Integer",
+        "supportedCapabilityKeys": "ReferenceCollection",
+        "blockedCapabilityKeys": "ReferenceCollection",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypePackageLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "failureKey": "Reference",
+        "affectedArtifactKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-runtime-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "packagingReviewStatus": "pending",
+    "promotionIntegrationReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the top-level discovery surface for the complete Werewolf prototype package.",
+    "It binds runtime models, fixtures, tests, and promotion metadata while keeping their authority boundaries separate.",
+    "Prototype fixtures and tests are never published as runtime package content.",
+    "Blocked capabilities remain explicit and cannot be inferred as supported.",
+    "Promotion creates new package artifacts rather than mutating or directly copying prototype authority.",
+    "Chronicle owns discovery, recursive contract validation, package isolation, diagnostics, fingerprints, and promotion boundaries.",
+    "The Rule Set package owns the declared mechanical model and the evidence required to promote it."
+  ]
+}

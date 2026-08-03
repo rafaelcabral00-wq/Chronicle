@@ -1,0 +1,388 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.validate-character",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.validate-character",
+  "descriptionResourceKey": "character-creation.operation.validate-character.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "query",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "None",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "sideEffectPolicy": {
+    "authoritativeStateMutationAllowed": false,
+    "draftMutationAllowed": false,
+    "creationLedgerMutationAllowed": false,
+    "validationSnapshotPersistenceAllowed": true,
+    "operationRecordAllowed": true
+  },
+  "inputContract": {
+    "inputKey": "ValidateCharacterInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "validationMode",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "affected",
+          "current-stage",
+          "full-draft",
+          "completion-readiness"
+        ]
+      },
+      {
+        "fieldKey": "currentStageKey",
+        "fieldType": "Reference",
+        "required": false
+      },
+      {
+        "fieldKey": "affectedFieldKeys",
+        "fieldType": "ReferenceCollection",
+        "required": false
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "validate-character.character-exists",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "operator": "exists"
+      },
+      "failureKey": "character-creation.validate-character.not-found"
+    },
+    {
+      "preconditionKey": "validate-character.character-is-draft",
+      "requirement": {
+        "field": "character.status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.validate-character.not-a-draft"
+    },
+    {
+      "preconditionKey": "validate-character.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.validate-character.stale-draft"
+    },
+    {
+      "preconditionKey": "validate-character.validation-artifacts-readable",
+      "requirement": {
+        "artifactRefs": [
+          "../character-model/validation/character-creation.json",
+          "../character-model/validation/character-completion.json",
+          "../character-model/creation/profile.json"
+        ],
+        "operator": "all-readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.validate-character.validation-artifact-unavailable"
+    }
+  ],
+  "validationModePolicy": {
+    "affected": {
+      "requiresAffectedFieldKeys": true,
+      "requiresCurrentStageKey": false,
+      "ruleSelection": "dependency-closure-from-affected-fields",
+      "completionRulesIncluded": false
+    },
+    "current-stage": {
+      "requiresAffectedFieldKeys": false,
+      "requiresCurrentStageKey": true,
+      "ruleSelection": "all-rules-for-current-stage-plus-structural-prerequisites",
+      "completionRulesIncluded": false
+    },
+    "full-draft": {
+      "requiresAffectedFieldKeys": false,
+      "requiresCurrentStageKey": false,
+      "ruleSelection": "all-character-creation-validation-rules",
+      "completionRulesIncluded": false
+    },
+    "completion-readiness": {
+      "requiresAffectedFieldKeys": false,
+      "requiresCurrentStageKey": false,
+      "ruleSelection": "all-character-creation-and-character-completion-rules",
+      "completionRulesIncluded": true
+    }
+  },
+  "validationRules": [
+    {
+      "ruleKey": "validate-character.mode-input-consistency",
+      "ruleType": "conditional-input",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirements": [
+        {
+          "when": {
+            "validationMode": "affected"
+          },
+          "requirement": {
+            "field": "affectedFieldKeys",
+            "operator": "non-empty"
+          }
+        },
+        {
+          "when": {
+            "validationMode": "current-stage"
+          },
+          "requirement": {
+            "field": "currentStageKey",
+            "operator": "exists-and-belongs-to-profile"
+          }
+        }
+      ],
+      "errorKey": "character-creation.validate-character.invalid-mode-input"
+    },
+    {
+      "ruleKey": "validate-character.affected-fields-valid",
+      "ruleType": "field-reference",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "validationMode": "affected"
+      },
+      "targetField": "affectedFieldKeys",
+      "operator": "all-reference-known-character-model-fields",
+      "errorKey": "character-creation.validate-character.unknown-affected-field"
+    }
+  ],
+  "ruleSources": [
+    {
+      "validationGroupKey": "character-creation",
+      "artifactRef": "../character-model/validation/character-creation.json",
+      "alwaysAvailable": true
+    },
+    {
+      "validationGroupKey": "character-completion",
+      "artifactRef": "../character-model/validation/character-completion.json",
+      "availableWhenMode": "completion-readiness"
+    }
+  ],
+  "dependencyResolution": {
+    "mode": "deterministic",
+    "dependencySources": [
+      "../../character-model/model.json",
+      "../../character-model/creation/profile.json",
+      "../../character-model/validation/character-creation.json"
+    ],
+    "includeStructuralPrerequisites": true,
+    "includeCrossFieldRules": true,
+    "includeDependentClassificationRules": true,
+    "includeLedgerRulesWhenAffected": true,
+    "includeCompletionRulesOnlyWhenRequested": true
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-character-snapshot",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-rule-set-binding",
+        "load-creation-ledger",
+        "load-invalidations",
+        "load-warning-acknowledgements",
+        "verify-draft-version"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "resolve-validation-rules",
+      "executor": "RuleSet",
+      "effects": [
+        "resolve-validation-mode",
+        "resolve-stage-rules-when-requested",
+        "resolve-dependency-closure-for-affected-fields",
+        "include-structural-prerequisites",
+        "include-cross-field-consistency-rules",
+        "include-completion-rules-when-requested"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "execute-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "execute-rules-deterministically",
+        "collect-blocking-issues",
+        "collect-errors",
+        "collect-warnings",
+        "collect-information",
+        "calculate-budget-summaries",
+        "calculate-stage-readiness",
+        "calculate-completion-readiness"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "build-validation-result",
+      "executor": "RuleSet",
+      "effects": [
+        "set-structural-validity",
+        "set-step-validity",
+        "set-completion-readiness",
+        "include-evaluated-rule-keys",
+        "include-unresolved-invalidations",
+        "include-required-warning-acknowledgements",
+        "include-package-binding"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "persist-validation-snapshot",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "persist-result-fingerprint",
+        "persist-validation-mode",
+        "persist-evaluated-rule-keys",
+        "persist-summary-counts",
+        "persist-character-version",
+        "persist-created-at"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "finalize-operation-record",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "record-no-character-state-mutation"
+      ]
+    }
+  ],
+  "validationResultPolicy": {
+    "deterministic": true,
+    "errorsUseLocalizationKeys": true,
+    "includeDeveloperDetailsInDeveloperMode": true,
+    "includeSourceProvenanceInDeveloperMode": true,
+    "includeRawNarrativeText": false,
+    "includeSensitiveValuesInLogs": false,
+    "snapshotIsAdvisoryUntilCompletionCommit": true
+  },
+  "resultContract": {
+    "resultKey": "ValidateCharacterResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "draftVersion": "Integer",
+      "validationMode": "Text",
+      "currentStageKey": "Reference",
+      "isStructurallyValid": "Boolean",
+      "isCurrentStageValid": "Boolean",
+      "isCompletionReady": "Boolean",
+      "blockingIssues": "StructuredCollection",
+      "errors": "StructuredCollection",
+      "warnings": "StructuredCollection",
+      "information": "StructuredCollection",
+      "remainingBudgets": "StructuredObject",
+      "unresolvedInvalidations": "StructuredCollection",
+      "requiredAcknowledgements": "StructuredCollection",
+      "evaluatedRuleKeys": "ReferenceCollection",
+      "packageBinding": "StructuredObject",
+      "resultFingerprint": "Text",
+      "createdAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "ValidateCharacterFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-version-validation-mode-and-rule-selection",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCompletedOperation": true,
+    "returnPreviousResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "validationSnapshotRebuildAllowed": true
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false,
+    "sensitiveTextLogging": "excluded",
+    "validationSnapshotEncryptedAtRest": true
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationValidationCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "characterId": "Reference",
+        "draftVersion": "Integer",
+        "validationMode": "Text",
+        "isStructurallyValid": "Boolean",
+        "isCompletionReady": "Boolean",
+        "blockingIssueCount": "Integer",
+        "errorCount": "Integer",
+        "warningCount": "Integer",
+        "resultFingerprint": "Text",
+        "operationId": "Reference",
+        "createdAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-validation-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-orchestration",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation validates a Character creation draft without changing authoritative Character state.",
+    "Affected-field validation resolves the deterministic dependency closure rather than running only direct field rules.",
+    "Completion readiness includes both creation validation and the separate completion validation boundary.",
+    "Validation snapshots may be persisted for diagnostics and UI projection but never replace validation at commit time.",
+    "The Narrator and Chronicle Director cannot bypass or reinterpret mechanical validation results.",
+    "Chronicle owns snapshot loading, persistence, idempotency, and operation records.",
+    "The Rule Set owns rule selection, deterministic execution, and result construction."
+  ]
+}

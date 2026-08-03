@@ -1,0 +1,456 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.warning-acknowledgements",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.warning-acknowledgements.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "purpose": [
+    "Represent warnings that require explicit user acknowledgement before a creation operation or Character completion may proceed.",
+    "Separate acknowledgement from validation success and from invalidation resolution.",
+    "Preserve an auditable record of what the user accepted, under which Character version and Rule Set package binding.",
+    "Prevent the Narrator or Chronicle Director from silently accepting warnings on the user's behalf."
+  ],
+  "authority": {
+    "warningDefinitionAuthority": "RuleSet",
+    "acknowledgementPersistenceAuthority": "Chronicle",
+    "acknowledgementAuthority": "User",
+    "narratorMayAcknowledge": false,
+    "chronicleDirectorMayAcknowledge": false,
+    "automaticAcknowledgementAllowed": false
+  },
+  "collectionShape": {
+    "characterId": "Reference",
+    "draftVersion": "Integer",
+    "items": "WarningAcknowledgementCollection",
+    "activeAcknowledgementCount": "Integer",
+    "contentFingerprint": "Text",
+    "updatedAt": "Text"
+  },
+  "itemShape": {
+    "acknowledgementId": "Reference",
+    "warningKey": "Reference",
+    "warningInstanceFingerprint": "Text",
+    "status": "Text",
+    "acknowledgedAt": "Text",
+    "acknowledgedBy": "Text",
+    "acknowledgedByUserId": "Reference",
+    "acknowledgedInOperationId": "Reference",
+    "characterVersionAtAcknowledgement": "Integer",
+    "packageBinding": "StructuredObject",
+    "messageKey": "Reference",
+    "messageArgumentsFingerprint": "Text",
+    "scope": "Text",
+    "scopeRef": "Reference",
+    "expiresWhen": "StructuredObject",
+    "revokedAt": "Text",
+    "revokedByOperationId": "Reference",
+    "supersededByAcknowledgementId": "Reference",
+    "ruleRefs": "ReferenceCollection",
+    "metadata": "StructuredObject",
+    "itemFingerprint": "Text"
+  },
+  "statusPolicy": {
+    "allowedStatuses": [
+      "active",
+      "expired",
+      "revoked",
+      "superseded"
+    ],
+    "initialStatus": "active",
+    "activeMayAuthorizeWarningAcceptance": true,
+    "expiredMayAuthorizeWarningAcceptance": false,
+    "revokedMayAuthorizeWarningAcceptance": false,
+    "supersededMayAuthorizeWarningAcceptance": false,
+    "hardDeleteAllowed": false
+  },
+  "warningDefinitionShape": {
+    "warningKey": "Reference",
+    "messageKey": "Reference",
+    "severity": "Text",
+    "acknowledgementRequired": "Boolean",
+    "acknowledgementScope": "Text",
+    "reconfirmationPolicy": "Text",
+    "expirationDependencies": "ReferenceCollection",
+    "allowedOperationKeys": "ReferenceCollection",
+    "ruleRefs": "ReferenceCollection"
+  },
+  "acknowledgementScopes": [
+    {
+      "scope": "warning-instance",
+      "description": "Valid only for the exact warning instance fingerprint."
+    },
+    {
+      "scope": "field-value",
+      "description": "Valid while the relevant Character field value remains unchanged."
+    },
+    {
+      "scope": "selection",
+      "description": "Valid while the selected item and its eligibility context remain unchanged."
+    },
+    {
+      "scope": "creation-draft",
+      "description": "Valid for the current Character draft until an expiration dependency changes."
+    },
+    {
+      "scope": "completion-attempt",
+      "description": "Valid only for one completion request and the exact validated draft version."
+    }
+  ],
+  "reconfirmationPolicies": [
+    {
+      "policy": "never-reuse",
+      "behavior": "A new warning instance always requires a new acknowledgement."
+    },
+    {
+      "policy": "reuse-while-fingerprint-matches",
+      "behavior": "An active acknowledgement is reusable only while the warning instance fingerprint matches."
+    },
+    {
+      "policy": "reuse-while-dependencies-match",
+      "behavior": "An active acknowledgement is reusable while all declared dependency values and package binding remain unchanged."
+    },
+    {
+      "policy": "completion-attempt-only",
+      "behavior": "Acknowledgement expires after the completion attempt succeeds, fails, or the draft version changes."
+    }
+  ],
+  "warningDefinitions": [
+    {
+      "warningKey": "character-creation.warning.prototype-rule-in-use",
+      "messageKey": "character-creation.warning.prototype-rule-in-use",
+      "severity": "warning",
+      "acknowledgementRequired": true,
+      "acknowledgementScope": "creation-draft",
+      "reconfirmationPolicy": "reuse-while-dependencies-match",
+      "expirationDependencies": [
+        "character.ruleSetBinding.packageVersion",
+        "character.creation.prototypeDecisionRefs"
+      ],
+      "allowedOperationKeys": [
+        "character-creation.complete-character"
+      ]
+    },
+    {
+      "warningKey": "character-creation.warning.source-ambiguity-accepted",
+      "messageKey": "character-creation.warning.source-ambiguity-accepted",
+      "severity": "warning",
+      "acknowledgementRequired": true,
+      "acknowledgementScope": "warning-instance",
+      "reconfirmationPolicy": "reuse-while-fingerprint-matches",
+      "expirationDependencies": [
+        "warning.ruleRefs",
+        "warning.ambiguityRefs",
+        "warning.messageArguments"
+      ],
+      "allowedOperationKeys": [
+        "character-creation.complete-character"
+      ]
+    },
+    {
+      "warningKey": "character-creation.warning.resource-current-reconciled",
+      "messageKey": "character-creation.warning.resource-current-reconciled",
+      "severity": "warning",
+      "acknowledgementRequired": true,
+      "acknowledgementScope": "field-value",
+      "reconfirmationPolicy": "reuse-while-dependencies-match",
+      "expirationDependencies": [
+        "character.resource.target.permanent",
+        "character.resource.target.current",
+        "character.classification.source"
+      ],
+      "allowedOperationKeys": [
+        "character-creation.set-resource-rating",
+        "character-creation.apply-classification-change",
+        "character-creation.complete-character"
+      ]
+    },
+    {
+      "warningKey": "character-creation.warning.classification-change-preserves-dependent-state",
+      "messageKey": "character-creation.warning.classification-change-preserves-dependent-state",
+      "severity": "warning",
+      "acknowledgementRequired": true,
+      "acknowledgementScope": "completion-attempt",
+      "reconfirmationPolicy": "completion-attempt-only",
+      "expirationDependencies": [
+        "character.version",
+        "classification-change.previewFingerprint"
+      ],
+      "allowedOperationKeys": [
+        "character-creation.apply-classification-change"
+      ]
+    },
+    {
+      "warningKey": "character-creation.warning.narrator-suggestion-edited-before-acceptance",
+      "messageKey": "character-creation.warning.narrator-suggestion-edited-before-acceptance",
+      "severity": "warning",
+      "acknowledgementRequired": false,
+      "acknowledgementScope": "warning-instance",
+      "reconfirmationPolicy": "never-reuse",
+      "expirationDependencies": [
+        "suggestionId",
+        "acceptedValueFingerprint"
+      ],
+      "allowedOperationKeys": [
+        "character-creation.set-narrative-field",
+        "character-creation.add-character-goal",
+        "character-creation.update-character-goal",
+        "character-creation.add-character-relationship",
+        "character-creation.update-character-relationship"
+      ]
+    },
+    {
+      "warningKey": "character-creation.warning.unspent-freebie-points",
+      "messageKey": "character-creation.warning.unspent-freebie-points",
+      "severity": "warning",
+      "acknowledgementRequired": true,
+      "acknowledgementScope": "completion-attempt",
+      "reconfirmationPolicy": "completion-attempt-only",
+      "expirationDependencies": [
+        "character.version",
+        "character.creationLedger.freebiePointsRemaining"
+      ],
+      "allowedOperationKeys": [
+        "character-creation.complete-character"
+      ]
+    }
+  ],
+  "creationPolicy": {
+    "onlyKnownWarningKeysAllowed": true,
+    "warningInstanceFingerprintRequired": true,
+    "messageArgumentsFingerprintRequired": true,
+    "userIdentityRequired": true,
+    "acknowledgedAtRequired": true,
+    "acknowledgedInOperationIdRequired": true,
+    "characterVersionRequired": true,
+    "packageBindingRequired": true,
+    "persistInsideAuthorizingTransaction": true,
+    "duplicateActiveAcknowledgementPolicy": "return-existing-when-same-instance"
+  },
+  "matchingPolicy": {
+    "requiredMatchFields": [
+      "warningKey",
+      "warningInstanceFingerprint",
+      "characterId",
+      "packageBinding"
+    ],
+    "scopeSpecificMatch": {
+      "warning-instance": [
+        "warningInstanceFingerprint"
+      ],
+      "field-value": [
+        "scopeRef",
+        "expirationDependencies"
+      ],
+      "selection": [
+        "scopeRef",
+        "expirationDependencies"
+      ],
+      "creation-draft": [
+        "characterId",
+        "expirationDependencies"
+      ],
+      "completion-attempt": [
+        "characterVersionAtAcknowledgement",
+        "acknowledgedInOperationId"
+      ]
+    },
+    "crossPackageReuseAllowed": false,
+    "crossCharacterReuseAllowed": false
+  },
+  "expirationPolicy": {
+    "evaluateBeforeEveryReuse": true,
+    "evaluateDuringFreshValidation": true,
+    "evaluateInsideCompletionTransaction": true,
+    "expireWhen": [
+      "warning-instance-fingerprint-changed",
+      "declared-dependency-changed",
+      "character-version-changed-for-completion-attempt",
+      "package-binding-changed",
+      "warning-definition-changed-incompatibly",
+      "acknowledgement-revoked"
+    ],
+    "expirationMutation": "append-status-transition-record",
+    "silentReactivationAllowed": false
+  },
+  "revocationPolicy": {
+    "userMayRevoke": true,
+    "chronicleMayRevokeOnIntegrityFailure": true,
+    "ruleSetMayProposeRevocation": true,
+    "narratorMayRevoke": false,
+    "chronicleDirectorMayRevoke": false,
+    "revocationRequiresOperationId": true,
+    "revokedItemRetained": true
+  },
+  "relationshipToValidation": {
+    "acknowledgementChangesWarningSeverity": false,
+    "acknowledgementMakesInvalidStateValid": false,
+    "acknowledgementResolvesInvalidation": false,
+    "acknowledgementMayAuthorizeProceedingPastAcknowledgementRequiredWarning": true,
+    "blockingOrErrorRulesRemainUnbypassable": true,
+    "freshValidationStillRequiredAtCompletion": true
+  },
+  "executionPolicy": {
+    "operationsMayAcceptAcknowledgedWarningKeys": true,
+    "chronicleResolvesKeysToActiveAcknowledgements": true,
+    "ruleSetVerifiesWarningInstanceMatch": true,
+    "chroniclePersistsNewAcknowledgements": true,
+    "operationFailsWhenRequiredAcknowledgementMissing": true,
+    "operationFailsWhenAcknowledgementExpired": true,
+    "rawWarningMessageNotRequiredForPersistence": true
+  },
+  "completionPolicy": {
+    "completionConsumesAttemptOnlyAcknowledgements": true,
+    "reusableAcknowledgementsRemainActiveAfterCompletion": true,
+    "completionSnapshotIncludes": [
+      "warningKey",
+      "warningInstanceFingerprint",
+      "acknowledgementId",
+      "acknowledgedAt",
+      "acknowledgedByUserId",
+      "packageBinding"
+    ],
+    "completionSnapshotExcludes": [
+      "raw-narrative-text",
+      "provider-secrets",
+      "sourcebook-text"
+    ]
+  },
+  "integrityRules": [
+    {
+      "ruleKey": "warning-acknowledgements.id-unique",
+      "severity": "blocking",
+      "requirement": "acknowledgementId is unique for the Character"
+    },
+    {
+      "ruleKey": "warning-acknowledgements.warning-key-known",
+      "severity": "blocking",
+      "requirement": "every warningKey exists in this artifact or another reviewed package warning artifact"
+    },
+    {
+      "ruleKey": "warning-acknowledgements.user-present",
+      "severity": "blocking",
+      "requirement": "every active acknowledgement records the user who accepted it"
+    },
+    {
+      "ruleKey": "warning-acknowledgements.fingerprint-valid",
+      "severity": "blocking",
+      "requirement": "item and collection fingerprints recompute successfully"
+    },
+    {
+      "ruleKey": "warning-acknowledgements.scope-valid",
+      "severity": "blocking",
+      "requirement": "scope and scopeRef satisfy the warning definition"
+    },
+    {
+      "ruleKey": "warning-acknowledgements.expiration-state-valid",
+      "severity": "blocking",
+      "requirement": "no active acknowledgement has an unmet expiration dependency"
+    }
+  ],
+  "recoveryPolicy": {
+    "automaticRepairAllowed": false,
+    "rebuildActiveSetAllowed": true,
+    "rebuildSource": [
+      "acknowledgement-history",
+      "character-versions",
+      "package-bindings",
+      "warning-instance-fingerprints"
+    ],
+    "rebuildOutputIsDiagnosticUntilAuditedCommit": true,
+    "repairRequires": [
+      "explicit-recovery-operation",
+      "before-and-after-fingerprints",
+      "audited-reason"
+    ]
+  },
+  "securityPolicy": {
+    "encryptedAtRest": true,
+    "userIdentityStored": true,
+    "rawNarrativeTextStored": false,
+    "rawWarningArgumentsStored": false,
+    "ordinaryLogsMayContain": [
+      "characterId",
+      "acknowledgementId",
+      "warningKey",
+      "status",
+      "operationId",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-narrative-text",
+      "provider-secrets",
+      "sourcebook-text",
+      "raw-warning-message-arguments"
+    ],
+    "networkAccessRequired": false
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationWarningAcknowledged",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "acknowledgementId": "Reference",
+        "warningKey": "Reference",
+        "warningInstanceFingerprint": "Text",
+        "acknowledgedByUserId": "Reference",
+        "acknowledgedInOperationId": "Reference",
+        "characterVersionAtAcknowledgement": "Integer",
+        "acknowledgedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationWarningAcknowledgementExpired",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "acknowledgementId": "Reference",
+        "warningKey": "Reference",
+        "expirationReasonKey": "Reference",
+        "expiredAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationWarningAcknowledgementRevoked",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "acknowledgementId": "Reference",
+        "warningKey": "Reference",
+        "revokedByOperationId": "Reference",
+        "revokedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "low",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "privacyReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Acknowledging a warning does not make an invalid Character valid.",
+    "Acknowledgements never resolve invalidations and never bypass blocking or error rules.",
+    "Only the user may accept a warning; the Narrator and Chronicle Director cannot do so.",
+    "Reusability depends on the warning scope, fingerprint, declared dependencies, Character version, and package binding.",
+    "Completion-attempt acknowledgements expire after the exact attempt or when the draft version changes.",
+    "Chronicle owns identity, persistence, encryption, fingerprints, expiration state, and events.",
+    "The Rule Set owns warning definitions, acknowledgement requirements, scopes, and matching rules."
+  ]
+}

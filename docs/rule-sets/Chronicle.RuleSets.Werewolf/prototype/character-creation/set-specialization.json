@@ -1,0 +1,464 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.set-specialization",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.set-specialization",
+  "descriptionResourceKey": "character-creation.operation.set-specialization.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-target-field-and-specialization",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "SetSpecializationInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "targetFieldKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "label",
+        "fieldType": "Text",
+        "required": true
+      },
+      {
+        "fieldKey": "sourceType",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "catalog-suggestion",
+          "user-authored"
+        ]
+      },
+      {
+        "fieldKey": "sourceCatalogEntryKey",
+        "fieldType": "Reference",
+        "required": false
+      },
+      {
+        "fieldKey": "replaceExistingSelection",
+        "fieldType": "Boolean",
+        "required": true
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "set-specialization.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.set-specialization.not-a-draft"
+    },
+    {
+      "preconditionKey": "set-specialization.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.set-specialization.stale-draft"
+    },
+    {
+      "preconditionKey": "set-specialization.target-exists",
+      "requirement": {
+        "field": "targetFieldKey",
+        "operator": "references-existing-attribute-or-ability"
+      },
+      "failureKey": "character-creation.set-specialization.target-not-found"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "set-specialization.target-kind-valid",
+      "ruleType": "reference-target-kind",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "targetFieldKey",
+      "allowedTargetKinds": [
+        "character.attribute",
+        "character.ability"
+      ],
+      "errorKey": "character-creation.set-specialization.invalid-target-kind"
+    },
+    {
+      "ruleKey": "set-specialization.target-rating-eligible",
+      "ruleType": "reference-target-constraint",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "targetFieldKey",
+      "ratingSource": "persisted-base-or-creation-rating",
+      "minimum": 4,
+      "errorKey": "character-creation.set-specialization.target-rating-too-low"
+    },
+    {
+      "ruleKey": "set-specialization.label-required",
+      "ruleType": "text",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "label",
+      "constraints": {
+        "trimWhitespace": true,
+        "minimumLength": 1,
+        "maximumLength": 120
+      },
+      "errorKey": "character-creation.set-specialization.label-invalid"
+    },
+    {
+      "ruleKey": "set-specialization.catalog-source-valid",
+      "ruleType": "conditional-reference",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "field": "sourceType",
+        "operator": "equals",
+        "value": "catalog-suggestion"
+      },
+      "requirements": [
+        {
+          "field": "sourceCatalogEntryKey",
+          "operator": "exists"
+        },
+        {
+          "field": "sourceCatalogEntryKey",
+          "operator": "matches-target-suggestion-catalog"
+        }
+      ],
+      "errorKey": "character-creation.set-specialization.invalid-catalog-suggestion"
+    },
+    {
+      "ruleKey": "set-specialization.user-authored-source-clean",
+      "ruleType": "conditional-absence",
+      "severity": "error",
+      "status": "prototype",
+      "appliesWhen": {
+        "field": "sourceType",
+        "operator": "equals",
+        "value": "user-authored"
+      },
+      "requirement": {
+        "field": "sourceCatalogEntryKey",
+        "operator": "absent"
+      },
+      "errorKey": "character-creation.set-specialization.unexpected-catalog-reference"
+    },
+    {
+      "ruleKey": "set-specialization.maximum-one-per-target",
+      "ruleType": "selection-quota",
+      "severity": "blocking",
+      "status": "prototype-decision",
+      "targetCollection": "character.specializations",
+      "groupProperty": "targetFieldKey",
+      "maximumPerGroup": 1,
+      "replacementField": "replaceExistingSelection",
+      "errorKey": "character-creation.set-specialization.target-already-has-specialization"
+    },
+    {
+      "ruleKey": "set-specialization.no-duplicate-label",
+      "ruleType": "distinct-values",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetCollection": "character.specializations",
+      "identityProperties": [
+        "targetFieldKey",
+        "label"
+      ],
+      "comparison": "case-insensitive-trimmed",
+      "includeProposedValue": true,
+      "errorKey": "character-creation.set-specialization.duplicate"
+    }
+  ],
+  "eligibilityPolicy": {
+    "minimumRating": 4,
+    "ratingBasis": "persisted-base-or-creation-rating",
+    "temporaryModifiersIgnored": true,
+    "specializationRequiredAtFour": false,
+    "maximumActivePerTarget": 1,
+    "status": "prototype-decision"
+  },
+  "mechanicalResolutionBoundary": {
+    "persistSelectionAllowed": true,
+    "diceResolutionEnabled": false,
+    "resolverRef": "../../dice/resolution/specialization.json",
+    "resolverReadiness": "blocked",
+    "additionalDiceBehavior": "unresolved",
+    "resultOfTenBehavior": "unresolved",
+    "resultOfOneBehavior": "unresolved",
+    "chainingBehavior": "unresolved",
+    "silentApproximationAllowed": false
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-target-field",
+        "load-target-rating",
+        "load-current-specializations",
+        "load-target-suggestion-catalog-when-needed",
+        "load-open-specialization-invalidations"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-specialization",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-target-kind",
+        "validate-target-rating",
+        "normalize-label",
+        "validate-label",
+        "validate-source-type",
+        "validate-catalog-suggestion-when-present",
+        "validate-maximum-one-per-target",
+        "validate-no-duplicate"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "resolve-replacement",
+      "executor": "RuleSet",
+      "effects": [
+        "identify-existing-specialization-for-target",
+        "verify-explicit-replacement",
+        "calculate-selection-delta"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "persist-specialization",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "remove-replaced-specialization-when-confirmed",
+        "allocate-specialization-id",
+        "persist-target-field-key",
+        "persist-normalized-label",
+        "persist-source-type",
+        "persist-source-catalog-entry-key-when-present",
+        "set-status-active",
+        "record-created-at-stage"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-specialization-selection",
+        "record-replaced-specialization-when-applicable",
+        "record-no-freebie-cost",
+        "record-prototype-decision-one-per-target"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-invalidations",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "clear-target-specialization-missing-or-invalid-invalidation",
+        "clear-replaced-specialization-invalidation",
+        "preserve-unrelated-invalidations"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-specialization-target-rating",
+        "validate-maximum-one-per-target",
+        "validate-normalized-label-uniqueness",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "persistedSelectionShape": {
+    "specializationId": "Reference",
+    "targetFieldKey": "Reference",
+    "label": "Text",
+    "normalizedLabel": "Text",
+    "sourceType": "Text",
+    "sourceCatalogEntryKey": "Reference",
+    "createdAtStage": "Text",
+    "createdByOperationId": "Reference",
+    "status": "Text"
+  },
+  "invalidationContract": {
+    "supportedTypes": [
+      {
+        "invalidationType": "SpecializationTargetRatingTooLow",
+        "resolution": "Raise the target rating to at least four or remove the specialization."
+      },
+      {
+        "invalidationType": "MultipleSpecializationsForTarget",
+        "resolution": "Keep one active specialization for the target."
+      },
+      {
+        "invalidationType": "SpecializationCatalogReferenceUnavailable",
+        "resolution": "Replace the unavailable catalog suggestion or convert it to a reviewed user-authored label."
+      }
+    ],
+    "automaticResolutionAllowed": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "persistInvalidations": true
+  },
+  "resultContract": {
+    "resultKey": "SetSpecializationResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "targetFieldKey": "Reference",
+      "specializationId": "Reference",
+      "label": "Text",
+      "sourceType": "Text",
+      "sourceCatalogEntryKey": "Reference",
+      "replacedSpecializationId": "Reference",
+      "resolvedInvalidations": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "SetSpecializationFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "targetFieldKey": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterSpecializationSet",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "targetFieldKey": "Reference",
+        "specializationId": "Reference",
+        "replacedSpecializationId": "Reference",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.specialization.required-at-four",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Does reaching rating four require choosing a specialization?",
+      "prototypeDecision": "No. Specialization remains optional."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.specialization.maximum-per-field",
+      "severity": "medium",
+      "status": "source-search-required",
+      "question": "How many specializations may one Attribute or Ability possess?",
+      "prototypeDecision": "Allow one active specialization per target during Slice 001."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.dice.specialization",
+      "severity": "critical",
+      "status": "source-search-required",
+      "question": "What exact Dice behavior does a matching specialization produce?",
+      "prototypeDecision": "Persist the selection but keep Dice resolution disabled."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "medium-for-eligibility-high-for-resolution",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation stores one specialization for an eligible Attribute or Ability.",
+    "The target must have a persisted creation rating of at least four.",
+    "Temporary form or effect modifiers never grant creation-time specialization eligibility.",
+    "Catalog suggestions and user-authored labels are both supported.",
+    "Replacing an existing specialization requires explicit confirmation.",
+    "The specialization is persisted without enabling unresolved Dice behavior.",
+    "Chronicle owns persistence, versioning, idempotency, ledger history, invalidations, and events.",
+    "The Rule Set owns eligibility, label validation, catalog suggestion matching, and mechanical boundaries."
+  ]
+}

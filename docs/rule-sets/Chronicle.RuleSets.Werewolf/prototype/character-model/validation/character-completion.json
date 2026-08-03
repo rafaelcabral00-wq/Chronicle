@@ -1,0 +1,461 @@
+{
+  "contractVersion": 1,
+  "validationGroupKey": "character-completion",
+  "validationGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.validation.character-completion",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCompletion",
+  "executionMode": "full-only",
+  "dependsOn": [
+    "character-creation"
+  ],
+  "preconditions": [
+    {
+      "preconditionKey": "character-completion.creation-validation-passed",
+      "requirement": {
+        "validationGroupKey": "character-creation",
+        "field": "isCompletionReady",
+        "operator": "equals",
+        "value": true
+      },
+      "failureSeverity": "blocking",
+      "errorKey": "character.completion.creation-validation-failed"
+    },
+    {
+      "preconditionKey": "character-completion.no-pending-dependency-recalculation",
+      "requirement": {
+        "field": "character.creation.pendingDependencyRecalculation",
+        "operator": "absent-or-false"
+      },
+      "failureSeverity": "blocking",
+      "errorKey": "character.completion.pending-recalculation"
+    },
+    {
+      "preconditionKey": "character-completion.no-open-invalidations",
+      "requirement": {
+        "field": "character.creation.invalidations",
+        "operator": "count-equals",
+        "value": 0
+      },
+      "failureSeverity": "blocking",
+      "errorKey": "character.completion.open-invalidations"
+    }
+  ],
+  "rules": [
+    {
+      "ruleKey": "character.completion.identity.name-required",
+      "ruleType": "required-field",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirement": {
+        "field": "character.identity.name",
+        "operator": "non-empty"
+      },
+      "errorKey": "character.completion.name-required"
+    },
+    {
+      "ruleKey": "character.completion.classification.complete",
+      "ruleType": "compound-required-fields",
+      "severity": "blocking",
+      "status": "candidate",
+      "requirements": [
+        {
+          "field": "character.classification.race",
+          "operator": "exists"
+        },
+        {
+          "field": "character.classification.auspice",
+          "operator": "exists"
+        },
+        {
+          "field": "character.classification.tribe",
+          "operator": "exists"
+        },
+        {
+          "field": "character.rank.rankKey",
+          "operator": "equals",
+          "value": "character.rank.cliath"
+        },
+        {
+          "field": "character.rank.numericRank",
+          "operator": "equals",
+          "value": 1
+        }
+      ],
+      "errorKey": "character.completion.classification-incomplete"
+    },
+    {
+      "ruleKey": "character.completion.attributes.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.attributes.allocation-7-5-3",
+        "character.creation.attributes.range"
+      ],
+      "errorKey": "character.completion.attributes-invalid"
+    },
+    {
+      "ruleKey": "character.completion.abilities.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.abilities.allocation-13-9-5",
+        "character.creation.abilities.base-range",
+        "character.creation.abilities.lupus-base-restrictions"
+      ],
+      "errorKey": "character.completion.abilities-invalid"
+    },
+    {
+      "ruleKey": "character.completion.backgrounds.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.backgrounds.total-five",
+        "character.creation.backgrounds.range",
+        "character.creation.backgrounds.tribe-restrictions"
+      ],
+      "errorKey": "character.completion.backgrounds-invalid"
+    },
+    {
+      "ruleKey": "character.completion.initial-gifts.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate-partial",
+      "requiredRuleKeys": [
+        "character.creation.gifts.one-per-source",
+        "character.creation.gifts.eligible-for-classifications",
+        "character.creation.gifts.distinct"
+      ],
+      "errorKey": "character.completion.initial-gifts-invalid"
+    },
+    {
+      "ruleKey": "character.completion.metis-deformity.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.metis.requires-one-deformity"
+      ],
+      "errorKey": "character.completion.metis-deformity-invalid"
+    },
+    {
+      "ruleKey": "character.completion.resources.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.resources.match-classifications"
+      ],
+      "warningRuleKeys": [
+        "character.creation.resources.current-equals-permanent"
+      ],
+      "errorKey": "character.completion.resources-invalid"
+    },
+    {
+      "ruleKey": "character.completion.renown-and-rank.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.renown.matches-auspice",
+        "character.creation.rank.is-cliath-one"
+      ],
+      "errorKey": "character.completion.renown-or-rank-invalid"
+    },
+    {
+      "ruleKey": "character.completion.freebie-ledger.valid",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.freebies.not-overspent",
+        "character.creation.freebies.costs-valid",
+        "character.creation.freebies.purchase-targets-valid"
+      ],
+      "errorKey": "character.completion.freebie-ledger-invalid"
+    },
+    {
+      "ruleKey": "character.completion.specializations.valid",
+      "ruleType": "delegated-validation",
+      "severity": "error",
+      "status": "candidate",
+      "requiredRuleKeys": [
+        "character.creation.specializations.rating-eligibility"
+      ],
+      "allowNoSpecializations": true,
+      "errorKey": "character.completion.specializations-invalid"
+    },
+    {
+      "ruleKey": "character.completion.package-binding.complete",
+      "ruleType": "binding",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirements": [
+        {
+          "field": "character.ruleSetBinding.packageId",
+          "operator": "equals",
+          "value": "chronicle.rulesets.werewolf"
+        },
+        {
+          "field": "character.ruleSetBinding.packageVersion",
+          "operator": "non-empty"
+        },
+        {
+          "field": "character.ruleSetBinding.ruleSetContractVersion",
+          "operator": "equals",
+          "value": 1
+        },
+        {
+          "field": "character.ruleSetBinding.characterModelVersion",
+          "operator": "non-empty"
+        },
+        {
+          "field": "character.ruleSetBinding.creationProfileVersion",
+          "operator": "non-empty"
+        }
+      ],
+      "errorKey": "character.completion.package-binding-invalid"
+    },
+    {
+      "ruleKey": "character.completion.creation-ledger.present",
+      "ruleType": "ledger",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirements": [
+        {
+          "field": "character.creationLedger",
+          "operator": "exists"
+        },
+        {
+          "field": "character.creationLedger.status",
+          "operator": "equals",
+          "value": "open"
+        },
+        {
+          "field": "character.creationLedger.entries",
+          "operator": "exists"
+        }
+      ],
+      "errorKey": "character.completion.creation-ledger-missing"
+    },
+    {
+      "ruleKey": "character.completion.prototype-decisions-recorded",
+      "ruleType": "provenance",
+      "severity": "warning",
+      "status": "prototype",
+      "requiredDecisionRefsWhenApplicable": [
+        "current-equals-permanent",
+        "distinct-initial-gifts",
+        "unspent-freebies-allowed",
+        "one-specialization-per-target",
+        "lupus-restrictions-base-stage-only"
+      ],
+      "errorKey": "character.completion.prototype-decision-record-missing"
+    },
+    {
+      "ruleKey": "character.completion.no-blocked-required-artifact",
+      "ruleType": "capability-readiness",
+      "severity": "blocking",
+      "status": "prototype",
+      "requiredArtifacts": [
+        "../catalogs/races.json",
+        "../catalogs/auspices.json",
+        "../catalogs/tribes.json",
+        "../catalogs/attributes.json",
+        "../catalogs/abilities.json",
+        "../catalogs/backgrounds.json",
+        "../catalogs/initial-gifts.json",
+        "../catalogs/ranks.json",
+        "../catalogs/metis-deformities.json",
+        "../fields/identity.json",
+        "../fields/classification.json",
+        "../fields/attributes.json",
+        "../fields/abilities.json",
+        "../fields/backgrounds.json",
+        "../fields/gifts.json",
+        "../fields/renown-and-rank.json",
+        "../fields/resources.json"
+      ],
+      "allowedReadiness": [
+        "prototype",
+        "candidate",
+        "candidate-partial",
+        "candidate-with-conflict",
+        "candidate-with-special-rule",
+        "candidate-with-eligibility-review",
+        "candidate-with-terminology-review"
+      ],
+      "forbiddenReadiness": [
+        "blocked",
+        "unavailable",
+        "rejected"
+      ],
+      "errorKey": "character.completion.required-artifact-unavailable"
+    }
+  ],
+  "warningPolicy": {
+    "warningsDoNotBlockCompletion": true,
+    "warningsRequireAcknowledgement": true,
+    "acknowledgementPersisted": true,
+    "knownWarnings": [
+      {
+        "warningKey": "character.completion.warning.prototype-rules-applied",
+        "appliesWhen": {
+          "operator": "any-prototype-decision-applied"
+        }
+      },
+      {
+        "warningKey": "character.completion.warning.gift-identity-normalization-pending",
+        "appliesWhen": {
+          "operator": "initial-gift-normalization-unresolved"
+        }
+      },
+      {
+        "warningKey": "character.completion.warning.resource-current-initialization-provisional",
+        "appliesWhen": {
+          "operator": "resource-current-initialization-uses-prototype-decision"
+        }
+      },
+      {
+        "warningKey": "character.completion.warning.black-furies-eligibility-review-pending",
+        "appliesWhen": {
+          "field": "character.classification.tribe",
+          "operator": "equals",
+          "value": "character.tribe.black-furies"
+        }
+      }
+    ]
+  },
+  "completionOperation": {
+    "operationKey": "character-creation.complete-character",
+    "operationVersion": 1,
+    "idempotencyRequired": true,
+    "expectedDraftStatus": "Draft",
+    "resultingCharacterStatus": "Active",
+    "transactionBoundary": "single-authoritative-commit",
+    "preCommitActions": [
+      "run-full-character-creation-validation",
+      "run-full-character-completion-validation",
+      "confirm-warning-acknowledgements",
+      "verify-package-binding",
+      "verify-creation-ledger",
+      "verify-no-pending-invalidations"
+    ],
+    "commitActions": [
+      "freeze-creation-ledger",
+      "persist-final-character-state",
+      "persist-rule-set-binding",
+      "persist-applied-prototype-decisions",
+      "persist-warning-acknowledgements",
+      "set-character-status-active",
+      "set-completion-timestamp",
+      "emit-character-creation-completed-event"
+    ],
+    "postCommitActions": [
+      "refresh-character-sheet-projection",
+      "make-character-available-to-campaign",
+      "schedule-non-authoritative-memory-proposal-if-enabled"
+    ],
+    "failurePolicy": {
+      "partialPublicationAllowed": false,
+      "draftRemainsEditable": true,
+      "failedOperationRecorded": true,
+      "retryWithSameIdempotencyKeyAllowed": true
+    }
+  },
+  "finalSnapshotPolicy": {
+    "persistSnapshot": true,
+    "snapshotKind": "CharacterCreationCompletionSnapshot",
+    "include": [
+      "characterState",
+      "ruleSetBinding",
+      "creationLedger",
+      "validationResult",
+      "warningAcknowledgements",
+      "prototypeDecisionRefs",
+      "artifactContractVersions"
+    ],
+    "exclude": [
+      "raw-source-text",
+      "narrative-provider-private-reasoning",
+      "unencrypted-secret-material"
+    ],
+    "immutable": true
+  },
+  "resultContract": {
+    "resultKey": "CharacterCompletionValidationResult",
+    "fields": {
+      "isCompletionAllowed": "Boolean",
+      "blockingIssues": "StructuredCollection",
+      "errors": "StructuredCollection",
+      "warnings": "StructuredCollection",
+      "requiredAcknowledgements": "StructuredCollection",
+      "evaluatedRuleKeys": "ReferenceCollection",
+      "packageBinding": "StructuredObject",
+      "snapshotPreview": "StructuredObject"
+    }
+  },
+  "authorityPolicy": {
+    "ruleSetOwnsMechanicalValidation": true,
+    "chronicleOwnsCommitAndPersistence": true,
+    "narratorMayProposeCompletion": false,
+    "narratorMayBypassValidation": false,
+    "chronicleDirectorMayBypassValidation": false,
+    "administrativeOverrideAllowed": false,
+    "correctionRequiresSeparateAuditedOperation": true
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.freebie-unspent",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "May creation complete with unspent freebie points?",
+      "prototypeDecision": "Yes, provided the budget is not overspent."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.resource-current-values",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Must current resources equal permanent values at completion?",
+      "prototypeDecision": "Treat a mismatch as a warning in the completion layer while the initialization decision remains provisional."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.duplicate-gifts",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "Must the three initial Gifts have distinct normalized identities?",
+      "prototypeDecision": "Yes for this prototype."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.narrative-requiredness",
+      "severity": "low",
+      "status": "semantic-review-required",
+      "question": "Are any narrative fields mandatory?",
+      "prototypeDecision": "No narrative field blocks completion."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high-for-prototype-completion-boundary",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Completion is a separate validation and commit boundary, not merely the last editable workflow step.",
+    "All known mechanical allocation and dependency rules must pass before publication.",
+    "Warnings may be acknowledged, but errors and blocking issues cannot be bypassed.",
+    "The creation ledger and exact Rule Set binding become immutable parts of the completed Character record.",
+    "Completion uses one authoritative transaction and never publishes a partial Character.",
+    "Narrative fields remain optional and nonmechanical.",
+    "Chronicle commits and persists; the Werewolf package validates; neither the Narrator nor the Chronicle Director may override mechanical failure."
+  ]
+}

@@ -1,0 +1,72 @@
+﻿{
+  "changes": [
+    {
+      "affectedDocument": "docs/rfcs/RFC-0027-Rule-Set-Package-Architecture.md",
+      "exactSection": "frontmatter depends_on",
+      "problem": "Rule Set package architecture discusses progression-bearing package responsibilities but did not reference RFC-0031.",
+      "evidence": "RFC-0027 defines package components including progression; RFC-0031 is the authoritative Progression and Character Advancement Contract.",
+      "severity": "medium",
+      "proposedCorrection": "Add RFC-0031 to depends_on.",
+      "architectureChange": false,
+      "status": "applied"
+    },
+    {
+      "affectedDocument": "docs/specs/SPEC-0001-rule-set-package-artifact-model-and-extraction-contract.md",
+      "exactSection": "frontmatter depends_on",
+      "problem": "Rule Set package artifact model includes progression artifacts but did not reference RFC-0031.",
+      "evidence": "SPEC-0001 includes progression/ paths and progression operation examples; RFC-0031 owns progression and advancement semantics.",
+      "severity": "medium",
+      "proposedCorrection": "Add RFC-0031 to depends_on.",
+      "architectureChange": false,
+      "status": "applied"
+    },
+    {
+      "affectedDocument": "docs/adrs/ADR-0002-Repository-and-Solution-Structure.md",
+      "exactSection": "repository layout examples",
+      "problem": "Concrete topology examples are now partially superseded by ADR-0043 v0.2.0, but ADR-0002 frontmatter does not point to that relationship.",
+      "evidence": "ADR-0043 section 4 states ADR-0002 defines architecture while ADR-0043 defines folders/project names/solution organization.",
+      "severity": "high",
+      "proposedCorrection": "Add related_to: ADR-0043 and a short note that topology examples defer to ADR-0043 v0.2.0 where concrete paths conflict.",
+      "architectureChange": false,
+      "status": "applied",
+      "appliedBy": "DR-0001",
+      "appliedDate": "2026-08-03"
+    },
+    {
+      "affectedDocument": "docs/rfcs/RFC-0027-Rule-Set-Package-Architecture.md",
+      "exactSection": "Rule Set package lifecycle and validation",
+      "problem": "Missing normative lifecycle states for candidate extraction, prototype integration, promotion eligibility, promoted package artifact, and publication.",
+      "evidence": "Werewolf prototype-readiness.json exposes prototypeIntegrationReady, implementationReady, promotionReady, runtimePublicationReady and readiness statuses including prototype-candidate, blocked, approved-for-promotion, published.",
+      "severity": "high",
+      "proposedCorrection": "Add lifecycle state contract after architecture decision confirmation.",
+      "architectureChange": true,
+      "status": "applied",
+      "appliedBy": "DR-0003",
+      "appliedDate": "2026-08-03"
+    },
+    {
+      "affectedDocument": "docs/specs/SPEC-0001-rule-set-package-artifact-model-and-extraction-contract.md",
+      "exactSection": "artifact families and validation contracts",
+      "problem": "Evidence, blocker, reconciliation, localization validation, runtime security enforcement, and executable test contracts are demonstrated by Werewolf but not fully specified as package artifact families.",
+      "evidence": "Werewolf has reviews/catalog-review-evidence-status.json, reviews/catalog-review-blocker-index.json, reviews/catalog-review-reconciliation-report.json, reviews/catalog-review-localization-validation-report.json, security/runtime-enforcement.json, and tests/harness/current-slice-runner.py.",
+      "severity": "high",
+      "proposedCorrection": "Extend SPEC-0001 with artifact families for issue/blocker ledgers, evidence freshness, reconciliation reports, localization validation, security enforcement, and executable test reports.",
+      "architectureChange": true,
+      "status": "applied",
+      "appliedBy": "DR-0004",
+      "appliedDate": "2026-08-03"
+    },
+    {
+      "affectedDocument": "docs/rfcs/RFC-0002-Product-Vision.md and docs/rfcs/RFC-0042-Official-MVP-Scope-and-Acceptance-Criteria.md",
+      "exactSection": "One complete Rule Set / MVP scope statements",
+      "problem": "The phrase 'complete Rule Set' is ambiguous and may conflict with current-slice package promotion demonstrated by Werewolf.",
+      "evidence": "Werewolf readiness says several capabilities are blocked or not-started while current-slice prototype integration is ready.",
+      "severity": "high",
+      "proposedCorrection": "Clarify whether MVP requires a complete game-system package or a complete advertised MVP current slice with future-slice exclusions.",
+      "architectureChange": true,
+      "status": "applied",
+      "appliedBy": "DR-0002",
+      "appliedDate": "2026-08-03"
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.backgrounds",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.backgrounds.display-name",
+  "publicationStatus": "candidate",
+  "ratingPolicy": {
+    "valueType": "RankTrack",
+    "minimum": 0,
+    "maximum": 5,
+    "creationBase": 0,
+    "creationPointCost": 1,
+    "ordinaryExperienceIncreaseAllowed": false,
+    "narrativeChangeAllowed": true
+  },
+  "creationAllocation": {
+    "creationStage": "CreationBaseAllocation",
+    "totalPoints": 5,
+    "allowSeveralEntries": true,
+    "tribeRestrictionsRequired": true,
+    "validationRuleRef": "../../rules/character-creation/background-allocation.json"
+  },
+  "entries": [
+    {
+      "entryKey": "character.background.allies",
+      "displayNameResourceKey": "character.background.allies",
+      "descriptionResourceKey": "character.background.allies.description",
+      "sourceLabelPtBr": "Aliados",
+      "ownership": "Character",
+      "mechanicalCategory": "social-network",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-allies.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.ancestors",
+      "displayNameResourceKey": "character.background.ancestors",
+      "descriptionResourceKey": "character.background.ancestors.description",
+      "sourceLabelPtBr": "Ancestrais",
+      "ownership": "Character",
+      "mechanicalCategory": "spiritual-lineage",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-ancestors.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.contacts",
+      "displayNameResourceKey": "character.background.contacts",
+      "descriptionResourceKey": "character.background.contacts.description",
+      "sourceLabelPtBr": "Contatos",
+      "ownership": "Character",
+      "mechanicalCategory": "information-network",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-contacts.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.fetish",
+      "displayNameResourceKey": "character.background.fetish",
+      "descriptionResourceKey": "character.background.fetish.description",
+      "sourceLabelPtBr": "Fetiche",
+      "ownership": "Character",
+      "mechanicalCategory": "mystical-item",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "linkedArtifactFamily": "items.fetishes",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-fetish.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.mentor",
+      "displayNameResourceKey": "character.background.mentor",
+      "descriptionResourceKey": "character.background.mentor.description",
+      "sourceLabelPtBr": "Mentor",
+      "ownership": "Character",
+      "mechanicalCategory": "social-patron",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-mentor.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.kinfolk",
+      "displayNameResourceKey": "character.background.kinfolk",
+      "descriptionResourceKey": "character.background.kinfolk.description",
+      "sourceLabelPtBr": "Parentes",
+      "ownership": "Character",
+      "mechanicalCategory": "family-network",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-kinfolk.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.pure-breed",
+      "displayNameResourceKey": "character.background.pure-breed",
+      "descriptionResourceKey": "character.background.pure-breed.description",
+      "sourceLabelPtBr": "Raça Pura",
+      "ownership": "Character",
+      "mechanicalCategory": "lineage-prestige",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "terminologyReviewStatus": "required",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-pure-breed.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.resources",
+      "displayNameResourceKey": "character.background.resources",
+      "descriptionResourceKey": "character.background.resources.description",
+      "sourceLabelPtBr": "Recursos",
+      "ownership": "Character",
+      "mechanicalCategory": "material-wealth",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-resources.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.rites",
+      "displayNameResourceKey": "character.background.rites",
+      "descriptionResourceKey": "character.background.rites.description",
+      "sourceLabelPtBr": "Ritos",
+      "ownership": "Character",
+      "mechanicalCategory": "ritual-access",
+      "advancementPolicy": "NarrativeChange",
+      "levelTableStatus": "pending-exact-segmentation",
+      "ambiguityRefs": [
+        "ambiguity.werewolf3e.character.rites-dual-concept"
+      ],
+      "notes": [
+        "This Background must remain distinct from the Ability character.ability.rituals.",
+        "The exact relationship between the Background and the Ability remains under semantic review."
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-rites.json"
+      ]
+    },
+    {
+      "entryKey": "character.background.totem",
+      "displayNameResourceKey": "character.background.totem",
+      "descriptionResourceKey": "character.background.totem.description",
+      "sourceLabelPtBr": "Totem",
+      "ownership": "Contribution",
+      "aggregateOwner": "Group",
+      "mechanicalCategory": "group-spirit-bond",
+      "advancementPolicy": "CostedProgressionException",
+      "levelTableStatus": "pending-exact-segmentation",
+      "aggregationPolicy": {
+        "mode": "sum-character-contributions",
+        "targetEntityType": "Pack",
+        "runtimeSupport": "deferred",
+        "prototypeStorage": "individual-contribution-only"
+      },
+      "ambiguityRefs": [
+        "ambiguity.werewolf3e.creation.totem-ownership"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-totem.json"
+      ]
+    }
+  ],
+  "tribeRestrictionContract": {
+    "sourceCatalogRef": "tribes.json",
+    "supportedRestrictionTypes": [
+      "prohibited-selection",
+      "required-minimum",
+      "conditional-permission",
+      "recommended-selection"
+    ],
+    "applicationStage": "CreationBaseAllocation",
+    "rules": [
+      {
+        "ruleKey": "character.creation.backgrounds.apply-tribe-restrictions",
+        "ruleType": "constraint",
+        "status": "candidate",
+        "lookupSource": "tribes.json.entries[].mechanicalData.backgroundRestrictions"
+      }
+    ]
+  },
+  "progressionPolicy": {
+    "default": {
+      "ordinaryExperienceIncreaseAllowed": false,
+      "allowedChangeOperations": [
+        "progression.background.narrative-award",
+        "progression.background.narrative-loss",
+        "progression.background.correction",
+        "progression.background.import"
+      ]
+    },
+    "exceptions": [
+      {
+        "backgroundKey": "character.background.totem",
+        "ordinaryExperienceIncreaseAllowed": true,
+        "status": "candidate",
+        "sourceRuleSummary": "The cleaned source explicitly identifies Totem as the exception to the general prohibition on increasing Backgrounds with experience."
+      }
+    ]
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.backgrounds.total-five",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "operator": "sum-equals",
+      "targetCatalog": "character.backgrounds",
+      "value": 5,
+      "errorKey": "character.creation.background-total-invalid"
+    },
+    {
+      "ruleKey": "character.creation.backgrounds.rating-range",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "minimum": 0,
+      "maximum": 5,
+      "errorKey": "character.creation.background-rating-invalid"
+    },
+    {
+      "ruleKey": "character.progression.backgrounds.no-ordinary-experience",
+      "ruleVersion": 1,
+      "ruleType": "prohibition",
+      "status": "candidate",
+      "exceptionField": "progressionPolicy.exceptions",
+      "errorKey": "character.progression.background-experience-prohibited"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The catalog contains the ten Backgrounds listed by the cleaned source.",
+    "Character creation allocates five total Background points.",
+    "Tribe restrictions are applied through the Tribe catalog rather than duplicated here.",
+    "Backgrounds normally change through narrative events rather than ordinary experience.",
+    "Totem is represented as a Character contribution to a future Group-owned aggregate.",
+    "Detailed one-to-five level tables remain pending exact segmentation and are not invented.",
+    "Rites Background and Rituals Ability are represented by separate technical keys."
+  ]
+}

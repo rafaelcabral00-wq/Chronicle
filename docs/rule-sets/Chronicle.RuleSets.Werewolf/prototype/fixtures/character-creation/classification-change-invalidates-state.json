@@ -1,0 +1,350 @@
+{
+  "contractVersion": 1,
+  "fixtureKey": "character-creation.classification-change-invalidates-state",
+  "fixtureVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "fixtureKind": "character-creation-transition-scenario",
+  "publicationStatus": "prototype-candidate",
+  "purpose": [
+    "Provide one deterministic transition fixture in which changing Race invalidates dependent Character creation state.",
+    "Verify preview, explicit application, deterministic recalculation, preserved user choices, invalidation creation, review-required stages, and repair operations.",
+    "Exercise the boundary between values that may be recalculated automatically and selections that require explicit user review.",
+    "Serve as a shared input for dependency graph, invalidation, stage-state, operation, validation, and transaction tests."
+  ],
+  "binding": {
+    "characterModelId": "chronicle.rulesets.werewolf.character-model",
+    "characterModelVersion": "0.1.0-prototype",
+    "creationProfileVersion": "0.1.0-prototype",
+    "operationIndexVersion": "0.1.0-prototype",
+    "fixtureUsesPrototypeDecisions": true
+  },
+  "baseFixture": {
+    "fixtureKey": "character-creation.minimal-valid-character",
+    "artifactRef": "./minimal-valid-character.json",
+    "requiredBaseFixtureVersion": "0.1.0-prototype",
+    "applicationMode": "authoritative-operation-sequence"
+  },
+  "fixtureIdentity": {
+    "characterId": "fixture-character-classification-change-001",
+    "campaignId": "fixture-campaign-001",
+    "playerUserId": "fixture-user-001",
+    "startingDraftVersion": 1,
+    "previewVersion": 1,
+    "resultingDraftVersion": 2
+  },
+  "requestedChange": {
+    "fieldKey": "character.classification.race",
+    "fromValue": "character.race.homid",
+    "toValue": "character.race.lupus",
+    "previewOperationKey": "character-creation.preview-classification-change",
+    "applyOperationKey": "character-creation.apply-classification-change"
+  },
+  "preChangeAssertions": {
+    "race": "character.race.homid",
+    "gnosis": {
+      "permanent": 1,
+      "current": 1,
+      "classificationInitialRating": 1
+    },
+    "raceGift": "gift.race.homid.master-of-fire",
+    "metisDeformity": null,
+    "computerAbility": {
+      "rating": 2,
+      "baseAllocationDots": 2,
+      "freebieDots": 0
+    },
+    "isCompletionReady": true
+  },
+  "previewExpectations": {
+    "stateMutationOccurred": false,
+    "draftVersionChanged": false,
+    "dependencyClosure": [
+      "character.resource.gnosis",
+      "character.gifts.initial.race",
+      "character.abilities.ratings",
+      "character.metis-deformity",
+      "character.creation.stage-state",
+      "character.creation.review-summary"
+    ],
+    "deterministicRecalculations": [
+      {
+        "fieldKey": "character.resource.gnosis",
+        "fromValue": {
+          "permanent": 1,
+          "current": 1,
+          "classificationInitialRating": 1,
+          "source": "character.race.homid"
+        },
+        "toValue": {
+          "permanent": 5,
+          "current": 5,
+          "classificationInitialRating": 5,
+          "source": "character.race.lupus"
+        },
+        "automaticApplyAllowed": true
+      }
+    ],
+    "preservedSelectionsRequiringReview": [
+      {
+        "fieldKey": "character.gifts.initial.race",
+        "currentValue": "gift.race.homid.master-of-fire",
+        "reasonKey": "character-creation.classification-change.race-gift-no-longer-eligible",
+        "automaticReplacementAllowed": false
+      },
+      {
+        "fieldKey": "character.abilities.character.ability.computer",
+        "currentValue": {
+          "rating": 2,
+          "baseAllocationDots": 2,
+          "freebieDots": 0
+        },
+        "reasonKey": "character-creation.classification-change.lupus-base-ability-restricted",
+        "automaticRemovalAllowed": false
+      }
+    ],
+    "conditionalStageChanges": [
+      {
+        "stageKey": "creation.metis-deformity",
+        "fromStatus": "not-applicable",
+        "toStatus": "not-applicable"
+      }
+    ],
+    "blockingImpactExpected": true,
+    "userConfirmationRequired": true
+  },
+  "applyExpectations": {
+    "operationCommitted": true,
+    "draftVersionIncremented": true,
+    "newRace": "character.race.lupus",
+    "automaticChanges": [
+      {
+        "fieldKey": "character.resource.gnosis",
+        "newValue": {
+          "permanent": 5,
+          "current": 5,
+          "classificationInitialRating": 5,
+          "freebieDots": 0,
+          "source": "character.race.lupus"
+        }
+      }
+    ],
+    "preservedInvalidSelections": [
+      {
+        "fieldKey": "character.gifts.initial.race",
+        "value": "gift.race.homid.master-of-fire"
+      },
+      {
+        "fieldKey": "character.abilities.character.ability.computer",
+        "value": {
+          "rating": 2,
+          "baseAllocationDots": 2,
+          "freebieDots": 0
+        }
+      }
+    ],
+    "createdInvalidations": [
+      {
+        "invalidationKey": "character-creation.initial-gift-ineligible",
+        "category": "selection-ineligible",
+        "severity": "blocking",
+        "status": "open",
+        "causedByFieldKeys": [
+          "character.classification.race"
+        ],
+        "affectedFieldKeys": [
+          "character.gifts.initial.race"
+        ],
+        "affectedItemRefs": [
+          "gift.race.homid.master-of-fire"
+        ],
+        "requiredResolutionType": "replace-selection",
+        "allowedResolutionOperationKeys": [
+          "character-creation.select-initial-gift"
+        ]
+      },
+      {
+        "invalidationKey": "character-creation.ability-allocation-invalid",
+        "category": "allocation-overflow",
+        "severity": "blocking",
+        "status": "open",
+        "causedByFieldKeys": [
+          "character.classification.race"
+        ],
+        "affectedFieldKeys": [
+          "character.abilities.character.ability.computer"
+        ],
+        "affectedItemRefs": [
+          "character.ability.computer"
+        ],
+        "requiredResolutionType": "reallocate",
+        "allowedResolutionOperationKeys": [
+          "character-creation.set-ability-rating"
+        ]
+      }
+    ],
+    "silentSelectionReplacementAllowed": false,
+    "silentAbilityReallocationAllowed": false
+  },
+  "ledgerExpectations": {
+    "appendOnly": true,
+    "classificationChangeEntryRequired": true,
+    "gnosisRecalculationEntriesRequired": true,
+    "invalidGiftSelectionPreservedWithoutRefundOrReplacement": true,
+    "invalidAbilityAllocationPreservedWithoutAutomaticReallocation": true,
+    "baseBudgetTotalsRemainNumericallyReconciled": true,
+    "freebieBudgetRemains": 15,
+    "integrityStatus": "valid"
+  },
+  "stageExpectations": {
+    "creation.identity": "complete",
+    "creation.classifications": "complete",
+    "creation.attributes": "complete",
+    "creation.abilities": "review-required",
+    "creation.backgrounds": "complete",
+    "creation.initial-gifts": "review-required",
+    "creation.resources-renown-rank": "complete",
+    "creation.metis-deformity": "not-applicable",
+    "creation.specializations": "not-started",
+    "creation.freebie-points": "complete",
+    "creation.narrative": "not-started",
+    "creation.review-and-complete": "blocked"
+  },
+  "validationExpectations": {
+    "validationMode": "completion-readiness",
+    "isStructurallyValid": false,
+    "isCompletionReady": false,
+    "blockingIssueCount": 2,
+    "errorCount": 0,
+    "expectedBlockingIssues": [
+      "character-creation.initial-gift-ineligible",
+      "character-creation.ability-allocation-invalid"
+    ],
+    "expectedOpenInvalidations": [
+      "character-creation.initial-gift-ineligible",
+      "character-creation.ability-allocation-invalid"
+    ],
+    "ledgerIntegrityValid": true,
+    "packageBindingCompatible": true
+  },
+  "completionExpectations": {
+    "completionSucceeds": false,
+    "failureKey": "character-creation.complete-character.validation-failed",
+    "freshValidationReturned": true,
+    "characterStatusRemains": "Draft",
+    "creationLedgerStatusRemains": "open",
+    "completionSnapshotCreated": false,
+    "partialCommitOccurred": false
+  },
+  "repairSequence": [
+    {
+      "order": 10,
+      "operationKey": "character-creation.select-initial-gift",
+      "instruction": "Replace the Homid Race Gift with one eligible Lupus Race Gift.",
+      "expectedResolvedInvalidations": [
+        "character-creation.initial-gift-ineligible"
+      ],
+      "expectedRemainingInvalidations": [
+        "character-creation.ability-allocation-invalid"
+      ]
+    },
+    {
+      "order": 20,
+      "operationKey": "character-creation.set-ability-rating",
+      "instruction": "Remove both base-allocation dots from Computer and reallocate them to Lupus-eligible Abilities while preserving category budgets.",
+      "expectedResolvedInvalidations": [
+        "character-creation.ability-allocation-invalid"
+      ],
+      "expectedRemainingInvalidations": []
+    }
+  ],
+  "postRepairExpectations": {
+    "initialGiftStageStatus": "complete",
+    "abilityStageStatus": "complete",
+    "reviewStageStatus": "complete",
+    "isStructurallyValid": true,
+    "isCompletionReady": true,
+    "gnosisRemains": 5,
+    "raceRemains": "character.race.lupus"
+  },
+  "dependencyExpectations": {
+    "startingNodeKeys": [
+      "character.classification.race"
+    ],
+    "deterministicallyRecalculatedNodeKeys": [
+      "character.resource.gnosis"
+    ],
+    "reviewRequiredNodeKeys": [
+      "character.gifts.initial.race",
+      "character.abilities.ratings"
+    ],
+    "conditionalNodeKeys": [
+      "character.metis-deformity"
+    ],
+    "projectionNodeKeys": [
+      "character.creation.stage-state",
+      "character.creation.review-summary"
+    ]
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.lupus-ability-purchase-timing",
+      "status": "source-review-required",
+      "question": "May Lupus Characters acquire normally restricted Abilities later in creation or with freebie points?",
+      "fixtureBoundary": "Only the existing base-allocation dots in Computer are treated as invalid."
+    }
+  ],
+  "prototypeDecisions": [
+    {
+      "decisionKey": "fixture.current-gnosis-equals-permanent-after-classification-change",
+      "basis": "The prototype recalculation policy sets current equal to permanent when an unspent initial resource is rebased.",
+      "fixtureChoice": 5,
+      "authority": "prototype-decision"
+    },
+    {
+      "decisionKey": "fixture.preserve-invalid-user-selections",
+      "basis": "Classification changes do not silently replace or erase user-owned selections.",
+      "fixtureChoice": "preserve-and-invalidate",
+      "authority": "architecture-decision"
+    }
+  ],
+  "negativeAssertions": [
+    "Preview does not mutate or persist Character state.",
+    "Applying the Race change does not silently replace the Race Gift.",
+    "Applying the Race change does not silently remove or move Computer dots.",
+    "Gnosis is recalculated deterministically.",
+    "The numerically balanced Ability budget does not make the restricted allocation valid.",
+    "Completion remains blocked until both invalidations are explicitly repaired.",
+    "No Narrator or Chronicle Director bypass is allowed."
+  ],
+  "testUses": [
+    "classification-change-preview",
+    "classification-change-apply",
+    "dependency-closure",
+    "deterministic-resource-recalculation",
+    "preserve-and-invalidate",
+    "multiple-review-required-stages",
+    "explicit-repair-sequence",
+    "completion-rejection",
+    "completion-atomicity"
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-race-derived-gnosis-gift-eligibility-and-lupus-restrictions",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "fixtureReviewStatus": "pending",
+    "implementationReviewStatus": "pending"
+  },
+  "fixtureNotes": [
+    "This fixture models the complete lifecycle of previewing, applying, validating, and repairing a classification change.",
+    "Deterministic derived values may be recalculated automatically, but user selections are preserved and invalidated.",
+    "The transition creates two independent blocking invalidations.",
+    "Stable IDs, timestamps, fingerprints, and materialized ledger entries must be generated by the test builder.",
+    "Chronicle owns transactionality, persistence, draft versioning, invalidation history, and completion rollback.",
+    "The Rule Set owns dependency semantics, recalculation rules, eligibility validation, and proof of repair."
+  ]
+}

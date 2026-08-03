@@ -1,0 +1,2855 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-evidence-status",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-evidence-status.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewEvidenceStatus",
+  "purpose": [
+    "Provide the canonical mutable status ledger for evidence-production work in the current-slice catalog review.",
+    "Track each evidence work item, expected evidence type, producer, validator, dependencies, blockers, submissions, validation state, fingerprints, staleness, and completion eligibility.",
+    "Allow Chronicle delivery infrastructure to calculate evidence readiness and downstream task, action, review, and promotion state deterministically.",
+    "Prevent planned, submitted, rejected, or stale evidence from being treated as validated evidence."
+  ],
+  "authority": {
+    "statusModelAuthority": "ChronicleArchitecture",
+    "statusCalculationAuthority": "ChronicleDeliveryInfrastructure",
+    "evidenceProductionAuthority": "AssignedEvidenceProducer",
+    "evidenceValidationAuthority": "AssignedEvidenceValidator",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualValidatedStatusOverrideAllowed": false,
+    "automaticStalenessTransitionAllowed": true,
+    "automaticCompletionAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewEvidencePlanArtifactRef": "./catalog-review-evidence-plan.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewActionIndexArtifactRef": "./catalog-review-action-index.json",
+    "catalogReviewRecordIndexArtifactRef": "./catalog-review-record-index.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "catalogReviewStateIndexArtifactRef": "./catalog-review-state-index.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "promotionGateArtifactRef": "../tests/promotion-gate.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "statusModel": {
+    "allowedWorkItemStatuses": [
+      "not-started",
+      "ready",
+      "in-progress",
+      "blocked",
+      "submitted",
+      "partially-validated",
+      "complete",
+      "stale",
+      "superseded"
+    ],
+    "allowedEvidenceStatuses": [
+      "planned",
+      "in-production",
+      "submitted",
+      "validated",
+      "validated-with-warnings",
+      "rejected",
+      "stale",
+      "superseded"
+    ],
+    "readyRequiresDependenciesComplete": true,
+    "inProgressRequiresProducer": true,
+    "blockedRequiresIssueOrBlockerOrMissingDependency": true,
+    "submittedRequiresEvidenceRecord": true,
+    "completeRequiresAllRequiredEvidenceAccepted": true,
+    "staleRequiresChangedInputFingerprint": true,
+    "supersededRequiresReplacementKey": true
+  },
+  "workItems": [
+    {
+      "workItemKey": "catalog-review.evidence.validate-review-model",
+      "status": "complete",
+      "producerType": "ChronicleDeliveryInfrastructure",
+      "producer": "ChronicleDeliveryInfrastructure",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "model-validation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.model-validation-report.801e86df2b837b35"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.model-validation-report.801e86df2b837b35"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": null,
+      "submittedAt": null,
+      "completedAt": "2026-08-02T19:01:06Z",
+      "completionEligible": true
+    },
+    {
+      "workItemKey": "catalog-review.evidence.validate-catalog-contracts",
+      "status": "complete",
+      "producerType": "ChronicleDeliveryInfrastructure",
+      "producer": "ChronicleDeliveryInfrastructure",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "contract-validation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.contract-validation-report.7aff3df17a20054c"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.contract-validation-report.7aff3df17a20054c"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.validate-review-model"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": null,
+      "submittedAt": "2026-08-02T20:43:25.969Z",
+      "completedAt": "2026-08-02T20:43:25.969Z",
+      "completionEligible": true
+    },
+    {
+      "workItemKey": "catalog-review.evidence.validate-required-identities",
+      "status": "complete",
+      "producerType": "ChronicleDeliveryInfrastructure",
+      "producer": "ChronicleDeliveryInfrastructure",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "required-identity-presence-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.required-identity-presence-report.ae47eba644a4616e"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.required-identity-presence-report.ae47eba644a4616e"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.validate-catalog-contracts"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": null,
+      "submittedAt": "2026-08-02T20:47:30.933Z",
+      "completedAt": "2026-08-02T20:47:30.933Z",
+      "completionEligible": true
+    },
+    {
+      "workItemKey": "catalog-review.evidence.review-races",
+      "status": "partially-validated",
+      "producerType": "AssignedCatalogReviewer",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b",
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107",
+        "catalog-review.evidence.formal-decision-record.races.095712b66f03ba84"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b",
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107",
+        "catalog-review.evidence.formal-decision-record.races.095712b66f03ba84"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.validate-required-identities"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-02T20:53:04.145Z",
+      "submittedAt": "2026-08-02T20:53:04.145Z",
+      "completedAt": null,
+      "completionEligible": false
+    },
+    {
+      "workItemKey": "catalog-review.evidence.review-auspices",
+      "status": "partially-validated",
+      "producerType": "AssignedCatalogReviewer",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578",
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7",
+        "catalog-review.evidence.formal-decision-record.auspices.b5239753f3d93130"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578",
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7",
+        "catalog-review.evidence.formal-decision-record.auspices.b5239753f3d93130"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-races"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [
+        "catalog-review.evidence.review-races"
+      ],
+      "startedAt": "2026-08-02T20:56:30.545Z",
+      "submittedAt": "2026-08-02T20:56:30.545Z",
+      "completedAt": null,
+      "completionEligible": false
+    },
+    {
+      "workItemKey": "catalog-review.evidence.review-tribes",
+      "status": "partially-validated",
+      "producerType": "AssignedCatalogReviewer",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd",
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320",
+        "catalog-review.evidence.source-gap-investigation.glass-walkers-willpower.90a31209be4e22f7",
+        "catalog-review.evidence.original-source.glass-walkers-willpower.a4302e2938a137fb"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd",
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320",
+        "catalog-review.evidence.source-gap-investigation.glass-walkers-willpower.90a31209be4e22f7",
+        "catalog-review.evidence.original-source.glass-walkers-willpower.a4302e2938a137fb"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-auspices"
+      ],
+      "blockingIssueKeys": [
+        "catalog-review.issue.tribe-initial-willpower-unresolved"
+      ],
+      "blockingBlockerKeys": [
+        "catalog-review.blocker.tribe-source-review-required"
+      ],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-02T21:01:23.117Z",
+      "submittedAt": "2026-08-02T21:01:23.117Z",
+      "completedAt": null,
+      "completionEligible": false
+    },
+    {
+      "workItemKey": "catalog-review.evidence.review-attributes",
+      "status": "partially-validated",
+      "producerType": "AssignedCatalogReviewer",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.attributes.185664eb008c98f5",
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7",
+        "catalog-review.evidence.formal-decision-record.attributes.5076ec956da45137"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.attributes.185664eb008c98f5",
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7",
+        "catalog-review.evidence.formal-decision-record.attributes.5076ec956da45137"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-tribes"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-02T21:04:41.051Z",
+      "submittedAt": "2026-08-02T21:04:41.051Z",
+      "completedAt": null,
+      "completionEligible": false
+    },
+    {
+      "workItemKey": "catalog-review.evidence.review-abilities",
+      "status": "partially-validated",
+      "producerType": "AssignedCatalogReviewer",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.formal-decision-record.abilities.98f691b24e90ad63",
+        "catalog-review.evidence.source-gap-investigation.ability-category-order.40654efab49665fb",
+        "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.formal-decision-record.abilities.98f691b24e90ad63",
+        "catalog-review.evidence.source-gap-investigation.ability-category-order.40654efab49665fb"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-attributes"
+      ],
+      "blockingIssueKeys": [
+        "catalog-review.issue.ability-category-order-slice-mismatch"
+      ],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-02T21:12:36.000Z",
+      "submittedAt": "2026-08-02T21:12:36.000Z",
+      "completedAt": null,
+      "completionEligible": false,
+      "notes": "Focused original-source reconciliation evidence recorded; work item remains partial because fixtures/tests/security/localization/finalization evidence were not produced."
+    },
+    {
+      "workItemKey": "catalog-review.evidence.review-backgrounds",
+      "status": "partially-validated",
+      "producerType": "AssignedCatalogReviewer",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+        "catalog-review.evidence.formal-decision-record.backgrounds.b35862c40b9286de",
+        "catalog-review.evidence.source-gap-investigation.background-order-restrictions.ea4d7548c403e50d",
+        "catalog-review.evidence.original-source.backgrounds-order-restrictions.a4302e2938a137fb"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+        "catalog-review.evidence.formal-decision-record.backgrounds.b35862c40b9286de",
+        "catalog-review.evidence.source-gap-investigation.background-order-restrictions.ea4d7548c403e50d"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-abilities"
+      ],
+      "blockingIssueKeys": [
+        "catalog-review.issue.background-order-slice-mismatch",
+        "catalog-review.issue.background-restriction-metadata-unresolved"
+      ],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-02T21:24:18.000Z",
+      "submittedAt": "2026-08-02T21:24:18.000Z",
+      "completedAt": null,
+      "completionEligible": false,
+      "notes": "Focused original-source reconciliation evidence recorded; work item remains partial because fixtures/tests/security/localization/finalization evidence were not produced."
+    },
+    {
+      "workItemKey": "catalog-review.evidence.resolve-metis-deformity",
+      "status": "partially-validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "fixture-validation-report",
+        "test-run-report",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7",
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9",
+        "catalog-review.evidence.formal-decision-record.metis-deformity.0324a27a85df60c4",
+        "catalog-review.evidence.source-gap-investigation.metis-horns.3b91f541bca5f132",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7",
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9",
+        "catalog-review.evidence.formal-decision-record.metis-deformity.0324a27a85df60c4",
+        "catalog-review.evidence.source-gap-investigation.metis-horns.3b91f541bca5f132",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-backgrounds"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-03T00:00:00.000-03:00",
+      "submittedAt": "2026-08-03T00:00:00.000-03:00",
+      "completedAt": null,
+      "completionEligible": false
+    },
+    {
+      "workItemKey": "catalog-review.evidence.review-rank",
+      "status": "partially-validated",
+      "producerType": "AssignedCatalogReviewer",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77",
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a",
+        "catalog-review.evidence.formal-decision-record.rank.cliath.0e7c98ca77571887"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77",
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a",
+        "catalog-review.evidence.formal-decision-record.rank.cliath.0e7c98ca77571887"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-backgrounds"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-03T00:00:00.000-03:00",
+      "submittedAt": "2026-08-03T00:00:00.000-03:00",
+      "completedAt": null,
+      "completionEligible": false
+    },
+    {
+      "workItemKey": "catalog-review.evidence.resolve-initial-gifts",
+      "status": "partially-validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "requiredEvidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "formal-decision-record",
+        "fixture-validation-report",
+        "test-run-report",
+        "reconciliation-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.source-gap-investigation.initial-gifts.b36415ba09980f49",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.source-gap-investigation.initial-gifts.b36415ba09980f49",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.review-rank"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-03T00:00:00.000-03:00",
+      "submittedAt": "2026-08-03T00:00:00.000-03:00",
+      "completedAt": null,
+      "completionEligible": false
+    },
+    {
+      "workItemKey": "catalog-review.evidence.finalize-review",
+      "status": "complete",
+      "producerType": "ChronicleDeliveryInfrastructure",
+      "producer": "ChronicleDeliveryInfrastructure",
+      "validatorType": "ChronicleBuildAndReleaseInfrastructure",
+      "requiredEvidenceTypes": [
+        "formal-decision-record",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report",
+        "review-result-report"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803",
+        "catalog-review.evidence.formal-decision-set-finalization.20260803",
+        "catalog-review.evidence.final-review-result.20260803",
+        "catalog-review.evidence.work-package-completion.20260803"
+      ],
+      "validatedEvidenceIds": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803",
+        "catalog-review.evidence.formal-decision-set-finalization.20260803",
+        "catalog-review.evidence.final-review-result.20260803",
+        "catalog-review.evidence.work-package-completion.20260803"
+      ],
+      "rejectedEvidenceIds": [],
+      "staleEvidenceIds": [],
+      "dependsOn": [
+        "catalog-review.evidence.resolve-initial-gifts"
+      ],
+      "blockingIssueKeys": [],
+      "blockingBlockerKeys": [],
+      "missingDependencyKeys": [],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "completionEligible": true
+    }
+  ],
+  "evidenceRecords": [
+    {
+      "evidenceId": "catalog-review.evidence.model-validation-report.801e86df2b837b35",
+      "workItemKey": "catalog-review.evidence.validate-review-model",
+      "evidenceType": "model-validation-report",
+      "status": "validated",
+      "producerType": "ChronicleDeliveryInfrastructure",
+      "producer": "ChronicleDeliveryInfrastructure",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-validation-report.json",
+          "algorithm": "SHA-256",
+          "value": "0aef2043a73e0864e4e774bc03abe39a7a186b4987da518f94c8321ef74848bd",
+          "role": "model-validation-report-output"
+        },
+        {
+          "artifactRef": "./catalog-review-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "4d433ded6313a976dd2ee5c17372446d82b347d7cce12b188623b334b77316f8",
+          "role": "required-input:catalog-review-model-index"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "5ba4e7c73ec33c94333dcc33d910371c30317566bbc917d8ec2ac756d80e7829",
+          "role": "required-input:catalog-review-state-index"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-plan.json",
+          "algorithm": "SHA-256",
+          "value": "40c717af561ad6d2cb5277f74d4f001e8a00beffdd475ce9ec86bb7229abdcb3",
+          "role": "required-input:catalog-review-execution-plan"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "25b36122b1ecc811a8e58799a8a6839d21d44e813b1468433fc1a88ee06cbde6",
+          "role": "required-input:catalog-review-task-status"
+        },
+        {
+          "artifactRef": "./catalog-review-action-index.json",
+          "algorithm": "SHA-256",
+          "value": "5c2778f4e7e9d6deff59a35e31f1fa0ac843f43da1a9e6160fd2e203a5114639",
+          "role": "required-input:catalog-review-action-index"
+        },
+        {
+          "artifactRef": "./catalog-review-issues.json",
+          "algorithm": "SHA-256",
+          "value": "82b6677bcb89ed8d51e64364aaca1b58c2e6d248c79488b1d316a12080eb2680",
+          "role": "required-input:catalog-review-issues"
+        },
+        {
+          "artifactRef": "./catalog-review-blocker-index.json",
+          "algorithm": "SHA-256",
+          "value": "b2b66ed3d45eda5a8e88aaf7d59a1b6030ae8ea74eaecb3a3ce792fb5ee237e9",
+          "role": "required-input:catalog-review-blocker-index"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "5f86eceee932f97bbc663b91b2e78962b26c0f2dbf0dd0ef8c0b74e45b4244aa",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "459bd1b459f5e2eed50557d8a5d9ba04e99f7b0c5925e6ce6ddd2a5c54d2b233",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "25b36122b1ecc811a8e58799a8a6839d21d44e813b1468433fc1a88ee06cbde6",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "5ba4e7c73ec33c94333dcc33d910371c30317566bbc917d8ec2ac756d80e7829",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "9041cacb6d34e061d40b0f705dc9a12699f40d4d766cb615d98a64100430d1e5",
+          "role": "reconciled-ledger-artifact"
+        }
+      ],
+      "inputFingerprints": {
+        "catalog-review-model-index": {
+          "artifactRef": "./catalog-review-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "4d433ded6313a976dd2ee5c17372446d82b347d7cce12b188623b334b77316f8"
+        },
+        "catalog-review-state-index": {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "5ba4e7c73ec33c94333dcc33d910371c30317566bbc917d8ec2ac756d80e7829"
+        },
+        "catalog-review-execution-plan": {
+          "artifactRef": "./catalog-review-execution-plan.json",
+          "algorithm": "SHA-256",
+          "value": "40c717af561ad6d2cb5277f74d4f001e8a00beffdd475ce9ec86bb7229abdcb3"
+        },
+        "catalog-review-task-status": {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "25b36122b1ecc811a8e58799a8a6839d21d44e813b1468433fc1a88ee06cbde6"
+        },
+        "catalog-review-action-index": {
+          "artifactRef": "./catalog-review-action-index.json",
+          "algorithm": "SHA-256",
+          "value": "5c2778f4e7e9d6deff59a35e31f1fa0ac843f43da1a9e6160fd2e203a5114639"
+        },
+        "catalog-review-issues": {
+          "artifactRef": "./catalog-review-issues.json",
+          "algorithm": "SHA-256",
+          "value": "82b6677bcb89ed8d51e64364aaca1b58c2e6d248c79488b1d316a12080eb2680"
+        },
+        "catalog-review-blocker-index": {
+          "artifactRef": "./catalog-review-blocker-index.json",
+          "algorithm": "SHA-256",
+          "value": "b2b66ed3d45eda5a8e88aaf7d59a1b6030ae8ea74eaecb3a3ce792fb5ee237e9"
+        }
+      },
+      "submittedAt": "2026-08-02T19:01:06Z",
+      "validatedAt": "2026-08-02T19:01:06Z",
+      "evidenceFingerprint": "0d3d72a842b359f4de6f7b193f4f3732b6467a4e4b5051645405ba7e83292582",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.contract-validation-report.7aff3df17a20054c",
+      "workItemKey": "catalog-review.evidence.validate-catalog-contracts",
+      "evidenceType": "contract-validation-report",
+      "status": "validated-with-warnings",
+      "producerType": "ChronicleDeliveryInfrastructure",
+      "producer": "ChronicleDeliveryInfrastructure",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./catalog-contract-validation-report.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./catalog-contract-validation-report.json",
+          "algorithm": "SHA-256",
+          "value": "7aff3df17a20054cdd8d58e50f041745513344629c70896b4be216f0a7781783",
+          "role": "contract-validation-report-output"
+        },
+        {
+          "artifactRef": "../character-model/character-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "020df41e3e886e5b3b692d273df70eea5d819f98c091e7deaeb7bfb45981a6ee",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/creation/creation-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "312cd21e845f2481c9d004434c1b9caf387127667b071e6e9234c359901a2a88",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/creation/stage-state.json",
+          "algorithm": "SHA-256",
+          "value": "be0b447823b4aa1d76c480eb75d65ca92bf1a477b341380c1f617af34737433a",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/validation/validation-index.json",
+          "algorithm": "SHA-256",
+          "value": "c4b24ea5f19989130ea86991f0e6a7b91be1f15e95cea68aacfa1cfc43cfe7df",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-sheet/character-sheet-index.json",
+          "algorithm": "SHA-256",
+          "value": "c4ada339daf53eb77baafd405356c0d44bf872fa8458c1ce72ef058fdccd17af",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "./current-slice-boundary-review.json",
+          "algorithm": "SHA-256",
+          "value": "c2e1c82eda566935111b4d65b1f261a099b43bcbb2d2ac1613707d64e726d8fa",
+          "role": "required-input"
+        }
+      ],
+      "inputFingerprints": {
+        "character-model-index": {
+          "artifactRef": "../character-model/character-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "020df41e3e886e5b3b692d273df70eea5d819f98c091e7deaeb7bfb45981a6ee"
+        },
+        "creation-model-index": {
+          "artifactRef": "../character-model/creation/creation-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "312cd21e845f2481c9d004434c1b9caf387127667b071e6e9234c359901a2a88"
+        },
+        "stage-state": {
+          "artifactRef": "../character-model/creation/stage-state.json",
+          "algorithm": "SHA-256",
+          "value": "be0b447823b4aa1d76c480eb75d65ca92bf1a477b341380c1f617af34737433a"
+        },
+        "validation-index": {
+          "artifactRef": "../character-model/validation/validation-index.json",
+          "algorithm": "SHA-256",
+          "value": "c4b24ea5f19989130ea86991f0e6a7b91be1f15e95cea68aacfa1cfc43cfe7df"
+        },
+        "character-sheet-index": {
+          "artifactRef": "../character-sheet/character-sheet-index.json",
+          "algorithm": "SHA-256",
+          "value": "c4ada339daf53eb77baafd405356c0d44bf872fa8458c1ce72ef058fdccd17af"
+        },
+        "current-slice-boundary-review": {
+          "artifactRef": "./current-slice-boundary-review.json",
+          "algorithm": "SHA-256",
+          "value": "c2e1c82eda566935111b4d65b1f261a099b43bcbb2d2ac1613707d64e726d8fa"
+        }
+      },
+      "submittedAt": "2026-08-02T20:43:25.969Z",
+      "validatedAt": "2026-08-02T20:43:25.969Z",
+      "evidenceFingerprint": "63b1fcffa09b10426eb03c31d95f432b064198789028c32484a691f993e2f3e9",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.required-identity-presence-report.ae47eba644a4616e",
+      "workItemKey": "catalog-review.evidence.validate-required-identities",
+      "evidenceType": "required-identity-presence-report",
+      "status": "validated-with-warnings",
+      "producerType": "ChronicleDeliveryInfrastructure",
+      "producer": "ChronicleDeliveryInfrastructure",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./required-identity-presence-report.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./required-identity-presence-report.json",
+          "algorithm": "SHA-256",
+          "value": "ae47eba644a4616e45e9c46eb3540a5a7b4c3a6bf1e41fb1bd7e6a3f3ee09c93",
+          "role": "required-identity-presence-report-output"
+        },
+        {
+          "artifactRef": "./catalog-review-checklist.json",
+          "algorithm": "SHA-256",
+          "value": "96c3f01df3e49317e54b16086abf02fdadd8d4051641acdc20244647c9c783ab",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "bbb7667778c6fb13a09e55a4849df2f5a3cefe74dcd5553c73c33daa322c6506",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "./catalog-review-blocker-index.json",
+          "algorithm": "SHA-256",
+          "value": "4d945dd1a7a092b837e125fa70bb8525a6144f1a69bf778a16ada38edbdc13be",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "./catalog-review-record-index.json",
+          "algorithm": "SHA-256",
+          "value": "e7e7e8db69a180c64a04b7afff032e181013300647845d2da7156b25366a96dd",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/character-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "020df41e3e886e5b3b692d273df70eea5d819f98c091e7deaeb7bfb45981a6ee",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/races.json",
+          "algorithm": "SHA-256",
+          "value": "a91df42221adf75b4c0110d5bfd0bed3a7de78fab68bf06870bd866fb14f562f",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/auspices.json",
+          "algorithm": "SHA-256",
+          "value": "66ba79286fa6a5ba02cb655ce1d153fb256172e5da28bcb8a87728779716e74f",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/tribes.json",
+          "algorithm": "SHA-256",
+          "value": "c106cfb022142c07d2d29ac69ff93c16fcbd87803c29054f66e3f6f92537a9ea",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/attributes.json",
+          "algorithm": "SHA-256",
+          "value": "c85d00fb2c3c3a021beb17cd149dbc749cdbeb7d9234dbdb42f5924545166d90",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/metis-deformities.json",
+          "algorithm": "SHA-256",
+          "value": "c5d01bf81c4c87e730431e795443ef11ba63924488d4efcb430d93a543d49d2e",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/ranks.json",
+          "algorithm": "SHA-256",
+          "value": "c6f1a4d5a308fe3140f073c86303938e799fecafe729514ddb9e9f78cdf72710",
+          "role": "required-input"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/initial-gifts.json",
+          "algorithm": "SHA-256",
+          "value": "0d38416e7635363a5c6b2ae9cd4d072165ed812dc81e2eae37c85ed4e4ed5bf9",
+          "role": "required-input"
+        }
+      ],
+      "inputFingerprints": {
+        "catalog-review-checklist": {
+          "artifactRef": "./catalog-review-checklist.json",
+          "algorithm": "SHA-256",
+          "value": "96c3f01df3e49317e54b16086abf02fdadd8d4051641acdc20244647c9c783ab"
+        },
+        "catalog-identity-decisions": {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "bbb7667778c6fb13a09e55a4849df2f5a3cefe74dcd5553c73c33daa322c6506"
+        },
+        "catalog-review-blocker-index": {
+          "artifactRef": "./catalog-review-blocker-index.json",
+          "algorithm": "SHA-256",
+          "value": "4d945dd1a7a092b837e125fa70bb8525a6144f1a69bf778a16ada38edbdc13be"
+        },
+        "catalog-review-record-index": {
+          "artifactRef": "./catalog-review-record-index.json",
+          "algorithm": "SHA-256",
+          "value": "e7e7e8db69a180c64a04b7afff032e181013300647845d2da7156b25366a96dd"
+        },
+        "character-model-index": {
+          "artifactRef": "../character-model/character-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "020df41e3e886e5b3b692d273df70eea5d819f98c091e7deaeb7bfb45981a6ee"
+        },
+        "catalog:../character-model/catalogs/races.json": {
+          "artifactRef": "../character-model/catalogs/races.json",
+          "algorithm": "SHA-256",
+          "value": "a91df42221adf75b4c0110d5bfd0bed3a7de78fab68bf06870bd866fb14f562f"
+        },
+        "catalog:../character-model/catalogs/auspices.json": {
+          "artifactRef": "../character-model/catalogs/auspices.json",
+          "algorithm": "SHA-256",
+          "value": "66ba79286fa6a5ba02cb655ce1d153fb256172e5da28bcb8a87728779716e74f"
+        },
+        "catalog:../character-model/catalogs/tribes.json": {
+          "artifactRef": "../character-model/catalogs/tribes.json",
+          "algorithm": "SHA-256",
+          "value": "c106cfb022142c07d2d29ac69ff93c16fcbd87803c29054f66e3f6f92537a9ea"
+        },
+        "catalog:../character-model/catalogs/attributes.json": {
+          "artifactRef": "../character-model/catalogs/attributes.json",
+          "algorithm": "SHA-256",
+          "value": "c85d00fb2c3c3a021beb17cd149dbc749cdbeb7d9234dbdb42f5924545166d90"
+        },
+        "catalog:../character-model/catalogs/abilities.json": {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb"
+        },
+        "catalog:../character-model/catalogs/backgrounds.json": {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e"
+        },
+        "catalog:../character-model/catalogs/metis-deformities.json": {
+          "artifactRef": "../character-model/catalogs/metis-deformities.json",
+          "algorithm": "SHA-256",
+          "value": "c5d01bf81c4c87e730431e795443ef11ba63924488d4efcb430d93a543d49d2e"
+        },
+        "catalog:../character-model/catalogs/ranks.json": {
+          "artifactRef": "../character-model/catalogs/ranks.json",
+          "algorithm": "SHA-256",
+          "value": "c6f1a4d5a308fe3140f073c86303938e799fecafe729514ddb9e9f78cdf72710"
+        },
+        "catalog:../character-model/catalogs/initial-gifts.json": {
+          "artifactRef": "../character-model/catalogs/initial-gifts.json",
+          "algorithm": "SHA-256",
+          "value": "0d38416e7635363a5c6b2ae9cd4d072165ed812dc81e2eae37c85ed4e4ed5bf9"
+        }
+      },
+      "submittedAt": "2026-08-02T20:47:30.933Z",
+      "validatedAt": "2026-08-02T20:47:30.933Z",
+      "evidenceFingerprint": "eb3dcf5e103f3223c44b605ccd01968d79e61e51bb506a2268ea819adaea5ef0",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b",
+      "workItemKey": "catalog-review.evidence.review-races",
+      "evidenceType": "source-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./race-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./race-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "4bd42d7d40f5d95b9e7eb458bfaca107ae84ee48c49ab5853e5cfdf3d2bfb86f",
+          "role": "source-review-record-output"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "29015bcfa181b3d8e3643ccb45e672598c536ab070179a51d8366bb1c8fe797f",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+          "algorithm": "SHA-256",
+          "value": "d1dc4a45ab68c764024bbf26ce2a821e07608dc9284ee7235ff72b8b11fd687c",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+          "algorithm": "SHA-256",
+          "value": "01af4a449e7d036149231d7c5112b08f7adafee4a4d14f055d626e8b5367fc4b",
+          "role": "source-derived-evidence"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "races-catalog": {
+          "artifactRef": "../character-model/catalogs/races.json",
+          "algorithm": "SHA-256",
+          "value": "a91df42221adf75b4c0110d5bfd0bed3a7de78fab68bf06870bd866fb14f562f"
+        }
+      },
+      "submittedAt": "2026-08-02T20:53:04.145Z",
+      "validatedAt": "2026-08-02T20:53:04.145Z",
+      "evidenceFingerprint": "5c14f1134cf0109adc78b4fae7799276b2796e794186d0d94af5aed56138b990",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107",
+      "workItemKey": "catalog-review.evidence.review-races",
+      "evidenceType": "catalog-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./race-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./race-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "4bd42d7d40f5d95b9e7eb458bfaca107ae84ee48c49ab5853e5cfdf3d2bfb86f",
+          "role": "catalog-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/races.json",
+          "algorithm": "SHA-256",
+          "value": "a91df42221adf75b4c0110d5bfd0bed3a7de78fab68bf06870bd866fb14f562f",
+          "role": "catalog-under-review"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "races-catalog": {
+          "artifactRef": "../character-model/catalogs/races.json",
+          "algorithm": "SHA-256",
+          "value": "a91df42221adf75b4c0110d5bfd0bed3a7de78fab68bf06870bd866fb14f562f"
+        }
+      },
+      "submittedAt": "2026-08-02T20:53:04.145Z",
+      "validatedAt": "2026-08-02T20:53:04.145Z",
+      "evidenceFingerprint": "6a53d784cbb1f48aee6dad93a2fa26cc5c9025e5a2f0b758717a286577ab37c3",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.formal-decision-record.races.095712b66f03ba84",
+      "workItemKey": "catalog-review.evidence.review-races",
+      "evidenceType": "formal-decision-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./catalog-identity-decisions.json",
+        "./race-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "095712b66f03ba84432fe2468a14e2cf152a94200e6a820f2c41a29f9bfa61df",
+          "role": "formal-decision-record-output"
+        },
+        {
+          "artifactRef": "./race-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "4bd42d7d40f5d95b9e7eb458bfaca107ae84ee48c49ab5853e5cfdf3d2bfb86f",
+          "role": "decision-input-review-record"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "races-catalog": {
+          "artifactRef": "../character-model/catalogs/races.json",
+          "algorithm": "SHA-256",
+          "value": "a91df42221adf75b4c0110d5bfd0bed3a7de78fab68bf06870bd866fb14f562f"
+        }
+      },
+      "submittedAt": "2026-08-02T20:53:04.145Z",
+      "validatedAt": "2026-08-02T20:53:04.145Z",
+      "evidenceFingerprint": "f55cb79d3ebd023f6bae3b09daec3bf881fcb24fb9e7d9ef885c49eaaefc6d53",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578",
+      "workItemKey": "catalog-review.evidence.review-auspices",
+      "evidenceType": "source-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./auspice-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./auspice-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "4a254e81b7f28578fbe55815626b1ed716f7aa5e0c067d17f03dd9fa9602394a",
+          "role": "source-review-record-output"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "29015bcfa181b3d8e3643ccb45e672598c536ab070179a51d8366bb1c8fe797f",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+          "algorithm": "SHA-256",
+          "value": "d1dc4a45ab68c764024bbf26ce2a821e07608dc9284ee7235ff72b8b11fd687c",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+          "algorithm": "SHA-256",
+          "value": "01af4a449e7d036149231d7c5112b08f7adafee4a4d14f055d626e8b5367fc4b",
+          "role": "source-derived-evidence"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "auspices-catalog": {
+          "artifactRef": "../character-model/catalogs/auspices.json",
+          "algorithm": "SHA-256",
+          "value": "66ba79286fa6a5ba02cb655ce1d153fb256172e5da28bcb8a87728779716e74f"
+        }
+      },
+      "submittedAt": "2026-08-02T20:56:30.545Z",
+      "validatedAt": "2026-08-02T20:56:30.545Z",
+      "evidenceFingerprint": "8ef0b6514c1236bb12d318bcae4d42dc0208dac380fe6882968016f4ffaf338a",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7",
+      "workItemKey": "catalog-review.evidence.review-auspices",
+      "evidenceType": "catalog-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./auspice-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./auspice-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "4a254e81b7f28578fbe55815626b1ed716f7aa5e0c067d17f03dd9fa9602394a",
+          "role": "catalog-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/auspices.json",
+          "algorithm": "SHA-256",
+          "value": "66ba79286fa6a5ba02cb655ce1d153fb256172e5da28bcb8a87728779716e74f",
+          "role": "catalog-under-review"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "auspices-catalog": {
+          "artifactRef": "../character-model/catalogs/auspices.json",
+          "algorithm": "SHA-256",
+          "value": "66ba79286fa6a5ba02cb655ce1d153fb256172e5da28bcb8a87728779716e74f"
+        }
+      },
+      "submittedAt": "2026-08-02T20:56:30.545Z",
+      "validatedAt": "2026-08-02T20:56:30.545Z",
+      "evidenceFingerprint": "d257ef6a425c174c4130a487d944ee6126c94975911552aee0f732f32a874fc3",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.formal-decision-record.auspices.b5239753f3d93130",
+      "workItemKey": "catalog-review.evidence.review-auspices",
+      "evidenceType": "formal-decision-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./catalog-identity-decisions.json",
+        "./auspice-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "b5239753f3d9313057a9733de751ef8e2c5b72fca602dbac55d2c74c1fb33fb3",
+          "role": "formal-decision-record-output"
+        },
+        {
+          "artifactRef": "./auspice-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "4a254e81b7f28578fbe55815626b1ed716f7aa5e0c067d17f03dd9fa9602394a",
+          "role": "decision-input-review-record"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "auspices-catalog": {
+          "artifactRef": "../character-model/catalogs/auspices.json",
+          "algorithm": "SHA-256",
+          "value": "66ba79286fa6a5ba02cb655ce1d153fb256172e5da28bcb8a87728779716e74f"
+        }
+      },
+      "submittedAt": "2026-08-02T20:56:30.545Z",
+      "validatedAt": "2026-08-02T20:56:30.545Z",
+      "evidenceFingerprint": "87b85fd370a662c1f8e4548d6bec1aa3b8e47c5946816dbdebca8f3d91c8f265",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd",
+      "workItemKey": "catalog-review.evidence.review-tribes",
+      "evidenceType": "source-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./tribe-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./tribe-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "d1d9c64b7dd670fda95bfacf7a598320d08174cebd07ad1f58d1f868b8301c9e",
+          "role": "source-review-record-output"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "29015bcfa181b3d8e3643ccb45e672598c536ab070179a51d8366bb1c8fe797f",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+          "algorithm": "SHA-256",
+          "value": "1e16ca7e800474a76112a42c27c846221647f002b91c46f3c1ea0370b838a79d",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+          "algorithm": "SHA-256",
+          "value": "d1dc4a45ab68c764024bbf26ce2a821e07608dc9284ee7235ff72b8b11fd687c",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+          "algorithm": "SHA-256",
+          "value": "01af4a449e7d036149231d7c5112b08f7adafee4a4d14f055d626e8b5367fc4b",
+          "role": "source-derived-evidence"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "tribes-catalog": {
+          "artifactRef": "../character-model/catalogs/tribes.json",
+          "algorithm": "SHA-256",
+          "value": "c106cfb022142c07d2d29ac69ff93c16fcbd87803c29054f66e3f6f92537a9ea"
+        }
+      },
+      "submittedAt": "2026-08-02T21:01:23.117Z",
+      "validatedAt": "2026-08-02T21:01:23.117Z",
+      "evidenceFingerprint": "d20c7f7ec549ffdf0ffa69570b3b05808790a12ea71ea92cd12c76f0067a4e44",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320",
+      "workItemKey": "catalog-review.evidence.review-tribes",
+      "evidenceType": "catalog-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./tribe-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./tribe-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "d1d9c64b7dd670fda95bfacf7a598320d08174cebd07ad1f58d1f868b8301c9e",
+          "role": "catalog-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/tribes.json",
+          "algorithm": "SHA-256",
+          "value": "c106cfb022142c07d2d29ac69ff93c16fcbd87803c29054f66e3f6f92537a9ea",
+          "role": "catalog-under-review"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "tribes-catalog": {
+          "artifactRef": "../character-model/catalogs/tribes.json",
+          "algorithm": "SHA-256",
+          "value": "c106cfb022142c07d2d29ac69ff93c16fcbd87803c29054f66e3f6f92537a9ea"
+        }
+      },
+      "submittedAt": "2026-08-02T21:01:23.117Z",
+      "validatedAt": "2026-08-02T21:01:23.117Z",
+      "evidenceFingerprint": "3b2801268de72259a405ef0b975a81bad2f2e07a82919e40991fe2d019b0f264",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.source-review-record.attributes.185664eb008c98f5",
+      "workItemKey": "catalog-review.evidence.review-attributes",
+      "evidenceType": "source-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./attribute-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "185664eb008c98f5722bf0d1d74753b764461a17f446c5f233f1f3c975dceb5e",
+          "role": "source-review-record-output"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "29015bcfa181b3d8e3643ccb45e672598c536ab070179a51d8366bb1c8fe797f",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+          "algorithm": "SHA-256",
+          "value": "1e16ca7e800474a76112a42c27c846221647f002b91c46f3c1ea0370b838a79d",
+          "role": "source-derived-evidence"
+        },
+        {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+          "algorithm": "SHA-256",
+          "value": "01af4a449e7d036149231d7c5112b08f7adafee4a4d14f055d626e8b5367fc4b",
+          "role": "source-derived-evidence"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "attributes-catalog": {
+          "artifactRef": "../character-model/catalogs/attributes.json",
+          "algorithm": "SHA-256",
+          "value": "c85d00fb2c3c3a021beb17cd149dbc749cdbeb7d9234dbdb42f5924545166d90"
+        }
+      },
+      "submittedAt": "2026-08-02T21:04:41.051Z",
+      "validatedAt": "2026-08-02T21:04:41.051Z",
+      "evidenceFingerprint": "40d9f91fce83071ac2d9a20ec9443a8d2a5797fc888cedf771e706174da33ca2",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7",
+      "workItemKey": "catalog-review.evidence.review-attributes",
+      "evidenceType": "catalog-review-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./attribute-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "185664eb008c98f5722bf0d1d74753b764461a17f446c5f233f1f3c975dceb5e",
+          "role": "catalog-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/attributes.json",
+          "algorithm": "SHA-256",
+          "value": "c85d00fb2c3c3a021beb17cd149dbc749cdbeb7d9234dbdb42f5924545166d90",
+          "role": "catalog-under-review"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "attributes-catalog": {
+          "artifactRef": "../character-model/catalogs/attributes.json",
+          "algorithm": "SHA-256",
+          "value": "c85d00fb2c3c3a021beb17cd149dbc749cdbeb7d9234dbdb42f5924545166d90"
+        }
+      },
+      "submittedAt": "2026-08-02T21:04:41.051Z",
+      "validatedAt": "2026-08-02T21:04:41.051Z",
+      "evidenceFingerprint": "69435f59b6adf0dd1149e4444eeb7cb5a94d7325bc012c85dc970c2da0bda4d6",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.formal-decision-record.attributes.5076ec956da45137",
+      "workItemKey": "catalog-review.evidence.review-attributes",
+      "evidenceType": "formal-decision-record",
+      "status": "validated",
+      "producerType": "RuleSetExtractionAndReview",
+      "producer": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "validator": "ChronicleDeliveryInfrastructure",
+      "artifactEvidenceRefs": [
+        "./catalog-identity-decisions.json",
+        "./attribute-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "formal-decision-record-output"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "185664eb008c98f5722bf0d1d74753b764461a17f446c5f233f1f3c975dceb5e",
+          "role": "decision-input-review-record"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "attributes-catalog": {
+          "artifactRef": "../character-model/catalogs/attributes.json",
+          "algorithm": "SHA-256",
+          "value": "c85d00fb2c3c3a021beb17cd149dbc749cdbeb7d9234dbdb42f5924545166d90"
+        }
+      },
+      "submittedAt": "2026-08-02T21:04:41.051Z",
+      "validatedAt": "2026-08-02T21:04:41.051Z",
+      "evidenceFingerprint": "7276199bce566775f22fbfce56132ed6d22e147c94e1c264cedad19f2200b45f",
+      "reconciledArtifactFingerprints": [
+        {
+          "artifactRef": "./catalog-review-evidence.json",
+          "algorithm": "SHA-256",
+          "value": "d88edbd04d2e9c0712f1b6dca697f7a97287f87ff2bdc9d48ec20923f3a22ef2",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-evidence-status.json",
+          "algorithm": "SHA-256",
+          "value": "7e447b79a87639d577bdc44f64b04b249dca40273a09366afd2e73722819e023",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-task-status.json",
+          "algorithm": "SHA-256",
+          "value": "d59c6ed37b200bd943aaec89d6349faa664e25586d652a937cb50bce8c926ada",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-state-index.json",
+          "algorithm": "SHA-256",
+          "value": "b848ed41992df1d5a5b45d994d679fd14ce6307545adcbbcfcb16f690532b180",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-review-execution-model-index.json",
+          "algorithm": "SHA-256",
+          "value": "77e18d83c9c1567ab6a0d5f559b0d924ed24785312bf3970f89894f029a343ac",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c",
+          "role": "reconciled-ledger-artifact"
+        },
+        {
+          "artifactRef": "./attribute-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+          "role": "reconciled-ledger-artifact"
+        }
+      ]
+    },
+    {
+      "evidenceId": "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+      "workItemKey": "catalog-review.evidence.review-abilities",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.leadership",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.performance",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.law",
+        "character.ability.occult",
+        "character.ability.politics"
+      ],
+      "checkKey": "ability-review.source-identities-confirmed",
+      "evidenceType": "source-review-record",
+      "status": "validated",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "artifactEvidenceRefs": [
+        "./ability-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./ability-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "2c434960f850a82855a42a2be0ee4bce0c01014a82b8c56e860a56bfc683797c",
+          "role": "ability-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb",
+          "role": "catalog-under-review"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "98f691b24e90ad63e235cbad9d9fcb6ff36be4a9139518b6465fc7893883b979",
+          "role": "formal-decision-record-output"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "abilities-catalog": {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb"
+        }
+      },
+      "fixtureKeys": [],
+      "testSuiteKeys": [],
+      "testReportRef": null,
+      "decisionIds": [],
+      "issueKey": "catalog-review.issue.ability-category-order-slice-mismatch",
+      "blockingReasonKey": null,
+      "notApplicableRationale": null,
+      "reviewer": "RuleSetExtractionAndReview",
+      "producerType": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "recordedAt": "2026-08-02T21:12:36.000Z",
+      "submittedAt": "2026-08-02T21:12:36.000Z",
+      "validatedAt": "2026-08-02T21:12:36.000Z",
+      "evidenceFingerprint": "4eac67832d76a42721ffa4292ff8e8c7d7d809822651a3790f449f90f37a9fa8",
+      "reconciledArtifactFingerprints": []
+    },
+    {
+      "evidenceId": "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+      "workItemKey": "catalog-review.evidence.review-abilities",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.leadership",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.performance",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.law",
+        "character.ability.occult",
+        "character.ability.politics"
+      ],
+      "checkKey": "ability-review.catalog-contract-current",
+      "evidenceType": "catalog-review-record",
+      "status": "validated",
+      "sourceEvidenceRef": null,
+      "artifactEvidenceRefs": [
+        "./ability-review-record.json",
+        "../character-model/catalogs/abilities.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./ability-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "2c434960f850a82855a42a2be0ee4bce0c01014a82b8c56e860a56bfc683797c",
+          "role": "ability-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb",
+          "role": "catalog-under-review"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "98f691b24e90ad63e235cbad9d9fcb6ff36be4a9139518b6465fc7893883b979",
+          "role": "formal-decision-record-output"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "abilities-catalog": {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb"
+        }
+      },
+      "fixtureKeys": [],
+      "testSuiteKeys": [],
+      "testReportRef": null,
+      "decisionIds": [],
+      "issueKey": "catalog-review.issue.ability-category-order-slice-mismatch",
+      "blockingReasonKey": null,
+      "notApplicableRationale": null,
+      "reviewer": "RuleSetExtractionAndReview",
+      "producerType": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "recordedAt": "2026-08-02T21:12:36.000Z",
+      "submittedAt": "2026-08-02T21:12:36.000Z",
+      "validatedAt": "2026-08-02T21:12:36.000Z",
+      "evidenceFingerprint": "57b51db13aecb8133cd38eb1d21618e023544a102e4b0d46ba50755a2e361339",
+      "reconciledArtifactFingerprints": []
+    },
+    {
+      "evidenceId": "catalog-review.evidence.formal-decision-record.abilities.98f691b24e90ad63",
+      "workItemKey": "catalog-review.evidence.review-abilities",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.leadership",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.performance",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.law",
+        "character.ability.occult",
+        "character.ability.politics"
+      ],
+      "checkKey": "ability-review.formal-decisions-recorded",
+      "evidenceType": "formal-decision-record",
+      "status": "validated",
+      "sourceEvidenceRef": null,
+      "artifactEvidenceRefs": [
+        "./catalog-identity-decisions.json",
+        "./ability-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./ability-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "2c434960f850a82855a42a2be0ee4bce0c01014a82b8c56e860a56bfc683797c",
+          "role": "ability-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb",
+          "role": "catalog-under-review"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "98f691b24e90ad63e235cbad9d9fcb6ff36be4a9139518b6465fc7893883b979",
+          "role": "formal-decision-record-output"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "abilities-catalog": {
+          "artifactRef": "../character-model/catalogs/abilities.json",
+          "algorithm": "SHA-256",
+          "value": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb"
+        }
+      },
+      "fixtureKeys": [],
+      "testSuiteKeys": [],
+      "testReportRef": null,
+      "decisionIds": [
+        "catalog-identity-decision.ability.alertness",
+        "catalog-identity-decision.ability.athletics",
+        "catalog-identity-decision.ability.brawl",
+        "catalog-identity-decision.ability.empathy",
+        "catalog-identity-decision.ability.expression",
+        "catalog-identity-decision.ability.intimidation",
+        "catalog-identity-decision.ability.leadership",
+        "catalog-identity-decision.ability.subterfuge",
+        "catalog-identity-decision.ability.drive",
+        "catalog-identity-decision.ability.etiquette",
+        "catalog-identity-decision.ability.performance",
+        "catalog-identity-decision.ability.stealth",
+        "catalog-identity-decision.ability.survival",
+        "catalog-identity-decision.ability.computer",
+        "catalog-identity-decision.ability.investigation",
+        "catalog-identity-decision.ability.law",
+        "catalog-identity-decision.ability.occult",
+        "catalog-identity-decision.ability.politics"
+      ],
+      "issueKey": "catalog-review.issue.ability-category-order-slice-mismatch",
+      "blockingReasonKey": null,
+      "notApplicableRationale": null,
+      "reviewer": "RuleSetExtractionAndReview",
+      "producerType": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "recordedAt": "2026-08-02T21:12:36.000Z",
+      "submittedAt": "2026-08-02T21:12:36.000Z",
+      "validatedAt": "2026-08-02T21:12:36.000Z",
+      "evidenceFingerprint": "5c0e095c7b1f32f371dc7c7908b820a11f9995dac77f962539d519b6a4244abd",
+      "reconciledArtifactFingerprints": []
+    },
+    {
+      "evidenceId": "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+      "workItemKey": "catalog-review.evidence.review-backgrounds",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "checkKey": "background-review.source-identities-confirmed",
+      "evidenceType": "source-review-record",
+      "status": "validated",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "artifactEvidenceRefs": [
+        "./background-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./background-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "7a5c69e1422b2111eac91aefe900cb179df1db37c9da64ba52cb615e4b74456c",
+          "role": "background-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e",
+          "role": "catalog-under-review"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "b35862c40b9286deb45eff3d7c71a6647468bb757a8809599f9a2a4193cec218",
+          "role": "formal-decision-record-output"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "backgrounds-catalog": {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e"
+        }
+      },
+      "fixtureKeys": [],
+      "testSuiteKeys": [],
+      "testReportRef": null,
+      "decisionIds": [],
+      "issueKey": "catalog-review.issue.background-order-slice-mismatch",
+      "blockingReasonKey": null,
+      "notApplicableRationale": null,
+      "reviewer": "RuleSetExtractionAndReview",
+      "producerType": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "recordedAt": "2026-08-02T21:24:18.000Z",
+      "submittedAt": "2026-08-02T21:24:18.000Z",
+      "validatedAt": "2026-08-02T21:24:18.000Z",
+      "evidenceFingerprint": "0c9ca0d890ca8208148229f110a18b2961cf43098b97ed5656ae7ae756822ed1",
+      "reconciledArtifactFingerprints": []
+    },
+    {
+      "evidenceId": "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+      "workItemKey": "catalog-review.evidence.review-backgrounds",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "checkKey": "background-review.catalog-contract-current",
+      "evidenceType": "catalog-review-record",
+      "status": "validated",
+      "sourceEvidenceRef": null,
+      "artifactEvidenceRefs": [
+        "./background-review-record.json",
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./background-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "7a5c69e1422b2111eac91aefe900cb179df1db37c9da64ba52cb615e4b74456c",
+          "role": "background-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e",
+          "role": "catalog-under-review"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "b35862c40b9286deb45eff3d7c71a6647468bb757a8809599f9a2a4193cec218",
+          "role": "formal-decision-record-output"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "backgrounds-catalog": {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e"
+        }
+      },
+      "fixtureKeys": [],
+      "testSuiteKeys": [],
+      "testReportRef": null,
+      "decisionIds": [],
+      "issueKey": "catalog-review.issue.background-order-slice-mismatch",
+      "blockingReasonKey": null,
+      "notApplicableRationale": null,
+      "reviewer": "RuleSetExtractionAndReview",
+      "producerType": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "recordedAt": "2026-08-02T21:24:18.000Z",
+      "submittedAt": "2026-08-02T21:24:18.000Z",
+      "validatedAt": "2026-08-02T21:24:18.000Z",
+      "evidenceFingerprint": "190d9d4a6ac36b73d44e8a78ad0f8dcf7d3bb9c30a37af25fcecb30a771123e7",
+      "reconciledArtifactFingerprints": []
+    },
+    {
+      "evidenceId": "catalog-review.evidence.formal-decision-record.backgrounds.b35862c40b9286de",
+      "workItemKey": "catalog-review.evidence.review-backgrounds",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "checkKey": "background-review.formal-decisions-recorded",
+      "evidenceType": "formal-decision-record",
+      "status": "validated",
+      "sourceEvidenceRef": null,
+      "artifactEvidenceRefs": [
+        "./catalog-identity-decisions.json",
+        "./background-review-record.json"
+      ],
+      "artifactFingerprints": [
+        {
+          "artifactRef": "./background-review-record.json",
+          "algorithm": "SHA-256",
+          "value": "7a5c69e1422b2111eac91aefe900cb179df1db37c9da64ba52cb615e4b74456c",
+          "role": "background-review-record-output"
+        },
+        {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e",
+          "role": "catalog-under-review"
+        },
+        {
+          "artifactRef": "./catalog-identity-decisions.json",
+          "algorithm": "SHA-256",
+          "value": "b35862c40b9286deb45eff3d7c71a6647468bb757a8809599f9a2a4193cec218",
+          "role": "formal-decision-record-output"
+        }
+      ],
+      "inputFingerprints": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "backgrounds-catalog": {
+          "artifactRef": "../character-model/catalogs/backgrounds.json",
+          "algorithm": "SHA-256",
+          "value": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e"
+        }
+      },
+      "fixtureKeys": [],
+      "testSuiteKeys": [],
+      "testReportRef": null,
+      "decisionIds": [
+        "catalog-identity-decision.background.resources",
+        "catalog-identity-decision.background.contacts",
+        "catalog-identity-decision.background.allies",
+        "catalog-identity-decision.background.rites",
+        "catalog-identity-decision.background.mentor"
+      ],
+      "issueKey": "catalog-review.issue.background-order-slice-mismatch",
+      "blockingReasonKey": null,
+      "notApplicableRationale": null,
+      "reviewer": "RuleSetExtractionAndReview",
+      "producerType": "RuleSetExtractionAndReview",
+      "validatorType": "ChronicleDeliveryInfrastructure",
+      "recordedAt": "2026-08-02T21:24:18.000Z",
+      "submittedAt": "2026-08-02T21:24:18.000Z",
+      "validatedAt": "2026-08-02T21:24:18.000Z",
+      "evidenceFingerprint": "09cfd4336e948733f90027d09b5777006e38cb73efacd67f75c3ba9e0ce9e2fc",
+      "reconciledArtifactFingerprints": []
+    }
+  ],
+  "statusSummary": {
+    "workItemCount": 13,
+    "readyWorkItemCount": 0,
+    "notStartedWorkItemCount": 0,
+    "inProgressWorkItemCount": 0,
+    "blockedWorkItemCount": 0,
+    "submittedWorkItemCount": 0,
+    "partiallyValidatedWorkItemCount": 9,
+    "completeWorkItemCount": 4,
+    "staleWorkItemCount": 0,
+    "supersededWorkItemCount": 0,
+    "evidenceRecordCount": 48,
+    "plannedEvidenceRecordCount": 0,
+    "submittedEvidenceRecordCount": 0,
+    "validatedEvidenceRecordCount": 46,
+    "validatedWithWarningsEvidenceRecordCount": 2,
+    "rejectedEvidenceRecordCount": 0,
+    "staleEvidenceRecordCount": 0,
+    "currentWorkItemKey": null,
+    "nextRequiredEvidenceType": null,
+    "promotionEligibleEvidenceRecordCount": 48
+  },
+  "transitionPolicy": {
+    "notStartedToReadyWhen": [
+      "all-dependencies-complete",
+      "no-active-scope-blocker",
+      "producer-type-known"
+    ],
+    "readyToInProgressWhen": [
+      "producer-assigned",
+      "input-fingerprints-recorded"
+    ],
+    "inProgressToSubmittedWhen": [
+      "all-required-evidence-records-submitted",
+      "submission-fingerprints-recorded"
+    ],
+    "submittedToPartiallyValidatedWhen": [
+      "one-or-more-but-not-all-required-records-accepted"
+    ],
+    "submittedOrPartiallyValidatedToCompleteWhen": [
+      "all-required-records-validated-or-validated-with-allowed-warnings",
+      "all-required-fingerprints-current",
+      "completion-criteria-satisfied"
+    ],
+    "anyActiveStatusToBlockedWhen": [
+      "active-scope-blocker-detected",
+      "required-dependency-becomes-incomplete"
+    ],
+    "completeToStaleWhen": [
+      "one-or-more-required-input-fingerprints-change"
+    ],
+    "manualDirectTransitionToCompleteAllowed": false
+  },
+  "recordValidationPolicy": {
+    "everyEvidenceRecordRequiresEvidenceId": true,
+    "everyEvidenceRecordRequiresDeclaredType": true,
+    "everyEvidenceRecordRequiresWorkItemKey": true,
+    "everyEvidenceRecordRequiresProducer": true,
+    "submittedEvidenceRequiresSubmittedAt": true,
+    "validatedEvidenceRequiresValidatorAndValidatedAt": true,
+    "validatedEvidenceRequiresCurrentFingerprintSet": true,
+    "rejectedEvidenceRequiresReasonKey": true,
+    "staleEvidenceRequiresChangedFingerprintRefs": true,
+    "duplicateEvidenceIdsAllowed": false
+  },
+  "dependencyPolicy": {
+    "workItemDependenciesMustResolve": true,
+    "dependencyGraphMustBeAcyclic": true,
+    "blockedDependencyPreventsReadiness": true,
+    "staleDependencyReopensDependentWorkItem": true,
+    "unrelatedEvidenceMayNotSatisfyDependency": true
+  },
+  "issueAndBlockerIntegration": {
+    "activeIssueMayKeepWorkItemVisible": true,
+    "activeBlockerPreventsCompletion": true,
+    "resolvedButUnverifiedBlockerPreventsCompletion": true,
+    "validatedResolutionEvidenceMayResolveIssue": true,
+    "independentValidationRequiredToVerifyBlocker": true,
+    "staleResolutionEvidenceMayReopenIssueOrBlocker": true
+  },
+  "taskActionAndReviewIntegration": {
+    "completeEvidenceWorkItemMaySatisfyTaskOutputs": true,
+    "completeEvidenceWorkItemMaySatisfyActionOutputs": true,
+    "submittedOrPartiallyValidatedWorkItemCannotCompleteTask": true,
+    "staleWorkItemReopensDependentTaskActionOrReviewRecord": true,
+    "finalizeReviewWorkItemCompletionMayEnableCalculatedReviewApproval": true
+  },
+  "promotionIntegration": {
+    "validatedEvidenceRequiredForPromotion": true,
+    "validatedWithWarningsAcceptedOnlyWhenGateAllows": true,
+    "submittedRejectedOrStaleEvidenceNotPromotionEligible": true,
+    "promotionDiagnosticsListMissingRejectedAndStaleEvidence": true,
+    "promotionEligibilityRecalculatedAfterEveryEvidenceTransition": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeStalesDependentEvidence": true,
+    "catalogFingerprintChangeStalesDependentEvidence": true,
+    "reviewRecordFingerprintChangeStalesDependentEvidence": true,
+    "decisionFingerprintChangeStalesDependentEvidence": true,
+    "fixtureFingerprintChangeStalesDependentEvidence": true,
+    "testReportFingerprintChangeStalesDependentEvidence": true,
+    "issueOrBlockerStateChangeRecalculatesCompletionEligibility": true,
+    "automaticPropagationAllowed": true,
+    "silentEvidenceReuseAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-evidence-status.work-item-keys-unique",
+      "severity": "blocking",
+      "requirement": "every workItemKey appears exactly once"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.plan-coverage-complete",
+      "severity": "blocking",
+      "requirement": "every evidence-plan work item has exactly one status record"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.required-types-reconcile",
+      "severity": "blocking",
+      "requirement": "required evidence types match the evidence plan"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.dependencies-reconcile",
+      "severity": "blocking",
+      "requirement": "declared and missing dependencies reconcile with work-item statuses"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.blocked-records-have-reasons",
+      "severity": "blocking",
+      "requirement": "every blocked work item has an issue, blocker, or missing dependency"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.evidence-ids-unique",
+      "severity": "blocking",
+      "requirement": "every evidenceId is unique"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.complete-records-have-current-evidence",
+      "severity": "blocking",
+      "requirement": "every complete work item has all required accepted and current evidence"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.summary-reconciles",
+      "severity": "blocking",
+      "requirement": "statusSummary counts reconcile with work-item and evidence records"
+    },
+    {
+      "ruleKey": "catalog-review-evidence-status.no-implicit-validation",
+      "severity": "blocking",
+      "requirement": "planned, present, submitted, rejected, or stale evidence never counts as validated"
+    }
+  ],
+  "fingerprintPolicy": {
+    "statusLedgerFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeBindings": true,
+    "includeWorkItemStatuses": true,
+    "includeEvidenceRecords": true,
+    "includeStatusSummary": true,
+    "includeTransitionValidationDependencyAndStalenessPolicies": true,
+    "includeIssueTaskReviewAndPromotionIntegration": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "current-work-item-key",
+      "next-required-evidence-type",
+      "work-item-statuses",
+      "ready-work-item-keys",
+      "blocked-work-item-keys",
+      "missing-dependency-keys",
+      "submitted-evidence-ids",
+      "validated-evidence-ids",
+      "rejected-evidence-ids",
+      "stale-evidence-ids",
+      "unassigned-producer-work-item-keys",
+      "fingerprint-mismatches",
+      "task-and-action-impact",
+      "promotion-evidence-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "workItemKeys",
+      "evidenceIds",
+      "evidenceTypes",
+      "statuses",
+      "producerTypes",
+      "validatorTypes",
+      "issueKeys",
+      "blockerKeys",
+      "dependencyKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewEvidenceWorkItemStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "workItemKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "statusLedgerFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewEvidenceRecordStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "evidenceId": "Reference",
+        "evidenceType": "Text",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "workItemKey": "Reference",
+        "statusLedgerFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-evidence-work-items",
+    "architectureConfidence": "high",
+    "statusLedgerState": "complete",
+    "evidenceProductionStatus": "complete",
+    "validatedEvidenceStatus": "complete",
+    "blockedWorkItemStatus": "none",
+    "promotionReviewStatus": "eligible-not-published",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "ChronicleDeliveryInfrastructure"
+  },
+  "prototypeNotes": [
+    "This ledger records one completed evidence work item, one ready evidence work item, nine not-started work items, and two blocked work items.",
+    "One validated evidence record is present and bound to catalog-review.evidence.validate-review-model.",
+    "The next executable evidence work is contract validation evidence production.",
+    "Metis deformity and initial Gift work remain blocked by their existing source-review blockers.",
+    "Chronicle owns status calculation, transition validation, staleness propagation, diagnostics, fingerprints, task and action integration, and promotion enforcement.",
+    "Assigned producers and validators remain responsible for producing and validating actual evidence."
+  ],
+  "evidenceStatusFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "5be69d5bae95a3137e72983f52de8666c3b692a9af6de501ced6183a7328bec4",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  }
+}

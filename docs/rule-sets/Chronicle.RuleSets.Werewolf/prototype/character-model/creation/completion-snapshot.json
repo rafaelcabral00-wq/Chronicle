@@ -1,0 +1,384 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.completion-snapshot",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.completion-snapshot.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "purpose": [
+    "Capture the exact authoritative Character creation state at the moment completion succeeds.",
+    "Preserve the Rule Set package binding, validation result, frozen creation ledger, acknowledgements, and prototype decisions used to authorize activation.",
+    "Support recovery, diagnostics, migration, audit, and reproducible Character sheet projection.",
+    "Prevent later package or application changes from rewriting the historical meaning of the completed Character."
+  ],
+  "authority": {
+    "snapshotSchemaAuthority": "Chronicle",
+    "mechanicalMeaningAuthority": "BoundRuleSetPackage",
+    "snapshotCreationAuthority": "ChronicleApplication",
+    "snapshotMutationAuthority": "None",
+    "narratorMayCreate": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "snapshotShape": {
+    "snapshotId": "Reference",
+    "snapshotKind": "Text",
+    "characterId": "Reference",
+    "campaignId": "Reference",
+    "characterVersion": "Integer",
+    "createdByOperationId": "Reference",
+    "createdAt": "Text",
+    "packageBinding": "StructuredObject",
+    "artifactContractVersions": "StructuredCollection",
+    "characterState": "StructuredObject",
+    "creationLedger": "StructuredObject",
+    "validation": "StructuredObject",
+    "warningAcknowledgements": "StructuredCollection",
+    "prototypeDecisionRefs": "ReferenceCollection",
+    "ambiguityRefs": "ReferenceCollection",
+    "characterSheetProjectionDescriptor": "StructuredObject",
+    "contentFingerprint": "Text",
+    "encryptionDescriptor": "StructuredObject"
+  },
+  "snapshotPolicy": {
+    "snapshotKind": "CharacterCreationCompletionSnapshot",
+    "immutable": true,
+    "appendOnlyReplacementAllowed": false,
+    "hardDeleteAllowed": false,
+    "partialSnapshotAllowed": false,
+    "createdOnlyAfterFreshValidation": true,
+    "createdInsideCompletionTransaction": true,
+    "characterActivationAndSnapshotCommitAtomic": true,
+    "oneAuthoritativeSnapshotPerCompletionOperation": true
+  },
+  "packageBindingShape": {
+    "packageId": "Text",
+    "packageVersion": "Text",
+    "manifestContractVersion": "Integer",
+    "characterModelVersion": "Text",
+    "creationProfileVersion": "Text",
+    "validationArtifactVersions": "StructuredObject",
+    "operationIndexVersion": "Text",
+    "packageFingerprint": "Text"
+  },
+  "artifactContractVersionShape": {
+    "artifactKey": "Reference",
+    "artifactRef": "Text",
+    "contractVersion": "Integer",
+    "artifactVersion": "Text",
+    "artifactFingerprint": "Text"
+  },
+  "characterStatePolicy": {
+    "captureMode": "canonical-authoritative-state",
+    "include": [
+      "identity",
+      "classification",
+      "attributes",
+      "abilities",
+      "backgrounds",
+      "gifts",
+      "renown",
+      "rank",
+      "resources",
+      "specializations",
+      "narrative",
+      "ruleSetBinding",
+      "status",
+      "version"
+    ],
+    "exclude": [
+      "transient-ui-state",
+      "pending-provider-responses",
+      "ordinary-application-logs",
+      "uncommitted-suggestions"
+    ],
+    "derivedValuesIncluded": true,
+    "derivedValueSourcesIncluded": true,
+    "currentAndPermanentResourcesIncluded": true,
+    "normalizedNarrativeValuesIncluded": true
+  },
+  "creationLedgerPolicy": {
+    "captureFrozenLedger": true,
+    "requiredLedgerStatus": "frozen",
+    "includeAllEntries": true,
+    "includeBudgetSummaries": true,
+    "includeEntryFingerprints": true,
+    "includeLedgerFingerprint": true,
+    "ledgerCopyIsImmutable": true,
+    "ledgerCopyIsNotOperational": true
+  },
+  "validationShape": {
+    "creationValidation": "StructuredObject",
+    "completionValidation": "StructuredObject",
+    "combinedResultFingerprint": "Text",
+    "isCompletionAllowed": "Boolean",
+    "blockingIssueCount": "Integer",
+    "errorCount": "Integer",
+    "warningCount": "Integer",
+    "evaluatedRuleKeys": "ReferenceCollection",
+    "requiredAcknowledgementKeys": "ReferenceCollection",
+    "packageBindingVerified": "Boolean",
+    "ledgerIntegrityVerified": "Boolean",
+    "invalidationsReconciled": "Boolean"
+  },
+  "validationPolicy": {
+    "freshInsideTransactionRequired": true,
+    "cachedResultMayBeIncludedForComparison": false,
+    "completionAllowedMustBeTrue": true,
+    "blockingIssueCountMustBeZero": true,
+    "errorCountMustBeZero": true,
+    "openBlockingInvalidationsAllowed": false,
+    "validationResultImmutableInsideSnapshot": true
+  },
+  "warningAcknowledgementShape": {
+    "acknowledgementId": "Reference",
+    "warningKey": "Reference",
+    "warningInstanceFingerprint": "Text",
+    "acknowledgedAt": "Text",
+    "acknowledgedByUserId": "Reference",
+    "acknowledgedInOperationId": "Reference",
+    "characterVersionAtAcknowledgement": "Integer",
+    "packageBinding": "StructuredObject"
+  },
+  "acknowledgementPolicy": {
+    "includeOnlyAcknowledgementsUsedByCompletion": true,
+    "includeReusableAndAttemptOnlyAcknowledgements": true,
+    "expiredAcknowledgementsAllowed": false,
+    "revokedAcknowledgementsAllowed": false,
+    "rawWarningMessageArgumentsIncluded": false,
+    "userIdentityIncluded": true
+  },
+  "prototypeDecisionPolicy": {
+    "captureAllAppliedPrototypeDecisionRefs": true,
+    "captureAllAppliedAmbiguityRefs": true,
+    "silentOmissionAllowed": false,
+    "decisionTextEmbedded": false,
+    "decisionArtifactFingerprintsIncludedThroughArtifactContracts": true
+  },
+  "characterSheetProjectionDescriptor": {
+    "layoutArtifactRef": "../../character-sheet/default-sheet.json",
+    "layoutArtifactVersion": "0.1.0-prototype",
+    "projectionModel": "package-driven",
+    "projectionDataSource": "snapshot.characterState",
+    "renderedOutputEmbedded": false,
+    "rebuildable": true
+  },
+  "fingerprintPolicy": {
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "unicodeNormalization": "NFC",
+    "timestampNormalization": "RFC3339-UTC",
+    "nullFieldsIncluded": false,
+    "fingerprintCovers": [
+      "snapshotKind",
+      "characterId",
+      "campaignId",
+      "characterVersion",
+      "createdByOperationId",
+      "createdAt",
+      "packageBinding",
+      "artifactContractVersions",
+      "characterState",
+      "creationLedger",
+      "validation",
+      "warningAcknowledgements",
+      "prototypeDecisionRefs",
+      "ambiguityRefs",
+      "characterSheetProjectionDescriptor"
+    ],
+    "encryptionDescriptorExcluded": true
+  },
+  "encryptionPolicy": {
+    "encryptedAtRest": true,
+    "encryptionOwnedBy": "Chronicle",
+    "encryptionDescriptorContainsSecrets": false,
+    "backupCopyMustRemainEncrypted": true,
+    "cleanInstallRecoveryCompatible": true,
+    "plaintextExportAllowed": "explicit-user-export-only",
+    "ordinaryLogsMayContainPlaintext": false
+  },
+  "persistencePolicy": {
+    "storageOwnership": "Chronicle",
+    "writeOnce": true,
+    "transactionalWithCharacterActivation": true,
+    "transactionalWithLedgerFreeze": true,
+    "transactionalWithWarningAcknowledgementPersistence": true,
+    "transactionalWithOperationRecord": true,
+    "foreignKeyToCharacterRequired": true,
+    "foreignKeyToCampaignRequired": true,
+    "foreignKeyToCompletionOperationRequired": true
+  },
+  "readPolicy": {
+    "availableToCharacterSheetProjection": true,
+    "availableToRecovery": true,
+    "availableToMigration": true,
+    "availableToDeveloperDiagnostics": true,
+    "availableToNarratorAsRawPayload": false,
+    "availableToNarratorThroughCuratedContext": true,
+    "availableToChronicleDirectorAsRawPayload": false,
+    "minimumNecessaryDisclosure": true
+  },
+  "migrationPolicy": {
+    "historicalSnapshotNeverRewritten": true,
+    "migrationCreatesNewOperationalState": true,
+    "migrationMayReferenceSourceSnapshot": true,
+    "migrationMustRecord": [
+      "sourceSnapshotId",
+      "sourcePackageBinding",
+      "targetPackageBinding",
+      "migrationOperationId",
+      "migrationRules",
+      "beforeFingerprint",
+      "afterFingerprint"
+    ],
+    "automaticSemanticMigrationAllowed": false,
+    "userReviewRequiredForAmbiguousMigration": true
+  },
+  "recoveryPolicy": {
+    "snapshotMayRestoreOperationalCharacter": true,
+    "restoreRequiresExplicitRecoveryOperation": true,
+    "restoreNeverMutatesSnapshot": true,
+    "restoreMustVerify": [
+      "snapshot-fingerprint",
+      "package-binding-availability-or-compatible-recovery-path",
+      "ledger-fingerprint",
+      "character-and-campaign-binding",
+      "encryption-integrity"
+    ],
+    "missingPackageBehavior": "restore-read-only-and-require-package-recovery",
+    "corruptSnapshotBehavior": "block-restore-and-require-audited-recovery",
+    "activeCharacterWithoutSnapshotBehavior": "recovery-required"
+  },
+  "integrityRules": [
+    {
+      "ruleKey": "completion-snapshot.id-unique",
+      "severity": "blocking",
+      "requirement": "snapshotId is globally unique"
+    },
+    {
+      "ruleKey": "completion-snapshot.character-binding-valid",
+      "severity": "blocking",
+      "requirement": "characterId and campaignId match the activated Character"
+    },
+    {
+      "ruleKey": "completion-snapshot.operation-binding-valid",
+      "severity": "blocking",
+      "requirement": "createdByOperationId references the successful completion operation"
+    },
+    {
+      "ruleKey": "completion-snapshot.character-version-valid",
+      "severity": "blocking",
+      "requirement": "snapshot characterVersion equals the version committed during completion"
+    },
+    {
+      "ruleKey": "completion-snapshot.ledger-frozen",
+      "severity": "blocking",
+      "requirement": "captured creation ledger status is frozen"
+    },
+    {
+      "ruleKey": "completion-snapshot.validation-authorized",
+      "severity": "blocking",
+      "requirement": "fresh validation allowed completion with zero blocking issues and zero errors"
+    },
+    {
+      "ruleKey": "completion-snapshot.acknowledgements-valid",
+      "severity": "blocking",
+      "requirement": "all required warning acknowledgements used by completion are active and matching"
+    },
+    {
+      "ruleKey": "completion-snapshot.package-binding-valid",
+      "severity": "blocking",
+      "requirement": "package binding and artifact contract fingerprints recompute successfully"
+    },
+    {
+      "ruleKey": "completion-snapshot.content-fingerprint-valid",
+      "severity": "blocking",
+      "requirement": "snapshot content fingerprint recomputes successfully"
+    }
+  ],
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "numericRepresentation": "base-10-integer",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "securityPolicy": {
+    "rawSourceTextIncluded": false,
+    "providerSecretsIncluded": false,
+    "privateProviderReasoningIncluded": false,
+    "ordinaryLogsMayContain": [
+      "snapshotId",
+      "characterId",
+      "campaignId",
+      "characterVersion",
+      "packageId",
+      "packageVersion",
+      "contentFingerprint",
+      "createdAt"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-narrative-text",
+      "full-character-state",
+      "full-creation-ledger",
+      "warning-user-content",
+      "sourcebook-text"
+    ],
+    "networkAccessRequired": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationCompletionSnapshotCreated",
+      "emittedAfterCommit": true,
+      "payload": {
+        "snapshotId": "Reference",
+        "characterId": "Reference",
+        "campaignId": "Reference",
+        "characterVersion": "Integer",
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "contentFingerprint": "Text",
+        "createdByOperationId": "Reference",
+        "createdAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationCompletionSnapshotRecoveryUsed",
+      "emittedAfterCommit": true,
+      "payload": {
+        "snapshotId": "Reference",
+        "characterId": "Reference",
+        "recoveryOperationId": "Reference",
+        "recoveredCharacterVersion": "Integer",
+        "usedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-captured-state-and-validation",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-snapshot-boundary",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "recoveryReviewStatus": "pending",
+    "migrationReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The completion snapshot preserves historical truth; it is not the mutable operational Character record.",
+    "It captures the exact package and artifact contract versions that gave the completed Character its mechanical meaning.",
+    "Character activation, creation ledger freeze, warning acknowledgement persistence, and snapshot creation occur in one transaction.",
+    "The snapshot is encrypted, immutable, fingerprinted, and suitable for clean-install recovery.",
+    "Later migrations create new operational state and never rewrite the historical snapshot.",
+    "The Narrator receives only curated context derived from the snapshot, never unrestricted raw access.",
+    "Chronicle owns persistence, encryption, fingerprinting, recovery, and migration boundaries.",
+    "The bound Rule Set package owns the mechanical interpretation recorded by the snapshot."
+  ]
+}

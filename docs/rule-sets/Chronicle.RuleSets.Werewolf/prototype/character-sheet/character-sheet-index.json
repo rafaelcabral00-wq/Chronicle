@@ -1,0 +1,402 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-sheet.character-sheet-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-sheet.index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterSheet",
+  "purpose": [
+    "Provide the canonical discovery surface for Character sheet layouts and projections.",
+    "Allow Chronicle Presentation to render a Werewolf Character without hardcoded Werewolf-specific screens.",
+    "Declare supported layouts, source model bindings, visibility rules, projection behavior, and compatibility requirements.",
+    "Support draft preview, active Character display, diagnostics, localization, accessibility, and future layout versioning."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "layoutDefinitionAuthority": "RuleSetPackage",
+    "artifactDiscoveryAuthority": "Chronicle",
+    "projectionExecutionAuthority": "ChroniclePresentation",
+    "mechanicalMeaningAuthority": "RuleSet",
+    "stateAuthority": "Chronicle",
+    "narratorMayModifyLayout": false,
+    "hardcodedWerewolfPresentationAllowed": false
+  },
+  "layouts": [
+    {
+      "layoutKey": "character-sheet.default",
+      "artifactKey": "character-sheet.default",
+      "artifactRef": "./default-sheet.json",
+      "layoutRole": "default-character-sheet",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "supportedCharacterStatuses": [
+        "Draft",
+        "Active"
+      ],
+      "supportedModes": [
+        "creation-preview",
+        "read-only",
+        "interactive"
+      ],
+      "defaultForPackage": true
+    }
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "../character-model/character-model-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.root",
+      "artifactRef": "../character-model/model.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.stage-state",
+      "artifactRef": "../character-model/creation/stage-state.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.review-summary",
+      "artifactRef": "../character-model/creation/review-summary.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.validation-index",
+      "artifactRef": "../character-model/validation/validation-index.json",
+      "required": true
+    }
+  ],
+  "layoutContract": {
+    "requiredFields": [
+      "contractVersion",
+      "layoutKey",
+      "layoutVersion",
+      "packageId",
+      "sections",
+      "projectionPolicy",
+      "visibilityPolicy",
+      "localizationPolicy",
+      "accessibilityPolicy"
+    ],
+    "layoutKeyMustBeUnique": true,
+    "sectionKeysMustBeUniqueWithinLayout": true,
+    "componentKeysMustBeUniqueWithinLayout": true,
+    "allFieldReferencesMustResolve": true,
+    "allCatalogReferencesMustResolve": true,
+    "allOperationReferencesMustResolve": true,
+    "allLocalizationKeysRequired": true,
+    "rawUserFacingLabelsAllowed": false
+  },
+  "projectionModes": [
+    {
+      "mode": "creation-preview",
+      "description": "Render the current Character creation draft with stage, validation, and unresolved-state indicators.",
+      "sourcePriority": [
+        "current-character-draft",
+        "stage-state-projection",
+        "review-summary-projection"
+      ],
+      "editingAllowed": true,
+      "requiresDraftVersion": true
+    },
+    {
+      "mode": "read-only",
+      "description": "Render an authoritative Character or immutable completion snapshot without mutation controls.",
+      "sourcePriority": [
+        "authoritative-character-state",
+        "completion-snapshot-when-explicitly-selected"
+      ],
+      "editingAllowed": false,
+      "requiresDraftVersion": false
+    },
+    {
+      "mode": "interactive",
+      "description": "Render an active Character with controls supplied only by explicitly indexed post-creation operations.",
+      "sourcePriority": [
+        "authoritative-character-state"
+      ],
+      "editingAllowed": "only-through-indexed-operations",
+      "requiresDraftVersion": false
+    }
+  ],
+  "projectionPolicy": {
+    "packageDriven": true,
+    "directDatabaseBindingAllowed": false,
+    "projectionUsesStableFieldKeys": true,
+    "localizedDisplayValuesResolvedAtRenderTime": true,
+    "zeroValueVisibilityOwnedByLayout": true,
+    "derivedValuesMayBeDisplayed": true,
+    "derivedValueSourceMayBeDisplayed": true,
+    "unknownFieldBehavior": "layout-load-failure",
+    "missingOptionalValueBehavior": "render-empty-or-hidden-per-component-rule",
+    "renderedOutputAuthoritative": false
+  },
+  "visibilityPolicy": {
+    "conditionalVisibilitySupported": true,
+    "conditionsMayReference": [
+      "character-status",
+      "field-values",
+      "classification-values",
+      "stage-state",
+      "validation-state",
+      "feature-readiness",
+      "user-display-preferences"
+    ],
+    "conditionsMayNotCallProvider": true,
+    "conditionsMustBeDeterministic": true,
+    "hiddenMechanicalStateStillValidated": true,
+    "hiddenFieldsMayNotBeSilentlyDiscarded": true
+  },
+  "interactionPolicy": {
+    "allMutationsRequireOperationKey": true,
+    "directFieldMutationAllowed": false,
+    "operationAvailabilityResolvedFromPackageIndexes": true,
+    "blockedOperationsRemainVisibleWhenLayoutRequests": true,
+    "blockedOperationsMustShowReasonKey": true,
+    "staleDraftDisablesMutationControls": true,
+    "narratorSuggestionsRequireUserAcceptance": true,
+    "chronicleDirectorMayBypassOperationContracts": false
+  },
+  "sectionRoleModel": [
+    "identity",
+    "classification",
+    "attributes",
+    "abilities",
+    "backgrounds",
+    "gifts",
+    "renown-and-rank",
+    "resources",
+    "specializations",
+    "narrative",
+    "creation-progress",
+    "validation-summary",
+    "actions"
+  ],
+  "componentRoleModel": [
+    "text-value",
+    "rating-dots",
+    "rating-list",
+    "catalog-selection",
+    "resource-track",
+    "structured-list",
+    "status-badge",
+    "budget-summary",
+    "validation-list",
+    "operation-action",
+    "divider",
+    "localized-heading"
+  ],
+  "dataBindingPolicy": {
+    "bindingKinds": [
+      "field",
+      "collection",
+      "derived-projection",
+      "catalog",
+      "operation",
+      "validation",
+      "stage-state"
+    ],
+    "fieldBindingRoot": "character",
+    "collectionItemsRequireStableIdentity": true,
+    "catalogDisplayUsesLocalizationKeys": true,
+    "operationBindingUsesOperationIndex": true,
+    "validationBindingUsesValidationIndex": true,
+    "stageBindingUsesStageStateArtifact": true
+  },
+  "localizationPolicy": {
+    "canonicalTechnicalLanguage": "en",
+    "allDisplayTextUsesResourceKeys": true,
+    "packageMayShipMultipleLocales": true,
+    "missingLocaleBehavior": "fallback-to-canonical-resource",
+    "stableKeysNeverLocalized": true,
+    "userContentNeverAutoTranslated": true
+  },
+  "accessibilityPolicy": {
+    "keyboardNavigationRequired": true,
+    "logicalReadingOrderRequired": true,
+    "ratingDotsRequireTextAlternative": true,
+    "statusIndicatorsRequireNonvisualLabel": true,
+    "colorOnlyMeaningForbidden": true,
+    "minimumInteractiveTargetOwnedByChronicleDesignSystem": true,
+    "screenReaderLabelsUseLocalizationKeys": true
+  },
+  "responsivePolicy": {
+    "desktopFirst": true,
+    "layoutMayDeclareBreakpoints": true,
+    "chronicleDesignSystemOwnsBreakpointImplementation": true,
+    "semanticSectionOrderMustRemainStable": true,
+    "horizontalOverflowForCoreFieldsAllowed": false,
+    "printProjectionFuture": true
+  },
+  "readinessPolicy": {
+    "allowedValues": [
+      "prototype-candidate",
+      "candidate-partial",
+      "blocked",
+      "future"
+    ],
+    "missingRequiredLayoutBehavior": "disable-character-sheet-capability",
+    "blockedDefaultLayoutBehavior": "disable-character-sheet-capability",
+    "blockedOptionalLayoutBehavior": "hide-layout-and-report-diagnostic",
+    "blockedComponentsMayRenderDisabled": true
+  },
+  "loadPolicy": {
+    "loadMode": "manifest-driven",
+    "sortBy": "loadOrder",
+    "duplicateLayoutKeyBehavior": "package-load-failure",
+    "missingRequiredArtifactBehavior": "disable-character-sheet-capability",
+    "unsupportedContractVersionBehavior": "package-load-failure",
+    "artifactOutsidePackageRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "character-sheet-index.layout-keys-unique",
+      "severity": "blocking",
+      "requirement": "every layoutKey is unique"
+    },
+    {
+      "ruleKey": "character-sheet-index.default-layout-single",
+      "severity": "blocking",
+      "requirement": "exactly one supported layout is marked defaultForPackage"
+    },
+    {
+      "ruleKey": "character-sheet-index.refs-resolve",
+      "severity": "blocking",
+      "requirement": "all local and external artifact references resolve inside the package"
+    },
+    {
+      "ruleKey": "character-sheet-index.field-refs-known",
+      "severity": "blocking",
+      "requirement": "all layout field references resolve through the Character model index"
+    },
+    {
+      "ruleKey": "character-sheet-index.operation-refs-known",
+      "severity": "blocking",
+      "requirement": "all mutation controls reference indexed operations"
+    },
+    {
+      "ruleKey": "character-sheet-index.localization-keys-present",
+      "severity": "blocking",
+      "requirement": "all display and accessibility resource keys resolve in the package localization model"
+    },
+    {
+      "ruleKey": "character-sheet-index.accessibility-contract-present",
+      "severity": "blocking",
+      "requirement": "every layout declares accessibility behavior"
+    },
+    {
+      "ruleKey": "character-sheet-index.projection-modes-valid",
+      "severity": "blocking",
+      "requirement": "every layout mode is supported by this index"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeLayoutFingerprints": true,
+    "includeDependencyFingerprints": true,
+    "includeReadiness": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "layoutKey",
+      "artifactRef",
+      "layoutRole",
+      "required",
+      "readiness",
+      "supportedModes",
+      "fieldReferenceStatus",
+      "operationReferenceStatus",
+      "localizationStatus",
+      "accessibilityStatus",
+      "fingerprintStatus"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawCharacterStateIncluded": false,
+    "rawNarrativeTextIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "layoutArtifactsContainSecrets": false,
+    "layoutArtifactsContainCharacterData": false,
+    "ordinaryLogsMayContain": [
+      "layoutKeys",
+      "artifactRefs",
+      "projectionModes",
+      "readiness",
+      "diagnosticKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-character-state",
+      "raw-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterSheetModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "layoutCount": "Integer",
+        "defaultLayoutKey": "Reference",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterSheetModelLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "failureKey": "Reference",
+        "affectedLayoutKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-referenced-character-model",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "implementationReviewStatus": "pending",
+    "accessibilityReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for Character sheet layouts.",
+    "Chronicle Presentation renders the sheet from package artifacts and does not require Werewolf-specific screens.",
+    "Layouts never become mechanical authority and never mutate state directly.",
+    "All editing controls invoke indexed operations and respect draft version, readiness, validation, and idempotency contracts.",
+    "The default layout supports creation preview and active Character display.",
+    "Chronicle owns rendering infrastructure, design system behavior, artifact loading, diagnostics, and interaction dispatch.",
+    "The Rule Set package owns layout structure, field grouping, visibility semantics, and operation bindings."
+  ]
+}

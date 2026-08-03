@@ -1,0 +1,285 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.creation-model-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.creation-model-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "purpose": [
+    "Provide the canonical discovery surface for Character creation model artifacts.",
+    "Index the creation profile, dependency graph, invalidations, stage-state projection, creation ledger, completion snapshot, review summary, and warning acknowledgements.",
+    "Enable deterministic loading, diagnostics, and validation of creation-model contracts without hardcoded Werewolf-specific registration.",
+    "Preserve hierarchical ownership from character-model-index to creation-model-index to creation artifacts."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "artifactDiscoveryAuthority": "Chronicle",
+    "artifactContractValidationAuthority": "Chronicle",
+    "mechanicalInterpretationAuthority": "RuleSet",
+    "persistenceAuthority": "Chronicle",
+    "hardcodedWerewolfRegistrationAllowed": false
+  },
+  "parentBindings": {
+    "parentArtifactKey": "character-model.character-model-index",
+    "parentArtifactRef": "../character-model-index.json",
+    "indexedAsSubmodelArtifactKey": "character-creation.creation-model-index",
+    "indexedAsSubmodelRole": "character-creation",
+    "requiredByParent": true
+  },
+  "artifactGroups": [
+    {
+      "groupKey": "creation-structure",
+      "description": "Structure and dependency contracts for staged creation.",
+      "artifactKeys": [
+        "character-creation.profile",
+        "character-creation.dependency-graph",
+        "character-creation.invalidations",
+        "werewolf-prototype.character-creation-stage-state"
+      ]
+    },
+    {
+      "groupKey": "creation-state-and-review",
+      "description": "State, summary, acknowledgement, and snapshot contracts for deterministic review and completion.",
+      "artifactKeys": [
+        "character-creation.creation-ledger",
+        "character-creation.completion-snapshot",
+        "character-creation.review-summary",
+        "character-creation.warning-acknowledgements"
+      ]
+    }
+  ],
+  "creationArtifacts": [
+    {
+      "artifactKey": "character-creation.profile",
+      "artifactRef": "./profile.json",
+      "artifactRole": "creation-profile",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-creation.dependency-graph",
+      "artifactRef": "./dependency-graph.json",
+      "artifactRole": "creation-dependency-graph",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-creation.profile"
+      ]
+    },
+    {
+      "artifactKey": "character-creation.invalidations",
+      "artifactRef": "./invalidations.json",
+      "artifactRole": "creation-invalidations",
+      "loadOrder": 30,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-creation.dependency-graph"
+      ]
+    },
+    {
+      "artifactKey": "werewolf-prototype.character-creation-stage-state",
+      "artifactRef": "./stage-state.json",
+      "artifactRole": "creation-stage-state",
+      "loadOrder": 40,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-creation.profile",
+        "character-creation.dependency-graph",
+        "character-creation.invalidations",
+        "character-creation.creation-ledger",
+        "character-creation.warning-acknowledgements"
+      ],
+      "compatibilityArtifactKeys": [
+        "character-creation.stage-state"
+      ]
+    },
+    {
+      "artifactKey": "character-creation.creation-ledger",
+      "artifactRef": "./creation-ledger.json",
+      "artifactRole": "creation-ledger",
+      "loadOrder": 50,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-creation.completion-snapshot",
+      "artifactRef": "./completion-snapshot.json",
+      "artifactRole": "completion-snapshot",
+      "loadOrder": 60,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-creation.creation-ledger",
+        "character-creation.review-summary",
+        "character-creation.warning-acknowledgements"
+      ]
+    },
+    {
+      "artifactKey": "character-creation.review-summary",
+      "artifactRef": "./review-summary.json",
+      "artifactRole": "creation-review-summary",
+      "loadOrder": 70,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.character-creation-stage-state",
+        "character-creation.creation-ledger",
+        "character-creation.invalidations",
+        "character-creation.warning-acknowledgements"
+      ]
+    },
+    {
+      "artifactKey": "character-creation.warning-acknowledgements",
+      "artifactRef": "./warning-acknowledgements.json",
+      "artifactRole": "warning-acknowledgements",
+      "loadOrder": 80,
+      "required": true,
+      "readiness": "prototype-candidate"
+    }
+  ],
+  "requiredArtifactRefs": [
+    "./profile.json",
+    "./dependency-graph.json",
+    "./invalidations.json",
+    "./stage-state.json",
+    "./creation-ledger.json",
+    "./completion-snapshot.json",
+    "./review-summary.json",
+    "./warning-acknowledgements.json"
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../../character-creation/operation-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.validation-index",
+      "artifactRef": "../validation/validation-index.json",
+      "required": true
+    }
+  ],
+  "artifactCountSummary": {
+    "indexedArtifactCount": 8,
+    "requiredArtifactCount": 8,
+    "optionalArtifactCount": 0,
+    "groupCount": 2
+  },
+  "discoveryPolicy": {
+    "manifestDriven": true,
+    "hardcodedArtifactRegistrationAllowed": false,
+    "artifactKeysMustBeUnique": true,
+    "artifactRefsMustResolveInsidePackage": true,
+    "contractVersionMustBeSupported": true,
+    "compatibilityArtifactKeysAllowed": true
+  },
+  "loadPolicy": {
+    "loadMode": "manifest-driven",
+    "sortBy": "loadOrder",
+    "duplicateArtifactKeyBehavior": "package-load-failure",
+    "missingRequiredArtifactBehavior": "disable-character-creation-capability",
+    "unsupportedContractVersionBehavior": "package-load-failure",
+    "artifactOutsidePackageRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "creation-model-index.artifact-keys-unique",
+      "severity": "blocking",
+      "requirement": "every indexed creation artifact key is unique"
+    },
+    {
+      "ruleKey": "creation-model-index.refs-resolve",
+      "severity": "blocking",
+      "requirement": "every required creation artifact reference resolves relative to this index"
+    },
+    {
+      "ruleKey": "creation-model-index.required-refs-complete",
+      "severity": "blocking",
+      "requirement": "requiredArtifactRefs contains exactly the indexed required creation artifacts"
+    },
+    {
+      "ruleKey": "creation-model-index.parent-binding-valid",
+      "severity": "blocking",
+      "requirement": "parent binding resolves and is indexed by character-model.character-model-index"
+    },
+    {
+      "ruleKey": "creation-model-index.dependency-graph-acyclic",
+      "severity": "blocking",
+      "requirement": "declared artifact dependencies are acyclic"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeArtifactFingerprints": true,
+    "includeDependencyFingerprints": true,
+    "includeReadiness": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "artifactKey",
+      "artifactRef",
+      "artifactRole",
+      "required",
+      "readiness",
+      "dependencyStatus",
+      "referenceStatus",
+      "fingerprintStatus"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawCharacterStateIncluded": false,
+    "rawNarrativeTextIncluded": false,
+    "sourcebookTextIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "containsNarrativePayload": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "artifactRefs",
+      "readiness",
+      "contractVersions",
+      "diagnosticKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-character-state",
+      "raw-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-creation-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index canonically owns creation-model artifact discovery for the current prototype slice.",
+    "Discovery remains package-driven and hierarchical under character-model.character-model-index.",
+    "No creation mechanics are changed by this index; it only declares ownership, discovery, and consistency contracts.",
+    "Additional gift purchase and runtime gift effects remain blocked or excluded by referenced creation artifacts."
+  ]
+}

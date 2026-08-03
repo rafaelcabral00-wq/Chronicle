@@ -1,0 +1,405 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.review-summary",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.review-summary.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "purpose": [
+    "Provide a deterministic, user-facing summary of the complete Character creation draft before activation.",
+    "Aggregate stage state, mechanical allocations, remaining budgets, invalidations, warnings, acknowledgements, and package binding into one review projection.",
+    "Support final user review without granting authority to the projection itself.",
+    "Expose unresolved issues and prototype decisions clearly before the completion operation is requested."
+  ],
+  "authority": {
+    "summaryDefinitionAuthority": "RuleSet",
+    "summaryCalculationAuthority": "RuleSet",
+    "summaryPersistenceAuthority": "Chronicle",
+    "completionAuthority": "Chronicle",
+    "narratorMayModify": false,
+    "chronicleDirectorMayBypassIssues": false
+  },
+  "summaryShape": {
+    "characterId": "Reference",
+    "campaignId": "Reference",
+    "draftVersion": "Integer",
+    "packageBinding": "StructuredObject",
+    "identity": "StructuredObject",
+    "classifications": "StructuredObject",
+    "mechanicalSummary": "StructuredObject",
+    "narrativeSummary": "StructuredObject",
+    "stageSummary": "StructuredCollection",
+    "budgetSummary": "StructuredObject",
+    "validationSummary": "StructuredObject",
+    "invalidationSummary": "StructuredObject",
+    "warningSummary": "StructuredObject",
+    "prototypeDecisionSummary": "StructuredObject",
+    "completionReadiness": "StructuredObject",
+    "contentFingerprint": "Text",
+    "generatedAt": "Text"
+  },
+  "identityProjection": {
+    "includeFields": [
+      "character.identity.name",
+      "character.identity.concept",
+      "character.identity.playerName"
+    ],
+    "excludeSensitiveIdentifiersFromLogs": true,
+    "fallbackDisplayBehavior": "use-localization-key-for-missing-value"
+  },
+  "classificationProjection": {
+    "include": [
+      {
+        "fieldKey": "character.classification.race",
+        "catalogRef": "../catalogs/races.json"
+      },
+      {
+        "fieldKey": "character.classification.auspice",
+        "catalogRef": "../catalogs/auspices.json"
+      },
+      {
+        "fieldKey": "character.classification.tribe",
+        "catalogRef": "../catalogs/tribes.json"
+      },
+      {
+        "fieldKey": "character.classification.metisDeformity",
+        "catalogRef": "../catalogs/metis-deformities.json",
+        "condition": {
+          "field": "character.classification.race",
+          "operator": "equals",
+          "value": "race.metis"
+        }
+      }
+    ],
+    "displayLocalizedNames": true,
+    "includeStableKeys": true
+  },
+  "mechanicalProjection": {
+    "sections": [
+      {
+        "sectionKey": "review.attributes",
+        "sourcePath": "character.attributes",
+        "includeRatings": true,
+        "includeSpecializations": true,
+        "includeAllocationSourceBreakdown": true
+      },
+      {
+        "sectionKey": "review.abilities",
+        "sourcePath": "character.abilities",
+        "includeRatings": true,
+        "includeSpecializations": true,
+        "includeAllocationSourceBreakdown": true
+      },
+      {
+        "sectionKey": "review.backgrounds",
+        "sourcePath": "character.backgrounds",
+        "includeRatings": true,
+        "includeAllocationSourceBreakdown": true
+      },
+      {
+        "sectionKey": "review.gifts",
+        "sourcePath": "character.gifts",
+        "includeInitialSlots": true,
+        "includeAdditionalPurchases": true,
+        "includeEligibilitySource": true
+      },
+      {
+        "sectionKey": "review.renown-and-rank",
+        "sourcePaths": [
+          "character.renown",
+          "character.rank"
+        ],
+        "includeDerivationSource": true
+      },
+      {
+        "sectionKey": "review.resources",
+        "sourcePath": "character.resources",
+        "includePermanent": true,
+        "includeCurrent": true,
+        "includeClassificationBase": true,
+        "includeFreebieDelta": true
+      }
+    ],
+    "zeroRatingsVisible": false,
+    "stableMechanicalKeysIncluded": true
+  },
+  "narrativeProjection": {
+    "includeFields": [
+      "character.narrative.backstory",
+      "character.narrative.personality",
+      "character.narrative.appearance-notes",
+      "character.narrative.notes"
+    ],
+    "includeGoals": true,
+    "includeRelationships": true,
+    "includeGoalStatuses": true,
+    "includeRelationshipStatuses": true,
+    "truncateLongValuesForSummary": true,
+    "maximumPreviewLengthPerValue": 500,
+    "fullValueAvailableThroughExplicitExpansion": true,
+    "ordinaryLogsContainRawNarrative": false
+  },
+  "stageProjection": {
+    "sourceRef": "./stage-state.json",
+    "includeForEachStage": [
+      "stageKey",
+      "status",
+      "availability",
+      "isRequired",
+      "isMechanicallyValid",
+      "isReviewRequired",
+      "blockingIssueCount",
+      "errorCount",
+      "warningCount",
+      "remainingBudgets",
+      "availableOperationKeys",
+      "blockedOperationKeys"
+    ],
+    "ordering": "stage-definition-order"
+  },
+  "budgetProjection": {
+    "sourceRef": "./creation-ledger.json",
+    "include": [
+      "attributePointsRemaining",
+      "abilityPointsRemaining",
+      "backgroundPointsRemaining",
+      "freebiePointsRemaining",
+      "spentByEntryType",
+      "refundedByEntryType"
+    ],
+    "includeCostTable": true,
+    "showUnspentFreebieWarning": true,
+    "storedSummaryIsAuthoritative": false,
+    "recalculateFromLedgerEntries": true
+  },
+  "validationProjection": {
+    "sourceRefs": [
+      "../validation/character-creation.json",
+      "../validation/character-completion.json"
+    ],
+    "preferredValidationMode": "completion-readiness",
+    "freshnessRequirement": "validation-draft-version-equals-current-draft-version",
+    "include": [
+      "isStructurallyValid",
+      "isCompletionReady",
+      "blockingIssues",
+      "errors",
+      "warnings",
+      "information",
+      "evaluatedRuleKeys",
+      "resultFingerprint"
+    ],
+    "staleValidationBehavior": "mark-summary-stale-and-disable-completion-action"
+  },
+  "invalidationProjection": {
+    "sourceRef": "./invalidations.json",
+    "includeStatuses": [
+      "open"
+    ],
+    "groupBy": [
+      "severity",
+      "category"
+    ],
+    "includeAllowedResolutionOperationKeys": true,
+    "includeResolvedHistoryByDefault": false,
+    "openBlockingOrErrorMakesCompletionUnavailable": true
+  },
+  "warningProjection": {
+    "sourceRef": "./warning-acknowledgements.json",
+    "include": [
+      "warningKey",
+      "messageKey",
+      "acknowledgementRequired",
+      "acknowledgementStatus",
+      "warningInstanceFingerprint",
+      "allowedOperationKeys"
+    ],
+    "groupByAcknowledgementState": true,
+    "expiredAcknowledgementTreatedAsMissing": true,
+    "rawMessageArgumentsIncluded": false
+  },
+  "prototypeDecisionProjection": {
+    "includeAppliedPrototypeDecisions": true,
+    "includeAmbiguityRefs": true,
+    "includeResolutionStatus": true,
+    "includeUserFacingExplanationKey": true,
+    "includeRawSourceText": false,
+    "completionAcknowledgementMayBeRequired": true
+  },
+  "completionReadinessShape": {
+    "isReady": "Boolean",
+    "freshValidationPresent": "Boolean",
+    "requiredStagesComplete": "Boolean",
+    "openBlockingInvalidationCount": "Integer",
+    "openErrorInvalidationCount": "Integer",
+    "missingAcknowledgementKeys": "ReferenceCollection",
+    "ledgerIntegrityValid": "Boolean",
+    "packageBindingCompatible": "Boolean",
+    "completionOperationAvailable": "Boolean",
+    "blockingReasonKeys": "ReferenceCollection"
+  },
+  "completionReadinessPolicy": {
+    "deterministic": true,
+    "isReadyWhen": [
+      "fresh-completion-readiness-validation-passes",
+      "all-required-applicable-stages-complete",
+      "no-open-blocking-or-error-invalidations",
+      "all-required-warning-acknowledgements-active-and-matching",
+      "creation-ledger-integrity-valid",
+      "package-binding-compatible",
+      "complete-character-operation-available"
+    ],
+    "summaryMayAuthorizeCommit": false,
+    "completionOperationMustRunFreshValidationAgain": true
+  },
+  "actionProjection": {
+    "showCompletionAction": true,
+    "completionOperationKey": "character-creation.complete-character",
+    "disableCompletionWhenNotReady": true,
+    "showBlockingReasons": true,
+    "showResolutionActions": true,
+    "resolutionActionsMustComeFromOperationIndex": true,
+    "narratorSuggestedActionsAreAdvisoryOnly": true
+  },
+  "calculationPolicy": {
+    "recalculateAfterEveryCommittedCreationOperation": true,
+    "recalculateOnExplicitReviewRequest": true,
+    "sourceArtifacts": [
+      "./stage-state.json",
+      "./creation-ledger.json",
+      "./invalidations.json",
+      "./warning-acknowledgements.json",
+      "./dependency-graph.json",
+      "../validation/character-creation.json",
+      "../validation/character-completion.json",
+      "../../operations/character-creation/operation-index.json"
+    ],
+    "persistProjection": true,
+    "persistedProjectionAuthoritative": false
+  },
+  "freshnessPolicy": {
+    "summaryDraftVersionMustMatchCharacterVersion": true,
+    "validationFingerprintMustMatchCurrentDraft": true,
+    "ledgerFingerprintMustMatchCurrentLedger": true,
+    "invalidationFingerprintMustMatchCurrentCollection": true,
+    "stageStateFingerprintMustMatchCurrentProjection": true,
+    "packageBindingMustMatchInstalledPackage": true,
+    "staleSummaryMayBeDisplayed": true,
+    "staleSummaryMayAuthorizeCompletion": false
+  },
+  "integrityRules": [
+    {
+      "ruleKey": "review-summary.character-binding-valid",
+      "severity": "blocking",
+      "requirement": "characterId and campaignId match the current draft"
+    },
+    {
+      "ruleKey": "review-summary.version-current",
+      "severity": "blocking",
+      "requirement": "draftVersion equals the current Character draft version"
+    },
+    {
+      "ruleKey": "review-summary.source-fingerprints-current",
+      "severity": "blocking",
+      "requirement": "all source projection fingerprints match current persisted sources"
+    },
+    {
+      "ruleKey": "review-summary.budgets-reconcile",
+      "severity": "blocking",
+      "requirement": "budget summary deterministically reconciles with creation ledger entries"
+    },
+    {
+      "ruleKey": "review-summary.readiness-reconciles",
+      "severity": "blocking",
+      "requirement": "completion readiness matches validation, invalidations, acknowledgements, ledger integrity, stage state, and package binding"
+    },
+    {
+      "ruleKey": "review-summary.content-fingerprint-valid",
+      "severity": "blocking",
+      "requirement": "content fingerprint recomputes successfully"
+    }
+  ],
+  "recoveryPolicy": {
+    "projectionRebuildAllowed": true,
+    "automaticAuthoritativeStateMutationAllowed": false,
+    "rebuildSources": [
+      "character-state",
+      "creation-ledger",
+      "stage-state",
+      "invalidations",
+      "warning-acknowledgements",
+      "validation-results",
+      "package-binding"
+    ],
+    "rebuildMismatchBehavior": "replace-projection-and-record-diagnostic",
+    "corruptSourceBehavior": "mark-recovery-required-and-disable-completion"
+  },
+  "securityPolicy": {
+    "encryptedAtRest": true,
+    "containsNarrativePreview": true,
+    "minimumNecessaryDisclosure": true,
+    "ordinaryLogsMayContain": [
+      "characterId",
+      "campaignId",
+      "draftVersion",
+      "stage-status-counts",
+      "budget-counts",
+      "issue-counts",
+      "completion-readiness",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-narrative-text",
+      "full-character-state",
+      "sourcebook-text",
+      "provider-secrets"
+    ],
+    "networkAccessRequired": false
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationReviewSummaryGenerated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "characterId": "Reference",
+        "campaignId": "Reference",
+        "draftVersion": "Integer",
+        "isCompletionReady": "Boolean",
+        "blockingIssueCount": "Integer",
+        "warningCount": "Integer",
+        "contentFingerprint": "Text",
+        "generatedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-projected-character-state",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The review summary is a rebuildable projection and cannot authorize Character activation.",
+    "It combines mechanical state, narrative previews, stages, budgets, validations, invalidations, warnings, acknowledgements, and prototype decisions.",
+    "Long narrative values are truncated in the summary but remain available through explicit expansion.",
+    "Completion remains disabled when the summary or its validation sources are stale.",
+    "The complete-character operation always performs fresh validation inside its own authoritative transaction.",
+    "Chronicle owns projection persistence, encryption, freshness checks, fingerprints, and events.",
+    "The Rule Set owns projection structure, mechanical grouping, readiness calculation, and issue semantics."
+  ]
+}

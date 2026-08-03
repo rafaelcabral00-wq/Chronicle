@@ -1,0 +1,1186 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-task-status",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-task-status.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewTaskStatus",
+  "purpose": [
+    "Provide the canonical mutable status ledger for catalog review execution tasks.",
+    "Track readiness, progress, blockers, evidence, outputs, ownership, staleness, retries, and completion for every task in the catalog review execution plan.",
+    "Allow Chronicle delivery infrastructure to calculate the next executable task without hardcoded Werewolf-specific workflow logic.",
+    "Prevent task completion from being inferred from artifact presence, candidate templates, or informal reviewer statements."
+  ],
+  "authority": {
+    "statusDefinitionAuthority": "ChronicleArchitecture",
+    "statusTransitionAuthority": "ChronicleDeliveryInfrastructure",
+    "substantiveCompletionAuthority": "AssignedTaskOwner",
+    "evidenceValidationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticReadyCalculationAllowed": true,
+    "automaticCompletionAllowed": false,
+    "manualDependencyOverrideAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "executionPlanArtifactRef": "./catalog-review-execution-plan.json",
+    "catalogReviewModelIndexArtifactRef": "./catalog-review-model-index.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "prototypeWorkStatusArtifactRef": "../prototype-work-status.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "statusModel": {
+    "allowedStatuses": [
+      "not-started",
+      "ready",
+      "in-progress",
+      "blocked",
+      "in-review",
+      "complete",
+      "stale",
+      "superseded"
+    ],
+    "readyRequiresAllDependenciesComplete": true,
+    "inProgressRequiresOwner": true,
+    "blockedRequiresReasonAndResolutionAction": true,
+    "inReviewRequiresSubmittedEvidence": true,
+    "completeRequiresValidatedEvidence": true,
+    "staleRequiresChangedInputFingerprint": true,
+    "supersededRequiresReplacementTaskRef": true
+  },
+  "tasks": [
+    {
+      "taskKey": "catalog-review.task.validate-review-model",
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "status": "complete",
+      "owner": null,
+      "startedAt": null,
+      "submittedForReviewAt": null,
+      "completedAt": "2026-08-02T19:01:06Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "outputFingerprintSet": {
+        "catalog-review-validation-report.json": "801e86df2b837b359a1995e2bcb1038840be8b3862097bc774862c5e5f88357e"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.model-validation-report.801e86df2b837b35"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": null
+    },
+    {
+      "taskKey": "catalog-review.task.validate-catalog-contracts",
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "status": "complete",
+      "owner": null,
+      "startedAt": null,
+      "submittedForReviewAt": "2026-08-02T20:43:25.969Z",
+      "completedAt": "2026-08-02T20:43:25.969Z",
+      "attemptCount": 9,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-contract-validation-report.json"
+      ],
+      "outputFingerprintSet": {
+        "catalog-contract-validation-report.json": "7aff3df17a20054cdd8d58e50f041745513344629c70896b4be216f0a7781783"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.contract-validation-report.7aff3df17a20054c"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Rerun executed 2026-08-02T20:43:25.969Z; status passed-with-warnings; transitioned with validated contract evidence."
+    },
+    {
+      "taskKey": "catalog-review.task.validate-required-identity-presence",
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "status": "complete",
+      "owner": null,
+      "startedAt": null,
+      "submittedForReviewAt": "2026-08-02T20:47:30.933Z",
+      "completedAt": "2026-08-02T20:47:30.933Z",
+      "attemptCount": 2,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./required-identity-presence-report.json"
+      ],
+      "outputFingerprintSet": {
+        "required-identity-presence-report.json": "ae47eba644a4616e45e9c46eb3540a5a7b4c3a6bf1e41fb1bd7e6a3f3ee09c93"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.required-identity-presence-report.ae47eba644a4616e"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Rerun executed 2026-08-02T20:47:30.933Z; status passed-with-warnings; identity presence report validated."
+    },
+    {
+      "taskKey": "catalog-review.task.review-races",
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-02T20:53:04.145Z",
+      "submittedForReviewAt": "2026-08-02T20:53:04.145Z",
+      "completedAt": "2026-08-02T20:53:04.145Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./race-review-record.json",
+        "./catalog-identity-decisions.json"
+      ],
+      "outputFingerprintSet": {
+        "race-review-record.json": "3d79e0e1f695160cbc89ed491f7ee254f5e956328327bcb2836eebc55c03cb22",
+        "catalog-identity-decisions.json": "095712b66f03ba84432fe2468a14e2cf152a94200e6a820f2c41a29f9bfa61df"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.races.4bd42d7d40f5d95b",
+        "catalog-review.evidence.catalog-review-record.races.9e7eb458bfaca107",
+        "catalog-review.evidence.formal-decision-record.races.095712b66f03ba84"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Executed source-backed race review at 2026-08-02T20:53:04.145Z; substantive review complete with partial evidence work-item coverage."
+    },
+    {
+      "taskKey": "catalog-review.task.review-auspices",
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-02T20:56:30.545Z",
+      "submittedForReviewAt": "2026-08-02T20:56:30.545Z",
+      "completedAt": "2026-08-02T20:56:30.545Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./auspice-review-record.json",
+        "./catalog-identity-decisions.json"
+      ],
+      "outputFingerprintSet": {
+        "auspice-review-record.json": "bba26afb418c1d6324819b3503d2ae22ef00a000b60d0cca31286e4e03b20581",
+        "catalog-identity-decisions.json": "b5239753f3d9313057a9733de751ef8e2c5b72fca602dbac55d2c74c1fb33fb3"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578",
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7",
+        "catalog-review.evidence.formal-decision-record.auspices.b5239753f3d93130"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Executed source-backed auspice review at 2026-08-02T20:56:30.545Z; substantive review complete with partial evidence work-item coverage."
+    },
+    {
+      "taskKey": "catalog-review.task.review-tribes",
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-02T21:01:23.117Z",
+      "submittedForReviewAt": "2026-08-02T21:01:23.117Z",
+      "completedAt": "2026-08-02T21:01:23.117Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./tribe-review-record.json",
+        "./catalog-identity-decisions.json"
+      ],
+      "outputFingerprintSet": {
+        "tribe-review-record.json": "c130c688c1e4fb5dfda3165943c41d20c03609ee4ca182ddbda70b4df315752e",
+        "catalog-identity-decisions.json": "2bec38c382d409f5b14f9729db31876bbd6b44c8c0b85c0d0ac4d02107484e63"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd",
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320"
+      ],
+      "issueKeys": [
+        "catalog-review.issue.tribe-initial-willpower-unresolved"
+      ],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Executed source-backed tribe review at 2026-08-02T21:01:23.117Z; substantive review complete with unresolved initial Willpower source ambiguity."
+    },
+    {
+      "taskKey": "catalog-review.task.review-attributes",
+      "stageKey": "catalog-review.stage-3.rating-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-02T21:04:41.051Z",
+      "submittedForReviewAt": "2026-08-02T21:04:41.051Z",
+      "completedAt": "2026-08-02T21:04:41.051Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./attribute-review-record.json",
+        "./catalog-identity-decisions.json"
+      ],
+      "outputFingerprintSet": {
+        "attribute-review-record.json": "36a3757aae414139fe2b50fa39050140b9c37fd13cee6e2bdce07ce1688bee03",
+        "catalog-identity-decisions.json": "5076ec956da4513797693aabcb9132ca4d0724aea801db35bf9d3e1e92981d5c"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.attributes.185664eb008c98f5",
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7",
+        "catalog-review.evidence.formal-decision-record.attributes.5076ec956da45137"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Executed source-backed attribute review at 2026-08-02T21:04:41.051Z; nine current-slice attributes approved with warnings and partial evidence coverage."
+    },
+    {
+      "taskKey": "catalog-review.task.review-abilities",
+      "stageKey": "catalog-review.stage-3.rating-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-02T21:12:36.000Z",
+      "submittedForReviewAt": "2026-08-02T21:12:36.000Z",
+      "completedAt": "2026-08-02T21:12:36.000Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./ability-review-record.json",
+        "./catalog-identity-decisions.json"
+      ],
+      "outputFingerprintSet": {
+        "ability-review-record.json": "2c434960f850a82855a42a2be0ee4bce0c01014a82b8c56e860a56bfc683797c",
+        "catalog-identity-decisions.json": "98f691b24e90ad63e235cbad9d9fcb6ff36be4a9139518b6465fc7893883b979"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.formal-decision-record.abilities.98f691b24e90ad63",
+        "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Focused original-source reconciliation resolved category/order findings; task remains complete with partial evidence coverage."
+    },
+    {
+      "taskKey": "catalog-review.task.review-backgrounds",
+      "stageKey": "catalog-review.stage-3.rating-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-02T21:24:18.000Z",
+      "submittedForReviewAt": "2026-08-02T21:24:18.000Z",
+      "completedAt": "2026-08-02T21:24:18.000Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./background-review-record.json",
+        "./catalog-identity-decisions.json"
+      ],
+      "outputFingerprintSet": {
+        "background-review-record.json": "7a5c69e1422b2111eac91aefe900cb179df1db37c9da64ba52cb615e4b74456c",
+        "catalog-identity-decisions.json": "b35862c40b9286deb45eff3d7c71a6647468bb757a8809599f9a2a4193cec218"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+        "catalog-review.evidence.formal-decision-record.backgrounds.b35862c40b9286de",
+        "catalog-review.evidence.original-source.backgrounds-order-restrictions.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Focused original-source reconciliation resolved order/restriction findings; task remains complete with partial evidence coverage."
+    },
+    {
+      "taskKey": "catalog-review.task.resolve-metis-deformity",
+      "stageKey": "catalog-review.stage-4.special-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-03T00:00:00.000-03:00",
+      "submittedForReviewAt": null,
+      "completedAt": "2026-08-03T00:00:00.000-03:00",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [
+        "catalog-review.action.review-metis-deformity-source",
+        "catalog-review.action.record-final-metis-deformity-decision",
+        "catalog-review.action.reconcile-metis-fixtures-and-tests"
+      ],
+      "inputFingerprintSet": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        }
+      },
+      "outputArtifactRefs": [
+        "./metis-deformity-review-record.json",
+        "./catalog-identity-decisions.json",
+        "./catalog-review-evidence.json",
+        "./catalog-review-issues.json",
+        "./catalog-review-blocker-index.json"
+      ],
+      "outputFingerprintSet": {
+        "metis-deformity-review-record": {
+          "algorithm": "SHA-256",
+          "value": "1a29f696f2e2344bf3269c8a56f7979da896650384388209c29206a6ccbe22c4"
+        },
+        "catalog-identity-decisions": {
+          "algorithm": "SHA-256",
+          "value": "01e3dcb48a1c9de98971c9f52738f5c38e38a071e29532c161f30f2382e68404"
+        },
+        "catalog-review-evidence": {
+          "algorithm": "SHA-256",
+          "value": "aecc8b06208d84a68d022b79164fa51885fe6b7f907366d383e0bc7f2f92dd70"
+        },
+        "catalog-review-issues": {
+          "algorithm": "SHA-256",
+          "value": "c7eded33df5eb562498aacd50e18a8a2dace9a62cebde75f2a12321730ae8432"
+        },
+        "catalog-review-blocker-index": {
+          "algorithm": "SHA-256",
+          "value": "15707313bdb9151cf1d02a4d2ce1f947118066cc30785c7dfd65e5235036f298"
+        },
+        "catalog-review-task-status": {
+          "algorithm": "SHA-256",
+          "value": "96d384e3b623889d8a4bb87b6a94856b3ce5ba8f2edb8e01efdd59c5285efed5"
+        },
+        "catalog-review-evidence-status": {
+          "algorithm": "SHA-256",
+          "value": "03d090102ace515186eb000429dd7afee68a4cfedbaadd8bddeb8d1bf9094bc1"
+        },
+        "catalog-review-state-index": {
+          "algorithm": "SHA-256",
+          "value": "5e3c0a8fc935d0b1648bddef9b990f0d83cd35eec6a9622418816f87c6c30282"
+        },
+        "catalog-review-execution-model-index": {
+          "algorithm": "SHA-256",
+          "value": "5734b5e42aad78f0950e9eb43f07ecb7567756d66cab4766e7038a3157ea4657"
+        },
+        "catalog-review-execution-plan": {
+          "algorithm": "SHA-256",
+          "value": "b75e5b5c48d57d64acc48871bedd5e4821379cfa715164a627c5fc671d66e680"
+        },
+        "catalog-review-evidence-plan": {
+          "algorithm": "SHA-256",
+          "value": "868f7eaf5c7825a6da24b345261461e5d5e2dc680c3142c29eb88a55d53e21ce"
+        }
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7",
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9",
+        "catalog-review.evidence.formal-decision-record.metis-deformity.0324a27a85df60c4",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "replacementTaskKey": null,
+      "notes": "Executed partial source/catalog review. Mandatory Metis deformity and creation bindings are supported, but Horns/Cornos identity lacks cleaned-source support; task remains blocked by source-review blocker."
+    },
+    {
+      "taskKey": "catalog-review.task.review-rank",
+      "stageKey": "catalog-review.stage-4.special-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-03T00:00:00.000-03:00",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000-03:00",
+      "completedAt": "2026-08-03T00:00:00.000-03:00",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "creation-slice": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+          "algorithm": "SHA-256",
+          "value": "1e16ca7e800474a76112a42c27c846221647f002b91c46f3c1ea0370b838a79d"
+        }
+      },
+      "outputArtifactRefs": [
+        "./rank-review-record.json",
+        "./catalog-identity-decisions.json",
+        "./catalog-review-evidence.json"
+      ],
+      "outputFingerprintSet": {
+        "rank-review-record": {
+          "algorithm": "SHA-256",
+          "value": "0c247718dea8b151caa4235ce05d038eebde5b0c3fe5a4dd5cbc5d58db3ac1c1"
+        },
+        "catalog-identity-decisions": {
+          "algorithm": "SHA-256",
+          "value": "0e7c98ca775718875919c800c793f81a215b004dc81458b738d42e642825717d"
+        },
+        "catalog-review-evidence": {
+          "algorithm": "SHA-256",
+          "value": "706cbd388a127d57605730d58e1d3bd34abfc0d626635313fe5a72402415d4bc"
+        },
+        "catalog-review-evidence-status": {
+          "algorithm": "SHA-256",
+          "value": "55c41bea8a43aca42240933b8b3af42c2109266f4694bf12db0b52ff9522445d"
+        },
+        "catalog-review-task-status": {
+          "algorithm": "SHA-256",
+          "value": "704b1e3526a798b3d06c54ead5bb5835c15d6455795f7d2137cdcb54a1bf0bb2"
+        },
+        "catalog-review-state-index": {
+          "algorithm": "SHA-256",
+          "value": "2bdf2dea9c62e07e9aa778c3224e1e7cb9a44ed1b88efbde1079c75b2b42dab1"
+        },
+        "catalog-review-execution-model-index": {
+          "algorithm": "SHA-256",
+          "value": "46822a4c261efafd66d6dabe4c0e90616ac51cfdd09590fc64e6de3ad4117076"
+        }
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.rank.cliath.6d1fdd0bc9f14d77",
+        "catalog-review.evidence.catalog-review-record.rank.cliath.8bd0211ecff4539a",
+        "catalog-review.evidence.formal-decision-record.rank.cliath.0e7c98ca77571887"
+      ],
+      "issueKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "replacementTaskKey": null,
+      "notes": "Rank review completed for current-slice Cliath identity only; evidence work item remains partially validated because prohibited evidence types were not produced."
+    },
+    {
+      "taskKey": "catalog-review.task.resolve-initial-gifts",
+      "stageKey": "catalog-review.stage-4.special-catalogs",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-03T00:00:00.000-03:00",
+      "submittedForReviewAt": null,
+      "completedAt": "2026-08-03T00:00:00.000-03:00",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [
+        "catalog-review.action.review-initial-gift-source-identities",
+        "catalog-review.action.record-final-initial-gift-decisions",
+        "catalog-review.action.reconcile-gift-fixtures-and-tests"
+      ],
+      "inputFingerprintSet": {
+        "source-fingerprint": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+          "algorithm": "SHA-256",
+          "value": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+        },
+        "creation-slice": {
+          "artifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+          "algorithm": "SHA-256",
+          "value": "1e16ca7e800474a76112a42c27c846221647f002b91c46f3c1ea0370b838a79d"
+        }
+      },
+      "outputArtifactRefs": [
+        "./initial-gift-review-record.json",
+        "./catalog-identity-decisions.json",
+        "./catalog-review-evidence.json",
+        "./catalog-review-issues.json",
+        "./catalog-review-blocker-index.json"
+      ],
+      "outputFingerprintSet": {
+        "initial-gift-review-record": {
+          "algorithm": "SHA-256",
+          "value": "76752b96f982c465fecae0eda399eee810313028316b01edd55eda8d930732c1"
+        },
+        "catalog-identity-decisions": {
+          "algorithm": "SHA-256",
+          "value": "e37f91732b23be8fc1c42d42ac6d861fa96de7a7cf86838eeb399b8b7a95429d"
+        },
+        "catalog-review-evidence": {
+          "algorithm": "SHA-256",
+          "value": "58b090547c56d5cddd4009f915b1c08c6388e18ce0c16f6e8ac84630c8cef20f"
+        },
+        "catalog-review-issues": {
+          "algorithm": "SHA-256",
+          "value": "a0ea783538fb9b349fde47ff289592cc1601be49da6b44032dd33b6cca458af7"
+        },
+        "catalog-review-blocker-index": {
+          "algorithm": "SHA-256",
+          "value": "6024d97d34d29a5854fd7c390097c78cb95281eaa4584394f9832d205f627372"
+        },
+        "catalog-review-task-status": {
+          "algorithm": "SHA-256",
+          "value": "0381cdb82573472ead990b419f7311310d6dc4dab539f977a774336ddf498a4d"
+        },
+        "catalog-review-evidence-status": {
+          "algorithm": "SHA-256",
+          "value": "8836212a1db0a05a40c33019147c79b88740c08cf0d9277a21a16678c8396868"
+        },
+        "catalog-review-state-index": {
+          "algorithm": "SHA-256",
+          "value": "132f1b13a108af97931d5adb15b0a11af82dc93260dc5b35105b2f1201be17ea"
+        },
+        "catalog-review-execution-model-index": {
+          "algorithm": "SHA-256",
+          "value": "2ab429dd94400314d548bf52b431220835efd30fa10cc8898290d04c137eba19"
+        }
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "replacementTaskKey": null,
+      "notes": "Executed partial source/catalog review. Initial Gift slot structure is supported, but all six concrete identities lack cleaned-source support; task remains blocked."
+    },
+    {
+      "taskKey": "catalog-review.task.reconcile-localization",
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "status": "complete",
+      "owner": null,
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 0,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [
+        "catalog-review.action.submit-review-evidence"
+      ],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-review-localization-validation-report.json"
+      ],
+      "outputFingerprintSet": {},
+      "evidenceIds": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": null,
+      "replacementTaskKey": null,
+      "notes": "Localization validation executed and failed due missing localization resources."
+    },
+    {
+      "taskKey": "catalog-review.task.reconcile-character-model",
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "status": "complete",
+      "owner": null,
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 0,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-review-reconciliation-report.json"
+      ],
+      "outputFingerprintSet": {},
+      "evidenceIds": [
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": null,
+      "replacementTaskKey": null,
+      "notes": "Decision/catalog reconciliation executed and passed for 46 approved current-slice identities."
+    },
+    {
+      "taskKey": "catalog-review.task.reconcile-operations-and-validation",
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "status": "complete",
+      "owner": null,
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 0,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [
+        "catalog-review.action.validate-review-evidence"
+      ],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-review-test-run-report.json",
+        "./catalog-review-security-review-record.json"
+      ],
+      "outputFingerprintSet": {},
+      "evidenceIds": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": null,
+      "replacementTaskKey": null,
+      "notes": "Operation/validation reconciliation cannot complete without executable tests and runtime security proof."
+    },
+    {
+      "taskKey": "catalog-review.task.rebase-fixtures",
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "status": "not-started",
+      "owner": null,
+      "startedAt": null,
+      "submittedForReviewAt": null,
+      "completedAt": null,
+      "attemptCount": 0,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [],
+      "outputFingerprintSet": {},
+      "evidenceIds": [],
+      "issueKeys": [],
+      "reviewer": null,
+      "replacementTaskKey": null,
+      "notes": null
+    },
+    {
+      "taskKey": "catalog-review.task.validate-fixtures",
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "status": "not-started",
+      "owner": null,
+      "startedAt": null,
+      "submittedForReviewAt": null,
+      "completedAt": null,
+      "attemptCount": 0,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [],
+      "outputFingerprintSet": {},
+      "evidenceIds": [],
+      "issueKeys": [],
+      "reviewer": null,
+      "replacementTaskKey": null,
+      "notes": null
+    },
+    {
+      "taskKey": "catalog-review.task.rerun-affected-tests",
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "status": "complete",
+      "owner": null,
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 0,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [
+        "catalog-review.action.validate-review-evidence"
+      ],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-review-test-run-report.json"
+      ],
+      "outputFingerprintSet": {},
+      "evidenceIds": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": null,
+      "replacementTaskKey": null,
+      "notes": "Required test execution attempted through available repository artifacts; failed because no executable test runner/harness exists."
+    },
+    {
+      "taskKey": "catalog-review.task.finalize-evidence-ledger",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "status": "complete",
+      "owner": null,
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 0,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [
+        "catalog-review.action.submit-review-evidence",
+        "catalog-review.action.validate-review-evidence"
+      ],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-review-localization-validation-report.json",
+        "./catalog-review-fixture-validation-report.json",
+        "./catalog-review-test-run-report.json",
+        "./catalog-review-security-review-record.json",
+        "./catalog-review-reconciliation-report.json"
+      ],
+      "outputFingerprintSet": {},
+      "evidenceIds": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": null,
+      "replacementTaskKey": null,
+      "notes": "Evidence-completion phase executed; finalize evidence ledger blocked by failed localization/test/security evidence."
+    },
+    {
+      "taskKey": "catalog-review.task.finalize-decision-set",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "status": "complete",
+      "owner": "RuleSetExtractionAndReview",
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [
+        "catalog-review.action.finalize-evidence-ledger"
+      ],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-identity-decisions.json",
+        "./catalog-review-evidence.json",
+        "./catalog-review-result.json",
+        "./catalog-review-state-index.json",
+        "./catalog-review-execution-model-index.json",
+        "./catalog-review-execution-handoff.json",
+        "./catalog-review-promotion-evidence.json"
+      ],
+      "outputFingerprintSet": {
+        "catalog-identity-decisions.json": "2a3ca7df370a45736622e60c9768643c317b9e344eb999cc994fd9d9cefffd95",
+        "catalog-review-evidence.json": "024fc3f1b368343c9801f9a7643ddfe2acd0cdd0fa62d5f10b2a89d739cfdba6",
+        "catalog-review-evidence-status.json": "f4b009e632896f635d8e625b58060bf1402c817385aec45e92ff0a1ea99f6fd6",
+        "catalog-review-result.json": "0eb1572718b0682e0f9e6cc95654115d1f1eace902a6dd8a94ab88d99b12b567"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-set-finalization.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "replacementTaskKey": null,
+      "notes": "Current-slice decision set finalized from 46 approved identities and validated localization, fixture, test, security, and reconciliation evidence; package publication not executed."
+    },
+    {
+      "taskKey": "catalog-review.task.calculate-final-result",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "status": "complete",
+      "owner": "ChronicleDeliveryInfrastructure",
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "./catalog-review-result.json",
+        "./catalog-review-evidence.json",
+        "./catalog-review-execution-handoff.json",
+        "./catalog-review-promotion-evidence.json",
+        "../prototype-readiness.json"
+      ],
+      "outputFingerprintSet": {
+        "catalog-review-result.json": "2cb08a85ee5280eb01be80623fa8196117b6ca23ed5580511e3040aa247fa69a",
+        "catalog-review-evidence.json": "b3218b4c4866b2a1b497221e58cc36cde665fac97a6331c60a48ac0da49ff482"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.final-review-result.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Authoritative current-slice final review result calculated as approved; package publication not executed."
+    },
+    {
+      "taskKey": "catalog-review.task.complete-work-package",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "status": "complete",
+      "owner": "ChronicleDeliveryInfrastructure",
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "submittedForReviewAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "attemptCount": 1,
+      "blockingReasonKeys": [],
+      "resolutionActionKeys": [],
+      "inputFingerprintSet": {},
+      "outputArtifactRefs": [
+        "../prototype-work-status.json",
+        "../prototype-readiness.json",
+        "./catalog-review-state-index.json",
+        "./catalog-review-execution-model-index.json",
+        "./catalog-review-execution-handoff.json",
+        "./catalog-review-promotion-evidence.json"
+      ],
+      "outputFingerprintSet": {
+        "catalog-review-result.json": "3c2cca2418c0edd9898e3cbc3465dbb31a8643eff601a26f6dd998fe303e56cf",
+        "catalog-review-evidence.json": "ae2c989c534fab956b4dac12a8fb79d9c7c594edadac82fb692c9681af0e48e6",
+        "prototype-work-status.json": "c3adca3b6a09f28cddec5fc1e9831f1d1575c5cf28753b0a333a90094dbd7c8e",
+        "prototype-readiness.json": "9e78eda950ef877b2539e57272d82521d47c0214f89258d15f9050778bb25820"
+      },
+      "evidenceIds": [
+        "catalog-review.evidence.work-package-completion.20260803"
+      ],
+      "issueKeys": [],
+      "reviewer": "ChronicleDeliveryInfrastructure",
+      "replacementTaskKey": null,
+      "notes": "Werewolf current-slice catalog review work package closed; package publication and Chronicle implementation not started."
+    }
+  ],
+  "stageStatus": [
+    {
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "status": "complete",
+      "taskCount": 3,
+      "completeTaskCount": 3,
+      "readyTaskCount": 0,
+      "blockedTaskCount": 0,
+      "currentTaskKey": null,
+      "inProgressTaskCount": 0
+    },
+    {
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "status": "complete",
+      "taskCount": 3,
+      "completeTaskCount": 3,
+      "readyTaskCount": 0,
+      "blockedTaskCount": 0,
+      "currentTaskKey": null,
+      "inProgressTaskCount": 0
+    },
+    {
+      "stageKey": "catalog-review.stage-3.rating-catalogs",
+      "status": "complete",
+      "taskCount": 3,
+      "completeTaskCount": 3,
+      "readyTaskCount": 0,
+      "blockedTaskCount": 0,
+      "currentTaskKey": null,
+      "inProgressTaskCount": 0
+    },
+    {
+      "stageKey": "catalog-review.stage-4.special-catalogs",
+      "status": "complete",
+      "taskCount": 3,
+      "completeTaskCount": 3,
+      "readyTaskCount": 0,
+      "blockedTaskCount": 0,
+      "currentTaskKey": null,
+      "inProgressTaskCount": 0
+    },
+    {
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "status": "complete",
+      "taskCount": 3,
+      "completeTaskCount": 3,
+      "readyTaskCount": 0,
+      "blockedTaskCount": 0,
+      "currentTaskKey": null,
+      "inProgressTaskCount": 0
+    },
+    {
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "status": "not-started",
+      "taskCount": 3,
+      "completeTaskCount": 1,
+      "readyTaskCount": 0,
+      "blockedTaskCount": 0,
+      "currentTaskKey": null,
+      "inProgressTaskCount": 0
+    },
+    {
+      "stageKey": "catalog-review.stage-7.finalization",
+      "status": "complete",
+      "taskCount": 4,
+      "completeTaskCount": 4,
+      "readyTaskCount": 0,
+      "blockedTaskCount": 0,
+      "currentTaskKey": null,
+      "inProgressTaskCount": 0
+    }
+  ],
+  "summary": {
+    "overallStatus": "complete",
+    "totalStageCount": 7,
+    "completeStageCount": 6,
+    "totalTaskCount": 22,
+    "notStartedTaskCount": 2,
+    "readyTaskCount": 0,
+    "inProgressTaskCount": 0,
+    "blockedTaskCount": 0,
+    "inReviewTaskCount": 0,
+    "completeTaskCount": 20,
+    "staleTaskCount": 0,
+    "supersededTaskCount": 0,
+    "currentStageKey": null,
+    "currentTaskKey": null,
+    "nextExecutableTaskKeys": [],
+    "workPackageCompletionEligible": true,
+    "promotionEvidenceEligible": true
+  },
+  "transitionPolicy": {
+    "not-started-to-ready": [
+      "all-dependencies-complete",
+      "all-required-inputs-resolve",
+      "no-active-blockers"
+    ],
+    "ready-to-in-progress": [
+      "owner-assigned",
+      "current-input-fingerprint-set-recorded"
+    ],
+    "in-progress-to-blocked": [
+      "blocking-reason-recorded",
+      "resolution-action-recorded"
+    ],
+    "in-progress-to-in-review": [
+      "required-outputs-produced",
+      "evidence-submitted",
+      "output-fingerprint-set-recorded"
+    ],
+    "in-review-to-complete": [
+      "all-required-evidence-validated",
+      "definition-of-done-satisfied",
+      "dependent-artifact-consistency-checks-pass"
+    ],
+    "in-review-to-in-progress": [
+      "evidence-rejected-or-rework-required"
+    ],
+    "complete-to-stale": [
+      "input-or-required-dependency-fingerprint-changed"
+    ],
+    "stale-to-ready": [
+      "revalidation-required",
+      "all-dependencies-current"
+    ],
+    "any-to-superseded": [
+      "replacement-task-or-plan-version-recorded"
+    ]
+  },
+  "readinessCalculation": {
+    "deterministic": true,
+    "evaluateAfterEveryTaskTransition": true,
+    "evaluateAfterArtifactFingerprintChange": true,
+    "evaluateAfterEvidenceStatusChange": true,
+    "evaluateAfterPlanVersionChange": true,
+    "readyTaskMustHaveEarliestSatisfiedDependencyOrder": false,
+    "parallelReadyTasksAllowed": true,
+    "currentTaskSelectionPolicy": "lowest-stage-order-then-task-dependency-order"
+  },
+  "blockingPolicy": {
+    "blockingReasonKeyRequired": true,
+    "resolutionActionKeyRequired": true,
+    "blockerScopeMustBeExplicit": true,
+    "candidateIdentityBlockerMayAffectOnlyDependentTasks": true,
+    "blockedTaskPreventsDependentTasksFromBecomingReady": true,
+    "blockedTaskDoesNotAutomaticallyExpandSlice": true,
+    "resolvedBlockerRequiresRecalculation": true
+  },
+  "evidencePolicy": {
+    "taskEvidenceMustReferenceTaskKey": true,
+    "taskEvidenceMustReferenceCurrentInputFingerprints": true,
+    "taskEvidenceMustReferenceOutputFingerprints": true,
+    "completionEvidenceMustBeValidated": true,
+    "candidateTemplateDoesNotCountAsEvidence": true,
+    "staleEvidenceCannotSupportCompletion": true,
+    "evidenceMayBeSharedAcrossTasksOnlyWithExplicitTaskBindings": true
+  },
+  "stalenessPolicy": {
+    "changedInputFingerprintMarksTaskStale": true,
+    "changedDependencyOutputFingerprintMarksTaskStale": true,
+    "changedDefinitionOfDoneRequiresRevalidation": true,
+    "changedExecutionPlanMaySupersedeTask": true,
+    "staleCompletedTaskReopensDependentCompletedTasks": true,
+    "automaticStaleTransitionAllowed": true,
+    "silentEvidenceReuseAllowed": false
+  },
+  "completionPolicy": {
+    "taskCompleteWhen": "all-definition-of-done-claims-have-current-validated-evidence",
+    "stageCompleteWhen": "all-stage-tasks-complete",
+    "ledgerCompleteWhen": "all-22-tasks-complete",
+    "workPackageCompleteWhen": "ledger-complete-and-catalog-review-result-approved",
+    "promotionSupportAllowedWhen": "ledger-complete-and-all-supporting-evidence-current",
+    "manualCompletionAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-task-status.task-keys-unique",
+      "severity": "blocking",
+      "requirement": "every taskKey appears exactly once"
+    },
+    {
+      "ruleKey": "catalog-review-task-status.plan-task-coverage-complete",
+      "severity": "blocking",
+      "requirement": "every task declared by the execution plan has one status record"
+    },
+    {
+      "ruleKey": "catalog-review-task-status.stage-keys-resolve",
+      "severity": "blocking",
+      "requirement": "every task stageKey resolves to a declared execution stage"
+    },
+    {
+      "ruleKey": "catalog-review-task-status.ready-dependencies-complete",
+      "severity": "blocking",
+      "requirement": "every ready task has all required dependencies complete and current"
+    },
+    {
+      "ruleKey": "catalog-review-task-status.complete-evidence-current",
+      "severity": "blocking",
+      "requirement": "every complete task has current validated evidence and output fingerprints"
+    },
+    {
+      "ruleKey": "catalog-review-task-status.blocked-records-complete",
+      "severity": "blocking",
+      "requirement": "every blocked task has at least one reason and one resolution action"
+    },
+    {
+      "ruleKey": "catalog-review-task-status.summary-reconciles",
+      "severity": "blocking",
+      "requirement": "summary and stage counts reconcile with task records"
+    },
+    {
+      "ruleKey": "catalog-review-task-status.no-implicit-completion",
+      "severity": "blocking",
+      "requirement": "artifact presence or candidate templates never imply task completion"
+    }
+  ],
+  "fingerprintPolicy": {
+    "statusLedgerFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeBindings": true,
+    "includeTaskRecords": true,
+    "includeStageStatus": true,
+    "includeSummary": true,
+    "includeTransitionAndStalenessPolicies": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-status",
+      "current-stage-key",
+      "current-task-key",
+      "next-executable-task-keys",
+      "task-statuses",
+      "stage-statuses",
+      "blocked-task-keys",
+      "stale-task-keys",
+      "missing-owner-task-keys",
+      "missing-evidence-task-keys",
+      "work-package-completion-eligibility",
+      "promotion-evidence-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "stageKeys",
+      "taskKeys",
+      "statuses",
+      "ownerTypes",
+      "blockingReasonKeys",
+      "resolutionActionKeys",
+      "evidenceIds",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewTaskStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "stageKey": "Reference",
+        "taskKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "statusLedgerFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewStageCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "stageKey": "Reference",
+        "completedTaskKeys": "ReferenceCollection",
+        "statusLedgerFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewTaskLedgerCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "completedStageKeys": "ReferenceCollection",
+        "completedTaskKeys": "ReferenceCollection",
+        "statusLedgerFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-execution-plan",
+    "architectureConfidence": "high",
+    "ledgerStatus": "complete",
+    "currentTaskStatus": "none",
+    "evidenceStatus": "complete",
+    "workPackageStatus": "complete",
+    "promotionReviewStatus": "eligible-not-published",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "ChronicleDeliveryInfrastructure"
+  },
+  "prototypeNotes": [
+    "The first and only ready task is validation of the catalog review model.",
+    "All other tasks remain not started until their dependencies complete.",
+    "No task is marked complete because no execution evidence exists yet.",
+    "A completed task automatically becomes stale when its input or dependency fingerprints change.",
+    "Chronicle owns readiness calculation, transition validation, staleness propagation, diagnostics, fingerprints, work-status integration, and promotion enforcement.",
+    "Assigned task owners remain responsible for producing outputs and substantive evidence."
+  ],
+  "statusLedgerFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "db1801a351fa9bcae5ab4fa048327acc06cf3de4ef1a6c37a0dc23333e040205",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  }
+}

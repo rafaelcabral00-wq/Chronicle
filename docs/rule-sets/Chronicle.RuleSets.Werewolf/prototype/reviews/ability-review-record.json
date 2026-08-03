@@ -1,0 +1,4867 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.ability-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.ability-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceAbilityCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for Ability identities required by the current Character creation slice.",
+    "Review the eighteen Ability identity names, normalized keys, category bindings, deterministic ordering, and current-slice Lupus restriction metadata.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, and tests.",
+    "Prevent structural catalog presence from being treated as substantive Ability approval."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/abilities.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "attributeReviewRecordArtifactRef": "./attribute-review-record.json",
+    "taskKey": "catalog-review.task.review-abilities",
+    "catalogKey": "character-model.catalog.abilities"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-02T21:12:36.000Z",
+    "completedAt": "2026-08-03T00:00:00.000-03:00",
+    "requiredIdentityCount": 18,
+    "reviewedIdentityCount": 18,
+    "approvedIdentityCount": 18,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 4,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.ability.alertness",
+      "expectedSourceName": "Alertness",
+      "expectedCategory": "Talent",
+      "expectedOrder": 10,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.athletics",
+      "expectedSourceName": "Athletics",
+      "expectedCategory": "Talent",
+      "expectedOrder": 20,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.brawl",
+      "expectedSourceName": "Brawl",
+      "expectedCategory": "Talent",
+      "expectedOrder": 30,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.empathy",
+      "expectedSourceName": "Empathy",
+      "expectedCategory": "Talent",
+      "expectedOrder": 50,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.expression",
+      "expectedSourceName": "Expression",
+      "expectedCategory": "Talent",
+      "expectedOrder": 60,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.intimidation",
+      "expectedSourceName": "Intimidation",
+      "expectedCategory": "Talent",
+      "expectedOrder": 70,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.leadership",
+      "expectedSourceName": "Leadership",
+      "expectedCategory": "Skill",
+      "expectedOrder": 160,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.subterfuge",
+      "expectedSourceName": "Subterfuge",
+      "expectedCategory": "Talent",
+      "expectedOrder": 100,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.drive",
+      "expectedSourceName": "Drive",
+      "expectedCategory": "Skill",
+      "expectedOrder": 130,
+      "lupusBaseRestricted": true,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.etiquette",
+      "expectedSourceName": "Etiquette",
+      "expectedCategory": "Skill",
+      "expectedOrder": 140,
+      "lupusBaseRestricted": true,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.performance",
+      "expectedSourceName": "Performance",
+      "expectedCategory": "Skill",
+      "expectedOrder": 180,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.stealth",
+      "expectedSourceName": "Stealth",
+      "expectedCategory": "Skill",
+      "expectedOrder": 190,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.survival",
+      "expectedSourceName": "Survival",
+      "expectedCategory": "Skill",
+      "expectedOrder": 200,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.computer",
+      "expectedSourceName": "Computer",
+      "expectedCategory": "Knowledge",
+      "expectedOrder": 210,
+      "lupusBaseRestricted": true,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.investigation",
+      "expectedSourceName": "Investigation",
+      "expectedCategory": "Knowledge",
+      "expectedOrder": 230,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.law",
+      "expectedSourceName": "Law",
+      "expectedCategory": "Knowledge",
+      "expectedOrder": 240,
+      "lupusBaseRestricted": true,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.occult",
+      "expectedSourceName": "Occult",
+      "expectedCategory": "Knowledge",
+      "expectedOrder": 270,
+      "lupusBaseRestricted": false,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.ability.politics",
+      "expectedSourceName": "Politics",
+      "expectedCategory": "Knowledge",
+      "expectedOrder": 280,
+      "lupusBaseRestricted": true,
+      "status": "reviewed-approved"
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "ability-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.source-identities-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "ability-review.finding.alertness.identity-name",
+        "ability-review.finding.athletics.identity-name",
+        "ability-review.finding.brawl.identity-name",
+        "ability-review.finding.empathy.identity-name",
+        "ability-review.finding.expression.identity-name",
+        "ability-review.finding.intimidation.identity-name",
+        "ability-review.finding.leadership.identity-name",
+        "ability-review.finding.subterfuge.identity-name",
+        "ability-review.finding.drive.identity-name",
+        "ability-review.finding.etiquette.identity-name",
+        "ability-review.finding.performance.identity-name",
+        "ability-review.finding.stealth.identity-name",
+        "ability-review.finding.survival.identity-name",
+        "ability-review.finding.computer.identity-name",
+        "ability-review.finding.investigation.identity-name",
+        "ability-review.finding.law.identity-name",
+        "ability-review.finding.occult.identity-name",
+        "ability-review.finding.politics.identity-name"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.normalized-keys-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "ability-review.finding.alertness.normalized-key",
+        "ability-review.finding.athletics.normalized-key",
+        "ability-review.finding.brawl.normalized-key",
+        "ability-review.finding.empathy.normalized-key",
+        "ability-review.finding.expression.normalized-key",
+        "ability-review.finding.intimidation.normalized-key",
+        "ability-review.finding.leadership.normalized-key",
+        "ability-review.finding.subterfuge.normalized-key",
+        "ability-review.finding.drive.normalized-key",
+        "ability-review.finding.etiquette.normalized-key",
+        "ability-review.finding.performance.normalized-key",
+        "ability-review.finding.stealth.normalized-key",
+        "ability-review.finding.survival.normalized-key",
+        "ability-review.finding.computer.normalized-key",
+        "ability-review.finding.investigation.normalized-key",
+        "ability-review.finding.law.normalized-key",
+        "ability-review.finding.occult.normalized-key",
+        "ability-review.finding.politics.normalized-key"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.all-eighteen-present",
+      "checklistCheckRefs": [
+        "catalog-review.abilities.all-required-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.category-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.abilities.category-bindings-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "ability-review.finding.alertness.ability-category",
+        "ability-review.finding.athletics.ability-category",
+        "ability-review.finding.brawl.ability-category",
+        "ability-review.finding.empathy.ability-category",
+        "ability-review.finding.expression.ability-category",
+        "ability-review.finding.intimidation.ability-category",
+        "ability-review.finding.leadership.ability-category",
+        "ability-review.finding.subterfuge.ability-category",
+        "ability-review.finding.drive.ability-category",
+        "ability-review.finding.etiquette.ability-category",
+        "ability-review.finding.performance.ability-category",
+        "ability-review.finding.stealth.ability-category",
+        "ability-review.finding.survival.ability-category",
+        "ability-review.finding.computer.ability-category",
+        "ability-review.finding.investigation.ability-category",
+        "ability-review.finding.law.ability-category",
+        "ability-review.finding.occult.ability-category",
+        "ability-review.finding.politics.ability-category"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.stable-order-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.abilities.stable-order-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "ability-review.finding.alertness.stable-order",
+        "ability-review.finding.athletics.stable-order",
+        "ability-review.finding.brawl.stable-order",
+        "ability-review.finding.empathy.stable-order",
+        "ability-review.finding.expression.stable-order",
+        "ability-review.finding.intimidation.stable-order",
+        "ability-review.finding.leadership.stable-order",
+        "ability-review.finding.subterfuge.stable-order",
+        "ability-review.finding.drive.stable-order",
+        "ability-review.finding.etiquette.stable-order",
+        "ability-review.finding.performance.stable-order",
+        "ability-review.finding.stealth.stable-order",
+        "ability-review.finding.survival.stable-order",
+        "ability-review.finding.computer.stable-order",
+        "ability-review.finding.investigation.stable-order",
+        "ability-review.finding.law.stable-order",
+        "ability-review.finding.occult.stable-order",
+        "ability-review.finding.politics.stable-order"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.lupus-base-restrictions-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.abilities.lupus-base-restrictions-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "ability-review.finding.alertness.lupus-base-restriction",
+        "ability-review.finding.athletics.lupus-base-restriction",
+        "ability-review.finding.brawl.lupus-base-restriction",
+        "ability-review.finding.empathy.lupus-base-restriction",
+        "ability-review.finding.expression.lupus-base-restriction",
+        "ability-review.finding.intimidation.lupus-base-restriction",
+        "ability-review.finding.leadership.lupus-base-restriction",
+        "ability-review.finding.subterfuge.lupus-base-restriction",
+        "ability-review.finding.drive.lupus-base-restriction",
+        "ability-review.finding.etiquette.lupus-base-restriction",
+        "ability-review.finding.performance.lupus-base-restriction",
+        "ability-review.finding.stealth.lupus-base-restriction",
+        "ability-review.finding.survival.lupus-base-restriction",
+        "ability-review.finding.computer.lupus-base-restriction",
+        "ability-review.finding.investigation.lupus-base-restriction",
+        "ability-review.finding.law.lupus-base-restriction",
+        "ability-review.finding.occult.lupus-base-restriction",
+        "ability-review.finding.politics.lupus-base-restriction"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.lupus-later-purchase-boundary-preserved",
+      "checklistCheckRefs": [
+        "catalog-review.abilities.lupus-later-purchase-remains-unresolved"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "ability-review.finding.alertness.lupus-later-purchase-boundary",
+        "ability-review.finding.athletics.lupus-later-purchase-boundary",
+        "ability-review.finding.brawl.lupus-later-purchase-boundary",
+        "ability-review.finding.empathy.lupus-later-purchase-boundary",
+        "ability-review.finding.expression.lupus-later-purchase-boundary",
+        "ability-review.finding.intimidation.lupus-later-purchase-boundary",
+        "ability-review.finding.leadership.lupus-later-purchase-boundary",
+        "ability-review.finding.subterfuge.lupus-later-purchase-boundary",
+        "ability-review.finding.drive.lupus-later-purchase-boundary",
+        "ability-review.finding.etiquette.lupus-later-purchase-boundary",
+        "ability-review.finding.performance.lupus-later-purchase-boundary",
+        "ability-review.finding.stealth.lupus-later-purchase-boundary",
+        "ability-review.finding.survival.lupus-later-purchase-boundary",
+        "ability-review.finding.computer.lupus-later-purchase-boundary",
+        "ability-review.finding.investigation.lupus-later-purchase-boundary",
+        "ability-review.finding.law.lupus-later-purchase-boundary",
+        "ability-review.finding.occult.lupus-later-purchase-boundary",
+        "ability-review.finding.politics.lupus-later-purchase-boundary"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+        "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.creation-bindings-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "ability-review.finding.alertness.creation-binding",
+        "ability-review.finding.athletics.creation-binding",
+        "ability-review.finding.brawl.creation-binding",
+        "ability-review.finding.empathy.creation-binding",
+        "ability-review.finding.expression.creation-binding",
+        "ability-review.finding.intimidation.creation-binding",
+        "ability-review.finding.leadership.creation-binding",
+        "ability-review.finding.subterfuge.creation-binding",
+        "ability-review.finding.drive.creation-binding",
+        "ability-review.finding.etiquette.creation-binding",
+        "ability-review.finding.performance.creation-binding",
+        "ability-review.finding.stealth.creation-binding",
+        "ability-review.finding.survival.creation-binding",
+        "ability-review.finding.computer.creation-binding",
+        "ability-review.finding.investigation.creation-binding",
+        "ability-review.finding.law.creation-binding",
+        "ability-review.finding.occult.creation-binding",
+        "ability-review.finding.politics.creation-binding"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.localization-bindings-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.fixture-and-test-references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "ability-review.formal-decisions-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.abilities.98f691b24e90ad63"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "ability-category",
+    "stable-order",
+    "lupus-base-restriction",
+    "lupus-later-purchase-boundary",
+    "creation-binding",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "ability-review.finding.alertness.identity-name",
+      "identityKey": "character.ability.alertness",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Alertness"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.alertness",
+        "displayNameResourceKey": "character.ability.alertness",
+        "sourceLabelPtBr": "Prontidão"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.alertness.normalized-key",
+      "identityKey": "character.ability.alertness",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.alertness"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.alertness"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.alertness.ability-category",
+      "identityKey": "character.ability.alertness",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Talent"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.talents",
+        "category": "Talent"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.alertness.stable-order",
+      "identityKey": "character.ability.alertness",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 10,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 10
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.alertness.lupus-base-restriction",
+      "identityKey": "character.ability.alertness",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.alertness.creation-binding",
+      "identityKey": "character.ability.alertness",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.alertness.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.alertness",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.athletics.identity-name",
+      "identityKey": "character.ability.athletics",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Athletics"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.athletics",
+        "displayNameResourceKey": "character.ability.athletics",
+        "sourceLabelPtBr": "Esportes"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.athletics.normalized-key",
+      "identityKey": "character.ability.athletics",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.athletics"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.athletics"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.athletics.ability-category",
+      "identityKey": "character.ability.athletics",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Talent"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.talents",
+        "category": "Talent"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.athletics.stable-order",
+      "identityKey": "character.ability.athletics",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 20,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 20
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.athletics.lupus-base-restriction",
+      "identityKey": "character.ability.athletics",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.athletics.creation-binding",
+      "identityKey": "character.ability.athletics",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.athletics.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.athletics",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.brawl.identity-name",
+      "identityKey": "character.ability.brawl",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Brawl"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.brawl",
+        "displayNameResourceKey": "character.ability.brawl",
+        "sourceLabelPtBr": "Briga"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.brawl.normalized-key",
+      "identityKey": "character.ability.brawl",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.brawl"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.brawl"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.brawl.ability-category",
+      "identityKey": "character.ability.brawl",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Talent"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.talents",
+        "category": "Talent"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.brawl.stable-order",
+      "identityKey": "character.ability.brawl",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 30,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 30
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.brawl.lupus-base-restriction",
+      "identityKey": "character.ability.brawl",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.brawl.creation-binding",
+      "identityKey": "character.ability.brawl",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.brawl.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.brawl",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.empathy.identity-name",
+      "identityKey": "character.ability.empathy",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Empathy"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.empathy",
+        "displayNameResourceKey": "character.ability.empathy",
+        "sourceLabelPtBr": "Empatia"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.empathy.normalized-key",
+      "identityKey": "character.ability.empathy",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.empathy"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.empathy"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.empathy.ability-category",
+      "identityKey": "character.ability.empathy",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Talent"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.talents",
+        "category": "Talent"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.empathy.stable-order",
+      "identityKey": "character.ability.empathy",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 50,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 50
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.empathy.lupus-base-restriction",
+      "identityKey": "character.ability.empathy",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.empathy.creation-binding",
+      "identityKey": "character.ability.empathy",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.empathy.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.empathy",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.expression.identity-name",
+      "identityKey": "character.ability.expression",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Expression"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.expression",
+        "displayNameResourceKey": "character.ability.expression",
+        "sourceLabelPtBr": "Expressão"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.expression.normalized-key",
+      "identityKey": "character.ability.expression",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.expression"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.expression"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.expression.ability-category",
+      "identityKey": "character.ability.expression",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Talent"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.talents",
+        "category": "Talent"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.expression.stable-order",
+      "identityKey": "character.ability.expression",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 60,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 60
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.expression.lupus-base-restriction",
+      "identityKey": "character.ability.expression",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.expression.creation-binding",
+      "identityKey": "character.ability.expression",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.expression.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.expression",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.intimidation.identity-name",
+      "identityKey": "character.ability.intimidation",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Intimidation"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.intimidation",
+        "displayNameResourceKey": "character.ability.intimidation",
+        "sourceLabelPtBr": "Intimidação"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.intimidation.normalized-key",
+      "identityKey": "character.ability.intimidation",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.intimidation"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.intimidation"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.intimidation.ability-category",
+      "identityKey": "character.ability.intimidation",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Talent"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.talents",
+        "category": "Talent"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.intimidation.stable-order",
+      "identityKey": "character.ability.intimidation",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 70,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 70
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.intimidation.lupus-base-restriction",
+      "identityKey": "character.ability.intimidation",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.intimidation.creation-binding",
+      "identityKey": "character.ability.intimidation",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.intimidation.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.intimidation",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.leadership.identity-name",
+      "identityKey": "character.ability.leadership",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Leadership"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.leadership",
+        "displayNameResourceKey": "character.ability.leadership",
+        "sourceLabelPtBr": "Liderança"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.leadership.normalized-key",
+      "identityKey": "character.ability.leadership",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.leadership"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.leadership"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.leadership.ability-category",
+      "identityKey": "character.ability.leadership",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Skill"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.skills",
+        "category": "Skill"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections place the Ability in this category; Leadership/Lideran?a is a Skill/Per?cia, so the prior expected Talent value was review drift, not a catalog defect."
+    },
+    {
+      "findingId": "ability-review.finding.leadership.stable-order",
+      "identityKey": "character.ability.leadership",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 160,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 160
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.leadership.lupus-base-restriction",
+      "identityKey": "character.ability.leadership",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.leadership.creation-binding",
+      "identityKey": "character.ability.leadership",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.leadership.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.leadership",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.subterfuge.identity-name",
+      "identityKey": "character.ability.subterfuge",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Subterfuge"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.subterfuge",
+        "displayNameResourceKey": "character.ability.subterfuge",
+        "sourceLabelPtBr": "Lábia"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.subterfuge.normalized-key",
+      "identityKey": "character.ability.subterfuge",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.subterfuge"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.subterfuge"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.subterfuge.ability-category",
+      "identityKey": "character.ability.subterfuge",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Talent"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.talents",
+        "category": "Talent"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.subterfuge.stable-order",
+      "identityKey": "character.ability.subterfuge",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 100,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 100
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.subterfuge.lupus-base-restriction",
+      "identityKey": "character.ability.subterfuge",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.subterfuge.creation-binding",
+      "identityKey": "character.ability.subterfuge",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.subterfuge.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.subterfuge",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.drive.identity-name",
+      "identityKey": "character.ability.drive",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Drive"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.drive",
+        "displayNameResourceKey": "character.ability.drive",
+        "sourceLabelPtBr": "Condução"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.drive.normalized-key",
+      "identityKey": "character.ability.drive",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.drive"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.drive"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.drive.ability-category",
+      "identityKey": "character.ability.drive",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Skill"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.skills",
+        "category": "Skill"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.drive.stable-order",
+      "identityKey": "character.ability.drive",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 130,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 130
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.drive.lupus-base-restriction",
+      "identityKey": "character.ability.drive",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": true
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.drive.creation-binding",
+      "identityKey": "character.ability.drive",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.drive.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.drive",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.etiquette.identity-name",
+      "identityKey": "character.ability.etiquette",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Etiquette"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.etiquette",
+        "displayNameResourceKey": "character.ability.etiquette",
+        "sourceLabelPtBr": "Etiqueta"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.etiquette.normalized-key",
+      "identityKey": "character.ability.etiquette",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.etiquette"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.etiquette"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.etiquette.ability-category",
+      "identityKey": "character.ability.etiquette",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Skill"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.skills",
+        "category": "Skill"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.etiquette.stable-order",
+      "identityKey": "character.ability.etiquette",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 140,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 140
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.etiquette.lupus-base-restriction",
+      "identityKey": "character.ability.etiquette",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": true
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.etiquette.creation-binding",
+      "identityKey": "character.ability.etiquette",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.etiquette.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.etiquette",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.performance.identity-name",
+      "identityKey": "character.ability.performance",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Performance"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.performance",
+        "displayNameResourceKey": "character.ability.performance",
+        "sourceLabelPtBr": "Performance"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.performance.normalized-key",
+      "identityKey": "character.ability.performance",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.performance"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.performance"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.performance.ability-category",
+      "identityKey": "character.ability.performance",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Skill"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.skills",
+        "category": "Skill"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.performance.stable-order",
+      "identityKey": "character.ability.performance",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 180,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 180
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.performance.lupus-base-restriction",
+      "identityKey": "character.ability.performance",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.performance.creation-binding",
+      "identityKey": "character.ability.performance",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.performance.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.performance",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.stealth.identity-name",
+      "identityKey": "character.ability.stealth",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Stealth"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.stealth",
+        "displayNameResourceKey": "character.ability.stealth",
+        "sourceLabelPtBr": "Furtividade"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.stealth.normalized-key",
+      "identityKey": "character.ability.stealth",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.stealth"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.stealth"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.stealth.ability-category",
+      "identityKey": "character.ability.stealth",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Skill"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.skills",
+        "category": "Skill"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.stealth.stable-order",
+      "identityKey": "character.ability.stealth",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 190,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 190
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.stealth.lupus-base-restriction",
+      "identityKey": "character.ability.stealth",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.stealth.creation-binding",
+      "identityKey": "character.ability.stealth",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.stealth.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.stealth",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.survival.identity-name",
+      "identityKey": "character.ability.survival",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Survival"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.survival",
+        "displayNameResourceKey": "character.ability.survival",
+        "sourceLabelPtBr": "Sobrevivência"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.survival.normalized-key",
+      "identityKey": "character.ability.survival",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.survival"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.survival"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.survival.ability-category",
+      "identityKey": "character.ability.survival",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Skill"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.skills",
+        "category": "Skill"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.survival.stable-order",
+      "identityKey": "character.ability.survival",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 200,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 200
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.survival.lupus-base-restriction",
+      "identityKey": "character.ability.survival",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.survival.creation-binding",
+      "identityKey": "character.ability.survival",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.survival.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.survival",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.computer.identity-name",
+      "identityKey": "character.ability.computer",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Computer"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.computer",
+        "displayNameResourceKey": "character.ability.computer",
+        "sourceLabelPtBr": "Computador"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.computer.normalized-key",
+      "identityKey": "character.ability.computer",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.computer"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.computer"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.computer.ability-category",
+      "identityKey": "character.ability.computer",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Knowledge"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.knowledges",
+        "category": "Knowledge"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.computer.stable-order",
+      "identityKey": "character.ability.computer",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 210,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 210
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.computer.lupus-base-restriction",
+      "identityKey": "character.ability.computer",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": true
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.computer.creation-binding",
+      "identityKey": "character.ability.computer",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.computer.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.computer",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.investigation.identity-name",
+      "identityKey": "character.ability.investigation",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Investigation"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.investigation",
+        "displayNameResourceKey": "character.ability.investigation",
+        "sourceLabelPtBr": "Investigação"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.investigation.normalized-key",
+      "identityKey": "character.ability.investigation",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.investigation"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.investigation"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.investigation.ability-category",
+      "identityKey": "character.ability.investigation",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Knowledge"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.knowledges",
+        "category": "Knowledge"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.investigation.stable-order",
+      "identityKey": "character.ability.investigation",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 230,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 230
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.investigation.lupus-base-restriction",
+      "identityKey": "character.ability.investigation",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.investigation.creation-binding",
+      "identityKey": "character.ability.investigation",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.investigation.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.investigation",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.law.identity-name",
+      "identityKey": "character.ability.law",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Law"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.law",
+        "displayNameResourceKey": "character.ability.law",
+        "sourceLabelPtBr": "Direito"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.law.normalized-key",
+      "identityKey": "character.ability.law",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.law"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.law"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.law.ability-category",
+      "identityKey": "character.ability.law",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Knowledge"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.knowledges",
+        "category": "Knowledge"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.law.stable-order",
+      "identityKey": "character.ability.law",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 240,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 240
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.law.lupus-base-restriction",
+      "identityKey": "character.ability.law",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": true
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.law.creation-binding",
+      "identityKey": "character.ability.law",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.law.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.law",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.occult.identity-name",
+      "identityKey": "character.ability.occult",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Occult"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.occult",
+        "displayNameResourceKey": "character.ability.occult",
+        "sourceLabelPtBr": "Ocultismo"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.occult.normalized-key",
+      "identityKey": "character.ability.occult",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.occult"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.occult"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.occult.ability-category",
+      "identityKey": "character.ability.occult",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Knowledge"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.knowledges",
+        "category": "Knowledge"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.occult.stable-order",
+      "identityKey": "character.ability.occult",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 270,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 270
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.occult.lupus-base-restriction",
+      "identityKey": "character.ability.occult",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": false
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": false
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.occult.creation-binding",
+      "identityKey": "character.ability.occult",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.occult.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.occult",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    },
+    {
+      "findingId": "ability-review.finding.politics.identity-name",
+      "identityKey": "character.ability.politics",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Politics"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.politics",
+        "displayNameResourceKey": "character.ability.politics",
+        "sourceLabelPtBr": "Política"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "ability-review.finding.politics.normalized-key",
+      "identityKey": "character.ability.politics",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.ability.politics"
+      },
+      "catalogClaim": {
+        "entryKey": "character.ability.politics"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Ability key remains deterministic in the character.ability namespace."
+    },
+    {
+      "findingId": "ability-review.finding.politics.ability-category",
+      "identityKey": "character.ability.politics",
+      "findingType": "ability-category",
+      "sourceClaim": {
+        "category": "Knowledge"
+      },
+      "catalogClaim": {
+        "categoryKey": "ability-category.knowledges",
+        "category": "Knowledge"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source sections support the catalog category."
+    },
+    {
+      "findingId": "ability-review.finding.politics.stable-order",
+      "identityKey": "character.ability.politics",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 280,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 280
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source deterministic order is authoritative; omissions caused by current-slice filtering are not treated as catalog errors."
+    },
+    {
+      "findingId": "ability-review.finding.politics.lupus-base-restriction",
+      "identityKey": "character.ability.politics",
+      "findingType": "lupus-base-restriction",
+      "sourceClaim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": true
+      },
+      "catalogClaim": {
+        "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+        "restrictedInCatalog": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Only base-allocation restriction is reviewed; later purchase remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.politics.creation-binding",
+      "identityKey": "character.ability.politics",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAbilitiesStartAt": 0,
+        "priorityPoints": {
+          "primary": 13,
+          "secondary": 9,
+          "tertiary": 5
+        },
+        "maximumDuringBaseAllocation": 3,
+        "ratingsFourAndFive": "freebies-or-later-when-supported"
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "points": 13
+          },
+          {
+            "priorityKey": "secondary",
+            "points": 9
+          },
+          {
+            "priorityKey": "tertiary",
+            "points": 5
+          }
+        ],
+        "maximumDuringBaseAllocation": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-ability-priorities.json",
+        "../character-creation/set-ability-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation mechanics align with the current extraction artifacts; freebie interaction with Lupus restrictions remains unresolved."
+    },
+    {
+      "findingId": "ability-review.finding.politics.lupus-later-purchase-boundary",
+      "identityKey": "character.ability.politics",
+      "findingType": "lupus-later-purchase-boundary",
+      "sourceClaim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseDuringCreationAllowed": null
+      },
+      "catalogClaim": {
+        "freebiePurchaseEnabledForLupusRestrictedAbilities": null
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source supports later acquisition with bonus points or experience after training; it does not finalize unrestricted freebie purchase behavior during initial base allocation."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "ability-review.claim.lupus-base-restricted-abilities",
+      "identityKeys": [
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.computer",
+        "character.ability.law",
+        "character.ability.politics"
+      ],
+      "claim": {
+        "restrictionPhase": "base-allocation",
+        "restricted": true
+      },
+      "status": "confirmed-source-claim",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "notes": "The broader source summary also names Crafts, Firearms, Linguistics, and Science, but those identities are outside the current eighteen-entry fixture-backed slice."
+    },
+    {
+      "claimKey": "ability-review.claim.lupus-later-purchase-behavior",
+      "identityKeys": [
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.computer",
+        "character.ability.law",
+        "character.ability.politics"
+      ],
+      "claim": {
+        "laterPurchaseAllowedWithTraining": true,
+        "freebiePurchaseAllowedDuringInitialCreation": null
+      },
+      "status": "partially-confirmed-source-claim",
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lupus-restrictions.lines-547-547",
+      "notes": "Later bonus/experience acquisition is supported; initial freebie purchase during Character creation remains not enabled by this reconciliation."
+    }
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/abilities.json",
+    "../character-model/fields/abilities.json",
+    "../character-model/creation/profile.json",
+    "../character-model/creation/creation-ledger.json",
+    "../character-model/creation/stage-state.json",
+    "../character-model/validation/character-creation.json",
+    "../character-model/validation/character-completion.json",
+    "../operations/character-creation/set-ability-priorities.json",
+    "../operations/character-creation/set-ability-rating.json",
+    "../operations/character-creation/validate-character.json",
+    "../operations/character-creation/complete-character.json",
+    "../character-sheet/default-sheet.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.lupus-restricted-ability",
+    "character-creation.freebie-budget-overspent",
+    "character-creation.complete-character-atomicity"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.ledger-integrity",
+    "tests.character-sheet-projection",
+    "tests.completion-atomicity"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.ability.alertness",
+      "catalog-identity-decision.ability.athletics",
+      "catalog-identity-decision.ability.brawl",
+      "catalog-identity-decision.ability.empathy",
+      "catalog-identity-decision.ability.expression",
+      "catalog-identity-decision.ability.intimidation",
+      "catalog-identity-decision.ability.leadership",
+      "catalog-identity-decision.ability.subterfuge",
+      "catalog-identity-decision.ability.drive",
+      "catalog-identity-decision.ability.etiquette",
+      "catalog-identity-decision.ability.performance",
+      "catalog-identity-decision.ability.stealth",
+      "catalog-identity-decision.ability.survival",
+      "catalog-identity-decision.ability.computer",
+      "catalog-identity-decision.ability.investigation",
+      "catalog-identity-decision.ability.law",
+      "catalog-identity-decision.ability.occult",
+      "catalog-identity-decision.ability.politics"
+    ],
+    "decisionEntriesMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "allEighteenDecisionsRequiredForReviewCompletion": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "all-eighteen-ability-identities-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "all-eighteen-active-final-identity-decisions-recorded",
+      "talent-skill-knowledge-category-bindings-reviewed",
+      "stable-order-reviewed",
+      "current-slice-lupus-base-restrictions-reviewed",
+      "later-purchase-ambiguity-remains-explicit-and-not-enabled",
+      "all-creation-operation-and-validation-bindings-reconciled",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-pass",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateClaimsMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchOpensIssueType": "ambiguous-source-identity",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingAbilityIdentityOpensIssueType": "missing-required-identity",
+    "invalidCategoryOrOrderOpensIssueType": "invalid-catalog-binding",
+    "lupusRestrictionMismatchOpensIssueType": "scope-boundary-conflict",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "abilityCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "ability-review-record.required-identities-complete",
+      "severity": "blocking",
+      "requirement": "all eighteen required Ability identities appear exactly once"
+    },
+    {
+      "ruleKey": "ability-review-record.category-counts-valid",
+      "severity": "blocking",
+      "requirement": "every required Ability has exactly one supported Talent, Skill, or Knowledge category"
+    },
+    {
+      "ruleKey": "ability-review-record.order-values-unique",
+      "severity": "blocking",
+      "requirement": "every required Ability has one unique deterministic order value"
+    },
+    {
+      "ruleKey": "ability-review-record.lupus-restriction-boundary-explicit",
+      "severity": "blocking",
+      "requirement": "base-allocation restrictions are explicit and unresolved later-purchase behavior is not enabled"
+    },
+    {
+      "ruleKey": "ability-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every Ability review check key is unique"
+    },
+    {
+      "ruleKey": "ability-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "ability-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references one required Ability identity"
+    },
+    {
+      "ruleKey": "ability-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "ability-review-record.final-decisions-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires active final decisions for all eighteen Ability identities"
+    },
+    {
+      "ruleKey": "ability-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, and decisions"
+    },
+    {
+      "ruleKey": "ability-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixtures, or candidate source claims do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentities": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceAndDecisionRefs": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-statuses",
+      "category-counts",
+      "duplicate-order-values",
+      "lupus-base-restricted-identity-keys",
+      "unresolved-lupus-later-purchase-claim",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-ids",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "categoryKeys",
+      "orderValues",
+      "restrictionFlags",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfAbilityCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfAbilityCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfAbilityCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "blockedIdentityKeys": "ReferenceCollection",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "completed",
+    "evidenceStatus": "partial",
+    "decisionStatus": "approved",
+    "reconciliationStatus": "resolved-source-backed",
+    "taskCompletionStatus": "complete-with-partial-evidence",
+    "lastReviewedAt": "2026-08-03T00:00:00.000-03:00",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "This artifact defines the Ability review record and contains no fabricated findings or approvals.",
+    "The eighteen identities are limited to the current fixture-backed slice and do not represent the complete source catalog.",
+    "The source summary identifies additional Lupus-restricted Abilities outside this slice; they are not silently added here.",
+    "Only base-allocation restriction metadata is represented. Later or freebie purchase behavior remains unresolved and must not be enabled.",
+    "Ability identity review does not approve allocation mechanics such as 13/9/5, starting rating, maximum rating, or freebie costs.",
+    "Chronicle owns contract validation, evidence integrity, staleness detection, diagnostics, fingerprints, task-status integration, and promotion enforcement.",
+    "Assigned Rule Set reviewers own substantive source-backed findings and final Ability identity recommendations.",
+    "Source-gap investigation 2026-08-03: Ability categories, examples, and allocation totals are present, but exact current-slice catalog/order canonicalization remains unresolved.",
+    "Focused original-source reconciliation 2026-08-03: complete Ability catalog order and categories are source-supported; Leadership/Lideran?a is Skill/Per?cia; current-slice subset omissions are not catalog defects; later trained purchase of Lupus-restricted Abilities is supported, while initial freebie behavior remains not enabled."
+  ],
+  "sourceEvidence": [
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.catalog-and-categories",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 7.1-7.2 Abilities Classification",
+      "sourceSectionPath": [
+        "7.1 Ability Categories",
+        "7.2 Ability Fields"
+      ],
+      "supportType": "direct",
+      "confidence": "medium",
+      "paraphrase": "The extraction defines Talents, Skills, and Knowledges and says exact Ability catalog generation comes from dedicated source sections."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.base-and-priority-allocation",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 7.3 Ability Allocation",
+      "sourceSectionPath": [
+        "7.3 Ability Allocation"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Abilities start at 0, use Primary/Secondary/Tertiary priorities, and allocate 13/9/5 points."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.lupus-base-restrictions",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 7.4 Lupus Creation Restrictions",
+      "sourceSectionPath": [
+        "7.4 Lupus Creation Restrictions"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Lupus initial Ability allocation is restricted for Crafts, Drive, Etiquette, Firearms, Computer, Law, Linguistics, Politics, and Science; freebie applicability remains unresolved."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.abilities.creation-implications",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+      "sourceLocator": "Sections 4 and 28.5",
+      "sourceSectionPath": [
+        "4. Character Creation Workflow",
+        "28.5 Invalid Ability Budget"
+      ],
+      "supportType": "derived",
+      "confidence": "high",
+      "paraphrase": "The vertical slice includes Ability allocation as step 3, validates 13/9/5, and treats Ability above 3 during base allocation plus Lupus restricted allocation as invalid fixtures."
+    },
+    {
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceArtifactRef": "../../Werewolf the Apocalypse 3e-pt_br.txt",
+      "sourceLocator": "lines 547 and 1185-1532",
+      "sourceSectionPath": [
+        "Lupus creation restrictions",
+        "Abilities catalog sections"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "The original source supports Ability categories/order, places Leadership/Lideran?a under Skills/Per?cias, lists Lupus base restricted Abilities, and supports later trained acquisition with bonus points or experience."
+    }
+  ],
+  "executionResult": {
+    "executionStatus": "executed",
+    "reviewer": "RuleSetExtractionAndReview",
+    "executedAtUtc": "2026-08-02T21:12:36.000Z",
+    "sourceIdentity": "source.werewolf3e.cleaned-ptbr",
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "catalogFingerprint": "139d8eaca7aef9f7e8c7223d8dc437a13e3db2098f4d15154e5b9a458441b4cb",
+    "reviewedIdentityCount": 18,
+    "propertyLevelFindingCount": 126,
+    "mismatches": [],
+    "evidenceReferences": [
+      "catalog-review.evidence.source-review-record.abilities.0f4d61e4bc6a9f24",
+      "catalog-review.evidence.catalog-review-record.abilities.6a5cd8f0e8b47211",
+      "catalog-review.evidence.formal-decision-record.abilities.98f691b24e90ad63",
+      "catalog-review.evidence.original-source.abilities-category-order-lupus.a4302e2938a137fb",
+      "catalog-review.evidence.formal-decision-record.ability-background-reconciliation.a4302e2938a137fb"
+    ],
+    "ambiguityRecords": [
+      "ambiguity.werewolf3e.creation.lupus-restricted-abilities"
+    ],
+    "issueReferences": [],
+    "blockerReferences": [],
+    "proposedDecisions": [
+      "catalog-identity-decision.ability.alertness",
+      "catalog-identity-decision.ability.athletics",
+      "catalog-identity-decision.ability.brawl",
+      "catalog-identity-decision.ability.empathy",
+      "catalog-identity-decision.ability.expression",
+      "catalog-identity-decision.ability.intimidation",
+      "catalog-identity-decision.ability.leadership",
+      "catalog-identity-decision.ability.subterfuge",
+      "catalog-identity-decision.ability.drive",
+      "catalog-identity-decision.ability.etiquette",
+      "catalog-identity-decision.ability.performance",
+      "catalog-identity-decision.ability.stealth",
+      "catalog-identity-decision.ability.survival",
+      "catalog-identity-decision.ability.computer",
+      "catalog-identity-decision.ability.investigation",
+      "catalog-identity-decision.ability.law",
+      "catalog-identity-decision.ability.occult",
+      "catalog-identity-decision.ability.politics"
+    ],
+    "completionEligibility": {
+      "substantiveReviewComplete": true,
+      "fullEvidenceWorkItemComplete": false
+    }
+  },
+  "reviewRecordFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "0dbfd58ce5834e3c3f3f1bfa53d3a88d8ce5a7b74b5ea6b7116de9ce27e67c6d",
+    "calculatedAt": "2026-08-03T00:00:00.000-03:00"
+  }
+}

@@ -1,0 +1,427 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.select-initial-gift",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.select-initial-gift",
+  "descriptionResourceKey": "character-creation.operation.select-initial-gift.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-gift-source-and-selection",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "SelectInitialGiftInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "selectionSourceType",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "race",
+          "auspice",
+          "tribe"
+        ]
+      },
+      {
+        "fieldKey": "giftKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "replaceExistingSelection",
+        "fieldType": "Boolean",
+        "required": true
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "select-initial-gift.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.select-initial-gift.not-a-draft"
+    },
+    {
+      "preconditionKey": "select-initial-gift.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.select-initial-gift.stale-draft"
+    },
+    {
+      "preconditionKey": "select-initial-gift.required-classification-present",
+      "requirement": {
+        "sourceTypeField": "selectionSourceType",
+        "classificationMapping": {
+          "race": "character.classification.race",
+          "auspice": "character.classification.auspice",
+          "tribe": "character.classification.tribe"
+        },
+        "operator": "mapped-field-exists"
+      },
+      "failureKey": "character-creation.select-initial-gift.classification-missing"
+    },
+    {
+      "preconditionKey": "select-initial-gift.catalog-available",
+      "requirement": {
+        "artifactRef": "../character-model/catalogs/initial-gifts.json",
+        "operator": "readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.select-initial-gift.catalog-unavailable"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "select-initial-gift.gift-valid",
+      "ruleType": "catalog-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "giftKey",
+      "catalogRef": "../../character-model/catalogs/initial-gifts.json#entries",
+      "errorKey": "character-creation.select-initial-gift.invalid-gift"
+    },
+    {
+      "ruleKey": "select-initial-gift.level-one-only",
+      "ruleType": "catalog-property",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "giftKey",
+      "catalogRef": "../../character-model/catalogs/initial-gifts.json#entries",
+      "property": "level",
+      "operator": "equals",
+      "value": 1,
+      "errorKey": "character-creation.select-initial-gift.not-level-one"
+    },
+    {
+      "ruleKey": "select-initial-gift.source-type-matches",
+      "ruleType": "catalog-driven-eligibility",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "giftKey",
+      "sourceTypeField": "selectionSourceType",
+      "catalogProperty": "eligibleSourceTypes",
+      "operator": "contains",
+      "errorKey": "character-creation.select-initial-gift.wrong-source-type"
+    },
+    {
+      "ruleKey": "select-initial-gift.classification-matches",
+      "ruleType": "catalog-driven-eligibility",
+      "severity": "blocking",
+      "status": "candidate",
+      "classificationMapping": {
+        "race": "character.classification.race",
+        "auspice": "character.classification.auspice",
+        "tribe": "character.classification.tribe"
+      },
+      "catalogEligibilityProperty": "eligibleClassificationKeys",
+      "errorKey": "character-creation.select-initial-gift.not-eligible-for-classification"
+    },
+    {
+      "ruleKey": "select-initial-gift.one-per-source",
+      "ruleType": "selection-quota",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetCollection": "character.gifts.initial",
+      "groupProperty": "selectionSourceType",
+      "maximumPerGroup": 1,
+      "replacementField": "replaceExistingSelection",
+      "errorKey": "character-creation.select-initial-gift.source-slot-occupied"
+    },
+    {
+      "ruleKey": "select-initial-gift.distinct-normalized-identity",
+      "ruleType": "distinct-values",
+      "severity": "blocking",
+      "status": "prototype-decision",
+      "targetCollection": "character.gifts.initial",
+      "identityResolution": "normalized-gift-identity",
+      "includeProposedGift": true,
+      "errorKey": "character-creation.select-initial-gift.duplicate-gift"
+    }
+  ],
+  "selectionPolicy": {
+    "requiredSlots": [
+      "race",
+      "auspice",
+      "tribe"
+    ],
+    "maximumSelectionsPerSlot": 1,
+    "replacementAllowed": true,
+    "replacementRequiresExplicitFlag": true,
+    "automaticSelectionAllowed": false,
+    "narratorSuggestionAllowed": false,
+    "executionCapabilityRequiredForSelection": false,
+    "reason": "A Gift may be selected and persisted even while runtime Gift execution remains outside Slice 001."
+  },
+  "identityNormalization": {
+    "mode": "catalog-defined",
+    "catalogProperty": "normalizedGiftIdentity",
+    "fallback": "giftKey",
+    "status": "prototype-candidate",
+    "purpose": "Prevent selecting the same underlying Gift through multiple source lists."
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-classifications",
+        "load-current-initial-gifts",
+        "load-gift-catalog",
+        "load-open-gift-invalidations"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-selection",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-gift-exists",
+        "validate-level-one",
+        "validate-source-type",
+        "validate-classification-eligibility",
+        "validate-slot-availability",
+        "validate-distinct-normalized-identity"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "resolve-replacement",
+      "executor": "RuleSet",
+      "effects": [
+        "identify-existing-selection-for-source",
+        "verify-explicit-replacement",
+        "calculate-selection-delta"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "persist-selection",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "remove-replaced-source-selection-when-confirmed",
+        "add-new-initial-gift-selection",
+        "record-selection-source-type",
+        "record-classification-key-at-selection",
+        "record-acquisition-stage-creation-base",
+        "record-normalized-gift-identity"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-initial-gift-selection",
+        "record-replaced-selection-when-applicable",
+        "record-no-freebie-cost",
+        "preserve-ledger-history"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-invalidations",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "clear-resolved-missing-gift-slot-invalidation",
+        "clear-resolved-ineligible-gift-invalidation",
+        "preserve-unrelated-invalidations"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-one-gift-per-source",
+        "validate-all-selected-gifts-eligible",
+        "validate-distinct-identities",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "persistedSelectionShape": {
+    "giftKey": "Reference",
+    "normalizedGiftIdentity": "Text",
+    "selectionSourceType": "Text",
+    "classificationKeyAtSelection": "Reference",
+    "giftLevel": "Integer",
+    "acquisitionStage": "Text",
+    "acquiredByOperationId": "Reference",
+    "status": "Text"
+  },
+  "invalidationContract": {
+    "supportedTypes": [
+      {
+        "invalidationType": "InitialGiftSlotMissing",
+        "resolution": "Select one eligible Gift for the missing Race, Auspice, or Tribe slot."
+      },
+      {
+        "invalidationType": "InitialGiftNoLongerEligible",
+        "resolution": "Replace the Gift or restore the classification that grants eligibility."
+      },
+      {
+        "invalidationType": "DuplicateInitialGiftIdentity",
+        "resolution": "Replace one of the selections with a distinct eligible Gift."
+      }
+    ],
+    "automaticResolutionAllowed": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "persistInvalidations": true
+  },
+  "resultContract": {
+    "resultKey": "SelectInitialGiftResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "selectionSourceType": "Text",
+      "selectedGiftKey": "Reference",
+      "selectedNormalizedGiftIdentity": "Text",
+      "replacedGiftKey": "Reference",
+      "classificationKeyAtSelection": "Reference",
+      "initialGiftSelections": "StructuredCollection",
+      "remainingRequiredSlots": "ReferenceCollection",
+      "resolvedInvalidations": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "SelectInitialGiftFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "selectionSourceType": "Text",
+      "giftKey": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterInitialGiftSelected",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "selectionSourceType": "Text",
+        "selectedGiftKey": "Reference",
+        "replacedGiftKey": "Reference",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.duplicate-gifts",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "May the same underlying Gift satisfy more than one Race, Auspice, or Tribe initial selection?",
+      "prototypeDecision": "No. Require three distinct normalized Gift identities."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.gift.identity-normalization",
+      "severity": "high",
+      "status": "content-review-required",
+      "question": "Which source entries represent the same Gift under variant labels or translations?",
+      "prototypeDecision": "Use catalog-defined normalized identities and block only known duplicates."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-three-level-one-gift-selection",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "contentReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation fills exactly one Race, Auspice, or Tribe initial Gift slot.",
+    "Eligibility is resolved from the Character's current classification and the package catalog.",
+    "Replacing an existing slot requires an explicit replacement flag.",
+    "The three selected Gifts must use distinct normalized identities in the prototype.",
+    "Gift execution is not required for Character creation and remains unavailable until its runtime contract is implemented.",
+    "Chronicle owns persistence, versioning, idempotency, invalidations, ledger history, and events.",
+    "The Rule Set owns Gift identity, source-list eligibility, classification matching, and selection validation."
+  ]
+}

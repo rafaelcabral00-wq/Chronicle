@@ -1,0 +1,351 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "resources",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.resources",
+  "publicationStatus": "candidate-partial",
+  "ownership": "Character",
+  "fields": [
+    {
+      "fieldKey": "character.resource.rage",
+      "fieldType": "ResourceTrack",
+      "displayNameResourceKey": "character.resource.rage",
+      "descriptionResourceKey": "character.resource.rage.description",
+      "requiredness": {
+        "duringDraft": "system-initialized-after-auspice",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "dimensions": {
+        "permanent": {
+          "valueType": "Integer",
+          "minimum": 0,
+          "maximum": 10,
+          "maximumStatus": "candidate"
+        },
+        "current": {
+          "valueType": "Integer",
+          "minimum": 0,
+          "maximumSource": "permanent",
+          "maximumStatus": "candidate"
+        }
+      },
+      "initialization": {
+        "sourceField": "character.classification.auspice",
+        "sourceCatalogRef": "../catalogs/auspices.json",
+        "lookupPath": "entries[].mechanicalData.initialResources.character.resource.rage",
+        "targetDimension": "permanent",
+        "currentInitialization": "equal-to-permanent",
+        "currentInitializationStatus": "prototype-decision"
+      },
+      "freebiePolicy": {
+        "costPerPoint": 1,
+        "costStatus": "candidate",
+        "targetDimension": "permanent",
+        "currentValueReconciliation": "increase-current-by-same-amount",
+        "reconciliationStatus": "prototype-decision"
+      },
+      "runtimeCapability": {
+        "spendSupported": false,
+        "restoreSupported": false,
+        "gainSupported": false,
+        "frenzySupported": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-rage.json",
+        "../../provenance/source-segments/character-creation-freebie-costs.json"
+      ]
+    },
+    {
+      "fieldKey": "character.resource.gnosis",
+      "fieldType": "ResourceTrack",
+      "displayNameResourceKey": "character.resource.gnosis",
+      "descriptionResourceKey": "character.resource.gnosis.description",
+      "requiredness": {
+        "duringDraft": "system-initialized-after-race",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "dimensions": {
+        "permanent": {
+          "valueType": "Integer",
+          "minimum": 0,
+          "maximum": 10,
+          "maximumStatus": "candidate"
+        },
+        "current": {
+          "valueType": "Integer",
+          "minimum": 0,
+          "maximumSource": "permanent",
+          "maximumStatus": "candidate"
+        }
+      },
+      "initialization": {
+        "sourceField": "character.classification.race",
+        "sourceCatalogRef": "../catalogs/races.json",
+        "lookupPath": "entries[].mechanicalData.initialResources.character.resource.gnosis",
+        "targetDimension": "permanent",
+        "currentInitialization": "equal-to-permanent",
+        "currentInitializationStatus": "prototype-decision"
+      },
+      "freebiePolicy": {
+        "costPerPoint": 2,
+        "costStatus": "candidate",
+        "targetDimension": "permanent",
+        "currentValueReconciliation": "increase-current-by-same-amount",
+        "reconciliationStatus": "prototype-decision"
+      },
+      "runtimeCapability": {
+        "spendSupported": false,
+        "restoreSupported": false,
+        "gainSupported": false,
+        "spirit-mechanics-supported": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-gnosis.json",
+        "../../provenance/source-segments/character-creation-freebie-costs.json"
+      ]
+    },
+    {
+      "fieldKey": "character.resource.willpower",
+      "fieldType": "ResourceTrack",
+      "displayNameResourceKey": "character.resource.willpower",
+      "descriptionResourceKey": "character.resource.willpower.description",
+      "requiredness": {
+        "duringDraft": "system-initialized-after-tribe",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "dimensions": {
+        "permanent": {
+          "valueType": "Integer",
+          "minimum": 0,
+          "maximum": 10,
+          "maximumStatus": "candidate"
+        },
+        "current": {
+          "valueType": "Integer",
+          "minimum": 0,
+          "maximumSource": "permanent",
+          "maximumStatus": "candidate"
+        }
+      },
+      "initialization": {
+        "sourceField": "character.classification.tribe",
+        "sourceCatalogRef": "../catalogs/tribes.json",
+        "lookupPath": "entries[].mechanicalData.initialResources.character.resource.willpower",
+        "targetDimension": "permanent",
+        "currentInitialization": "equal-to-permanent",
+        "currentInitializationStatus": "prototype-decision"
+      },
+      "freebiePolicy": {
+        "costPerPoint": 1,
+        "costStatus": "candidate",
+        "targetDimension": "permanent",
+        "currentValueReconciliation": "increase-current-by-same-amount",
+        "reconciliationStatus": "prototype-decision"
+      },
+      "runtimeCapability": {
+        "spendSupported": false,
+        "restoreSupported": false,
+        "gainSupported": false,
+        "automatic-success-supported": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-willpower.json",
+        "../../provenance/source-segments/character-creation-freebie-costs.json"
+      ]
+    }
+  ],
+  "initializationOrder": [
+    {
+      "order": 1,
+      "fieldKey": "character.resource.gnosis",
+      "dependsOn": "character.classification.race"
+    },
+    {
+      "order": 2,
+      "fieldKey": "character.resource.rage",
+      "dependsOn": "character.classification.auspice"
+    },
+    {
+      "order": 3,
+      "fieldKey": "character.resource.willpower",
+      "dependsOn": "character.classification.tribe"
+    },
+    {
+      "order": 4,
+      "operation": "reconcile-current-values",
+      "dependsOn": [
+        "character.resource.gnosis.permanent",
+        "character.resource.rage.permanent",
+        "character.resource.willpower.permanent"
+      ],
+      "status": "prototype-decision"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.resources.initial-values-match-classifications",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirements": [
+        {
+          "targetField": "character.resource.gnosis.permanent",
+          "lookupSource": "../catalogs/races.json#entries[].mechanicalData.initialResources.character.resource.gnosis"
+        },
+        {
+          "targetField": "character.resource.rage.permanent",
+          "lookupSource": "../catalogs/auspices.json#entries[].mechanicalData.initialResources.character.resource.rage"
+        },
+        {
+          "targetField": "character.resource.willpower.permanent",
+          "lookupSource": "../catalogs/tribes.json#entries[].mechanicalData.initialResources.character.resource.willpower"
+        }
+      ],
+      "errorKey": "character.creation.resource-initialization-invalid"
+    },
+    {
+      "ruleKey": "character.resources.current-not-negative",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "targetPaths": [
+        "character.resource.rage.current",
+        "character.resource.gnosis.current",
+        "character.resource.willpower.current"
+      ],
+      "operator": "greater-than-or-equal",
+      "value": 0,
+      "errorKey": "character.resource.current-negative"
+    },
+    {
+      "ruleKey": "character.resources.current-not-above-permanent",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "prototype-decision",
+      "requirements": [
+        {
+          "currentField": "character.resource.rage.current",
+          "maximumField": "character.resource.rage.permanent"
+        },
+        {
+          "currentField": "character.resource.gnosis.current",
+          "maximumField": "character.resource.gnosis.permanent"
+        },
+        {
+          "currentField": "character.resource.willpower.current",
+          "maximumField": "character.resource.willpower.permanent"
+        }
+      ],
+      "errorKey": "character.resource.current-above-permanent"
+    },
+    {
+      "ruleKey": "character.creation.resources.freebie-costs",
+      "ruleVersion": 1,
+      "ruleType": "cost",
+      "status": "candidate",
+      "costs": {
+        "character.resource.rage.permanent": 1,
+        "character.resource.gnosis.permanent": 2,
+        "character.resource.willpower.permanent": 1
+      },
+      "errorKey": "character.creation.resource-freebie-cost-invalid"
+    }
+  ],
+  "changePolicy": {
+    "classificationChangeBehavior": {
+      "previewRequired": true,
+      "replaceClassificationInitializedPermanentValue": true,
+      "recalculateCurrentValue": true,
+      "refundInvalidatedFreebiePurchases": true,
+      "preserveUnrelatedResourceChanges": true
+    },
+    "creationBonusPurchasesAllowed": true,
+    "postCompletionDirectEditAllowed": false,
+    "postCompletionOperations": [
+      "resource.rage.spend",
+      "resource.rage.restore",
+      "resource.gnosis.spend",
+      "resource.gnosis.restore",
+      "resource.willpower.spend",
+      "resource.willpower.restore",
+      "correction.resource.set",
+      "import.resource.restore"
+    ],
+    "operationReadiness": {
+      "resource.rage.spend": "unavailable",
+      "resource.rage.restore": "unavailable",
+      "resource.gnosis.spend": "unavailable",
+      "resource.gnosis.restore": "unavailable",
+      "resource.willpower.spend": "unavailable",
+      "resource.willpower.restore": "unavailable",
+      "correction.resource.set": "future",
+      "import.resource.restore": "future"
+    },
+    "auditRequired": true
+  },
+  "layoutHints": {
+    "sectionStyle": "resource-track-row",
+    "resourceOrder": [
+      "character.resource.rage",
+      "character.resource.gnosis",
+      "character.resource.willpower"
+    ],
+    "showPermanentAndCurrent": true,
+    "showFreebieCostDuringCreation": true,
+    "showRuntimeUnavailableIndicator": true,
+    "preferredControl": "dot-track"
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.resource-current-values",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Do current Rage, Gnosis, and Willpower begin equal to their permanent ratings?",
+      "prototypeDecision": "Initialize current equal to permanent, but retain this as a reversible prototype decision."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.resource-freebie-reconciliation",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "When a freebie raises a permanent resource, does the current value increase by the same amount?",
+      "prototypeDecision": "Increase both permanent and current values during Character creation."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.resource.maximum",
+      "severity": "medium",
+      "status": "source-search-required",
+      "question": "What is the exact maximum permanent rating for each resource in the source edition?",
+      "prototypeDecision": "Reserve candidate maximum 10 without treating it as approved source truth."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.resource.current-above-permanent",
+      "severity": "medium",
+      "status": "source-search-required",
+      "question": "Can temporary conditions or mechanics raise a current resource above its permanent rating?",
+      "prototypeDecision": "Disallow during Slice 001 because no such mechanic is implemented."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high-for-initial-values-and-freebie-costs",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Rage is initialized from Auspice, Gnosis from Race, and Willpower from Tribe.",
+    "Permanent and current values are persisted separately.",
+    "Current equals permanent at creation only as a reversible prototype decision.",
+    "Freebie costs are represented as Rage 1, Gnosis 2, and Willpower 1 per permanent point.",
+    "Spending, restoration, frenzy, spirit mechanics, and automatic-success mechanics remain unavailable.",
+    "Chronicle Core remains unaware of Rage, Gnosis, Willpower, and all Werewolf-specific resource behavior."
+  ]
+}

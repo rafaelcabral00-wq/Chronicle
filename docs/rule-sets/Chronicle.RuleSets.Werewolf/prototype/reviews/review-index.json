@@ -1,0 +1,387 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.review-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.review-index.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "PrototypeReviews",
+  "purpose": [
+    "Provide the canonical discovery surface for all versioned Werewolf prototype review records.",
+    "Declare review order, dependencies, required evidence, readiness, blocking impact, and completion rules.",
+    "Allow Chronicle delivery and promotion infrastructure to evaluate review state without Werewolf-specific registration.",
+    "Keep source-backed decisions, architectural boundaries, implementation evidence, security evidence, and release evidence distinct."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "ChronicleArchitecture",
+    "reviewContentAuthority": "AssignedReviewOwner",
+    "reviewDiscoveryAuthority": "ChronicleDeliveryInfrastructure",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticApprovalAllowed": false,
+    "manualCompletionWithoutEvidenceAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "reviews": [
+    {
+      "reviewKey": "reviews.catalog-identity",
+      "artifactKey": "werewolf-prototype.catalog-identity-review",
+      "artifactRef": "./catalog-identity-review.json",
+      "reviewRole": "source-backed-catalog-identity-review",
+      "ownerType": "RuleSetExtractionAndReview",
+      "loadOrder": 10,
+      "requiredForCurrentSlice": true,
+      "requiredForPromotion": true,
+      "status": "in-progress",
+      "overallDecision": "not-approved",
+      "dependsOn": [],
+      "workPackageKeys": [
+        "delivery.wp.review-catalog-identities",
+        "delivery.wp.resolve-candidate-fixture-keys"
+      ],
+      "evidenceType": "review-record",
+      "promotionImpact": "blocking"
+    },
+    {
+      "reviewKey": "reviews.creation-mechanics",
+      "artifactKey": "werewolf-prototype.creation-mechanics-review",
+      "artifactRef": "./creation-mechanics-review.json",
+      "reviewRole": "source-backed-character-creation-mechanics-review",
+      "ownerType": "RuleSetExtractionAndReview",
+      "loadOrder": 20,
+      "requiredForCurrentSlice": true,
+      "requiredForPromotion": true,
+      "status": "in-progress",
+      "overallDecision": "not-approved",
+      "dependsOn": [
+        "reviews.catalog-identity"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.review-creation-mechanics"
+      ],
+      "evidenceType": "review-record",
+      "promotionImpact": "blocking"
+    },
+    {
+      "reviewKey": "reviews.current-slice-boundary",
+      "artifactKey": "werewolf-prototype.current-slice-boundary-review",
+      "artifactRef": "./current-slice-boundary-review.json",
+      "reviewRole": "architecture-and-scope-boundary-review",
+      "ownerType": "ChronicleArchitectureReview",
+      "loadOrder": 30,
+      "requiredForCurrentSlice": true,
+      "requiredForPromotion": true,
+      "status": "in-progress",
+      "overallDecision": "not-approved",
+      "dependsOn": [
+        "reviews.catalog-identity",
+        "reviews.creation-mechanics"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.freeze-current-slice-ambiguity-boundaries"
+      ],
+      "evidenceType": "review-record",
+      "promotionImpact": "blocking"
+    }
+  ],
+  "plannedReviews": [
+    {
+      "reviewKey": "reviews.architecture",
+      "reviewRole": "formal-architecture-approval",
+      "ownerType": "ChronicleArchitectureReview",
+      "requiredForPromotion": true,
+      "status": "not-started",
+      "expectedArtifactRef": "./architecture-review.json",
+      "evidenceType": "review-record"
+    },
+    {
+      "reviewKey": "reviews.implementation",
+      "reviewRole": "implementation-conformance-review",
+      "ownerType": "ChronicleImplementationReview",
+      "requiredForPromotion": true,
+      "status": "not-started",
+      "expectedArtifactRef": "./implementation-review.json",
+      "evidenceType": "implementation-review"
+    },
+    {
+      "reviewKey": "reviews.security",
+      "reviewRole": "security-boundary-and-storage-review",
+      "ownerType": "ChronicleSecurityReview",
+      "requiredForPromotion": true,
+      "status": "not-started",
+      "expectedArtifactRef": "./security-review.json",
+      "evidenceType": "security-review-record"
+    },
+    {
+      "reviewKey": "reviews.migration",
+      "reviewRole": "prototype-to-package-migration-review",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "requiredForPromotion": true,
+      "status": "not-started",
+      "expectedArtifactRef": "./migration-review.json",
+      "evidenceType": "migration-review-record"
+    },
+    {
+      "reviewKey": "reviews.packaging",
+      "reviewRole": "reproducible-package-build-review",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "requiredForPromotion": true,
+      "status": "not-started",
+      "expectedArtifactRef": "./packaging-review.json",
+      "evidenceType": "package-build-report"
+    },
+    {
+      "reviewKey": "reviews.release",
+      "reviewRole": "release-metadata-and-promotion-review",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "requiredForPromotion": true,
+      "status": "not-started",
+      "expectedArtifactRef": "./release-review.json",
+      "evidenceType": "release-metadata"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "werewolf-prototype.prototype-delivery-plan",
+      "artifactRef": "../prototype-delivery-plan.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.prototype-work-status",
+      "artifactRef": "../prototype-work-status.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.prototype-readiness",
+      "artifactRef": "../prototype-readiness.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.promotion-gate",
+      "artifactRef": "../tests/promotion-gate.json",
+      "required": true
+    }
+  ],
+  "reviewDependencyPolicy": {
+    "dependenciesMustResolve": true,
+    "cyclesAllowed": false,
+    "loadOrderMustRespectDependencies": true,
+    "dependentReviewMayStartBeforeDependencyComplete": false,
+    "dependentReviewMayBeDraftedBeforeDependencyComplete": true,
+    "dependentReviewMayBeApprovedBeforeDependencyComplete": false,
+    "staleDependencyEvidenceReopensDependentReview": true
+  },
+  "approvalPolicy": {
+    "allowedOverallDecisions": [
+      "not-approved",
+      "approved",
+      "approved-with-exclusions",
+      "rejected",
+      "superseded"
+    ],
+    "approvedRequiresFinalEvidence": true,
+    "approvedWithExclusionsRequiresExplicitExclusionRecord": true,
+    "rejectedRequiresRationaleAndImpact": true,
+    "supersededRequiresReplacementReviewRef": true,
+    "manualDecisionWithoutVersionedEvidenceAllowed": false
+  },
+  "evidencePolicy": {
+    "allFinalReviewsRequireEvidenceFingerprint": true,
+    "allEvidenceMustReferenceReviewedArtifactFingerprints": true,
+    "staleEvidenceInvalidatesApproval": true,
+    "reviewerIdentityRequiredForFinalization": true,
+    "completionTimestampRequiredForFinalization": true,
+    "rawSourcebookTextMayNotBeEmbedded": true,
+    "evidenceMayReferenceExternalReviewDocuments": true
+  },
+  "currentReviewSummary": {
+    "materializedReviewCount": 3,
+    "plannedReviewCount": 6,
+    "approvedReviewCount": 0,
+    "inProgressReviewCount": 3,
+    "notStartedReviewCount": 6,
+    "rejectedReviewCount": 0,
+    "promotionBlockingReviewCount": 9,
+    "currentExecutableReviewKey": "reviews.catalog-identity"
+  },
+  "currentSliceApprovalRequirements": [
+    "reviews.catalog-identity",
+    "reviews.creation-mechanics",
+    "reviews.current-slice-boundary"
+  ],
+  "promotionApprovalRequirements": [
+    "reviews.catalog-identity",
+    "reviews.creation-mechanics",
+    "reviews.current-slice-boundary",
+    "reviews.architecture",
+    "reviews.implementation",
+    "reviews.security",
+    "reviews.migration",
+    "reviews.packaging",
+    "reviews.release"
+  ],
+  "statusCalculation": {
+    "currentSliceReviewsApprovedWhen": "all-current-slice-approval-requirements-have-approved-or-approved-with-exclusions-decisions",
+    "promotionReviewsApprovedWhen": "all-promotion-approval-requirements-have-current-final-evidence",
+    "reviewModelStatus": "in-progress",
+    "promotionReviewStatus": "blocked",
+    "automaticApprovalAllowed": false
+  },
+  "loadPolicy": {
+    "loadMode": "index-driven",
+    "sortBy": "loadOrder",
+    "duplicateReviewKeyBehavior": "review-model-load-failure",
+    "duplicateArtifactKeyBehavior": "review-model-load-failure",
+    "missingRequiredReviewBehavior": "review-model-incomplete",
+    "unsupportedContractVersionBehavior": "review-model-load-failure",
+    "artifactOutsideReviewRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "review-index.review-keys-unique",
+      "severity": "blocking",
+      "requirement": "every reviewKey is unique across materialized and planned reviews"
+    },
+    {
+      "ruleKey": "review-index.materialized-artifact-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every materialized review artifact reference resolves"
+    },
+    {
+      "ruleKey": "review-index.dependencies-resolve",
+      "severity": "blocking",
+      "requirement": "every declared review dependency resolves"
+    },
+    {
+      "ruleKey": "review-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "review dependencies are acyclic"
+    },
+    {
+      "ruleKey": "review-index.status-summary-reconciles",
+      "severity": "blocking",
+      "requirement": "summary counts reconcile with materialized and planned review statuses"
+    },
+    {
+      "ruleKey": "review-index.current-slice-requirements-complete",
+      "severity": "blocking",
+      "requirement": "all required current-slice reviews are declared and materialized"
+    },
+    {
+      "ruleKey": "review-index.promotion-requirements-complete",
+      "severity": "blocking",
+      "requirement": "all promotion review categories are declared"
+    },
+    {
+      "ruleKey": "review-index.no-approval-with-stale-evidence",
+      "severity": "blocking",
+      "requirement": "no approved review relies on stale or missing evidence"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeMaterializedReviewFingerprints": true,
+    "includePlannedReviews": true,
+    "includeDependencyMetadata": true,
+    "includeApprovalRequirements": true,
+    "includeCurrentReviewSummary": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "reviewKey",
+      "reviewRole",
+      "ownerType",
+      "status",
+      "overallDecision",
+      "dependencyStatus",
+      "evidenceStatus",
+      "promotionImpact",
+      "staleEvidenceRefs",
+      "nextExecutableReviewKey"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "reviewKeys",
+      "artifactKeys",
+      "statuses",
+      "decisionKeys",
+      "ownerTypes",
+      "evidenceRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeReviewModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "materializedReviewCount": "Integer",
+        "plannedReviewCount": "Integer",
+        "approvedReviewCount": "Integer",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeReviewStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "reviewKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "overallDecision": "Text",
+        "reviewFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-source-backed-reviews",
+    "architectureConfidence": "high",
+    "reviewModelStatus": "in-progress",
+    "implementationReviewStatus": "not-started",
+    "securityReviewStatus": "not-started",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This index discovers review records but does not approve them.",
+    "The current executable review remains catalog identity review.",
+    "Creation mechanics review depends on approved catalog identities, and the slice boundary review depends on both.",
+    "Implementation, security, migration, packaging, and release reviews are declared now but materialized only when their work begins.",
+    "A review approval becomes invalid whenever its evidence or reviewed artifact fingerprints become stale.",
+    "Chronicle owns review discovery, dependency validation, evidence integrity, diagnostics, readiness integration, and promotion enforcement.",
+    "Assigned review owners remain responsible for the substantive review decisions."
+  ]
+}

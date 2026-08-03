@@ -1,0 +1,520 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.prototype-work-status",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.work-status.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeDeliveryStatus",
+  "purpose": [
+    "Provide the canonical execution-status projection for the Werewolf prototype delivery plan.",
+    "Track phase, work-package, blocker, evidence, review, implementation, test, security, packaging, and promotion progress.",
+    "Separate declared plan state from verified completion evidence.",
+    "Expose the exact next executable work without silently marking contract-definition work as implementation progress."
+  ],
+  "authority": {
+    "statusDefinitionAuthority": "ChronicleArchitecture",
+    "statusCalculationAuthority": "ChronicleDeliveryInfrastructure",
+    "statusEvidenceAuthority": "VersionedReviewImplementationTestAndReleaseArtifacts",
+    "manualCompletionWithoutEvidenceAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "planBinding": {
+    "deliveryPlanArtifactRef": "./prototype-delivery-plan.json",
+    "readinessArtifactRef": "./prototype-readiness.json",
+    "promotionGateArtifactRef": "./tests/promotion-gate.json",
+    "requiredPlanVersion": "0.1.0-prototype",
+    "planFingerprintRequired": true
+  },
+  "overallStatus": {
+    "status": "ready",
+    "currentPhaseKey": "delivery.phase-1.semantic-and-content-review",
+    "completedPhaseCount": 0,
+    "totalPhaseCount": 7,
+    "completedWorkPackageCount": 1,
+    "totalWorkPackageCount": 35,
+    "blockedWorkPackageCount": 0,
+    "inProgressWorkPackageCount": 0,
+    "readyWorkPackageCount": 2,
+    "promotionReady": false,
+    "published": false
+  },
+  "phaseStatuses": [
+    {
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "status": "ready",
+      "completedWorkPackageCount": 1,
+      "totalWorkPackageCount": 4,
+      "blockingWorkPackageKeys": [],
+      "readyWorkPackageKeys": [
+        "delivery.wp.review-creation-mechanics",
+        "delivery.wp.resolve-candidate-fixture-keys"
+      ],
+      "evidenceRefs": [
+        "catalog-review.evidence.work-package-completion.20260803",
+        "catalog-review.evidence.final-review-result.20260803"
+      ]
+    },
+    {
+      "phaseKey": "delivery.phase-2.package-loading-foundation",
+      "status": "not-started",
+      "completedWorkPackageCount": 0,
+      "totalWorkPackageCount": 4,
+      "blockingWorkPackageKeys": [],
+      "readyWorkPackageKeys": [],
+      "evidenceRefs": []
+    },
+    {
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "status": "not-started",
+      "completedWorkPackageCount": 0,
+      "totalWorkPackageCount": 7,
+      "blockingWorkPackageKeys": [],
+      "readyWorkPackageKeys": [],
+      "evidenceRefs": []
+    },
+    {
+      "phaseKey": "delivery.phase-4.character-sheet",
+      "status": "not-started",
+      "completedWorkPackageCount": 0,
+      "totalWorkPackageCount": 5,
+      "blockingWorkPackageKeys": [],
+      "readyWorkPackageKeys": [],
+      "evidenceRefs": []
+    },
+    {
+      "phaseKey": "delivery.phase-5.completion-and-persistence",
+      "status": "not-started",
+      "completedWorkPackageCount": 0,
+      "totalWorkPackageCount": 6,
+      "blockingWorkPackageKeys": [],
+      "readyWorkPackageKeys": [],
+      "evidenceRefs": []
+    },
+    {
+      "phaseKey": "delivery.phase-6.test-and-security-hardening",
+      "status": "not-started",
+      "completedWorkPackageCount": 0,
+      "totalWorkPackageCount": 6,
+      "blockingWorkPackageKeys": [],
+      "readyWorkPackageKeys": [],
+      "evidenceRefs": []
+    },
+    {
+      "phaseKey": "delivery.phase-7.packaging-and-promotion",
+      "status": "not-started",
+      "completedWorkPackageCount": 0,
+      "totalWorkPackageCount": 5,
+      "blockingWorkPackageKeys": [],
+      "readyWorkPackageKeys": [],
+      "evidenceRefs": []
+    }
+  ],
+  "workPackageStatuses": [
+    {
+      "workPackageKey": "delivery.wp.review-catalog-identities",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "status": "complete",
+      "ownerType": "RuleSetExtractionAndReview",
+      "dependencyStatus": "satisfied",
+      "blockingReasonKeys": [],
+      "evidenceRefs": [
+        "catalog-review.evidence.work-package-completion.20260803",
+        "catalog-review.evidence.final-review-result.20260803"
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "submittedAt": "2026-08-03T00:00:00.000Z",
+      "definitionOfDoneResults": [
+        "all-current-slice-catalog-keys-stable",
+        "all-fixture-references-resolve",
+        "all-localization-keys-defined-or-tracked"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.review-creation-mechanics",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "status": "ready",
+      "ownerType": "RuleSetExtractionAndReview",
+      "dependencyStatus": "satisfied",
+      "waitingOnWorkPackageKeys": [],
+      "blockingReasonKeys": [],
+      "evidenceRefs": []
+    },
+    {
+      "workPackageKey": "delivery.wp.resolve-candidate-fixture-keys",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "status": "ready",
+      "ownerType": "RuleSetExtractionAndReview",
+      "dependencyStatus": "satisfied",
+      "waitingOnWorkPackageKeys": [],
+      "blockingReasonKeys": [],
+      "evidenceRefs": []
+    },
+    {
+      "workPackageKey": "delivery.wp.freeze-current-slice-ambiguity-boundaries",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "status": "not-started",
+      "ownerType": "ChronicleArchitectureReview",
+      "dependencyStatus": "waiting",
+      "waitingOnWorkPackageKeys": [
+        "delivery.wp.review-creation-mechanics"
+      ],
+      "blockingReasonKeys": [],
+      "evidenceRefs": []
+    }
+  ],
+  "implicitWorkPackagePolicy": {
+    "unlistedPlanWorkPackagesDefaultStatus": "not-started",
+    "unlistedWorkPackagesInheritOwnerFromPlan": true,
+    "unlistedWorkPackagesMayBeCalculatedAsReadyWhenDependenciesComplete": true,
+    "statusProjectionMayMaterializeAllEntriesOnFirstUpdate": true
+  },
+  "currentExecutionFocus": {
+    "workPackageKey": "delivery.wp.review-creation-mechanics",
+    "phaseKey": "delivery.phase-1.semantic-and-content-review",
+    "ownerType": "RuleSetExtractionAndReview",
+    "objective": "Review current-slice creation mechanics after catalog identity baseline completion.",
+    "requiredInputs": [
+      "./reviews/catalog-review-result.json"
+    ],
+    "requiredOutputs": [
+      "reviewed-creation-mechanics"
+    ],
+    "definitionOfDone": [
+      "all-promoted-mechanical-claims-trace-to-reviewed-extraction",
+      "no-unreviewed-rule-marked-confirmed",
+      "unsupported-rules-remain-blocked-or-excluded"
+    ]
+  },
+  "blockerStatus": {
+    "openBlockers": [
+      {
+        "blockerKey": "prototype-readiness.blocker.semantic-review",
+        "category": "review",
+        "blocksPromotion": true,
+        "blocksCurrentWorkPackage": false
+      },
+      {
+        "blockerKey": "prototype-readiness.blocker.candidate-content-identities",
+        "category": "content",
+        "blocksPromotion": true,
+        "blocksCurrentWorkPackage": false
+      },
+      {
+        "blockerKey": "prototype-readiness.blocker.implementation",
+        "category": "implementation",
+        "blocksPromotion": true,
+        "blocksCurrentWorkPackage": false
+      },
+      {
+        "blockerKey": "prototype-readiness.blocker.tests",
+        "category": "tests",
+        "blocksPromotion": true,
+        "blocksCurrentWorkPackage": false
+      },
+      {
+        "blockerKey": "prototype-readiness.blocker.security-review",
+        "category": "security",
+        "blocksPromotion": true,
+        "blocksCurrentWorkPackage": false
+      },
+      {
+        "blockerKey": "prototype-readiness.blocker.packaging",
+        "category": "packaging",
+        "blocksPromotion": true,
+        "blocksCurrentWorkPackage": false
+      },
+      {
+        "blockerKey": "prototype-readiness.blocker.migration",
+        "category": "migration",
+        "blocksPromotion": true,
+        "blocksCurrentWorkPackage": false
+      }
+    ],
+    "resolvedBlockerKeys": [],
+    "acceptedExclusionKeys": [
+      "prototype-readiness.exclusion.generic-dice",
+      "prototype-readiness.exclusion.additional-gift-purchase",
+      "prototype-readiness.exclusion.post-creation-runtime",
+      "prototype-readiness.exclusion.gift-runtime"
+    ]
+  },
+  "evidenceModel": {
+    "evidenceRequiredForStatus": {
+      "ready": false,
+      "in-progress": true,
+      "blocked": true,
+      "in-review": true,
+      "complete": true,
+      "superseded": true
+    },
+    "evidenceShape": {
+      "evidenceId": "Reference",
+      "evidenceType": "Text",
+      "artifactRef": "Reference",
+      "artifactFingerprint": "Text",
+      "workPackageKeys": "ReferenceCollection",
+      "reviewerOrExecutor": "Text",
+      "createdAt": "Text"
+    },
+    "allowedEvidenceTypes": [
+      "review-record",
+      "implementation-review",
+      "contract-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "migration-review-record",
+      "package-build-report",
+      "promotion-gate-result",
+      "release-metadata"
+    ],
+    "staleEvidenceBehavior": "reopen-affected-work-package"
+  },
+  "statusTransitionPolicy": {
+    "allowedTransitions": [
+      "not-started->ready",
+      "ready->in-progress",
+      "in-progress->blocked",
+      "blocked->ready",
+      "in-progress->in-review",
+      "in-review->in-progress",
+      "in-review->complete",
+      "complete->in-progress",
+      "complete->superseded"
+    ],
+    "completeToInProgressWhen": "supporting-evidence-or-input-artifact-becomes-stale",
+    "automaticCompletionAllowed": false,
+    "automaticReadyCalculationAllowed": true,
+    "automaticBlockerReopenAllowed": true
+  },
+  "progressCalculation": {
+    "phaseCompleteWhen": "all-phase-work-packages-complete",
+    "overallCompleteWhen": "all-phases-complete-and-promotion-gate-passed",
+    "readyWorkPackageWhen": "all-dependencies-complete-and-no-active-blocker-applies",
+    "progressPercentageFormula": "floor(completed-work-packages * 100 / total-work-packages)",
+    "currentProgressPercentage": 2,
+    "criticalPathProgressPercentage": 2
+  },
+  "updateOperations": [
+    {
+      "operationKey": "prototype-work-status.start-work-package",
+      "requiredInputs": [
+        "workPackageKey",
+        "expectedStatus",
+        "executor"
+      ],
+      "allowedFromStatuses": [
+        "ready"
+      ],
+      "resultStatus": "in-progress"
+    },
+    {
+      "operationKey": "prototype-work-status.block-work-package",
+      "requiredInputs": [
+        "workPackageKey",
+        "blockingReasonKey",
+        "evidenceRef"
+      ],
+      "allowedFromStatuses": [
+        "ready",
+        "in-progress",
+        "in-review"
+      ],
+      "resultStatus": "blocked"
+    },
+    {
+      "operationKey": "prototype-work-status.submit-for-review",
+      "requiredInputs": [
+        "workPackageKey",
+        "evidenceRefs"
+      ],
+      "allowedFromStatuses": [
+        "in-progress"
+      ],
+      "resultStatus": "in-review"
+    },
+    {
+      "operationKey": "prototype-work-status.complete-work-package",
+      "requiredInputs": [
+        "workPackageKey",
+        "evidenceRefs",
+        "definitionOfDoneResults"
+      ],
+      "allowedFromStatuses": [
+        "in-review"
+      ],
+      "resultStatus": "complete"
+    },
+    {
+      "operationKey": "prototype-work-status.reopen-work-package",
+      "requiredInputs": [
+        "workPackageKey",
+        "reasonKey",
+        "staleEvidenceRefs"
+      ],
+      "allowedFromStatuses": [
+        "complete"
+      ],
+      "resultStatus": "in-progress"
+    }
+  ],
+  "consistencyRules": [
+    {
+      "ruleKey": "prototype-work-status.plan-binding-valid",
+      "severity": "blocking",
+      "requirement": "the bound delivery plan exists and its fingerprint matches"
+    },
+    {
+      "ruleKey": "prototype-work-status.work-package-refs-known",
+      "severity": "blocking",
+      "requirement": "every materialized work package key exists in the delivery plan"
+    },
+    {
+      "ruleKey": "prototype-work-status.phase-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "phase counts reconcile with work package statuses"
+    },
+    {
+      "ruleKey": "prototype-work-status.ready-dependencies-satisfied",
+      "severity": "blocking",
+      "requirement": "every ready work package has all declared dependencies complete"
+    },
+    {
+      "ruleKey": "prototype-work-status.complete-has-current-evidence",
+      "severity": "blocking",
+      "requirement": "every complete work package has current, versioned evidence"
+    },
+    {
+      "ruleKey": "prototype-work-status.no-promotion-before-gate",
+      "severity": "blocking",
+      "requirement": "promotionReady remains false until the promotion gate passes"
+    },
+    {
+      "ruleKey": "prototype-work-status.scope-exclusions-preserved",
+      "severity": "blocking",
+      "requirement": "accepted exclusions remain outside current delivery work"
+    }
+  ],
+  "fingerprintPolicy": {
+    "statusFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includePlanBinding": true,
+    "includeOverallStatus": true,
+    "includePhaseStatuses": true,
+    "includeWorkPackageStatuses": true,
+    "includeBlockers": true,
+    "includeEvidenceRefs": true,
+    "includeCurrentExecutionFocus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-status",
+      "current-phase",
+      "current-execution-focus",
+      "ready-work-package-keys",
+      "blocked-work-package-keys",
+      "stale-evidence-refs",
+      "open-promotion-blockers",
+      "phase-progress",
+      "critical-path-progress"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "rawCharacterStateIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "phaseKeys",
+      "workPackageKeys",
+      "statuses",
+      "ownerTypes",
+      "blockerKeys",
+      "evidenceRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeWorkStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "workPackageKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "statusFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypePhaseCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "phaseKey": "Reference",
+        "completedWorkPackageKeys": "ReferenceCollection",
+        "statusFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "none",
+    "architectureConfidence": "high",
+    "implementationReviewStatus": "not-started",
+    "deliveryReviewStatus": "catalog-review-work-package-complete",
+    "evidenceModelReviewStatus": "complete",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "ChronicleDeliveryInfrastructure"
+  },
+  "prototypeNotes": [
+    "This file records delivery status and does not mark the previously created prototype contracts as implemented work.",
+    "The first executable work package is catalog identity review.",
+    "Only current, versioned evidence may move a work package to complete.",
+    "Changing a supporting artifact or invalidating evidence reopens affected work automatically.",
+    "Accepted exclusions remain visible and outside the current delivery objective.",
+    "Chronicle owns status calculation, persistence, evidence validation, diagnostics, and events.",
+    "The Rule Set review and implementation owners provide the evidence that advances delivery."
+  ],
+  "workPackageCompletion": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "status": "complete",
+    "completedAt": "2026-08-03T00:00:00.000Z",
+    "evidenceId": "catalog-review.evidence.work-package-completion.20260803",
+    "finalReviewResultFingerprint": "2cb08a85ee5280eb01be80623fa8196117b6ca23ed5580511e3040aa247fa69a",
+    "packagePublished": false,
+    "branchCheckpointReady": true
+  },
+  "statusFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "c3adca3b6a09f28cddec5fc1e9831f1d1575c5cf28753b0a333a90094dbd7c8e",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  }
+}

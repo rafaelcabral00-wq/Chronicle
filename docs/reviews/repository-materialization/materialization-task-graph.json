@@ -1,0 +1,27 @@
+{
+  "created": "2026-08-03",
+  "tasks": [
+    {"id": "BOOT-001", "name": "Create root governance and build config files", "dependsOn": [], "authoritativeSource": "ADR-0043; ADR-0044; ADR-0001; ADR-0012", "outputs": ["README.md", "LICENSE", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md", "SUPPORT.md", "CHANGELOG.md", ".gitignore", ".editorconfig", "global.json", "Directory.Build.props", "Directory.Packages.props", "Chronicle.sln", "docs/README.md", "docs/adrs/README.md", "docs/rfcs/README.md", "docs/specs/README.md", "docs/rule-sets/README.md"], "status": "completed", "requiredForBootstrap": true, "acceptanceCriteria": ["No unsupported claims.", "No secrets.", "Build settings align with ADR-0043.", "global.json targets .NET 10 LTS SDK 10.0.302.", "CODE_OF_CONDUCT.md uses Contributor Covenant 2.1 attribution.", "SECURITY.md avoids personal data and uses owner-controlled placeholders until GitHub security reporting exists.", "Chronicle.sln is empty and valid."]},
+    {"id": "BOOT-002", "name": "Create canonical source/test/rule-set/tool/build/sample/artifact directories", "dependsOn": ["BOOT-001"], "authoritativeSource": "ADR-0043", "outputs": ["src/", "tests/", "rule-sets/", "tools/", "build/", "samples/", "artifacts/"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["No unauthorized project directories."]},
+    {"id": "BOOT-003", "name": "Create Chronicle.sln and canonical production projects", "dependsOn": ["BOOT-002"], "authoritativeSource": "ADR-0043 sections 7-44", "outputs": ["Chronicle.sln", "src/Chronicle.*"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Projects follow boundary map and dependency direction."]},
+    {"id": "BOOT-004", "name": "Create canonical test projects and architecture tests", "dependsOn": ["BOOT-003"], "authoritativeSource": "ADR-0043 sections 58-71, 127-130", "outputs": ["tests/Chronicle.*.Tests/"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Architecture tests enforce forbidden references."]},
+    {"id": "BOOT-005", "name": "Create Werewolf package source skeleton and package-adjacent tests", "dependsOn": ["BOOT-003", "BOOT-004"], "authoritativeSource": "ADR-0043 sections 45-61; SPEC-0001 sections 3.3-3.6", "outputs": ["rule-sets/Chronicle.RuleSets.Werewolf/", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Skeleton distinguishes package source from documentation prototype."]},
+    {"id": "BOOT-006", "name": "Create CI workflow", "dependsOn": ["BOOT-003", "BOOT-004"], "authoritativeSource": "ADR-0012; ADR-0043 section 120", "outputs": [".github/workflows/ci.yml"], "status": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Restore/build/test/scan run without secrets."]},
+    {"id": "BOOT-007", "name": "Create optional tooling projects", "dependsOn": ["BOOT-003"], "authoritativeSource": "ADR-0043 sections 72-74", "outputs": ["tools/Chronicle.Tools.*"], "status": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["Tools are not runtime dependencies."]},
+    {"id": "BOOT-008", "name": "Create package artifact/release workflows", "dependsOn": ["BOOT-005", "BOOT-006"], "authoritativeSource": "RFC-0027; RFC-0041; SPEC-0001", "outputs": ["rule-sets/packages/", "build/installer/windows/", ".github/workflows/release.yml"], "status": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["No package is published or installed by build alone."]}
+  ],
+  "firstExecutableBootstrapTask": "BOOT-002",
+  "boot001Evidence": {
+    "completedDate": "2026-08-03",
+    "selectedSdk": "10.0.302",
+    "createdFiles": ["README.md", "LICENSE", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md", "SUPPORT.md", "CHANGELOG.md", ".gitignore", ".editorconfig", "global.json", "Directory.Build.props", "Directory.Packages.props", "Chronicle.sln", "docs/README.md", "docs/adrs/README.md", "docs/rfcs/README.md", "docs/specs/README.md", "docs/rule-sets/README.md"],
+    "validation": {
+      "dotnetVersion": "passed: 10.0.302",
+      "solutionList": "passed: no projects in solution",
+      "markdownLinks": "passed",
+      "protectedSourcebookReferenceScan": "passed",
+      "localAbsolutePathSecretPersonalDataScan": "passed: only policy wording matched"
+    },
+    "notCreated": ["src/", "tests/", "rule-sets/", "tools/", ".github/", "NOTICE", "Directory.Build.targets", "Chronicle.slnx"]
+  }
+}

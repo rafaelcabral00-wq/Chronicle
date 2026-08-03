@@ -1,0 +1,386 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.test-model-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.test-model-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeTestModel",
+  "purpose": [
+    "Provide the canonical discovery surface for the complete Werewolf prototype test model.",
+    "Declare the test suite index, test environment, promotion gate, report schema, dependencies, readiness, and execution capabilities.",
+    "Allow Chronicle test and release infrastructure to load the complete test model without Werewolf-specific registration.",
+    "Support deterministic local execution, continuous integration, promotion validation, diagnostics, and auditable test evidence."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "ChronicleTestInfrastructure",
+    "packageSpecificTestSemanticsAuthority": "RuleSetPackage",
+    "testModelDiscoveryAuthority": "ChronicleTestInfrastructure",
+    "testExecutionAuthority": "ChronicleTestInfrastructure",
+    "promotionEvaluationAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "productionRuntimeAuthority": false,
+    "hardcodedWerewolfTestRegistrationAllowed": false
+  },
+  "artifacts": [
+    {
+      "artifactKey": "werewolf-prototype.test-suite-index",
+      "artifactRef": "./test-suite-index.json",
+      "artifactRole": "test-suite-index",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-environment",
+      "artifactRef": "./test-environment.json",
+      "artifactRole": "test-environment",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.test-suite-index"
+      ]
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-run-report-schema",
+      "artifactRef": "./test-run-report-schema.json",
+      "artifactRole": "test-report-schema",
+      "loadOrder": 30,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.test-suite-index",
+        "werewolf-prototype.test-environment"
+      ]
+    },
+    {
+      "artifactKey": "werewolf-prototype.promotion-gate",
+      "artifactRef": "./promotion-gate.json",
+      "artifactRole": "prototype-promotion-gate",
+      "loadOrder": 40,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.test-suite-index",
+        "werewolf-prototype.test-environment",
+        "werewolf-prototype.test-run-report-schema"
+      ]
+    }
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "werewolf-prototype.prototype-index",
+      "artifactRef": "../prototype-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.fixture-index",
+      "artifactRef": "../fixtures/fixture-index-root.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "../character-model/character-model-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../character-creation/operation-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-sheet.character-sheet-index",
+      "artifactRef": "../character-sheet/character-sheet-index.json",
+      "required": true
+    }
+  ],
+  "capabilityMap": {
+    "tests.local-development": {
+      "requiredArtifacts": [
+        "werewolf-prototype.test-suite-index",
+        "werewolf-prototype.test-environment",
+        "werewolf-prototype.test-run-report-schema"
+      ],
+      "readiness": "prototype-candidate"
+    },
+    "tests.continuous-integration": {
+      "requiredArtifacts": [
+        "werewolf-prototype.test-suite-index",
+        "werewolf-prototype.test-environment",
+        "werewolf-prototype.test-run-report-schema"
+      ],
+      "readiness": "prototype-candidate"
+    },
+    "tests.promotion-validation": {
+      "requiredArtifacts": [
+        "werewolf-prototype.test-suite-index",
+        "werewolf-prototype.test-environment",
+        "werewolf-prototype.test-run-report-schema",
+        "werewolf-prototype.promotion-gate"
+      ],
+      "readiness": "prototype-candidate"
+    },
+    "tests.generic-dice": {
+      "requiredFutureArtifacts": [
+        "../fixtures/dice/fixture-index.json"
+      ],
+      "readiness": "blocked",
+      "blockingReasonKey": "werewolf-prototype.tests.dice.algorithm-not-frozen"
+    }
+  },
+  "loadPolicy": {
+    "loadMode": "index-driven",
+    "sortBy": "loadOrder",
+    "duplicateArtifactKeyBehavior": "test-model-load-failure",
+    "missingRequiredArtifactBehavior": "disable-test-model",
+    "unsupportedContractVersionBehavior": "test-model-load-failure",
+    "artifactOutsideTestRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "dependencyPolicy": {
+    "allDeclaredDependenciesMustResolve": true,
+    "cyclesAllowed": false,
+    "cycleBehavior": "test-model-load-failure-with-cycle-path",
+    "loadOrderMustRespectDependencies": true,
+    "externalDependenciesValidatedBeforeLocalArtifacts": true
+  },
+  "executionProfiles": [
+    {
+      "profileKey": "tests.profile.local",
+      "runKind": "local-development",
+      "requiredCapabilities": [
+        "tests.local-development"
+      ],
+      "allowsSuiteSelection": true,
+      "allowsFixtureSelection": true,
+      "allowsDeveloperDiagnostics": true,
+      "promotionEvidenceEligible": false
+    },
+    {
+      "profileKey": "tests.profile.ci",
+      "runKind": "full-prototype",
+      "requiredCapabilities": [
+        "tests.continuous-integration"
+      ],
+      "allowsSuiteSelection": false,
+      "allowsFixtureSelection": false,
+      "allowsDeveloperDiagnostics": false,
+      "promotionEvidenceEligible": false
+    },
+    {
+      "profileKey": "tests.profile.promotion",
+      "runKind": "promotion-validation",
+      "requiredCapabilities": [
+        "tests.promotion-validation"
+      ],
+      "allowsSuiteSelection": false,
+      "allowsFixtureSelection": false,
+      "allowsDeveloperDiagnostics": false,
+      "requiresCleanWorkingTree": true,
+      "promotionEvidenceEligible": true
+    }
+  ],
+  "contractValidation": {
+    "validateOnLoad": true,
+    "validateArtifactKeys": true,
+    "validateArtifactReferences": true,
+    "validateContractVersions": true,
+    "validateDependencyGraphAcyclic": true,
+    "validateFixtureReferences": true,
+    "validateSuiteReferences": true,
+    "validateEnvironmentBindings": true,
+    "validateReportSchemaBindings": true,
+    "validatePromotionGateBindings": true,
+    "validateCapabilityReadiness": true,
+    "validateSecurityDeclarations": true
+  },
+  "executionPolicy": {
+    "deterministic": true,
+    "networkAccessAllowed": false,
+    "providerCallsAllowed": false,
+    "isolatedDatabasePerTestRequired": true,
+    "encryptedStorageRequired": true,
+    "deterministicClockRequired": true,
+    "deterministicIdentifierFactoryRequired": true,
+    "seededRandomAdapterRequired": true,
+    "testOrderMustNotAffectResults": true,
+    "sharedMutableStateAllowed": false,
+    "canonicalReportRequired": true
+  },
+  "resultPolicy": {
+    "reportSchemaArtifactKey": "werewolf-prototype.test-run-report-schema",
+    "everyRunProducesCanonicalReport": true,
+    "failedRunStillProducesReport": true,
+    "invalidEnvironmentProducesReport": true,
+    "reportImmutableAfterFinalization": true,
+    "reportFingerprintRequired": true,
+    "promotionEvidenceOnlyFromPromotionProfile": true
+  },
+  "promotionIntegration": {
+    "gateArtifactKey": "werewolf-prototype.promotion-gate",
+    "promotionRunMustUseProfile": "tests.profile.promotion",
+    "allRequiredSuitesMustExecute": true,
+    "allReadyRequiredSuitesMustPass": true,
+    "noRequiredSuiteMayBeSkipped": true,
+    "testReportMustBeEligibleEvidence": true,
+    "artifactFingerprintSetMustMatchGateInputs": true,
+    "staleTestReportRejected": true
+  },
+  "readinessPolicy": {
+    "allowedValues": [
+      "prototype-candidate",
+      "candidate-partial",
+      "blocked",
+      "future"
+    ],
+    "requiredBlockedArtifactBehavior": "disable-test-model",
+    "optionalBlockedArtifactBehavior": "disable-dependent-capability",
+    "blockedCapabilitiesRemainDiscoverable": true,
+    "futureCapabilitiesDoNotBlockCurrentTestModel": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "test-model-index.artifact-keys-unique",
+      "severity": "blocking",
+      "requirement": "every indexed artifact key is unique"
+    },
+    {
+      "ruleKey": "test-model-index.refs-resolve",
+      "severity": "blocking",
+      "requirement": "every required local and external artifact reference resolves"
+    },
+    {
+      "ruleKey": "test-model-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "test model artifact dependencies are acyclic"
+    },
+    {
+      "ruleKey": "test-model-index.load-order-valid",
+      "severity": "blocking",
+      "requirement": "load order respects all declared dependencies"
+    },
+    {
+      "ruleKey": "test-model-index.execution-profiles-valid",
+      "severity": "blocking",
+      "requirement": "every execution profile references supported capabilities"
+    },
+    {
+      "ruleKey": "test-model-index.report-schema-valid",
+      "severity": "blocking",
+      "requirement": "the canonical report schema loads and binds to suite and environment contracts"
+    },
+    {
+      "ruleKey": "test-model-index.promotion-bindings-valid",
+      "severity": "blocking",
+      "requirement": "promotion profile, report evidence, and promotion gate bindings reconcile"
+    },
+    {
+      "ruleKey": "test-model-index.security-contract-present",
+      "severity": "blocking",
+      "requirement": "network, provider, storage, logging, and secret-handling restrictions are declared"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeArtifactFingerprints": true,
+    "includeExternalDependencyFingerprints": true,
+    "includeCapabilityMap": true,
+    "includeExecutionProfiles": true,
+    "includeReadiness": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "artifactKey",
+      "artifactRef",
+      "artifactRole",
+      "required",
+      "readiness",
+      "dependencyStatus",
+      "contractStatus",
+      "fingerprintStatus",
+      "capabilityImpact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawFixtureStateIncluded": false,
+    "rawNarrativeTextIncluded": false,
+    "sourcebookTextIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "filesystemAccess": "test-and-fixture-artifacts-read-only",
+    "productionUserDataAllowed": false,
+    "productionSecretsAllowed": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "suiteKeys",
+      "fixtureKeys",
+      "executionProfileKeys",
+      "statuses",
+      "failureKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "production-character-state",
+      "production-narrative-text",
+      "sourcebook-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeTestModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "artifactCount": "Integer",
+        "executionProfileCount": "Integer",
+        "supportedCapabilityKeys": "ReferenceCollection",
+        "blockedCapabilityKeys": "ReferenceCollection",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeTestModelLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "failureKey": "Reference",
+        "affectedArtifactKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "none",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "continuousIntegrationReviewStatus": "pending",
+    "promotionIntegrationReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for the complete Werewolf prototype test model.",
+    "Local, CI, and promotion runs use explicit execution profiles with different evidence requirements.",
+    "All runs produce canonical structured reports, including failed or invalid-environment runs.",
+    "Promotion evidence is valid only from the clean, complete promotion profile.",
+    "Generic Dice remains a visible blocked capability until the algorithm and fixtures are frozen.",
+    "Chronicle owns test model discovery, deterministic infrastructure, execution, reporting, diagnostics, and promotion integration.",
+    "The Rule Set package owns package-specific suites, fixtures, expected outcomes, and mechanical assertions."
+  ]
+}

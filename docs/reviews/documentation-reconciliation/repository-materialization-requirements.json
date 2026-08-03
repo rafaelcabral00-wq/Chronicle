@@ -1,0 +1,79 @@
+﻿{
+  "safeToBegin": true,
+  "reason": "The documentation now explicitly distinguishes documentation prototype, package source, packaged artifact, installed artifact, lifecycle gates, and validation evidence contracts. Materialization may be planned against SPEC-0001 and ADR-0043, but no source projects, package artifacts, installed artifacts, runtime implementation, publication, enablement, activation, or Campaign bindings have been created by this reconciliation.",
+  "requirementsBeforeMaterialization": [
+    {
+      "id": "MAT-001",
+      "requirement": "Confirm topology authority: ADR-0002 remains architecture authority; ADR-0043 v0.2.0 controls concrete repository paths.",
+      "evidence": "ADR-0043 sections 4-5",
+      "blocking": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0001",
+      "resolutionDate": "2026-08-03",
+      "resolution": "ADR-0002 remains authoritative for repository and solution architecture semantics. ADR-0043 v0.2.0 is authoritative for concrete current topology, project boundaries, paths, project names, and dependency layout. Where concrete topology statements conflict, ADR-0043 prevails."
+    },
+    {
+      "id": "MAT-002",
+      "requirement": "Define mapping from docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype to future rule-sets/Chronicle.RuleSets.Werewolf package source and installed rule-sets/<package-id>/<version> artifact layout.",
+      "evidence": "SPEC-0001 installed layout versus Werewolf prototype path",
+      "blocking": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0004",
+      "resolutionDate": "2026-08-03",
+      "resolution": "SPEC-0001 defines documentation prototype, package source, packaged artifact, and installed artifact roles. The Werewolf prototype path remains reference evidence and is not the generic package source layout."
+    },
+    {
+      "id": "MAT-003",
+      "requirement": "Freeze Rule Set package lifecycle states and transitions: extraction candidate, prototype candidate, implementation ready, promotion eligible, promoted, published, blocked, stale evidence.",
+      "evidence": "prototype-readiness.json and promotion-gate.json",
+      "blocking": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0003",
+      "resolutionDate": "2026-08-03",
+      "resolution": "Defined one shared normative Rule Set lifecycle across RFC-0027 and SPEC-0001 with states from proposed through withdrawn, allowed transitions, required evidence, transition ownership, reversibility, blocking conditions, and separation of maturity, publication, installation, and runtime activation."
+    },
+    {
+      "id": "MAT-004",
+      "requirement": "Specify executable validation contract for package loading, reference resolution, fixtures, tests, localization, security enforcement, evidence freshness, and reconciliation.",
+      "evidence": "Werewolf tests/, security/, reviews/ artifacts",
+      "blocking": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0004",
+      "resolutionDate": "2026-08-03",
+      "resolution": "SPEC-0001 defines required evidence families for structural validation, substantive review, finalized decisions, source provenance, localization, fixtures, executable tests, security, reconciliation, compatibility, migration when applicable, and promotion readiness."
+    },
+    {
+      "id": "MAT-005",
+      "requirement": "Decide whether MVP 'complete Rule Set' means complete advertised current slice or complete source-system catalog.",
+      "evidence": "RFC-0002/RFC-0042 complete Rule Set language versus Werewolf blocked future-slice capabilities",
+      "blocking": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0002",
+      "resolutionDate": "2026-08-03",
+      "resolution": "Rule Set completeness means complete declared release scope with explicit enforceable exclusions, not complete source-system implementation."
+    },
+    {
+      "id": "MAT-006",
+      "requirement": "Document that declarative prototype artifacts do not themselves constitute the executable Rule Set package implementation.",
+      "evidence": "prototype-work-status.json shows package-loading foundation, runtime, tests, security, and packaging phases not started.",
+      "blocking": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0004",
+      "resolutionDate": "2026-08-03",
+      "resolution": "SPEC-0001 states the documentation prototype is review and authoring evidence only and never executable, packaging, installation, activation, Campaign-binding, or publication authority merely because it exists in the repository."
+    }
+  ],
+  "allowedNextWork": [
+    "documentation corrections",
+    "contract specification refinement",
+    "validation harness design",
+    "repository skeleton planning",
+    "source project materialization planning against ADR-0043 and SPEC-0001"
+  ],
+  "disallowedNextWork": [
+    "create application source projects",
+    "materialize Rule Set runtime projects",
+    "publish Werewolf package artifacts",
+    "treat prototype decisions as source truth"
+  ]
+}

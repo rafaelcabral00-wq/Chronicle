@@ -1,0 +1,463 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.attributes",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.attributes.display-name",
+  "publicationStatus": "candidate",
+  "ratingPolicy": {
+    "valueType": "RankTrack",
+    "minimum": 1,
+    "maximum": 5,
+    "creationBase": 1,
+    "specializationEligibilityMinimum": 4,
+    "formModifiersMayExceedMaximum": true
+  },
+  "categories": [
+    {
+      "categoryKey": "attribute-category.physical",
+      "displayNameResourceKey": "attribute-category.physical",
+      "creationPriorityEligible": true,
+      "entries": [
+        "character.attribute.strength",
+        "character.attribute.dexterity",
+        "character.attribute.stamina"
+      ]
+    },
+    {
+      "categoryKey": "attribute-category.social",
+      "displayNameResourceKey": "attribute-category.social",
+      "creationPriorityEligible": true,
+      "entries": [
+        "character.attribute.charisma",
+        "character.attribute.manipulation",
+        "character.attribute.appearance"
+      ]
+    },
+    {
+      "categoryKey": "attribute-category.mental",
+      "displayNameResourceKey": "attribute-category.mental",
+      "creationPriorityEligible": true,
+      "entries": [
+        "character.attribute.perception",
+        "character.attribute.intelligence",
+        "character.attribute.wits"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "entryKey": "character.attribute.strength",
+      "categoryKey": "attribute-category.physical",
+      "displayNameResourceKey": "character.attribute.strength",
+      "descriptionResourceKey": "character.attribute.strength.description",
+      "suggestedSpecializations": [
+        "specialization.strength.iron-grip",
+        "specialization.strength.reserves-of-strength",
+        "specialization.strength.lower-body"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.strength.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.strength.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.strength.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.strength.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.strength.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-strength.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.dexterity",
+      "categoryKey": "attribute-category.physical",
+      "displayNameResourceKey": "character.attribute.dexterity",
+      "descriptionResourceKey": "character.attribute.dexterity.description",
+      "suggestedSpecializations": [
+        "specialization.dexterity.nimble-fingers",
+        "specialization.dexterity.supernatural-grace",
+        "specialization.dexterity.quick-reflexes"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.dexterity.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.dexterity.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.dexterity.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.dexterity.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.dexterity.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-dexterity.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.stamina",
+      "categoryKey": "attribute-category.physical",
+      "displayNameResourceKey": "character.attribute.stamina",
+      "descriptionResourceKey": "character.attribute.stamina.description",
+      "suggestedSpecializations": [
+        "specialization.stamina.tireless",
+        "specialization.stamina.persistent",
+        "specialization.stamina.resistant"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.stamina.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.stamina.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.stamina.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.stamina.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.stamina.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-stamina.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.charisma",
+      "categoryKey": "attribute-category.social",
+      "displayNameResourceKey": "character.attribute.charisma",
+      "descriptionResourceKey": "character.attribute.charisma.description",
+      "suggestedSpecializations": [
+        "specialization.charisma.air-of-confidence",
+        "specialization.charisma.captivating",
+        "specialization.charisma.contagious-humor",
+        "specialization.charisma.commanding-voice"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.charisma.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.charisma.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.charisma.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.charisma.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.charisma.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-charisma.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.manipulation",
+      "categoryKey": "attribute-category.social",
+      "displayNameResourceKey": "character.attribute.manipulation",
+      "descriptionResourceKey": "character.attribute.manipulation.description",
+      "suggestedSpecializations": [],
+      "specializationExtractionStatus": "pending-exact-source-segment",
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.manipulation.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.manipulation.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.manipulation.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.manipulation.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.manipulation.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-manipulation.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.appearance",
+      "categoryKey": "attribute-category.social",
+      "displayNameResourceKey": "character.attribute.appearance",
+      "descriptionResourceKey": "character.attribute.appearance.description",
+      "suggestedSpecializations": [
+        "specialization.appearance.exotic",
+        "specialization.appearance.fascinating",
+        "specialization.appearance.aristocratic-bearing",
+        "specialization.appearance.friendly"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.appearance.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.appearance.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.appearance.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.appearance.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.appearance.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-appearance.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.perception",
+      "categoryKey": "attribute-category.mental",
+      "displayNameResourceKey": "character.attribute.perception",
+      "descriptionResourceKey": "character.attribute.perception.description",
+      "suggestedSpecializations": [
+        "specialization.perception.attention-to-detail",
+        "specialization.perception.exceptional-instincts",
+        "specialization.perception.eyes-in-the-back-of-the-head",
+        "specialization.perception.prescient"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.perception.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.perception.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.perception.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.perception.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.perception.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-perception.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.intelligence",
+      "categoryKey": "attribute-category.mental",
+      "displayNameResourceKey": "character.attribute.intelligence",
+      "descriptionResourceKey": "character.attribute.intelligence.description",
+      "suggestedSpecializations": [
+        "specialization.intelligence.probability-calculation",
+        "specialization.intelligence.general-knowledge",
+        "specialization.intelligence.creative-logic",
+        "specialization.intelligence.lateral-thinking"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.intelligence.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.intelligence.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.intelligence.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.intelligence.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.intelligence.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-intelligence.json"
+      ]
+    },
+    {
+      "entryKey": "character.attribute.wits",
+      "categoryKey": "attribute-category.mental",
+      "displayNameResourceKey": "character.attribute.wits",
+      "descriptionResourceKey": "character.attribute.wits.description",
+      "suggestedSpecializations": [
+        "specialization.wits.cunning",
+        "specialization.wits.ambushes",
+        "specialization.wits.sharp-retorts",
+        "specialization.wits.cool-headed"
+      ],
+      "levelDescriptors": [
+        {
+          "rating": 1,
+          "descriptorResourceKey": "character.attribute.wits.level-1"
+        },
+        {
+          "rating": 2,
+          "descriptorResourceKey": "character.attribute.wits.level-2"
+        },
+        {
+          "rating": 3,
+          "descriptorResourceKey": "character.attribute.wits.level-3"
+        },
+        {
+          "rating": 4,
+          "descriptorResourceKey": "character.attribute.wits.level-4"
+        },
+        {
+          "rating": 5,
+          "descriptorResourceKey": "character.attribute.wits.level-5"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/attribute-wits.json"
+      ]
+    }
+  ],
+  "creationAllocation": {
+    "creationStage": "CreationBaseAllocation",
+    "allEntriesStartAt": 1,
+    "prioritySlots": [
+      {
+        "priorityKey": "primary",
+        "additionalPoints": 7
+      },
+      {
+        "priorityKey": "secondary",
+        "additionalPoints": 5
+      },
+      {
+        "priorityKey": "tertiary",
+        "additionalPoints": 3
+      }
+    ],
+    "requirements": [
+      "Each category must receive exactly one distinct priority.",
+      "All additional points must be allocated within the category assigned to that priority.",
+      "No Attribute may exceed rating 5 during Character creation."
+    ]
+  },
+  "specializationPolicy": {
+    "eligibilityMinimumRating": 4,
+    "selectionMode": "user-authored-or-suggested",
+    "approvalAuthority": "ChronicleDirectorValidatedByRuleSet",
+    "resolutionRuleRef": "../../dice/resolution/specialization.json",
+    "status": "candidate",
+    "ambiguityRef": "ambiguity.werewolf3e.dice.specialization"
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.attributes.start-at-one",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "value": 1
+    },
+    {
+      "ruleKey": "character.creation.attributes.priority-allocation",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "priorityTotals": {
+        "primary": 7,
+        "secondary": 5,
+        "tertiary": 3
+      },
+      "errorKey": "character.creation.attribute-allocation-invalid"
+    },
+    {
+      "ruleKey": "character.creation.attributes.maximum-five",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "maximum": 5,
+      "errorKey": "character.creation.attribute-maximum-exceeded"
+    },
+    {
+      "ruleKey": "character.specialization.rating-requirement",
+      "ruleVersion": 1,
+      "ruleType": "permission",
+      "status": "candidate",
+      "minimumRating": 4,
+      "errorKey": "character.specialization.rating-too-low"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The nine Attributes and their Physical, Social, and Mental categories are directly source-derived.",
+    "All Attributes begin at 1 and use the 7 / 5 / 3 additional-point creation allocation.",
+    "Human-scale ratings range from 1 to 5; form modifiers may exceed that range.",
+    "Specialization eligibility begins at rating 4, but exact Dice chaining remains unresolved.",
+    "Manipulation specialization suggestions were not added because the exact source segment was not yet captured.",
+    "Canonical English specialization keys are provisional localization identifiers."
+  ]
+}

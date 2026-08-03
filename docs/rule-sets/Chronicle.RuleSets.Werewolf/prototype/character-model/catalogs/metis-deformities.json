@@ -1,0 +1,522 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.metis-deformities",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.metis-deformities.display-name",
+  "publicationStatus": "candidate",
+  "selectionPolicy": {
+    "selectionMode": "single",
+    "requiredWhen": {
+      "field": "character.classification.race",
+      "operator": "equals",
+      "value": "character.race.metis"
+    },
+    "minimumSelections": 1,
+    "maximumSelections": 1,
+    "creationStage": "CreationBaseAllocation"
+  },
+  "effectContract": {
+    "model": "hybrid",
+    "supportedEffectTypes": [
+      "difficulty-modifier",
+      "dice-pool-modifier",
+      "automatic-failure",
+      "conditional-test",
+      "field-maximum-override",
+      "attack-grant",
+      "renown-consequence",
+      "health-level-removal"
+    ],
+    "compiledHandlersAllowed": true,
+    "chronicleCoreKnowsSpecificDeformities": false
+  },
+  "entries": [
+    {
+      "entryKey": "character.metis-deformity.fits-of-madness",
+      "sourceLabelPtBr": "Acessos de Loucura",
+      "displayNameResourceKey": "character.metis-deformity.fits-of-madness",
+      "effectModel": "compiled-handler-required",
+      "effects": [
+        {
+          "effectType": "conditional-test",
+          "triggerKey": "character-under-stress",
+          "test": {
+            "pool": [
+              "character.resource.willpower"
+            ],
+            "difficulty": 8,
+            "requiredSuccesses": 3
+          },
+          "onFailure": {
+            "effectKey": "condition.temporary-psychotic-episode",
+            "duration": "source-defined-temporary"
+          }
+        }
+      ],
+      "readiness": "candidate-blocked-by-dice-resolution",
+      "descriptionResourceKey": "character.metis-deformity.fits-of-madness.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-fits-of-madness.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.albinism",
+      "sourceLabelPtBr": "Albino",
+      "displayNameResourceKey": "character.metis-deformity.albinism",
+      "effectModel": "declarative-static-modifier",
+      "effects": [
+        {
+          "effectType": "difficulty-modifier",
+          "value": 2,
+          "appliesWhen": {
+            "all": [
+              {
+                "testIncludes": "character.attribute.perception"
+              },
+              {
+                "environmentKey": "daylight"
+              },
+              {
+                "protectionKey": "daylight-protection",
+                "operator": "absent"
+              }
+            ]
+          }
+        }
+      ],
+      "readiness": "candidate",
+      "descriptionResourceKey": "character.metis-deformity.albinism.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-albinism.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.hairless",
+      "sourceLabelPtBr": "Alopécico",
+      "displayNameResourceKey": "character.metis-deformity.hairless",
+      "effectModel": "declarative-static-modifier",
+      "effects": [
+        {
+          "effectType": "difficulty-modifier",
+          "value": 1,
+          "appliesWhen": {
+            "testTag": "social"
+          }
+        }
+      ],
+      "readiness": "candidate",
+      "descriptionResourceKey": "character.metis-deformity.hairless.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-hairless.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.blind",
+      "sourceLabelPtBr": "Cego",
+      "displayNameResourceKey": "character.metis-deformity.blind",
+      "effectModel": "declarative-automatic-outcome",
+      "effects": [
+        {
+          "effectType": "automatic-failure",
+          "appliesWhen": {
+            "testTag": "vision-based"
+          }
+        }
+      ],
+      "readiness": "candidate",
+      "descriptionResourceKey": "character.metis-deformity.blind.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-blind.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.seizures",
+      "sourceLabelPtBr": "Convulsões",
+      "displayNameResourceKey": "character.metis-deformity.seizures",
+      "effectModel": "compiled-handler-required",
+      "effects": [
+        {
+          "effectType": "conditional-test",
+          "triggerKey": "important-botch",
+          "test": {
+            "pool": [
+              "character.resource.willpower"
+            ],
+            "difficulty": 8,
+            "requiredSuccesses": 3
+          },
+          "onFailure": {
+            "effectKey": "condition.incapacitated-by-seizure",
+            "duration": "source-not-specified"
+          }
+        }
+      ],
+      "readiness": "candidate-blocked-by-botch-contract",
+      "descriptionResourceKey": "character.metis-deformity.seizures.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-seizures.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.hunchback",
+      "sourceLabelPtBr": "Corcunda",
+      "displayNameResourceKey": "character.metis-deformity.hunchback",
+      "effectModel": "declarative-static-modifier",
+      "effects": [
+        {
+          "effectType": "difficulty-modifier",
+          "value": 1,
+          "appliesWhen": {
+            "any": [
+              {
+                "testTag": "social"
+              },
+              {
+                "testIncludes": "character.attribute.dexterity"
+              }
+            ]
+          }
+        }
+      ],
+      "readiness": "candidate",
+      "descriptionResourceKey": "character.metis-deformity.hunchback.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-hunchback.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.horns",
+      "sourceLabelPtBr": "Cornos",
+      "displayNameResourceKey": "character.metis-deformity.horns",
+      "effectModel": "hybrid",
+      "effects": [
+        {
+          "effectType": "difficulty-modifier",
+          "value": 1,
+          "appliesWhen": {
+            "testTag": "social"
+          }
+        },
+        {
+          "effectType": "attack-grant",
+          "operationKey": "combat.attack.horns",
+          "damageFormula": "character.attribute.strength + 1",
+          "damageTypeKey": "damage.bashing",
+          "runtimeSupport": "deferred"
+        },
+        {
+          "effectType": "renown-consequence",
+          "renownKey": "character.renown.glory",
+          "direction": "loss",
+          "amount": "source-not-specified",
+          "runtimeSupport": "deferred"
+        }
+      ],
+      "readiness": "candidate-partial",
+      "descriptionResourceKey": "character.metis-deformity.horns.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-horns.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.tough-hide",
+      "sourceLabelPtBr": "Couro Duro",
+      "displayNameResourceKey": "character.metis-deformity.tough-hide",
+      "effectModel": "hybrid",
+      "effects": [
+        {
+          "effectType": "field-maximum-override",
+          "targetFieldKey": "character.attribute.appearance",
+          "maximum": 1
+        },
+        {
+          "effectType": "dice-pool-modifier",
+          "value": 1,
+          "appliesWhen": {
+            "testTag": "soak"
+          },
+          "runtimeSupport": "deferred"
+        }
+      ],
+      "readiness": "candidate-partial",
+      "descriptionResourceKey": "character.metis-deformity.tough-hide.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-tough-hide.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.debilitating-disease",
+      "sourceLabelPtBr": "Doença Debilitante",
+      "displayNameResourceKey": "character.metis-deformity.debilitating-disease",
+      "effectModel": "declarative-static-modifier",
+      "effects": [
+        {
+          "effectType": "difficulty-modifier",
+          "value": 2,
+          "appliesWhen": {
+            "any": [
+              {
+                "testIncludes": "character.attribute.stamina"
+              },
+              {
+                "testTag": "soak"
+              }
+            ]
+          }
+        }
+      ],
+      "readiness": "candidate",
+      "descriptionResourceKey": "character.metis-deformity.debilitating-disease.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-debilitating-disease.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.withered-limb",
+      "sourceLabelPtBr": "Membro Atrofiado",
+      "displayNameResourceKey": "character.metis-deformity.withered-limb",
+      "effectModel": "declarative-contextual-modifier",
+      "selectionData": {
+        "requiredParameter": "affected-limb",
+        "parameterType": "SingleChoice",
+        "catalogRef": "body-parts.json"
+      },
+      "effects": [
+        {
+          "effectType": "difficulty-modifier",
+          "value": 2,
+          "appliesWhen": {
+            "all": [
+              {
+                "testIncludes": "character.attribute.dexterity"
+              },
+              {
+                "usesSelectedParameter": "affected-limb"
+              }
+            ]
+          }
+        }
+      ],
+      "readiness": "candidate-with-parameter-contract",
+      "descriptionResourceKey": "character.metis-deformity.withered-limb.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-withered-limb.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.tailless",
+      "sourceLabelPtBr": "Sem Cauda",
+      "displayNameResourceKey": "character.metis-deformity.tailless",
+      "effectModel": "declarative-contextual-modifier",
+      "effects": [
+        {
+          "effectType": "difficulty-modifier",
+          "value": 1,
+          "appliesWhen": {
+            "all": [
+              {
+                "characterFormIn": [
+                  "character.form.lupus",
+                  "character.form.hispo",
+                  "character.form.crinos"
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "testTag": "social"
+                  },
+                  {
+                    "testTag": "dexterity-balance"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "readiness": "candidate-blocked-by-form-contract",
+      "descriptionResourceKey": "character.metis-deformity.tailless.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-tailless.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.no-sense-of-smell",
+      "sourceLabelPtBr": "Sem Olfato",
+      "displayNameResourceKey": "character.metis-deformity.no-sense-of-smell",
+      "effectModel": "hybrid",
+      "effects": [
+        {
+          "effectType": "automatic-failure",
+          "appliesWhen": {
+            "all": [
+              {
+                "testIncludes": "character.attribute.perception"
+              },
+              {
+                "testTag": "smell-based"
+              }
+            ]
+          }
+        },
+        {
+          "effectType": "difficulty-modifier",
+          "value": 2,
+          "appliesWhen": {
+            "all": [
+              {
+                "testIncludes": "character.ability.primal-urge"
+              },
+              {
+                "testTag": "tracking"
+              }
+            ]
+          }
+        }
+      ],
+      "readiness": "candidate",
+      "descriptionResourceKey": "character.metis-deformity.no-sense-of-smell.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-no-sense-of-smell.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.metis-deformity.weak-immune-system",
+      "sourceLabelPtBr": "Sistema Imunológico Fraco",
+      "displayNameResourceKey": "character.metis-deformity.weak-immune-system",
+      "effectModel": "resource-schema-override",
+      "effects": [
+        {
+          "effectType": "health-level-removal",
+          "healthLevelKey": "health.bruised",
+          "sourceLabelPtBr": "Escoriado",
+          "resultingFirstHealthLevelKey": "health.hurt",
+          "resultingFirstHealthLevelSourceLabelPtBr": "Machucado",
+          "runtimeSupport": "deferred"
+        }
+      ],
+      "readiness": "candidate-blocked-by-health-contract",
+      "descriptionResourceKey": "character.metis-deformity.weak-immune-system.description",
+      "provenanceRefs": [
+        "../../provenance/source-segments/metis-deformity-weak-immune-system.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.metis.requires-one-deformity",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "appliesWhen": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.metis"
+      },
+      "requirement": {
+        "field": "character.metis-deformity",
+        "operator": "count-equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.metis-deformity-required"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The catalog contains the thirteen deformities listed in the cleaned source.",
+    "Static modifiers are declarative; triggered tests, event reactions, attacks, Renown consequences, and Health changes may require handlers or later capability contracts.",
+    "No deferred combat, form, Renown, or Health effect is silently treated as implemented.",
+    "The source says a Metis must select a deformity during Character creation.",
+    "Source wording is retained only as localization labels and concise structured effects, not as a runtime sourcebook copy."
+  ]
+}

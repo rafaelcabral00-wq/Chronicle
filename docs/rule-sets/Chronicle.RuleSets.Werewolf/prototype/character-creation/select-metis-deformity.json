@@ -1,0 +1,434 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.select-metis-deformity",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.select-metis-deformity",
+  "descriptionResourceKey": "character-creation.operation.select-metis-deformity.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-and-metis-deformity-selection",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "SelectMetisDeformityInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "deformityKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "replaceExistingSelection",
+        "fieldType": "Boolean",
+        "required": true
+      },
+      {
+        "fieldKey": "acknowledgedWarningKeys",
+        "fieldType": "ReferenceCollection",
+        "required": false
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "select-metis-deformity.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.select-metis-deformity.not-a-draft"
+    },
+    {
+      "preconditionKey": "select-metis-deformity.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.select-metis-deformity.stale-draft"
+    },
+    {
+      "preconditionKey": "select-metis-deformity.character-is-metis",
+      "requirement": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.metis"
+      },
+      "failureKey": "character-creation.select-metis-deformity.race-not-metis"
+    },
+    {
+      "preconditionKey": "select-metis-deformity.catalog-available",
+      "requirement": {
+        "artifactRef": "../character-model/catalogs/metis-deformities.json",
+        "operator": "readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.select-metis-deformity.catalog-unavailable"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "select-metis-deformity.entry-valid",
+      "ruleType": "catalog-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "deformityKey",
+      "catalogRef": "../../character-model/catalogs/metis-deformities.json#entries",
+      "errorKey": "character-creation.select-metis-deformity.invalid-entry"
+    },
+    {
+      "ruleKey": "select-metis-deformity.entry-enabled",
+      "ruleType": "catalog-property",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "deformityKey",
+      "catalogRef": "../../character-model/catalogs/metis-deformities.json#entries",
+      "property": "enabled",
+      "operator": "not-equals",
+      "value": false,
+      "errorKey": "character-creation.select-metis-deformity.entry-disabled"
+    },
+    {
+      "ruleKey": "select-metis-deformity.exactly-one",
+      "ruleType": "selection-quota",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "character.metis-deformity",
+      "maximum": 1,
+      "replacementField": "replaceExistingSelection",
+      "errorKey": "character-creation.select-metis-deformity.selection-already-exists"
+    },
+    {
+      "ruleKey": "select-metis-deformity.replacement-explicit",
+      "ruleType": "confirmation",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "field": "character.metis-deformity",
+        "operator": "exists"
+      },
+      "requirement": {
+        "field": "replaceExistingSelection",
+        "operator": "equals",
+        "value": true
+      },
+      "errorKey": "character-creation.select-metis-deformity.replacement-not-confirmed"
+    },
+    {
+      "ruleKey": "select-metis-deformity.warnings-acknowledged",
+      "ruleType": "acknowledgement",
+      "severity": "blocking",
+      "status": "prototype",
+      "source": "catalog-entry.warnings[]",
+      "acknowledgementField": "acknowledgedWarningKeys",
+      "errorKey": "character-creation.select-metis-deformity.warning-not-acknowledged"
+    }
+  ],
+  "selectionPolicy": {
+    "requiredWhenRace": "character.race.metis",
+    "forbiddenWhenRaceIsNot": "character.race.metis",
+    "minimumSelections": 1,
+    "maximumSelections": 1,
+    "replacementAllowed": true,
+    "replacementRequiresExplicitFlag": true,
+    "automaticRandomSelectionAllowed": false,
+    "automaticNarratorSelectionAllowed": false,
+    "userSelectionRequired": true
+  },
+  "mechanicalEffectBoundary": {
+    "persistStructuredEffects": true,
+    "applySupportedEffectsImmediately": true,
+    "deferUnsupportedEffects": true,
+    "unsupportedEffectPolicy": "persist-and-surface-unavailable",
+    "silentApproximationAllowed": false,
+    "runtimeResolverRef": "../../mechanics/deformities/effect-resolution.json",
+    "runtimeResolverReadiness": "blocked"
+  },
+  "impactAnalysis": {
+    "performedBeforeCommit": true,
+    "categories": [
+      "replaced-selection",
+      "supported-field-effects",
+      "deferred-effects",
+      "new-validation-errors",
+      "resolved-invalidations",
+      "warnings"
+    ],
+    "resultFields": {
+      "previousDeformityKey": "Reference",
+      "newDeformityKey": "Reference",
+      "supportedEffects": "StructuredCollection",
+      "deferredEffects": "StructuredCollection",
+      "resolvedInvalidations": "StructuredCollection",
+      "warnings": "StructuredCollection"
+    }
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-race",
+        "load-current-metis-deformity",
+        "load-deformity-catalog",
+        "load-open-metis-invalidations"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-selection",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-race-is-metis",
+        "validate-deformity-entry",
+        "validate-entry-enabled",
+        "validate-single-selection",
+        "validate-explicit-replacement",
+        "validate-warning-acknowledgements"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "resolve-effect-impact",
+      "executor": "RuleSet",
+      "effects": [
+        "load-structured-effect-descriptors",
+        "separate-supported-and-deferred-effects",
+        "calculate-removal-of-replaced-effects",
+        "calculate-application-of-new-effects"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "persist-selection",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-previous-deformity-selection",
+        "set-new-deformity-selection",
+        "record-catalog-version-at-selection",
+        "record-selected-by-operation-id"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "apply-supported-effects",
+      "executor": "RuleSet",
+      "effects": [
+        "remove-supported-effects-from-replaced-selection",
+        "apply-supported-effects-from-new-selection",
+        "preserve-deferred-effect-descriptors"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-metis-deformity-selection",
+        "record-replacement-when-applicable",
+        "record-supported-effects",
+        "record-deferred-effects",
+        "record-warning-acknowledgements",
+        "record-no-freebie-cost"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "update-invalidations",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "clear-missing-metis-deformity-invalidation",
+        "clear-replaced-deformity-invalidations",
+        "create-deferred-effect-capability-warnings",
+        "preserve-unrelated-invalidations"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-exactly-one-metis-deformity",
+        "validate-selection-still-enabled",
+        "validate-supported-effect-state",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 90,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "persistedSelectionShape": {
+    "deformityKey": "Reference",
+    "catalogVersion": "Text",
+    "selectedByOperationId": "Reference",
+    "selectedAt": "Text",
+    "status": "Text",
+    "supportedEffectsApplied": "StructuredCollection",
+    "deferredEffects": "StructuredCollection",
+    "acknowledgedWarningKeys": "ReferenceCollection"
+  },
+  "invalidationContract": {
+    "supportedTypes": [
+      {
+        "invalidationType": "MetisDeformityRequired",
+        "resolution": "Select exactly one enabled Metis deformity."
+      },
+      {
+        "invalidationType": "MetisDeformityForbiddenForCurrentRace",
+        "resolution": "Remove the deformity or restore the Metis Race classification."
+      },
+      {
+        "invalidationType": "MetisDeformityEntryUnavailable",
+        "resolution": "Replace the unavailable entry with an enabled catalog selection."
+      }
+    ],
+    "automaticResolutionAllowed": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "persistInvalidations": true
+  },
+  "resultContract": {
+    "resultKey": "SelectMetisDeformityResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "previousDeformityKey": "Reference",
+      "selectedDeformityKey": "Reference",
+      "supportedEffectsApplied": "StructuredCollection",
+      "deferredEffects": "StructuredCollection",
+      "resolvedInvalidations": "StructuredCollection",
+      "warnings": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "SelectMetisDeformityFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "deformityKey": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterMetisDeformitySelected",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "previousDeformityKey": "Reference",
+        "selectedDeformityKey": "Reference",
+        "deferredEffectCount": "Integer",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.metis-deformity.effect-resolution",
+      "severity": "high",
+      "status": "content-and-mechanics-review-required",
+      "question": "Which deformity effects can be represented as deterministic Character field changes, and which require runtime subsystems not yet implemented?",
+      "prototypeDecision": "Persist structured effect descriptors, apply only explicitly supported effects, and surface all others as deferred."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.metis-deformity.selection-method",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "Must the deformity be selected by the player, assigned by the Storyteller, or determined randomly?",
+      "prototypeDecision": "Require explicit player selection; do not roll or assign automatically."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-metis-requirement",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "contentReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation is available only while the Character's Race is Metis.",
+    "Exactly one deformity is required, and replacement must be explicit.",
+    "No deformity is selected randomly or by Narrative Intelligence.",
+    "Supported deterministic effects may be applied during creation; unsupported effects remain structured, visible, and deferred.",
+    "Chronicle owns persistence, versioning, idempotency, ledger history, invalidations, and events.",
+    "The Rule Set owns deformity eligibility, structured effect interpretation, and mechanical validation."
+  ]
+}

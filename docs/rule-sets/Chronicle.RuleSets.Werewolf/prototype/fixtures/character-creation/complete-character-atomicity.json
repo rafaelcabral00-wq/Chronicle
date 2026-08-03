@@ -1,0 +1,294 @@
+{
+  "contractVersion": 1,
+  "fixtureKey": "character-creation.complete-character-atomicity",
+  "fixtureVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "fixtureKind": "character-creation-transaction-scenario",
+  "publicationStatus": "prototype-candidate",
+  "purpose": [
+    "Provide one deterministic transaction fixture for complete-character atomicity.",
+    "Verify that final validation, warning acknowledgement checks, ledger freezing, Character activation, completion snapshot creation, and event emission succeed or fail as one atomic unit.",
+    "Ensure no partial state survives when a failure occurs after validation but before transaction commit.",
+    "Serve as a shared input for transaction, persistence, recovery, idempotency, and event tests."
+  ],
+  "binding": {
+    "characterModelId": "chronicle.rulesets.werewolf.character-model",
+    "characterModelVersion": "0.1.0-prototype",
+    "creationProfileVersion": "0.1.0-prototype",
+    "operationIndexVersion": "0.1.0-prototype",
+    "fixtureUsesPrototypeDecisions": true
+  },
+  "baseFixture": {
+    "fixtureKey": "character-creation.minimal-valid-character",
+    "artifactRef": "./minimal-valid-character.json",
+    "requiredBaseFixtureVersion": "0.1.0-prototype",
+    "applicationMode": "authoritative-operation-sequence"
+  },
+  "fixtureIdentity": {
+    "characterId": "fixture-character-completion-atomicity-001",
+    "campaignId": "fixture-campaign-001",
+    "playerUserId": "fixture-user-001",
+    "startingDraftVersion": 1
+  },
+  "preconditions": {
+    "characterStatus": "Draft",
+    "creationLedgerStatus": "open",
+    "completionSnapshotExists": false,
+    "completionValidationFresh": false,
+    "requiredWarnings": [
+      "character-creation.warning.prototype-rule-in-use",
+      "character-creation.warning.unspent-freebie-points"
+    ],
+    "requiredWarningAcknowledgementsActive": true,
+    "openBlockingInvalidationCount": 0,
+    "openErrorInvalidationCount": 0,
+    "ledgerIntegrityValid": true,
+    "packageBindingCompatible": true
+  },
+  "operation": {
+    "operationKey": "character-creation.complete-character",
+    "idempotencyKey": "fixture-complete-character-atomicity-001",
+    "expectedDraftVersion": 1,
+    "requestedByUserId": "fixture-user-001"
+  },
+  "transactionBoundary": {
+    "owner": "Chronicle",
+    "requiredAtomicSteps": [
+      "load-current-character-draft",
+      "verify-expected-draft-version",
+      "verify-package-binding",
+      "load-and-verify-active-warning-acknowledgements",
+      "run-fresh-completion-readiness-validation",
+      "verify-no-blocking-or-error-invalidations",
+      "verify-creation-ledger-integrity",
+      "build-completion-snapshot",
+      "freeze-creation-ledger",
+      "transition-character-status-to-active",
+      "persist-character-and-related-artifacts",
+      "record-idempotency-result",
+      "append-domain-events",
+      "commit-transaction"
+    ],
+    "externalProviderCallsAllowed": false,
+    "narratorParticipationAllowed": false,
+    "chronicleDirectorBypassAllowed": false
+  },
+  "successScenario": {
+    "scenarioKey": "complete-character-atomic-success",
+    "failureInjection": null,
+    "expectedResult": {
+      "operationStatus": "succeeded",
+      "characterStatus": "Active",
+      "characterVersion": 2,
+      "creationLedgerStatus": "frozen",
+      "completionSnapshotCreated": true,
+      "completionSnapshotCharacterVersion": 2,
+      "completionSnapshotLedgerFingerprintMatches": true,
+      "openInvalidationCount": 0,
+      "idempotencyRecordCreated": true,
+      "transactionCommitted": true
+    },
+    "expectedEvents": [
+      {
+        "eventKey": "CharacterCompleted",
+        "emittedAfterCommit": true
+      },
+      {
+        "eventKey": "CharacterCreationLedgerFrozen",
+        "emittedAfterCommit": true
+      },
+      {
+        "eventKey": "CharacterCompletionSnapshotCreated",
+        "emittedAfterCommit": true
+      }
+    ]
+  },
+  "failureScenarios": [
+    {
+      "scenarioKey": "failure-after-snapshot-build",
+      "failureInjection": {
+        "afterStep": "build-completion-snapshot",
+        "failureKey": "fixture.failure.injected-after-snapshot-build"
+      },
+      "expectedResult": {
+        "operationStatus": "failed",
+        "failureClassification": "transaction-failure",
+        "characterStatus": "Draft",
+        "characterVersion": 1,
+        "creationLedgerStatus": "open",
+        "completionSnapshotCreated": false,
+        "idempotencySuccessRecordCreated": false,
+        "transactionCommitted": false,
+        "partialCommitOccurred": false
+      },
+      "expectedEvents": []
+    },
+    {
+      "scenarioKey": "failure-after-ledger-freeze",
+      "failureInjection": {
+        "afterStep": "freeze-creation-ledger",
+        "failureKey": "fixture.failure.injected-after-ledger-freeze"
+      },
+      "expectedResult": {
+        "operationStatus": "failed",
+        "failureClassification": "transaction-failure",
+        "characterStatus": "Draft",
+        "characterVersion": 1,
+        "creationLedgerStatus": "open",
+        "completionSnapshotCreated": false,
+        "idempotencySuccessRecordCreated": false,
+        "transactionCommitted": false,
+        "partialCommitOccurred": false
+      },
+      "expectedEvents": []
+    },
+    {
+      "scenarioKey": "failure-after-character-activation",
+      "failureInjection": {
+        "afterStep": "transition-character-status-to-active",
+        "failureKey": "fixture.failure.injected-after-character-activation"
+      },
+      "expectedResult": {
+        "operationStatus": "failed",
+        "failureClassification": "transaction-failure",
+        "characterStatus": "Draft",
+        "characterVersion": 1,
+        "creationLedgerStatus": "open",
+        "completionSnapshotCreated": false,
+        "idempotencySuccessRecordCreated": false,
+        "transactionCommitted": false,
+        "partialCommitOccurred": false
+      },
+      "expectedEvents": []
+    },
+    {
+      "scenarioKey": "failure-before-commit",
+      "failureInjection": {
+        "afterStep": "append-domain-events",
+        "failureKey": "fixture.failure.injected-before-commit"
+      },
+      "expectedResult": {
+        "operationStatus": "failed",
+        "failureClassification": "transaction-failure",
+        "characterStatus": "Draft",
+        "characterVersion": 1,
+        "creationLedgerStatus": "open",
+        "completionSnapshotCreated": false,
+        "idempotencySuccessRecordCreated": false,
+        "transactionCommitted": false,
+        "partialCommitOccurred": false
+      },
+      "expectedEvents": []
+    }
+  ],
+  "validationFailureScenario": {
+    "scenarioKey": "fresh-validation-rejects-completion",
+    "mutationBeforeOperation": {
+      "instruction": "Remove one required warning acknowledgement or introduce one blocking invalidation without changing the operation request."
+    },
+    "expectedResult": {
+      "operationStatus": "rejected",
+      "failureKey": "character-creation.complete-character.validation-failed",
+      "freshValidationReturned": true,
+      "characterStatus": "Draft",
+      "creationLedgerStatus": "open",
+      "completionSnapshotCreated": false,
+      "transactionCommitted": false,
+      "partialCommitOccurred": false
+    }
+  },
+  "idempotencyExpectations": {
+    "sameKeySameRequestAfterSuccess": {
+      "executeTransactionAgain": false,
+      "returnOriginalSuccessResult": true,
+      "createSecondSnapshot": false,
+      "emitDuplicateEvents": false,
+      "incrementCharacterVersionAgain": false
+    },
+    "sameKeyDifferentRequest": {
+      "operationStatus": "rejected",
+      "failureKey": "operation.idempotency-key-conflict"
+    },
+    "retryAfterRolledBackFailure": {
+      "allowed": true,
+      "mustRerunFreshValidation": true,
+      "mayReuseSameIdempotencyKey": "only-when-no-success-result-was-committed"
+    }
+  },
+  "snapshotExpectations": {
+    "createdOnlyInsideTransaction": true,
+    "immutableAfterCommit": true,
+    "containsCharacterState": true,
+    "containsCreationLedgerFingerprint": true,
+    "containsValidationResultFingerprint": true,
+    "containsWarningAcknowledgementFingerprints": true,
+    "containsPackageBinding": true,
+    "containsSourceArtifactFingerprints": true,
+    "containsRawSourcebookText": false
+  },
+  "recoveryExpectations": {
+    "crashBeforeCommit": {
+      "databaseRecoveryResult": "all-uncommitted-changes-rolled-back",
+      "characterStatus": "Draft",
+      "creationLedgerStatus": "open",
+      "completionSnapshotExists": false
+    },
+    "crashAfterCommitBefore-ui-response": {
+      "databaseRecoveryResult": "committed-success-preserved",
+      "idempotentRetryReturnsCommittedResult": true,
+      "duplicateSnapshotCreated": false,
+      "duplicateEventsAppended": false
+    }
+  },
+  "consistencyAssertions": [
+    "An Active Character always has a frozen creation ledger.",
+    "An Active Character produced through creation completion always has exactly one completion snapshot for that completion transaction.",
+    "A frozen creation ledger cannot coexist with a Draft Character after transaction recovery.",
+    "A completion snapshot cannot survive a rolled-back completion transaction.",
+    "Completion events are not externally published before commit.",
+    "Fresh validation is executed inside the authoritative completion transaction.",
+    "Cached review or validation projections never authorize commit."
+  ],
+  "negativeAssertions": [
+    "No partial activation is allowed.",
+    "No ledger remains frozen after a failed or rolled-back completion.",
+    "No completion snapshot remains after rollback.",
+    "No success idempotency record is committed for a failed transaction.",
+    "No completion event is published before successful commit.",
+    "No Narrator, Narrative Intelligence provider, or Chronicle Director participates in authority decisions."
+  ],
+  "testUses": [
+    "complete-character-success",
+    "complete-character-validation-rejection",
+    "completion-transaction-rollback",
+    "completion-snapshot-atomicity",
+    "ledger-freeze-atomicity",
+    "character-activation-atomicity",
+    "event-outbox-after-commit",
+    "idempotent-completion-retry",
+    "crash-recovery-before-and-after-commit"
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "low",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-transaction-shape",
+    "fixtureReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "persistenceReviewStatus": "pending",
+    "recoveryReviewStatus": "pending"
+  },
+  "fixtureNotes": [
+    "This fixture validates Chronicle transaction semantics rather than additional Werewolf mechanics.",
+    "Every failure injected before commit must restore the complete pre-operation state.",
+    "The success result becomes reusable only after its idempotency record is committed atomically with Character completion.",
+    "Events are appended inside the transaction and become publishable only after commit.",
+    "Stable timestamps, transaction IDs, snapshot IDs, event IDs, and fingerprints must be generated by the test builder.",
+    "Chronicle owns transactionality, persistence, idempotency, snapshot storage, event publication, and recovery.",
+    "The Rule Set owns final mechanical validation and completion-readiness semantics."
+  ]
+}

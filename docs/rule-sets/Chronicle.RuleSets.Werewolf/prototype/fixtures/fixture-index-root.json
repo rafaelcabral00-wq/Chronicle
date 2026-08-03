@@ -1,0 +1,368 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.fixture-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.fixture-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeFixtures",
+  "purpose": [
+    "Provide the canonical discovery surface for all fixture collections in the Werewolf prototype.",
+    "Declare fixture collection indexes, load order, readiness, coverage, and promotion requirements.",
+    "Allow Chronicle test infrastructure to discover fixture suites without directory conventions or Werewolf-specific registration.",
+    "Support package validation, deterministic test execution, diagnostics, coverage reporting, and prototype promotion."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "fixtureCollectionDiscoveryAuthority": "ChronicleTestInfrastructure",
+    "fixtureSemanticAuthority": "RuleSetPackage",
+    "testExecutionAuthority": "ChronicleTestInfrastructure",
+    "productionRuntimeAuthority": false,
+    "hardcodedWerewolfFixtureRegistrationAllowed": false
+  },
+  "fixtureCollections": [
+    {
+      "collectionKey": "fixtures.character-creation",
+      "artifactKey": "character-creation.fixture-index",
+      "artifactRef": "./character-creation/fixture-index.json",
+      "collectionRole": "character-creation",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "supportedTestDomains": [
+        "character-model-contracts",
+        "character-creation",
+        "validation",
+        "dependency-impact",
+        "invalidation-lifecycle",
+        "ledger-integrity",
+        "completion",
+        "recovery",
+        "character-sheet"
+      ]
+    }
+  ],
+  "futureFixtureCollections": [
+    {
+      "collectionKey": "fixtures.dice",
+      "expectedArtifactRef": "./dice/fixture-index.json",
+      "collectionRole": "generic-dice-test",
+      "readiness": "blocked",
+      "blockingReasonKey": "werewolf-prototype.fixtures.dice.algorithm-not-frozen"
+    },
+    {
+      "collectionKey": "fixtures.runtime-character",
+      "expectedArtifactRef": "./runtime-character/fixture-index.json",
+      "collectionRole": "post-creation-character-operations",
+      "readiness": "future",
+      "blockingReasonKey": "werewolf-prototype.fixtures.runtime-character.outside-current-slice"
+    },
+    {
+      "collectionKey": "fixtures.gifts",
+      "expectedArtifactRef": "./gifts/fixture-index.json",
+      "collectionRole": "gift-runtime-execution",
+      "readiness": "future",
+      "blockingReasonKey": "werewolf-prototype.fixtures.gifts.runtime-not-modeled"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "werewolf-prototype.prototype-index",
+      "artifactRef": "../prototype-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "../character-model/character-model-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../character-creation/operation-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-sheet.character-sheet-index",
+      "artifactRef": "../character-sheet/character-sheet-index.json",
+      "required": true
+    }
+  ],
+  "loadPolicy": {
+    "loadMode": "index-driven",
+    "sortBy": "loadOrder",
+    "duplicateCollectionKeyBehavior": "fixture-model-load-failure",
+    "missingRequiredCollectionBehavior": "disable-dependent-test-suites",
+    "unsupportedContractVersionBehavior": "fixture-model-load-failure",
+    "artifactOutsideFixtureRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "dependencyPolicy": {
+    "allRequiredCollectionsMustResolve": true,
+    "collectionDependenciesMustBeAcyclic": true,
+    "nestedFixtureIndexesValidatedRecursively": true,
+    "externalDependenciesValidatedBeforeCollections": true,
+    "futureCollectionsMayRemainUnresolved": true
+  },
+  "executionPolicy": {
+    "fixturesAreReadOnlyInputs": true,
+    "testDatabaseIsolationRequired": true,
+    "fixtureCollectionsMayExecuteInParallel": true,
+    "sharedMutableStateAllowed": false,
+    "networkAccessAllowed": false,
+    "externalProviderCallsAllowed": false,
+    "randomnessMustUseSeededTestAdapter": true,
+    "timestampsMustUseDeterministicTestClock": true,
+    "identifiersMustUseDeterministicTestFactory": true
+  },
+  "testSuiteMap": {
+    "package-load": [
+      "fixtures.character-creation"
+    ],
+    "prototype-contract-validation": [
+      "fixtures.character-creation"
+    ],
+    "character-creation-happy-path": [
+      "fixtures.character-creation"
+    ],
+    "character-creation-invalid-paths": [
+      "fixtures.character-creation"
+    ],
+    "dependency-and-invalidation": [
+      "fixtures.character-creation"
+    ],
+    "ledger-and-completion": [
+      "fixtures.character-creation"
+    ],
+    "transaction-and-recovery": [
+      "fixtures.character-creation"
+    ],
+    "character-sheet-projection": [
+      "fixtures.character-creation"
+    ],
+    "generic-dice": [
+      "fixtures.dice"
+    ],
+    "runtime-character": [
+      "fixtures.runtime-character"
+    ],
+    "gift-runtime": [
+      "fixtures.gifts"
+    ]
+  },
+  "coverageSummary": {
+    "indexedCollectionCount": 1,
+    "futureOrBlockedCollectionCount": 3,
+    "readyCollectionKeys": [
+      "fixtures.character-creation"
+    ],
+    "blockedCollectionKeys": [
+      "fixtures.dice"
+    ],
+    "futureCollectionKeys": [
+      "fixtures.runtime-character",
+      "fixtures.gifts"
+    ],
+    "currentPrototypeCoverage": [
+      "character-creation-model",
+      "character-creation-operations",
+      "character-creation-validation",
+      "classification-dependencies",
+      "conditional-metis-path",
+      "lupus-base-allocation-restrictions",
+      "freebie-ledger-and-budget",
+      "completion-readiness",
+      "completion-atomicity",
+      "idempotency-and-recovery",
+      "character-sheet-binding"
+    ],
+    "knownCoverageGaps": [
+      "generic-dice-algorithm",
+      "post-creation-character-mutations",
+      "runtime-gift-execution",
+      "all-auspice-happy-paths",
+      "all-tribe-happy-paths",
+      "all-catalog-items",
+      "specialization-edge-cases",
+      "additional-gift-purchase"
+    ]
+  },
+  "readinessPolicy": {
+    "allowedValues": [
+      "prototype-candidate",
+      "candidate-partial",
+      "blocked",
+      "future"
+    ],
+    "requiredBlockedCollectionBehavior": "disable-dependent-test-suites",
+    "optionalBlockedCollectionBehavior": "report-unavailable-coverage",
+    "futureCollectionsRemainDiscoverable": true,
+    "prototypePromotionRequiresAllCurrentRequiredCollectionsReady": true,
+    "futureCollectionsDoNotBlockCurrentSlicePromotion": true
+  },
+  "contractValidation": {
+    "validateOnLoad": true,
+    "validateCollectionKeys": true,
+    "validateArtifactReferences": true,
+    "validateContractVersions": true,
+    "validateNestedFixtureKeys": true,
+    "validateNestedDependenciesAcyclic": true,
+    "validateTestSuiteReferences": true,
+    "validateCoverageCounts": true,
+    "validateReadiness": true,
+    "validateSecurityDeclarations": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "prototype-fixture-index.collection-keys-unique",
+      "severity": "blocking",
+      "requirement": "every fixture collection key is unique"
+    },
+    {
+      "ruleKey": "prototype-fixture-index.required-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every required fixture collection reference resolves inside the fixture root"
+    },
+    {
+      "ruleKey": "prototype-fixture-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "fixture collection dependencies are acyclic"
+    },
+    {
+      "ruleKey": "prototype-fixture-index.external-dependencies-valid",
+      "severity": "blocking",
+      "requirement": "all required prototype model indexes load successfully"
+    },
+    {
+      "ruleKey": "prototype-fixture-index.test-suite-refs-known",
+      "severity": "blocking",
+      "requirement": "every test-suite collection reference is indexed or explicitly future"
+    },
+    {
+      "ruleKey": "prototype-fixture-index.coverage-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "coverage summary counts reconcile with indexed, blocked, and future collections"
+    },
+    {
+      "ruleKey": "prototype-fixture-index.blocked-collections-declare-reason",
+      "severity": "blocking",
+      "requirement": "every blocked collection declares a stable blocking reason"
+    }
+  ],
+  "promotionPolicy": {
+    "fixtureValidationRequiredForPrototypePromotion": true,
+    "allCurrentRequiredCollectionsMustLoad": true,
+    "allReadyFixtureSuitesMustPass": true,
+    "partialFixturesMustResolveDeclaredReviewRequirements": true,
+    "knownCoverageGapsMustBeExplicitlyAcceptedOrClosed": true,
+    "blockedFutureSlicesDoNotBlockCurrentSlicePromotion": true,
+    "fixtureHistoryPreserved": true,
+    "silentFixtureReplacementAllowed": false
+  },
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeCollectionFingerprints": true,
+    "includeExternalDependencyFingerprints": true,
+    "includeReadiness": true,
+    "includeCoverageSummary": true,
+    "includeFutureCollectionDeclarations": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "collectionKey",
+      "artifactRef",
+      "collectionRole",
+      "required",
+      "readiness",
+      "fixtureCount",
+      "supportedTestDomains",
+      "contractStatus",
+      "dependencyStatus",
+      "fingerprintStatus",
+      "coverageImpact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawFixtureCharacterStateIncluded": false,
+    "rawNarrativeTextIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "filesystemAccess": "fixture-artifacts-read-only",
+    "fixturesContainProductionUserData": false,
+    "fixturesContainProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "collectionKeys",
+      "artifactRefs",
+      "readiness",
+      "fixtureCounts",
+      "testSuiteKeys",
+      "coverageKeys",
+      "fingerprints",
+      "diagnosticKeys"
+    ],
+    "ordinaryLogsMustExclude": [
+      "production-character-state",
+      "production-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeFixtureModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "collectionCount": "Integer",
+        "readyCollectionCount": "Integer",
+        "blockedCollectionCount": "Integer",
+        "futureCollectionCount": "Integer",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeFixtureModelLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "failureKey": "Reference",
+        "affectedCollectionKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-fixtures",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "fixtureConsistencyReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "testCoverageReviewStatus": "pending",
+    "promotionReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for all Werewolf prototype fixture collections.",
+    "Only the Character creation collection belongs to the current supported prototype slice.",
+    "Dice, runtime Character, and Gift execution collections remain blocked or future and do not silently appear as supported coverage.",
+    "Fixture collections are test-only artifacts and never become runtime authority.",
+    "Chronicle owns fixture discovery, test isolation, deterministic adapters, diagnostics, and fingerprints.",
+    "The Rule Set package owns fixture collection semantics, expected mechanical outcomes, and declared coverage boundaries."
+  ]
+}

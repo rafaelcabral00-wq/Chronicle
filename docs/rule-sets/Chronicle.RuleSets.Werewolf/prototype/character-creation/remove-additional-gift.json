@@ -1,0 +1,379 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.remove-additional-gift",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.remove-additional-gift",
+  "descriptionResourceKey": "character-creation.operation.remove-additional-gift.description",
+  "publicationStatus": "blocked",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-and-additional-gift-removal",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "RemoveAdditionalGiftInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "giftKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "acquisitionOperationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "confirmRemoval",
+        "fieldType": "Boolean",
+        "required": true
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "remove-additional-gift.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.remove-additional-gift.not-a-draft"
+    },
+    {
+      "preconditionKey": "remove-additional-gift.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.remove-additional-gift.stale-draft"
+    },
+    {
+      "preconditionKey": "remove-additional-gift.gift-is-additional",
+      "requirement": {
+        "collection": "character.gifts.acquired",
+        "giftKeyField": "giftKey",
+        "acquisitionOperationIdField": "acquisitionOperationId",
+        "operator": "matching-owned-acquisition-exists"
+      },
+      "failureKey": "character-creation.remove-additional-gift.acquisition-not-found"
+    },
+    {
+      "preconditionKey": "remove-additional-gift.removal-confirmed",
+      "requirement": {
+        "field": "confirmRemoval",
+        "operator": "equals",
+        "value": true
+      },
+      "failureKey": "character-creation.remove-additional-gift.removal-not-confirmed"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "remove-additional-gift.not-initial-slot",
+      "ruleType": "acquisition-source",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetGiftKey": "giftKey",
+      "requirement": {
+        "acquisitionStage": "CreationBonusPurchase"
+      },
+      "errorKey": "character-creation.remove-additional-gift.initial-gift-cannot-be-removed"
+    },
+    {
+      "ruleKey": "remove-additional-gift.purchase-ledger-entry-exists",
+      "ruleType": "ledger-reference",
+      "severity": "blocking",
+      "status": "candidate",
+      "ledgerRef": "character.creationLedger",
+      "requirements": [
+        {
+          "entryType": "level-one-gift-freebie-purchase"
+        },
+        {
+          "sourceOperationIdField": "acquisitionOperationId"
+        },
+        {
+          "giftKeyField": "giftKey"
+        },
+        {
+          "cost": 7
+        }
+      ],
+      "errorKey": "character-creation.remove-additional-gift.purchase-ledger-entry-missing"
+    },
+    {
+      "ruleKey": "remove-additional-gift.not-already-refunded",
+      "ruleType": "ledger-consistency",
+      "severity": "blocking",
+      "status": "prototype",
+      "ledgerRef": "character.creationLedger",
+      "operator": "purchase-not-fully-refunded",
+      "sourceOperationIdField": "acquisitionOperationId",
+      "errorKey": "character-creation.remove-additional-gift.already-refunded"
+    },
+    {
+      "ruleKey": "remove-additional-gift.no-dependent-selection",
+      "ruleType": "dependency-check",
+      "severity": "blocking",
+      "status": "future-safe",
+      "targetGiftKey": "giftKey",
+      "requirement": {
+        "operator": "no-active-character-creation-dependency"
+      },
+      "errorKey": "character-creation.remove-additional-gift.has-dependent-state"
+    }
+  ],
+  "removalPolicy": {
+    "allowedAcquisitionStage": "CreationBonusPurchase",
+    "initialGiftRemovalAllowed": false,
+    "refundAmount": 7,
+    "refundCurrency": "character-creation.freebie-points",
+    "refundOnlyOriginalCommittedPurchase": true,
+    "partialRefundAllowed": false,
+    "automaticReplacementAllowed": false,
+    "runtimeEffectReversalRequired": false,
+    "capabilityReadiness": "blocked",
+    "reason": "Removal remains unavailable in the current slice because additional Gift purchase is blocked."
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-owned-additional-gifts",
+        "load-acquisition-record",
+        "load-creation-ledger",
+        "load-freebie-budget",
+        "load-gift-dependent-state"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-removal",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-gift-is-additional",
+        "validate-acquisition-stage",
+        "validate-source-purchase-entry",
+        "validate-purchase-not-refunded",
+        "validate-no-dependent-state"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "calculate-refund",
+      "executor": "RuleSet",
+      "effects": [
+        "resolve-original-purchase-cost",
+        "verify-cost-is-seven",
+        "calculate-freebie-refund",
+        "calculate-remaining-freebie-points"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "remove-owned-gift",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "mark-acquisition-removed",
+        "remove-gift-from-active-acquired-collection",
+        "preserve-historical-acquisition-record",
+        "record-removal-operation-id"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "append-level-one-gift-freebie-refund",
+        "refund-seven-freebie-points",
+        "link-refund-to-original-purchase",
+        "record-removal-reason",
+        "preserve-ledger-history"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-invalidations",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "clear-invalidations-owned-by-removed-gift",
+        "create-required-replacement-invalidation-only-if-explicit-rule-requires",
+        "preserve-unrelated-invalidations"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-freebie-budget",
+        "validate-gift-ownership-uniqueness",
+        "validate-required-initial-gift-slots-unchanged",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "historicalRecordPolicy": {
+    "hardDeleteAllowed": false,
+    "preserveAcquisitionRecord": true,
+    "preserveEligibilitySource": true,
+    "preserveOriginalCost": true,
+    "preserveAcquisitionOperationId": true,
+    "preserveRemovalOperationId": true,
+    "statusAfterRemoval": "RemovedDuringCreation"
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "persistHistoricalAcquisitionRecord": true
+  },
+  "resultContract": {
+    "resultKey": "RemoveAdditionalGiftResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "giftKey": "Reference",
+      "acquisitionOperationId": "Reference",
+      "refundAmount": "Integer",
+      "remainingFreebiePoints": "Integer",
+      "removedAcquisitionStatus": "Text",
+      "createdInvalidations": "StructuredCollection",
+      "resolvedInvalidations": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "RemoveAdditionalGiftFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "giftKey": "Reference",
+      "acquisitionOperationId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterAdditionalGiftRemoved",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "giftKey": "Reference",
+        "acquisitionOperationId": "Reference",
+        "refundAmount": "Integer",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.additional-gift-refund",
+      "severity": "low",
+      "status": "implementation-decision-required",
+      "question": "Should removing an additional Gift during an unfinished draft fully refund its freebie cost?",
+      "prototypeDecision": "Yes, but only when the exact committed seven-point purchase can be identified and has not already been refunded."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.additional-gift-dependencies",
+      "severity": "medium",
+      "status": "future-design-required",
+      "question": "How should removal behave if future creation content depends on the purchased Gift?",
+      "prototypeDecision": "Block removal while active dependent state exists; do not cascade silently."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "low-for-removal-high-for-original-cost",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "blocked-with-purchase-operation",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation removes only a Gift acquired through the creation-time seven-point freebie purchase.",
+    "The three required initial Gift slots cannot be removed through this operation.",
+    "The refund is derived from the exact immutable purchase ledger entry, never from a guessed current price.",
+    "The acquisition record is preserved historically and marked removed rather than deleted.",
+    "The operation remains unavailable in practice while additional Gift purchase eligibility is blocked.",
+    "Chronicle owns persistence, versioning, idempotency, ledger history, and events.",
+    "The Rule Set owns removal eligibility, cost verification, and mechanical validation."
+  ]
+}

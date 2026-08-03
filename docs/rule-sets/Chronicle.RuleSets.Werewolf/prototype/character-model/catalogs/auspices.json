@@ -1,0 +1,324 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.auspices",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.auspices.display-name",
+  "publicationStatus": "candidate",
+  "selectionPolicy": {
+    "selectionMode": "single",
+    "required": true,
+    "creationStage": "CreationBaseAllocation"
+  },
+  "entries": [
+    {
+      "entryKey": "character.auspice.ragabash",
+      "displayNameResourceKey": "character.auspice.ragabash",
+      "descriptionResourceKey": "character.auspice.ragabash.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "tags": [
+        "moon-phase-new",
+        "social-role-trickster",
+        "auspice-gift-source"
+      ],
+      "mechanicalData": {
+        "moonPhaseKey": "moon-phase.new",
+        "initialResources": {
+          "character.resource.rage": 1
+        },
+        "initialRenown": {
+          "allocationMode": "free-combination",
+          "total": 3,
+          "dimensions": [
+            "character.renown.glory",
+            "character.renown.honor",
+            "character.renown.wisdom"
+          ],
+          "status": "candidate"
+        },
+        "initialGiftEligibility": [
+          "gift.auspice.ragabash.open-seal",
+          "gift.auspice.ragabash.blur-of-the-milky-eye",
+          "gift.auspice.ragabash.scent-of-running-water"
+        ]
+      },
+      "guidanceRefs": [
+        "../../narrative-guidance/character/auspices/ragabash.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/ragabash.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/auspice-ragabash.json",
+        "../../provenance/source-segments/creation-summary-auspices.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.auspice.theurge",
+      "displayNameResourceKey": "character.auspice.theurge",
+      "descriptionResourceKey": "character.auspice.theurge.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "tags": [
+        "moon-phase-crescent",
+        "social-role-mystic",
+        "auspice-gift-source"
+      ],
+      "mechanicalData": {
+        "moonPhaseKey": "moon-phase.crescent",
+        "initialResources": {
+          "character.resource.rage": 2
+        },
+        "initialRenown": {
+          "allocationMode": "fixed",
+          "values": {
+            "character.renown.glory": 0,
+            "character.renown.honor": 0,
+            "character.renown.wisdom": 3
+          },
+          "status": "candidate"
+        },
+        "initialGiftEligibility": [
+          "gift.auspice.theurge.spirit-speech",
+          "gift.auspice.theurge.mothers-touch",
+          "gift.auspice.theurge.sense-wyrm"
+        ]
+      },
+      "guidanceRefs": [
+        "../../narrative-guidance/character/auspices/theurge.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/theurge.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/auspice-theurge.json",
+        "../../provenance/source-segments/creation-summary-auspices.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.auspice.philodox",
+      "displayNameResourceKey": "character.auspice.philodox",
+      "descriptionResourceKey": "character.auspice.philodox.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "tags": [
+        "moon-phase-half",
+        "social-role-judge",
+        "auspice-gift-source"
+      ],
+      "mechanicalData": {
+        "moonPhaseKey": "moon-phase.half",
+        "initialResources": {
+          "character.resource.rage": 3
+        },
+        "initialRenown": {
+          "allocationMode": "fixed",
+          "values": {
+            "character.renown.glory": 0,
+            "character.renown.honor": 3,
+            "character.renown.wisdom": 0
+          },
+          "status": "candidate"
+        },
+        "initialGiftEligibility": [
+          "gift.auspice.philodox.scent-of-the-true-form",
+          "gift.auspice.philodox.resist-pain",
+          "gift.auspice.philodox.truth-of-gaia"
+        ]
+      },
+      "guidanceRefs": [
+        "../../narrative-guidance/character/auspices/philodox.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/philodox.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/auspice-philodox.json",
+        "../../provenance/source-segments/creation-summary-auspices.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.auspice.galliard",
+      "displayNameResourceKey": "character.auspice.galliard",
+      "descriptionResourceKey": "character.auspice.galliard.description",
+      "enabled": true,
+      "readiness": "candidate-with-conflict",
+      "tags": [
+        "moon-phase-gibbous",
+        "social-role-bard",
+        "auspice-gift-source"
+      ],
+      "mechanicalData": {
+        "moonPhaseKey": "moon-phase.gibbous",
+        "initialResources": {
+          "character.resource.rage": 4
+        },
+        "initialRenown": {
+          "allocationMode": "fixed",
+          "values": {
+            "character.renown.glory": 2,
+            "character.renown.honor": 0,
+            "character.renown.wisdom": 1
+          },
+          "status": "candidate"
+        },
+        "initialGiftEligibility": [
+          "gift.auspice.galliard.call-of-the-wyld",
+          "gift.auspice.galliard.beast-speech",
+          "gift.auspice.galliard.mindspeak"
+        ]
+      },
+      "sourceConflicts": [
+        {
+          "conflictKey": "conflict.werewolf3e.auspice.galliard.first-gift-name",
+          "summary": "The detailed Auspice section says 'Chamado da Wyrm / Chamado da Wyld', while the creation summary table lists 'Chamado da Wyld'.",
+          "prototypeDecision": "Use the creation-summary-table entry as the candidate Gift identity and preserve the conflict for semantic review.",
+          "status": "open"
+        }
+      ],
+      "guidanceRefs": [
+        "../../narrative-guidance/character/auspices/galliard.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/galliard.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/auspice-galliard.json",
+        "../../provenance/source-segments/creation-summary-auspices.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "changes-required",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.auspice.ahroun",
+      "displayNameResourceKey": "character.auspice.ahroun",
+      "descriptionResourceKey": "character.auspice.ahroun.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "tags": [
+        "moon-phase-full",
+        "social-role-warrior",
+        "auspice-gift-source"
+      ],
+      "mechanicalData": {
+        "moonPhaseKey": "moon-phase.full",
+        "initialResources": {
+          "character.resource.rage": 5
+        },
+        "initialRenown": {
+          "allocationMode": "fixed",
+          "values": {
+            "character.renown.glory": 2,
+            "character.renown.honor": 1,
+            "character.renown.wisdom": 0
+          },
+          "status": "candidate"
+        },
+        "initialGiftEligibility": [
+          "gift.auspice.ahroun.razor-claws",
+          "gift.auspice.ahroun.inspiration",
+          "gift.auspice.ahroun.falling-touch"
+        ]
+      },
+      "guidanceRefs": [
+        "../../narrative-guidance/character/auspices/ahroun.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/ahroun.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/auspice-ahroun.json",
+        "../../provenance/source-segments/creation-summary-auspices.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.auspice.required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "condition": {
+        "field": "character.classification.auspice",
+        "operator": "exists"
+      },
+      "errorKey": "character.creation.auspice-required"
+    },
+    {
+      "ruleKey": "character.creation.auspice.initializes-rage",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "lookupSource": "entries[].mechanicalData.initialResources"
+    },
+    {
+      "ruleKey": "character.creation.auspice.initializes-renown",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "lookupSource": "entries[].mechanicalData.initialRenown"
+    },
+    {
+      "ruleKey": "character.creation.ragabash.renown-total",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "appliesWhen": {
+        "field": "character.classification.auspice",
+        "operator": "equals",
+        "value": "character.auspice.ragabash"
+      },
+      "requirement": {
+        "fields": [
+          "character.renown.glory",
+          "character.renown.honor",
+          "character.renown.wisdom"
+        ],
+        "operator": "sum-equals",
+        "value": 3
+      },
+      "errorKey": "character.creation.ragabash-renown-total-invalid"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "prototypeNotes": [
+    "Initial Rage, initial Renown, and three eligible Level One Gifts are taken from the source's creation summary table.",
+    "Narrative role descriptions and waxing/waning temperament remain guidance, not mechanical constraints.",
+    "The Galliard first-Gift naming conflict remains open and is recorded explicitly.",
+    "Gift execution is outside Slice 001.",
+    "Canonical English Gift keys are provisional and require terminology review."
+  ]
+}

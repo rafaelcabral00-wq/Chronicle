@@ -1,0 +1,1481 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.background-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.background-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceBackgroundCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for Background identities required by the current Character creation slice.",
+    "Review the five Background identity names, normalized keys, deterministic ordering, restriction metadata, and creation-rule references.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, and tests.",
+    "Prevent structural catalog presence from being treated as substantive Background approval."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/backgrounds.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "abilityReviewRecordArtifactRef": "./ability-review-record.json",
+    "taskKey": "catalog-review.task.review-backgrounds",
+    "catalogKey": "character-model.catalog.backgrounds"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-02T21:24:18.000Z",
+    "completedAt": "2026-08-03T00:00:00.000-03:00",
+    "requiredIdentityCount": 5,
+    "reviewedIdentityCount": 5,
+    "approvedIdentityCount": 5,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 4,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.background.resources",
+      "expectedSourceName": "Resources",
+      "expectedOrder": 80,
+      "expectedRestrictionMetadata": [],
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.background.contacts",
+      "expectedSourceName": "Contacts",
+      "expectedOrder": 30,
+      "expectedRestrictionMetadata": [],
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.background.allies",
+      "expectedSourceName": "Allies",
+      "expectedOrder": 10,
+      "expectedRestrictionMetadata": [],
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.background.rites",
+      "expectedSourceName": "Rites",
+      "expectedOrder": 90,
+      "expectedRestrictionMetadata": [],
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.background.mentor",
+      "expectedSourceName": "Mentor",
+      "expectedOrder": 50,
+      "expectedRestrictionMetadata": [
+        {
+          "source": "character.tribe.glass-walkers",
+          "restrictionType": "prohibited-selection"
+        }
+      ],
+      "status": "reviewed-approved"
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "background-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.source-identities-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "background-review.finding.resources.identity-name",
+        "background-review.finding.contacts.identity-name",
+        "background-review.finding.allies.identity-name",
+        "background-review.finding.rites.identity-name",
+        "background-review.finding.mentor.identity-name"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+        "catalog-review.evidence.original-source.backgrounds-order-restrictions.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.normalized-keys-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "background-review.finding.resources.normalized-key",
+        "background-review.finding.contacts.normalized-key",
+        "background-review.finding.allies.normalized-key",
+        "background-review.finding.rites.normalized-key",
+        "background-review.finding.mentor.normalized-key"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.all-five-present",
+      "checklistCheckRefs": [
+        "catalog-review.backgrounds.all-required-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.stable-order-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.backgrounds.stable-order-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "background-review.finding.resources.stable-order",
+        "background-review.finding.contacts.stable-order",
+        "background-review.finding.allies.stable-order",
+        "background-review.finding.rites.stable-order",
+        "background-review.finding.mentor.stable-order"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+        "catalog-review.evidence.original-source.backgrounds-order-restrictions.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.restriction-metadata-reviewed",
+      "checklistCheckRefs": [
+        "catalog-review.backgrounds.restrictions-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "background-review.finding.resources.restriction-metadata",
+        "background-review.finding.contacts.restriction-metadata",
+        "background-review.finding.allies.restriction-metadata",
+        "background-review.finding.rites.restriction-metadata",
+        "background-review.finding.mentor.restriction-metadata"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+        "catalog-review.evidence.original-source.backgrounds-order-restrictions.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.creation-bindings-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "background-review.finding.resources.creation-binding",
+        "background-review.finding.contacts.creation-binding",
+        "background-review.finding.allies.creation-binding",
+        "background-review.finding.rites.creation-binding",
+        "background-review.finding.mentor.creation-binding"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.localization-bindings-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.fixture-and-test-references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "background-review.formal-decisions-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.backgrounds.b35862c40b9286de"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "stable-order",
+    "restriction-metadata",
+    "creation-binding",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "background-review.finding.resources.identity-name",
+      "identityKey": "character.background.resources",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Resources"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.resources",
+        "displayNameResourceKey": "character.background.resources",
+        "sourceLabelPtBr": "Recursos"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "background-review.finding.resources.normalized-key",
+      "identityKey": "character.background.resources",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.background.resources"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.resources"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Background key remains deterministic in the character.background namespace."
+    },
+    {
+      "findingId": "background-review.finding.resources.stable-order",
+      "identityKey": "character.background.resources",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 80,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 80
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-1541-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source Background order is authoritative; the five-entry current-slice ordering mismatch was subset drift, not a catalog defect."
+    },
+    {
+      "findingId": "background-review.finding.resources.restriction-metadata",
+      "identityKey": "character.background.resources",
+      "findingType": "restriction-metadata",
+      "sourceClaim": {
+        "tribeRestrictionsApply": true,
+        "glassWalkersRestrictionFoundForCurrentIdentity": false
+      },
+      "catalogClaim": {
+        "entryRestrictionMetadata": [],
+        "entryAmbiguityRefs": [],
+        "tribeCatalogRestrictions": []
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.glass-walkers-restrictions.lines-655-and-964-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/catalogs/tribes.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "No Glass Walkers prohibition was found for this current-slice Background; Tribe restriction authority remains external to the Background entry."
+    },
+    {
+      "findingId": "background-review.finding.resources.creation-binding",
+      "identityKey": "character.background.resources",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allBackgroundsStartAt": 0,
+        "totalBackgroundDots": 5,
+        "tribeRestrictionsApply": true
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "totalPoints": 5,
+        "tribeRestrictionsRequired": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.base-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-background-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation total is source-backed for this slice; exact restriction applicability remains separate from the numeric budget."
+    },
+    {
+      "findingId": "background-review.finding.contacts.identity-name",
+      "identityKey": "character.background.contacts",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Contacts"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.contacts",
+        "displayNameResourceKey": "character.background.contacts",
+        "sourceLabelPtBr": "Contatos"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "background-review.finding.contacts.normalized-key",
+      "identityKey": "character.background.contacts",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.background.contacts"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.contacts"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Background key remains deterministic in the character.background namespace."
+    },
+    {
+      "findingId": "background-review.finding.contacts.stable-order",
+      "identityKey": "character.background.contacts",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 30,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 30
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-1541-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source Background order is authoritative; the five-entry current-slice ordering mismatch was subset drift, not a catalog defect."
+    },
+    {
+      "findingId": "background-review.finding.contacts.restriction-metadata",
+      "identityKey": "character.background.contacts",
+      "findingType": "restriction-metadata",
+      "sourceClaim": {
+        "tribeRestrictionsApply": true,
+        "glassWalkersRestrictionFoundForCurrentIdentity": false
+      },
+      "catalogClaim": {
+        "entryRestrictionMetadata": [],
+        "entryAmbiguityRefs": [],
+        "tribeCatalogRestrictions": []
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.glass-walkers-restrictions.lines-655-and-964-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/catalogs/tribes.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "No Glass Walkers prohibition was found for this current-slice Background; Tribe restriction authority remains external to the Background entry."
+    },
+    {
+      "findingId": "background-review.finding.contacts.creation-binding",
+      "identityKey": "character.background.contacts",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allBackgroundsStartAt": 0,
+        "totalBackgroundDots": 5,
+        "tribeRestrictionsApply": true
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "totalPoints": 5,
+        "tribeRestrictionsRequired": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.base-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-background-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation total is source-backed for this slice; exact restriction applicability remains separate from the numeric budget."
+    },
+    {
+      "findingId": "background-review.finding.allies.identity-name",
+      "identityKey": "character.background.allies",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Allies"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.allies",
+        "displayNameResourceKey": "character.background.allies",
+        "sourceLabelPtBr": "Aliados"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "background-review.finding.allies.normalized-key",
+      "identityKey": "character.background.allies",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.background.allies"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.allies"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Background key remains deterministic in the character.background namespace."
+    },
+    {
+      "findingId": "background-review.finding.allies.stable-order",
+      "identityKey": "character.background.allies",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 10,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 10
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-1541-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source Background order is authoritative; the five-entry current-slice ordering mismatch was subset drift, not a catalog defect."
+    },
+    {
+      "findingId": "background-review.finding.allies.restriction-metadata",
+      "identityKey": "character.background.allies",
+      "findingType": "restriction-metadata",
+      "sourceClaim": {
+        "tribeRestrictionsApply": true,
+        "glassWalkersRestrictionFoundForCurrentIdentity": false
+      },
+      "catalogClaim": {
+        "entryRestrictionMetadata": [],
+        "entryAmbiguityRefs": [],
+        "tribeCatalogRestrictions": []
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.glass-walkers-restrictions.lines-655-and-964-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/catalogs/tribes.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "No Glass Walkers prohibition was found for this current-slice Background; Tribe restriction authority remains external to the Background entry."
+    },
+    {
+      "findingId": "background-review.finding.allies.creation-binding",
+      "identityKey": "character.background.allies",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allBackgroundsStartAt": 0,
+        "totalBackgroundDots": 5,
+        "tribeRestrictionsApply": true
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "totalPoints": 5,
+        "tribeRestrictionsRequired": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.base-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-background-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation total is source-backed for this slice; exact restriction applicability remains separate from the numeric budget."
+    },
+    {
+      "findingId": "background-review.finding.rites.identity-name",
+      "identityKey": "character.background.rites",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Rites"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.rites",
+        "displayNameResourceKey": "character.background.rites",
+        "sourceLabelPtBr": "Ritos"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "background-review.finding.rites.normalized-key",
+      "identityKey": "character.background.rites",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.background.rites"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.rites"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Background key remains deterministic in the character.background namespace."
+    },
+    {
+      "findingId": "background-review.finding.rites.stable-order",
+      "identityKey": "character.background.rites",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 90,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 90
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-1541-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source Background order is authoritative; the five-entry current-slice ordering mismatch was subset drift, not a catalog defect."
+    },
+    {
+      "findingId": "background-review.finding.rites.restriction-metadata",
+      "identityKey": "character.background.rites",
+      "findingType": "restriction-metadata",
+      "sourceClaim": {
+        "tribeRestrictionsApply": true,
+        "glassWalkersRestrictionFound": false,
+        "ritesBackgroundDistinctFromRitualsKnowledge": true
+      },
+      "catalogClaim": {
+        "entryRestrictionMetadata": [],
+        "entryAmbiguityRefs": [
+          "ambiguity.werewolf3e.character.rites-dual-concept"
+        ],
+        "tribeCatalogRestrictions": []
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.rites.lines-1619-1623-and-1509-1520",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/catalogs/tribes.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Ritos is directly listed as a Background; Rituais is a separate Knowledge relationship, so this is terminology/concept distinction rather than identity ambiguity."
+    },
+    {
+      "findingId": "background-review.finding.rites.creation-binding",
+      "identityKey": "character.background.rites",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allBackgroundsStartAt": 0,
+        "totalBackgroundDots": 5,
+        "tribeRestrictionsApply": true
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "totalPoints": 5,
+        "tribeRestrictionsRequired": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.base-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-background-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation total is source-backed for this slice; exact restriction applicability remains separate from the numeric budget."
+    },
+    {
+      "findingId": "background-review.finding.mentor.identity-name",
+      "identityKey": "character.background.mentor",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Mentor"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.mentor",
+        "displayNameResourceKey": "character.background.mentor",
+        "sourceLabelPtBr": "Mentor"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys and localized source labels."
+    },
+    {
+      "findingId": "background-review.finding.mentor.normalized-key",
+      "identityKey": "character.background.mentor",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.background.mentor"
+      },
+      "catalogClaim": {
+        "entryKey": "character.background.mentor"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Background key remains deterministic in the character.background namespace."
+    },
+    {
+      "findingId": "background-review.finding.mentor.stable-order",
+      "identityKey": "character.background.mentor",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "completeCatalogOrder": 50,
+        "currentSliceSubsetComparison": "not-an-error-by-itself"
+      },
+      "catalogClaim": {
+        "catalogOrder": 50
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-1541-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Complete-source Background order is authoritative; the five-entry current-slice ordering mismatch was subset drift, not a catalog defect."
+    },
+    {
+      "findingId": "background-review.finding.mentor.restriction-metadata",
+      "identityKey": "character.background.mentor",
+      "findingType": "restriction-metadata",
+      "sourceClaim": {
+        "tribeRestrictionsApply": true,
+        "restrictionMetadata": [
+          {
+            "source": "character.tribe.glass-walkers",
+            "restrictionType": "prohibited-selection"
+          }
+        ]
+      },
+      "catalogClaim": {
+        "entryRestrictionMetadata": [],
+        "entryAmbiguityRefs": [],
+        "tribeCatalogRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.pure-breed",
+              "character.background.mentor"
+            ]
+          }
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.glass-walkers-restrictions.lines-655-and-964-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/catalogs/tribes.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Glass Walkers/Andarilhos do Asfalto prohibit Mentor through Tribe restriction bindings; restriction authority remains in the Tribe catalog."
+    },
+    {
+      "findingId": "background-review.finding.mentor.creation-binding",
+      "identityKey": "character.background.mentor",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allBackgroundsStartAt": 0,
+        "totalBackgroundDots": 5,
+        "tribeRestrictionsApply": true
+      },
+      "catalogClaim": {
+        "creationBase": 0,
+        "totalPoints": 5,
+        "tribeRestrictionsRequired": true
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.base-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/validation/character-creation.json",
+        "../character-creation/set-background-rating.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation allocation total is source-backed for this slice; exact restriction applicability remains separate from the numeric budget."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "background-review.claim.current-slice-identities",
+      "identityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "claim": {
+        "requiredByCurrentSlice": true
+      },
+      "status": "confirmed-source-claim",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-and-1534-1630"
+    },
+    {
+      "claimKey": "background-review.claim.current-slice-restrictions",
+      "identityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "claim": {
+        "restrictionAuthority": "tribe-catalog",
+        "glassWalkersProhibitedCurrentSliceBackgrounds": [
+          "character.background.mentor"
+        ],
+        "ritesBackgroundIdentitySupported": true
+      },
+      "status": "confirmed-source-claim",
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-and-1534-1630",
+      "notes": "Glass Walkers restrictions are source-supported; Mentor is prohibited, while Rites is supported as a Background and remains distinct from Rituals Knowledge."
+    }
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/backgrounds.json",
+    "../character-model/fields/backgrounds.json",
+    "../character-model/creation/profile.json",
+    "../character-model/creation/creation-ledger.json",
+    "../character-model/creation/stage-state.json",
+    "../character-model/validation/character-creation.json",
+    "../character-model/validation/character-completion.json",
+    "../operations/character-creation/set-background-rating.json",
+    "../operations/character-creation/validate-character.json",
+    "../operations/character-creation/complete-character.json",
+    "../character-sheet/default-sheet.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.freebie-budget-overspent",
+    "character-creation.classification-change-invalidates-state",
+    "character-creation.complete-character-atomicity"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.ledger-integrity",
+    "tests.character-sheet-projection",
+    "tests.completion-atomicity"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.background.resources",
+      "catalog-identity-decision.background.contacts",
+      "catalog-identity-decision.background.allies",
+      "catalog-identity-decision.background.rites",
+      "catalog-identity-decision.background.mentor"
+    ],
+    "decisionEntriesMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "allFiveDecisionsRequiredForReviewCompletion": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "all-five-background-identities-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "all-five-active-final-identity-decisions-recorded",
+      "stable-order-reviewed",
+      "restriction-metadata-reviewed",
+      "all-creation-operation-and-validation-bindings-reconciled",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-pass",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateOrUnresolvedClaimsMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchOpensIssueType": "ambiguous-source-identity",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingBackgroundIdentityOpensIssueType": "missing-required-identity",
+    "invalidOrderOrRestrictionOpensIssueType": "invalid-catalog-binding",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "backgroundCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "background-review-record.required-identities-complete",
+      "severity": "blocking",
+      "requirement": "all five required Background identities appear exactly once"
+    },
+    {
+      "ruleKey": "background-review-record.order-values-unique",
+      "severity": "blocking",
+      "requirement": "every required Background has one unique deterministic order value"
+    },
+    {
+      "ruleKey": "background-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every Background review check key is unique"
+    },
+    {
+      "ruleKey": "background-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "background-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references one required Background identity"
+    },
+    {
+      "ruleKey": "background-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "background-review-record.final-decisions-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires active final decisions for all five Background identities"
+    },
+    {
+      "ruleKey": "background-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, and decisions"
+    },
+    {
+      "ruleKey": "background-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixtures, empty restriction metadata, or candidate source claims do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentities": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceAndDecisionRefs": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-statuses",
+      "duplicate-order-values",
+      "unresolved-restriction-claims",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-ids",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "orderValues",
+      "restrictionMetadata",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfBackgroundCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfBackgroundCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfBackgroundCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "blockedIdentityKeys": "ReferenceCollection",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "completed",
+    "evidenceStatus": "partial",
+    "decisionStatus": "approved",
+    "reconciliationStatus": "resolved-source-backed",
+    "taskCompletionStatus": "complete-with-partial-evidence",
+    "lastReviewedAt": "2026-08-03T00:00:00.000-03:00",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "This artifact defines the Background review record and contains no fabricated findings or approvals.",
+    "The five identities are limited to the current fixture-backed slice and do not represent the complete source catalog.",
+    "Empty restriction metadata remains unresolved until source evidence confirms that no applicable restriction exists for the current slice.",
+    "Background identity review does not approve allocation mechanics such as the five-point base budget, rating limits, or freebie costs.",
+    "Chronicle owns contract validation, evidence integrity, staleness detection, diagnostics, fingerprints, task-status integration, and promotion enforcement.",
+    "Assigned Rule Set reviewers own substantive source-backed findings and final Background identity recommendations.",
+    "Source-gap investigation 2026-08-03: Background candidate list and 5-point allocation are present, but current-slice order/restriction mismatches remain unresolved.",
+    "Focused original-source reconciliation 2026-08-03: complete Background order is source-supported; current-slice subset order is not a defect; Glass Walkers Mentor restriction is directly supported; Ritos is a supported Background distinct from Rituais Knowledge."
+  ],
+  "sourceEvidence": [
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.catalog-and-identities",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 8.1 Background Catalog",
+      "sourceSectionPath": [
+        "8.1 Background Catalog"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "The extraction lists Background candidates including Allies, Contacts, Mentor, Resources, and Rites among the broader Background catalog."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.base-allocation",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 8.2 Background Allocation",
+      "sourceSectionPath": [
+        "8.2 Background Allocation"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Character creation distributes 5 points among Backgrounds and applies Tribe restrictions."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.tribe-restrictions",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Sections 5.4 and 8.3",
+      "sourceSectionPath": [
+        "5.4 Tribe",
+        "8.3 Tribal Background Restrictions"
+      ],
+      "supportType": "direct",
+      "confidence": "medium",
+      "paraphrase": "Tribes may define allowed, prohibited, and required-minimum Background rules; exact per-Tribe completeness remains review-sensitive."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.backgrounds.creation-implications",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+      "sourceLocator": "CF-004 and CF-007",
+      "sourceSectionPath": [
+        "CF-004",
+        "CF-007"
+      ],
+      "supportType": "derived",
+      "confidence": "high",
+      "paraphrase": "Classification values precede Background restrictions, and base Background allocation is a 5-dot total in the creation workflow."
+    },
+    {
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-986-and-1534-1630",
+      "sourceArtifactRef": "../../Werewolf the Apocalypse 3e-pt_br.txt",
+      "sourceLocator": "lines 927, 979-986, 1534-1630, 655, 964-966",
+      "sourceSectionPath": [
+        "Background allocation",
+        "Background catalog",
+        "Glass Walkers tribe restrictions"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "The original source supports five Background allocation dots, the complete Background list/order, Rites/Ritos as a Background, and Glass Walkers restrictions including Mentor."
+    }
+  ],
+  "executionResult": {
+    "executionStatus": "executed",
+    "reviewer": "RuleSetExtractionAndReview",
+    "executedAtUtc": "2026-08-02T21:24:18.000Z",
+    "sourceIdentity": "source.werewolf3e.cleaned-ptbr",
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "catalogFingerprint": "d0ceba2839266858ec8b484e587a4b68cfedb4520916b2d9d897dcedc16ec05e",
+    "reviewedIdentityCount": 5,
+    "propertyLevelFindingCount": 25,
+    "mismatches": [],
+    "evidenceReferences": [
+      "catalog-review.evidence.source-review-record.backgrounds.9bb4e4d0d0af2381",
+      "catalog-review.evidence.catalog-review-record.backgrounds.1c6f30d862407fd2",
+      "catalog-review.evidence.formal-decision-record.backgrounds.b35862c40b9286de",
+      "catalog-review.evidence.original-source.backgrounds-order-restrictions.a4302e2938a137fb",
+      "catalog-review.evidence.formal-decision-record.ability-background-reconciliation.a4302e2938a137fb"
+    ],
+    "ambiguityRecords": [],
+    "issueReferences": [],
+    "blockerReferences": [],
+    "proposedDecisions": [
+      "catalog-identity-decision.background.resources",
+      "catalog-identity-decision.background.contacts",
+      "catalog-identity-decision.background.allies",
+      "catalog-identity-decision.background.rites",
+      "catalog-identity-decision.background.mentor"
+    ],
+    "completionEligibility": {
+      "substantiveReviewComplete": true,
+      "fullEvidenceWorkItemComplete": false
+    }
+  },
+  "reviewRecordFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "03a999faa98eaed5f5e4a0310272d123f5e8af91df9d3db105e31774faa8ae05",
+    "calculatedAt": "2026-08-03T00:00:00.000-03:00"
+  }
+}

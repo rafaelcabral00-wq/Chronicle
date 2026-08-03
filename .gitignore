@@ -1,0 +1,54 @@
+# Build outputs
+bin/
+obj/
+artifacts/
+build/output/
+*.nupkg
+*.snupkg
+
+# Local databases and logs
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.log
+logs/
+
+# User and machine-local files
+.vs/
+.vscode/.ropeproject/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Secrets and local configuration
+*.secret.json
+*.secrets.json
+*.env
+.env.*
+local.settings.json
+appsettings.Local.json
+
+# Python cache for validation harnesses
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Package and installer artifacts
+*.zip
+*.msi
+*.exe
+*.sig
+*.sha256
+
+# Keep documentation review artifacts tracked unless explicitly ignored later.

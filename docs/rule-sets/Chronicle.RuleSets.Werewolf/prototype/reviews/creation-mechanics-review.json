@@ -1,0 +1,773 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.creation-mechanics-review",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.creation-mechanics-review.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCharacterCreationMechanics",
+  "purpose": [
+    "Provide the versioned source-review record for Character creation mechanics used by the current Werewolf prototype slice.",
+    "Distinguish confirmed mechanical claims from provisional interpretations, unresolved ambiguities, exclusions, and future work.",
+    "Bind reviewed mechanics to Character Model fields, creation operations, validation rules, fixtures, tests, and promotion evidence.",
+    "Prevent implementation from treating structurally declared prototype rules as source-approved authority."
+  ],
+  "authority": {
+    "reviewRecordAuthority": "RuleSetExtractionAndReview",
+    "mechanicalDefinitionAuthority": "RuleSetPackage",
+    "contractValidationAuthority": "Chronicle",
+    "runtimeDecisionAuthority": "Chronicle",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingMechanic": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "workPackageBinding": {
+    "workPackageKey": "delivery.wp.review-creation-mechanics",
+    "deliveryPlanArtifactRef": "../prototype-delivery-plan.json",
+    "workStatusArtifactRef": "../prototype-work-status.json",
+    "catalogIdentityReviewArtifactRef": "./catalog-identity-review.json",
+    "requiredOutputKey": "reviewed-creation-mechanics"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "adequateForGuidedReview": true,
+    "adequateForAutomaticApproval": false,
+    "rawSourceTextEmbedded": false
+  },
+  "reviewStatus": {
+    "status": "in-progress",
+    "overallDecision": "not-approved",
+    "reviewedMechanicCount": 0,
+    "totalMechanicCount": 18,
+    "confirmedCandidateCount": 15,
+    "ambiguousMechanicCount": 3,
+    "excludedMechanicCount": 4,
+    "promotionBlocking": true
+  },
+  "mechanicReviews": [
+    {
+      "mechanicKey": "creation.attributes.starting-rating",
+      "status": "candidate-confirmed",
+      "claim": {
+        "startingRating": 1,
+        "appliesTo": "all-attributes"
+      },
+      "boundArtifacts": [
+        "../character-model/model.json",
+        "../character-model/fields/attributes.json",
+        "../character-model/creation/profile.json",
+        "../operations/character-creation/initialize-character-draft.json"
+      ],
+      "requiredChecks": [
+        "source-explicitly-states-all-attributes-start-at-one",
+        "initialization-operation-does-not-create-zero-rated-attributes",
+        "fixtures-reconcile"
+      ]
+    },
+    {
+      "mechanicKey": "creation.attributes.priority-allocation",
+      "status": "candidate-confirmed",
+      "claim": {
+        "priorityValues": [
+          7,
+          5,
+          3
+        ],
+        "categories": [
+          "physical",
+          "social",
+          "mental"
+        ],
+        "categoryCount": 3,
+        "allocationExcludesStartingRating": true
+      },
+      "boundArtifacts": [
+        "../character-model/creation/profile.json",
+        "../operations/character-creation/set-attribute-priorities.json",
+        "../operations/character-creation/set-attribute-rating.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-priority-values-match",
+        "category-order-is-player-selected",
+        "allocation-counts-bonus-dots-only",
+        "maximum-rating-rule-reconciles"
+      ]
+    },
+    {
+      "mechanicKey": "creation.attributes.maximum-rating",
+      "status": "candidate-confirmed",
+      "claim": {
+        "maximumDuringCreation": 5
+      },
+      "boundArtifacts": [
+        "../character-model/fields/attributes.json",
+        "../operations/character-creation/set-attribute-rating.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-maximum-is-five",
+        "freebie-purchases-do-not-exceed-five"
+      ]
+    },
+    {
+      "mechanicKey": "creation.abilities.starting-rating",
+      "status": "candidate-confirmed",
+      "claim": {
+        "startingRating": 0,
+        "appliesTo": "all-abilities"
+      },
+      "boundArtifacts": [
+        "../character-model/model.json",
+        "../character-model/fields/abilities.json",
+        "../operations/character-creation/initialize-character-draft.json"
+      ],
+      "requiredChecks": [
+        "source-explicitly-states-abilities-start-at-zero",
+        "fixtures-reconcile"
+      ]
+    },
+    {
+      "mechanicKey": "creation.abilities.priority-allocation",
+      "status": "candidate-confirmed",
+      "claim": {
+        "priorityValues": [
+          13,
+          9,
+          5
+        ],
+        "categories": [
+          "talents",
+          "skills",
+          "knowledges"
+        ],
+        "categoryCount": 3
+      },
+      "boundArtifacts": [
+        "../character-model/creation/profile.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-priority-values-match",
+        "category-order-is-player-selected",
+        "allocation-counts-reconcile"
+      ]
+    },
+    {
+      "mechanicKey": "creation.abilities.base-allocation-cap",
+      "status": "candidate-confirmed",
+      "claim": {
+        "maximumDuringBaseAllocation": 3,
+        "maximumDuringCreationAfterFreebies": 5,
+        "ratingsFourAndFiveRequireFreebies": true
+      },
+      "boundArtifacts": [
+        "../character-model/fields/abilities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-base-cap-is-three",
+        "source-allows-four-and-five-via-freebies",
+        "ledger-distinguishes-base-and-freebie-spend"
+      ]
+    },
+    {
+      "mechanicKey": "creation.backgrounds.base-allocation",
+      "status": "candidate-confirmed",
+      "claim": {
+        "baseDots": 5
+      },
+      "boundArtifacts": [
+        "../character-model/creation/profile.json",
+        "../operations/character-creation/set-background-rating.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-base-background-points-is-five",
+        "tribe-specific-restrictions-remain-catalog-driven"
+      ]
+    },
+    {
+      "mechanicKey": "creation.initial-gifts.selection",
+      "status": "candidate-confirmed",
+      "claim": {
+        "requiredGiftCount": 3,
+        "requiredSlots": [
+          "race",
+          "auspice",
+          "tribe"
+        ],
+        "requiredLevel": 1
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-model/fields/gifts.json",
+        "../operations/character-creation/select-initial-gift.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-requires-one-level-one-gift-from-each-classification",
+        "eligibility-bindings-resolve",
+        "catalog-identity-review-approved"
+      ]
+    },
+    {
+      "mechanicKey": "creation.initial-rank",
+      "status": "candidate-confirmed",
+      "claim": {
+        "rankKey": "character.rank.cliath",
+        "numericRank": 1
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/ranks.json",
+        "../character-model/fields/renown-and-rank.json",
+        "../operations/character-creation/initialize-character-draft.json"
+      ],
+      "requiredChecks": [
+        "source-initial-rank-is-cliath",
+        "catalog-key-approved"
+      ]
+    },
+    {
+      "mechanicKey": "creation.resources.initial-rage",
+      "status": "candidate-confirmed",
+      "claim": {
+        "derivedFrom": "auspice",
+        "values": {
+          "character.auspice.ragabash": 1,
+          "character.auspice.theurge": 2,
+          "character.auspice.philodox": 3,
+          "character.auspice.galliard": 4,
+          "character.auspice.ahroun": 5
+        }
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/resources.json",
+        "../operations/character-creation/apply-classification-change.json"
+      ],
+      "requiredChecks": [
+        "all-five-values-match-source",
+        "classification-change-recalculates-deterministically"
+      ]
+    },
+    {
+      "mechanicKey": "creation.resources.initial-gnosis",
+      "status": "candidate-confirmed",
+      "claim": {
+        "derivedFrom": "race",
+        "values": {
+          "character.race.homid": 1,
+          "character.race.metis": 3,
+          "character.race.lupus": 5
+        }
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/races.json",
+        "../character-model/fields/resources.json",
+        "../operations/character-creation/apply-classification-change.json"
+      ],
+      "requiredChecks": [
+        "all-three-values-match-source",
+        "classification-change-recalculates-deterministically"
+      ]
+    },
+    {
+      "mechanicKey": "creation.resources.initial-willpower",
+      "status": "candidate-confirmed",
+      "claim": {
+        "derivedFrom": "tribe"
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/tribes.json",
+        "../character-model/fields/resources.json",
+        "../operations/character-creation/apply-classification-change.json"
+      ],
+      "requiredChecks": [
+        "all-current-slice-tribe-values-source-reviewed",
+        "classification-change-recalculates-deterministically"
+      ]
+    },
+    {
+      "mechanicKey": "creation.initial-renown",
+      "status": "candidate-confirmed",
+      "claim": {
+        "derivedFrom": "auspice",
+        "values": {
+          "character.auspice.ragabash": {
+            "allocationMode": "free-combination",
+            "total": 3
+          },
+          "character.auspice.theurge": {
+            "wisdom": 3
+          },
+          "character.auspice.philodox": {
+            "honor": 3
+          },
+          "character.auspice.galliard": {
+            "glory": 2,
+            "wisdom": 1
+          },
+          "character.auspice.ahroun": {
+            "glory": 2,
+            "honor": 1
+          }
+        }
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/renown-and-rank.json",
+        "../operations/character-creation/apply-classification-change.json"
+      ],
+      "requiredChecks": [
+        "all-auspice-renown-values-match-source",
+        "ragabash-free-combination-rules-explicit",
+        "derived-renown-reconciles-on-classification-change"
+      ]
+    },
+    {
+      "mechanicKey": "creation.freebies.total",
+      "status": "candidate-confirmed",
+      "claim": {
+        "initialFreebiePoints": 15
+      },
+      "boundArtifacts": [
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-total-is-fifteen",
+        "ledger-opening-entry-reconciles"
+      ]
+    },
+    {
+      "mechanicKey": "creation.freebies.costs",
+      "status": "candidate-confirmed",
+      "claim": {
+        "costs": {
+          "attribute-dot": 5,
+          "ability-dot": 2,
+          "background-dot": 1,
+          "level-one-gift": 7,
+          "rage-dot": 1,
+          "gnosis-dot": 2,
+          "willpower-dot": 1
+        }
+      },
+      "boundArtifacts": [
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../operations/character-creation/set-attribute-rating.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/set-background-rating.json",
+        "../operations/character-creation/set-resource-rating.json",
+        "../operations/character-creation/purchase-additional-gift.json"
+      ],
+      "requiredChecks": [
+        "all-costs-match-source",
+        "costs-apply-only-in-freebie-phase",
+        "additional-gift-purchase-remains-disabled-until-eligibility-resolved"
+      ]
+    },
+    {
+      "mechanicKey": "creation.metis.deformity",
+      "status": "candidate-confirmed",
+      "claim": {
+        "requiredWhenRace": "character.race.metis",
+        "requiredCount": 1,
+        "notApplicableForOtherRaces": true
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/metis-deformities.json",
+        "../character-model/fields/classification.json",
+        "../operations/character-creation/select-metis-deformity.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "source-requires-one-deformity-for-metis",
+        "catalog-identity-review-approved",
+        "conditional-visibility-and-validation-reconcile"
+      ]
+    },
+    {
+      "mechanicKey": "creation.lupus.base-ability-restrictions",
+      "status": "ambiguous",
+      "claim": {
+        "restrictedDuringBaseAllocation": [
+          "character.ability.crafts",
+          "character.ability.drive",
+          "character.ability.etiquette",
+          "character.ability.firearms",
+          "character.ability.computer",
+          "character.ability.law",
+          "character.ability.linguistics",
+          "character.ability.politics",
+          "character.ability.science"
+        ]
+      },
+      "ambiguity": {
+        "ambiguityKey": "ambiguity.werewolf3e.creation.lupus-ability-purchase-timing",
+        "known": "The listed abilities are restricted for Lupus during initial creation.",
+        "notYetConfirmed": "Whether every listed ability may later be purchased during the freebie phase or only after play begins.",
+        "currentSliceDecision": "Block restricted abilities during base allocation and exclude freebie purchase handling until reviewed."
+      },
+      "boundArtifacts": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/validation/character-creation.json",
+        "../fixtures/character-creation/lupus-restricted-ability.json"
+      ],
+      "requiredChecks": [
+        "restriction-list-matches-source",
+        "base-allocation-blocking-behavior-confirmed",
+        "freebie-behavior-remains-explicitly-unimplemented"
+      ]
+    },
+    {
+      "mechanicKey": "creation.additional-gift-purchase",
+      "status": "ambiguous",
+      "claim": {
+        "freebieCost": 7,
+        "level": 1
+      },
+      "ambiguity": {
+        "ambiguityKey": "ambiguity.werewolf3e.creation.additional-gift-eligibility",
+        "known": "A Level One Gift has a freebie cost of seven.",
+        "notYetConfirmed": "The exact eligibility pool and whether additional Gifts may be selected outside the three initial classification slots during the current creation flow.",
+        "currentSliceDecision": "Keep purchase-additional-gift unavailable."
+      },
+      "boundArtifacts": [
+        "../operations/character-creation/purchase-additional-gift.json",
+        "../operations/character-creation/remove-additional-gift.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "requiredChecks": [
+        "cost-source-reviewed",
+        "eligibility-source-reviewed-before-enabling",
+        "blocked-capability-remains-unavailable"
+      ]
+    },
+    {
+      "mechanicKey": "creation.generic-dice",
+      "status": "ambiguous",
+      "claim": {
+        "includedInCurrentSlice": false
+      },
+      "ambiguity": {
+        "ambiguityKey": "ambiguity.werewolf3e.dice.generic-algorithm",
+        "known": "The prototype requires Chronicle-owned deterministic Dice architecture.",
+        "notYetConfirmed": "The exact Werewolf test resolution algorithm has not been frozen from the source.",
+        "currentSliceDecision": "Exclude Dice from Character creation promotion."
+      },
+      "boundArtifacts": [
+        "../tests/test-suite-index.json",
+        "../prototype-readiness.json",
+        "../prototype-delivery-plan.json"
+      ],
+      "requiredChecks": [
+        "no-dice-capability-advertised",
+        "no-random-roll-required-for-current-slice"
+      ]
+    }
+  ],
+  "mechanicDecisionShape": {
+    "mechanicKey": "Reference",
+    "decision": "Text",
+    "sourceEvidenceRef": "Reference",
+    "reviewer": "Text",
+    "reviewedAt": "Text",
+    "approvedClaim": "StructuredObject",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "requiredArtifactChanges": "StructuredCollection",
+    "notes": "Text"
+  },
+  "allowedMechanicDecisions": [
+    "approved",
+    "approved-with-contract-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "reviewPolicy": {
+    "mechanicalClaimRequiresSourceEvidence": true,
+    "catalogIdentityApprovalRequiredForReferencedKeys": true,
+    "sourceAmbiguityMustRemainExplicit": true,
+    "absenceOfContradictionDoesNotEqualApproval": true,
+    "implementationConvenienceMayNotChangeMechanic": true,
+    "derivedValuesMustBeDeterministic": true,
+    "chronicleOwnsPersistenceAndAuthority": true,
+    "ruleSetOwnsMechanicalSemantics": true
+  },
+  "artifactImpactPolicy": {
+    "approvedClaimChangesRequireBoundArtifactUpdate": true,
+    "boundArtifactFingerprintMustChangeWhenContentChanges": true,
+    "affectedFixturesMustRebase": true,
+    "affectedTestsMustRerun": true,
+    "staleReviewEvidenceMayNotAuthorizePromotion": true,
+    "silentRuleReplacementAllowed": false
+  },
+  "currentSliceExclusions": [
+    {
+      "capabilityKey": "generic-dice",
+      "decision": "excluded-from-current-slice",
+      "reasonKey": "werewolf-prototype.capability.dice.algorithm-not-frozen"
+    },
+    {
+      "capabilityKey": "additional-gift-purchase",
+      "decision": "excluded-from-current-slice",
+      "reasonKey": "werewolf-prototype.capability.additional-gift-purchase.eligibility-unresolved"
+    },
+    {
+      "capabilityKey": "post-creation-character-operations",
+      "decision": "excluded-from-current-slice",
+      "reasonKey": "werewolf-prototype.capability.runtime-character.outside-current-slice"
+    },
+    {
+      "capabilityKey": "runtime-gift-execution",
+      "decision": "excluded-from-current-slice",
+      "reasonKey": "werewolf-prototype.capability.gift-runtime.outside-current-slice"
+    }
+  ],
+  "implementationGate": {
+    "implementationMayBeginBeforeReviewApproval": false,
+    "packageInfrastructureMayBeginBeforeMechanicalApproval": true,
+    "creationRuntimeImplementationRequires": [
+      "catalog-identity-review-approved-for-current-slice",
+      "all-nonexcluded-current-slice-mechanics-approved",
+      "all-ambiguous-mechanics-blocked-or-excluded",
+      "review-evidence-fingerprint-recorded"
+    ]
+  },
+  "promotionImpact": {
+    "currentSlicePromotionBlockedWhileOverallDecisionNotApproved": true,
+    "excludedCapabilitiesMayRemainUnresolved": true,
+    "excludedCapabilitiesMustRemainUnavailable": true,
+    "unreviewedCurrentSliceMechanicMayNotBePromoted": true,
+    "approvedMechanicsMustMatchExecutedTests": true
+  },
+  "reviewEvidence": {
+    "evidenceType": "review-record",
+    "evidenceStatus": "not-finalized",
+    "reviewer": null,
+    "startedAt": null,
+    "completedAt": null,
+    "decisionCount": 0,
+    "evidenceFingerprint": null
+  },
+  "nextReviewActions": [
+    {
+      "order": 10,
+      "actionKey": "creation-mechanics-review.confirm-attribute-and-ability-allocation",
+      "mechanicKeys": [
+        "creation.attributes.starting-rating",
+        "creation.attributes.priority-allocation",
+        "creation.attributes.maximum-rating",
+        "creation.abilities.starting-rating",
+        "creation.abilities.priority-allocation",
+        "creation.abilities.base-allocation-cap"
+      ]
+    },
+    {
+      "order": 20,
+      "actionKey": "creation-mechanics-review.confirm-background-gift-rank-and-deformity",
+      "mechanicKeys": [
+        "creation.backgrounds.base-allocation",
+        "creation.initial-gifts.selection",
+        "creation.initial-rank",
+        "creation.metis.deformity"
+      ]
+    },
+    {
+      "order": 30,
+      "actionKey": "creation-mechanics-review.confirm-derived-resources-and-renown",
+      "mechanicKeys": [
+        "creation.resources.initial-rage",
+        "creation.resources.initial-gnosis",
+        "creation.resources.initial-willpower",
+        "creation.initial-renown"
+      ]
+    },
+    {
+      "order": 40,
+      "actionKey": "creation-mechanics-review.confirm-freebies",
+      "mechanicKeys": [
+        "creation.freebies.total",
+        "creation.freebies.costs"
+      ]
+    },
+    {
+      "order": 50,
+      "actionKey": "creation-mechanics-review.resolve-or-exclude-ambiguities",
+      "mechanicKeys": [
+        "creation.lupus.base-ability-restrictions",
+        "creation.additional-gift-purchase",
+        "creation.generic-dice"
+      ]
+    },
+    {
+      "order": 60,
+      "actionKey": "creation-mechanics-review.reconcile-artifacts-fixtures-and-tests",
+      "mechanicKeys": [
+        "all-current-slice-mechanics"
+      ]
+    },
+    {
+      "order": 70,
+      "actionKey": "creation-mechanics-review.finalize-evidence",
+      "mechanicKeys": [
+        "all-current-slice-mechanics"
+      ]
+    }
+  ],
+  "consistencyRules": [
+    {
+      "ruleKey": "creation-mechanics-review.mechanic-keys-unique",
+      "severity": "blocking",
+      "requirement": "every mechanicKey is unique"
+    },
+    {
+      "ruleKey": "creation-mechanics-review.bound-artifacts-resolve",
+      "severity": "blocking",
+      "requirement": "every bound artifact reference resolves inside the prototype"
+    },
+    {
+      "ruleKey": "creation-mechanics-review.catalog-dependencies-approved",
+      "severity": "blocking",
+      "requirement": "all identity keys used by approved mechanics are approved by catalog identity review"
+    },
+    {
+      "ruleKey": "creation-mechanics-review.ambiguities-explicit",
+      "severity": "blocking",
+      "requirement": "every unresolved mechanic declares known, unknown, and current-slice behavior"
+    },
+    {
+      "ruleKey": "creation-mechanics-review.exclusions-unavailable",
+      "severity": "blocking",
+      "requirement": "excluded capabilities remain disabled in operations, validation, UI, fixtures, and release metadata"
+    },
+    {
+      "ruleKey": "creation-mechanics-review.artifact-impact-reconciles",
+      "severity": "blocking",
+      "requirement": "all changed mechanic decisions reconcile with affected artifacts, fixtures, tests, and fingerprints"
+    },
+    {
+      "ruleKey": "creation-mechanics-review.overall-decision-reconciles",
+      "severity": "blocking",
+      "requirement": "overallDecision is approved only when all nonexcluded current-slice mechanics have approved decisions"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewFingerprintRequiredWhenFinalized": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeMechanicReviews": true,
+    "includeMechanicDecisions": true,
+    "includeCurrentSliceExclusions": true,
+    "includeArtifactImpact": true,
+    "includeReviewEvidence": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-review-status",
+      "mechanic-statuses",
+      "candidate-confirmed-mechanics",
+      "ambiguous-mechanics",
+      "excluded-capabilities",
+      "artifact-impact",
+      "promotion-impact",
+      "next-review-actions"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "mechanicKeys",
+      "reviewStatuses",
+      "decisionKeys",
+      "artifactRefs",
+      "ambiguityKeys",
+      "exclusionKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCreationMechanicsReviewUpdated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "artifactVersion": "Text",
+        "overallDecision": "Text",
+        "approvedMechanicCount": "Integer",
+        "ambiguousMechanicCount": "Integer",
+        "reviewFingerprint": "Text",
+        "updatedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCreationMechanicsReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "artifactVersion": "Text",
+        "approvedMechanicKeys": "ReferenceCollection",
+        "excludedCapabilityKeys": "ReferenceCollection",
+        "reviewFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "contentReviewStatus": "in-progress",
+    "catalogDependencyStatus": "pending",
+    "artifactConsistencyReviewStatus": "pending",
+    "fixtureConsistencyReviewStatus": "pending",
+    "testConsistencyReviewStatus": "pending",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This record intentionally does not approve any mechanical claim yet.",
+    "Candidate-confirmed means the claim is represented in the prototype and appears supported by the working source, but still requires explicit review evidence.",
+    "Lupus Ability timing, additional Gift eligibility, and the generic Dice algorithm remain unresolved.",
+    "The Character creation slice can be promoted without excluded mechanics only when those mechanics remain unavailable everywhere.",
+    "Implementation must not infer missing rules, silently repair state, or use convenience behavior as mechanical authority.",
+    "Chronicle owns validation, authority, persistence, deterministic execution, diagnostics, and promotion enforcement.",
+    "Rule Set reviewers own source-backed mechanical decisions and reconciliation with package artifacts."
+  ]
+}

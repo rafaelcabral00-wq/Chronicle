@@ -1,0 +1,493 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.promotion-gate",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.promotion-gate.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypePromotion",
+  "purpose": [
+    "Define the explicit gate that must pass before Werewolf prototype artifacts may be promoted into the package publication surface.",
+    "Aggregate architecture, source, semantic, contract, implementation, security, fixture, test, migration, and packaging readiness.",
+    "Prevent partial, ambiguous, or unreviewed prototype content from becoming runtime authority.",
+    "Produce a deterministic promotion decision with auditable evidence and no manual bypass."
+  ],
+  "authority": {
+    "gateDefinitionAuthority": "ChronicleArchitecture",
+    "packageEvidenceAuthority": "RuleSetPackage",
+    "gateEvaluationAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "promotionCommitAuthority": "ChroniclePackageReleaseProcess",
+    "narratorMayOverride": false,
+    "chronicleDirectorMayOverride": false,
+    "administrativeBypassAllowed": false
+  },
+  "inputs": [
+    {
+      "artifactKey": "werewolf-prototype.prototype-index",
+      "artifactRef": "../prototype-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.fixture-index",
+      "artifactRef": "../fixtures/fixture-index-root.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-suite-index",
+      "artifactRef": "./test-suite-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.test-environment",
+      "artifactRef": "./test-environment.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "../character-model/character-model-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../character-creation/operation-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-sheet.character-sheet-index",
+      "artifactRef": "../character-sheet/character-sheet-index.json",
+      "required": true
+    }
+  ],
+  "gateResultContract": {
+    "resultKey": "PrototypePromotionGateResult",
+    "fields": {
+      "packageId": "Text",
+      "prototypeVersion": "Text",
+      "evaluatedArtifactFingerprints": "StructuredCollection",
+      "gateStatuses": "StructuredCollection",
+      "overallStatus": "Text",
+      "blockingGateKeys": "ReferenceCollection",
+      "warningGateKeys": "ReferenceCollection",
+      "acceptedCoverageGapKeys": "ReferenceCollection",
+      "evidenceRefs": "ReferenceCollection",
+      "resultFingerprint": "Text",
+      "evaluatedAt": "Text"
+    },
+    "allowedOverallStatuses": [
+      "passed",
+      "failed",
+      "blocked-pending-review",
+      "stale-evidence"
+    ]
+  },
+  "gates": [
+    {
+      "gateKey": "promotion.architecture-approved",
+      "category": "architecture",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "campaign-aggregate-boundaries-approved",
+        "chronicle-authority-boundaries-approved",
+        "ruleset-package-boundaries-approved",
+        "no-werewolf-core-dependency-confirmed",
+        "local-first-security-boundaries-approved"
+      ],
+      "evidenceType": "review-record"
+    },
+    {
+      "gateKey": "promotion.source-review-approved",
+      "category": "source",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "all-promoted-mechanical-claims-trace-to-reviewed-extraction",
+        "source-fingerprint-matches-reviewed-source",
+        "no-raw-sourcebook-text-embedded",
+        "all-source-ambiguities-either-resolved-or-excluded"
+      ],
+      "evidenceType": "source-review-record"
+    },
+    {
+      "gateKey": "promotion.semantic-review-approved",
+      "category": "semantics",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "catalog-identities-reviewed",
+        "field-semantics-reviewed",
+        "creation-rules-reviewed",
+        "validation-rules-reviewed",
+        "operation-semantics-reviewed",
+        "fixture-expectations-reviewed"
+      ],
+      "evidenceType": "semantic-review-record"
+    },
+    {
+      "gateKey": "promotion.contract-consistency-approved",
+      "category": "contracts",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "all-required-artifacts-load",
+        "all-references-resolve",
+        "all-contract-versions-supported",
+        "all-dependency-graphs-acyclic",
+        "all-artifact-keys-unique",
+        "all-fingerprints-valid"
+      ],
+      "evidenceType": "contract-validation-report"
+    },
+    {
+      "gateKey": "promotion.implementation-approved",
+      "category": "implementation",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "compiled-module-interfaces-implemented",
+        "declarative-artifact-loader-implemented",
+        "operation-dispatch-implemented",
+        "validation-dispatch-implemented",
+        "projection-rebuild-implemented",
+        "completion-transaction-implemented"
+      ],
+      "evidenceType": "implementation-review-record"
+    },
+    {
+      "gateKey": "promotion.security-approved",
+      "category": "security",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "sqlite-encryption-enabled",
+        "backup-encryption-enabled",
+        "package-root-isolation-enforced",
+        "no-network-required-for-ruleset-runtime",
+        "logs-exclude-sourcebook-text-and-secrets",
+        "provider-cannot-authorize-state"
+      ],
+      "evidenceType": "security-review-record"
+    },
+    {
+      "gateKey": "promotion.fixture-model-valid",
+      "category": "fixtures",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "fixture-index-loads",
+        "all-required-fixtures-load",
+        "base-fixture-dependencies-resolve",
+        "partial-fixture-content-identities-resolved",
+        "fixture-coverage-counts-reconcile"
+      ],
+      "evidenceType": "fixture-validation-report"
+    },
+    {
+      "gateKey": "promotion.required-tests-pass",
+      "category": "tests",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "all-required-suites-executed",
+        "all-ready-required-suites-passed",
+        "no-required-suite-skipped-for-dependency",
+        "test-environment-fingerprint-recorded",
+        "test-result-fingerprints-recorded"
+      ],
+      "evidenceType": "test-run-report"
+    },
+    {
+      "gateKey": "promotion.coverage-gaps-accepted-or-closed",
+      "category": "coverage",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "all-known-current-slice-gaps-closed-or-explicitly-accepted",
+        "future-slice-gaps-clearly-excluded",
+        "blocked-capabilities-not-advertised-as-supported"
+      ],
+      "evidenceType": "coverage-review-record"
+    },
+    {
+      "gateKey": "promotion.migration-strategy-approved",
+      "category": "migration",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "prototype-to-package-version-mapping-defined",
+        "historical-prototype-artifacts-preserved",
+        "character-binding-migration-policy-defined",
+        "completion-snapshot-immutability-preserved",
+        "rollback-plan-documented"
+      ],
+      "evidenceType": "migration-review-record"
+    },
+    {
+      "gateKey": "promotion.package-build-reproducible",
+      "category": "packaging",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "clean-build-succeeds",
+        "package-content-manifest-generated",
+        "artifact-fingerprints-reproducible",
+        "no-files-outside-allowlist",
+        "package-loads-from-clean-install",
+        "encrypted-backup-and-restore-test-passes"
+      ],
+      "evidenceType": "package-build-report"
+    },
+    {
+      "gateKey": "promotion.release-metadata-complete",
+      "category": "release",
+      "required": true,
+      "blocking": true,
+      "passCriteria": [
+        "package-version-assigned",
+        "minimum-chronicle-version-declared",
+        "supported-capabilities-declared",
+        "blocked-capabilities-declared",
+        "changelog-entry-present",
+        "license-and-attribution-review-complete"
+      ],
+      "evidenceType": "release-metadata"
+    }
+  ],
+  "currentPrototypeBlockers": [
+    {
+      "blockerKey": "promotion.blocker.additional-gift-eligibility-unresolved",
+      "affectedCapability": "prototype.additional-gift-purchase",
+      "mustResolveForCurrentSlicePromotion": false,
+      "requiredAction": "Keep the capability blocked and excluded from the promoted supported capability set."
+    },
+    {
+      "blockerKey": "promotion.blocker.generic-dice-algorithm-unfrozen",
+      "affectedCapability": "fixtures.dice",
+      "mustResolveForCurrentSlicePromotion": false,
+      "requiredAction": "Keep Dice outside the promoted Character creation slice until extraction and tests are complete."
+    },
+    {
+      "blockerKey": "promotion.blocker.candidate-content-identities",
+      "affectedArtifacts": [
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability"
+      ],
+      "mustResolveForCurrentSlicePromotion": true,
+      "requiredAction": "Reconcile candidate deformity and Gift keys with reviewed catalogs."
+    },
+    {
+      "blockerKey": "promotion.blocker.semantic-reviews-pending",
+      "affectedScope": "all-mechanical-artifacts",
+      "mustResolveForCurrentSlicePromotion": true,
+      "requiredAction": "Approve reviewed extraction and semantic contracts."
+    },
+    {
+      "blockerKey": "promotion.blocker.implementation-not-complete",
+      "affectedScope": "runtime-and-test-infrastructure",
+      "mustResolveForCurrentSlicePromotion": true,
+      "requiredAction": "Implement and validate package loading, operations, validation, persistence, and projections."
+    }
+  ],
+  "coverageAcceptancePolicy": {
+    "acceptanceMustBeExplicit": true,
+    "acceptanceRequiresOwnerAndRationale": true,
+    "acceptanceMustDeclareAffectedCapabilities": true,
+    "acceptanceCannotCoverBlockingCorrectnessDefect": true,
+    "acceptanceCannotCoverSecurityFailure": true,
+    "acceptanceCannotCoverMissingRequiredTestSuite": true,
+    "acceptedGapMustRemainVisibleInReleaseMetadata": true
+  },
+  "evidencePolicy": {
+    "allEvidenceMustBeVersioned": true,
+    "allEvidenceMustHaveFingerprint": true,
+    "allEvidenceMustReferenceEvaluatedArtifactFingerprints": true,
+    "staleEvidenceInvalidatesGate": true,
+    "manualTextAssertionWithoutArtifactAllowed": false,
+    "evidenceMayBeStoredOutsidePackage": true,
+    "evidenceRefsMustBeImmutableForRelease": true
+  },
+  "evaluationPolicy": {
+    "deterministic": true,
+    "evaluateAllGates": true,
+    "shortCircuitAllowed": false,
+    "missingRequiredEvidenceBehavior": "blocked-pending-review",
+    "failedBlockingGateBehavior": "failed",
+    "staleEvidenceBehavior": "stale-evidence",
+    "warningsMayNotChangeFailedToPassed": true,
+    "sameInputsProduceSameResultFingerprint": true
+  },
+  "promotionActionPolicy": {
+    "promotionMayRunOnlyWhenOverallStatusPassed": true,
+    "promotionCreatesNewPackageArtifactVersions": true,
+    "prototypeFilesRemainImmutable": true,
+    "silentArtifactReplacementAllowed": false,
+    "promotionCopiesOnlyAllowlistedArtifacts": true,
+    "promotionRegeneratesPackageManifest": true,
+    "promotionRecordsSourceAndPrototypeFingerprints": true,
+    "promotionRecordsGateResultFingerprint": true,
+    "promotionRollbackSupported": true
+  },
+  "promotionOutput": {
+    "targetRoot": "../../package",
+    "requiredOutputs": [
+      "package-manifest",
+      "character-model-artifacts",
+      "operation-artifacts",
+      "validation-artifacts",
+      "character-sheet-artifacts",
+      "compiled-rule-module",
+      "localization-resources",
+      "migration-metadata",
+      "release-metadata"
+    ],
+    "excludedOutputs": [
+      "prototype-fixtures",
+      "prototype-tests",
+      "raw-source-documents",
+      "review-working-notes",
+      "unresolved-candidate-artifacts"
+    ]
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "promotion-gate.gate-keys-unique",
+      "severity": "blocking",
+      "requirement": "every gateKey is unique"
+    },
+    {
+      "ruleKey": "promotion-gate.required-inputs-resolve",
+      "severity": "blocking",
+      "requirement": "all required input artifacts resolve and have valid fingerprints"
+    },
+    {
+      "ruleKey": "promotion-gate.blocking-gates-complete",
+      "severity": "blocking",
+      "requirement": "all required blocking gates have evidence and a final result"
+    },
+    {
+      "ruleKey": "promotion-gate.current-slice-blockers-resolved",
+      "severity": "blocking",
+      "requirement": "all blockers marked required for current-slice promotion are resolved"
+    },
+    {
+      "ruleKey": "promotion-gate.accepted-gaps-valid",
+      "severity": "blocking",
+      "requirement": "all accepted gaps comply with the coverage acceptance policy"
+    },
+    {
+      "ruleKey": "promotion-gate.evidence-current",
+      "severity": "blocking",
+      "requirement": "all evidence fingerprints match the evaluated artifact set"
+    },
+    {
+      "ruleKey": "promotion-gate.output-allowlist-valid",
+      "severity": "blocking",
+      "requirement": "promotion output contains only approved publication artifacts"
+    }
+  ],
+  "fingerprintPolicy": {
+    "resultFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeGateDefinitions": true,
+    "includeInputArtifactFingerprints": true,
+    "includeEvidenceFingerprints": true,
+    "includeCurrentPrototypeBlockers": true,
+    "includeAcceptedCoverageGaps": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "gateKey",
+      "category",
+      "required",
+      "blocking",
+      "status",
+      "missingEvidenceKeys",
+      "failedCriteriaKeys",
+      "staleEvidenceRefs",
+      "affectedCapabilityKeys",
+      "resolutionHintKeys"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "promotionCredentialsRequired": "release-process-only",
+    "ordinaryLogsMayContain": [
+      "gateKeys",
+      "statuses",
+      "artifactFingerprints",
+      "evidenceFingerprints",
+      "blockerKeys",
+      "coverageGapKeys",
+      "resultFingerprint"
+    ],
+    "ordinaryLogsMustExclude": [
+      "sourcebook-text",
+      "provider-secrets",
+      "encryption-key-material",
+      "production-user-data"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypePromotionGateEvaluated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "overallStatus": "Text",
+        "blockingGateKeys": "ReferenceCollection",
+        "resultFingerprint": "Text",
+        "evaluatedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypePromoted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "packageVersion": "Text",
+        "gateResultFingerprint": "Text",
+        "packageManifestFingerprint": "Text",
+        "promotedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-promoted-mechanical-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-gate-shape",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "releaseProcessReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The promotion gate is intentionally strict because promoted artifacts become Rule Set package authority.",
+    "Blocked future capabilities do not block promotion of the current Character creation slice when they remain explicitly excluded.",
+    "Candidate content identities and pending semantic reviews do block current-slice promotion.",
+    "No individual, Narrator, Chronicle Director, or administrator may bypass a failed blocking gate.",
+    "Promotion creates new versioned package artifacts and never mutates prototype history.",
+    "Chronicle owns gate evaluation, evidence validation, package build, release metadata, and rollback.",
+    "The Rule Set package owns the mechanical artifacts and evidence required to prove their correctness."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "catalog-review.reconciliation-report",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "scope": "CurrentSliceDecisionCatalogReconciliation",
+  "executedAt": "2026-08-03T00:00:00.000Z",
+  "inputs": {
+    "requiredIdentityCount": 46,
+    "approvedDecisionCount": 46
+  },
+  "checks": [
+    {
+      "checkKey": "reconciliation.all-required-decisions-approved",
+      "status": "passed",
+      "missingIdentityKeys": []
+    },
+    {
+      "checkKey": "reconciliation.approved-identities-present-in-catalogs",
+      "status": "passed",
+      "missingIdentityKeys": []
+    },
+    {
+      "checkKey": "reconciliation.review-records-load",
+      "status": "passed"
+    }
+  ],
+  "overallStatus": "passed",
+  "failureKeys": [],
+  "reportFingerprint": "9daa276dfa04fb17c0dbfccd7b317b76afbf8beeefc1324ba1fa2895104b2fa2"
+}

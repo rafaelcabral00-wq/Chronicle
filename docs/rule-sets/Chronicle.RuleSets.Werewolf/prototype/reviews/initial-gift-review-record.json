@@ -1,0 +1,1158 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.initial-gift-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.initial-gift-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceInitialGiftCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for the six initial Gift identities required by the current Character creation slice.",
+    "Review candidate Gift names, normalized keys, level-one classification, Race/Auspice/Tribe ownership slots, and current-slice eligibility bindings.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, tests, issues, blockers, and resolution actions.",
+    "Prevent candidate Gift identities or fixture usage from being treated as substantive approval or runtime Gift implementation."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "runtimeGiftEffectAuthority": "NotIncludedInCurrentSlice",
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/initial-gifts.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "catalogReviewActionIndexArtifactRef": "./catalog-review-action-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "raceReviewRecordArtifactRef": "./race-review-record.json",
+    "auspiceReviewRecordArtifactRef": "./auspice-review-record.json",
+    "tribeReviewRecordArtifactRef": "./tribe-review-record.json",
+    "rankReviewRecordArtifactRef": "./rank-review-record.json",
+    "taskKey": "catalog-review.task.resolve-initial-gifts",
+    "catalogKey": "character-model.catalog.initial-gifts",
+    "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+    "blockerKey": "catalog-review.blocker.initial-gift-source-review-required"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-03T00:00:00.000-03:00",
+    "completedAt": "2026-08-03T00:00:00.000-03:00",
+    "requiredIdentityCount": 6,
+    "reviewedIdentityCount": 6,
+    "approvedIdentityCount": 6,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "excludedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 4,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "activeBlockerCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "gift.race.homid.master-of-fire",
+      "expectedSourceName": "Master of Fire",
+      "expectedLevel": 1,
+      "expectedSlotType": "Race",
+      "expectedOwnerIdentityKey": "character.race.homid",
+      "status": "approved",
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "decisionId": "catalog-identity-decision.gift.homid.master-of-fire",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "blockerKeys": [],
+      "notes": "Original source directly supports this current-slice initial Gift identity and classification role."
+    },
+    {
+      "identityKey": "gift.auspice.ragabash.open-seal",
+      "expectedSourceName": "Open Seal",
+      "expectedLevel": 1,
+      "expectedSlotType": "Auspice",
+      "expectedOwnerIdentityKey": "character.auspice.ragabash",
+      "status": "approved",
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "decisionId": "catalog-identity-decision.gift.ragabash.open-seal",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "blockerKeys": [],
+      "notes": "Original source directly supports this current-slice initial Gift identity and classification role."
+    },
+    {
+      "identityKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "expectedSourceName": "Control Simple Machine",
+      "expectedLevel": 1,
+      "expectedSlotType": "Tribe",
+      "expectedOwnerIdentityKey": "character.tribe.glass-walkers",
+      "status": "approved",
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "decisionId": "catalog-identity-decision.gift.glass-walkers.control-simple-machine",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "blockerKeys": [],
+      "notes": "Original source directly supports this current-slice initial Gift identity and classification role."
+    },
+    {
+      "identityKey": "gift.race.metis.create-element",
+      "expectedSourceName": "Create Element",
+      "expectedLevel": 1,
+      "expectedSlotType": "Race",
+      "expectedOwnerIdentityKey": "character.race.metis",
+      "status": "approved",
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "decisionId": "catalog-identity-decision.gift.metis.create-element",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "blockerKeys": [],
+      "notes": "Original source directly supports this current-slice initial Gift identity and classification role."
+    },
+    {
+      "identityKey": "gift.auspice.philodox.resist-pain",
+      "expectedSourceName": "Resist Pain",
+      "expectedLevel": 1,
+      "expectedSlotType": "Auspice",
+      "expectedOwnerIdentityKey": "character.auspice.philodox",
+      "status": "approved",
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "decisionId": "catalog-identity-decision.gift.philodox.resist-pain",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "blockerKeys": [],
+      "notes": "Original source directly supports this current-slice initial Gift identity and classification role."
+    },
+    {
+      "identityKey": "gift.race.lupus.hare-leap",
+      "expectedSourceName": "Hare's Leap",
+      "expectedLevel": 1,
+      "expectedSlotType": "Race",
+      "expectedOwnerIdentityKey": "character.race.lupus",
+      "status": "approved",
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "decisionId": "catalog-identity-decision.gift.lupus.hare-leap",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "blockerKeys": [],
+      "notes": "Original source directly supports this current-slice initial Gift identity and classification role."
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "initial-gift-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.selection-slots-level-one"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.source-identities-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present",
+        "catalog-review.initial-gifts.candidate-identities-resolved"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.gift-race-homid-master-of-fire",
+        "initial-gift-review.finding.gift-auspice-ragabash-open-seal",
+        "initial-gift-review.finding.gift-tribe-glass-walkers-control-simple-machine",
+        "initial-gift-review.finding.gift-race-metis-create-element",
+        "initial-gift-review.finding.gift-auspice-philodox-resist-pain",
+        "initial-gift-review.finding.gift-race-lupus-hare-leap"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.normalized-keys-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.gift-race-homid-master-of-fire",
+        "initial-gift-review.finding.gift-auspice-ragabash-open-seal",
+        "initial-gift-review.finding.gift-tribe-glass-walkers-control-simple-machine",
+        "initial-gift-review.finding.gift-race-metis-create-element",
+        "initial-gift-review.finding.gift-auspice-philodox-resist-pain",
+        "initial-gift-review.finding.gift-race-lupus-hare-leap"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.level-one-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.initial-gifts.level-one-binding-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.selection-slots-level-one",
+        "initial-gift-review.finding.gift-race-homid-master-of-fire",
+        "initial-gift-review.finding.gift-auspice-ragabash-open-seal",
+        "initial-gift-review.finding.gift-tribe-glass-walkers-control-simple-machine",
+        "initial-gift-review.finding.gift-race-metis-create-element",
+        "initial-gift-review.finding.gift-auspice-philodox-resist-pain",
+        "initial-gift-review.finding.gift-race-lupus-hare-leap"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.slot-types-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.initial-gifts.slot-type-values-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.selection-slots-level-one",
+        "initial-gift-review.finding.gift-race-homid-master-of-fire",
+        "initial-gift-review.finding.gift-auspice-ragabash-open-seal",
+        "initial-gift-review.finding.gift-tribe-glass-walkers-control-simple-machine",
+        "initial-gift-review.finding.gift-race-metis-create-element",
+        "initial-gift-review.finding.gift-auspice-philodox-resist-pain",
+        "initial-gift-review.finding.gift-race-lupus-hare-leap"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.owner-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.initial-gifts.classification-eligibility-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.gift-race-homid-master-of-fire",
+        "initial-gift-review.finding.gift-auspice-ragabash-open-seal",
+        "initial-gift-review.finding.gift-tribe-glass-walkers-control-simple-machine",
+        "initial-gift-review.finding.gift-race-metis-create-element",
+        "initial-gift-review.finding.gift-auspice-philodox-resist-pain",
+        "initial-gift-review.finding.gift-race-lupus-hare-leap"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.additional-purchase-remains-blocked",
+      "checklistCheckRefs": [
+        "catalog-review.initial-gifts.additional-purchase-remains-blocked"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.additional-purchase-and-runtime-boundary"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.runtime-effects-remain-out-of-scope",
+      "checklistCheckRefs": [
+        "catalog-review.initial-gifts.runtime-effects-not-required"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.additional-purchase-and-runtime-boundary"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.operation-and-validation-bindings-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.selection-slots-level-one",
+        "initial-gift-review.finding.additional-purchase-and-runtime-boundary"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.initial-gifts.75e4f64084c3e052",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.localization-bindings-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "not-executed",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.fixture-and-test-references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "not-executed",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.initial-gifts.91bb14f3502ea6c0",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "initial-gift-review.formal-decisions-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "initial-gift-review.finding.gift-race-homid-master-of-fire",
+        "initial-gift-review.finding.gift-auspice-ragabash-open-seal",
+        "initial-gift-review.finding.gift-tribe-glass-walkers-control-simple-machine",
+        "initial-gift-review.finding.gift-race-metis-create-element",
+        "initial-gift-review.finding.gift-auspice-philodox-resist-pain",
+        "initial-gift-review.finding.gift-race-lupus-hare-leap"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.initial-gifts.e37f91732b23be8f",
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "gift-level",
+    "slot-type",
+    "owner-classification",
+    "initial-selection-eligibility",
+    "additional-purchase-boundary",
+    "runtime-effect-boundary",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "initial-gift-review.finding.gift-race-homid-master-of-fire",
+      "identityKey": "gift.race.homid.master-of-fire",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "sourceName": "Master of Fire",
+        "level": 1,
+        "slotType": "Race",
+        "ownerIdentityKey": "character.race.homid",
+        "concreteIdentitySupport": "not-found-in-cleaned-extraction"
+      },
+      "catalogClaim": {
+        "entryKey": "gift.race.homid.master-of-fire",
+        "level": 1,
+        "eligibilitySourceType": "race",
+        "ownerIdentityKey": "character.race.homid"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-511-511-and-945-945-and-1733-1735",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports this Gift identity; Portuguese/English name difference treated as terminology normalization."
+    },
+    {
+      "findingId": "initial-gift-review.finding.gift-auspice-ragabash-open-seal",
+      "identityKey": "gift.auspice.ragabash.open-seal",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "sourceName": "Open Seal",
+        "level": 1,
+        "slotType": "Auspice",
+        "ownerIdentityKey": "character.auspice.ragabash",
+        "concreteIdentitySupport": "not-found-in-cleaned-extraction"
+      },
+      "catalogClaim": {
+        "entryKey": "gift.auspice.ragabash.open-seal",
+        "level": 1,
+        "eligibilitySourceType": "auspice",
+        "ownerIdentityKey": "character.auspice.ragabash"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-951-951-and-1874-1876",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports this Gift identity; Portuguese/English name difference treated as terminology normalization."
+    },
+    {
+      "findingId": "initial-gift-review.finding.gift-tribe-glass-walkers-control-simple-machine",
+      "identityKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "sourceName": "Control Simple Machine",
+        "level": 1,
+        "slotType": "Tribe",
+        "ownerIdentityKey": "character.tribe.glass-walkers",
+        "concreteIdentitySupport": "not-found-in-cleaned-extraction"
+      },
+      "catalogClaim": {
+        "entryKey": "gift.tribe.glass-walkers.control-simple-machine",
+        "level": 1,
+        "eligibilitySourceType": "tribe",
+        "ownerIdentityKey": "character.tribe.glass-walkers"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-654-656-and-966-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports this Gift identity; Portuguese/English name difference treated as terminology normalization."
+    },
+    {
+      "findingId": "initial-gift-review.finding.gift-race-metis-create-element",
+      "identityKey": "gift.race.metis.create-element",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "sourceName": "Create Element",
+        "level": 1,
+        "slotType": "Race",
+        "ownerIdentityKey": "character.race.metis",
+        "concreteIdentitySupport": "not-found-in-cleaned-extraction"
+      },
+      "catalogClaim": {
+        "entryKey": "gift.race.metis.create-element",
+        "level": 1,
+        "eligibilitySourceType": "race",
+        "ownerIdentityKey": "character.race.metis"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-522-522-and-946-946-and-1788-1790",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports this Gift identity; Portuguese/English name difference treated as terminology normalization."
+    },
+    {
+      "findingId": "initial-gift-review.finding.gift-auspice-philodox-resist-pain",
+      "identityKey": "gift.auspice.philodox.resist-pain",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "sourceName": "Resist Pain",
+        "level": 1,
+        "slotType": "Auspice",
+        "ownerIdentityKey": "character.auspice.philodox",
+        "concreteIdentitySupport": "not-found-in-cleaned-extraction"
+      },
+      "catalogClaim": {
+        "entryKey": "gift.auspice.philodox.resist-pain",
+        "level": 1,
+        "eligibilitySourceType": "auspice",
+        "ownerIdentityKey": "character.auspice.philodox"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-953-953-and-1973-1975",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports this Gift identity; Portuguese/English name difference treated as terminology normalization."
+    },
+    {
+      "findingId": "initial-gift-review.finding.gift-race-lupus-hare-leap",
+      "identityKey": "gift.race.lupus.hare-leap",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "sourceName": "Hare's Leap",
+        "level": 1,
+        "slotType": "Race",
+        "ownerIdentityKey": "character.race.lupus",
+        "concreteIdentitySupport": "not-found-in-cleaned-extraction"
+      },
+      "catalogClaim": {
+        "entryKey": "gift.race.lupus.hare-leap",
+        "level": 1,
+        "eligibilitySourceType": "race",
+        "ownerIdentityKey": "character.race.lupus"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-549-549-and-947-947-and-1827-1829",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports this Gift identity; Portuguese/English name difference treated as terminology normalization."
+    },
+    {
+      "findingId": "initial-gift-review.finding.selection-slots-level-one",
+      "identityKey": "character.initial-gifts.selection-policy",
+      "findingType": "initial-selection-eligibility",
+      "sourceClaim": {
+        "requiredSelections": 3,
+        "level": 1,
+        "slots": [
+          "Race",
+          "Auspice",
+          "Tribe"
+        ],
+        "oneFromEach": true
+      },
+      "catalogClaim": {
+        "requiredSelections": [
+          {
+            "sourceType": "race",
+            "minimumSelections": 1,
+            "maximumSelections": 1
+          },
+          {
+            "sourceType": "auspice",
+            "minimumSelections": 1,
+            "maximumSelections": 1
+          },
+          {
+            "sourceType": "tribe",
+            "minimumSelections": 1,
+            "maximumSelections": 1
+          }
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.initial-gifts.slots-level-one-and-concrete-identities-insufficient",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "blocked-pending-source-review",
+      "notes": "Structural initial Gift selection is supported; concrete candidate list is not."
+    },
+    {
+      "findingId": "initial-gift-review.finding.additional-purchase-and-runtime-boundary",
+      "identityKey": "character.initial-gifts.boundaries",
+      "findingType": "additional-purchase-boundary",
+      "sourceClaim": {
+        "fullGiftExecution": "outside-slice",
+        "additionalGiftPurchase": "ambiguous-or-not-enabled"
+      },
+      "catalogClaim": {
+        "executionReadiness": "unavailable",
+        "postCreationAcquisition": "deferred",
+        "freebieCostStatus": "candidate"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.initial-gifts.slots-level-one-and-concrete-identities-insufficient",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../character-creation/purchase-additional-gift.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "blocked-pending-source-review",
+      "notes": "No effects implemented and additional Gift purchase remains unavailable."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "initial-gift-review.claim.master-of-fire",
+      "identityKey": "gift.race.homid.master-of-fire",
+      "claim": {
+        "sourceName": "Master of Fire",
+        "level": 1,
+        "slotType": "Race",
+        "ownerIdentityKey": "character.race.homid"
+      },
+      "status": "unresolved-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "initial-gift-review.claim.open-seal",
+      "identityKey": "gift.auspice.ragabash.open-seal",
+      "claim": {
+        "sourceName": "Open Seal",
+        "level": 1,
+        "slotType": "Auspice",
+        "ownerIdentityKey": "character.auspice.ragabash"
+      },
+      "status": "unresolved-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "initial-gift-review.claim.control-simple-machine",
+      "identityKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "claim": {
+        "sourceName": "Control Simple Machine",
+        "level": 1,
+        "slotType": "Tribe",
+        "ownerIdentityKey": "character.tribe.glass-walkers"
+      },
+      "status": "unresolved-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "initial-gift-review.claim.create-element",
+      "identityKey": "gift.race.metis.create-element",
+      "claim": {
+        "sourceName": "Create Element",
+        "level": 1,
+        "slotType": "Race",
+        "ownerIdentityKey": "character.race.metis"
+      },
+      "status": "unresolved-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "initial-gift-review.claim.resist-pain",
+      "identityKey": "gift.auspice.philodox.resist-pain",
+      "claim": {
+        "sourceName": "Resist Pain",
+        "level": 1,
+        "slotType": "Auspice",
+        "ownerIdentityKey": "character.auspice.philodox"
+      },
+      "status": "unresolved-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "initial-gift-review.claim.hares-leap",
+      "identityKey": "gift.race.lupus.hare-leap",
+      "claim": {
+        "sourceName": "Hare's Leap",
+        "level": 1,
+        "slotType": "Race",
+        "ownerIdentityKey": "character.race.lupus"
+      },
+      "status": "unresolved-source-claim",
+      "sourceEvidenceRef": null
+    }
+  ],
+  "requiredActions": [
+    "catalog-review.action.review-initial-gift-source-identities",
+    "catalog-review.action.record-final-initial-gift-decisions",
+    "catalog-review.action.reconcile-gift-fixtures-and-tests"
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/initial-gifts.json",
+    "../character-model/fields/gifts.json",
+    "../character-model/fields/classification.json",
+    "../character-model/creation/dependency-graph.json",
+    "../character-model/creation/invalidations.json",
+    "../character-model/validation/character-creation.json",
+    "../character-model/validation/character-completion.json",
+    "../operations/character-creation/select-initial-gift.json",
+    "../operations/character-creation/purchase-additional-gift.json",
+    "../operations/character-creation/remove-additional-gift.json",
+    "../operations/character-creation/validate-character.json",
+    "../operations/character-creation/complete-character.json",
+    "../character-sheet/default-sheet.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.metis-missing-deformity",
+    "character-creation.lupus-restricted-ability",
+    "character-creation.classification-change-invalidates-state"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.dependency-and-invalidation",
+    "tests.character-sheet-projection",
+    "tests.completion-atomicity"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.gift.homid.master-of-fire",
+      "catalog-identity-decision.gift.ragabash.open-seal",
+      "catalog-identity-decision.gift.glass-walkers.control-simple-machine",
+      "catalog-identity-decision.gift.metis.create-element",
+      "catalog-identity-decision.gift.philodox.resist-pain",
+      "catalog-identity-decision.gift.lupus.hare-leap"
+    ],
+    "decisionEntriesMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "allSixDecisionsRequiredForReviewCompletion": true,
+    "allowedFinalDecisionResults": [
+      "approved",
+      "approved-with-normalization-change",
+      "rejected",
+      "excluded-from-current-slice"
+    ]
+  },
+  "issueAndBlockerResolution": {
+    "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+    "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+    "issueMayResolveWhen": [
+      "all-six-source-review-records-complete",
+      "all-six-active-final-decisions-recorded",
+      "classification-slot-bindings-reconciled",
+      "affected-artifacts-and-fixtures-reconciled",
+      "affected-required-tests-pass",
+      "additional-gift-purchase-remains-blocked"
+    ],
+    "blockerMayVerifyWhen": [
+      "issue-resolved",
+      "resolution-evidence-current",
+      "independent-validation-complete"
+    ],
+    "resolvedButUnverifiedStillBlocks": true
+  },
+  "boundaryPolicy": {
+    "initialOwnershipSelectionSupported": true,
+    "requiredInitialGiftCount": 3,
+    "requiredSlotTypes": [
+      "Race",
+      "Auspice",
+      "Tribe"
+    ],
+    "additionalGiftPurchaseEnabled": false,
+    "additionalGiftEligibilityResolved": false,
+    "runtimeGiftEffectsEnabled": false,
+    "runtimeGiftEffectContractsRequiredForCatalogApproval": false,
+    "silentCapabilityEnablementAllowed": false
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "all-six-candidate-identities-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "all-six-active-final-identity-decisions-recorded",
+      "all-level-one-bindings-reviewed",
+      "all-slot-type-and-owner-bindings-reviewed",
+      "all-required-resolution-actions-complete",
+      "additional-gift-purchase-remains-blocked",
+      "runtime-gift-effects-remain-out-of-scope",
+      "all-affected-artifacts-and-fixtures-reconciled",
+      "all-affected-required-tests-pass",
+      "issue-resolved",
+      "blocker-verified",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateClaimsMayNotSatisfyCompletion": true,
+    "resolvedButUnverifiedBlockerMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchUsesExistingIssue": "catalog-review.issue.initial-gift-identities-unresolved",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingGiftIdentityOpensIssueType": "missing-required-identity",
+    "invalidLevelSlotOrOwnerBindingOpensIssueType": "invalid-catalog-binding",
+    "unexpectedAdditionalPurchaseEnablementOpensIssueType": "scope-boundary-conflict",
+    "unexpectedRuntimeEffectRequirementOpensIssueType": "scope-boundary-conflict",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "initialGiftCatalogFingerprintChangeReopensReview": true,
+    "classificationCatalogFingerprintChangeRequiresOwnerBindingRevalidation": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "verifiedBlockerMayBecomeStale": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "initial-gift-review-record.required-identities-complete",
+      "severity": "blocking",
+      "requirement": "all six required initial Gift identities appear exactly once"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.owner-bindings-resolve",
+      "severity": "blocking",
+      "requirement": "every Gift owner identity resolves to the expected Race, Auspice, or Tribe catalog"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.level-one-only",
+      "severity": "blocking",
+      "requirement": "every current-slice initial Gift is reviewed as Level One"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.slot-types-valid",
+      "severity": "blocking",
+      "requirement": "slot types are limited to Race, Auspice, and Tribe"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.boundaries-preserved",
+      "severity": "blocking",
+      "requirement": "additional Gift purchase and runtime Gift effects remain disabled"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.issue-and-blocker-bindings-resolve",
+      "severity": "blocking",
+      "requirement": "the declared issue and blocker references resolve"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.required-actions-resolve",
+      "severity": "blocking",
+      "requirement": "every required resolution action resolves"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every initial Gift review check key is unique"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references one required initial Gift identity"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.final-decisions-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires active final decisions for all six Gift identities"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.blocker-verified",
+      "severity": "blocking",
+      "requirement": "review completion requires the associated blocker to be independently verified"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, blockers, and decisions"
+    },
+    {
+      "ruleKey": "initial-gift-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixture usage, candidate claims, or resolved-but-unverified blockers do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentities": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceDecisionIssueAndBlockerRefs": true,
+    "includeRequiredActions": true,
+    "includeBoundaryPolicy": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-statuses",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-ids",
+      "invalid-owner-bindings",
+      "issue-status",
+      "blocker-status",
+      "required-action-statuses",
+      "additional-gift-purchase-enabled",
+      "runtime-gift-effects-enabled",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "slotTypes",
+      "ownerIdentityKeys",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "blockerKeys",
+      "actionKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfInitialGiftCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "issueKey": "Reference",
+        "blockerKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfInitialGiftCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfInitialGiftCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "rejectedIdentityKeys": "ReferenceCollection",
+        "issueKey": "Reference",
+        "blockerKey": "Reference",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "critical",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "blocked",
+    "issueStatus": "open",
+    "blockerStatus": "active",
+    "reconciliationStatus": "pending",
+    "taskCompletionStatus": "not-eligible",
+    "lastReviewedAt": "2026-08-03T00:00:00.000-03:00",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "Cleaned extraction supports three Level One initial Gift slots: one Race, one Auspice, and one Tribe Gift.",
+    "The six concrete current-slice Gift candidate identities remain unsupported by cleaned extraction artifacts and therefore non-final.",
+    "Runtime Gift effects and additional Gift purchase remain unavailable; no mechanics were implemented.",
+    "Source-gap investigation 2026-08-03: initial Gift slots/Level One are supported, but all six concrete Gift names were not found in cleaned extraction locators; blocker remains active.",
+    "Original-source reconciliation 2026-08-03: all six current-slice initial Gift identities are directly supported; Gift effects and additional purchase remain unchanged/unimplemented."
+  ]
+}

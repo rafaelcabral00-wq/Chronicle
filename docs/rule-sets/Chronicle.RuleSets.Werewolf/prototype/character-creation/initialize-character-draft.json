@@ -1,0 +1,386 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.initialize-character-draft",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.initialize-draft",
+  "descriptionResourceKey": "character-creation.operation.initialize-draft.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "campaign-and-player-character-slot",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "InitializeCharacterDraftInput",
+    "fields": [
+      {
+        "fieldKey": "campaignId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "characterSlotId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "requestedCharacterId",
+        "fieldType": "Reference",
+        "required": false
+      },
+      {
+        "fieldKey": "creationProfileKey",
+        "fieldType": "Text",
+        "required": true,
+        "expectedValue": "character-creation.standard"
+      },
+      {
+        "fieldKey": "packageBinding",
+        "fieldType": "StructuredObject",
+        "required": true,
+        "shape": {
+          "packageId": "Text",
+          "packageVersion": "Text",
+          "ruleSetContractVersion": "Integer",
+          "characterModelVersion": "Text",
+          "creationProfileVersion": "Text"
+        }
+      },
+      {
+        "fieldKey": "initialIdentity",
+        "fieldType": "StructuredObject",
+        "required": false,
+        "shape": {
+          "name": "Text",
+          "concept": "Text",
+          "playerName": "Text"
+        }
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "initialize-draft.campaign-exists",
+      "requirement": {
+        "entityType": "Campaign",
+        "idField": "campaignId",
+        "operator": "exists"
+      },
+      "failureKey": "character-creation.initialize.campaign-not-found"
+    },
+    {
+      "preconditionKey": "initialize-draft.character-slot-available",
+      "requirement": {
+        "campaignIdField": "campaignId",
+        "characterSlotIdField": "characterSlotId",
+        "operator": "slot-available"
+      },
+      "failureKey": "character-creation.initialize.character-slot-unavailable"
+    },
+    {
+      "preconditionKey": "initialize-draft.package-binding-compatible",
+      "requirement": {
+        "packageId": "chronicle.rulesets.werewolf",
+        "creationProfileKey": "character-creation.standard",
+        "operator": "binding-compatible-with-installed-package"
+      },
+      "failureKey": "character-creation.initialize.package-binding-incompatible"
+    },
+    {
+      "preconditionKey": "initialize-draft.required-artifacts-readable",
+      "requirement": {
+        "artifactRefs": [
+          "../manifest.json",
+          "../character-model/model.json",
+          "../character-model/creation/profile.json",
+          "../character-model/catalogs/attributes.json",
+          "../character-model/catalogs/abilities.json",
+          "../character-model/catalogs/backgrounds.json",
+          "../character-model/catalogs/ranks.json"
+        ],
+        "operator": "all-readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.initialize.required-artifact-unavailable"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "initialize-draft.package-id",
+      "ruleType": "fixed-value",
+      "targetPath": "packageBinding.packageId",
+      "expectedValue": "chronicle.rulesets.werewolf",
+      "severity": "blocking",
+      "errorKey": "character-creation.initialize.invalid-package-id"
+    },
+    {
+      "ruleKey": "initialize-draft.creation-profile",
+      "ruleType": "fixed-value",
+      "targetPath": "creationProfileKey",
+      "expectedValue": "character-creation.standard",
+      "severity": "blocking",
+      "errorKey": "character-creation.initialize.invalid-profile"
+    },
+    {
+      "ruleKey": "initialize-draft.requested-character-id-unused",
+      "ruleType": "uniqueness",
+      "targetPath": "requestedCharacterId",
+      "operator": "absent-or-unused",
+      "severity": "blocking",
+      "errorKey": "character-creation.initialize.character-id-conflict"
+    }
+  ],
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "resolve-package-binding",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-installed-package-manifest",
+        "verify-package-version",
+        "verify-contract-versions",
+        "resolve-character-model",
+        "resolve-creation-profile"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "create-draft-identity",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "allocate-character-id-if-not-requested",
+        "set-campaign-id",
+        "set-character-slot-id",
+        "set-character-status-draft",
+        "set-created-at",
+        "set-updated-at"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "create-catalog-backed-fields",
+      "executor": "RuleSet",
+      "effects": [
+        "create-all-attribute-entries",
+        "create-all-ability-entries",
+        "create-all-background-entries"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "initialize-base-values",
+      "executor": "RuleSet",
+      "effects": [
+        "set-all-attributes-to-one",
+        "set-all-abilities-to-zero",
+        "set-all-backgrounds-to-zero",
+        "set-rank-to-cliath",
+        "set-numeric-rank-to-one",
+        "set-empty-initial-gift-collection",
+        "set-empty-specialization-collection",
+        "set-empty-narrative-collections"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "initialize-workflow-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "set-current-stage-to-identity",
+        "set-stage-statuses",
+        "set-no-pending-dependency-recalculation",
+        "set-empty-invalidations",
+        "set-empty-warning-acknowledgements"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "create-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "create-open-ledger",
+        "record-draft-initialization",
+        "record-base-value-initializations",
+        "record-package-binding",
+        "record-operation-id",
+        "record-idempotency-key"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "apply-initial-identity",
+      "executor": "ChronicleApplication",
+      "condition": "initialIdentity exists",
+      "effects": [
+        "set-user-authored-name",
+        "set-user-authored-concept",
+        "set-prototype-player-name"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "run-initial-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "run-structural-validation",
+        "run-affected-draft-validation",
+        "persist-validation-summary"
+      ]
+    }
+  ],
+  "stateInitialization": {
+    "character": {
+      "status": "Draft",
+      "classification": {
+        "race": null,
+        "auspice": null,
+        "tribe": null
+      },
+      "rank": {
+        "rankKey": "character.rank.cliath",
+        "numericRank": 1,
+        "effectiveRankStatus": "active"
+      },
+      "resources": {
+        "rage": null,
+        "gnosis": null,
+        "willpower": null
+      },
+      "renown": {
+        "glory": {
+          "permanent": null,
+          "temporary": null
+        },
+        "honor": {
+          "permanent": null,
+          "temporary": null
+        },
+        "wisdom": {
+          "permanent": null,
+          "temporary": null
+        }
+      },
+      "gifts": {
+        "initial": [],
+        "acquired": []
+      },
+      "specializations": [],
+      "metisDeformity": null
+    },
+    "workflow": {
+      "profileKey": "character-creation.standard",
+      "currentStageKey": "creation.identity",
+      "pendingDependencyRecalculation": false,
+      "invalidations": [],
+      "warningAcknowledgements": []
+    },
+    "freebieBudget": {
+      "total": 15,
+      "spent": 0,
+      "remaining": 15
+    }
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true
+  },
+  "resultContract": {
+    "resultKey": "InitializeCharacterDraftResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "campaignId": "Reference",
+      "characterSlotId": "Reference",
+      "status": "Text",
+      "currentStageKey": "Text",
+      "packageBinding": "StructuredObject",
+      "validationSummary": "StructuredObject",
+      "creationLedgerId": "Reference",
+      "createdAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "InitializeCharacterDraftFailure",
+    "fields": {
+      "operationId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "existingCharacterId": "Reference",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "orphanedDraftDetection": true,
+    "orphanedLedgerDetection": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationDraftInitialized",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "campaignId": "Reference",
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "creationProfileKey": "Text",
+        "createdAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "low",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-generic-initialization",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Draft initialization creates structure and source-supported base values only.",
+    "Race, Auspice, and Tribe dependent values remain unset until their explicit selection operations run.",
+    "Cliath Rank 1 is initialized immediately because the source supports it as the standard starting rank.",
+    "The operation is deterministic and performs no Narrative Intelligence or external provider call.",
+    "Chronicle owns identity allocation, transactions, persistence, idempotency, and events.",
+    "The Rule Set owns field structure, initial mechanical values, and validation."
+  ]
+}

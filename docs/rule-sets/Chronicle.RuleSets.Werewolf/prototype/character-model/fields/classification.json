@@ -1,0 +1,324 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "classification",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.classification",
+  "publicationStatus": "candidate",
+  "ownership": "Character",
+  "fields": [
+    {
+      "fieldKey": "character.classification.race",
+      "fieldType": "SingleChoice",
+      "displayNameResourceKey": "character.classification.race",
+      "descriptionResourceKey": "character.classification.race.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "required"
+      },
+      "catalogRef": "../catalogs/races.json",
+      "authority": "RuleSetAuthoritative",
+      "visibility": "primary",
+      "creationStage": "CreationBaseAllocation",
+      "dependencyImpact": {
+        "affects": [
+          "character.resource.gnosis",
+          "character.initial-gift.race",
+          "character.metis-deformity",
+          "character.abilities"
+        ],
+        "previewRequiredBeforeChange": true
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-classifications.json"
+      ]
+    },
+    {
+      "fieldKey": "character.classification.auspice",
+      "fieldType": "SingleChoice",
+      "displayNameResourceKey": "character.classification.auspice",
+      "descriptionResourceKey": "character.classification.auspice.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "required"
+      },
+      "catalogRef": "../catalogs/auspices.json",
+      "authority": "RuleSetAuthoritative",
+      "visibility": "primary",
+      "creationStage": "CreationBaseAllocation",
+      "dependencyImpact": {
+        "affects": [
+          "character.resource.rage",
+          "character.renown.glory",
+          "character.renown.honor",
+          "character.renown.wisdom",
+          "character.initial-gift.auspice"
+        ],
+        "previewRequiredBeforeChange": true
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-classifications.json"
+      ]
+    },
+    {
+      "fieldKey": "character.classification.tribe",
+      "fieldType": "SingleChoice",
+      "displayNameResourceKey": "character.classification.tribe",
+      "descriptionResourceKey": "character.classification.tribe.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "required"
+      },
+      "catalogRef": "../catalogs/tribes.json",
+      "authority": "RuleSetAuthoritative",
+      "visibility": "primary",
+      "creationStage": "CreationBaseAllocation",
+      "dependencyImpact": {
+        "affects": [
+          "character.resource.willpower",
+          "character.backgrounds",
+          "character.initial-gift.tribe"
+        ],
+        "previewRequiredBeforeChange": true
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-classifications.json"
+      ]
+    },
+    {
+      "fieldKey": "character.classification.rank",
+      "fieldType": "SingleChoice",
+      "displayNameResourceKey": "character.classification.rank",
+      "descriptionResourceKey": "character.classification.rank.description",
+      "requiredness": {
+        "duringDraft": "system-assigned",
+        "forCompletion": "required"
+      },
+      "catalogRef": "../catalogs/ranks.json",
+      "authority": "RuleSetAuthoritative",
+      "visibility": "primary",
+      "creationStage": "CreationBaseAllocation",
+      "editableByUser": false,
+      "initialization": {
+        "value": "character.rank.cliath",
+        "numericRank": 1,
+        "status": "candidate"
+      },
+      "dependencyImpact": {
+        "affects": [],
+        "previewRequiredBeforeChange": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-rank.json"
+      ]
+    }
+  ],
+  "changePolicy": {
+    "mode": "preview-and-confirm",
+    "previewArtifactRef": "../../operations/character-creation/preview-classification-change.json",
+    "applyArtifactRef": "../../operations/character-creation/apply-classification-change.json",
+    "preserveValidDependentValues": true,
+    "removeInvalidDependentValues": true,
+    "refundInvalidatedCreationCosts": true,
+    "recordChangeReason": true,
+    "recordPreviousValues": true
+  },
+  "dependencyRules": [
+    {
+      "ruleKey": "character.classification.race.initializes-gnosis",
+      "sourceCatalogRef": "../catalogs/races.json",
+      "lookupPath": "entries[].mechanicalData.initialResources.character.resource.gnosis",
+      "targetField": "character.resource.gnosis.permanent",
+      "status": "candidate"
+    },
+    {
+      "ruleKey": "character.classification.auspice.initializes-rage",
+      "sourceCatalogRef": "../catalogs/auspices.json",
+      "lookupPath": "entries[].mechanicalData.initialResources.character.resource.rage",
+      "targetField": "character.resource.rage.permanent",
+      "status": "candidate"
+    },
+    {
+      "ruleKey": "character.classification.auspice.initializes-renown",
+      "sourceCatalogRef": "../catalogs/auspices.json",
+      "lookupPath": "entries[].mechanicalData.initialRenown",
+      "targetFields": [
+        "character.renown.glory",
+        "character.renown.honor",
+        "character.renown.wisdom"
+      ],
+      "status": "candidate"
+    },
+    {
+      "ruleKey": "character.classification.tribe.initializes-willpower",
+      "sourceCatalogRef": "../catalogs/tribes.json",
+      "lookupPath": "entries[].mechanicalData.initialResources.character.resource.willpower",
+      "targetField": "character.resource.willpower.permanent",
+      "status": "candidate"
+    },
+    {
+      "ruleKey": "character.classification.tribe.applies-background-restrictions",
+      "sourceCatalogRef": "../catalogs/tribes.json",
+      "lookupPath": "entries[].mechanicalData.backgroundRestrictions",
+      "targetField": "character.backgrounds",
+      "status": "candidate"
+    },
+    {
+      "ruleKey": "character.classification.race.applies-ability-restrictions",
+      "sourceCatalogRef": "../catalogs/races.json",
+      "lookupPath": "entries[].mechanicalData.creationRestrictions",
+      "targetField": "character.abilities",
+      "status": "candidate"
+    },
+    {
+      "ruleKey": "character.classification.selection.drives-initial-gifts",
+      "sourceCatalogRefs": [
+        "../catalogs/races.json",
+        "../catalogs/auspices.json",
+        "../catalogs/tribes.json"
+      ],
+      "targetField": "character.gifts.initial",
+      "status": "candidate"
+    }
+  ],
+  "crossFieldRules": [
+    {
+      "ruleKey": "character.creation.red-talons.requires-lupus",
+      "ruleType": "eligibility",
+      "status": "candidate",
+      "appliesWhen": {
+        "field": "character.classification.tribe",
+        "operator": "equals",
+        "value": "character.tribe.red-talons"
+      },
+      "requirement": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.lupus"
+      },
+      "errorKey": "character.creation.red-talons-requires-lupus"
+    },
+    {
+      "ruleKey": "character.creation.metis.requires-deformity",
+      "ruleType": "dependency",
+      "status": "candidate",
+      "appliesWhen": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.metis"
+      },
+      "requirement": {
+        "field": "character.metis-deformity",
+        "operator": "count-equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.metis-deformity-required"
+    },
+    {
+      "ruleKey": "character.creation.black-furies.eligibility",
+      "ruleType": "eligibility",
+      "status": "semantic-review-required",
+      "enforcement": "disabled",
+      "sourceStatement": "The cleaned source describes the Tribe as exclusively female.",
+      "errorKey": "character.creation.black-furies-eligibility-invalid"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.completion.classification.race-required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "field": "character.classification.race",
+        "operator": "exists"
+      },
+      "errorKey": "character.completion.race-required"
+    },
+    {
+      "ruleKey": "character.completion.classification.auspice-required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "field": "character.classification.auspice",
+        "operator": "exists"
+      },
+      "errorKey": "character.completion.auspice-required"
+    },
+    {
+      "ruleKey": "character.completion.classification.tribe-required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "field": "character.classification.tribe",
+        "operator": "exists"
+      },
+      "errorKey": "character.completion.tribe-required"
+    },
+    {
+      "ruleKey": "character.completion.classification.rank-valid",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "field": "character.classification.rank",
+        "operator": "equals",
+        "value": "character.rank.cliath"
+      },
+      "errorKey": "character.completion.rank-invalid"
+    }
+  ],
+  "layoutHints": {
+    "sectionStyle": "classification-header",
+    "columnCount": 4,
+    "preferredOrder": [
+      "character.classification.race",
+      "character.classification.auspice",
+      "character.classification.tribe",
+      "character.classification.rank"
+    ]
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.terminology.race-breed",
+      "severity": "medium",
+      "status": "terminology-review-required",
+      "question": "What English canonical technical term should represent the Portuguese source classification 'Raça'?",
+      "prototypeDecision": "Use package-local key character.classification.race until terminology review."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.classification-revision",
+      "severity": "medium",
+      "status": "implementation-decision-required",
+      "question": "How should dependent selections be recalculated when Race, Auspice, or Tribe changes?",
+      "prototypeDecision": "Use preview-and-confirm, preserve valid values, remove invalid values, and refund invalidated creation costs."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.tribe-eligibility",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Which Tribe membership descriptions are hard mechanical restrictions and which are narrative setting guidance?",
+      "prototypeDecision": "Only explicit candidate mechanics are enforceable; Black Furies eligibility remains disabled."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Race, Auspice, and Tribe are required Character creation classifications owned entirely by the Werewolf package.",
+    "Rank is system-assigned as Cliath during standard Character creation.",
+    "Classification changes use a preview-and-confirm policy because they may invalidate resources, Gifts, Backgrounds, Abilities, and Renown.",
+    "The Black Furies eligibility statement is preserved but not mechanically enforced until semantic and product-policy review.",
+    "No Chronicle Core type assumes the existence of Race, Auspice, Tribe, or Cliath."
+  ]
+}

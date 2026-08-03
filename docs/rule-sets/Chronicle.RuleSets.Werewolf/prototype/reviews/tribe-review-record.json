@@ -1,0 +1,972 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.tribe-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.tribe-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceTribeCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for Tribe identities required by the current Character creation slice.",
+    "Review the Glass Walkers identity name, normalized key, initial Willpower binding, initial Gift-slot ownership binding, and any Background restriction bindings.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, and tests.",
+    "Prevent structural catalog presence from being treated as substantive Tribe approval."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/tribes.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "auspiceReviewRecordArtifactRef": "./auspice-review-record.json",
+    "taskKey": "catalog-review.task.review-tribes",
+    "catalogKey": "character-model.catalog.tribes"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-02T21:01:23.117Z",
+    "completedAt": "2026-08-03T00:00:00.000-03:00",
+    "requiredIdentityCount": 1,
+    "reviewedIdentityCount": 1,
+    "approvedIdentityCount": 1,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 2,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.tribe.glass-walkers",
+      "expectedSourceName": "Glass Walkers",
+      "expectedInitialWillpower": null,
+      "expectedInitialGiftSlotType": "Tribe",
+      "expectedBackgroundRestrictions": [],
+      "status": "reviewed-blocked-pending-source-review"
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "tribe-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "tribe-review.finding.glass-walkers.reference-integrity"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.source-identity-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "tribe-review.finding.glass-walkers.identity-name"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.normalized-key-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "tribe-review.finding.glass-walkers.normalized-key",
+        "tribe-review.finding.glass-walkers.deterministic-order"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.initial-willpower-binding-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.tribes.willpower-values-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "tribe-review.finding.glass-walkers.initial-willpower"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd",
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320",
+        "catalog-review.evidence.original-source.glass-walkers-willpower.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.initial-gift-slot-binding-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.tribes.gift-eligibility-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "tribe-review.finding.glass-walkers.initial-gift-slot"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd",
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.background-restrictions-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.tribes.background-restrictions-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "tribe-review.finding.glass-walkers.background-restriction"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.tribes.d1d9c64b7dd670fd",
+        "catalog-review.evidence.catalog-review-record.tribes.a95bfacf7a598320"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.localization-binding-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [
+        "tribe-review.finding.glass-walkers.reference-integrity"
+      ],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "tribe-review.formal-decision-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.original-source.glass-walkers-willpower.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "initial-willpower",
+    "initial-gift-slot",
+    "background-restriction",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "tribe-review.finding.glass-walkers.identity-name",
+      "identityKey": "character.tribe.glass-walkers",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Glass Walkers"
+      },
+      "catalogClaim": {
+        "entryKey": "character.tribe.glass-walkers",
+        "displayNameResourceKey": "character.tribe.glass-walkers"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.catalog-shape",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/tribes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity key/display mapping is stable in catalog; extraction does not yet provide final Tribe-name source segment."
+    },
+    {
+      "findingId": "tribe-review.finding.glass-walkers.normalized-key",
+      "identityKey": "character.tribe.glass-walkers",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.tribe.glass-walkers"
+      },
+      "catalogClaim": {
+        "entryKey": "character.tribe.glass-walkers"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.catalog-shape",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/tribes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Current-slice tribe key is deterministic and stable."
+    },
+    {
+      "findingId": "tribe-review.finding.glass-walkers.initial-willpower",
+      "identityKey": "character.tribe.glass-walkers",
+      "findingType": "initial-willpower",
+      "sourceClaim": {
+        "initialWillpower": 3
+      },
+      "catalogClaim": {
+        "initialWillpower": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.tribe.glass-walkers.lines-652-656-and-964-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/tribes.json",
+        "../character-model/fields/resources.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports Andarilhos do Asfalto initial Willpower 3."
+    },
+    {
+      "findingId": "tribe-review.finding.glass-walkers.initial-gift-slot",
+      "identityKey": "character.tribe.glass-walkers",
+      "findingType": "initial-gift-slot",
+      "sourceClaim": {
+        "initialTribeGiftRequired": true,
+        "slotType": "Tribe",
+        "level": 1
+      },
+      "catalogClaim": {
+        "initialGiftEligibilityCount": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.initial-gift-slot",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/tribes.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "This verifies slot responsibility only; concrete Tribe Gift identity approval remains out of scope."
+    },
+    {
+      "findingId": "tribe-review.finding.glass-walkers.background-restriction",
+      "identityKey": "character.tribe.glass-walkers",
+      "findingType": "background-restriction",
+      "sourceClaim": {
+        "backgroundRestrictionsSourceCompleteness": "unresolved"
+      },
+      "catalogClaim": {
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.pure-breed",
+              "character.background.mentor"
+            ]
+          }
+        ]
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.completeness-ambiguity",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/tribes.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "blocked-pending-source-review",
+      "notes": "Structural bindings exist, but extraction marks Tribe mechanical completeness unresolved for final source-backed closure."
+    },
+    {
+      "findingId": "tribe-review.finding.glass-walkers.reference-integrity",
+      "identityKey": "character.tribe.glass-walkers",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "tribeSelectionAffectsDownstreamState": true
+      },
+      "catalogClaim": {
+        "dependencyImpactAffects": [
+          "character.resource.willpower",
+          "character.backgrounds",
+          "character.initial-gift.tribe"
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.creation-dependencies",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/fields/classification.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.dependency-and-invalidation"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Declarative downstream effects reconcile with cleaned extraction workflow findings."
+    },
+    {
+      "findingId": "tribe-review.finding.glass-walkers.deterministic-order",
+      "identityKey": "character.tribe.glass-walkers",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "deterministicCurrentSliceOrder": [
+          "character.tribe.glass-walkers"
+        ]
+      },
+      "catalogClaim": {
+        "catalogIndex": 0
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.catalog-shape",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/tribes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Current-slice deterministic order is stable with one required identity."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "tribe-review.claim.glass-walkers-identity",
+      "identityKey": "character.tribe.glass-walkers",
+      "claim": {
+        "sourceName": "Glass Walkers"
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.catalog-shape"
+    },
+    {
+      "claimKey": "tribe-review.claim.glass-walkers-initial-willpower",
+      "identityKey": "character.tribe.glass-walkers",
+      "claim": {
+        "initialWillpower": null
+      },
+      "status": "source-claim-ambiguous",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.initial-willpower-values"
+    },
+    {
+      "claimKey": "tribe-review.claim.glass-walkers-background-restrictions",
+      "identityKey": "character.tribe.glass-walkers",
+      "claim": {
+        "backgroundRestrictions": []
+      },
+      "status": "source-claim-ambiguous",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.completeness-ambiguity"
+    }
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/tribes.json",
+    "../character-model/fields/classification.json",
+    "../character-model/fields/resources.json",
+    "../character-model/fields/backgrounds.json",
+    "../character-model/fields/gifts.json",
+    "../character-model/creation/dependency-graph.json",
+    "../character-model/creation/invalidations.json",
+    "../character-model/validation/character-creation.json",
+    "../operations/character-creation/preview-classification-change.json",
+    "../operations/character-creation/apply-classification-change.json",
+    "../operations/character-creation/set-background-rating.json",
+    "../operations/character-creation/select-initial-gift.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.metis-missing-deformity",
+    "character-creation.classification-change-invalidates-state"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.dependency-and-invalidation",
+    "tests.character-sheet-projection"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.tribe.glass-walkers"
+    ],
+    "decisionEntryMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "decisionRequiredForReviewCompletion": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "glass-walkers-identity-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "one-active-final-identity-decision-recorded",
+      "initial-willpower-binding-reviewed",
+      "initial-gift-slot-binding-reviewed",
+      "background-restrictions-reviewed",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-pass",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateOrUnresolvedClaimsMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchOpensIssueType": "ambiguous-source-identity",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingTribeIdentityOpensIssueType": "missing-required-identity",
+    "invalidBindingOpensIssueType": "invalid-catalog-binding",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "tribeCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "tribe-review-record.required-identity-complete",
+      "severity": "blocking",
+      "requirement": "Glass Walkers appears exactly once"
+    },
+    {
+      "ruleKey": "tribe-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every Tribe review check key is unique"
+    },
+    {
+      "ruleKey": "tribe-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "tribe-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references the required Tribe identity"
+    },
+    {
+      "ruleKey": "tribe-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "tribe-review-record.final-decision-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires an active final decision for Glass Walkers"
+    },
+    {
+      "ruleKey": "tribe-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, and decisions"
+    },
+    {
+      "ruleKey": "tribe-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixtures, or candidate source claims do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentity": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceAndDecisionRefs": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-status",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-id",
+      "unresolved-initial-willpower-claim",
+      "unresolved-background-restriction-claim",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfTribeCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfTribeCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfTribeCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "blockedIdentityKeys": "ReferenceCollection",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "draft",
+    "reconciliationStatus": "pending",
+    "taskCompletionStatus": "not-eligible",
+    "lastReviewedAt": "2026-08-03T00:00:00.000-03:00",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "This artifact defines the Tribe review record and contains no fabricated findings or approvals.",
+    "Glass Walkers is the only Tribe required by the current fixture-backed slice.",
+    "The initial Willpower and Background restriction claims remain unresolved until source evidence is recorded.",
+    "Tribe Gift-slot ownership review does not approve the individual Gift identity or runtime Gift effects.",
+    "Chronicle owns contract validation, evidence integrity, staleness detection, diagnostics, fingerprints, task-status integration, and promotion enforcement.",
+    "Assigned Rule Set reviewers own substantive source-backed findings and the final Tribe identity recommendation.",
+    "Source-gap investigation 2026-08-03: Tribe initial Willpower requirement is supported, but Glass Walkers exact initial Willpower value was not found in cleaned extraction locators; issue remains open.",
+    "Original-source reconciliation 2026-08-03: Andarilhos do Asfalto initial Willpower 3 is directly supported."
+  ],
+  "sourceEvidence": [
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.catalog-shape",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 5.4 Tribe, lines 329-357",
+      "sourceSectionPath": [
+        "5.4 Tribe"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Tribe entries are source-derived catalog candidates and must carry mechanical fields including initial Willpower, Gift options, and Background restrictions."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.creation-dependencies",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+      "sourceLocator": "CF-003 and CF-004, lines 188-224",
+      "sourceSectionPath": [
+        "CF-003",
+        "CF-004"
+      ],
+      "supportType": "derived",
+      "confidence": "high",
+      "paraphrase": "Tribe selection occurs before resource/background/gift consequences and initializes Willpower while constraining Backgrounds and Gift eligibility."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.initial-gift-slot",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 9.1 Initial Gift Selection, lines 714-722",
+      "sourceSectionPath": [
+        "9.1 Initial Gift Selection"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Initial Gift selection requires one Level One Gift from Tribe as one of the three initial slots."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.initial-willpower-values",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+      "sourceLocator": "Section 31 Blockers for PrototypeReady, item 6, lines 1360-1370",
+      "sourceSectionPath": [
+        "31. Blockers for PrototypeReady"
+      ],
+      "supportType": "ambiguous",
+      "confidence": "high",
+      "paraphrase": "The extraction explicitly marks exact Tribe initial Willpower values as unresolved in the current cleaned source state."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.tribes.completeness-ambiguity",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+      "sourceLocator": "A-004 Complete Tribe Mechanical Records, lines 261-286",
+      "sourceSectionPath": [
+        "A-004 Complete Tribe Mechanical Records"
+      ],
+      "supportType": "ambiguous",
+      "confidence": "high",
+      "paraphrase": "Tribe mechanical completeness is unresolved and requires source-search confirmation for initial Willpower and restrictions."
+    }
+  ],
+  "ambiguityRecords": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.tribe-record-completeness",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+      "sourceLocator": "A-004 Complete Tribe Mechanical Records",
+      "impactScope": "tribe-mechanics",
+      "status": "open",
+      "blocking": true,
+      "notes": "Current cleaned extraction does not provide a completed and verified Tribe mechanical matrix for exact final approval."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.initial-willpower",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+      "sourceLocator": "Blockers for PrototypeReady item 6",
+      "impactScope": "initial-willpower",
+      "status": "open",
+      "blocking": true,
+      "notes": "Exact Tribe initial Willpower values remain unresolved in extraction artifacts."
+    }
+  ],
+  "executionResult": {
+    "executionStatus": "executed",
+    "reviewer": "RuleSetExtractionAndReview",
+    "executedAtUtc": "2026-08-02T21:01:23.117Z",
+    "sourceIdentity": "source.werewolf3e.cleaned-ptbr",
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "catalogFingerprint": "c106cfb022142c07d2d29ac69ff93c16fcbd87803c29054f66e3f6f92537a9ea",
+    "tribeLevelResult": {
+      "identityKey": "character.tribe.glass-walkers",
+      "sourceIdentityName": "Glass Walkers",
+      "reviewResult": "partially-approved",
+      "inScopePropertyResults": [
+        {
+          "property": "canonical-identity-name",
+          "status": "supported-with-normalization"
+        },
+        {
+          "property": "stable-identity-key",
+          "status": "supported"
+        },
+        {
+          "property": "display-name-mapping",
+          "status": "supported-with-normalization"
+        },
+        {
+          "property": "source-backed-classification-meaning",
+          "status": "supported"
+        },
+        {
+          "property": "initial-willpower",
+          "status": "ambiguous"
+        },
+        {
+          "property": "initial-tribe-gift-responsibility",
+          "status": "supported"
+        },
+        {
+          "property": "current-slice-creation-implications",
+          "status": "supported"
+        },
+        {
+          "property": "field-and-catalog-references",
+          "status": "supported"
+        },
+        {
+          "property": "candidate-or-final-status",
+          "status": "ambiguous"
+        },
+        {
+          "property": "deterministic-order",
+          "status": "supported"
+        },
+        {
+          "property": "current-slice-inclusion",
+          "status": "supported"
+        }
+      ]
+    },
+    "propertyLevelFindings": [
+      {
+        "findingId": "tribe-review.finding.glass-walkers.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "tribe-review.finding.glass-walkers.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "tribe-review.finding.glass-walkers.initial-willpower",
+        "comparisonResult": "blocked-pending-source-review"
+      },
+      {
+        "findingId": "tribe-review.finding.glass-walkers.initial-gift-slot",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "tribe-review.finding.glass-walkers.background-restriction",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "tribe-review.finding.glass-walkers.reference-integrity",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "tribe-review.finding.glass-walkers.deterministic-order",
+        "comparisonResult": "match"
+      }
+    ],
+    "willpowerComparison": {
+      "identityKey": "character.tribe.glass-walkers",
+      "sourceValue": "unresolved-in-cleaned-extraction",
+      "catalogValue": 3,
+      "comparisonResult": "ambiguous",
+      "sourceLocator": "EXTRACTION-0003 §31 item 6 and EXTRACTION-0004 A-004",
+      "confidence": "high",
+      "decisionEligible": false
+    },
+    "evidenceReferences": [],
+    "ambiguityRecords": [
+      {
+        "ambiguityKey": "ambiguity.werewolf3e.creation.tribe-record-completeness",
+        "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+        "sourceLocator": "A-004 Complete Tribe Mechanical Records",
+        "impactScope": "tribe-mechanics",
+        "status": "open",
+        "blocking": true,
+        "notes": "Current cleaned extraction does not provide a completed and verified Tribe mechanical matrix for exact final approval."
+      },
+      {
+        "ambiguityKey": "ambiguity.werewolf3e.creation.initial-willpower",
+        "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+        "sourceLocator": "Blockers for PrototypeReady item 6",
+        "impactScope": "initial-willpower",
+        "status": "open",
+        "blocking": true,
+        "notes": "Exact Tribe initial Willpower values remain unresolved in extraction artifacts."
+      }
+    ],
+    "issueReferences": [
+      "catalog-review.issue.tribe-initial-willpower-unresolved"
+    ],
+    "blockerReferences": [
+      "catalog-review.blocker.final-identity-decisions-missing",
+      "catalog-review.blocker.validated-evidence-missing",
+      "catalog-review.blocker.initial-gift-source-review-required"
+    ],
+    "proposedDecisions": [
+      "catalog-identity-decision.tribe.glass-walkers"
+    ],
+    "propertyLevelMismatches": [
+      {
+        "identityKey": "character.tribe.glass-walkers",
+        "property": "initialWillpower",
+        "sourceValue": "unresolved-in-cleaned-extraction",
+        "catalogValue": 3,
+        "classification": "ambiguous"
+      }
+    ],
+    "completionEligibility": {
+      "substantiveReviewComplete": true,
+      "finalDecisionComplete": false,
+      "fullEvidenceWorkItemComplete": false
+    }
+  },
+  "reviewRecordFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "d1d9c64b7dd670fda95bfacf7a598320d08174cebd07ad1f58d1f868b8301c9e",
+    "calculatedAt": "2026-08-02T21:01:23.117Z"
+  }
+}

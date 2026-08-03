@@ -1,0 +1,399 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.set-attribute-priorities",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.set-attribute-priorities",
+  "descriptionResourceKey": "character-creation.operation.set-attribute-priorities.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-and-priority-assignment",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "SetAttributePrioritiesInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "primaryCategoryKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "secondaryCategoryKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "tertiaryCategoryKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "confirmAllocationReconciliation",
+        "fieldType": "Boolean",
+        "required": true
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "set-attribute-priorities.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.set-attribute-priorities.not-a-draft"
+    },
+    {
+      "preconditionKey": "set-attribute-priorities.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.set-attribute-priorities.stale-draft"
+    },
+    {
+      "preconditionKey": "set-attribute-priorities.catalog-available",
+      "requirement": {
+        "artifactRef": "../character-model/catalogs/attributes.json",
+        "operator": "readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.set-attribute-priorities.catalog-unavailable"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "set-attribute-priorities.categories-valid",
+      "ruleType": "catalog-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetFields": [
+        "primaryCategoryKey",
+        "secondaryCategoryKey",
+        "tertiaryCategoryKey"
+      ],
+      "catalogRef": "../../character-model/catalogs/attributes.json#categories",
+      "errorKey": "character-creation.set-attribute-priorities.invalid-category"
+    },
+    {
+      "ruleKey": "set-attribute-priorities.categories-distinct",
+      "ruleType": "distinct-values",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetFields": [
+        "primaryCategoryKey",
+        "secondaryCategoryKey",
+        "tertiaryCategoryKey"
+      ],
+      "errorKey": "character-creation.set-attribute-priorities.categories-not-distinct"
+    },
+    {
+      "ruleKey": "set-attribute-priorities.all-categories-assigned",
+      "ruleType": "set-equality",
+      "severity": "blocking",
+      "status": "candidate",
+      "inputSet": [
+        "primaryCategoryKey",
+        "secondaryCategoryKey",
+        "tertiaryCategoryKey"
+      ],
+      "expectedCatalogEntries": [
+        "attribute-category.physical",
+        "attribute-category.social",
+        "attribute-category.mental"
+      ],
+      "errorKey": "character-creation.set-attribute-priorities.incomplete-assignment"
+    },
+    {
+      "ruleKey": "set-attribute-priorities.reconciliation-confirmed",
+      "ruleType": "confirmation",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "operator": "priority-change-invalidates-current-allocation"
+      },
+      "requirement": {
+        "field": "confirmAllocationReconciliation",
+        "operator": "equals",
+        "value": true
+      },
+      "errorKey": "character-creation.set-attribute-priorities.reconciliation-not-confirmed"
+    }
+  ],
+  "priorityBudget": {
+    "primary": 7,
+    "secondary": 5,
+    "tertiary": 3,
+    "calculation": "sum(baseRating - 1) by category",
+    "sourceCatalogRef": "../../character-model/catalogs/attributes.json#creationAllocation"
+  },
+  "reconciliationPolicy": {
+    "mode": "preserve-values-mark-invalid",
+    "automaticPointRemovalAllowed": false,
+    "automaticRedistributionAllowed": false,
+    "preserveExistingRatings": true,
+    "createInvalidationsForExcessPoints": true,
+    "clearResolvedInvalidations": true,
+    "completionBlockedUntilValid": true,
+    "reason": "Changing priorities alters category budgets but does not authorize Chronicle to choose which Attribute ratings the player should reduce."
+  },
+  "impactAnalysis": {
+    "performedBeforeCommit": true,
+    "categories": [
+      {
+        "impactKey": "unchanged-category-budget",
+        "description": "A category retains the same priority and budget."
+      },
+      {
+        "impactKey": "increased-category-budget",
+        "description": "A category receives a larger budget and existing ratings remain valid."
+      },
+      {
+        "impactKey": "reduced-category-budget",
+        "description": "A category receives a smaller budget and may contain excess allocated points."
+      }
+    ],
+    "resultFields": {
+      "previousAssignment": "StructuredObject",
+      "newAssignment": "StructuredObject",
+      "previousCategoryBudgets": "StructuredObject",
+      "newCategoryBudgets": "StructuredObject",
+      "currentAllocatedPointsByCategory": "StructuredObject",
+      "excessPointsByCategory": "StructuredObject",
+      "remainingPointsByCategory": "StructuredObject",
+      "createdInvalidations": "StructuredCollection",
+      "resolvedInvalidations": "StructuredCollection"
+    }
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-priority-assignment",
+        "load-current-attribute-ratings",
+        "load-open-attribute-invalidations"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-new-priorities",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-category-membership",
+        "validate-distinct-assignment",
+        "validate-all-categories-assigned"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "calculate-allocation-impact",
+      "executor": "RuleSet",
+      "effects": [
+        "calculate-current-points-by-category",
+        "resolve-new-budgets",
+        "calculate-excess-points",
+        "calculate-remaining-points",
+        "identify-resolved-invalidations"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "verify-confirmation",
+      "executor": "ChronicleApplication",
+      "condition": "any excess points exist",
+      "effects": [
+        "require-allocation-reconciliation-confirmation"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "persist-priority-assignment",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-previous-priority-assignment",
+        "set-new-priority-assignment"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "persist-allocation-invalidations",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "create-excess-point-invalidations",
+        "clear-resolved-priority-invalidations",
+        "preserve-existing-attribute-ratings"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-priority-change",
+        "record-budget-changes",
+        "record-created-invalidations",
+        "record-resolved-invalidations"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-priority-assignment",
+        "validate-attribute-budget",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 90,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "invalidationContract": {
+    "invalidationType": "AttributeCategoryBudgetExceeded",
+    "fields": {
+      "invalidationId": "Reference",
+      "categoryKey": "Reference",
+      "assignedPriority": "Text",
+      "allowedAdditionalPoints": "Integer",
+      "allocatedAdditionalPoints": "Integer",
+      "excessPoints": "Integer",
+      "createdByOperationId": "Reference",
+      "resolutionRequirement": "Text"
+    },
+    "resolutionRequirement": "Reduce one or more Attribute base ratings in the affected category until the category allocation matches its assigned budget.",
+    "automaticResolutionAllowed": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "persistInvalidations": true
+  },
+  "resultContract": {
+    "resultKey": "SetAttributePrioritiesResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "previousAssignment": "StructuredObject",
+      "newAssignment": "StructuredObject",
+      "categoryBudgets": "StructuredObject",
+      "allocatedPointsByCategory": "StructuredObject",
+      "remainingPointsByCategory": "StructuredObject",
+      "excessPointsByCategory": "StructuredObject",
+      "createdInvalidations": "StructuredCollection",
+      "resolvedInvalidations": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "SetAttributePrioritiesFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterAttributePrioritiesChanged",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "previousAssignment": "StructuredObject",
+        "newAssignment": "StructuredObject",
+        "createdInvalidationCount": "Integer",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-7-5-3-budget",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The operation assigns the Physical, Social, and Mental categories to the 7 / 5 / 3 priority budgets.",
+    "Changing priorities never redistributes or removes Attribute points automatically.",
+    "Existing ratings are preserved and excess allocations become explicit blocking invalidations.",
+    "The player must resolve excess points through later Attribute rating operations.",
+    "Chronicle owns persistence, idempotency, versioning, invalidations, and the creation ledger.",
+    "The Rule Set owns category membership, budget calculation, and mechanical validation."
+  ]
+}

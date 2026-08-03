@@ -1,0 +1,576 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-identity-review",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-identity-review.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogIdentities",
+  "purpose": [
+    "Provide the versioned review record for catalog identities used by the current Werewolf Character creation slice.",
+    "Separate structurally declared keys from identities confirmed through source review.",
+    "Track candidate keys, unresolved identities, fixture dependencies, localization requirements, and promotion impact.",
+    "Prevent implementation and promotion from treating normalized identifiers as confirmed merely because they exist in prototype artifacts."
+  ],
+  "authority": {
+    "reviewRecordAuthority": "RuleSetExtractionAndReview",
+    "catalogDefinitionAuthority": "RuleSetPackage",
+    "artifactValidationAuthority": "Chronicle",
+    "mechanicalMeaningAuthority": "RuleSet",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingIdentity": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "workPackageBinding": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "deliveryPlanArtifactRef": "../prototype-delivery-plan.json",
+    "workStatusArtifactRef": "../prototype-work-status.json",
+    "requiredOutputKey": "reviewed-catalog-identity-record"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "adequateForGuidedReview": true,
+    "adequateForAutomaticApproval": false,
+    "rawSourceTextEmbedded": false
+  },
+  "reviewStatus": {
+    "status": "in-progress",
+    "overallDecision": "not-approved",
+    "reviewedCatalogCount": 4,
+    "totalCatalogCount": 9,
+    "approvedIdentityCount": 14,
+    "candidateIdentityCount": 5,
+    "blockedIdentityCount": 1,
+    "unreviewedIdentityCount": "all-other-indexed-entries",
+    "promotionBlocking": true
+  },
+  "catalogReviews": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "artifactRef": "../character-model/catalogs/races.json",
+      "status": "reviewed-approved-with-warnings",
+      "identityNamespace": "character.race",
+      "currentSliceRequiredKeys": [
+        "character.race.homid",
+        "character.race.metis",
+        "character.race.lupus"
+      ],
+      "fixtureRefs": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "requiredChecks": [
+        "source-name-matches-identity",
+        "stable-slug-is-unambiguous",
+        "derived-gnosis-binding-resolves",
+        "gift-eligibility-source-binding-resolves",
+        "localization-resource-key-present"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "artifactRef": "../character-model/catalogs/auspices.json",
+      "status": "reviewed-approved-with-warnings",
+      "identityNamespace": "character.auspice",
+      "currentSliceRequiredKeys": [
+        "character.auspice.ragabash",
+        "character.auspice.philodox"
+      ],
+      "fixtureRefs": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "requiredChecks": [
+        "source-name-matches-identity",
+        "stable-slug-is-unambiguous",
+        "derived-rage-binding-resolves",
+        "initial-renown-binding-resolves",
+        "gift-eligibility-source-binding-resolves",
+        "localization-resource-key-present"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "artifactRef": "../character-model/catalogs/tribes.json",
+      "status": "reviewed-partially-approved",
+      "identityNamespace": "character.tribe",
+      "currentSliceRequiredKeys": [
+        "character.tribe.glass-walkers"
+      ],
+      "fixtureRefs": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "requiredChecks": [
+        "source-name-matches-identity",
+        "stable-slug-is-unambiguous",
+        "derived-willpower-binding-resolves",
+        "gift-eligibility-source-binding-resolves",
+        "background-restriction-binding-resolves",
+        "localization-resource-key-present"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "artifactRef": "../character-model/catalogs/attributes.json",
+      "status": "reviewed-approved-with-warnings",
+      "identityNamespace": "character.attribute",
+      "currentSliceRequiredKeys": [
+        "character.attribute.strength",
+        "character.attribute.dexterity",
+        "character.attribute.stamina",
+        "character.attribute.charisma",
+        "character.attribute.manipulation",
+        "character.attribute.appearance",
+        "character.attribute.perception",
+        "character.attribute.intelligence",
+        "character.attribute.wits"
+      ],
+      "requiredChecks": [
+        "all-nine-current-slice-identities-present",
+        "category-binding-physical-social-mental-valid",
+        "stable-order-valid",
+        "localization-resource-key-present"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "artifactRef": "../character-model/catalogs/abilities.json",
+      "status": "pending-review",
+      "identityNamespace": "character.ability",
+      "currentSliceRequiredKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.leadership",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.performance",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.occult",
+        "character.ability.politics",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.etiquette",
+        "character.ability.law"
+      ],
+      "requiredChecks": [
+        "identity-source-name-match",
+        "category-binding-talents-skills-knowledges-valid",
+        "lupus-restriction-bindings-resolve",
+        "stable-order-valid",
+        "localization-resource-key-present"
+      ],
+      "knownRestrictionKeysToConfirm": [
+        "character.ability.crafts",
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.firearms",
+        "character.ability.computer",
+        "character.ability.law",
+        "character.ability.linguistics",
+        "character.ability.politics",
+        "character.ability.science"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "artifactRef": "../character-model/catalogs/backgrounds.json",
+      "status": "pending-review",
+      "identityNamespace": "character.background",
+      "currentSliceRequiredKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "requiredChecks": [
+        "identity-source-name-match",
+        "tribe-restriction-bindings-resolve",
+        "stable-order-valid",
+        "localization-resource-key-present"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "artifactRef": "../character-model/catalogs/metis-deformities.json",
+      "status": "candidate-partial",
+      "identityNamespace": "character.metis-deformity",
+      "currentSliceRequiredKeys": [
+        "character.metis-deformity.horns"
+      ],
+      "candidateIdentities": [
+        {
+          "identityKey": "character.metis-deformity.horns",
+          "status": "candidate",
+          "usedByFixtures": [
+            "character-creation.metis-valid-character"
+          ],
+          "requiredResolution": "Confirm that the source-backed deformity identity and normalized key are correct."
+        }
+      ],
+      "requiredChecks": [
+        "candidate-key-resolves-to-reviewed-catalog-entry",
+        "source-name-and-description-identity-match",
+        "metis-only-applicability-binding-valid",
+        "localization-resource-key-present"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "artifactRef": "../character-model/catalogs/ranks.json",
+      "status": "pending-review",
+      "identityNamespace": "character.rank",
+      "currentSliceRequiredKeys": [
+        "character.rank.cliath"
+      ],
+      "requiredChecks": [
+        "initial-rank-key-source-match",
+        "numeric-rank-binding-valid",
+        "localization-resource-key-present"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "artifactRef": "../character-model/catalogs/initial-gifts.json",
+      "status": "candidate-partial",
+      "identityNamespace": "gift",
+      "currentSliceRequiredKeys": [
+        "gift.race.homid.master-of-fire",
+        "gift.auspice.ragabash.open-seal",
+        "gift.tribe.glass-walkers.control-simple-machine",
+        "gift.race.metis.create-element",
+        "gift.auspice.philodox.resist-pain",
+        "gift.race.lupus.hare-leap"
+      ],
+      "candidateIdentities": [
+        {
+          "identityKey": "gift.race.homid.master-of-fire",
+          "status": "candidate",
+          "usedByFixtures": [
+            "character-creation.minimal-valid-character",
+            "character-creation.classification-change-invalidates-state"
+          ]
+        },
+        {
+          "identityKey": "gift.auspice.ragabash.open-seal",
+          "status": "candidate",
+          "usedByFixtures": [
+            "character-creation.minimal-valid-character"
+          ]
+        },
+        {
+          "identityKey": "gift.tribe.glass-walkers.control-simple-machine",
+          "status": "candidate",
+          "usedByFixtures": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ]
+        },
+        {
+          "identityKey": "gift.race.metis.create-element",
+          "status": "candidate",
+          "usedByFixtures": [
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ]
+        },
+        {
+          "identityKey": "gift.auspice.philodox.resist-pain",
+          "status": "candidate",
+          "usedByFixtures": [
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ]
+        },
+        {
+          "identityKey": "gift.race.lupus.hare-leap",
+          "status": "candidate",
+          "usedByFixtures": [
+            "character-creation.lupus-restricted-ability"
+          ]
+        }
+      ],
+      "requiredChecks": [
+        "gift-name-source-match",
+        "level-one-classification-valid",
+        "race-auspice-or-tribe-eligibility-binding-valid",
+        "stable-slug-is-unambiguous",
+        "localization-resource-key-present",
+        "runtime-effect-text-not-required-for-current-slice",
+        "additional-purchase-eligibility-remains-blocked"
+      ]
+    }
+  ],
+  "identityDecisionShape": {
+    "identityKey": "Reference",
+    "catalogKey": "Reference",
+    "decision": "Text",
+    "sourceEvidenceRef": "Reference",
+    "reviewer": "Text",
+    "reviewedAt": "Text",
+    "replacementIdentityKey": "Reference",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "notes": "Text"
+  },
+  "allowedIdentityDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "normalizationPolicy": {
+    "keysUseLowercaseDotSeparatedStableNamespaces": true,
+    "displayNamesNeverUsedAsIdentifiers": true,
+    "diacriticsExcludedFromStableKeys": true,
+    "canonicalTechnicalLanguageForKeys": "en",
+    "sourceLanguagePreservedInLocalizationResources": true,
+    "renamingApprovedKeyRequiresMigrationMetadata": true,
+    "aliasingAllowed": "only-for-explicit-migration-or-compatibility",
+    "duplicateSemanticIdentityAllowed": false
+  },
+  "fixtureImpactPolicy": {
+    "fixtureReferencesMustResolveBeforeExecutableStatus": true,
+    "candidateIdentityMakesFixtureCandidatePartial": true,
+    "approvedNormalizationChangeRequiresFixtureUpdate": true,
+    "fixtureFingerprintMustChangeAfterIdentityChange": true,
+    "affectedSuitesMustRerunAfterIdentityChange": true
+  },
+  "implementationGate": {
+    "implementationMayBeginWithPendingCatalogReview": false,
+    "packageLoaderInfrastructureMayBeginIndependently": false,
+    "currentWorkPackageCompletionRequires": [
+      "all-current-slice-required-identities-reviewed",
+      "all-candidate-fixture-keys-resolved-or-excluded",
+      "all-required-localization-keys-defined-or-tracked",
+      "review-evidence-fingerprint-recorded"
+    ]
+  },
+  "promotionImpact": {
+    "currentSlicePromotionBlockedWhileOverallDecisionNotApproved": true,
+    "blockedFutureCatalogEntriesMayRemainExcluded": true,
+    "unreviewedUnusedEntriesMayRemainOutsidePromotedAllowlist": true,
+    "candidateFixtureIdentitiesMustResolve": true
+  },
+  "reviewEvidence": {
+    "evidenceType": "review-record",
+    "evidenceStatus": "in-progress",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-02T20:53:04.145Z",
+    "completedAt": null,
+    "decisionCount": 15,
+    "evidenceFingerprint": null
+  },
+  "nextReviewActions": [
+    {
+      "order": 10,
+      "actionKey": "catalog-review.inspect-races-auspices-tribes",
+      "affectedCatalogKeys": [
+        "character-model.catalog.races",
+        "character-model.catalog.auspices",
+        "character-model.catalog.tribes"
+      ]
+    },
+    {
+      "order": 20,
+      "actionKey": "catalog-review.inspect-attributes-abilities-backgrounds",
+      "affectedCatalogKeys": [
+        "character-model.catalog.attributes",
+        "character-model.catalog.abilities",
+        "character-model.catalog.backgrounds"
+      ]
+    },
+    {
+      "order": 30,
+      "actionKey": "catalog-review.resolve-metis-deformity",
+      "affectedCatalogKeys": [
+        "character-model.catalog.metis-deformities"
+      ]
+    },
+    {
+      "order": 40,
+      "actionKey": "catalog-review.inspect-rank",
+      "affectedCatalogKeys": [
+        "character-model.catalog.ranks"
+      ]
+    },
+    {
+      "order": 50,
+      "actionKey": "catalog-review.resolve-initial-gift-identities",
+      "affectedCatalogKeys": [
+        "character-model.catalog.initial-gifts"
+      ]
+    },
+    {
+      "order": 60,
+      "actionKey": "catalog-review.update-fixtures-and-fingerprints",
+      "affectedCatalogKeys": [
+        "character-model.catalog.metis-deformities",
+        "character-model.catalog.initial-gifts"
+      ]
+    },
+    {
+      "order": 70,
+      "actionKey": "catalog-review.finalize-review-evidence",
+      "affectedCatalogKeys": [
+        "all-current-slice-catalogs"
+      ]
+    }
+  ],
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-identity-review.catalog-keys-unique",
+      "severity": "blocking",
+      "requirement": "every catalog review references a unique catalogKey"
+    },
+    {
+      "ruleKey": "catalog-identity-review.refs-resolve",
+      "severity": "blocking",
+      "requirement": "every reviewed catalog and fixture reference resolves inside the prototype"
+    },
+    {
+      "ruleKey": "catalog-identity-review.required-keys-present",
+      "severity": "blocking",
+      "requirement": "every current-slice required identity exists in its referenced catalog"
+    },
+    {
+      "ruleKey": "catalog-identity-review.candidate-keys-explicit",
+      "severity": "blocking",
+      "requirement": "every candidate identity is explicitly listed with required resolution"
+    },
+    {
+      "ruleKey": "catalog-identity-review.fixture-impact-reconciles",
+      "severity": "blocking",
+      "requirement": "all fixture references to changed identities are updated and fingerprinted"
+    },
+    {
+      "ruleKey": "catalog-identity-review.no-automatic-approval",
+      "severity": "blocking",
+      "requirement": "no identity becomes approved without versioned source-backed review evidence"
+    },
+    {
+      "ruleKey": "catalog-identity-review.overall-decision-reconciles",
+      "severity": "blocking",
+      "requirement": "overallDecision is approved only when all current-slice required identities have approved or explicitly excluded decisions"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewFingerprintRequiredWhenFinalized": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeCatalogReviews": true,
+    "includeIdentityDecisions": true,
+    "includeFixtureImpact": true,
+    "includeReviewEvidence": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-review-status",
+      "catalog-statuses",
+      "candidate-identity-keys",
+      "missing-required-identity-keys",
+      "fixture-impact",
+      "promotion-impact",
+      "next-review-actions"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "catalogKeys",
+      "identityKeys",
+      "reviewStatuses",
+      "decisionKeys",
+      "fixtureKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogIdentityReviewUpdated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "artifactVersion": "Text",
+        "overallDecision": "Text",
+        "approvedIdentityCount": "Integer",
+        "candidateIdentityCount": "Integer",
+        "reviewFingerprint": "Text",
+        "updatedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogIdentityReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "artifactVersion": "Text",
+        "reviewedCatalogKeys": "ReferenceCollection",
+        "reviewFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "contentReviewStatus": "in-progress",
+    "fixtureConsistencyReviewStatus": "pending",
+    "localizationReviewStatus": "pending",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This record intentionally does not approve any catalog identity yet.",
+    "Existing prototype keys are declarations and candidates until source-backed review decisions are recorded.",
+    "The Metis deformity and initial Gift identities are the most immediate fixture blockers.",
+    "Unused or future catalog entries may remain unreviewed when they are excluded from the promoted allowlist.",
+    "Implementation must not guess, rename, merge, or auto-correct identities during package loading.",
+    "Chronicle owns artifact validation, fingerprints, diagnostics, evidence storage, and promotion enforcement.",
+    "Rule Set reviewers own source-backed identity decisions and fixture reconciliation."
+  ]
+}

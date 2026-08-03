@@ -1,0 +1,356 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.prototype-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "WerewolfPrototype",
+  "purpose": [
+    "Provide the canonical discovery surface for the complete Werewolf prototype package content.",
+    "Declare prototype roots, model indexes, operation indexes, presentation indexes, readiness, dependencies, and capability boundaries.",
+    "Allow Chronicle to load the prototype without Werewolf-specific registration code.",
+    "Support package validation, diagnostics, fixtures, tests, future promotion to package artifacts, and controlled migration."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "artifactDiscoveryAuthority": "Chronicle",
+    "artifactContractValidationAuthority": "Chronicle",
+    "mechanicalInterpretationAuthority": "RuleSet",
+    "persistenceAuthority": "Chronicle",
+    "hardcodedWerewolfRegistrationAllowed": false
+  },
+  "rootArtifacts": [
+    {
+      "artifactKey": "werewolf-prototype.manifest",
+      "artifactRef": "./manifest.json",
+      "artifactRole": "prototype-manifest",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "./character-model/character-model-index.json",
+      "artifactRole": "character-model-index",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "werewolf-prototype.manifest"
+      ]
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "./operations/character-creation/operation-index.json",
+      "artifactRole": "character-creation-operation-index",
+      "loadOrder": 30,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-model.character-model-index"
+      ]
+    },
+    {
+      "artifactKey": "character-sheet.character-sheet-index",
+      "artifactRef": "./character-sheet/character-sheet-index.json",
+      "artifactRole": "character-sheet-index",
+      "loadOrder": 40,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-model.character-model-index",
+        "character-creation.operation-index"
+      ]
+    }
+  ],
+  "capabilityMap": {
+    "prototype.character-model": {
+      "requiredArtifacts": [
+        "character-model.character-model-index"
+      ],
+      "readiness": "prototype-candidate"
+    },
+    "prototype.character-creation": {
+      "requiredArtifacts": [
+        "character-model.character-model-index",
+        "character-creation.operation-index"
+      ],
+      "readiness": "prototype-candidate"
+    },
+    "prototype.character-validation": {
+      "requiredNestedArtifacts": [
+        "character-model.validation-index"
+      ],
+      "readiness": "prototype-candidate"
+    },
+    "prototype.character-sheet": {
+      "requiredArtifacts": [
+        "character-sheet.character-sheet-index"
+      ],
+      "readiness": "prototype-candidate"
+    },
+    "prototype.additional-gift-purchase": {
+      "requiredNestedArtifacts": [
+        "character-model.catalog.initial-gifts",
+        "character-model.fields.gifts"
+      ],
+      "requiredOperationKeys": [
+        "character-creation.purchase-additional-gift",
+        "character-creation.remove-additional-gift"
+      ],
+      "readiness": "blocked",
+      "blockingReasonKey": "werewolf-prototype.capability.additional-gift-purchase.eligibility-unresolved"
+    }
+  },
+  "readinessSummary": {
+    "overallReadiness": "prototype-candidate",
+    "supportedCapabilities": [
+      "prototype.character-model",
+      "prototype.character-creation",
+      "prototype.character-validation",
+      "prototype.character-sheet"
+    ],
+    "blockedCapabilities": [
+      "prototype.additional-gift-purchase"
+    ],
+    "prototypeDecisionRequired": true,
+    "sourceReviewRequired": true,
+    "implementationReady": false
+  },
+  "loadPolicy": {
+    "loadMode": "manifest-driven",
+    "sortBy": "loadOrder",
+    "duplicateArtifactKeyBehavior": "prototype-load-failure",
+    "missingRequiredArtifactBehavior": "disable-prototype",
+    "unsupportedContractVersionBehavior": "prototype-load-failure",
+    "artifactOutsidePrototypeRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "dependencyPolicy": {
+    "allDeclaredDependenciesMustResolve": true,
+    "cyclesAllowed": false,
+    "cycleBehavior": "prototype-load-failure-with-cycle-path",
+    "loadOrderMustRespectDependencies": true,
+    "nestedIndexesValidatedRecursively": true
+  },
+  "contractValidation": {
+    "validateOnLoad": true,
+    "validateManifestBinding": true,
+    "validateArtifactKeys": true,
+    "validateArtifactReferences": true,
+    "validateContractVersions": true,
+    "validateNestedIndexFingerprints": true,
+    "validateCatalogAndFieldReferences": true,
+    "validateOperationReferences": true,
+    "validateValidationReferences": true,
+    "validateCharacterSheetReferences": true,
+    "validateDependencyGraphsAcyclic": true,
+    "validateSecurityDeclarations": true
+  },
+  "promotionPolicy": {
+    "prototypeArtifactsArePackageAuthority": false,
+    "directProductionUseAllowed": false,
+    "promotionRequires": [
+      "semantic-review-approved",
+      "source-review-approved",
+      "contract-consistency-review-approved",
+      "implementation-review-approved",
+      "security-review-approved",
+      "fixture-suite-passing",
+      "package-validation-passing"
+    ],
+    "promotionCreatesNewArtifactVersions": true,
+    "prototypeHistoryPreserved": true,
+    "silentReplacementAllowed": false
+  },
+  "sourcePolicy": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "directRuntimeAuthority": false,
+    "directPublicationAuthority": false,
+    "sourceTextMayBeEmbeddedInPrototypeArtifacts": false,
+    "mechanicalClaimsRequireReviewedExtraction": true
+  },
+  "knownPrototypeBoundaries": [
+    {
+      "boundaryKey": "werewolf-prototype.boundary.single-character-creation-slice",
+      "status": "intentional",
+      "description": "The prototype covers Character creation foundations and one generic Dice test slice, not the complete Rule Set."
+    },
+    {
+      "boundaryKey": "werewolf-prototype.boundary.additional-gift-eligibility",
+      "status": "blocked",
+      "description": "Additional Level One Gift purchase eligibility remains unresolved."
+    },
+    {
+      "boundaryKey": "werewolf-prototype.boundary.generic-dice-algorithm",
+      "status": "pending-extraction",
+      "description": "The exact generic Dice algorithm is not yet frozen."
+    },
+    {
+      "boundaryKey": "werewolf-prototype.boundary.runtime-gift-execution",
+      "status": "future",
+      "description": "Gift ownership may be modeled before Gift runtime execution is implemented."
+    }
+  ],
+  "consistencyRules": [
+    {
+      "ruleKey": "prototype-index.root-artifact-keys-unique",
+      "severity": "blocking",
+      "requirement": "every root artifact key is unique"
+    },
+    {
+      "ruleKey": "prototype-index.refs-resolve",
+      "severity": "blocking",
+      "requirement": "every artifact reference resolves inside the prototype root"
+    },
+    {
+      "ruleKey": "prototype-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "root artifact dependencies are acyclic"
+    },
+    {
+      "ruleKey": "prototype-index.manifest-binding-valid",
+      "severity": "blocking",
+      "requirement": "packageId, prototype version, and manifest identity reconcile"
+    },
+    {
+      "ruleKey": "prototype-index.character-model-valid",
+      "severity": "blocking",
+      "requirement": "the Character model index and all required nested artifacts load successfully"
+    },
+    {
+      "ruleKey": "prototype-index.operation-model-valid",
+      "severity": "blocking",
+      "requirement": "the Character creation operation index loads and all required operation references resolve"
+    },
+    {
+      "ruleKey": "prototype-index.sheet-model-valid",
+      "severity": "blocking",
+      "requirement": "the Character sheet index loads and all field and operation references resolve"
+    },
+    {
+      "ruleKey": "prototype-index.blocked-capabilities-explicit",
+      "severity": "blocking",
+      "requirement": "all blocked capabilities declare a stable blocking reason"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeRootArtifactFingerprints": true,
+    "includeNestedIndexFingerprints": true,
+    "includeCapabilityReadiness": true,
+    "includeKnownPrototypeBoundaries": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "artifactKey",
+      "artifactRef",
+      "artifactRole",
+      "required",
+      "readiness",
+      "dependencyStatus",
+      "contractStatus",
+      "referenceStatus",
+      "fingerprintStatus",
+      "capabilityImpact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawCharacterStateIncluded": false,
+    "rawSourceTextIncluded": false
+  },
+  "testIntegration": {
+    "fixtureRoot": "../fixtures",
+    "testRoot": "../tests",
+    "requiredBeforePromotion": true,
+    "minimumSuites": [
+      "package-load",
+      "character-model-contracts",
+      "character-creation-happy-path",
+      "character-creation-invalid-paths",
+      "ledger-integrity",
+      "dependency-impact",
+      "completion-atomicity",
+      "character-sheet-reference-validation"
+    ]
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "filesystemAccess": "prototype-artifacts-read-only",
+    "containsNarrativePayload": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "artifactRefs",
+      "readiness",
+      "capabilityKeys",
+      "contractVersions",
+      "fingerprints",
+      "diagnosticKeys"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-character-state",
+      "raw-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "rootArtifactCount": "Integer",
+        "supportedCapabilityKeys": "ReferenceCollection",
+        "blockedCapabilityKeys": "ReferenceCollection",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "failureKey": "Reference",
+        "affectedArtifactKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-prototype-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "implementationReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "promotionReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for the complete Werewolf prototype.",
+    "Chronicle loads the prototype entirely from package artifacts and never invokes Werewolf-specific registration code.",
+    "The prototype remains nonauthoritative until reviewed artifacts are promoted into the package publication surface.",
+    "Blocked optional capabilities remain visible without disabling the supported Character creation slice.",
+    "The cleaned source summary supports guided extraction but is never treated as direct runtime authority.",
+    "Chronicle owns discovery, contract validation, package isolation, diagnostics, fingerprints, and promotion boundaries.",
+    "The Rule Set package owns the declared prototype model, operation semantics, validation semantics, and presentation structure."
+  ]
+}

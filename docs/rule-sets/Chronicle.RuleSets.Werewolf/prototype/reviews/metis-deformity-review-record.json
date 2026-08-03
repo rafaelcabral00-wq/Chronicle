@@ -1,0 +1,723 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.metis-deformity-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.metis-deformity-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceMetisDeformityCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for the Metis deformity identity required by the current Character creation slice.",
+    "Review the candidate deformity identity, normalized key, source-backed name, Metis-only applicability, selection requirements, and dependent fixture behavior.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, tests, issues, and blockers.",
+    "Prevent the candidate deformity identity from being treated as approved because it appears in prototype artifacts."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/metis-deformities.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "catalogReviewActionIndexArtifactRef": "./catalog-review-action-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "backgroundReviewRecordArtifactRef": "./background-review-record.json",
+    "taskKey": "catalog-review.task.resolve-metis-deformity",
+    "catalogKey": "character-model.catalog.metis-deformities",
+    "issueKey": "catalog-review.issue.metis-deformity-identity-unresolved",
+    "blockerKey": "catalog-review.blocker.metis-deformity-source-review-required"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-03T00:00:00.000-03:00",
+    "completedAt": "2026-08-03T00:00:00.000-03:00",
+    "requiredIdentityCount": 1,
+    "reviewedIdentityCount": 1,
+    "approvedIdentityCount": 1,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "excludedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 4,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "activeBlockerCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.metis-deformity.horns",
+      "expectedSourceName": "Horns",
+      "expectedApplicability": {
+        "requiredRaceKey": "character.race.metis"
+      },
+      "expectedSelectionCardinality": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "status": "approved",
+      "issueKey": "catalog-review.issue.metis-deformity-identity-unresolved",
+      "blockerKey": "catalog-review.blocker.metis-deformity-source-review-required",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "reviewer": "RuleSetExtractionAndReview",
+      "decisionId": "catalog-identity-decision.metis-deformity.horns",
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7",
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9",
+        "catalog-review.evidence.formal-decision-record.metis-deformity.0324a27a85df60c4",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "issueKeys": [],
+      "blockerKeys": [],
+      "notes": "Original source directly supports Cornos/Horns and mandatory Metis deformity selection.",
+      "sourceIdentityName": "Cornos"
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "metis-deformity-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "metis-deformity.finding.catalog-entry-present"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.source-identity-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present",
+        "catalog-review.metis-deformities.candidate-identity-resolved"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "metis-deformity.finding.horns-identity-insufficient-source"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.normalized-key-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "metis-deformity.finding.catalog-entry-present"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.metis-only-applicability-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.metis-deformities.metis-only-applicability-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "metis-deformity.finding.metis-mandatory-deformity-supported"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7",
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.selection-cardinality-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.metis-deformities.selection-cardinality-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "metis-deformity.finding.metis-mandatory-deformity-supported"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7",
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.operation-and-validation-bindings-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "metis-deformity.finding.creation-and-validation-bindings-present"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.metis-deformity.3b7a6f0c7a2d18a9",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.localization-binding-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "not-executed",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.fixture-and-test-references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.test-bindings-resolve",
+        "catalog-review.metis-deformities.fixture-impact-reconciled"
+      ],
+      "required": true,
+      "status": "not-executed",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.metis-deformity.1e8d54fb2d3a41b7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "metis-deformity-review.formal-decision-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "metis-deformity.finding.horns-identity-insufficient-source"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.metis-deformity.0324a27a85df60c4",
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "metis-only-applicability",
+    "selection-cardinality",
+    "creation-binding",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "metis-deformity.finding.catalog-entry-present",
+      "identityKey": "character.metis-deformity.horns",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "claim": "No cleaned source support found for the concrete Horns/Cornos identity."
+      },
+      "catalogClaim": {
+        "entryKey": "character.metis-deformity.horns",
+        "sourceLabelPtBr": "Cornos",
+        "provenanceRef": "../../provenance/source-segments/metis-deformity-horns.json"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.metis-deformity.cornos.lines-523-533",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/metis-deformities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports Cornos/Horns; Portuguese Cornos is normalized to English Horns."
+    },
+    {
+      "findingId": "metis-deformity.finding.metis-mandatory-deformity-supported",
+      "identityKey": "character.metis-deformity.horns",
+      "findingType": "selection-cardinality",
+      "sourceClaim": {
+        "claim": "Cleaned extraction states Metis has a mandatory deformity during character creation."
+      },
+      "catalogClaim": {
+        "selectionMode": "single",
+        "minSelections": 1,
+        "maxSelections": 1,
+        "requiredWhenRaceKey": "character.race.metis"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.metis-deformity.cornos.lines-523-533",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/metis-deformities.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports Cornos/Horns; Portuguese Cornos is normalized to English Horns."
+    },
+    {
+      "findingId": "metis-deformity.finding.horns-identity-insufficient-source",
+      "identityKey": "character.metis-deformity.horns",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "claim": "No cleaned extraction or source-segment artifact names Horns/Cornos as the current-slice deformity."
+      },
+      "catalogClaim": {
+        "sourceLabelPtBr": "Cornos",
+        "expectedSourceName": "Horns"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.metis-deformity.cornos.lines-523-533",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/metis-deformities.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports Cornos/Horns; Portuguese Cornos is normalized to English Horns."
+    },
+    {
+      "findingId": "metis-deformity.finding.creation-and-validation-bindings-present",
+      "identityKey": "character.metis-deformity.horns",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "claim": "Cleaned extraction places mandatory Metis deformity in character creation."
+      },
+      "catalogClaim": {
+        "creationStage": "CreationBaseAllocation",
+        "validationRule": "character.creation.metis.requires-one-deformity",
+        "operation": "../character-creation/select-metis-deformity.json"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-original.werewolf3e.metis-deformity.cornos.lines-523-533",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-creation/select-metis-deformity.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Original source directly supports Cornos/Horns; Portuguese Cornos is normalized to English Horns."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "metis-deformity-review.claim.horns-identity",
+      "identityKey": "character.metis-deformity.horns",
+      "claim": {
+        "sourceName": "Horns"
+      },
+      "status": "unresolved-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "metis-deformity-review.claim.metis-only-applicability",
+      "identityKey": "character.metis-deformity.horns",
+      "claim": {
+        "requiredRaceKey": "character.race.metis"
+      },
+      "status": "candidate-source-claim",
+      "sourceEvidenceRef": null
+    },
+    {
+      "claimKey": "metis-deformity-review.claim.selection-cardinality",
+      "identityKey": "character.metis-deformity.horns",
+      "claim": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "status": "candidate-source-claim",
+      "sourceEvidenceRef": null
+    }
+  ],
+  "requiredActions": [
+    "catalog-review.action.review-metis-deformity-source",
+    "catalog-review.action.record-final-metis-deformity-decision",
+    "catalog-review.action.reconcile-metis-fixtures-and-tests"
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/metis-deformities.json",
+    "../character-model/fields/classification.json",
+    "../character-model/validation/character-creation.json",
+    "../character-model/validation/character-completion.json",
+    "../character-model/creation/dependency-graph.json",
+    "../character-model/creation/invalidations.json",
+    "../operations/character-creation/select-metis-deformity.json",
+    "../operations/character-creation/validate-character.json",
+    "../operations/character-creation/complete-character.json",
+    "../character-sheet/default-sheet.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.metis-valid-character",
+    "character-creation.metis-missing-deformity"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.dependency-and-invalidation",
+    "tests.character-sheet-projection",
+    "tests.completion-atomicity"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.metis-deformity.horns"
+    ],
+    "decisionEntryMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "decisionRequiredForReviewCompletion": true,
+    "allowedFinalDecisionResults": [
+      "approved",
+      "approved-with-normalization-change",
+      "rejected",
+      "excluded-from-current-slice"
+    ]
+  },
+  "issueAndBlockerResolution": {
+    "issueKey": "catalog-review.issue.metis-deformity-identity-unresolved",
+    "blockerKey": "catalog-review.blocker.metis-deformity-source-review-required",
+    "issueMayResolveWhen": [
+      "source-review-action-complete",
+      "active-final-decision-recorded",
+      "affected-artifacts-and-fixtures-reconciled",
+      "affected-required-tests-pass"
+    ],
+    "blockerMayVerifyWhen": [
+      "issue-resolved",
+      "resolution-evidence-current",
+      "independent-validation-complete"
+    ],
+    "resolvedButUnverifiedStillBlocks": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "candidate-identity-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "one-active-final-identity-decision-recorded",
+      "metis-only-applicability-reviewed",
+      "selection-cardinality-reviewed",
+      "all-required-resolution-actions-complete",
+      "all-affected-artifacts-and-fixtures-reconciled",
+      "all-affected-required-tests-pass",
+      "issue-resolved",
+      "blocker-verified",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateClaimsMayNotSatisfyCompletion": true,
+    "resolvedButUnverifiedBlockerMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchUsesExistingIssue": "catalog-review.issue.metis-deformity-identity-unresolved",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingIdentityOpensIssueType": "missing-required-identity",
+    "invalidApplicabilityOrCardinalityOpensIssueType": "invalid-catalog-binding",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "metisDeformityCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "verifiedBlockerMayBecomeStale": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "metis-deformity-review-record.required-identity-complete",
+      "severity": "blocking",
+      "requirement": "the current candidate deformity identity appears exactly once"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.issue-and-blocker-bindings-resolve",
+      "severity": "blocking",
+      "requirement": "the declared issue and blocker references resolve"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.required-actions-resolve",
+      "severity": "blocking",
+      "requirement": "every required resolution action resolves"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every deformity review check key is unique"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references the candidate deformity identity"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.final-decision-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires one active final identity decision"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.blocker-verified",
+      "severity": "blocking",
+      "requirement": "review completion requires the associated blocker to be independently verified"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, blockers, and decisions"
+    },
+    {
+      "ruleKey": "metis-deformity-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixtures, candidate claims, or resolved-but-unverified blockers do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentity": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceDecisionIssueAndBlockerRefs": true,
+    "includeRequiredActions": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-status",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-id",
+      "issue-status",
+      "blocker-status",
+      "required-action-statuses",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "blockerKeys",
+      "actionKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfMetisDeformityCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "issueKey": "Reference",
+        "blockerKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfMetisDeformityCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfMetisDeformityCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "finalIdentityKey": "Reference",
+        "finalDecisionResult": "Text",
+        "issueKey": "Reference",
+        "blockerKey": "Reference",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "critical",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "blocked",
+    "issueStatus": "open",
+    "blockerStatus": "active",
+    "reconciliationStatus": "pending",
+    "taskCompletionStatus": "not-eligible",
+    "lastReviewedAt": "2026-08-03T00:00:00.000-03:00",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "Cleaned extraction supports mandatory Metis deformity during Character creation.",
+    "The catalog candidate character.metis-deformity.horns remains structurally present but substantively unresolved.",
+    "No cleaned source segment or repository extraction artifact was found for Horns/Cornos; the existing blocker remains active.",
+    "Source-gap investigation 2026-08-03: Metis mandatory deformity support exists, but Horns/Cornos concrete identity was not found in cleaned extraction locators; blocker remains active.",
+    "Original-source reconciliation 2026-08-03: Cornos directly supports Horns identity and mechanics; no catalog mechanics were changed."
+  ]
+}

@@ -1,0 +1,492 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-model.character-model-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-model.index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterModel",
+  "purpose": [
+    "Provide the canonical discovery surface for the complete Werewolf Character model.",
+    "Declare model roots, catalogs, field groups, creation artifacts, validation artifacts, Character sheet projections, and operation indexes.",
+    "Allow Chronicle to load the Character model without Werewolf-specific application registration.",
+    "Support package validation, capability discovery, diagnostics, migrations, fixtures, and tests."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "artifactDiscoveryAuthority": "Chronicle",
+    "artifactContractValidationAuthority": "Chronicle",
+    "mechanicalInterpretationAuthority": "RuleSet",
+    "persistenceAuthority": "Chronicle",
+    "hardcodedWerewolfRegistrationAllowed": false
+  },
+  "modelRoot": {
+    "artifactKey": "character-model.root",
+    "artifactRef": "./model.json",
+    "required": true,
+    "loadOrder": 10,
+    "readiness": "prototype-candidate"
+  },
+  "catalogArtifacts": [
+    {
+      "artifactKey": "character-model.catalog.races",
+      "artifactRef": "./catalogs/races.json",
+      "catalogRole": "classification-options",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.auspices",
+      "artifactRef": "./catalogs/auspices.json",
+      "catalogRole": "classification-options",
+      "loadOrder": 21,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.tribes",
+      "artifactRef": "./catalogs/tribes.json",
+      "catalogRole": "classification-options",
+      "loadOrder": 22,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.attributes",
+      "artifactRef": "./catalogs/attributes.json",
+      "catalogRole": "rating-definitions",
+      "loadOrder": 23,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.abilities",
+      "artifactRef": "./catalogs/abilities.json",
+      "catalogRole": "rating-definitions",
+      "loadOrder": 24,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.backgrounds",
+      "artifactRef": "./catalogs/backgrounds.json",
+      "catalogRole": "rating-definitions",
+      "loadOrder": 25,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.metis-deformities",
+      "artifactRef": "./catalogs/metis-deformities.json",
+      "catalogRole": "conditional-selection-options",
+      "loadOrder": 26,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.ranks",
+      "artifactRef": "./catalogs/ranks.json",
+      "catalogRole": "rank-definitions",
+      "loadOrder": 27,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.catalog.initial-gifts",
+      "artifactRef": "./catalogs/initial-gifts.json",
+      "catalogRole": "initial-gift-options",
+      "loadOrder": 28,
+      "required": true,
+      "readiness": "candidate-partial",
+      "notes": [
+        "Initial creation slots are supported.",
+        "Additional freebie Gift eligibility remains blocked pending source review."
+      ]
+    }
+  ],
+  "fieldArtifacts": [
+    {
+      "artifactKey": "character-model.fields.identity",
+      "artifactRef": "./fields/identity.json",
+      "fieldRole": "identity",
+      "loadOrder": 40,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.classification",
+      "artifactRef": "./fields/classification.json",
+      "fieldRole": "classification",
+      "loadOrder": 41,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.attributes",
+      "artifactRef": "./fields/attributes.json",
+      "fieldRole": "mechanical-ratings",
+      "loadOrder": 42,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.abilities",
+      "artifactRef": "./fields/abilities.json",
+      "fieldRole": "mechanical-ratings",
+      "loadOrder": 43,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.backgrounds",
+      "artifactRef": "./fields/backgrounds.json",
+      "fieldRole": "mechanical-ratings",
+      "loadOrder": 44,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.gifts",
+      "artifactRef": "./fields/gifts.json",
+      "fieldRole": "mechanical-selections",
+      "loadOrder": 45,
+      "required": true,
+      "readiness": "candidate-partial"
+    },
+    {
+      "artifactKey": "character-model.fields.renown-and-rank",
+      "artifactRef": "./fields/renown-and-rank.json",
+      "fieldRole": "derived-mechanics",
+      "loadOrder": 46,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.resources",
+      "artifactRef": "./fields/resources.json",
+      "fieldRole": "permanent-and-current-resources",
+      "loadOrder": 47,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.specializations",
+      "artifactRef": "./fields/specializations.json",
+      "fieldRole": "conditional-mechanical-selections",
+      "loadOrder": 48,
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-model.fields.narrative",
+      "artifactRef": "./fields/narrative.json",
+      "fieldRole": "narrative-state",
+      "loadOrder": 49,
+      "required": true,
+      "readiness": "prototype-candidate"
+    }
+  ],
+  "submodelIndexes": [
+    {
+      "artifactKey": "character-creation.creation-model-index",
+      "artifactRef": "./creation/creation-model-index.json",
+      "submodelRole": "character-creation",
+      "loadOrder": 60,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-model.root",
+        "character-model.fields.identity",
+        "character-model.fields.classification",
+        "character-model.fields.attributes",
+        "character-model.fields.abilities",
+        "character-model.fields.backgrounds",
+        "character-model.fields.gifts",
+        "character-model.fields.renown-and-rank",
+        "character-model.fields.resources",
+        "character-model.fields.specializations",
+        "character-model.fields.narrative"
+      ]
+    },
+    {
+      "artifactKey": "character-model.validation-index",
+      "artifactRef": "./validation/validation-index.json",
+      "submodelRole": "validation",
+      "loadOrder": 70,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "dependsOn": [
+        "character-creation.creation-model-index"
+      ]
+    }
+  ],
+  "externalArtifacts": [
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../operations/character-creation/operation-index.json",
+      "artifactRole": "creation-operations",
+      "required": true,
+      "readiness": "prototype-candidate"
+    },
+    {
+      "artifactKey": "character-sheet.default",
+      "artifactRef": "../character-sheet/default-sheet.json",
+      "artifactRole": "default-character-sheet-layout",
+      "required": true,
+      "readiness": "prototype-candidate"
+    }
+  ],
+  "loadPolicy": {
+    "loadMode": "manifest-driven",
+    "loadSequence": [
+      "modelRoot",
+      "catalogArtifacts",
+      "fieldArtifacts",
+      "submodelIndexes",
+      "externalArtifacts"
+    ],
+    "sortBy": "loadOrder",
+    "duplicateArtifactKeyBehavior": "package-load-failure",
+    "missingRequiredArtifactBehavior": "disable-character-model-capability",
+    "unsupportedContractVersionBehavior": "package-load-failure",
+    "artifactOutsidePackageRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "dependencyPolicy": {
+    "allDeclaredDependenciesMustResolve": true,
+    "cyclesAllowed": false,
+    "cycleBehavior": "package-load-failure-with-cycle-path",
+    "loadOrderMustRespectDependencies": true,
+    "fieldArtifactsMayDependOnCatalogArtifacts": true,
+    "submodelIndexesMayDependOnFieldsAndCatalogs": true
+  },
+  "capabilityMap": {
+    "character-model.core": {
+      "requiredArtifacts": [
+        "character-model.root",
+        "character-model.fields.identity",
+        "character-model.fields.classification",
+        "character-model.fields.attributes",
+        "character-model.fields.abilities",
+        "character-model.fields.backgrounds",
+        "character-model.fields.gifts",
+        "character-model.fields.renown-and-rank",
+        "character-model.fields.resources",
+        "character-model.fields.specializations",
+        "character-model.fields.narrative"
+      ]
+    },
+    "character-model.creation": {
+      "requiredArtifacts": [
+        "character-creation.creation-model-index",
+        "character-creation.operation-index"
+      ]
+    },
+    "character-model.validation": {
+      "requiredArtifacts": [
+        "character-model.validation-index"
+      ]
+    },
+    "character-model.sheet": {
+      "requiredArtifacts": [
+        "character-sheet.default"
+      ]
+    },
+    "character-model.additional-gift-purchase": {
+      "requiredArtifacts": [
+        "character-model.catalog.initial-gifts",
+        "character-model.fields.gifts",
+        "character-creation.operation-index"
+      ],
+      "readiness": "blocked",
+      "blockingReason": "Additional creation-time Gift eligibility remains unresolved."
+    }
+  },
+  "readinessPolicy": {
+    "allowedValues": [
+      "prototype-candidate",
+      "candidate-partial",
+      "blocked",
+      "future"
+    ],
+    "requiredBlockedArtifactBehavior": "disable-dependent-capability",
+    "optionalBlockedArtifactBehavior": "disable-dependent-optional-capability",
+    "blockedArtifactsRemainDiscoverable": true,
+    "partialArtifactsMustDeclareUnsupportedCapabilities": true
+  },
+  "contractValidation": {
+    "validateOnPackageLoad": true,
+    "validateArtifactKeys": true,
+    "validateArtifactReferences": true,
+    "validateContractVersions": true,
+    "validateCatalogEntryKeys": true,
+    "validateFieldKeys": true,
+    "validateCatalogReferencesFromFields": true,
+    "validateOperationReferences": true,
+    "validateValidationRuleReferences": true,
+    "validateInvalidationReferences": true,
+    "validateWarningReferences": true,
+    "validateSheetFieldReferences": true,
+    "validateDependencyGraphsAcyclic": true,
+    "validateSecurityDeclarations": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "character-model-index.artifact-keys-unique",
+      "severity": "blocking",
+      "requirement": "every indexed artifact key is unique"
+    },
+    {
+      "ruleKey": "character-model-index.refs-resolve",
+      "severity": "blocking",
+      "requirement": "every artifact reference resolves inside the Rule Set package"
+    },
+    {
+      "ruleKey": "character-model-index.catalog-entry-keys-unique",
+      "severity": "blocking",
+      "requirement": "catalog entry keys are unique within their catalogs"
+    },
+    {
+      "ruleKey": "character-model-index.field-keys-unique",
+      "severity": "blocking",
+      "requirement": "field keys are unique across indexed field artifacts"
+    },
+    {
+      "ruleKey": "character-model-index.field-catalog-refs-valid",
+      "severity": "blocking",
+      "requirement": "all field catalog references resolve to known catalog entries"
+    },
+    {
+      "ruleKey": "character-model-index.creation-index-valid",
+      "severity": "blocking",
+      "requirement": "the Character creation model index loads successfully"
+    },
+    {
+      "ruleKey": "character-model-index.validation-index-valid",
+      "severity": "blocking",
+      "requirement": "the Character validation index loads successfully"
+    },
+    {
+      "ruleKey": "character-model-index.operation-index-valid",
+      "severity": "blocking",
+      "requirement": "the Character creation operation index loads successfully"
+    },
+    {
+      "ruleKey": "character-model-index.sheet-refs-valid",
+      "severity": "blocking",
+      "requirement": "all default Character sheet references resolve to indexed Character model fields"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeArtifactFingerprints": true,
+    "includeReadiness": true,
+    "includeDependencyMetadata": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "artifactKey",
+      "artifactRef",
+      "artifactRole",
+      "required",
+      "readiness",
+      "contractVersion",
+      "artifactVersion",
+      "dependencyStatus",
+      "referenceStatus",
+      "fingerprintStatus"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawCharacterStateIncluded": false,
+    "rawSourceTextIncluded": false
+  },
+  "migrationPolicy": {
+    "modelVersionBoundToCharacter": true,
+    "historicalCompletionSnapshotsRemainUnchanged": true,
+    "migrationRequiresExplicitOperation": true,
+    "automaticSemanticMigrationAllowed": false,
+    "migrationMustValidateSourceAndTargetIndexes": true,
+    "migrationMustRecordBeforeAndAfterFingerprints": true
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "containsNarrativePayload": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "artifactRefs",
+      "readiness",
+      "contractVersions",
+      "fingerprints",
+      "diagnosticKeys"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-character-state",
+      "raw-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "catalogCount": "Integer",
+        "fieldArtifactCount": "Integer",
+        "submodelIndexCount": "Integer",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterModelLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "failureKey": "Reference",
+        "affectedArtifactKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-model-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "implementationReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "migrationReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for the complete Character model.",
+    "Chronicle loads the model entirely from package artifacts and never invokes Werewolf-specific registration code.",
+    "Catalogs, fields, creation behavior, validation, operations, and sheet projection remain independently versioned but consistently indexed.",
+    "Blocked optional capabilities remain visible without disabling the supported core Character creation flow.",
+    "Historical completion snapshots preserve the model versions that gave a Character its original mechanical meaning.",
+    "Chronicle owns discovery, contract validation, package isolation, diagnostics, persistence, and migration boundaries.",
+    "The Rule Set package owns model structure, catalog content, field semantics, validation semantics, and operation contracts."
+  ]
+}

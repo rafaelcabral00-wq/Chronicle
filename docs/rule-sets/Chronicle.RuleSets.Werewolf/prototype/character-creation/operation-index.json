@@ -1,0 +1,362 @@
+{
+  "contractVersion": 1,
+  "indexKey": "character-creation.operation-index",
+  "indexVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "operations": [
+    {
+      "operationKey": "character-creation.initialize-character-draft",
+      "artifactRef": "./initialize-character-draft.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.identity"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.preview-classification-change",
+      "artifactRef": "./preview-classification-change.json",
+      "operationKind": "query",
+      "stageKeys": [
+        "creation.classifications"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.apply-classification-change",
+      "artifactRef": "./apply-classification-change.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.classifications"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true,
+      "dependsOnOperations": [
+        "character-creation.preview-classification-change"
+      ]
+    },
+    {
+      "operationKey": "character-creation.set-attribute-priorities",
+      "artifactRef": "./set-attribute-priorities.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.attributes"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.set-attribute-rating",
+      "artifactRef": "./set-attribute-rating.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.attributes",
+        "creation.freebie-points"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true,
+      "dependsOnOperations": [
+        "character-creation.set-attribute-priorities"
+      ]
+    },
+    {
+      "operationKey": "character-creation.set-ability-priorities",
+      "artifactRef": "./set-ability-priorities.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.abilities"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.set-ability-rating",
+      "artifactRef": "./set-ability-rating.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.abilities",
+        "creation.freebie-points"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true,
+      "dependsOnOperations": [
+        "character-creation.set-ability-priorities"
+      ]
+    },
+    {
+      "operationKey": "character-creation.set-background-rating",
+      "artifactRef": "./set-background-rating.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.backgrounds",
+        "creation.freebie-points"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.select-initial-gift",
+      "artifactRef": "./select-initial-gift.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.initial-gifts"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.select-metis-deformity",
+      "artifactRef": "./select-metis-deformity.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.metis-deformity"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": "conditional"
+    },
+    {
+      "operationKey": "character-creation.set-specialization",
+      "artifactRef": "./set-specialization.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.specializations"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": false
+    },
+    {
+      "operationKey": "character-creation.set-resource-rating",
+      "artifactRef": "./set-resource-rating.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.resources-renown-rank",
+        "creation.freebie-points"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.purchase-additional-gift",
+      "artifactRef": "./purchase-additional-gift.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.freebie-points"
+      ],
+      "readiness": "blocked",
+      "requiredForCompletionFlow": false,
+      "blockingReasonKey": "character-creation.purchase-additional-gift.eligibility-unconfirmed"
+    },
+    {
+      "operationKey": "character-creation.remove-additional-gift",
+      "artifactRef": "./remove-additional-gift.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.freebie-points"
+      ],
+      "readiness": "blocked",
+      "requiredForCompletionFlow": false,
+      "dependsOnOperations": [
+        "character-creation.purchase-additional-gift"
+      ]
+    },
+    {
+      "operationKey": "character-creation.set-narrative-field",
+      "artifactRef": "./set-narrative-field.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.narrative"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": false
+    },
+    {
+      "operationKey": "character-creation.add-character-goal",
+      "artifactRef": "./add-character-goal.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.narrative"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": false
+    },
+    {
+      "operationKey": "character-creation.update-character-goal",
+      "artifactRef": "./update-character-goal.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.narrative"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": false,
+      "dependsOnOperations": [
+        "character-creation.add-character-goal"
+      ]
+    },
+    {
+      "operationKey": "character-creation.add-character-relationship",
+      "artifactRef": "./add-character-relationship.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.narrative"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": false
+    },
+    {
+      "operationKey": "character-creation.update-character-relationship",
+      "artifactRef": "./update-character-relationship.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.narrative"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": false,
+      "dependsOnOperations": [
+        "character-creation.add-character-relationship"
+      ]
+    },
+    {
+      "operationKey": "character-creation.validate-character",
+      "artifactRef": "./validate-character.json",
+      "operationKind": "query",
+      "stageKeys": [
+        "*"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true
+    },
+    {
+      "operationKey": "character-creation.complete-character",
+      "artifactRef": "./complete-character.json",
+      "operationKind": "command",
+      "stageKeys": [
+        "creation.review-and-complete"
+      ],
+      "readiness": "prototype-candidate",
+      "requiredForCompletionFlow": true,
+      "dependsOnOperations": [
+        "character-creation.validate-character"
+      ]
+    }
+  ],
+  "stageOperationMap": {
+    "creation.identity": [
+      "character-creation.initialize-character-draft"
+    ],
+    "creation.classifications": [
+      "character-creation.preview-classification-change",
+      "character-creation.apply-classification-change"
+    ],
+    "creation.attributes": [
+      "character-creation.set-attribute-priorities",
+      "character-creation.set-attribute-rating"
+    ],
+    "creation.abilities": [
+      "character-creation.set-ability-priorities",
+      "character-creation.set-ability-rating"
+    ],
+    "creation.backgrounds": [
+      "character-creation.set-background-rating"
+    ],
+    "creation.initial-gifts": [
+      "character-creation.select-initial-gift"
+    ],
+    "creation.resources-renown-rank": [
+      "character-creation.set-resource-rating"
+    ],
+    "creation.metis-deformity": [
+      "character-creation.select-metis-deformity"
+    ],
+    "creation.specializations": [
+      "character-creation.set-specialization"
+    ],
+    "creation.freebie-points": [
+      "character-creation.set-attribute-rating",
+      "character-creation.set-ability-rating",
+      "character-creation.set-background-rating",
+      "character-creation.set-resource-rating",
+      "character-creation.purchase-additional-gift",
+      "character-creation.remove-additional-gift"
+    ],
+    "creation.narrative": [
+      "character-creation.set-narrative-field",
+      "character-creation.add-character-goal",
+      "character-creation.update-character-goal",
+      "character-creation.add-character-relationship",
+      "character-creation.update-character-relationship"
+    ],
+    "creation.review-and-complete": [
+      "character-creation.validate-character",
+      "character-creation.complete-character"
+    ]
+  },
+  "discoveryPolicy": {
+    "manifestDriven": true,
+    "hardcodedOperationRegistrationAllowed": false,
+    "operationKeysMustBeUnique": true,
+    "artifactRefsMustResolveInsidePackage": true,
+    "contractVersionMustBeSupported": true,
+    "disabledOrBlockedOperationsRemainDiscoverable": true
+  },
+  "invocationPolicy": {
+    "allCommandsRequireIdempotency": true,
+    "allDraftCommandsRequireDraftVersion": true,
+    "queriesMayPersistOperationRecords": true,
+    "blockedOperationsCannotBeInvoked": true,
+    "narratorMayInvokeDirectly": false,
+    "chronicleDirectorMayBypassValidation": false,
+    "chronicleOwnsPersistence": true,
+    "ruleSetOwnsMechanicalValidation": true
+  },
+  "readinessSummary": {
+    "prototypeCandidateCount": 19,
+    "blockedCount": 2,
+    "requiredForCompletionCount": 13,
+    "optionalCount": 7,
+    "conditionalCount": 1
+  },
+  "blockedOperations": [
+    {
+      "operationKey": "character-creation.purchase-additional-gift",
+      "reason": "Exact freebie Gift eligibility sources remain unresolved."
+    },
+    {
+      "operationKey": "character-creation.remove-additional-gift",
+      "reason": "Removal depends on the blocked purchase capability."
+    }
+  ],
+  "completionCriticalOperations": [
+    "character-creation.initialize-character-draft",
+    "character-creation.preview-classification-change",
+    "character-creation.apply-classification-change",
+    "character-creation.set-attribute-priorities",
+    "character-creation.set-attribute-rating",
+    "character-creation.set-ability-priorities",
+    "character-creation.set-ability-rating",
+    "character-creation.set-background-rating",
+    "character-creation.select-initial-gift",
+    "character-creation.select-metis-deformity",
+    "character-creation.set-resource-rating",
+    "character-creation.validate-character",
+    "character-creation.complete-character"
+  ],
+  "review": {
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "implementationReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for Character creation operations in the Werewolf prototype package.",
+    "Chronicle discovers operations through package artifacts rather than Werewolf-specific registration code.",
+    "Blocked operations remain visible to tooling and developer diagnostics but cannot be invoked.",
+    "Stage mapping is declarative and may be consumed by the Character creation UI.",
+    "The index does not grant authority; each operation retains its own validation, transaction, security, and recovery contract.",
+    "Chronicle Core remains unaware of Werewolf-specific operation identities."
+  ]
+}

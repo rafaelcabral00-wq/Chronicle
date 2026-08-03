@@ -1,0 +1,448 @@
+{
+  "contractVersion": 1,
+  "fixtureKey": "character-creation.minimal-valid-character",
+  "fixtureVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "fixtureKind": "character-creation-state",
+  "publicationStatus": "prototype-candidate",
+  "purpose": [
+    "Provide one deterministic happy-path Character creation fixture.",
+    "Exercise all completion-critical Character creation stages without optional narrative or specialization content.",
+    "Verify allocation budgets, classification-derived values, initial Gift slots, creation ledger reconciliation, validation, and completion readiness.",
+    "Serve as a shared input for contract, integration, projection, and recovery tests."
+  ],
+  "binding": {
+    "characterModelId": "chronicle.rulesets.werewolf.character-model",
+    "characterModelVersion": "0.1.0-prototype",
+    "creationProfileVersion": "0.1.0-prototype",
+    "operationIndexVersion": "0.1.0-prototype",
+    "fixtureUsesPrototypeDecisions": true
+  },
+  "fixtureIdentity": {
+    "characterId": "fixture-character-minimal-valid-001",
+    "campaignId": "fixture-campaign-001",
+    "playerUserId": "fixture-user-001",
+    "draftVersion": 1
+  },
+  "character": {
+    "status": "Draft",
+    "version": 1,
+    "identity": {
+      "name": "Alex Morgan",
+      "concept": "Urban scout seeking a place in the sept",
+      "playerName": "Fixture Player"
+    },
+    "classification": {
+      "race": "character.race.homid",
+      "auspice": "character.auspice.ragabash",
+      "tribe": "character.tribe.glass-walkers",
+      "metisDeformity": null
+    },
+    "attributes": {
+      "character.attribute.strength": {
+        "rating": 4,
+        "baseRating": 1,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.attribute.dexterity": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.stamina": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.charisma": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.manipulation": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.appearance": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.attribute.perception": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.attribute.intelligence": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.attribute.wits": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      }
+    },
+    "abilities": {
+      "character.ability.alertness": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.ability.athletics": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.ability.brawl": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.ability.empathy": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.subterfuge": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.drive": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.ability.leadership": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.stealth": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.survival": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.ability.performance": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.ability.computer": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.investigation": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.ability.occult": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.ability.politics": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      }
+    },
+    "backgrounds": {
+      "character.background.resources": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.background.contacts": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.background.allies": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.background.rites": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      }
+    },
+    "gifts": {
+      "initial": {
+        "race": {
+          "giftKey": "gift.race.homid.master-of-fire",
+          "eligibilitySourceType": "race",
+          "eligibilitySourceKey": "character.race.homid"
+        },
+        "auspice": {
+          "giftKey": "gift.auspice.ragabash.open-seal",
+          "eligibilitySourceType": "auspice",
+          "eligibilitySourceKey": "character.auspice.ragabash"
+        },
+        "tribe": {
+          "giftKey": "gift.tribe.glass-walkers.control-simple-machine",
+          "eligibilitySourceType": "tribe",
+          "eligibilitySourceKey": "character.tribe.glass-walkers"
+        }
+      },
+      "acquired": []
+    },
+    "renown": {
+      "character.renown.glory": {
+        "permanent": 1,
+        "temporary": 0,
+        "source": "character.auspice.ragabash"
+      },
+      "character.renown.honor": {
+        "permanent": 1,
+        "temporary": 0,
+        "source": "character.auspice.ragabash"
+      },
+      "character.renown.wisdom": {
+        "permanent": 1,
+        "temporary": 0,
+        "source": "character.auspice.ragabash"
+      }
+    },
+    "rank": {
+      "rankKey": "character.rank.cliath",
+      "numericRank": 1,
+      "source": "character.creation.rank.initialize-cliath"
+    },
+    "resources": {
+      "character.resource.rage": {
+        "permanent": 1,
+        "current": 1,
+        "classificationInitialRating": 1,
+        "freebieDots": 0,
+        "source": "character.auspice.ragabash"
+      },
+      "character.resource.gnosis": {
+        "permanent": 1,
+        "current": 1,
+        "classificationInitialRating": 1,
+        "freebieDots": 0,
+        "source": "character.race.homid"
+      },
+      "character.resource.willpower": {
+        "permanent": 3,
+        "current": 3,
+        "classificationInitialRating": 3,
+        "freebieDots": 0,
+        "source": "character.tribe.glass-walkers"
+      }
+    },
+    "specializations": [],
+    "narrative": {
+      "backstory": "",
+      "personality": "",
+      "appearanceNotes": "",
+      "notes": "",
+      "goals": [],
+      "relationships": []
+    },
+    "ruleSetBinding": {
+      "packageId": "chronicle.rulesets.werewolf",
+      "packageVersion": "0.1.0-prototype",
+      "characterModelVersion": "0.1.0-prototype"
+    }
+  },
+  "creationState": {
+    "attributePriorities": {
+      "primary": "physical",
+      "secondary": "social",
+      "tertiary": "mental",
+      "allocatedPoints": {
+        "physical": 7,
+        "social": 5,
+        "mental": 3
+      }
+    },
+    "abilityPriorities": {
+      "primary": "talents",
+      "secondary": "skills",
+      "tertiary": "knowledges",
+      "allocatedPoints": {
+        "talents": 13,
+        "skills": 9,
+        "knowledges": 5
+      }
+    },
+    "budgetSummary": {
+      "attributePointsRemaining": {
+        "physical": 0,
+        "social": 0,
+        "mental": 0
+      },
+      "abilityPointsRemaining": {
+        "talents": 0,
+        "skills": 0,
+        "knowledges": 0
+      },
+      "backgroundPointsRemaining": 0,
+      "freebiePointsRemaining": 15
+    },
+    "invalidations": [],
+    "warningAcknowledgements": [],
+    "pendingDependencyRecalculation": false
+  },
+  "creationLedger": {
+    "status": "open",
+    "integrityStatus": "valid",
+    "expectedBudgetEffects": {
+      "character-creation.attribute-points": {
+        "physical": -7,
+        "social": -5,
+        "mental": -3
+      },
+      "character-creation.ability-points": {
+        "talents": -13,
+        "skills": -9,
+        "knowledges": -5
+      },
+      "character-creation.background-points": -5,
+      "character-creation.freebie-points": 0
+    },
+    "expectedRemainingBudgets": {
+      "attributePoints": {
+        "physical": 0,
+        "social": 0,
+        "mental": 0
+      },
+      "abilityPoints": {
+        "talents": 0,
+        "skills": 0,
+        "knowledges": 0
+      },
+      "backgroundPoints": 0,
+      "freebiePoints": 15
+    },
+    "entryMaterialization": "generated-by-test-builder",
+    "notes": [
+      "The fixture specifies expected semantic ledger effects rather than stable entry IDs or timestamps.",
+      "Tests must build canonical append-only entries using the creation-ledger artifact."
+    ]
+  },
+  "stageExpectations": {
+    "creation.identity": "complete",
+    "creation.classifications": "complete",
+    "creation.attributes": "complete",
+    "creation.abilities": "complete",
+    "creation.backgrounds": "complete",
+    "creation.initial-gifts": "complete",
+    "creation.resources-renown-rank": "complete",
+    "creation.metis-deformity": "not-applicable",
+    "creation.specializations": "not-started",
+    "creation.freebie-points": "complete",
+    "creation.narrative": "not-started",
+    "creation.review-and-complete": "complete"
+  },
+  "validationExpectations": {
+    "validationMode": "completion-readiness",
+    "isStructurallyValid": true,
+    "isCompletionReady": true,
+    "blockingIssueCount": 0,
+    "errorCount": 0,
+    "expectedWarnings": [
+      "character-creation.warning.prototype-rule-in-use",
+      "character-creation.warning.unspent-freebie-points"
+    ],
+    "requiredAcknowledgementsBeforeCompletion": [
+      "character-creation.warning.prototype-rule-in-use",
+      "character-creation.warning.unspent-freebie-points"
+    ],
+    "openInvalidationCount": 0,
+    "ledgerIntegrityValid": true,
+    "packageBindingCompatible": true
+  },
+  "completionExpectations": {
+    "completionWithoutAcknowledgementsSucceeds": false,
+    "completionWithRequiredAcknowledgementsSucceeds": true,
+    "finalCharacterStatus": "Active",
+    "finalCreationLedgerStatus": "frozen",
+    "completionSnapshotCreated": true,
+    "characterSheetProjectionRebuildable": true
+  },
+  "prototypeDecisions": [
+    {
+      "decisionKey": "fixture.ragabash-initial-renown-distribution",
+      "basis": "The catalog defines three initial Renown points in any combination.",
+      "fixtureChoice": {
+        "glory": 1,
+        "honor": 1,
+        "wisdom": 1
+      },
+      "authority": "fixture-only-choice",
+      "mustNotBeTreatedAsDefaultRule": true
+    },
+    {
+      "decisionKey": "fixture.current-resources-equal-permanent",
+      "basis": "The prototype reconciliation policy permits current equal to permanent at initialization.",
+      "fixtureChoice": "current-equals-permanent",
+      "authority": "prototype-decision"
+    }
+  ],
+  "negativeAssertions": [
+    "No Metis deformity is present because the selected Race is Homid.",
+    "No prohibited Glass Walker Background is selected.",
+    "No Ability exceeds rating three during base allocation.",
+    "No additional Gift purchase is used.",
+    "No freebie points are spent.",
+    "No specialization is required.",
+    "No narrative content is required for mechanical completion.",
+    "No Narrator or Chronicle Director authority is used."
+  ],
+  "testUses": [
+    "package-load",
+    "character-model-contracts",
+    "character-creation-happy-path",
+    "ledger-integrity",
+    "dependency-impact-baseline",
+    "completion-warning-acknowledgements",
+    "completion-atomicity",
+    "completion-snapshot",
+    "character-sheet-reference-validation"
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-allocation-and-classification-values",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "fixtureReviewStatus": "pending",
+    "implementationReviewStatus": "pending"
+  },
+  "fixtureNotes": [
+    "This fixture is minimal in feature breadth, not in required mechanical state.",
+    "It intentionally leaves all fifteen freebie points unspent because the prototype permits underspending with acknowledgement.",
+    "The Ragabash Renown distribution is one legal fixture choice and is not a package default.",
+    "Stable IDs, timestamps, fingerprints, and ledger entry sequences must be generated by the test builder.",
+    "The fixture must remain valid without runtime Gift execution.",
+    "Chronicle owns generated identifiers, timestamps, persistence, encryption, ledger materialization, and completion commit.",
+    "The Rule Set owns mechanical validation and interpretation of the fixture values."
+  ]
+}

@@ -1,0 +1,272 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "narrative",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.narrative",
+  "publicationStatus": "candidate",
+  "ownership": "Character",
+  "fields": [
+    {
+      "fieldKey": "character.narrative.backstory",
+      "fieldType": "LongText",
+      "displayNameResourceKey": "character.narrative.backstory",
+      "descriptionResourceKey": "character.narrative.backstory.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "UserAuthored",
+      "constraints": {
+        "maximumLength": 12000,
+        "trimWhitespace": true
+      },
+      "semanticRole": "character-history",
+      "mechanicalAuthority": false,
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-concept-and-history-guidance.json"
+      ]
+    },
+    {
+      "fieldKey": "character.narrative.personality",
+      "fieldType": "LongText",
+      "displayNameResourceKey": "character.narrative.personality",
+      "descriptionResourceKey": "character.narrative.personality.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "UserAuthored",
+      "constraints": {
+        "maximumLength": 6000,
+        "trimWhitespace": true
+      },
+      "semanticRole": "personality-guidance",
+      "mechanicalAuthority": false,
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-concept-and-history-guidance.json"
+      ]
+    },
+    {
+      "fieldKey": "character.narrative.goals",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.narrative.goals",
+      "descriptionResourceKey": "character.narrative.goals.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "UserAuthored",
+      "itemValueShape": {
+        "goalId": "Text",
+        "summary": "Text",
+        "details": "LongText",
+        "status": "Text",
+        "priority": "Text",
+        "createdAt": "Text",
+        "resolvedAt": "Text"
+      },
+      "semanticRole": "character-intent",
+      "mechanicalAuthority": false,
+      "runtimePolicy": {
+        "chronicleMemoryProjectionAllowed": true,
+        "automaticMechanicalEffectAllowed": false
+      }
+    },
+    {
+      "fieldKey": "character.narrative.relationships",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.narrative.relationships",
+      "descriptionResourceKey": "character.narrative.relationships.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "UserAuthored",
+      "itemValueShape": {
+        "relationshipId": "Text",
+        "subjectName": "Text",
+        "subjectEntityRef": "Reference",
+        "relationshipType": "Text",
+        "summary": "LongText",
+        "importance": "Text",
+        "status": "Text"
+      },
+      "semanticRole": "character-social-context",
+      "mechanicalAuthority": false,
+      "runtimePolicy": {
+        "entityReferencePreferredWhenAvailable": true,
+        "freeTextFallbackAllowed": true,
+        "automaticBackgroundRatingChangeAllowed": false
+      }
+    },
+    {
+      "fieldKey": "character.narrative.appearance-notes",
+      "fieldType": "LongText",
+      "displayNameResourceKey": "character.narrative.appearance-notes",
+      "descriptionResourceKey": "character.narrative.appearance-notes.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "UserAuthored",
+      "constraints": {
+        "maximumLength": 4000,
+        "trimWhitespace": true
+      },
+      "semanticRole": "visual-description",
+      "mechanicalAuthority": false,
+      "notes": [
+        "This field does not replace the mechanical Appearance Attribute.",
+        "Narrative appearance notes must not modify Attribute ratings silently."
+      ]
+    },
+    {
+      "fieldKey": "character.narrative.notes",
+      "fieldType": "LongText",
+      "displayNameResourceKey": "character.narrative.notes",
+      "descriptionResourceKey": "character.narrative.notes.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "UserAuthored",
+      "constraints": {
+        "maximumLength": 12000,
+        "trimWhitespace": true
+      },
+      "semanticRole": "general-notes",
+      "mechanicalAuthority": false
+    }
+  ],
+  "guidanceLinks": [
+    {
+      "guidanceKey": "character.guidance.race",
+      "sourceField": "character.classification.race",
+      "artifactPattern": "../../narrative-guidance/character/races/{selection}.json",
+      "authority": "Advisory"
+    },
+    {
+      "guidanceKey": "character.guidance.auspice",
+      "sourceField": "character.classification.auspice",
+      "artifactPattern": "../../narrative-guidance/character/auspices/{selection}.json",
+      "authority": "Advisory"
+    },
+    {
+      "guidanceKey": "character.guidance.tribe",
+      "sourceField": "character.classification.tribe",
+      "artifactPattern": "../../narrative-guidance/character/tribes/{selection}.json",
+      "authority": "Advisory"
+    }
+  ],
+  "authorityPolicy": {
+    "allNarrativeFieldsAreNonMechanicalByDefault": true,
+    "narratorMaySuggestChanges": true,
+    "narratorMayPersistChangesDirectly": false,
+    "ruleSetMayDeriveMechanicsFromFreeText": false,
+    "mechanicalChangeRequiresStructuredOperation": true,
+    "userConfirmationRequiredForSuggestedPersistentChanges": true
+  },
+  "memoryProjectionPolicy": {
+    "eligibleFields": [
+      "character.narrative.backstory",
+      "character.narrative.personality",
+      "character.narrative.goals",
+      "character.narrative.relationships",
+      "character.narrative.notes"
+    ],
+    "projectionMode": "curated-summary",
+    "rawTextIncludedByDefault": false,
+    "chronicleMemoryAuthority": "ChronicleAuthoritativeAfterCommit",
+    "automaticExtractionAllowed": "proposal-only",
+    "userReviewRequired": true
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.narrative.text-lengths",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "prototype",
+      "lookupSource": "fields[].constraints.maximumLength",
+      "errorKey": "character.narrative.text-too-long"
+    },
+    {
+      "ruleKey": "character.narrative.no-direct-mechanical-authority",
+      "ruleVersion": 1,
+      "ruleType": "authority-boundary",
+      "status": "prototype",
+      "requirement": {
+        "fields": "all",
+        "mechanicalAuthority": false
+      },
+      "errorKey": "character.narrative.mechanical-authority-forbidden"
+    }
+  ],
+  "changePolicy": {
+    "creationChangesAllowed": true,
+    "postCompletionDirectUserEditAllowed": true,
+    "narratorSuggestionAllowed": true,
+    "narratorDirectMutationAllowed": false,
+    "auditPolicy": {
+      "simpleUserEdits": "optional",
+      "narratorSuggestedEdits": "required",
+      "memoryProjectionChanges": "required"
+    }
+  },
+  "layoutHints": {
+    "sectionStyle": "expandable-narrative-sections",
+    "preferredOrder": [
+      "character.narrative.appearance-notes",
+      "character.narrative.personality",
+      "character.narrative.backstory",
+      "character.narrative.goals",
+      "character.narrative.relationships",
+      "character.narrative.notes"
+    ],
+    "collapsedByDefault": true,
+    "showGuidancePanel": true,
+    "showMechanicalBoundaryNotice": true
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.narrative-requiredness",
+      "severity": "low",
+      "status": "semantic-review-required",
+      "question": "Which narrative fields, if any, are mandatory for a complete Character according to the source?",
+      "prototypeDecision": "All narrative fields remain optional."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.guidance-versus-restriction",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Which Race, Auspice, and Tribe descriptions are advisory guidance rather than enforceable restrictions?",
+      "prototypeDecision": "Treat all descriptive personality and cultural material as advisory unless an explicit mechanical rule exists."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.appearance-notes",
+      "severity": "low",
+      "status": "implementation-decision-required",
+      "question": "Should narrative appearance be represented separately from the mechanical Appearance Attribute?",
+      "prototypeDecision": "Keep them separate and forbid silent mechanical derivation."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "medium",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Narrative fields support Character depth without becoming mechanical authority.",
+    "Race, Auspice, and Tribe descriptions are exposed as advisory guidance rather than enforced personality rules.",
+    "The Narrator may propose edits but cannot persist them directly.",
+    "Free text never changes Attributes, Abilities, Backgrounds, Resources, Gifts, Renown, or Rank without a structured operation.",
+    "Narrative fields may be summarized into Chronicle Memories only through reviewed proposals.",
+    "Chronicle Core may support generic narrative fields but remains unaware of Werewolf-specific guidance content."
+  ]
+}

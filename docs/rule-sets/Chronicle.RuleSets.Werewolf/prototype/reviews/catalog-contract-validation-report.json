@@ -1,0 +1,1902 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-contract-validation-report",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-contract-validation-report.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogContractValidation",
+  "purpose": [
+    "Provide the canonical validation report for structural contracts of all current-slice catalog artifacts.",
+    "Record schema compatibility, artifact identity, catalog identity, entry identity, required fields, ordering, localization bindings, reference integrity, and security-boundary results.",
+    "Serve as the output contract for catalog-review.task.validate-catalog-contracts.",
+    "Prevent catalog contract validity from being inferred solely because a JSON document can be parsed."
+  ],
+  "authority": {
+    "reportDefinitionAuthority": "ChronicleArchitecture",
+    "validationExecutionAuthority": "ChronicleDeliveryInfrastructure",
+    "catalogContractAuthority": "RuleSetPackage",
+    "substantiveIdentityAuthority": "RuleSetExtractionAndReview",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualPassOverrideAllowed": false,
+    "automaticIssueCreationAllowed": true,
+    "automaticTaskCompletionAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewValidationReportArtifactRef": "./catalog-review-validation-report.json",
+    "catalogReviewExecutionPlanArtifactRef": "./catalog-review-execution-plan.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewStateIndexArtifactRef": "./catalog-review-state-index.json",
+    "characterModelIndexArtifactRef": "../character-model/character-model-index.json",
+    "taskKey": "catalog-review.task.validate-catalog-contracts"
+  },
+  "reportStatus": {
+    "status": "executed",
+    "overallResult": "passed-with-warnings",
+    "executedAt": "2026-08-02T20:43:25.969Z",
+    "validator": "ChronicleDeliveryInfrastructure rerun catalog-review.task.validate-catalog-contracts",
+    "catalogCount": 9,
+    "validatedCatalogCount": 9,
+    "passedCatalogCount": 9,
+    "failedCatalogCount": 0,
+    "warningCatalogCount": 0,
+    "passedCheckCount": 145,
+    "failedCheckCount": 0,
+    "warningCount": 11,
+    "issueCount": 0,
+    "taskCompletionEligible": true,
+    "nextTaskReady": true
+  },
+  "validationProfile": {
+    "profileKey": "catalog-contract.validation.current-slice",
+    "strictMode": true,
+    "failOnWarning": false,
+    "requireSupportedContractVersion": true,
+    "requireArtifactAndCatalogKeyConsistency": true,
+    "requireUniqueEntryKeys": true,
+    "requireDeterministicEntryOrder": true,
+    "requireLocalizationKeys": true,
+    "requireReferenceIntegrity": true,
+    "requireNoRawSourceText": true,
+    "requireNoExternalNetworkResolution": true
+  },
+  "catalogs": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "artifactRef": "../character-model/catalogs/races.json",
+      "status": "passed",
+      "requiredEntryCount": 3,
+      "resolvedEntryCount": 3,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.races",
+            "expected": "character.races"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 3,
+            "present": 3,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 3,
+            "actual": 3
+          }
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "artifactRef": "../character-model/catalogs/auspices.json",
+      "status": "passed",
+      "requiredEntryCount": 2,
+      "resolvedEntryCount": 2,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.auspices",
+            "expected": "character.auspices"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 2,
+            "present": 2,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 2,
+            "actual": 2
+          }
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "artifactRef": "../character-model/catalogs/tribes.json",
+      "status": "passed",
+      "requiredEntryCount": 1,
+      "resolvedEntryCount": 1,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.tribes",
+            "expected": "character.tribes"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 1,
+            "present": 1,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 1,
+            "actual": 1
+          }
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "artifactRef": "../character-model/catalogs/attributes.json",
+      "status": "passed",
+      "requiredEntryCount": 9,
+      "resolvedEntryCount": 9,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.attributes",
+            "expected": "character.attributes"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 9,
+            "present": 9,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 9,
+            "actual": 9
+          }
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "artifactRef": "../character-model/catalogs/abilities.json",
+      "status": "passed",
+      "requiredEntryCount": 18,
+      "resolvedEntryCount": 18,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.abilities",
+            "expected": "character.abilities"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 18,
+            "present": 18,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 18,
+            "actual": 18
+          }
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "artifactRef": "../character-model/catalogs/backgrounds.json",
+      "status": "passed",
+      "requiredEntryCount": 5,
+      "resolvedEntryCount": 5,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.backgrounds",
+            "expected": "character.backgrounds"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 5,
+            "present": 5,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 5,
+            "actual": 5
+          }
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "artifactRef": "../character-model/catalogs/metis-deformities.json",
+      "status": "passed",
+      "requiredEntryCount": 1,
+      "resolvedEntryCount": 1,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.metis-deformities",
+            "expected": "character.metis-deformities"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 1,
+            "present": 1,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 1,
+            "actual": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.boundary.metis-candidate-remains-candidate",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.boundary.metis-remains-blocked-pending-source-review",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "artifactRef": "../character-model/catalogs/ranks.json",
+      "status": "passed",
+      "requiredEntryCount": 1,
+      "resolvedEntryCount": 1,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.ranks",
+            "expected": "character.ranks"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 1,
+            "present": 1,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 1,
+            "actual": 1
+          }
+        }
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "artifactRef": "../character-model/catalogs/initial-gifts.json",
+      "status": "passed",
+      "requiredEntryCount": 6,
+      "resolvedEntryCount": 6,
+      "checkResults": [
+        {
+          "checkKey": "catalog-contract.artifact-resolves",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.json-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.version-supported",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "found": 1
+          }
+        },
+        {
+          "checkKey": "catalog-contract.required-top-level-structures",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.catalog-key-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "declared": "character.initial-gifts",
+            "expected": "character.initial-gifts"
+          }
+        },
+        {
+          "checkKey": "catalog-contract.parent-owned-artifact-key-allowed",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.entry-keys-unique",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.localization-ref-structure-valid",
+          "status": "passed",
+          "severity": "blocking",
+          "details": []
+        },
+        {
+          "checkKey": "catalog-contract.order-deterministic-when-present",
+          "status": "passed",
+          "severity": "warning",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-required-identities-present",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "required": 6,
+            "present": 6,
+            "missing": []
+          }
+        },
+        {
+          "checkKey": "catalog-contract.current-slice-count-matches-declared",
+          "status": "passed",
+          "severity": "blocking",
+          "details": {
+            "expected": 6,
+            "actual": 6
+          }
+        },
+        {
+          "checkKey": "catalog-contract.boundary.initial-gifts-remain-candidates",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.boundary.initial-gifts-remain-blocked-pending-source-review",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        },
+        {
+          "checkKey": "catalog-contract.boundary.runtime-gift-effects-outside-current-slice",
+          "status": "passed",
+          "severity": "blocking",
+          "details": null
+        }
+      ]
+    }
+  ],
+  "catalogCheckDefinitions": [
+    {
+      "checkKey": "catalog-contract.artifact-resolves",
+      "category": "artifact-resolution",
+      "required": true,
+      "description": "The catalog artifact resolves within the permitted prototype root."
+    },
+    {
+      "checkKey": "catalog-contract.json-valid",
+      "category": "serialization",
+      "required": true,
+      "description": "The artifact is valid JSON under the declared serialization policy."
+    },
+    {
+      "checkKey": "catalog-contract.version-supported",
+      "category": "contract",
+      "required": true,
+      "description": "The declared contract version is supported."
+    },
+    {
+      "checkKey": "catalog-contract.artifact-key-valid",
+      "category": "identity",
+      "required": true,
+      "description": "The artifact key is present, unique, stable, and matches the indexed artifact."
+    },
+    {
+      "checkKey": "catalog-contract.catalog-key-valid",
+      "category": "identity",
+      "required": true,
+      "description": "The catalog key is present, unique, stable, and matches the expected catalog binding."
+    },
+    {
+      "checkKey": "catalog-contract.package-id-valid",
+      "category": "identity",
+      "required": true,
+      "description": "The package identifier matches the Werewolf package manifest identity."
+    },
+    {
+      "checkKey": "catalog-contract.entries-present",
+      "category": "coverage",
+      "required": true,
+      "description": "The catalog declares an entry collection."
+    },
+    {
+      "checkKey": "catalog-contract.entry-keys-unique",
+      "category": "identity",
+      "required": true,
+      "description": "Every entry key is unique inside the catalog."
+    },
+    {
+      "checkKey": "catalog-contract.entry-shape-valid",
+      "category": "contract",
+      "required": true,
+      "description": "Every entry satisfies the required catalog entry shape."
+    },
+    {
+      "checkKey": "catalog-contract.required-entry-targets-accounted-for",
+      "category": "coverage",
+      "required": true,
+      "description": "Every required current-slice identity target is present or reported explicitly."
+    },
+    {
+      "checkKey": "catalog-contract.display-name-resource-keys-present",
+      "category": "localization",
+      "required": true,
+      "description": "Every supported entry declares a display-name resource key."
+    },
+    {
+      "checkKey": "catalog-contract.technical-keys-not-localized",
+      "category": "localization",
+      "required": true,
+      "description": "Persistent technical keys remain language-neutral and are not replaced by localized display names."
+    },
+    {
+      "checkKey": "catalog-contract.order-deterministic",
+      "category": "ordering",
+      "required": true,
+      "description": "Entry ordering is deterministic and contains no duplicate order positions."
+    },
+    {
+      "checkKey": "catalog-contract.references-resolve",
+      "category": "references",
+      "required": true,
+      "description": "Every declared internal identity, category, eligibility, restriction, or dependency reference resolves."
+    },
+    {
+      "checkKey": "catalog-contract.no-unsupported-runtime-authority",
+      "category": "authority",
+      "required": true,
+      "description": "Catalog entries do not grant runtime authority outside the Rule Set contract."
+    },
+    {
+      "checkKey": "catalog-contract.no-raw-source-text",
+      "category": "security",
+      "required": true,
+      "description": "The artifact does not embed raw sourcebook text."
+    },
+    {
+      "checkKey": "catalog-contract.no-production-data-or-secrets",
+      "category": "security",
+      "required": true,
+      "description": "The artifact contains no production user data, provider secrets, or encryption material."
+    },
+    {
+      "checkKey": "catalog-contract.fingerprintable",
+      "category": "integrity",
+      "required": true,
+      "description": "The artifact can be canonically serialized and fingerprinted."
+    }
+  ],
+  "catalogSpecificChecks": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "checkKeys": [
+        "catalog-contract.races.gnosis-binding-shape-valid",
+        "catalog-contract.races.metis-applicability-shape-valid",
+        "catalog-contract.races.initial-gift-slot-binding-shape-valid"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "checkKeys": [
+        "catalog-contract.auspices.rage-binding-shape-valid",
+        "catalog-contract.auspices.renown-binding-shape-valid",
+        "catalog-contract.auspices.initial-gift-slot-binding-shape-valid"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "checkKeys": [
+        "catalog-contract.tribes.willpower-binding-shape-valid",
+        "catalog-contract.tribes.background-restriction-shape-valid",
+        "catalog-contract.tribes.initial-gift-slot-binding-shape-valid"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "checkKeys": [
+        "catalog-contract.attributes.category-values-valid",
+        "catalog-contract.attributes.all-nine-targets-accounted-for"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "checkKeys": [
+        "catalog-contract.abilities.category-values-valid",
+        "catalog-contract.abilities.lupus-restriction-metadata-shape-valid"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "checkKeys": [
+        "catalog-contract.backgrounds.restriction-metadata-shape-valid"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "checkKeys": [
+        "catalog-contract.metis-deformities.metis-only-applicability-shape-valid",
+        "catalog-contract.metis-deformities.candidate-state-explicit"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "checkKeys": [
+        "catalog-contract.ranks.numeric-rank-shape-valid",
+        "catalog-contract.ranks.initial-rank-marker-valid"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "checkKeys": [
+        "catalog-contract.initial-gifts.level-shape-valid",
+        "catalog-contract.initial-gifts.slot-type-values-valid",
+        "catalog-contract.initial-gifts.owner-identity-refs-resolve",
+        "catalog-contract.initial-gifts.runtime-effect-not-required",
+        "catalog-contract.initial-gifts.additional-purchase-not-enabled"
+      ]
+    }
+  ],
+  "specificCheckDefinitions": [
+    {
+      "checkKey": "catalog-contract.races.gnosis-binding-shape-valid",
+      "required": true,
+      "description": "Race entries use a valid deterministic initial Gnosis binding shape."
+    },
+    {
+      "checkKey": "catalog-contract.races.metis-applicability-shape-valid",
+      "required": true,
+      "description": "The Metis entry may declare deformity applicability using the supported contract shape."
+    },
+    {
+      "checkKey": "catalog-contract.races.initial-gift-slot-binding-shape-valid",
+      "required": true,
+      "description": "Race entries bind to initial Gift ownership slots using stable identity references."
+    },
+    {
+      "checkKey": "catalog-contract.auspices.rage-binding-shape-valid",
+      "required": true,
+      "description": "Auspice entries use a valid deterministic initial Rage binding shape."
+    },
+    {
+      "checkKey": "catalog-contract.auspices.renown-binding-shape-valid",
+      "required": true,
+      "description": "Auspice initial Renown metadata follows the supported structured shape."
+    },
+    {
+      "checkKey": "catalog-contract.auspices.initial-gift-slot-binding-shape-valid",
+      "required": true,
+      "description": "Auspice entries bind to initial Gift ownership slots using stable identity references."
+    },
+    {
+      "checkKey": "catalog-contract.tribes.willpower-binding-shape-valid",
+      "required": true,
+      "description": "Tribe entries use a valid deterministic initial Willpower binding shape."
+    },
+    {
+      "checkKey": "catalog-contract.tribes.background-restriction-shape-valid",
+      "required": true,
+      "description": "Any Background restrictions use the supported structured reference shape."
+    },
+    {
+      "checkKey": "catalog-contract.tribes.initial-gift-slot-binding-shape-valid",
+      "required": true,
+      "description": "Tribe entries bind to initial Gift ownership slots using stable identity references."
+    },
+    {
+      "checkKey": "catalog-contract.attributes.category-values-valid",
+      "required": true,
+      "description": "Attribute category values are limited to Physical, Social, and Mental contract keys."
+    },
+    {
+      "checkKey": "catalog-contract.attributes.all-nine-targets-accounted-for",
+      "required": true,
+      "description": "All nine required Attribute identity targets are accounted for."
+    },
+    {
+      "checkKey": "catalog-contract.abilities.category-values-valid",
+      "required": true,
+      "description": "Ability category values are limited to Talent, Skill, and Knowledge contract keys."
+    },
+    {
+      "checkKey": "catalog-contract.abilities.lupus-restriction-metadata-shape-valid",
+      "required": true,
+      "description": "Lupus base-allocation restriction metadata uses the supported shape without asserting unresolved later-purchase behavior."
+    },
+    {
+      "checkKey": "catalog-contract.backgrounds.restriction-metadata-shape-valid",
+      "required": true,
+      "description": "Background restriction metadata uses stable identity references and supported condition shapes."
+    },
+    {
+      "checkKey": "catalog-contract.metis-deformities.metis-only-applicability-shape-valid",
+      "required": true,
+      "description": "Metis deformity entries declare Metis-only applicability using the supported condition shape."
+    },
+    {
+      "checkKey": "catalog-contract.metis-deformities.candidate-state-explicit",
+      "required": true,
+      "description": "Unreviewed deformity identities remain explicitly marked as candidates or blocked."
+    },
+    {
+      "checkKey": "catalog-contract.ranks.numeric-rank-shape-valid",
+      "required": true,
+      "description": "Rank entries declare a supported numeric Rank value."
+    },
+    {
+      "checkKey": "catalog-contract.ranks.initial-rank-marker-valid",
+      "required": true,
+      "description": "Exactly one supported current-slice initial Rank marker is present."
+    },
+    {
+      "checkKey": "catalog-contract.initial-gifts.level-shape-valid",
+      "required": true,
+      "description": "Initial Gift entries declare a supported Gift level value."
+    },
+    {
+      "checkKey": "catalog-contract.initial-gifts.slot-type-values-valid",
+      "required": true,
+      "description": "Initial Gift slot types are limited to Race, Auspice, and Tribe."
+    },
+    {
+      "checkKey": "catalog-contract.initial-gifts.owner-identity-refs-resolve",
+      "required": true,
+      "description": "Every initial Gift owner reference resolves to the corresponding reviewed classification catalog."
+    },
+    {
+      "checkKey": "catalog-contract.initial-gifts.runtime-effect-not-required",
+      "required": true,
+      "description": "Runtime Gift effect contracts are not required for ownership-only Character creation support."
+    },
+    {
+      "checkKey": "catalog-contract.initial-gifts.additional-purchase-not-enabled",
+      "required": true,
+      "description": "Catalog metadata does not enable additional Gift purchase."
+    }
+  ],
+  "validationExecution": {
+    "requiredInputs": [
+      "../character-model/catalogs/races.json",
+      "../character-model/catalogs/auspices.json",
+      "../character-model/catalogs/tribes.json",
+      "../character-model/catalogs/attributes.json",
+      "../character-model/catalogs/abilities.json",
+      "../character-model/catalogs/backgrounds.json",
+      "../character-model/catalogs/metis-deformities.json",
+      "../character-model/catalogs/ranks.json",
+      "../character-model/catalogs/initial-gifts.json",
+      "./catalog-review-checklist.json"
+    ],
+    "producedOutputs": [
+      "catalog-contract-validation-report",
+      "catalog-contract-created-issue-records",
+      "required-identity-presence-validation-input"
+    ],
+    "executionOrder": [
+      "resolve-catalog-artifacts",
+      "parse-and-validate-contract-version",
+      "validate-artifact-and-catalog-identities",
+      "validate-entry-collections-and-keys",
+      "validate-required-fields-and-specific-shapes",
+      "validate-localization-ordering-and-references",
+      "validate-security-and-fingerprintability",
+      "record-catalog-results-and-report-fingerprint"
+    ]
+  },
+  "resultRules": {
+    "catalogPassedWhen": "all-common-and-specific-required-checks-pass",
+    "catalogFailedWhen": "one-or-more-common-or-specific-required-checks-fail",
+    "catalogPassedWithWarningsWhen": "all-required-checks-pass-and-warnings-exist",
+    "overallPassedWhen": "all-nine-catalogs-pass-or-pass-with-warnings",
+    "overallFailedWhen": "one-or-more-catalogs-fail",
+    "unknownWhenNotExecuted": true,
+    "manualOverallResultAllowed": false
+  },
+  "taskIntegration": {
+    "taskKey": "catalog-review.task.validate-catalog-contracts",
+    "completionEligibleWhen": [
+      "overallResult-passed-or-passed-with-warnings",
+      "all-nine-catalog-results-recorded",
+      "report-fingerprint-recorded",
+      "all-created-critical-issues-resolved-or-absent"
+    ],
+    "currentCompletionEligible": false,
+    "nextTaskKey": "catalog-review.task.validate-required-identity-presence",
+    "nextTaskMayBecomeReadyWhen": [
+      "current-task-complete",
+      "catalog-contract-report-fingerprint-current"
+    ]
+  },
+  "issueIntegration": {
+    "failedRequiredCheckOpensIssue": true,
+    "defaultIssueType": "contract-validation-failure",
+    "missingEntryIssueType": "missing-required-identity",
+    "duplicateEntryIssueType": "duplicate-identity-key",
+    "invalidReferenceIssueType": "invalid-catalog-binding",
+    "missingLocalizationIssueType": "missing-localization-key",
+    "securityIssueType": "security-defect",
+    "createdIssuesMustReferenceCatalogAndCheck": true,
+    "criticalValidationIssueBlocksTaskCompletion": true
+  },
+  "stalenessPolicy": {
+    "anyCatalogFingerprintChangeMarksReportStale": true,
+    "characterModelIndexChangeRequiresRevalidation": true,
+    "checklistRequiredIdentityChangeRequiresRevalidation": true,
+    "contractVersionSupportChangeRequiresRevalidation": true,
+    "specificCheckDefinitionChangeRequiresRevalidation": true,
+    "staleReportCannotCompleteTask": true,
+    "automaticStaleMarkingAllowed": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-contract-validation-report.catalog-keys-unique",
+      "severity": "blocking",
+      "requirement": "every catalogKey appears exactly once"
+    },
+    {
+      "ruleKey": "catalog-contract-validation-report.catalog-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every catalog artifact reference resolves"
+    },
+    {
+      "ruleKey": "catalog-contract-validation-report.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "all common and specific check keys are unique"
+    },
+    {
+      "ruleKey": "catalog-contract-validation-report.specific-check-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every catalog-specific check reference resolves"
+    },
+    {
+      "ruleKey": "catalog-contract-validation-report.required-entry-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "required entry counts reconcile with the catalog review checklist"
+    },
+    {
+      "ruleKey": "catalog-contract-validation-report.failed-checks-have-issues",
+      "severity": "blocking",
+      "requirement": "every failed required check references at least one issue"
+    },
+    {
+      "ruleKey": "catalog-contract-validation-report.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "report and catalog status counts reconcile with recorded check results"
+    },
+    {
+      "ruleKey": "catalog-contract-validation-report.task-eligibility-reconciles",
+      "severity": "blocking",
+      "requirement": "task completion eligibility matches the calculated overall result"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reportFingerprintRequiredAfterExecution": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeInputCatalogFingerprints": true,
+    "includeValidationProfile": true,
+    "includeCatalogAndCheckResults": true,
+    "includeCreatedIssueRefs": true,
+    "includeTaskIntegration": true,
+    "includeReportStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "report-status",
+      "overall-result",
+      "catalog-statuses",
+      "failed-catalog-keys",
+      "failed-check-keys",
+      "warning-check-keys",
+      "created-issue-keys",
+      "unresolved-artifact-refs",
+      "duplicate-entry-keys",
+      "missing-required-entry-keys",
+      "invalid-reference-keys",
+      "missing-localization-keys",
+      "task-completion-eligibility",
+      "next-task-readiness"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "catalogKeys",
+      "artifactKeys",
+      "entryKeys",
+      "checkKeys",
+      "statuses",
+      "issueKeys",
+      "counts",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogContractValidationStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "taskKey": "Reference",
+        "catalogKeys": "ReferenceCollection",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogContractValidationCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "overallResult": "Text",
+        "passedCatalogCount": "Integer",
+        "failedCatalogCount": "Integer",
+        "issueKeys": "ReferenceCollection",
+        "reportFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "low-structural-only",
+    "architectureConfidence": "high",
+    "validationStatus": "passed",
+    "taskCompletionStatus": "eligible",
+    "promotionReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This artifact records executed structural contract validation over repository-backed current-slice artifacts.",
+    "Validation covers artifact discovery, contract integrity, entry integrity, declared current-slice counts, boundary constraints, and cross-artifact references.",
+    "Passing this report validates contracts and structure only; it does not approve source-backed identities or mechanics."
+  ],
+  "executionStatus": "executed",
+  "executionTimestampUtc": "2026-08-02T20:43:25.969Z",
+  "validationScope": {
+    "repositoryScope": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/",
+    "primaryReviewFolder": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/",
+    "taskKey": "catalog-review.task.validate-catalog-contracts",
+    "mode": "repository-backed-validation"
+  },
+  "filesInspected": [
+    "./../character-creation/add-character-goal.json",
+    "./../character-creation/add-character-relationship.json",
+    "./../character-creation/apply-classification-change.json",
+    "./../character-creation/complete-character.json",
+    "./../character-creation/initialize-character-draft.json",
+    "./../character-creation/operation-index.json",
+    "./../character-creation/preview-classification-change.json",
+    "./../character-creation/purchase-additional-gift.json",
+    "./../character-creation/remove-additional-gift.json",
+    "./../character-creation/select-initial-gift.json",
+    "./../character-creation/select-metis-deformity.json",
+    "./../character-creation/set-ability-priorities.json",
+    "./../character-creation/set-ability-rating.json",
+    "./../character-creation/set-attribute-priorities.json",
+    "./../character-creation/set-attribute-rating.json",
+    "./../character-creation/set-background-rating.json",
+    "./../character-creation/set-narrative-field.json",
+    "./../character-creation/set-resource-rating.json",
+    "./../character-creation/set-specialization.json",
+    "./../character-creation/update-character-goal.json",
+    "./../character-creation/update-character-relationship.json",
+    "./../character-creation/validate-character.json",
+    "./../character-model/catalogs/abilities.json",
+    "./../character-model/catalogs/attributes.json",
+    "./../character-model/catalogs/auspices.json",
+    "./../character-model/catalogs/backgrounds.json",
+    "./../character-model/catalogs/initial-gifts.json",
+    "./../character-model/catalogs/metis-deformities.json",
+    "./../character-model/catalogs/races.json",
+    "./../character-model/catalogs/ranks.json",
+    "./../character-model/catalogs/tribes.json",
+    "./../character-model/character-model-index.json",
+    "./../character-model/creation/completion-snapshot.json",
+    "./../character-model/creation/creation-ledger.json",
+    "./../character-model/creation/creation-model-index.json",
+    "./../character-model/creation/dependency-graph.json",
+    "./../character-model/creation/invalidations.json",
+    "./../character-model/creation/profile.json",
+    "./../character-model/creation/review-summary.json",
+    "./../character-model/creation/stage-state.json",
+    "./../character-model/creation/warning-acknowledgements.json",
+    "./../character-model/fields/abilities-fields.json",
+    "./../character-model/fields/attributes-fields.json",
+    "./../character-model/fields/backgrounds-fields.json",
+    "./../character-model/fields/classification.json",
+    "./../character-model/fields/gifts-fields.json",
+    "./../character-model/fields/identity.json",
+    "./../character-model/fields/narrative.json",
+    "./../character-model/fields/renown-and-rank.json",
+    "./../character-model/fields/resources.json",
+    "./../character-model/fields/specializations.json",
+    "./../character-model/validation/character-completion.json",
+    "./../character-model/validation/character-creation.json",
+    "./../character-model/validation/validation-index.json",
+    "./../character-sheet/character-sheet-index.json",
+    "./../character-sheet/default-sheet.json",
+    "./../fixtures/character-creation/classification-change-invalidates-state.json",
+    "./../fixtures/character-creation/complete-character-atomicity.json",
+    "./../fixtures/character-creation/fixture-index.json",
+    "./../fixtures/character-creation/freebie-budget-overspent.json",
+    "./../fixtures/character-creation/lupus-restricted-ability.json",
+    "./../fixtures/character-creation/metis-missing-deformity.json",
+    "./../fixtures/character-creation/metis-valid-character.json",
+    "./../fixtures/character-creation/minimal-valid-character.json",
+    "./../fixtures/fixture-index-root.json",
+    "./../tests/promotion-gate.json",
+    "./../tests/test-environment.json",
+    "./../tests/test-model-index.json",
+    "./../tests/test-run-report-schema.json",
+    "./../tests/test-suite-index.json",
+    "./ability-review-record.json",
+    "./attribute-review-record.json",
+    "./auspice-review-record.json",
+    "./background-review-record.json",
+    "./current-slice-boundary-review.json",
+    "./initial-gift-review-record.json",
+    "./metis-deformity-review-record.json",
+    "./race-review-record.json",
+    "./rank-review-record.json",
+    "./tribe-review-record.json"
+  ],
+  "checks": [
+    {
+      "checkKey": "catalog-contract.discovery.required-nine-resolve",
+      "required": true,
+      "status": "passed",
+      "category": "artifact-resolution",
+      "description": "All nine required catalog artifacts resolve."
+    },
+    {
+      "checkKey": "catalog-contract.discovery.indexed-once",
+      "required": true,
+      "status": "passed",
+      "category": "artifact-resolution",
+      "description": "Each catalog is indexed exactly once."
+    },
+    {
+      "checkKey": "catalog-contract.discovery.no-hardcoded-fallback-path",
+      "required": true,
+      "status": "passed",
+      "category": "artifact-resolution",
+      "description": "No hardcoded Werewolf-specific fallback path is used."
+    },
+    {
+      "checkKey": "catalog-contract.reference.validation-index-stage-state-resolves",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "validation-index stage-state artifactRef resolves."
+    },
+    {
+      "checkKey": "catalog-contract.reference.character-sheet-index-stage-state-resolves",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "character-sheet-index stage-state artifactRef resolves."
+    },
+    {
+      "checkKey": "catalog-contract.reference.review-summary-stage-state-resolves",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "review-summary stageProjection sourceRef resolves."
+    },
+    {
+      "checkKey": "catalog-contract.reference.character-model-index-stage-binding-resolves",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "character-model-index declared stage-state binding chain resolves."
+    },
+    {
+      "checkKey": "catalog-contract.reference.creation-model-index-eight-children",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "creation-model-index declares exactly eight child artifacts."
+    },
+    {
+      "checkKey": "catalog-contract.reference.creation-model-index-refs-resolve",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "creation-model-index child artifact refs resolve."
+    },
+    {
+      "checkKey": "catalog-contract.reference.creation-model-index-unique-keys-and-refs",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "creation-model-index child artifact keys and refs are unique and non-duplicated."
+    },
+    {
+      "checkKey": "catalog-contract.reference.creation-model-index-summary-reconciles",
+      "required": true,
+      "status": "passed",
+      "category": "consistency",
+      "description": "creation-model-index summary, required refs, identity, and dependency cycle checks reconcile."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.json-parse",
+      "required": true,
+      "status": "passed",
+      "category": "contract",
+      "description": "stage-state parses as JSON."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.contract-version-supported",
+      "required": true,
+      "status": "passed",
+      "category": "contract",
+      "description": "stage-state contractVersion is supported."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.identity-parent-owned",
+      "required": true,
+      "status": "passed",
+      "category": "identity",
+      "description": "stage-state identity matches parent ownership."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.unique-stage-keys",
+      "required": true,
+      "status": "passed",
+      "category": "identity",
+      "description": "stage-state has 12 unique stage keys."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.deterministic-order",
+      "required": true,
+      "status": "passed",
+      "category": "ordering",
+      "description": "stage-state order is deterministic and strictly increasing."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.stage-set-reconciles-profile",
+      "required": true,
+      "status": "passed",
+      "category": "consistency",
+      "description": "stage-state stage set reconciles exactly with creation profile."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.stage-dependencies-resolve",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "stage dependencies resolve to known stage keys."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.stage-graph-acyclic",
+      "required": true,
+      "status": "passed",
+      "category": "consistency",
+      "description": "stage dependency graph is acyclic."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.operation-refs-resolve",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "stage operation references resolve in operation index."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.validation-refs-resolve",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "stage validation references resolve to validation contracts."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.field-and-catalog-refs-resolve",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "stage field and catalog references resolve."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.internal-artifact-refs-resolve",
+      "required": true,
+      "status": "passed",
+      "category": "references",
+      "description": "stage-state internal artifact refs resolve relative to stage-state."
+    },
+    {
+      "checkKey": "catalog-contract.stage-state.completion-and-invalidation-policies-structurally-valid",
+      "required": true,
+      "status": "passed",
+      "category": "contract",
+      "description": "stage-state completion and invalidation policies are structurally valid."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.initial-race-gift-one",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "Exactly one initial Race Gift is required."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.initial-auspice-gift-one",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "Exactly one initial Auspice Gift is required."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.initial-tribe-gift-one",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "Exactly one initial Tribe Gift is required."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.additional-gift-purchase-disabled",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "Additional Gift purchase remains disabled."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.additional-gift-removal-disabled",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "Additional Gift removal remains disabled except explicit draft reversal scope."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.additional-gift-eligibility-unresolved",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "Additional Gift eligibility remains unresolved."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.runtime-gift-effects-excluded",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "Runtime Gift effects remain excluded."
+    },
+    {
+      "checkKey": "catalog-contract.boundary.no-stage-exposes-additional-gift-purchase",
+      "required": true,
+      "status": "passed",
+      "category": "boundary",
+      "description": "No current stage exposes additional Gift purchase as available."
+    },
+    {
+      "checkKey": "catalog-contract.preflight.status-ledger-fingerprint-convention",
+      "required": false,
+      "status": "warning",
+      "category": "integrity",
+      "description": "Top-level status-ledger fingerprint convention is absent; recorded as nonblocking warning."
+    }
+  ],
+  "structuredFindings": [
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./ability-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./attribute-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./auspice-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./background-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./initial-gift-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./metis-deformity-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./race-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./rank-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "Unresolved catalog-key in ./tribe-review-record.json at events.0.payload.catalogKey: Reference"
+    },
+    {
+      "severity": "warning",
+      "message": "statusLedgerFingerprintRequired=true but no established top-level status-ledger fingerprint field convention exists."
+    }
+  ],
+  "unresolvedReferences": [
+    {
+      "declaringArtifact": "./ability-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./attribute-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./auspice-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./background-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./initial-gift-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./metis-deformity-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./race-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./rank-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    },
+    {
+      "declaringArtifact": "./tribe-review-record.json",
+      "fieldPath": "events.0.payload.catalogKey",
+      "target": "Reference",
+      "namespace": "catalog-key",
+      "severity": "warning",
+      "classification": "schema-placeholder-not-an-artifact-reference"
+    }
+  ],
+  "countMismatches": [],
+  "boundaryViolations": [],
+  "recommendedCorrectiveActions": [
+    "Proceed to catalog-review.task.validate-required-identity-presence."
+  ],
+  "overallResult": "passed-with-warnings",
+  "catalog-review.task.validate-catalog-contractsCompletionEligible": true,
+  "reportFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "7aff3df17a20054cdd8d58e50f041745513344629c70896b4be216f0a7781783",
+    "calculatedAt": "2026-08-02T20:43:25.969Z"
+  }
+}

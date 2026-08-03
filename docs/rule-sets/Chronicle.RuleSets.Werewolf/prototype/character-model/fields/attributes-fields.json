@@ -1,0 +1,250 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "attributes",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.attributes",
+  "publicationStatus": "candidate",
+  "ownership": "Character",
+  "catalogRef": "../catalogs/attributes.json",
+  "fieldModel": {
+    "mode": "catalog-backed-rank-fields",
+    "entryFieldTemplate": {
+      "fieldType": "RankTrack",
+      "authority": "RuleSetAuthoritative",
+      "minimum": 1,
+      "maximum": 5,
+      "creationBase": 1,
+      "specializationEligibilityMinimum": 4
+    }
+  },
+  "fields": [
+    {
+      "fieldKey": "character.attributes",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.attributes",
+      "descriptionResourceKey": "character.attributes.description",
+      "requiredness": {
+        "duringDraft": "required-structure",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "itemIdentitySource": "../catalogs/attributes.json#entries",
+      "itemValueShape": {
+        "attributeKey": "Reference",
+        "baseRating": "Integer",
+        "currentRating": "ComputedDisplay",
+        "specializationRefs": "ReferenceCollection"
+      },
+      "ratingPolicy": {
+        "baseRatingMinimum": 1,
+        "baseRatingMaximum": 5,
+        "currentRatingMayExceedBaseMaximum": true,
+        "currentRatingComputation": "base-rating-plus-active-form-and-effect-modifiers"
+      },
+      "creationPolicy": {
+        "initialRating": 1,
+        "allocationProfileRef": "../catalogs/attributes.json#creationAllocation",
+        "prioritySelectionRequired": true,
+        "priorityValues": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        }
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-attributes.json"
+      ]
+    },
+    {
+      "fieldKey": "character.attributes.priority-assignment",
+      "fieldType": "StructuredObject",
+      "displayNameResourceKey": "character.attributes.priority-assignment",
+      "descriptionResourceKey": "character.attributes.priority-assignment.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "valueShape": {
+        "primaryCategoryKey": "Reference",
+        "secondaryCategoryKey": "Reference",
+        "tertiaryCategoryKey": "Reference"
+      },
+      "constraints": [
+        {
+          "constraintKey": "attributes.priority-assignment.distinct",
+          "operator": "all-distinct",
+          "targetProperties": [
+            "primaryCategoryKey",
+            "secondaryCategoryKey",
+            "tertiaryCategoryKey"
+          ]
+        },
+        {
+          "constraintKey": "attributes.priority-assignment.valid-categories",
+          "operator": "all-in-catalog",
+          "catalogPath": "../catalogs/attributes.json#categories"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-attribute-priorities.json"
+      ]
+    }
+  ],
+  "computedValues": [
+    {
+      "computedFieldKey": "character.attribute.current-rating",
+      "valueType": "Integer",
+      "formulaType": "rule-set-handler",
+      "handlerKey": "werewolf.character.attribute.current-rating",
+      "inputs": [
+        "character.attributes[].baseRating",
+        "character.current-form",
+        "character.active-effects"
+      ],
+      "fallbackPolicy": "use-base-rating",
+      "readiness": "candidate-partial",
+      "notes": [
+        "Form modifiers may raise current ratings above the human-scale maximum.",
+        "The form contract is outside Slice 001, so the fallback is the base rating."
+      ]
+    }
+  ],
+  "specializationLink": {
+    "fieldGroupRef": "specializations.json",
+    "eligibilityRule": {
+      "minimumBaseRating": 4,
+      "status": "candidate"
+    },
+    "resolutionRuleRef": "../../dice/resolution/specialization.json",
+    "resolutionReadiness": "blocked"
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.attributes.all-present",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "collectionField": "character.attributes",
+        "operator": "contains-every-catalog-entry",
+        "catalogRef": "../catalogs/attributes.json#entries"
+      },
+      "errorKey": "character.creation.attributes-missing"
+    },
+    {
+      "ruleKey": "character.creation.attributes.base-minimum-one",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "minimum": 1,
+      "targetPath": "character.attributes[].baseRating",
+      "errorKey": "character.creation.attribute-below-minimum"
+    },
+    {
+      "ruleKey": "character.creation.attributes.base-maximum-five",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "maximum": 5,
+      "targetPath": "character.attributes[].baseRating",
+      "errorKey": "character.creation.attribute-above-maximum"
+    },
+    {
+      "ruleKey": "character.creation.attributes.priority-allocation",
+      "ruleVersion": 1,
+      "ruleType": "allocation",
+      "status": "candidate",
+      "priorityField": "character.attributes.priority-assignment",
+      "categoryPointTotals": {
+        "primary": 7,
+        "secondary": 5,
+        "tertiary": 3
+      },
+      "pointCalculation": "sum(baseRating - 1) by category",
+      "errorKey": "character.creation.attribute-allocation-invalid"
+    },
+    {
+      "ruleKey": "character.creation.attributes.specialization-rating",
+      "ruleVersion": 1,
+      "ruleType": "permission",
+      "status": "candidate",
+      "minimumRating": 4,
+      "targetRef": "character.specializations",
+      "errorKey": "character.creation.attribute-specialization-rating-too-low"
+    }
+  ],
+  "changePolicy": {
+    "creationChangesAllowed": true,
+    "postCompletionDirectEditAllowed": false,
+    "postCompletionOperations": [
+      "progression.attribute.increase",
+      "narrative.attribute.modify",
+      "correction.attribute.set",
+      "import.attribute.restore"
+    ],
+    "operationReadiness": {
+      "progression.attribute.increase": "unavailable",
+      "narrative.attribute.modify": "unavailable",
+      "correction.attribute.set": "future",
+      "import.attribute.restore": "future"
+    }
+  },
+  "layoutHints": {
+    "sectionStyle": "three-column-rating-grid",
+    "groupBy": "categoryKey",
+    "categoryOrder": [
+      "attribute-category.physical",
+      "attribute-category.social",
+      "attribute-category.mental"
+    ],
+    "showPrioritySelector": true,
+    "showBaseRating": true,
+    "showCurrentRatingWhenDifferent": true,
+    "showSpecializationIndicator": true,
+    "preferredControl": "dot-rating"
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.attributes.form-modifier-maximum",
+      "severity": "medium",
+      "status": "deferred",
+      "question": "How should form modifiers interact with the nominal maximum rating and sheet display?",
+      "prototypeDecision": "Persist only base rating; compute current rating through future form and effect contracts."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.dice.specialization",
+      "severity": "critical",
+      "status": "source-search-required",
+      "question": "What is the exact resolution behavior for Attribute specializations?",
+      "prototypeDecision": "Store specialization references but do not enable specialized Dice resolution."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.attributes.priority-revision",
+      "severity": "low",
+      "status": "implementation-decision-required",
+      "question": "How should Chronicle handle changing category priorities after points have been allocated?",
+      "prototypeDecision": "Preview the resulting invalid allocations, preserve valid ratings, and require correction before completion."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The nine Attribute identities and categories are supplied by the catalog, not duplicated as hardcoded fields.",
+    "Persisted base ratings begin at 1 and remain between 1 and 5 during Character creation.",
+    "The 7 / 5 / 3 allocation is computed from rating increases above the universal base of 1.",
+    "Current ratings are projections and may later include form or effect modifiers.",
+    "Specialization references may be stored at rating 4+, but their Dice behavior remains disabled.",
+    "Chronicle Core remains unaware of the Werewolf Attribute catalog and allocation values."
+  ]
+}

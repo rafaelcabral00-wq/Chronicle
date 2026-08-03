@@ -1,0 +1,575 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-validation-report",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-validation-report.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewValidation",
+  "purpose": [
+    "Provide the canonical validation report for the structural and semantic integrity of the current-slice catalog review model.",
+    "Record validation outcomes for artifact resolution, dependency graphs, key uniqueness, catalog coverage, state consistency, authority separation, evidence integrity, blocker propagation, and promotion integration.",
+    "Serve as the output contract for catalog-review.task.validate-review-model.",
+    "Prevent structural validation success from being inferred without an explicit versioned report."
+  ],
+  "authority": {
+    "reportDefinitionAuthority": "ChronicleArchitecture",
+    "validationExecutionAuthority": "ChronicleDeliveryInfrastructure",
+    "substantiveReviewAuthority": "RuleSetExtractionAndReview",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualPassOverrideAllowed": false,
+    "automaticIssueCreationAllowed": true,
+    "automaticTaskCompletionAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewStateIndexArtifactRef": "./catalog-review-state-index.json",
+    "catalogReviewModelIndexArtifactRef": "./catalog-review-model-index.json",
+    "catalogReviewExecutionPlanArtifactRef": "./catalog-review-execution-plan.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewActionIndexArtifactRef": "./catalog-review-action-index.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "taskKey": "catalog-review.task.validate-review-model"
+  },
+  "reportStatus": {
+    "status": "executed",
+    "overallResult": "passed",
+    "executedAt": "2026-08-02T19:01:06Z",
+    "validator": "Codex catalog-review.task.validate-review-model",
+    "validatedArtifactCount": 27,
+    "passedCheckCount": 18,
+    "failedCheckCount": 0,
+    "warningCount": 0,
+    "blockedCheckCount": 0,
+    "issueCount": 0,
+    "taskCompletionEligible": true,
+    "nextTaskReady": true
+  },
+  "validationProfile": {
+    "profileKey": "catalog-review.validation.structural-and-semantic",
+    "strictMode": true,
+    "failOnWarning": false,
+    "requireAllBoundArtifacts": true,
+    "requireCurrentFingerprints": true,
+    "requireAcyclicDependencies": true,
+    "requireAuthoritySeparation": true,
+    "requireStateSummaryReconciliation": true,
+    "requirePromotionProjectionConsistency": true
+  },
+  "checks": [
+    {
+      "checkKey": "catalog-review-validation.bound-artifacts-resolve",
+      "category": "artifact-resolution",
+      "required": true,
+      "status": "passed",
+      "description": "Every artifact referenced by the catalog review model resolves inside the permitted prototype roots.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.contract-versions-supported",
+      "category": "contract",
+      "required": true,
+      "status": "passed",
+      "description": "Every bound artifact declares a supported contract version.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.artifact-keys-unique",
+      "category": "identity",
+      "required": true,
+      "status": "passed",
+      "description": "Artifact keys are unique for artifacts that declare top-level artifactKey; keyless leaf artifacts are valid when parent indexes own stable artifact keys.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.dependencies-resolve",
+      "category": "dependency",
+      "required": true,
+      "status": "passed",
+      "description": "Every declared artifact, task, action, issue, blocker, and review dependency resolves.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.dependencies-acyclic",
+      "category": "dependency",
+      "required": true,
+      "status": "passed",
+      "description": "Artifact, task, action, and review dependencies are acyclic.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.catalog-coverage-reconciles",
+      "category": "coverage",
+      "required": true,
+      "status": "passed",
+      "description": "All nine catalogs and all 46 required identities reconcile across checklist, evidence, decisions, result, and state projections.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.task-coverage-reconciles",
+      "category": "workflow",
+      "required": true,
+      "status": "passed",
+      "description": "All 22 execution-plan tasks have exactly one status record and belong to exactly one stage.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.action-refs-resolve",
+      "category": "workflow",
+      "required": true,
+      "status": "passed",
+      "description": "All action keys referenced by issues, blockers, and tasks resolve in the action index.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.issue-blocker-bindings-reconcile",
+      "category": "impediments",
+      "required": true,
+      "status": "passed",
+      "description": "Every issue blocker reference resolves and blocker scope matches the affected issue scope.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.summary-counts-reconcile",
+      "category": "state",
+      "required": true,
+      "status": "passed",
+      "description": "All task, action, issue, blocker, evidence, decision, catalog, and aggregate summary counts reconcile with their records.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.current-state-derived",
+      "category": "state",
+      "required": true,
+      "status": "passed",
+      "description": "The aggregate current state is derivable from bound source artifacts without manual override.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.next-work-valid",
+      "category": "workflow",
+      "required": true,
+      "status": "passed",
+      "description": "The projected next executable task satisfies all declared dependencies and readiness rules.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.authority-layers-separated",
+      "category": "authority",
+      "required": true,
+      "status": "passed",
+      "description": "Review, checklist, evidence, decisions, result, readiness, and promotion authority remain distinct.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.no-candidate-authority",
+      "category": "authority",
+      "required": true,
+      "status": "passed",
+      "description": "Candidate templates do not count as evidence, final decisions, completed actions, completed tasks, or approved review state.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.evidence-ledger-consistent",
+      "category": "evidence",
+      "required": true,
+      "status": "passed",
+      "description": "Evidence records, statuses, fingerprints, and checklist bindings are internally consistent.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.blocker-propagation-consistent",
+      "category": "impediments",
+      "required": true,
+      "status": "passed",
+      "description": "Active blockers are reflected consistently in affected tasks, actions, catalog results, readiness, and promotion diagnostics.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.promotion-projection-consistent",
+      "category": "promotion",
+      "required": true,
+      "status": "passed",
+      "description": "Promotion eligibility remains blocked while required catalog review evidence, decisions, and reconciliation are incomplete.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "catalog-review-validation.security-boundaries-valid",
+      "category": "security",
+      "required": true,
+      "status": "passed",
+      "description": "Review artifacts exclude raw sourcebook text, production user data, provider secrets, and encryption material.",
+      "evidenceRefs": [
+        "./catalog-review-validation-report.json"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "validationExecution": {
+    "requiredInputs": [
+      "./catalog-review-model-index.json",
+      "./catalog-review-state-index.json",
+      "./catalog-review-execution-plan.json",
+      "./catalog-review-task-status.json",
+      "./catalog-review-action-index.json",
+      "./catalog-review-issues.json",
+      "./catalog-review-blocker-index.json",
+      "./catalog-review-checklist.json",
+      "./catalog-review-evidence.json",
+      "./catalog-identity-decisions.json",
+      "./catalog-review-result.json"
+    ],
+    "producedOutputs": [
+      "catalog-review-model-validation-report",
+      "validation-created-issue-records",
+      "updated-task-readiness"
+    ],
+    "executionOrder": [
+      "resolve-and-load-artifacts",
+      "validate-contracts-and-keys",
+      "validate-dependencies",
+      "reconcile-coverage-and-counts",
+      "validate-authority-separation",
+      "validate-state-and-next-work",
+      "validate-blocker-and-promotion-propagation",
+      "record-result-and-fingerprint"
+    ]
+  },
+  "resultRules": {
+    "passedWhen": "all-required-checks-pass",
+    "failedWhen": "one-or-more-required-checks-fail",
+    "passedWithWarningsWhen": "all-required-checks-pass-and-one-or-more-nonblocking-warnings-exist",
+    "unknownWhenNotExecuted": true,
+    "manualOverallResultAllowed": false
+  },
+  "taskIntegration": {
+    "taskKey": "catalog-review.task.validate-review-model",
+    "completionEligibleWhen": [
+      "overallResult-passed-or-passed-with-warnings",
+      "report-fingerprint-recorded",
+      "all-created-critical-issues-resolved-or-absent"
+    ],
+    "currentCompletionEligible": true,
+    "nextTaskKey": "catalog-review.task.validate-catalog-contracts",
+    "nextTaskMayBecomeReadyWhen": [
+      "current-task-complete",
+      "required-output-fingerprint-current"
+    ]
+  },
+  "issueIntegration": {
+    "failedRequiredCheckOpensIssue": true,
+    "issueTypeMapping": {
+      "artifact-resolution": "contract-validation-failure",
+      "contract": "contract-validation-failure",
+      "identity": "duplicate-identity-key",
+      "dependency": "invalid-catalog-binding",
+      "coverage": "missing-required-identity",
+      "workflow": "invalid-catalog-binding",
+      "state": "reconciliation-defect",
+      "authority": "scope-boundary-conflict",
+      "evidence": "stale-evidence",
+      "impediments": "reconciliation-defect",
+      "promotion": "scope-boundary-conflict",
+      "security": "security-defect"
+    },
+    "createdIssuesMustReferenceFailedCheck": true,
+    "criticalValidationIssueBlocksTaskCompletion": true
+  },
+  "stalenessPolicy": {
+    "anyInputFingerprintChangeMarksReportStale": true,
+    "executionPlanChangeRequiresRevalidation": true,
+    "taskOrActionModelChangeRequiresRevalidation": true,
+    "issueOrBlockerModelChangeRequiresRevalidation": true,
+    "checklistEvidenceDecisionOrResultChangeRequiresRevalidation": true,
+    "staleReportCannotCompleteTask": true,
+    "automaticStaleMarkingAllowed": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-validation-report.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every validation checkKey is unique"
+    },
+    {
+      "ruleKey": "catalog-review-validation-report.required-inputs-resolve",
+      "severity": "blocking",
+      "requirement": "every required input artifact resolves"
+    },
+    {
+      "ruleKey": "catalog-review-validation-report.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reportStatus counts reconcile with check statuses and created issues"
+    },
+    {
+      "ruleKey": "catalog-review-validation-report.failed-checks-have-issues",
+      "severity": "blocking",
+      "requirement": "every failed required check references at least one issue"
+    },
+    {
+      "ruleKey": "catalog-review-validation-report.pass-has-current-fingerprint",
+      "severity": "blocking",
+      "requirement": "a passed report has a current validation fingerprint"
+    },
+    {
+      "ruleKey": "catalog-review-validation-report.task-eligibility-reconciles",
+      "severity": "blocking",
+      "requirement": "task completion eligibility matches the calculated report result"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reportFingerprintRequiredAfterExecution": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeInputArtifactFingerprints": true,
+    "includeValidationProfile": true,
+    "includeChecksAndStatuses": true,
+    "includeCreatedIssueRefs": true,
+    "includeTaskIntegration": true,
+    "includeReportStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "report-status",
+      "overall-result",
+      "failed-check-keys",
+      "warning-check-keys",
+      "created-issue-keys",
+      "unresolved-artifact-refs",
+      "dependency-cycle-paths",
+      "count-mismatches",
+      "authority-conflicts",
+      "state-projection-conflicts",
+      "task-completion-eligibility",
+      "next-task-readiness"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "checkKeys",
+      "statuses",
+      "issueKeys",
+      "taskKeys",
+      "counts",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewValidationStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "taskKey": "Reference",
+        "inputArtifactKeys": "ReferenceCollection",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewValidationCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "overallResult": "Text",
+        "passedCheckCount": "Integer",
+        "failedCheckCount": "Integer",
+        "issueKeys": "ReferenceCollection",
+        "reportFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-bound-review-artifacts",
+    "architectureConfidence": "high",
+    "validationStatus": "passed",
+    "taskCompletionStatus": "eligible",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This artifact records executed structural revalidation using repository-backed evidence only.",
+    "Structural corrections updated fixture index paths, character-creation operation references, stale task-key references, and execution-model indexing coverage.",
+    "Leaf artifactKey interpretation is parent-index-owned for keyless leaves, while artifactKey equality remains required when the target artifact declares artifactKey.",
+    "A successful structural validation completes only catalog-review.task.validate-review-model; it does not approve source identities or mechanics."
+  ],
+  "executionStatus": "executed",
+  "executionTimestampUtc": "2026-08-02T19:01:06Z",
+  "validationScope": {
+    "repositoryScope": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/",
+    "primaryReviewFolder": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/",
+    "taskKey": "catalog-review.task.validate-review-model",
+    "mode": "repository-backed-validation"
+  },
+  "filesInspected": [
+    "./review-index.json",
+    "./catalog-review-model-index.json",
+    "./catalog-review-state-index.json",
+    "./catalog-review-execution-plan.json",
+    "./catalog-review-execution-model-index.json",
+    "./catalog-review-task-status.json",
+    "./catalog-review-action-index.json",
+    "./catalog-review-issues.json",
+    "./catalog-review-blocker-index.json",
+    "./catalog-review-checklist.json",
+    "./catalog-review-evidence-plan.json",
+    "./catalog-review-evidence-status.json",
+    "./catalog-review-evidence.json",
+    "./catalog-identity-decisions.json",
+    "./catalog-review-result.json",
+    "./catalog-review-record-index.json",
+    "./catalog-review-execution-handoff.json",
+    "./catalog-review-promotion-evidence.json",
+    "./auspice-review-record.json",
+    "../fixtures/fixture-index-root.json",
+    "../character-creation/select-metis-deformity.json",
+    "../character-creation/select-initial-gift.json",
+    "../prototype-work-status.json",
+    "../prototype-readiness.json",
+    "../tests/promotion-gate.json",
+    "../tests/test-model-index.json",
+    "../tests/test-suite-index.json"
+  ],
+  "checksExecuted": [
+    "catalog-review-validation.bound-artifacts-resolve",
+    "catalog-review-validation.contract-versions-supported",
+    "catalog-review-validation.artifact-keys-unique",
+    "catalog-review-validation.dependencies-resolve",
+    "catalog-review-validation.dependencies-acyclic",
+    "catalog-review-validation.catalog-coverage-reconciles",
+    "catalog-review-validation.task-coverage-reconciles",
+    "catalog-review-validation.action-refs-resolve",
+    "catalog-review-validation.issue-blocker-bindings-reconcile",
+    "catalog-review-validation.summary-counts-reconcile",
+    "catalog-review-validation.current-state-derived",
+    "catalog-review-validation.next-work-valid",
+    "catalog-review-validation.authority-layers-separated",
+    "catalog-review-validation.no-candidate-authority",
+    "catalog-review-validation.evidence-ledger-consistent",
+    "catalog-review-validation.blocker-propagation-consistent",
+    "catalog-review-validation.promotion-projection-consistent",
+    "catalog-review-validation.security-boundaries-valid"
+  ],
+  "checkCounts": {
+    "passed": 18,
+    "warning": 0,
+    "failed": 0,
+    "blocked": 0
+  },
+  "structuredFindings": [],
+  "unresolvedReferences": [],
+  "duplicateFiles": [],
+  "unindexedFiles": [],
+  "countMismatches": [],
+  "dependencyCycles": [],
+  "statusInconsistencies": [
+    {
+      "status": "none-detected",
+      "summary": "No task, action, record, evidence item, handoff, or promotion state is marked complete or eligible without declared requirements."
+    }
+  ],
+  "affectedArtifactReferences": [
+    "../fixtures/fixture-index-root.json",
+    "../character-creation/select-metis-deformity.json",
+    "../character-creation/select-initial-gift.json",
+    "./catalog-review-model-index.json",
+    "./catalog-review-execution-plan.json",
+    "./catalog-review-action-index.json",
+    "./current-slice-boundary-review.json",
+    "./catalog-review-issues.json",
+    "./catalog-review-execution-model-index.json",
+    "./catalog-review-evidence-plan.json",
+    "./catalog-review-state-index.json",
+    "./catalog-review-task-status.json",
+    "./catalog-review-evidence-status.json"
+  ],
+  "recommendedCorrectiveActions": [],
+  "overallResult": "passed",
+  "catalog-review.task.validate-review-modelCompletionEligible": true,
+  "reportFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "801e86df2b837b359a1995e2bcb1038840be8b3862097bc774862c5e5f88357e",
+    "calculatedAt": "2026-08-02T19:01:06Z"
+  }
+}

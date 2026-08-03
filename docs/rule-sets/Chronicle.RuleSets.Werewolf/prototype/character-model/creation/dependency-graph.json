@@ -1,0 +1,1097 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.dependency-graph",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.dependency-graph.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "purpose": [
+    "Declare deterministic dependencies between Character creation fields, selections, derived values, validations, invalidations, and operations.",
+    "Support affected-field validation without relying on hardcoded Werewolf-specific application logic.",
+    "Drive safe previews for upstream changes before dependent state is recalculated, preserved, invalidated, or cleared.",
+    "Provide a package-owned graph for UI guidance, orchestration, diagnostics, and completion-readiness checks."
+  ],
+  "authority": {
+    "dependencyDefinitionAuthority": "RuleSet",
+    "graphDiscoveryAuthority": "Chronicle",
+    "graphExecutionAuthority": "RuleSet",
+    "stateMutationAuthority": "Chronicle",
+    "narratorMayModifyGraph": false,
+    "chronicleDirectorMayBypassGraph": false
+  },
+  "graphShape": {
+    "nodes": "DependencyNodeCollection",
+    "edges": "DependencyEdgeCollection",
+    "topologicalGroups": "StructuredCollection",
+    "cyclePolicy": "StructuredObject",
+    "contentFingerprint": "Text"
+  },
+  "nodeShape": {
+    "nodeKey": "Reference",
+    "nodeType": "Text",
+    "stageKey": "Reference",
+    "artifactRef": "Text",
+    "fieldPath": "Text",
+    "operationKeys": "ReferenceCollection",
+    "validationRuleKeys": "ReferenceCollection",
+    "invalidationKeys": "ReferenceCollection",
+    "requiredForCompletion": "BooleanOrConditional",
+    "metadata": "StructuredObject"
+  },
+  "edgeShape": {
+    "edgeKey": "Reference",
+    "fromNodeKey": "Reference",
+    "toNodeKey": "Reference",
+    "dependencyType": "Text",
+    "impactMode": "Text",
+    "recalculationPolicy": "Text",
+    "previewRequired": "Boolean",
+    "silentCascadeAllowed": "Boolean",
+    "condition": "StructuredObject",
+    "operationKeys": "ReferenceCollection",
+    "validationRuleKeys": "ReferenceCollection",
+    "invalidationKeys": "ReferenceCollection",
+    "ambiguityRefs": "ReferenceCollection"
+  },
+  "nodeTypes": [
+    "classification",
+    "priority-assignment",
+    "rating-collection",
+    "selection",
+    "derived-value",
+    "resource",
+    "specialization",
+    "budget",
+    "narrative",
+    "validation",
+    "workflow"
+  ],
+  "dependencyTypes": [
+    "derives",
+    "constrains",
+    "enables",
+    "requires",
+    "invalidates",
+    "affects-budget",
+    "affects-validation",
+    "affects-completion"
+  ],
+  "impactModes": [
+    "deterministic-recalculate",
+    "preserve-if-valid",
+    "invalidate-for-review",
+    "clear-if-not-applicable",
+    "block-until-resolved",
+    "no-state-change-validation-only"
+  ],
+  "nodes": [
+    {
+      "nodeKey": "character.classification.race",
+      "nodeType": "classification",
+      "stageKey": "creation.classifications",
+      "artifactRef": "../catalogs/races.json",
+      "fieldPath": "character.classification.race",
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.classification-dependent-state-review-required"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.classification.auspice",
+      "nodeType": "classification",
+      "stageKey": "creation.classifications",
+      "artifactRef": "../catalogs/auspices.json",
+      "fieldPath": "character.classification.auspice",
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.classification-dependent-state-review-required"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.classification.tribe",
+      "nodeType": "classification",
+      "stageKey": "creation.classifications",
+      "artifactRef": "../catalogs/tribes.json",
+      "fieldPath": "character.classification.tribe",
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.classification-dependent-state-review-required"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.attributes.priorities",
+      "nodeType": "priority-assignment",
+      "stageKey": "creation.attributes",
+      "artifactRef": "../fields/attributes-fields.json",
+      "fieldPath": "character.creation.attributePriorities",
+      "operationKeys": [
+        "character-creation.set-attribute-priorities"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.attribute-allocation-invalid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.attributes.ratings",
+      "nodeType": "rating-collection",
+      "stageKey": "creation.attributes",
+      "artifactRef": "../fields/attributes-fields.json",
+      "fieldPath": "character.attributes",
+      "operationKeys": [
+        "character-creation.set-attribute-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.attribute-allocation-invalid",
+        "character-creation.specialization-no-longer-valid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.abilities.priorities",
+      "nodeType": "priority-assignment",
+      "stageKey": "creation.abilities",
+      "artifactRef": "../fields/abilities-fields.json",
+      "fieldPath": "character.creation.abilityPriorities",
+      "operationKeys": [
+        "character-creation.set-ability-priorities"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.ability-allocation-invalid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.abilities.ratings",
+      "nodeType": "rating-collection",
+      "stageKey": "creation.abilities",
+      "artifactRef": "../fields/abilities-fields.json",
+      "fieldPath": "character.abilities",
+      "operationKeys": [
+        "character-creation.set-ability-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.ability-allocation-invalid",
+        "character-creation.specialization-no-longer-valid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.backgrounds.ratings",
+      "nodeType": "rating-collection",
+      "stageKey": "creation.backgrounds",
+      "artifactRef": "../fields/backgrounds-fields.json",
+      "fieldPath": "character.backgrounds",
+      "operationKeys": [
+        "character-creation.set-background-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.background-allocation-invalid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.gifts.initial.race",
+      "nodeType": "selection",
+      "stageKey": "creation.initial-gifts",
+      "artifactRef": "../fields/gifts-fields.json",
+      "fieldPath": "character.gifts.initial.race",
+      "operationKeys": [
+        "character-creation.select-initial-gift"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.initial-gift-no-longer-eligible",
+        "character-creation.required-initial-gift-missing"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.gifts.initial.auspice",
+      "nodeType": "selection",
+      "stageKey": "creation.initial-gifts",
+      "artifactRef": "../fields/gifts-fields.json",
+      "fieldPath": "character.gifts.initial.auspice",
+      "operationKeys": [
+        "character-creation.select-initial-gift"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.initial-gift-no-longer-eligible",
+        "character-creation.required-initial-gift-missing"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.gifts.initial.tribe",
+      "nodeType": "selection",
+      "stageKey": "creation.initial-gifts",
+      "artifactRef": "../fields/gifts-fields.json",
+      "fieldPath": "character.gifts.initial.tribe",
+      "operationKeys": [
+        "character-creation.select-initial-gift"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.initial-gift-no-longer-eligible",
+        "character-creation.required-initial-gift-missing"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.metis-deformity",
+      "nodeType": "selection",
+      "stageKey": "creation.metis-deformity",
+      "artifactRef": "../catalogs/metis-deformities.json",
+      "fieldPath": "character.classification.metisDeformity",
+      "operationKeys": [
+        "character-creation.select-metis-deformity"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.metis-deformity-required",
+        "character-creation.metis-deformity-no-longer-applicable"
+      ],
+      "requiredForCompletion": "when-race-is-metis"
+    },
+    {
+      "nodeKey": "character.resource.rage",
+      "nodeType": "resource",
+      "stageKey": "creation.resources-renown-rank",
+      "artifactRef": "../fields/resources.json",
+      "fieldPath": "character.resources.rage",
+      "operationKeys": [
+        "character-creation.apply-classification-change",
+        "character-creation.set-resource-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.resource-state-review-required"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.resource.gnosis",
+      "nodeType": "resource",
+      "stageKey": "creation.resources-renown-rank",
+      "artifactRef": "../fields/resources.json",
+      "fieldPath": "character.resources.gnosis",
+      "operationKeys": [
+        "character-creation.apply-classification-change",
+        "character-creation.set-resource-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.resource-state-review-required"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.resource.willpower",
+      "nodeType": "resource",
+      "stageKey": "creation.resources-renown-rank",
+      "artifactRef": "../fields/resources.json",
+      "fieldPath": "character.resources.willpower",
+      "operationKeys": [
+        "character-creation.apply-classification-change",
+        "character-creation.set-resource-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.resource-state-review-required"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.renown.initial",
+      "nodeType": "derived-value",
+      "stageKey": "creation.resources-renown-rank",
+      "artifactRef": "../fields/renown-and-rank.json",
+      "fieldPath": "character.renown",
+      "operationKeys": [
+        "character-creation.apply-classification-change"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.classification-dependent-state-review-required"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.rank.initial",
+      "nodeType": "derived-value",
+      "stageKey": "creation.resources-renown-rank",
+      "artifactRef": "../fields/renown-and-rank.json",
+      "fieldPath": "character.rank",
+      "operationKeys": [
+        "character-creation.initialize-character-draft"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.specializations",
+      "nodeType": "specialization",
+      "stageKey": "creation.specializations",
+      "artifactRef": "../fields/specializations.json",
+      "fieldPath": "character.specializations",
+      "operationKeys": [
+        "character-creation.set-specialization"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.specialization-no-longer-valid"
+      ],
+      "requiredForCompletion": false
+    },
+    {
+      "nodeKey": "character.creation.attribute-budget",
+      "nodeType": "budget",
+      "stageKey": "creation.attributes",
+      "artifactRef": "./creation-ledger.json",
+      "fieldPath": "character.creationLedger.budgets.attribute",
+      "operationKeys": [
+        "character-creation.set-attribute-priorities",
+        "character-creation.set-attribute-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.attribute-allocation-invalid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.creation.ability-budget",
+      "nodeType": "budget",
+      "stageKey": "creation.abilities",
+      "artifactRef": "./creation-ledger.json",
+      "fieldPath": "character.creationLedger.budgets.ability",
+      "operationKeys": [
+        "character-creation.set-ability-priorities",
+        "character-creation.set-ability-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.ability-allocation-invalid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.creation.background-budget",
+      "nodeType": "budget",
+      "stageKey": "creation.backgrounds",
+      "artifactRef": "./creation-ledger.json",
+      "fieldPath": "character.creationLedger.budgets.background",
+      "operationKeys": [
+        "character-creation.set-background-rating"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.background-allocation-invalid"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.creation.freebie-budget",
+      "nodeType": "budget",
+      "stageKey": "creation.freebie-points",
+      "artifactRef": "./creation-ledger.json",
+      "fieldPath": "character.creationLedger.budgets.freebie",
+      "operationKeys": [
+        "character-creation.set-attribute-rating",
+        "character-creation.set-ability-rating",
+        "character-creation.set-background-rating",
+        "character-creation.set-resource-rating",
+        "character-creation.purchase-additional-gift",
+        "character-creation.remove-additional-gift"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.freebie-budget-overspent",
+        "character-creation.ledger-reconciliation-failed"
+      ],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.creation.validation",
+      "nodeType": "validation",
+      "stageKey": "creation.review-and-complete",
+      "artifactRef": "../validation/character-creation.json",
+      "fieldPath": "character.creation.validation",
+      "operationKeys": [
+        "character-creation.validate-character",
+        "character-creation.complete-character"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [],
+      "requiredForCompletion": true
+    },
+    {
+      "nodeKey": "character.creation.completion",
+      "nodeType": "workflow",
+      "stageKey": "creation.review-and-complete",
+      "artifactRef": "../validation/character-completion.json",
+      "fieldPath": "character.status",
+      "operationKeys": [
+        "character-creation.complete-character"
+      ],
+      "validationRuleKeys": [],
+      "invalidationKeys": [
+        "character-creation.package-binding-incompatible",
+        "character-creation.ledger-reconciliation-failed"
+      ],
+      "requiredForCompletion": true
+    }
+  ],
+  "edges": [
+    {
+      "edgeKey": "race-to-gnosis",
+      "fromNodeKey": "character.classification.race",
+      "toNodeKey": "character.resource.gnosis",
+      "dependencyType": "derives",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "derive-new-base-and-preserve-valid-freebie-delta",
+      "previewRequired": true,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "invalidationKeys": [
+        "character-creation.resource-state-review-required"
+      ],
+      "ambiguityRefs": [
+        "ambiguity.werewolf3e.creation.resource-current-values"
+      ]
+    },
+    {
+      "edgeKey": "auspice-to-rage",
+      "fromNodeKey": "character.classification.auspice",
+      "toNodeKey": "character.resource.rage",
+      "dependencyType": "derives",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "derive-new-base-and-preserve-valid-freebie-delta",
+      "previewRequired": true,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "invalidationKeys": [
+        "character-creation.resource-state-review-required"
+      ],
+      "ambiguityRefs": [
+        "ambiguity.werewolf3e.creation.resource-current-values"
+      ]
+    },
+    {
+      "edgeKey": "tribe-to-willpower",
+      "fromNodeKey": "character.classification.tribe",
+      "toNodeKey": "character.resource.willpower",
+      "dependencyType": "derives",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "derive-new-base-and-preserve-valid-freebie-delta",
+      "previewRequired": true,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "invalidationKeys": [
+        "character-creation.resource-state-review-required"
+      ],
+      "ambiguityRefs": [
+        "ambiguity.werewolf3e.creation.resource-current-values"
+      ]
+    },
+    {
+      "edgeKey": "auspice-to-renown",
+      "fromNodeKey": "character.classification.auspice",
+      "toNodeKey": "character.renown.initial",
+      "dependencyType": "derives",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "replace-classification-derived-initial-renown",
+      "previewRequired": true,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "invalidationKeys": [
+        "character-creation.classification-dependent-state-review-required"
+      ]
+    },
+    {
+      "edgeKey": "race-to-race-gift",
+      "fromNodeKey": "character.classification.race",
+      "toNodeKey": "character.gifts.initial.race",
+      "dependencyType": "constrains",
+      "impactMode": "invalidate-for-review",
+      "recalculationPolicy": "preserve-selection-only-if-still-eligible",
+      "previewRequired": true,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change",
+        "character-creation.select-initial-gift"
+      ],
+      "invalidationKeys": [
+        "character-creation.initial-gift-no-longer-eligible",
+        "character-creation.required-initial-gift-missing"
+      ]
+    },
+    {
+      "edgeKey": "auspice-to-auspice-gift",
+      "fromNodeKey": "character.classification.auspice",
+      "toNodeKey": "character.gifts.initial.auspice",
+      "dependencyType": "constrains",
+      "impactMode": "invalidate-for-review",
+      "recalculationPolicy": "preserve-selection-only-if-still-eligible",
+      "previewRequired": true,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change",
+        "character-creation.select-initial-gift"
+      ],
+      "invalidationKeys": [
+        "character-creation.initial-gift-no-longer-eligible",
+        "character-creation.required-initial-gift-missing"
+      ]
+    },
+    {
+      "edgeKey": "tribe-to-tribe-gift",
+      "fromNodeKey": "character.classification.tribe",
+      "toNodeKey": "character.gifts.initial.tribe",
+      "dependencyType": "constrains",
+      "impactMode": "invalidate-for-review",
+      "recalculationPolicy": "preserve-selection-only-if-still-eligible",
+      "previewRequired": true,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change",
+        "character-creation.select-initial-gift"
+      ],
+      "invalidationKeys": [
+        "character-creation.initial-gift-no-longer-eligible",
+        "character-creation.required-initial-gift-missing"
+      ]
+    },
+    {
+      "edgeKey": "race-to-metis-deformity",
+      "fromNodeKey": "character.classification.race",
+      "toNodeKey": "character.metis-deformity",
+      "dependencyType": "requires",
+      "impactMode": "clear-if-not-applicable",
+      "recalculationPolicy": "require-when-metis-clear-or-invalidate-otherwise",
+      "previewRequired": true,
+      "silentCascadeAllowed": false,
+      "condition": {
+        "whenRaceIs": "race.metis"
+      },
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change",
+        "character-creation.select-metis-deformity"
+      ],
+      "invalidationKeys": [
+        "character-creation.metis-deformity-required",
+        "character-creation.metis-deformity-no-longer-applicable"
+      ]
+    },
+    {
+      "edgeKey": "race-to-ability-restrictions",
+      "fromNodeKey": "character.classification.race",
+      "toNodeKey": "character.abilities.ratings",
+      "dependencyType": "constrains",
+      "impactMode": "invalidate-for-review",
+      "recalculationPolicy": "preserve-ratings-only-when-current-race-rules-allow",
+      "previewRequired": true,
+      "silentCascadeAllowed": false,
+      "condition": {
+        "whenRaceIs": "race.lupus"
+      },
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change",
+        "character-creation.set-ability-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.ability-allocation-invalid"
+      ],
+      "ambiguityRefs": [
+        "ambiguity.werewolf3e.creation.lupus-ability-purchase-timing"
+      ]
+    },
+    {
+      "edgeKey": "attribute-priorities-to-attribute-budget",
+      "fromNodeKey": "character.attributes.priorities",
+      "toNodeKey": "character.creation.attribute-budget",
+      "dependencyType": "derives",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "map-priority-order-to-seven-five-three",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-attribute-priorities"
+      ],
+      "invalidationKeys": [
+        "character-creation.attribute-allocation-invalid"
+      ]
+    },
+    {
+      "edgeKey": "attribute-budget-to-ratings",
+      "fromNodeKey": "character.creation.attribute-budget",
+      "toNodeKey": "character.attributes.ratings",
+      "dependencyType": "constrains",
+      "impactMode": "block-until-resolved",
+      "recalculationPolicy": "ratings-must-reconcile-with-priority-derived-budget",
+      "previewRequired": false,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.set-attribute-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.attribute-allocation-invalid"
+      ]
+    },
+    {
+      "edgeKey": "ability-priorities-to-ability-budget",
+      "fromNodeKey": "character.abilities.priorities",
+      "toNodeKey": "character.creation.ability-budget",
+      "dependencyType": "derives",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "map-priority-order-to-thirteen-nine-five",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-ability-priorities"
+      ],
+      "invalidationKeys": [
+        "character-creation.ability-allocation-invalid"
+      ]
+    },
+    {
+      "edgeKey": "ability-budget-to-ratings",
+      "fromNodeKey": "character.creation.ability-budget",
+      "toNodeKey": "character.abilities.ratings",
+      "dependencyType": "constrains",
+      "impactMode": "block-until-resolved",
+      "recalculationPolicy": "ratings-must-reconcile-with-priority-derived-budget",
+      "previewRequired": false,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.set-ability-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.ability-allocation-invalid"
+      ]
+    },
+    {
+      "edgeKey": "background-budget-to-ratings",
+      "fromNodeKey": "character.creation.background-budget",
+      "toNodeKey": "character.backgrounds.ratings",
+      "dependencyType": "constrains",
+      "impactMode": "block-until-resolved",
+      "recalculationPolicy": "ratings-must-reconcile-with-five-point-base-pool",
+      "previewRequired": false,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.set-background-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.background-allocation-invalid"
+      ]
+    },
+    {
+      "edgeKey": "attribute-ratings-to-freebies",
+      "fromNodeKey": "character.attributes.ratings",
+      "toNodeKey": "character.creation.freebie-budget",
+      "dependencyType": "affects-budget",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "apply-five-freebie-points-per-purchased-dot",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-attribute-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.freebie-budget-overspent"
+      ]
+    },
+    {
+      "edgeKey": "ability-ratings-to-freebies",
+      "fromNodeKey": "character.abilities.ratings",
+      "toNodeKey": "character.creation.freebie-budget",
+      "dependencyType": "affects-budget",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "apply-two-freebie-points-per-purchased-dot",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-ability-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.freebie-budget-overspent"
+      ]
+    },
+    {
+      "edgeKey": "background-ratings-to-freebies",
+      "fromNodeKey": "character.backgrounds.ratings",
+      "toNodeKey": "character.creation.freebie-budget",
+      "dependencyType": "affects-budget",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "apply-one-freebie-point-per-purchased-dot",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-background-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.freebie-budget-overspent"
+      ]
+    },
+    {
+      "edgeKey": "resources-to-freebies",
+      "fromNodeKey": "character.resource.rage",
+      "toNodeKey": "character.creation.freebie-budget",
+      "dependencyType": "affects-budget",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "apply-resource-specific-freebie-cost-from-ledger",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-resource-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.freebie-budget-overspent"
+      ]
+    },
+    {
+      "edgeKey": "gnosis-to-freebies",
+      "fromNodeKey": "character.resource.gnosis",
+      "toNodeKey": "character.creation.freebie-budget",
+      "dependencyType": "affects-budget",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "apply-two-freebie-points-per-purchased-dot",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-resource-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.freebie-budget-overspent"
+      ]
+    },
+    {
+      "edgeKey": "willpower-to-freebies",
+      "fromNodeKey": "character.resource.willpower",
+      "toNodeKey": "character.creation.freebie-budget",
+      "dependencyType": "affects-budget",
+      "impactMode": "deterministic-recalculate",
+      "recalculationPolicy": "apply-one-freebie-point-per-purchased-dot",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.set-resource-rating"
+      ],
+      "invalidationKeys": [
+        "character-creation.freebie-budget-overspent"
+      ]
+    },
+    {
+      "edgeKey": "attribute-ratings-to-specializations",
+      "fromNodeKey": "character.attributes.ratings",
+      "toNodeKey": "character.specializations",
+      "dependencyType": "constrains",
+      "impactMode": "invalidate-for-review",
+      "recalculationPolicy": "preserve-only-while-parent-rating-qualifies",
+      "previewRequired": false,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.set-attribute-rating",
+        "character-creation.set-specialization"
+      ],
+      "invalidationKeys": [
+        "character-creation.specialization-no-longer-valid"
+      ]
+    },
+    {
+      "edgeKey": "ability-ratings-to-specializations",
+      "fromNodeKey": "character.abilities.ratings",
+      "toNodeKey": "character.specializations",
+      "dependencyType": "constrains",
+      "impactMode": "invalidate-for-review",
+      "recalculationPolicy": "preserve-only-while-parent-rating-qualifies",
+      "previewRequired": false,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.set-ability-rating",
+        "character-creation.set-specialization"
+      ],
+      "invalidationKeys": [
+        "character-creation.specialization-no-longer-valid"
+      ]
+    },
+    {
+      "edgeKey": "all-mechanical-state-to-validation",
+      "fromNodeKey": "character.creation.freebie-budget",
+      "toNodeKey": "character.creation.validation",
+      "dependencyType": "affects-validation",
+      "impactMode": "no-state-change-validation-only",
+      "recalculationPolicy": "include-ledger-and-budget-rules-in-dependency-closure",
+      "previewRequired": false,
+      "silentCascadeAllowed": true,
+      "operationKeys": [
+        "character-creation.validate-character"
+      ],
+      "invalidationKeys": [
+        "character-creation.ledger-reconciliation-failed"
+      ]
+    },
+    {
+      "edgeKey": "validation-to-completion",
+      "fromNodeKey": "character.creation.validation",
+      "toNodeKey": "character.creation.completion",
+      "dependencyType": "affects-completion",
+      "impactMode": "block-until-resolved",
+      "recalculationPolicy": "fresh-full-validation-required-inside-completion-transaction",
+      "previewRequired": false,
+      "silentCascadeAllowed": false,
+      "operationKeys": [
+        "character-creation.validate-character",
+        "character-creation.complete-character"
+      ],
+      "invalidationKeys": [
+        "character-creation.ledger-reconciliation-failed",
+        "character-creation.package-binding-incompatible"
+      ]
+    }
+  ],
+  "topologicalGroups": [
+    {
+      "order": 10,
+      "groupKey": "classifications",
+      "nodeKeys": [
+        "character.classification.race",
+        "character.classification.auspice",
+        "character.classification.tribe"
+      ]
+    },
+    {
+      "order": 20,
+      "groupKey": "classification-derived-state",
+      "nodeKeys": [
+        "character.resource.rage",
+        "character.resource.gnosis",
+        "character.resource.willpower",
+        "character.renown.initial",
+        "character.rank.initial",
+        "character.metis-deformity"
+      ]
+    },
+    {
+      "order": 30,
+      "groupKey": "priority-and-base-budgets",
+      "nodeKeys": [
+        "character.attributes.priorities",
+        "character.abilities.priorities",
+        "character.creation.attribute-budget",
+        "character.creation.ability-budget",
+        "character.creation.background-budget"
+      ]
+    },
+    {
+      "order": 40,
+      "groupKey": "ratings-and-selections",
+      "nodeKeys": [
+        "character.attributes.ratings",
+        "character.abilities.ratings",
+        "character.backgrounds.ratings",
+        "character.gifts.initial.race",
+        "character.gifts.initial.auspice",
+        "character.gifts.initial.tribe",
+        "character.specializations"
+      ]
+    },
+    {
+      "order": 50,
+      "groupKey": "freebie-budget",
+      "nodeKeys": [
+        "character.creation.freebie-budget"
+      ]
+    },
+    {
+      "order": 60,
+      "groupKey": "validation-and-completion",
+      "nodeKeys": [
+        "character.creation.validation",
+        "character.creation.completion"
+      ]
+    }
+  ],
+  "cyclePolicy": {
+    "cyclesAllowed": false,
+    "packageLoadFailsOnCycle": true,
+    "diagnosticMustIncludeCyclePath": true,
+    "runtimeCycleBreakingAllowed": false,
+    "bidirectionalUserEditingIsNotGraphCycle": true,
+    "reason": "The graph models causal recalculation and validation order, not all possible user navigation paths."
+  },
+  "affectedFieldResolutionPolicy": {
+    "algorithm": "forward-transitive-closure",
+    "includeStartingNodes": true,
+    "includeConditionalEdgesOnlyWhenConditionMatches": true,
+    "stopAtWorkflowBoundary": false,
+    "return": [
+      "directlyAffectedNodeKeys",
+      "transitivelyAffectedNodeKeys",
+      "recalculationActions",
+      "preservationChecks",
+      "createdInvalidationCandidates",
+      "requiredOperationKeys",
+      "validationRuleKeys"
+    ]
+  },
+  "previewPolicy": {
+    "requiredWhenAnyEdgeHasPreviewRequired": true,
+    "previewMayNotMutateState": true,
+    "previewMustUseCurrentDraftVersion": true,
+    "previewFingerprintRequired": true,
+    "applyOperationMustReferenceCompatiblePreviewWhenRequired": true,
+    "stalePreviewRejected": true
+  },
+  "mutationPolicy": {
+    "deterministicDerivedValuesMayBeRecalculated": true,
+    "userSelectionsMayBeSilentlyReplaced": false,
+    "userSelectionsMayBePreservedWhenStillValid": true,
+    "nonApplicableConditionalSelectionsMayBeClearedOnlyByAuthorizedOperation": true,
+    "ambiguousImpactCreatesInvalidation": true,
+    "allMutationsAndInvalidationsPersistInSameTransaction": true
+  },
+  "validationIntegration": {
+    "validationOperationKey": "character-creation.validate-character",
+    "affectedModeUsesGraphClosure": true,
+    "currentStageModeUsesStageNodesAndPrerequisites": true,
+    "fullDraftModeUsesAllReachableValidationDependencies": true,
+    "completionModeIncludesWorkflowAndPackageBindingNodes": true
+  },
+  "integrityRules": [
+    {
+      "ruleKey": "dependency-graph.node-key-unique",
+      "severity": "blocking",
+      "requirement": "every nodeKey is unique"
+    },
+    {
+      "ruleKey": "dependency-graph.edge-key-unique",
+      "severity": "blocking",
+      "requirement": "every edgeKey is unique"
+    },
+    {
+      "ruleKey": "dependency-graph.edge-endpoints-exist",
+      "severity": "blocking",
+      "requirement": "every edge references existing from and to nodes"
+    },
+    {
+      "ruleKey": "dependency-graph.no-cycles",
+      "severity": "blocking",
+      "requirement": "the directed dependency graph is acyclic"
+    },
+    {
+      "ruleKey": "dependency-graph.operation-refs-known",
+      "severity": "blocking",
+      "requirement": "all operation keys exist in the Character creation operation index"
+    },
+    {
+      "ruleKey": "dependency-graph.invalidation-refs-known",
+      "severity": "blocking",
+      "requirement": "all invalidation keys exist in the invalidations artifact"
+    },
+    {
+      "ruleKey": "dependency-graph.artifact-refs-resolve",
+      "severity": "blocking",
+      "requirement": "all package-relative artifact references resolve inside the package"
+    }
+  ],
+  "securityPolicy": {
+    "containsNarrativePayload": false,
+    "networkAccessRequired": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "ordinaryLogsMayContain": [
+      "nodeKeys",
+      "edgeKeys",
+      "operationKeys",
+      "invalidationKeys",
+      "graphFingerprint"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-character-narrative",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationDependencyImpactCalculated",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "characterId": "Reference",
+        "draftVersion": "Integer",
+        "startingNodeKeys": "ReferenceCollection",
+        "affectedNodeKeys": "ReferenceCollection",
+        "previewFingerprint": "Text",
+        "calculatedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-mechanical-edges",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The dependency graph is package-owned and contains no Werewolf-specific code requirement in Chronicle Core.",
+    "The graph distinguishes deterministic derived-value recalculation from user-selection invalidation.",
+    "Classification changes require preview when dependent state may change.",
+    "Affected-field validation uses forward transitive closure through this graph.",
+    "The graph is acyclic because it models causal order, not user navigation.",
+    "Chronicle owns artifact discovery, version checks, state persistence, transactions, and preview fingerprints.",
+    "The Rule Set owns dependency semantics, conditional edges, recalculation rules, and invalidation triggers."
+  ]
+}

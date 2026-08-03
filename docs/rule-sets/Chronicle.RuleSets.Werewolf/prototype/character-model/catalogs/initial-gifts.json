@@ -1,0 +1,2513 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.initial-gifts",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.initial-gifts.display-name",
+  "publicationStatus": "candidate-partial",
+  "selectionPolicy": {
+    "creationStage": "CreationBaseAllocation",
+    "requiredSelections": [
+      {
+        "selectionSlotKey": "initial-gift.race",
+        "sourceType": "race",
+        "minimumSelections": 1,
+        "maximumSelections": 1
+      },
+      {
+        "selectionSlotKey": "initial-gift.auspice",
+        "sourceType": "auspice",
+        "minimumSelections": 1,
+        "maximumSelections": 1
+      },
+      {
+        "selectionSlotKey": "initial-gift.tribe",
+        "sourceType": "tribe",
+        "minimumSelections": 1,
+        "maximumSelections": 1
+      }
+    ],
+    "distinctGiftIdentityRequired": true,
+    "distinctGiftIdentityStatus": "prototype-decision",
+    "ambiguityRef": "ambiguity.werewolf3e.creation.duplicate-gifts"
+  },
+  "identityPolicy": {
+    "giftIdentityIsGlobalWithinPackage": true,
+    "sameNamedGiftAcrossSeveralSourcesShouldShareCanonicalIdentity": false,
+    "currentPrototypeBehavior": "source-scoped-identity",
+    "normalizationStatus": "review-required",
+    "notes": [
+      "Several Gifts appear under more than one Race, Auspice, or Tribe list.",
+      "The current file preserves source-scoped keys to avoid premature identity merging.",
+      "A later normalization pass may introduce a shared canonical Gift identity plus several eligibility-source links."
+    ]
+  },
+  "entries": [
+    {
+      "entryKey": "gift.race.homid.master-of-fire",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.homid.master-of-fire",
+      "descriptionResourceKey": "gift.race.homid.master-of-fire.description",
+      "sourceLabelPtBr": "Domínio do Fogo",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.homid"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-master-of-fire.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.homid.persuasion",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.homid.persuasion",
+      "descriptionResourceKey": "gift.race.homid.persuasion.description",
+      "sourceLabelPtBr": "Persuasão",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.homid"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-persuasion.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.homid.scent-of-man",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.homid.scent-of-man",
+      "descriptionResourceKey": "gift.race.homid.scent-of-man.description",
+      "sourceLabelPtBr": "Cheiro de Homem",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.homid"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-scent-of-man.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.metis.create-element",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.metis.create-element",
+      "descriptionResourceKey": "gift.race.metis.create-element.description",
+      "sourceLabelPtBr": "Criar Elemento",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.metis"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-create-element.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.metis.primal-anger",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.metis.primal-anger",
+      "descriptionResourceKey": "gift.race.metis.primal-anger.description",
+      "sourceLabelPtBr": "Fúria Primordial",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.metis"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-primal-anger.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.metis.sense-wyrm",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.metis.sense-wyrm",
+      "descriptionResourceKey": "gift.race.metis.sense-wyrm.description",
+      "sourceLabelPtBr": "Sentir a Wyrm",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.metis"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sense-wyrm.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.lupus.hare-leap",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.lupus.hare-leap",
+      "descriptionResourceKey": "gift.race.lupus.hare-leap.description",
+      "sourceLabelPtBr": "Salto da Lebre",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.lupus"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-hare-leap.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.lupus.heightened-senses",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.lupus.heightened-senses",
+      "descriptionResourceKey": "gift.race.lupus.heightened-senses.description",
+      "sourceLabelPtBr": "Sentidos Aguçados",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.lupus"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-heightened-senses.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.race.lupus.sense-prey",
+      "level": 1,
+      "displayNameResourceKey": "gift.race.lupus.sense-prey",
+      "descriptionResourceKey": "gift.race.lupus.sense-prey.description",
+      "sourceLabelPtBr": "Sentir a Presa",
+      "eligibilitySources": [
+        {
+          "sourceType": "race",
+          "sourceKey": "character.race.lupus"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sense-prey.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.ragabash.open-seal",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.ragabash.open-seal",
+      "descriptionResourceKey": "gift.auspice.ragabash.open-seal.description",
+      "sourceLabelPtBr": "Abrir Selo",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.ragabash"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-open-seal.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.ragabash.blur-of-the-milky-eye",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.ragabash.blur-of-the-milky-eye",
+      "descriptionResourceKey": "gift.auspice.ragabash.blur-of-the-milky-eye.description",
+      "sourceLabelPtBr": "Ofuscação da Via Láctea",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.ragabash"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-blur-of-the-milky-eye.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.ragabash.scent-of-running-water",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.ragabash.scent-of-running-water",
+      "descriptionResourceKey": "gift.auspice.ragabash.scent-of-running-water.description",
+      "sourceLabelPtBr": "Cheiro de Água Corrente",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.ragabash"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-scent-of-running-water.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.theurge.spirit-speech",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.theurge.spirit-speech",
+      "descriptionResourceKey": "gift.auspice.theurge.spirit-speech.description",
+      "sourceLabelPtBr": "Falar com Espíritos",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.theurge"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-spirit-speech.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.theurge.mothers-touch",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.theurge.mothers-touch",
+      "descriptionResourceKey": "gift.auspice.theurge.mothers-touch.description",
+      "sourceLabelPtBr": "Toque da Mãe",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.theurge"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-mothers-touch.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.theurge.sense-wyrm",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.theurge.sense-wyrm",
+      "descriptionResourceKey": "gift.auspice.theurge.sense-wyrm.description",
+      "sourceLabelPtBr": "Sentir a Wyrm",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.theurge"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sense-wyrm.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.philodox.scent-of-the-true-form",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.philodox.scent-of-the-true-form",
+      "descriptionResourceKey": "gift.auspice.philodox.scent-of-the-true-form.description",
+      "sourceLabelPtBr": "Cheiro da Forma Verdadeira",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.philodox"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-scent-of-the-true-form.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.philodox.resist-pain",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.philodox.resist-pain",
+      "descriptionResourceKey": "gift.auspice.philodox.resist-pain.description",
+      "sourceLabelPtBr": "Resistir à Dor",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.philodox"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-resist-pain.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.philodox.truth-of-gaia",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.philodox.truth-of-gaia",
+      "descriptionResourceKey": "gift.auspice.philodox.truth-of-gaia.description",
+      "sourceLabelPtBr": "Verdade de Gaia",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.philodox"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-truth-of-gaia.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.galliard.call-of-the-wyld",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.galliard.call-of-the-wyld",
+      "descriptionResourceKey": "gift.auspice.galliard.call-of-the-wyld.description",
+      "sourceLabelPtBr": "Chamado da Wyld",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.galliard"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-call-of-the-wyld.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.galliard.beast-speech",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.galliard.beast-speech",
+      "descriptionResourceKey": "gift.auspice.galliard.beast-speech.description",
+      "sourceLabelPtBr": "Falar com Animais",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.galliard"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-beast-speech.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.galliard.mindspeak",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.galliard.mindspeak",
+      "descriptionResourceKey": "gift.auspice.galliard.mindspeak.description",
+      "sourceLabelPtBr": "Comunicação Mental",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.galliard"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-mindspeak.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.ahroun.razor-claws",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.ahroun.razor-claws",
+      "descriptionResourceKey": "gift.auspice.ahroun.razor-claws.description",
+      "sourceLabelPtBr": "Garras Afiadas",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.ahroun"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-razor-claws.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.ahroun.inspiration",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.ahroun.inspiration",
+      "descriptionResourceKey": "gift.auspice.ahroun.inspiration.description",
+      "sourceLabelPtBr": "Inspiração",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.ahroun"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-inspiration.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.auspice.ahroun.falling-touch",
+      "level": 1,
+      "displayNameResourceKey": "gift.auspice.ahroun.falling-touch",
+      "descriptionResourceKey": "gift.auspice.ahroun.falling-touch.description",
+      "sourceLabelPtBr": "Toque da Queda",
+      "eligibilitySources": [
+        {
+          "sourceType": "auspice",
+          "sourceKey": "character.auspice.ahroun"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-falling-touch.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "descriptionResourceKey": "gift.tribe.glass-walkers.control-simple-machine.description",
+      "sourceLabelPtBr": "Controlar Máquina Simples",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.glass-walkers"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-control-simple-machine.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.glass-walkers.diagnostics",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.glass-walkers.diagnostics",
+      "descriptionResourceKey": "gift.tribe.glass-walkers.diagnostics.description",
+      "sourceLabelPtBr": "Diagnóstico",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.glass-walkers"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-diagnostics.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.glass-walkers.trick-shot",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.glass-walkers.trick-shot",
+      "descriptionResourceKey": "gift.tribe.glass-walkers.trick-shot.description",
+      "sourceLabelPtBr": "Tiro de Mestre",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.glass-walkers"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-trick-shot.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.get-of-fenris.razor-claws",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.get-of-fenris.razor-claws",
+      "descriptionResourceKey": "gift.tribe.get-of-fenris.razor-claws.description",
+      "sourceLabelPtBr": "Garras Afiadas",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.get-of-fenris"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-razor-claws.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.get-of-fenris.resist-pain",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.get-of-fenris.resist-pain",
+      "descriptionResourceKey": "gift.tribe.get-of-fenris.resist-pain.description",
+      "sourceLabelPtBr": "Resistir à Dor",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.get-of-fenris"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-resist-pain.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.get-of-fenris.visage-of-fenris",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.get-of-fenris.visage-of-fenris",
+      "descriptionResourceKey": "gift.tribe.get-of-fenris.visage-of-fenris.description",
+      "sourceLabelPtBr": "Aspecto de Fenris",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.get-of-fenris"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-visage-of-fenris.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.fianna.faerie-light",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.fianna.faerie-light",
+      "descriptionResourceKey": "gift.tribe.fianna.faerie-light.description",
+      "sourceLabelPtBr": "Luz Feérica",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.fianna"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-faerie-light.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.fianna.persuasion",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.fianna.persuasion",
+      "descriptionResourceKey": "gift.tribe.fianna.persuasion.description",
+      "sourceLabelPtBr": "Persuasão",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.fianna"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-persuasion.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.fianna.resist-toxin",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.fianna.resist-toxin",
+      "descriptionResourceKey": "gift.tribe.fianna.resist-toxin.description",
+      "sourceLabelPtBr": "Resistir à Toxina",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.fianna"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-resist-toxin.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.children-of-gaia.mercy",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.children-of-gaia.mercy",
+      "descriptionResourceKey": "gift.tribe.children-of-gaia.mercy.description",
+      "sourceLabelPtBr": "Misericórdia",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.children-of-gaia"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-mercy.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.children-of-gaia.resist-pain",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.children-of-gaia.resist-pain",
+      "descriptionResourceKey": "gift.tribe.children-of-gaia.resist-pain.description",
+      "sourceLabelPtBr": "Resistir à Dor",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.children-of-gaia"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-resist-pain.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.children-of-gaia.mothers-touch",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.children-of-gaia.mothers-touch",
+      "descriptionResourceKey": "gift.tribe.children-of-gaia.mothers-touch.description",
+      "sourceLabelPtBr": "Toque da Mãe",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.children-of-gaia"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-mothers-touch.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.black-furies.breath-of-the-wyrm",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.black-furies.breath-of-the-wyrm",
+      "descriptionResourceKey": "gift.tribe.black-furies.breath-of-the-wyrm.description",
+      "sourceLabelPtBr": "Hálito da Wyrm",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.black-furies"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-breath-of-the-wyrm.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.black-furies.heightened-senses",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.black-furies.heightened-senses",
+      "descriptionResourceKey": "gift.tribe.black-furies.heightened-senses.description",
+      "sourceLabelPtBr": "Sentidos Aguçados",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.black-furies"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-heightened-senses.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.black-furies.sense-wyrm",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.black-furies.sense-wyrm",
+      "descriptionResourceKey": "gift.tribe.black-furies.sense-wyrm.description",
+      "sourceLabelPtBr": "Sentir a Wyrm",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.black-furies"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sense-wyrm.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.red-talons.beast-speech",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.red-talons.beast-speech",
+      "descriptionResourceKey": "gift.tribe.red-talons.beast-speech.description",
+      "sourceLabelPtBr": "Falar com Animais",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.red-talons"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-beast-speech.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.red-talons.wolf-at-the-door",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.red-talons.wolf-at-the-door",
+      "descriptionResourceKey": "gift.tribe.red-talons.wolf-at-the-door.description",
+      "sourceLabelPtBr": "Lobo à Porta",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.red-talons"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-wolf-at-the-door.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.red-talons.scent-of-running-water",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.red-talons.scent-of-running-water",
+      "descriptionResourceKey": "gift.tribe.red-talons.scent-of-running-water.description",
+      "sourceLabelPtBr": "Cheiro de Água Corrente",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.red-talons"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-scent-of-running-water.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.silent-striders.sense-wyrm",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.silent-striders.sense-wyrm",
+      "descriptionResourceKey": "gift.tribe.silent-striders.sense-wyrm.description",
+      "sourceLabelPtBr": "Sentir a Wyrm",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.silent-striders"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sense-wyrm.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.silent-striders.silence",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.silent-striders.silence",
+      "descriptionResourceKey": "gift.tribe.silent-striders.silence.description",
+      "sourceLabelPtBr": "Silêncio",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.silent-striders"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-silence.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.silent-striders.speed-of-thought",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.silent-striders.speed-of-thought",
+      "descriptionResourceKey": "gift.tribe.silent-striders.speed-of-thought.description",
+      "sourceLabelPtBr": "Velocidade do Pensamento",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.silent-striders"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-speed-of-thought.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.silver-fangs.lambent-flame",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.silver-fangs.lambent-flame",
+      "descriptionResourceKey": "gift.tribe.silver-fangs.lambent-flame.description",
+      "sourceLabelPtBr": "Chama Lambente",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.silver-fangs"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-lambent-flame.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.silver-fangs.falcons-grasp",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.silver-fangs.falcons-grasp",
+      "descriptionResourceKey": "gift.tribe.silver-fangs.falcons-grasp.description",
+      "sourceLabelPtBr": "Garra do Falcão",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.silver-fangs"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-falcons-grasp.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.silver-fangs.sense-wyrm",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.silver-fangs.sense-wyrm",
+      "descriptionResourceKey": "gift.tribe.silver-fangs.sense-wyrm.description",
+      "sourceLabelPtBr": "Sentir a Wyrm",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.silver-fangs"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sense-wyrm.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.bone-gnawers.cooking",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.bone-gnawers.cooking",
+      "descriptionResourceKey": "gift.tribe.bone-gnawers.cooking.description",
+      "sourceLabelPtBr": "Cozinhar",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.bone-gnawers"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-cooking.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.bone-gnawers.sticky-fingers",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.bone-gnawers.sticky-fingers",
+      "descriptionResourceKey": "gift.tribe.bone-gnawers.sticky-fingers.description",
+      "sourceLabelPtBr": "Grude",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.bone-gnawers"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sticky-fingers.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.bone-gnawers.resist-toxin",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.bone-gnawers.resist-toxin",
+      "descriptionResourceKey": "gift.tribe.bone-gnawers.resist-toxin.description",
+      "sourceLabelPtBr": "Resistir à Toxina",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.bone-gnawers"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-resist-toxin.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.shadow-lords.seizing-the-edge",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.shadow-lords.seizing-the-edge",
+      "descriptionResourceKey": "gift.tribe.shadow-lords.seizing-the-edge.description",
+      "sourceLabelPtBr": "Aproveitar a Vantagem",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.shadow-lords"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-seizing-the-edge.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.shadow-lords.aura-of-confidence",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.shadow-lords.aura-of-confidence",
+      "descriptionResourceKey": "gift.tribe.shadow-lords.aura-of-confidence.description",
+      "sourceLabelPtBr": "Aura de Confiança",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.shadow-lords"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-aura-of-confidence.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.shadow-lords.fatal-flaw",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.shadow-lords.fatal-flaw",
+      "descriptionResourceKey": "gift.tribe.shadow-lords.fatal-flaw.description",
+      "sourceLabelPtBr": "Falha Fatal",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.shadow-lords"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-fatal-flaw.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.uktena.spirit-speech",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.uktena.spirit-speech",
+      "descriptionResourceKey": "gift.tribe.uktena.spirit-speech.description",
+      "sourceLabelPtBr": "Falar com Espíritos",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.uktena"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-spirit-speech.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.uktena.shroud",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.uktena.shroud",
+      "descriptionResourceKey": "gift.tribe.uktena.shroud.description",
+      "sourceLabelPtBr": "Manto",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.uktena"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-shroud.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.uktena.sense-magic",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.uktena.sense-magic",
+      "descriptionResourceKey": "gift.tribe.uktena.sense-magic.description",
+      "sourceLabelPtBr": "Sentir Magia",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.uktena"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-sense-magic.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.wendigo.camouflage",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.wendigo.camouflage",
+      "descriptionResourceKey": "gift.tribe.wendigo.camouflage.description",
+      "sourceLabelPtBr": "Camuflagem",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.wendigo"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-camouflage.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.wendigo.call-the-breeze",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.wendigo.call-the-breeze",
+      "descriptionResourceKey": "gift.tribe.wendigo.call-the-breeze.description",
+      "sourceLabelPtBr": "Chamado da Brisa",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.wendigo"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-call-the-breeze.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "gift.tribe.wendigo.resist-pain",
+      "level": 1,
+      "displayNameResourceKey": "gift.tribe.wendigo.resist-pain",
+      "descriptionResourceKey": "gift.tribe.wendigo.resist-pain.description",
+      "sourceLabelPtBr": "Resistir à Dor",
+      "eligibilitySources": [
+        {
+          "sourceType": "tribe",
+          "sourceKey": "character.tribe.wendigo"
+        }
+      ],
+      "acquisition": {
+        "creationEligible": true,
+        "creationCost": {
+          "costType": "selection-slot",
+          "amount": 1
+        },
+        "freebieCost": 7,
+        "freebieCostStatus": "candidate",
+        "postCreationAcquisition": "deferred"
+      },
+      "execution": {
+        "readiness": "unavailable",
+        "operationRef": null,
+        "mechanicalEffectsExtracted": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/gift-resist-pain.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending",
+        "implementationReviewStatus": "not-started",
+        "legalReviewStatus": "pending"
+      }
+    }
+  ],
+  "duplicateCandidates": [
+    {
+      "sourceLabels": [
+        "Sentir a Wyrm"
+      ],
+      "candidateKeys": [
+        "gift.race.metis.sense-wyrm",
+        "gift.auspice.theurge.sense-wyrm",
+        "gift.tribe.black-furies.sense-wyrm",
+        "gift.tribe.silent-striders.sense-wyrm",
+        "gift.tribe.silver-fangs.sense-wyrm"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Resistir à Dor"
+      ],
+      "candidateKeys": [
+        "gift.auspice.philodox.resist-pain",
+        "gift.tribe.get-of-fenris.resist-pain",
+        "gift.tribe.children-of-gaia.resist-pain",
+        "gift.tribe.wendigo.resist-pain"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Falar com Animais"
+      ],
+      "candidateKeys": [
+        "gift.auspice.galliard.beast-speech",
+        "gift.tribe.red-talons.beast-speech"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Persuasão"
+      ],
+      "candidateKeys": [
+        "gift.race.homid.persuasion",
+        "gift.tribe.fianna.persuasion"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Toque da Mãe"
+      ],
+      "candidateKeys": [
+        "gift.auspice.theurge.mothers-touch",
+        "gift.tribe.children-of-gaia.mothers-touch"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Falar com Espíritos"
+      ],
+      "candidateKeys": [
+        "gift.auspice.theurge.spirit-speech",
+        "gift.tribe.uktena.spirit-speech"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Garras Afiadas"
+      ],
+      "candidateKeys": [
+        "gift.auspice.ahroun.razor-claws",
+        "gift.tribe.get-of-fenris.razor-claws"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Sentidos Aguçados"
+      ],
+      "candidateKeys": [
+        "gift.race.lupus.heightened-senses",
+        "gift.tribe.black-furies.heightened-senses"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Cheiro de Água Corrente"
+      ],
+      "candidateKeys": [
+        "gift.auspice.ragabash.scent-of-running-water",
+        "gift.tribe.red-talons.scent-of-running-water"
+      ],
+      "status": "normalization-review-required"
+    },
+    {
+      "sourceLabels": [
+        "Resistir à Toxina"
+      ],
+      "candidateKeys": [
+        "gift.tribe.fianna.resist-toxin",
+        "gift.tribe.bone-gnawers.resist-toxin"
+      ],
+      "status": "normalization-review-required"
+    }
+  ],
+  "sourceConflicts": [
+    {
+      "conflictKey": "conflict.werewolf3e.auspice.galliard.first-gift-name",
+      "severity": "high",
+      "status": "open",
+      "affectedEntryKey": "gift.auspice.galliard.call-of-the-wyld",
+      "summary": "The detailed Galliard section and the creation summary do not use a fully consistent name for the first listed Gift.",
+      "prototypeDecision": "Use the creation-summary label 'Chamado da Wyld' as the candidate selection entry."
+    },
+    {
+      "conflictKey": "conflict.werewolf3e.gift.bone-gnawers.grude",
+      "severity": "medium",
+      "status": "terminology-review-required",
+      "affectedEntryKey": "gift.tribe.bone-gnawers.sticky-fingers",
+      "summary": "The Portuguese source label 'Grude' does not establish a reliable canonical English identity.",
+      "prototypeDecision": "Retain 'Grude' as the pt-BR source label and treat the English key as provisional."
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.initial-gifts.one-per-source",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requiredSourceTypes": [
+        "race",
+        "auspice",
+        "tribe"
+      ],
+      "exactCountPerSource": 1,
+      "errorKey": "character.creation.initial-gift-source-count-invalid"
+    },
+    {
+      "ruleKey": "character.creation.initial-gifts.match-classifications",
+      "ruleVersion": 1,
+      "ruleType": "eligibility",
+      "status": "candidate",
+      "classificationFields": [
+        "character.classification.race",
+        "character.classification.auspice",
+        "character.classification.tribe"
+      ],
+      "lookupSource": "entries[].eligibilitySources",
+      "errorKey": "character.creation.initial-gift-not-eligible"
+    },
+    {
+      "ruleKey": "character.creation.initial-gifts.distinct",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "prototype-decision",
+      "operator": "distinct-by-normalized-gift-identity",
+      "errorKey": "character.creation.initial-gifts-must-be-distinct"
+    }
+  ],
+  "executionBoundary": {
+    "giftOwnershipSupported": true,
+    "giftActivationSupported": false,
+    "giftMechanicalResolutionSupported": false,
+    "reason": "Slice 001 extracts acquisition eligibility only. Detailed Gift mechanics remain unsegmented and unreviewed."
+  },
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "medium",
+    "semanticReviewStatus": "changes-required",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This file models only Level One Gifts listed as initial Character creation options.",
+    "Every Character selects one Race Gift, one Auspice Gift, and one Tribe Gift.",
+    "Gift execution and effect definitions are deliberately unavailable.",
+    "Repeated Gift names are not silently merged because exact identity equivalence has not been reviewed.",
+    "The distinct-Gift requirement is a reversible prototype decision, not approved source truth.",
+    "Canonical English keys remain provisional and must not be treated as authoritative translations."
+  ]
+}

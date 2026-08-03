@@ -1,0 +1,158 @@
+{
+  "created": "2026-08-03",
+  "normativeAuthority": [
+    "docs/adrs/ADR-0043-Repository-Topology-Project-Boundaries-and-Solution-Structure-v0.2.0.md",
+    "docs/rfcs/RFC-0027-Rule-Set-Package-Architecture.md",
+    "docs/specs/SPEC-0001-rule-set-package-artifact-model-and-extraction-contract.md"
+  ],
+  "supportingAuthority": [
+    "docs/adrs/ADR-0001-Technology-Stack-and-Framework-Selection.md",
+    "docs/adrs/ADR-0002-Repository-and-Solution-Structure.md",
+    "docs/adrs/ADR-0003-Desktop-UI-Implementation-Conventions.md",
+    "docs/adrs/ADR-0004-Encrypted-SQLite-and-EF-Core-Persistence-Architecture-v0.3.0.md",
+    "docs/adrs/ADR-0006-First-Supported-Operating-System-and-Packaging-Format.md",
+    "docs/adrs/ADR-0012-CI-and-Release-Pipeline.md",
+    "docs/adrs/ADR-0028-Rule-Set-Package-Loading-Validation-and-Runtime-Isolation.md",
+    "docs/adrs/ADR-0041-Security-Architecture-Secret-Management-Encryption-Privacy-and-Trust-Boundaries-v0.3.0.md",
+    "docs/adrs/ADR-0044-Open-Source-License-and-Contribution-Provenance.md",
+    "docs/rfcs/RFC-0005-Architecture-Overview.md",
+    "docs/rfcs/RFC-0038-Desktop-Application-Architecture-and-Process-Model.md",
+    "docs/rfcs/RFC-0039-User-Interface-Architecture-and-Interaction-Model.md",
+    "docs/rfcs/RFC-0040-Testing-Strategy-and-Quality-Gates.md",
+    "docs/rfcs/RFC-0041-Build-Packaging-Release-and-Update-Architecture.md"
+  ],
+  "authorityRules": [
+    {
+      "rule": "ADR-0043 is authoritative for concrete current repository topology, project boundaries, paths, project names, and dependency layout.",
+      "source": "ADR-0043 sections 4-5"
+    },
+    {
+      "rule": "ADR-0002 remains authoritative for repository and solution architecture semantics.",
+      "source": "ADR-0043 sections 4-5 and DR-0001"
+    },
+    {
+      "rule": "RFC-0027 and SPEC-0001 define Rule Set package roles, lifecycle, materialization progression, and validation evidence.",
+      "source": "RFC-0027 sections 5.1, 9-11; SPEC-0001 sections 3.1-3.6"
+    }
+  ],
+  "plannedRootTopology": [
+    {
+      "path": "Chronicle.sln",
+      "purpose": "Primary solution.",
+      "projectType": "solution",
+      "authoritativeSource": "ADR-0043 section 7",
+      "allowedDependencies": [],
+      "forbiddenDependencies": ["alternate dependency rules"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": true,
+      "acceptanceCriteria": ["Contains canonical MVP projects and test projects without circular references."]
+    },
+    {
+      "path": "src/",
+      "purpose": "Chronicle platform source.",
+      "projectType": "source-root",
+      "authoritativeSource": "ADR-0043 sections 9-44",
+      "allowedDependencies": ["canonical production project references only"],
+      "forbiddenDependencies": ["Werewolf package implementation from Core projects", "provider SDKs inward", "desktop UI inward", "persistence inward"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": true,
+      "acceptanceCriteria": ["Contains only canonical production projects."]
+    },
+    {
+      "path": "tests/",
+      "purpose": "Chronicle platform tests.",
+      "projectType": "test-root",
+      "authoritativeSource": "ADR-0043 sections 58-71",
+      "allowedDependencies": ["projects under test", "test tooling"],
+      "forbiddenDependencies": ["new production responsibilities"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": true,
+      "acceptanceCriteria": ["Contains tests by architectural boundary and architecture enforcement tests."]
+    },
+    {
+      "path": "rule-sets/",
+      "purpose": "Official Rule Set package source and package-adjacent tests.",
+      "projectType": "rule-set-root",
+      "authoritativeSource": "ADR-0043 sections 45-61; SPEC-0001 section 5",
+      "allowedDependencies": ["Chronicle.RuleSets.Abstractions", "Chronicle.Contracts", "approved Domain primitives"],
+      "forbiddenDependencies": ["Presentation", "Persistence.Sqlite", "provider SDKs", "ChronicleDbContext"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": true,
+      "acceptanceCriteria": ["Separates package source from documentation prototype, packaged artifact, and installed artifact."]
+    },
+    {
+      "path": "tools/",
+      "purpose": "Development and release tooling.",
+      "projectType": "tools-root",
+      "authoritativeSource": "ADR-0043 sections 72-74",
+      "allowedDependencies": ["public or internal tooling contracts"],
+      "forbiddenDependencies": ["runtime dependency from Domain or Application"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": false,
+      "acceptanceCriteria": ["Tool projects do not become runtime dependencies."]
+    },
+    {
+      "path": "build/",
+      "purpose": "Build, release, packaging, signing, SBOM, installer scripts.",
+      "projectType": "build-root",
+      "authoritativeSource": "ADR-0043 sections 75-77; RFC-0041",
+      "allowedDependencies": ["release tooling inputs"],
+      "forbiddenDependencies": ["committed secrets", "production project references to installer artifacts"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": false,
+      "acceptanceCriteria": ["No signing credentials or secrets committed."]
+    },
+    {
+      "path": "docs/",
+      "purpose": "Technical documentation.",
+      "projectType": "documentation-root",
+      "authoritativeSource": "ADR-0043 sections 78-80",
+      "allowedDependencies": [],
+      "forbiddenDependencies": ["executable package authority by documentation presence"],
+      "initialMaterializationStatus": "exists",
+      "requiredForBootstrap": true,
+      "acceptanceCriteria": ["Documentation prototypes remain evidence only."]
+    },
+    {
+      "path": "samples/",
+      "purpose": "Contract and package development samples.",
+      "projectType": "sample-root",
+      "authoritativeSource": "ADR-0043 sections 81-82",
+      "allowedDependencies": ["sample-only references"],
+      "forbiddenDependencies": ["production dependency from Core"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": false,
+      "acceptanceCriteria": ["Samples do not become production dependencies."]
+    },
+    {
+      "path": "artifacts/",
+      "purpose": "Generated local artifacts.",
+      "projectType": "artifact-root",
+      "authoritativeSource": "ADR-0043 sections 83-84",
+      "allowedDependencies": [],
+      "forbiddenDependencies": ["committed build outputs unless approved fixtures"],
+      "initialMaterializationStatus": "planned",
+      "requiredForBootstrap": false,
+      "acceptanceCriteria": ["Ignored by default except intentionally published fixtures."]
+    }
+  ],
+  "roleDistinctions": [
+    {"role": "documentation prototype", "pathExample": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype", "authority": "review and authoring evidence only"},
+    {"role": "Rule Set package source", "pathExample": "rule-sets/Chronicle.RuleSets.Werewolf/", "authority": "authoritative source inputs for building a package artifact after transformation"},
+    {"role": "packaged artifact", "pathExample": "rule-sets/packages/ or artifacts/ package output", "authority": "versioned build output, not installed or active by existence"},
+    {"role": "installed artifact", "pathExample": "rule-sets/<package-id>/<package-version>/", "authority": "local verified package instance after install transition"},
+    {"role": "Chronicle platform source", "pathExample": "src/", "authority": "system-neutral platform implementation"},
+    {"role": "tests", "pathExample": "tests/ and rule-sets/*.Tests/", "authority": "verification only"},
+    {"role": "tooling", "pathExample": "tools/", "authority": "development and release automation only"}
+  ],
+  "issues": [
+    {
+      "id": "MAT-ISSUE-001",
+      "summary": "ADR-0043 status metadata lagged behind DR-0001 accepted topology authority.",
+      "impact": "Resolved as clerical status correction. ADR-0043 is now Accepted based on DR-0001 authority, without changing architecture semantics.",
+      "severity": "medium",
+      "status": "resolved",
+      "resolvedDate": "2026-08-03"
+    }
+  ]
+}

@@ -1,0 +1,442 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.apply-classification-change",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.apply-classification-change",
+  "descriptionResourceKey": "character-creation.operation.apply-classification-change.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-and-preview-token",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "ApplyClassificationChangeInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "classificationFieldKey",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "character.classification.race",
+          "character.classification.auspice",
+          "character.classification.tribe"
+        ]
+      },
+      {
+        "fieldKey": "proposedValue",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "applyToken",
+        "fieldType": "Text",
+        "required": true
+      },
+      {
+        "fieldKey": "confirmedImpactFingerprint",
+        "fieldType": "Text",
+        "required": true
+      },
+      {
+        "fieldKey": "acknowledgedWarningKeys",
+        "fieldType": "ReferenceCollection",
+        "required": false
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "apply-classification-change.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.apply-classification-change.not-a-draft"
+    },
+    {
+      "preconditionKey": "apply-classification-change.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.apply-classification-change.stale-draft"
+    },
+    {
+      "preconditionKey": "apply-classification-change.apply-token-valid",
+      "requirement": {
+        "field": "applyToken",
+        "operator": "valid-unexpired-single-use-token"
+      },
+      "failureKey": "character-creation.apply-classification-change.invalid-token"
+    },
+    {
+      "preconditionKey": "apply-classification-change.token-binding-matches",
+      "requirement": {
+        "tokenFields": [
+          "characterId",
+          "draftVersion",
+          "classificationFieldKey",
+          "proposedValue",
+          "impactFingerprint"
+        ],
+        "operator": "match-input"
+      },
+      "failureKey": "character-creation.apply-classification-change.token-binding-mismatch"
+    },
+    {
+      "preconditionKey": "apply-classification-change.impact-fingerprint-confirmed",
+      "requirement": {
+        "field": "confirmedImpactFingerprint",
+        "operator": "equals-token-impact-fingerprint"
+      },
+      "failureKey": "character-creation.apply-classification-change.impact-not-confirmed"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "apply-classification-change.selection-still-enabled",
+      "ruleType": "catalog-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetValue": "proposedValue",
+      "catalogResolution": {
+        "character.classification.race": "../character-model/catalogs/races.json",
+        "character.classification.auspice": "../character-model/catalogs/auspices.json",
+        "character.classification.tribe": "../character-model/catalogs/tribes.json"
+      },
+      "errorKey": "character-creation.apply-classification-change.selection-unavailable"
+    },
+    {
+      "ruleKey": "apply-classification-change.cross-classification-eligibility",
+      "ruleType": "cross-field-eligibility",
+      "severity": "blocking",
+      "status": "candidate",
+      "rules": [
+        {
+          "appliesWhen": {
+            "classificationFieldKey": "character.classification.tribe",
+            "proposedValue": "character.tribe.red-talons"
+          },
+          "requirement": {
+            "effectiveField": "character.classification.race",
+            "operator": "equals",
+            "value": "character.race.lupus"
+          },
+          "errorKey": "character-creation.apply-classification-change.red-talons-requires-lupus"
+        }
+      ]
+    },
+    {
+      "ruleKey": "apply-classification-change.required-warnings-acknowledged",
+      "ruleType": "acknowledgement",
+      "severity": "blocking",
+      "status": "prototype",
+      "source": "preview-token.warnings[]",
+      "acknowledgementField": "acknowledgedWarningKeys",
+      "errorKey": "character-creation.apply-classification-change.warning-not-acknowledged"
+    }
+  ],
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "reload-and-revalidate-preview",
+      "executor": "RuleSet",
+      "effects": [
+        "recompute-impact-from-current-draft",
+        "compare-impact-fingerprint",
+        "reject-if-impact-changed",
+        "revalidate-selection",
+        "revalidate-cross-classification-rules"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "set-classification-value",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-previous-classification-value",
+        "set-proposed-classification-value"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "apply-classification-derived-initializations",
+      "executor": "RuleSet",
+      "effectsByField": {
+        "character.classification.race": [
+          "initialize-gnosis-permanent",
+          "reconcile-gnosis-current"
+        ],
+        "character.classification.auspice": [
+          "initialize-rage-permanent",
+          "reconcile-rage-current",
+          "initialize-renown"
+        ],
+        "character.classification.tribe": [
+          "initialize-willpower-permanent",
+          "reconcile-willpower-current"
+        ]
+      }
+    },
+    {
+      "order": 40,
+      "stepKey": "apply-dependent-selection-changes",
+      "executor": "RuleSet",
+      "effectsByField": {
+        "character.classification.race": [
+          "remove-ineligible-race-gift",
+          "refresh-race-gift-eligibility",
+          "add-or-remove-metis-deformity-requirement",
+          "apply-or-remove-lupus-ability-restrictions",
+          "invalidate-incompatible-tribe-if-required"
+        ],
+        "character.classification.auspice": [
+          "remove-ineligible-auspice-gift",
+          "refresh-auspice-gift-eligibility"
+        ],
+        "character.classification.tribe": [
+          "remove-ineligible-tribe-gift",
+          "refresh-tribe-gift-eligibility",
+          "apply-background-restrictions",
+          "apply-required-background-minimums"
+        ]
+      }
+    },
+    {
+      "order": 50,
+      "stepKey": "apply-ledger-refunds",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "reverse-invalidated-freebie-purchases",
+        "reverse-invalidated-allocation-entries",
+        "restore-budget-balances",
+        "record-refund-reasons"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "record-invalidations-and-requirements",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "persist-new-invalidations",
+        "persist-newly-required-selections",
+        "clear-resolved-invalidations",
+        "record-warning-acknowledgements"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "run-draft-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "run-affected-rule-validation",
+        "run-cross-field-consistency-validation",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation-record",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "consume-apply-token",
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "classificationSpecificPolicies": {
+    "character.classification.race": {
+      "derivedValuePolicy": {
+        "character.resource.gnosis.permanent": "replace-with-catalog-initial-value-plus-valid-freebie-increases",
+        "character.resource.gnosis.current": "reconcile-after-permanent-change"
+      },
+      "dependentSelectionPolicy": {
+        "raceGift": "remove-if-ineligible",
+        "metisDeformity": "require-if-metis-remove-if-not-metis",
+        "lupusAbilityRestrictions": "apply-only-to-base-allocation",
+        "redTalonsEligibility": "invalidate-tribe-if-proposed-race-is-not-lupus"
+      }
+    },
+    "character.classification.auspice": {
+      "derivedValuePolicy": {
+        "character.resource.rage.permanent": "replace-with-catalog-initial-value-plus-valid-freebie-increases",
+        "character.resource.rage.current": "reconcile-after-permanent-change",
+        "character.renown": "replace-source-initialized-values"
+      },
+      "dependentSelectionPolicy": {
+        "auspiceGift": "remove-if-ineligible"
+      }
+    },
+    "character.classification.tribe": {
+      "derivedValuePolicy": {
+        "character.resource.willpower.permanent": "replace-with-catalog-initial-value-plus-valid-freebie-increases",
+        "character.resource.willpower.current": "reconcile-after-permanent-change"
+      },
+      "dependentSelectionPolicy": {
+        "tribeGift": "remove-if-ineligible",
+        "backgroundRestrictions": "apply-and-invalidate",
+        "requiredBackgroundMinimums": "create-validation-error-until-satisfied"
+      }
+    }
+  },
+  "resourceReconciliationPolicy": {
+    "mode": "preserve-valid-delta",
+    "formula": "newCurrent = clamp(oldCurrent + (newPermanent - oldPermanent), 0, newPermanent)",
+    "status": "prototype-decision",
+    "fallback": "set-current-equal-to-permanent",
+    "ambiguityRef": "ambiguity.werewolf3e.creation.resource-current-values"
+  },
+  "creationLedgerPolicy": {
+    "recordClassificationChange": true,
+    "recordPreviousAndNewValues": true,
+    "recordDerivedValueChanges": true,
+    "recordRemovedSelections": true,
+    "recordRefunds": true,
+    "recordPrototypeDecisionRefs": true,
+    "immutableEntries": true
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "consumeApplyTokenInsideTransaction": true
+  },
+  "resultContract": {
+    "resultKey": "ApplyClassificationChangeResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "classificationFieldKey": "Text",
+      "previousValue": "Reference",
+      "newValue": "Reference",
+      "appliedReinitializations": "StructuredCollection",
+      "removedSelections": "StructuredCollection",
+      "refundedCosts": "StructuredCollection",
+      "newlyRequiredSelections": "StructuredCollection",
+      "remainingInvalidations": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "appliedPrototypeDecisionRefs": "ReferenceCollection",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "ApplyClassificationChangeFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text",
+      "newPreviewRequired": "Boolean"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleTokenRequiresNewPreview": true,
+    "impactMismatchRequiresNewPreview": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": "apply-token-verification-only-through-chronicle-service"
+  },
+  "events": [
+    {
+      "eventKey": "CharacterClassificationChanged",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "classificationFieldKey": "Text",
+        "previousValue": "Reference",
+        "newValue": "Reference",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.resource-current-values",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "How should current resources change when a classification changes the permanent rating?",
+      "prototypeDecision": "Preserve the current delta where valid, clamp to the new permanent maximum, and fall back to current equals permanent."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.classification-revision",
+      "severity": "medium",
+      "status": "implementation-decision-required",
+      "question": "Should invalid dependent selections be removed automatically after confirmation?",
+      "prototypeDecision": "Yes, but only after preview, explicit confirmation, and ledger-aware refund calculation."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "medium",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation applies only a previously previewed and explicitly confirmed classification change.",
+    "The preview token binds the operation to the exact draft version and impact fingerprint.",
+    "All derived values, removed selections, refunds, invalidations, and warnings are committed atomically.",
+    "A stale draft, expired token, or changed impact requires a new preview.",
+    "The Rule Set computes deterministic consequences; Chronicle owns transaction, persistence, idempotency, token verification, and events.",
+    "No Narrative Intelligence or external provider call is permitted."
+  ]
+}

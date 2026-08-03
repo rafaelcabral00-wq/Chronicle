@@ -1,0 +1,62 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "catalog-review.localization-validation-report",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "scope": "CurrentSliceLocalizationValidation",
+  "executedAt": "2026-08-03T00:00:00.000Z",
+  "inputs": {
+    "localizationRoot": "localization",
+    "resourceKeyCount": 711,
+    "localizationFileCount": 2
+  },
+  "localeResults": [
+    {
+      "locale": "en",
+      "fileCount": 1,
+      "missingKeyCount": 0,
+      "duplicateKeyCount": 0,
+      "orphanedKeyCount": 0,
+      "malformedKeyCount": 0,
+      "status": "passed",
+      "sampleMissingKeys": [],
+      "sampleOrphanedKeys": []
+    },
+    {
+      "locale": "pt-BR",
+      "fileCount": 1,
+      "missingKeyCount": 0,
+      "duplicateKeyCount": 0,
+      "orphanedKeyCount": 0,
+      "malformedKeyCount": 0,
+      "status": "passed",
+      "sampleMissingKeys": [],
+      "sampleOrphanedKeys": []
+    }
+  ],
+  "checks": [
+    {
+      "checkKey": "localization.root-present",
+      "status": "passed"
+    },
+    {
+      "checkKey": "localization.required-locales-present",
+      "status": "passed"
+    },
+    {
+      "checkKey": "localization.required-keys-resolve",
+      "status": "passed"
+    },
+    {
+      "checkKey": "localization.duplicates-absent",
+      "status": "passed"
+    },
+    {
+      "checkKey": "localization.malformed-keys-absent",
+      "status": "passed"
+    }
+  ],
+  "overallStatus": "passed",
+  "failureKeys": [],
+  "reportFingerprint": "1c56461d137256c38ed116b2228f6ce54adc3401f15fee6be79d399f8f4cefae"
+}

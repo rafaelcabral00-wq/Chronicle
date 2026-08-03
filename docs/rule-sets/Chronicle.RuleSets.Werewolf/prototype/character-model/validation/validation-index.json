@@ -1,0 +1,462 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-model.validation-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-model.validation-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterModelValidation",
+  "purpose": [
+    "Provide the canonical discovery surface for Character model validation artifacts.",
+    "Declare validation groups, execution order, applicability, dependencies, and completion authority boundaries.",
+    "Allow Chronicle to invoke Rule Set validation without hardcoded Werewolf-specific registration.",
+    "Support affected-field validation, stage validation, full-draft validation, completion readiness, diagnostics, and testing."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "artifactDiscoveryAuthority": "Chronicle",
+    "ruleSelectionAuthority": "RuleSet",
+    "mechanicalValidationAuthority": "RuleSet",
+    "persistenceAuthority": "Chronicle",
+    "narratorMayModify": false,
+    "narratorMayOverride": false,
+    "chronicleDirectorMayOverride": false
+  },
+  "validationArtifacts": [
+    {
+      "validationGroupKey": "character-creation",
+      "artifactKey": "character-model.validation.character-creation",
+      "artifactRef": "./character-creation.json",
+      "validationRole": "draft-creation-validation",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "supportedModes": [
+        "affected",
+        "current-stage",
+        "full-draft",
+        "completion-readiness"
+      ],
+      "appliesToStatuses": [
+        "Draft"
+      ]
+    },
+    {
+      "validationGroupKey": "character-completion",
+      "artifactKey": "character-model.validation.character-completion",
+      "artifactRef": "./character-completion.json",
+      "validationRole": "completion-boundary-validation",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "supportedModes": [
+        "completion-readiness"
+      ],
+      "appliesToStatuses": [
+        "Draft"
+      ],
+      "dependsOn": [
+        "character-creation"
+      ]
+    }
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "character-model.root",
+      "artifactRef": "../model.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.profile",
+      "artifactRef": "../creation/profile.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.dependency-graph",
+      "artifactRef": "../creation/dependency-graph.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.creation-ledger",
+      "artifactRef": "../creation/creation-ledger.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.invalidations",
+      "artifactRef": "../creation/invalidations.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.warning-acknowledgements",
+      "artifactRef": "../creation/warning-acknowledgements.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.stage-state",
+      "artifactRef": "../creation/stage-state.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../../character-creation/operation-index.json",
+      "required": true
+    }
+  ],
+  "validationModes": [
+    {
+      "mode": "affected",
+      "description": "Validate the deterministic dependency closure of one or more affected fields.",
+      "requiredInput": [
+        "affectedFieldKeys"
+      ],
+      "includedGroups": [
+        "character-creation"
+      ],
+      "usesDependencyGraph": true,
+      "completionAuthority": false
+    },
+    {
+      "mode": "current-stage",
+      "description": "Validate one creation stage and its structural prerequisites.",
+      "requiredInput": [
+        "currentStageKey"
+      ],
+      "includedGroups": [
+        "character-creation"
+      ],
+      "usesDependencyGraph": true,
+      "completionAuthority": false
+    },
+    {
+      "mode": "full-draft",
+      "description": "Validate the entire Character creation draft without applying completion-only rules.",
+      "requiredInput": [],
+      "includedGroups": [
+        "character-creation"
+      ],
+      "usesDependencyGraph": true,
+      "completionAuthority": false
+    },
+    {
+      "mode": "completion-readiness",
+      "description": "Validate the full draft and the separate completion boundary.",
+      "requiredInput": [],
+      "includedGroups": [
+        "character-creation",
+        "character-completion"
+      ],
+      "usesDependencyGraph": true,
+      "completionAuthority": "advisory-only-until-complete-character-reruns-validation"
+    }
+  ],
+  "severityModel": {
+    "allowedSeverities": [
+      "blocking",
+      "error",
+      "warning",
+      "information"
+    ],
+    "behavior": {
+      "blocking": {
+        "makesRuleGroupInvalid": true,
+        "preventsCompletion": true,
+        "acknowledgementAllowed": false
+      },
+      "error": {
+        "makesRuleGroupInvalid": true,
+        "preventsCompletion": true,
+        "acknowledgementAllowed": false
+      },
+      "warning": {
+        "makesRuleGroupInvalid": false,
+        "preventsCompletion": "only-when-required-acknowledgement-is-missing",
+        "acknowledgementAllowed": true
+      },
+      "information": {
+        "makesRuleGroupInvalid": false,
+        "preventsCompletion": false,
+        "acknowledgementAllowed": false
+      }
+    }
+  },
+  "ruleContract": {
+    "requiredFields": [
+      "ruleKey",
+      "ruleType",
+      "severity",
+      "status",
+      "target-or-requirement",
+      "message-or-error-key"
+    ],
+    "ruleKeyMustBeUniqueAcrossPackage": true,
+    "localizationKeysRequired": true,
+    "rawUserFacingMessagesAllowed": false,
+    "deterministicExecutionRequired": true,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "unknownRuleTypeBehavior": "package-load-failure",
+    "unknownSeverityBehavior": "package-load-failure"
+  },
+  "ruleStatusPolicy": {
+    "allowedStatuses": [
+      "confirmed",
+      "candidate",
+      "prototype",
+      "blocked-pending-source-review",
+      "future"
+    ],
+    "executionBehavior": {
+      "confirmed": "execute",
+      "candidate": "execute-and-record-prototype-decision-when-applicable",
+      "prototype": "execute-and-record-prototype-decision",
+      "blocked-pending-source-review": "do-not-authorize-capability",
+      "future": "do-not-execute"
+    }
+  },
+  "ruleSelectionPolicy": {
+    "selectionOwnedByRuleSet": true,
+    "affectedModeAlgorithm": "forward-transitive-closure-from-dependency-graph",
+    "currentStageModeAlgorithm": "stage-rules-plus-structural-prerequisites",
+    "fullDraftModeAlgorithm": "all-character-creation-rules",
+    "completionReadinessAlgorithm": "all-character-creation-rules-plus-all-character-completion-rules",
+    "includeCrossFieldRules": true,
+    "includeLedgerRulesWhenRelevant": true,
+    "includeInvalidationReconciliation": true,
+    "includeWarningAcknowledgementRequirements": true,
+    "silentRuleSuppressionAllowed": false
+  },
+  "executionPolicy": {
+    "deterministic": true,
+    "stableRuleOrderingRequired": true,
+    "ordering": [
+      "structural",
+      "classification",
+      "allocation",
+      "selection",
+      "resource",
+      "ledger",
+      "invalidation",
+      "warning",
+      "completion"
+    ],
+    "shortCircuitOnFirstFailure": false,
+    "collectAllIssues": true,
+    "sameInputAndArtifactVersionsProduceSameResult": true,
+    "validationDoesNotMutateCharacterState": true,
+    "validationMayPersistSnapshot": true
+  },
+  "resultContract": {
+    "resultKey": "CharacterValidationResult",
+    "fields": {
+      "characterId": "Reference",
+      "draftVersion": "Integer",
+      "validationMode": "Text",
+      "evaluatedValidationGroupKeys": "ReferenceCollection",
+      "evaluatedRuleKeys": "ReferenceCollection",
+      "isStructurallyValid": "Boolean",
+      "isCurrentStageValid": "Boolean",
+      "isCompletionReady": "Boolean",
+      "blockingIssues": "StructuredCollection",
+      "errors": "StructuredCollection",
+      "warnings": "StructuredCollection",
+      "information": "StructuredCollection",
+      "remainingBudgets": "StructuredObject",
+      "openInvalidations": "StructuredCollection",
+      "requiredAcknowledgements": "StructuredCollection",
+      "prototypeDecisionRefs": "ReferenceCollection",
+      "ambiguityRefs": "ReferenceCollection",
+      "packageBinding": "StructuredObject",
+      "artifactFingerprints": "StructuredCollection",
+      "resultFingerprint": "Text",
+      "createdAt": "Text"
+    }
+  },
+  "issueShape": {
+    "issueKey": "Reference",
+    "ruleKey": "Reference",
+    "severity": "Text",
+    "messageKey": "Reference",
+    "messageArguments": "StructuredObject",
+    "fieldKeys": "ReferenceCollection",
+    "itemRefs": "ReferenceCollection",
+    "stageKeys": "ReferenceCollection",
+    "allowedResolutionOperationKeys": "ReferenceCollection",
+    "acknowledgementRequired": "Boolean",
+    "ambiguityRefs": "ReferenceCollection",
+    "sourceArtifactKey": "Reference"
+  },
+  "completionAuthorityPolicy": {
+    "validationQueryMayReportReadiness": true,
+    "validationQueryMayAuthorizeCommit": false,
+    "cachedResultMayAuthorizeCommit": false,
+    "completeCharacterMustRerunFreshValidation": true,
+    "freshValidationRunsInsideAuthoritativeTransaction": true,
+    "narratorMayBypass": false,
+    "chronicleDirectorMayBypass": false,
+    "administrativeOverrideAllowed": false
+  },
+  "fingerprintPolicy": {
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false,
+    "resultFingerprintCovers": [
+      "characterId",
+      "draftVersion",
+      "validationMode",
+      "evaluatedValidationGroupKeys",
+      "evaluatedRuleKeys",
+      "issues",
+      "remainingBudgets",
+      "openInvalidations",
+      "requiredAcknowledgements",
+      "prototypeDecisionRefs",
+      "ambiguityRefs",
+      "packageBinding",
+      "artifactFingerprints"
+    ]
+  },
+  "loadPolicy": {
+    "loadMode": "manifest-driven",
+    "sortBy": "loadOrder",
+    "duplicateValidationGroupKeyBehavior": "package-load-failure",
+    "missingRequiredArtifactBehavior": "disable-character-creation-capability",
+    "unsupportedContractVersionBehavior": "package-load-failure",
+    "artifactOutsidePackageRootAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "validation-index.group-keys-unique",
+      "severity": "blocking",
+      "requirement": "every validationGroupKey is unique"
+    },
+    {
+      "ruleKey": "validation-index.artifact-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every local and external artifact reference resolves inside the package"
+    },
+    {
+      "ruleKey": "validation-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "validation group dependencies are acyclic"
+    },
+    {
+      "ruleKey": "validation-index.rule-keys-unique",
+      "severity": "blocking",
+      "requirement": "all rule keys are unique across indexed validation artifacts"
+    },
+    {
+      "ruleKey": "validation-index.operation-refs-known",
+      "severity": "blocking",
+      "requirement": "all resolution and invocation operation keys exist in the Character creation operation index"
+    },
+    {
+      "ruleKey": "validation-index.invalidation-refs-known",
+      "severity": "blocking",
+      "requirement": "all invalidation keys exist in the invalidations artifact"
+    },
+    {
+      "ruleKey": "validation-index.warning-refs-known",
+      "severity": "blocking",
+      "requirement": "all acknowledgement-required warning keys exist in the warning acknowledgement artifact"
+    },
+    {
+      "ruleKey": "validation-index.completion-group-last",
+      "severity": "blocking",
+      "requirement": "character-completion executes after character-creation"
+    }
+  ],
+  "diagnosticProjection": {
+    "include": [
+      "validationGroupKey",
+      "artifactRef",
+      "loadOrder",
+      "readiness",
+      "supportedModes",
+      "ruleCount",
+      "ruleStatusCounts",
+      "dependencyStatus",
+      "contractStatus",
+      "fingerprintStatus"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawCharacterValuesIncluded": false,
+    "rawSourceTextIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerCallAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "validationSnapshotsEncryptedAtRest": true,
+    "ordinaryLogsMayContain": [
+      "characterId",
+      "draftVersion",
+      "validationMode",
+      "ruleKeys",
+      "issueCounts",
+      "fingerprints",
+      "packageBinding"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-narrative-text",
+      "full-character-state",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterValidationModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "validationGroupCount": "Integer",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterValidationModelLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "failureKey": "Reference",
+        "affectedArtifactKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-validation-rules",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "implementationReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for Character model validation artifacts.",
+    "Chronicle discovers validation groups from package artifacts and never registers Werewolf validation code directly.",
+    "Affected-field validation uses the package-owned dependency graph.",
+    "Completion readiness is advisory until complete-character reruns fresh validation inside its transaction.",
+    "Blocking and error rules cannot be acknowledged or bypassed.",
+    "Chronicle owns discovery, contract validation, snapshot persistence, encryption, diagnostics, and fingerprints.",
+    "The Rule Set owns rule semantics, selection, deterministic execution, issue construction, and mechanical validity."
+  ]
+}

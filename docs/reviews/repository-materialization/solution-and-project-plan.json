@@ -1,0 +1,10 @@
+{
+  "created": "2026-08-03",
+  "solution": {"path": "Chronicle.sln", "projectType": "solution", "authoritativeSource": "ADR-0043 section 7", "purpose": "Primary solution containing canonical MVP source, test, Rule Set, and tooling projects.", "initialMaterializationStatus": "created-empty-by-BOOT-001", "requiredForBootstrap": true, "acceptanceCriteria": ["Solution lists successfully with no projects during BOOT-001.", "Solution restores and builds after project creation in later bootstrap tasks."]},
+  "solutionFolders": ["Core", "Infrastructure", "Presentation", "Hosts", "RuleSets", "Tests", "Tools"],
+  "productionProjects": ["Chronicle.Domain", "Chronicle.Contracts", "Chronicle.RuleSets.Abstractions", "Chronicle.NarrativeIntelligence.Abstractions", "Chronicle.Application", "Chronicle.Infrastructure", "Chronicle.Persistence.Sqlite", "Chronicle.NarrativeIntelligence.OpenAI", "Chronicle.Presentation.Desktop", "Chronicle.Desktop"],
+  "deferredProductionProjects": [
+    {"name": "Chronicle.RuleSet.Runtime", "reason": "Explicitly prohibited as mandatory MVP project by ADR-0043 unless later ADR approves extraction."},
+    {"name": "Chronicle.RuleKnowledge", "reason": "Explicitly not a generic production project in MVP by ADR-0043."}
+  ]
+}

@@ -1,0 +1,385 @@
+{
+  "contractVersion": 1,
+  "fixtureKey": "character-creation.freebie-budget-overspent",
+  "fixtureVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "fixtureKind": "character-creation-invalid-state",
+  "publicationStatus": "prototype-candidate",
+  "purpose": [
+    "Provide one deterministic invalid Character creation fixture with freebie-point spending above the available budget.",
+    "Verify nonlinear freebie costs, append-only ledger reconciliation, overspend invalidation, stage-state projection, and completion blocking.",
+    "Exercise the distinction between numerically valid base allocation and invalid post-allocation freebie spending.",
+    "Serve as a shared input for budget, rollback, invalidation, validation, and completion tests."
+  ],
+  "binding": {
+    "characterModelId": "chronicle.rulesets.werewolf.character-model",
+    "characterModelVersion": "0.1.0-prototype",
+    "creationProfileVersion": "0.1.0-prototype",
+    "operationIndexVersion": "0.1.0-prototype",
+    "fixtureUsesPrototypeDecisions": true
+  },
+  "baseFixture": {
+    "fixtureKey": "character-creation.minimal-valid-character",
+    "artifactRef": "./minimal-valid-character.json",
+    "requiredBaseFixtureVersion": "0.1.0-prototype",
+    "applicationMode": "canonical-patch"
+  },
+  "fixtureIdentity": {
+    "characterId": "fixture-character-freebie-overspent-001",
+    "campaignId": "fixture-campaign-001",
+    "playerUserId": "fixture-user-001",
+    "draftVersion": 5
+  },
+  "freebieCostTable": {
+    "attributeDot": 5,
+    "abilityDot": 2,
+    "backgroundDot": 1,
+    "levelOneGift": 7,
+    "rageDot": 1,
+    "gnosisDot": 2,
+    "willpowerDot": 1,
+    "startingBudget": 15
+  },
+  "patches": [
+    {
+      "patchKey": "increase-strength-with-freebies",
+      "operation": "replace",
+      "path": "character.attributes.character.attribute.strength",
+      "previousValue": {
+        "rating": 4,
+        "baseRating": 1,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "newValue": {
+        "rating": 5,
+        "baseRating": 1,
+        "baseAllocationDots": 3,
+        "freebieDots": 1
+      },
+      "expectedFreebieCost": 5
+    },
+    {
+      "patchKey": "increase-alertness-with-freebies",
+      "operation": "replace",
+      "path": "character.abilities.character.ability.alertness",
+      "previousValue": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "newValue": {
+        "rating": 4,
+        "baseAllocationDots": 3,
+        "freebieDots": 1
+      },
+      "expectedFreebieCost": 2
+    },
+    {
+      "patchKey": "increase-background-resources-with-freebies",
+      "operation": "replace",
+      "path": "character.backgrounds.character.background.resources",
+      "previousValue": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "newValue": {
+        "rating": 5,
+        "baseAllocationDots": 2,
+        "freebieDots": 3
+      },
+      "expectedFreebieCost": 3
+    },
+    {
+      "patchKey": "increase-rage-with-freebies",
+      "operation": "replace",
+      "path": "character.resources.character.resource.rage",
+      "previousValue": {
+        "permanent": 1,
+        "current": 1,
+        "classificationInitialRating": 1,
+        "freebieDots": 0,
+        "source": "character.auspice.ragabash"
+      },
+      "newValue": {
+        "permanent": 4,
+        "current": 4,
+        "classificationInitialRating": 1,
+        "freebieDots": 3,
+        "source": "character.auspice.ragabash"
+      },
+      "expectedFreebieCost": 3
+    },
+    {
+      "patchKey": "increase-gnosis-with-freebies",
+      "operation": "replace",
+      "path": "character.resources.character.resource.gnosis",
+      "previousValue": {
+        "permanent": 1,
+        "current": 1,
+        "classificationInitialRating": 1,
+        "freebieDots": 0,
+        "source": "character.race.homid"
+      },
+      "newValue": {
+        "permanent": 3,
+        "current": 3,
+        "classificationInitialRating": 1,
+        "freebieDots": 2,
+        "source": "character.race.homid"
+      },
+      "expectedFreebieCost": 4
+    },
+    {
+      "patchKey": "materialize-freebie-ledger",
+      "operation": "semantic-rebase",
+      "path": "creationLedger",
+      "instruction": "Append canonical freebie spending entries for one Attribute dot, one Ability dot, three Background dots, three Rage dots, and two Gnosis dots."
+    }
+  ],
+  "freebieSpendingSummary": {
+    "entries": [
+      {
+        "entryType": "attribute-dot",
+        "targetKey": "character.attribute.strength",
+        "quantity": 1,
+        "unitCost": 5,
+        "totalCost": 5
+      },
+      {
+        "entryType": "ability-dot",
+        "targetKey": "character.ability.alertness",
+        "quantity": 1,
+        "unitCost": 2,
+        "totalCost": 2
+      },
+      {
+        "entryType": "background-dot",
+        "targetKey": "character.background.resources",
+        "quantity": 3,
+        "unitCost": 1,
+        "totalCost": 3
+      },
+      {
+        "entryType": "rage-dot",
+        "targetKey": "character.resource.rage",
+        "quantity": 3,
+        "unitCost": 1,
+        "totalCost": 3
+      },
+      {
+        "entryType": "gnosis-dot",
+        "targetKey": "character.resource.gnosis",
+        "quantity": 2,
+        "unitCost": 2,
+        "totalCost": 4
+      }
+    ],
+    "totalSpent": 17,
+    "availableBudget": 15,
+    "remainingBudget": -2,
+    "overspentBy": 2
+  },
+  "creationStateExpectations": {
+    "attributeBaseBudgetRemainsValid": true,
+    "abilityBaseBudgetRemainsValid": true,
+    "backgroundBaseBudgetRemainsValid": true,
+    "freebieLedgerNumericallyReconciles": true,
+    "freebieBudgetValid": false,
+    "pendingDependencyRecalculation": false,
+    "invalidations": [
+      {
+        "invalidationKey": "character-creation.freebie-budget-overspent",
+        "category": "budget-overspend",
+        "severity": "blocking",
+        "status": "open",
+        "affectedFieldKeys": [
+          "character.attributes.character.attribute.strength",
+          "character.abilities.character.ability.alertness",
+          "character.backgrounds.character.background.resources",
+          "character.resources.character.resource.rage",
+          "character.resources.character.resource.gnosis"
+        ],
+        "requiredResolutionType": "reduce-spending",
+        "allowedResolutionOperationKeys": [
+          "character-creation.set-attribute-rating",
+          "character-creation.set-ability-rating",
+          "character-creation.set-background-rating",
+          "character-creation.set-resource-rating",
+          "character-creation.remove-additional-gift"
+        ],
+        "messageArguments": {
+          "available": 15,
+          "spent": 17,
+          "overspentBy": 2
+        }
+      }
+    ]
+  },
+  "creationLedgerExpectations": {
+    "status": "open",
+    "integrityStatus": "valid",
+    "entryCountDeltaFromBaseFixture": 5,
+    "appendOnly": true,
+    "expectedBudgetEffects": {
+      "character-creation.freebie-points": -17
+    },
+    "expectedRemainingBudgets": {
+      "freebiePoints": -2
+    },
+    "negativeRemainingBudgetAllowedInPersistedDraft": true,
+    "negativeRemainingBudgetAllowedForCompletion": false,
+    "entryMaterialization": "generated-by-test-builder"
+  },
+  "stageExpectations": {
+    "creation.identity": "complete",
+    "creation.classifications": "complete",
+    "creation.attributes": "complete",
+    "creation.abilities": "complete",
+    "creation.backgrounds": "complete",
+    "creation.initial-gifts": "complete",
+    "creation.resources-renown-rank": "complete",
+    "creation.metis-deformity": "not-applicable",
+    "creation.specializations": "not-started",
+    "creation.freebie-points": "in-progress",
+    "creation.narrative": "not-started",
+    "creation.review-and-complete": "blocked"
+  },
+  "validationExpectations": {
+    "validationMode": "completion-readiness",
+    "isStructurallyValid": false,
+    "isCompletionReady": false,
+    "blockingIssueCount": 1,
+    "errorCount": 0,
+    "expectedBlockingIssues": [
+      "character-creation.freebie-budget-overspent"
+    ],
+    "expectedOpenInvalidations": [
+      "character-creation.freebie-budget-overspent"
+    ],
+    "expectedRemainingBudgets": {
+      "freebiePoints": -2
+    },
+    "requiredResolutionOperationKeys": [
+      "character-creation.set-attribute-rating",
+      "character-creation.set-ability-rating",
+      "character-creation.set-background-rating",
+      "character-creation.set-resource-rating",
+      "character-creation.remove-additional-gift"
+    ],
+    "ledgerIntegrityValid": true,
+    "packageBindingCompatible": true
+  },
+  "completionExpectations": {
+    "completionSucceeds": false,
+    "failureKey": "character-creation.complete-character.validation-failed",
+    "freshValidationReturned": true,
+    "characterStatusRemains": "Draft",
+    "creationLedgerStatusRemains": "open",
+    "completionSnapshotCreated": false,
+    "partialCommitOccurred": false
+  },
+  "repairExpectations": {
+    "minimumRefundRequired": 2,
+    "allowedExampleRepairs": [
+      {
+        "operationKey": "character-creation.set-ability-rating",
+        "instruction": "Remove the freebie-purchased Alertness dot.",
+        "refund": 2,
+        "expectedRemainingBudgetAfterRepair": 0
+      },
+      {
+        "operationKey": "character-creation.set-resource-rating",
+        "instruction": "Remove two freebie-purchased Rage dots.",
+        "refund": 2,
+        "expectedRemainingBudgetAfterRepair": 0
+      },
+      {
+        "operationKey": "character-creation.set-resource-rating",
+        "instruction": "Remove one freebie-purchased Gnosis dot.",
+        "refund": 2,
+        "expectedRemainingBudgetAfterRepair": 0
+      }
+    ],
+    "afterAnyValidRepair": {
+      "invalidationResolved": true,
+      "freebieStageStatus": "complete",
+      "reviewStageStatus": "complete",
+      "isCompletionReady": true
+    }
+  },
+  "rollbackExpectations": {
+    "failedMutatingOperationMayBeRejectedBeforeCommit": true,
+    "alreadyPersistedInvalidDraftMayRemainEditable": true,
+    "automaticRollbackOfEarlierAcceptedOperationsAllowed": false,
+    "repairMustAppendCompensatingLedgerEntries": true,
+    "ledgerHistoryPreserved": true
+  },
+  "prototypeDecisions": [
+    {
+      "decisionKey": "fixture.attribute-rating-five-during-creation",
+      "basis": "The prototype permits ratings above the base-allocation cap through freebie spending.",
+      "fixtureChoice": {
+        "fieldKey": "character.attribute.strength",
+        "finalRating": 5
+      },
+      "authority": "prototype-decision"
+    },
+    {
+      "decisionKey": "fixture.ability-rating-four-during-creation",
+      "basis": "The prototype permits Ability ratings above three through freebie spending.",
+      "fixtureChoice": {
+        "fieldKey": "character.ability.alertness",
+        "finalRating": 4
+      },
+      "authority": "prototype-decision"
+    },
+    {
+      "decisionKey": "fixture.current-resources-equal-permanent",
+      "basis": "The prototype reconciliation policy keeps current equal to permanent after creation-time permanent resource purchases.",
+      "fixtureChoice": "current-equals-permanent",
+      "authority": "prototype-decision"
+    }
+  ],
+  "negativeAssertions": [
+    "Base Attribute, Ability, and Background allocations remain valid.",
+    "The ledger is internally consistent even though the resulting freebie balance is negative.",
+    "The overspend is blocking and cannot be acknowledged.",
+    "Chronicle does not silently discard the last purchase or choose which purchase to refund.",
+    "Completion does not activate the Character, freeze the ledger, or create a completion snapshot.",
+    "Repair preserves append-only ledger history through compensating entries.",
+    "No Narrator or Chronicle Director bypass is allowed."
+  ],
+  "testUses": [
+    "character-creation-freebie-overspend",
+    "freebie-cost-table",
+    "ledger-negative-balance",
+    "budget-invalidation",
+    "stage-state-freebie-in-progress",
+    "completion-rejection",
+    "completion-atomicity",
+    "compensating-ledger-repair"
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-freebie-costs-and-creation-rating-limits",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "fixtureReviewStatus": "pending",
+    "implementationReviewStatus": "pending"
+  },
+  "fixtureNotes": [
+    "The fixture spends seventeen of fifteen available freebie points.",
+    "The numerical ledger remains valid; the mechanical failure is the negative freebie balance.",
+    "The package never decides automatically which accepted purchase should be removed.",
+    "Any valid repair must refund at least two points and append compensating ledger entries.",
+    "Stable IDs, timestamps, fingerprints, and materialized ledger entries must be generated by the test builder.",
+    "Chronicle owns persistence, transactionality, append-only ledger history, and completion rollback.",
+    "The Rule Set owns cost interpretation, budget validation, invalidation semantics, and proof of repair."
+  ]
+}

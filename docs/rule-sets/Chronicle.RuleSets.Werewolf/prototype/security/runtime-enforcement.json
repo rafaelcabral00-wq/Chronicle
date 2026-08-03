@@ -1,0 +1,71 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.security.runtime-enforcement",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CurrentSliceRuntimeSecurityEnforcement",
+  "purpose": [
+    "Expose inspectable runtime enforcement commitments required by the current Werewolf prototype evidence workflow.",
+    "Keep blocked and future capabilities unavailable while allowing the reviewed Character creation slice to be validated.",
+    "Declare boundaries for providers, network, authority, source text, logs, and secret material."
+  ],
+  "enforcement": {
+    "additionalGiftPurchase": {
+      "enabled": false,
+      "blockedCapabilityKey": "prototype.additional-gift-purchase",
+      "blockingReasonKey": "werewolf-prototype.capability.additional-gift-purchase.eligibility-unresolved"
+    },
+    "runtimeGiftEffects": {
+      "enabled": false,
+      "blockedCapabilityKey": "prototype.gift-execution",
+      "blockingReasonKey": "werewolf-prototype.boundary.runtime-gift-execution"
+    },
+    "authorityBoundaries": {
+      "narratorMayAuthorizeState": false,
+      "chronicleDirectorMayBypassValidation": false,
+      "ruleSetOwnsMechanics": true,
+      "chronicleOwnsPersistenceAndValidationExecution": true
+    },
+    "externalAccess": {
+      "networkRequired": false,
+      "networkAllowed": false,
+      "providerRequired": false,
+      "providerAllowed": false
+    },
+    "logging": {
+      "sourcebookTextAllowed": false,
+      "providerSecretsAllowed": false,
+      "encryptionKeyMaterialAllowed": false,
+      "productionCharacterStateAllowed": false
+    },
+    "storage": {
+      "encryptedSqliteRequired": true,
+      "backupEncryptionRequired": true,
+      "productionKeysAllowedInTests": false
+    }
+  },
+  "verificationPolicy": {
+    "runnerMayInspectArtifact": true,
+    "declarationOnlyIsInsufficientWithoutRunnerCheck": true,
+    "missingOrTrueBlockedCapabilityFlagFailsSecurityEvidence": true
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "artifactKey",
+      "capabilityKeys",
+      "policyKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "sourcebook-text",
+      "provider-secrets",
+      "encryption-key-material",
+      "production-character-state"
+    ]
+  }
+}

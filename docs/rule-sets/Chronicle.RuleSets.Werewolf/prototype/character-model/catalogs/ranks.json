@@ -1,0 +1,186 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.ranks",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.ranks.display-name",
+  "publicationStatus": "candidate-partial",
+  "selectionPolicy": {
+    "selectionMode": "system-assigned",
+    "userSelectableDuringCreation": false,
+    "initializationStage": "CreationBaseAllocation"
+  },
+  "entries": [
+    {
+      "entryKey": "character.rank.cliath",
+      "displayNameResourceKey": "character.rank.cliath",
+      "descriptionResourceKey": "character.rank.cliath.description",
+      "sourceLabelPtBr": "Cliath",
+      "numericRank": 1,
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "initialCharacterRank": true,
+        "initializationCondition": "standard-garou-character-creation",
+        "requiredPermanentRenown": {
+          "mode": "auspice-dependent",
+          "status": "not-required-for-initialization"
+        },
+        "advancementChallengeRequired": false
+      },
+      "terminologyRefs": [
+        "../../terminology/concepts/cliath.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-rank.json",
+        "../../provenance/source-segments/rank-cliath.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    }
+  ],
+  "initializationRule": {
+    "ruleKey": "character.creation.rank.initialize-cliath",
+    "ruleVersion": 1,
+    "ruleType": "initialization",
+    "status": "candidate",
+    "targetField": "character.rank",
+    "value": "character.rank.cliath",
+    "numericRank": 1,
+    "appliesDuring": [
+      "CreationBaseAllocation",
+      "Import"
+    ],
+    "importPolicy": "preserve-imported-rank-when-valid",
+    "errorKey": "character.creation.rank-initialization-failed"
+  },
+  "advancementContract": {
+    "readiness": "unavailable",
+    "sourceDerivedPrinciples": [
+      {
+        "principleKey": "rank.requires-permanent-renown",
+        "statement": "Advancement requires the permanent Renown values demanded by the target rank for the Character's Auspice.",
+        "status": "candidate"
+      },
+      {
+        "principleKey": "rank.requires-challenge",
+        "statement": "After satisfying Renown requirements, the Character must challenge a werewolf of equal or higher rank.",
+        "status": "candidate"
+      },
+      {
+        "principleKey": "challenged-character-selects-contest",
+        "statement": "The challenged werewolf selects the nature of the contest.",
+        "status": "candidate"
+      },
+      {
+        "principleKey": "victory-requires-recognition",
+        "statement": "Victory requires the elder to recognize the new rank.",
+        "status": "candidate"
+      },
+      {
+        "principleKey": "renown-loss-can-lower-effective-rank",
+        "statement": "Loss of permanent Renown below current-rank requirements removes the benefits and privileges of that rank while retained knowledge and learned Gifts remain.",
+        "status": "candidate"
+      }
+    ],
+    "blockedArtifacts": [
+      "complete-higher-rank-catalog",
+      "auspice-specific-renown-requirement-table",
+      "rank-advancement-operation",
+      "rank-loss-operation",
+      "rank-benefit-registry",
+      "rank-gift-level-eligibility"
+    ],
+    "blockers": [
+      {
+        "ambiguityKey": "ambiguity.werewolf3e.rank.hierarchy",
+        "question": "What is the exact ordered rank hierarchy after Cliath in this edition and cleaned source?",
+        "severity": "critical",
+        "status": "source-search-required"
+      },
+      {
+        "ambiguityKey": "ambiguity.werewolf3e.rank.renown-requirements",
+        "question": "What permanent Glory, Honor, and Wisdom values are required for every target rank and Auspice?",
+        "severity": "critical",
+        "status": "source-search-required"
+      },
+      {
+        "ambiguityKey": "ambiguity.werewolf3e.rank.benefits",
+        "question": "Which mechanical privileges, Gift levels, social rights, or other benefits belong to each rank?",
+        "severity": "high",
+        "status": "source-search-required"
+      }
+    ]
+  },
+  "conflicts": [
+    {
+      "conflictKey": "conflict.werewolf3e.glossary.fostern",
+      "severity": "high",
+      "status": "open",
+      "summary": "The cleaned glossary defines Fostern as pack siblings or chosen family, which appears inconsistent with its possible use as a rank term.",
+      "handling": "Do not publish or implement Fostern as a rank until a detailed authoritative source segment is captured and reviewed."
+    },
+    {
+      "conflictKey": "conflict.werewolf3e.glossary.rank-terms",
+      "severity": "high",
+      "status": "open",
+      "summary": "The cleaned source may contain glossary normalization errors for higher-rank terminology.",
+      "handling": "Detailed rank rules take precedence only after both the detailed section and glossary statements are retained as separate provenance records and reviewed."
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.rank-is-cliath",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "appliesWhen": {
+        "context": "standard-character-creation"
+      },
+      "requirement": {
+        "field": "character.rank",
+        "operator": "equals",
+        "value": "character.rank.cliath"
+      },
+      "errorKey": "character.creation.initial-rank-invalid"
+    },
+    {
+      "ruleKey": "character.rank.numeric-value-is-one-at-creation",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "appliesWhen": {
+        "context": "standard-character-creation"
+      },
+      "requirement": {
+        "field": "character.rank.numeric",
+        "operator": "equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.initial-rank-number-invalid"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high-for-initial-rank-only",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The submitted source explicitly supports Posto 1 (Cliath) as the initial rank.",
+    "Only Cliath is included as an executable catalog entry in Slice 001.",
+    "Higher ranks are deliberately not reconstructed from general World of Darkness knowledge.",
+    "The advancement principles are retained as candidates, but the advancement capability remains unavailable.",
+    "The cleaned glossary contains a suspicious Fostern definition and cannot be used as authoritative rank evidence without review.",
+    "Rank is Rule Set-owned and must not become a universal Chronicle Core field."
+  ]
+}

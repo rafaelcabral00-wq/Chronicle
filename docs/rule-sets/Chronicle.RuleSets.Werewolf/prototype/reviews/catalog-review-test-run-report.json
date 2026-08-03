@@ -1,0 +1,1919 @@
+{
+  "reportId": "catalog-review.test-run-report.current-slice.2026-08-03",
+  "reportVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "prototypeVersion": "0.1.0-prototype",
+  "runContext": {
+    "runKind": "local-development",
+    "trigger": "manual",
+    "requestedSuiteKeys": [
+      "tests.package-load",
+      "tests.character-model-contracts",
+      "tests.character-creation-happy-path",
+      "tests.character-creation-invalid-paths",
+      "tests.dependency-and-invalidation",
+      "tests.ledger-integrity",
+      "tests.completion-atomicity",
+      "tests.character-sheet-projection"
+    ],
+    "requestedFixtureKeys": [
+      "character-creation.minimal-valid-character",
+      "character-creation.metis-valid-character",
+      "character-creation.metis-missing-deformity",
+      "character-creation.lupus-restricted-ability",
+      "character-creation.freebie-budget-overspent",
+      "character-creation.classification-change-invalidates-state",
+      "character-creation.complete-character-atomicity"
+    ],
+    "repositoryRevision": null,
+    "workingTreeState": "not-git-repository",
+    "buildConfiguration": "prototype-harness",
+    "runnerVersion": "current-slice-runner.py",
+    "operatingSystem": "Windows",
+    "architecture": "AMD64",
+    "processId": 52844,
+    "correlationId": "catalog-review-evidence-completion-2026-08-03"
+  },
+  "environment": {
+    "profileKey": "test-environment.werewolf-prototype.default",
+    "environmentFingerprint": "c284671654ef58514de788230de15ca195e630cb90f5373e690c0beb1e8dcd13",
+    "databaseEngine": "SQLite",
+    "storageMode": "ephemeral-encrypted-sqlite",
+    "encryptionEnabled": true,
+    "networkMode": "disabled",
+    "providerMode": "disabled",
+    "clockMode": "deterministic",
+    "identifierMode": "deterministic",
+    "randomnessMode": "seeded-deterministic",
+    "eventPublicationMode": "captured-outbox",
+    "maximumWorkers": 4
+  },
+  "artifactSet": {
+    "prototypeIndexFingerprint": "219b1917e7cc90eec5fec24b2861f2fadd66d9a2b3c01a811b40e61a9b712a05",
+    "manifestFingerprint": "7076e6fa820f4c26b66f157a1940226925fe9c64b4256d936a30c54293a8a30b",
+    "characterModelIndexFingerprint": "020df41e3e886e5b3b692d273df70eea5d819f98c091e7deaeb7bfb45981a6ee",
+    "operationIndexFingerprint": "9dd6a1db1dc12b8161d70287d02e52b87180fd971a176ec0ae3123588191880d",
+    "characterSheetIndexFingerprint": "c4ada339daf53eb77baafd405356c0d44bf872fa8458c1ce72ef058fdccd17af",
+    "fixtureIndexFingerprint": "1694900d2314c989dded63b0f3dbab2d0d07951967ed3af313311ea4f001add1",
+    "testSuiteIndexFingerprint": "533b1cbc89d1037811d791b9ccf082e0dc41cb5008dec2c88344fe3169df6266",
+    "testEnvironmentFingerprint": "c284671654ef58514de788230de15ca195e630cb90f5373e690c0beb1e8dcd13",
+    "promotionGateFingerprint": "75b82c42ec6e433bd1f05002f318bb8d59847d8a0ffd2c9bf83112197b4b8532",
+    "loadedArtifactFingerprints": [
+      {
+        "artifactKey": "prototypeIndexFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "219b1917e7cc90eec5fec24b2861f2fadd66d9a2b3c01a811b40e61a9b712a05",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "manifestFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "7076e6fa820f4c26b66f157a1940226925fe9c64b4256d936a30c54293a8a30b",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "characterModelIndexFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "020df41e3e886e5b3b692d273df70eea5d819f98c091e7deaeb7bfb45981a6ee",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "operationIndexFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "9dd6a1db1dc12b8161d70287d02e52b87180fd971a176ec0ae3123588191880d",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "characterSheetIndexFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "c4ada339daf53eb77baafd405356c0d44bf872fa8458c1ce72ef058fdccd17af",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "fixtureIndexFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "1694900d2314c989dded63b0f3dbab2d0d07951967ed3af313311ea4f001add1",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "testSuiteIndexFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "533b1cbc89d1037811d791b9ccf082e0dc41cb5008dec2c88344fe3169df6266",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "testEnvironmentFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "c284671654ef58514de788230de15ca195e630cb90f5373e690c0beb1e8dcd13",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      },
+      {
+        "artifactKey": "promotionGateFingerprint",
+        "artifactVersion": "0.1.0-prototype",
+        "contractVersion": 1,
+        "fingerprint": "75b82c42ec6e433bd1f05002f318bb8d59847d8a0ffd2c9bf83112197b4b8532",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded"
+      }
+    ]
+  },
+  "suiteResults": [
+    {
+      "suiteKey": "tests.package-load",
+      "suiteRole": "package-and-index-contracts",
+      "required": true,
+      "readiness": "prototype-candidate",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 12,
+      "passedTestCount": 12,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [],
+      "testResults": [
+        {
+          "testCaseKey": "manifest-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "1b5f0275c059d149d57d5049948a02c905dc0fcee7f73148b774c8a2127e05e4"
+        },
+        {
+          "testCaseKey": "prototype-index-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "4da072a2f969a09c64830d5dba40400271f758f75cbe4e6689b27ee75c1a0cba"
+        },
+        {
+          "testCaseKey": "character-model-index-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "bf27dba9eead96ec6c0de50b9693b00efac97f769b915a870ca8bfd0f2245f24"
+        },
+        {
+          "testCaseKey": "validation-index-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "faaa62fdfb33c99e6e9321a7ae7e955b750a8e0d8a18c73b42d3d8d50902621a"
+        },
+        {
+          "testCaseKey": "operation-index-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "9680472e6768c629db59ad6d291d50cf2c554e616075243e257f5cdee9c530f5"
+        },
+        {
+          "testCaseKey": "character-sheet-index-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "d53fa8128fedfd24fdd74c2df10895b9597a540e21c237bd115173368c78da1a"
+        },
+        {
+          "testCaseKey": "fixture-index-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "dc83b8bc739633c6bcf400dc72253dc62b2d94318b674a997c747540b8efaf21"
+        },
+        {
+          "testCaseKey": "all-required-refs-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "abb53f304b05fa86a58e91cd578c77d797c7b695d5e7e011488ee38c9f8dd399"
+        },
+        {
+          "testCaseKey": "all-required-contract-versions-supported",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "bc5cf8678cce69be5932b500396e6c3e4ae40da08ab5bd50bddfe9a927d1d005"
+        },
+        {
+          "testCaseKey": "all-required-dependency-graphs-acyclic",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "67f982c234216746e37c23ccc6b8d2dc2e3ab52bc4f415fd8c7074ab990e482f"
+        },
+        {
+          "testCaseKey": "no-artifact-escapes-package-root",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "461c7bf04915fbd969fcc08695f8181d1f08d94e37112baa156709638069d6fa"
+        },
+        {
+          "testCaseKey": "no-hardcoded-werewolf-registration-required",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "0d8b4cd1a1ad49d830314b8497401c21ab29da24fb58b79d142bbdee597a6735"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "c44f2c081e8d060cf881f4eddcaef2580af035c3cb97da2a2649b40d5e9c0875"
+    },
+    {
+      "suiteKey": "tests.character-model-contracts",
+      "suiteRole": "character-model-schema-and-reference-validation",
+      "required": true,
+      "readiness": "prototype-candidate",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 10,
+      "passedTestCount": 10,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [],
+      "testResults": [
+        {
+          "testCaseKey": "catalog-entry-keys-unique",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "852830c166ca3d5ae0e01d59931177afe4448a754630376d8a67b3e72b9cf4d5"
+        },
+        {
+          "testCaseKey": "field-keys-unique",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "bb5fe30fa6841a92f8a0a2e50a061cb1ba360a1264592252d6554117849be9f6"
+        },
+        {
+          "testCaseKey": "field-catalog-refs-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "61ff25c7a345e182ebd6ebf3c2a3ddb1652c316c989f5e647dcead36ea0eb240"
+        },
+        {
+          "testCaseKey": "creation-artifacts-load-in-dependency-order",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "7d4fbd02a3743a3af294d01a2713a771ada1713c8998647475d81307578e804d"
+        },
+        {
+          "testCaseKey": "validation-rule-refs-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "d4a75df65bd7c7b02274de72b282a6e53b5b779fa64bec7c8c2c7b441f268013"
+        },
+        {
+          "testCaseKey": "operation-refs-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "c9c377da82dc15c0f4c26d96a6613d3519f62e0f408ec39abea483aabf1a95df"
+        },
+        {
+          "testCaseKey": "sheet-field-refs-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "cbcc63364dfc8482974507c60da592035d830f7ef5fb755547a9b95379d4a003"
+        },
+        {
+          "testCaseKey": "sheet-operation-refs-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "2af35f170c9d0c939ce162dc950827b6e1654e57d7487538d898fe3383593323"
+        },
+        {
+          "testCaseKey": "fingerprint-configurations-valid",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "77df3eb7142a2d45782c175177fa6d466991256ee626dbf448eae8423496d5ac"
+        },
+        {
+          "testCaseKey": "security-declarations-present",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "80a13fd94231dc3504374de8a50dc2627f68797785e29353e46710e1f10a86a2"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "fa0683c178d0da3341746626d5b7e7634d593ca7a95ff608b78a20d7a874b57f"
+    },
+    {
+      "suiteKey": "tests.character-creation-happy-path",
+      "suiteRole": "supported-character-creation-success-paths",
+      "required": true,
+      "readiness": "candidate-partial",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 14,
+      "passedTestCount": 14,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "testResults": [
+        {
+          "testCaseKey": "initialize-draft",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "ff34d911ea8adbb03822e4dc99f231b278434d40a6c0bd9e0d7487867e0f2149"
+        },
+        {
+          "testCaseKey": "classification-derived-values",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "f27477ad911c43b3e0b1c8876640d7193dcb6cd3961139ea3255fc820555cb01"
+        },
+        {
+          "testCaseKey": "attribute-priority-allocation",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "9aea2ba76b573d5e183cabbdf4a7a25407e2b1a5cde6ccf268f3202ba991d820"
+        },
+        {
+          "testCaseKey": "ability-priority-allocation",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "a43b6febaea8d04eca9ab238ab2b4ab4904dc4822508b4fe77f7121e9d9afb7e"
+        },
+        {
+          "testCaseKey": "background-allocation",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "9d23bc04e668091201998f05db03d69449c744bbf7e67925498f257dbf8f17d0"
+        },
+        {
+          "testCaseKey": "initial-gift-slots",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "8cd02058bec8c3fc9321e95d66dc834fc87c1cdc19465fa28cff612c87ce2e2e"
+        },
+        {
+          "testCaseKey": "initial-renown-and-rank",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "225d278a0fed96e88ad2f144325ef78129aa4a7ad4fd909c5d18098b7c002b5f"
+        },
+        {
+          "testCaseKey": "conditional-metis-deformity",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "5bf0ad11758479e861f17d5ab9a67ec135e941bf1c085e141bd3f6f2311275c9"
+        },
+        {
+          "testCaseKey": "stage-state-completion",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "00c783a61d3948923eb44193014585dafd12a23003eee3c5035757f6cd4159b3"
+        },
+        {
+          "testCaseKey": "review-summary-readiness",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "b4db54aa2c01545ab71be3eeca4f2ab5805fc8adc23e31b1ebf377e80b62c760"
+        },
+        {
+          "testCaseKey": "warning-acknowledgement-gating",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "b17946edc5108ec1f1d05ff000b3c701bf3872e58c512b825990542da14073f6"
+        },
+        {
+          "testCaseKey": "complete-character-success",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "af960942261dc524d44ebb41d045fca48ca7c4b31207c9539617e97baa647ef7"
+        },
+        {
+          "testCaseKey": "completion-snapshot-created",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "78c80f6b26b96013c69a996051a696af23a24eb5d3dfb7cbc4e4aec9bda786e1"
+        },
+        {
+          "testCaseKey": "character-sheet-projection-rebuilds",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "04a2c03efeb19b404d3de57a5d9cfb774c8c8f291e01a86902e3ae2e4cf148dd"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "61b66373dfa956f21ef26f137ae44aa113cdd8929e53b306e9585a22705f89ee"
+    },
+    {
+      "suiteKey": "tests.character-creation-invalid-paths",
+      "suiteRole": "creation-validation-and-repair-failures",
+      "required": true,
+      "readiness": "prototype-candidate",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 8,
+      "passedTestCount": 8,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent"
+      ],
+      "testResults": [
+        {
+          "testCaseKey": "required-metis-deformity-blocks",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "6a7d9de2b8c838a363d24ace6030607cdc0e62c0eeb06577d4ff88d944dfec21"
+        },
+        {
+          "testCaseKey": "lupus-restricted-base-ability-blocks",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "bf4b9d6860da0c27bee9776284c77e2256048c136f92288a7b3ca9b037ebcf0a"
+        },
+        {
+          "testCaseKey": "freebie-overspend-blocks",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "d091d1678221d6d9aed44820d16a0e3248314d5ad5640165732461b3c30a6079"
+        },
+        {
+          "testCaseKey": "blocking-issues-cannot-be-acknowledged",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "299a32b8dae1d395ee61f115a718e5e85de37b53c971018219aca30a6b3e6ecb"
+        },
+        {
+          "testCaseKey": "invalid-state-remains-editable",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "a03c745c845afef76ea46cbbf0de13a245a5d8971c103f1d1b04e7f48f4d4773"
+        },
+        {
+          "testCaseKey": "repair-operations-explicit",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "dc151e013beb8a5bad23ad9ddf476f9cdab4eec8f6fa2c19cfdf20d16a5e3f9f"
+        },
+        {
+          "testCaseKey": "no-silent-selection-or-allocation-repair",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "8dcae27f5487383be48a0920ac2c935b501f134f23e06e38cb4b0832bdbc002d"
+        },
+        {
+          "testCaseKey": "completion-rejected-without-partial-commit",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.metis-missing-deformity",
+            "character-creation.lupus-restricted-ability",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "c2f90378ba2d04e759bb4813dcb1727f391e5194026310f5f1a6b3b762cf46dd"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "6ce624f6755e89e8381b6015afb0457bb7da18ed9da0fd5925a92f2e008ae44b"
+    },
+    {
+      "suiteKey": "tests.dependency-and-invalidation",
+      "suiteRole": "dependency-closure-and-invalidation-lifecycle",
+      "required": true,
+      "readiness": "prototype-candidate",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 9,
+      "passedTestCount": 9,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.metis-missing-deformity"
+      ],
+      "testResults": [
+        {
+          "testCaseKey": "affected-field-closure-deterministic",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "3493ce56b4fa92faf1b3853eebc0a72eea653613e060333847ba48c9e67e92e8"
+        },
+        {
+          "testCaseKey": "classification-change-preview-no-mutation",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "0e680af71410bd11369c113e398f1be6da7cc822abdec6c25d4fbba62387e3f9"
+        },
+        {
+          "testCaseKey": "classification-change-apply-versioned",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "cff653b619d518c048c0365f03bfc027ac7c0c93891a64493f33e5c96f81dea8"
+        },
+        {
+          "testCaseKey": "derived-resource-recalculated",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "68ef2400042d70c86cada305c8f7a63a5318eff8ff0e700107f755e4f86b06ed"
+        },
+        {
+          "testCaseKey": "user-selections-preserved-and-invalidated",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "0d9ead37ee750b71f2257283099f0efe243d9c70024581c15b43d806f287eee0"
+        },
+        {
+          "testCaseKey": "review-required-distinct-from-invalid",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "2bae4c6cbaed89cca2a03fb1b4b77da342bfde2b9f4c574c4181c5a20479f14c"
+        },
+        {
+          "testCaseKey": "invalidation-history-preserved",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "7b578586b69a3a49956849275cab8a2b249a272440c00566b902216d5525423b"
+        },
+        {
+          "testCaseKey": "resolution-operation-closes-invalidation",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "93c8ba675624e99a60849124d5ce4f8c633658dd7c13326c2f631840cf7b5abe"
+        },
+        {
+          "testCaseKey": "projection-recalculation-deterministic",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.lupus-restricted-ability",
+            "character-creation.classification-change-invalidates-state",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "18d8a0ce3000cdee15a61c16d02efddd09e187e74293f15e780ad99ed8019fa1"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "5939f88ad635cceb08dee1334c24c8f43f2e3d58c8685e4c999f0b648e5245d3"
+    },
+    {
+      "suiteKey": "tests.ledger-integrity",
+      "suiteRole": "creation-ledger-budget-and-compensation",
+      "required": true,
+      "readiness": "prototype-candidate",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 8,
+      "passedTestCount": 8,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent"
+      ],
+      "testResults": [
+        {
+          "testCaseKey": "base-budgets-reconcile",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "7315e50cb06bf84d28613b6ccf62302379f9e932ae326e15aa4ef1b6b302570d"
+        },
+        {
+          "testCaseKey": "freebie-cost-table-applied",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "10f3690098c5a3466d3dc1eecf66cee6c8836096dec7915520f5883d8d4f332c"
+        },
+        {
+          "testCaseKey": "ledger-append-only",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "3f794c3af19ef8364f7f48e6db9a37f88f2d5e306d83c2007962b782191d9ea0"
+        },
+        {
+          "testCaseKey": "negative-freebie-balance-detected",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "1aa0c697f9d1b1d74f3432e41cb193db8b9a27449db6f3762f612b2ffc548911"
+        },
+        {
+          "testCaseKey": "ledger-may-be-internally-valid-while-character-invalid",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "2cb4a7c3436618a47f47d2863ba1d046ef431ff61a4d544ad39f86265c5ebe09"
+        },
+        {
+          "testCaseKey": "repair-appends-compensating-entry",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "881907e53297a281c7acd818b76328871a7500031ff6c96475160723739bcf9f"
+        },
+        {
+          "testCaseKey": "ledger-fingerprint-stable",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "cd72296f5921610bb5681161db2abef337d8dc4b50312fa0fc98dde0226aef3a"
+        },
+        {
+          "testCaseKey": "frozen-ledger-rejects-creation-mutations",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.freebie-budget-overspent"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "c1c09917ef572084705d372bde81cea37b072f7fc8836656b20d55a8874f34e0"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "7c500fe778714182b93ea60417d1b13f012f35b92363f6a01f3880157e95073a"
+    },
+    {
+      "suiteKey": "tests.completion-atomicity",
+      "suiteRole": "completion-transaction-idempotency-and-recovery",
+      "required": true,
+      "readiness": "prototype-candidate",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 12,
+      "passedTestCount": 12,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [
+        "character-creation.complete-character-atomicity",
+        "character-creation.metis-missing-deformity",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testResults": [
+        {
+          "testCaseKey": "fresh-validation-runs-inside-transaction",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "a74cca518d4b30327754e635e8a8e8903e0cc498e1843ae8b1cdde37bf58de20"
+        },
+        {
+          "testCaseKey": "warning-acknowledgements-verified-inside-transaction",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "d82dfac7f9bd9c0449325a81e4d7e9bec6ead05abf65ebffcaeebbd6ac19953c"
+        },
+        {
+          "testCaseKey": "snapshot-ledger-freeze-and-activation-commit-together",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "ce7e6631e784b9e9c887d6e0a6eab6cfa665d8cf413305319ed8ae4648d3f80d"
+        },
+        {
+          "testCaseKey": "failure-after-snapshot-build-rolls-back",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "e61190e2a36dce9d77c346eef79ff777c34d2467931294619019f40a5a53ddb7"
+        },
+        {
+          "testCaseKey": "failure-after-ledger-freeze-rolls-back",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "be293fda6e7b8ae83d2e3467daad3f89d4f151c8b3e2f7d0f5018286fe697706"
+        },
+        {
+          "testCaseKey": "failure-after-activation-rolls-back",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "98fd656d3d74c3fb6211294ddffd705510adfee8335c31107db0c312b4f6d8e5"
+        },
+        {
+          "testCaseKey": "failure-before-commit-publishes-no-events",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "73f25501444adaba4af93a328f0c0fafa7b11f759f6646409883831495790684"
+        },
+        {
+          "testCaseKey": "same-idempotency-key-replays-success",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "0d5ba22852623f10a165bf6da646b8890e24882a7f61adbd70d6ac16c30c7739"
+        },
+        {
+          "testCaseKey": "idempotency-key-conflict-rejected",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "d948218b962d604d2c268806d0d77587d8a42c17f876cd646dbc7aa400df16d6"
+        },
+        {
+          "testCaseKey": "crash-before-commit-restores-draft",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "5294a2c78cd3c14665e35e255074985d14bdf183bb0c184a86b45617abe1ac71"
+        },
+        {
+          "testCaseKey": "crash-after-commit-retry-returns-success",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "fa3ad48dd456d94b5ab1e8616a6fd7f4a74d043d0ab0a04cc883bc945d46f18d"
+        },
+        {
+          "testCaseKey": "no-partial-completion-state-possible",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.complete-character-atomicity",
+            "character-creation.metis-missing-deformity",
+            "character-creation.freebie-budget-overspent",
+            "character-creation.classification-change-invalidates-state"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "cbcc08ea455e21dd3a1021021e3271036b33e1e0f4399fd37f72b9a57a4e2ece"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "07ca1db2f0b3b683df8f1efd7cccffb1f53f63548ccfd64f277d31d36c09610c"
+    },
+    {
+      "suiteKey": "tests.character-sheet-projection",
+      "suiteRole": "layout-reference-visibility-and-interaction-contracts",
+      "required": true,
+      "readiness": "prototype-candidate",
+      "status": "passed",
+      "dependencyStatus": "loaded",
+      "executedTestCount": 11,
+      "passedTestCount": 11,
+      "failedTestCount": 0,
+      "skippedTestCount": 0,
+      "blockedTestCount": 0,
+      "durationMilliseconds": 0,
+      "fixtureCollectionKeys": [
+        "fixtures.character-creation"
+      ],
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "testResults": [
+        {
+          "testCaseKey": "default-layout-loads",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "e4fca50f9e078b8bcbf7ea68ff42a33c5821f7b7eddbdea26845a75005729540"
+        },
+        {
+          "testCaseKey": "all-field-bindings-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "0cdd6795f2a1dd846f9d8d3e41204ea50d7302195b77c06cc7e542af1f357eab"
+        },
+        {
+          "testCaseKey": "all-operation-bindings-resolve",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "e445cf9a57527fb75d8bfe70a2ddda590718f0628a6c8d883f344c7640a1a29b"
+        },
+        {
+          "testCaseKey": "creation-preview-shows-stage-state",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "3ddb8cc755ce97cc2e6d7736a3c965a72c4d1a7aef30462a67e9b6f9f3eac269"
+        },
+        {
+          "testCaseKey": "metis-section-visible-when-applicable",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "1c40cdce2df74b87d69c8e3e814e73d863d365f736c73df3f7c7b7f487a449c0"
+        },
+        {
+          "testCaseKey": "metis-section-hidden-when-not-applicable",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "bf8048771ae5d92037304bb724f2bae47f5a2c0201dbf4f3ecfed4dd90b287b0"
+        },
+        {
+          "testCaseKey": "blocking-issue-visible",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "acfb19c6470fc5698dfa40e2b1be573396a08a25e7fe3cc9a948d4a062cb2935"
+        },
+        {
+          "testCaseKey": "mutation-controls-use-operation-keys",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "a9760fadbabb28111f5911037dc8bdfd46491f76d618dfa9f45691eaa0b3af42"
+        },
+        {
+          "testCaseKey": "stale-draft-disables-mutations",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "b8ee9118449905394afd89c49de4bb1be84a6767433a233a702151f4c297a2fd"
+        },
+        {
+          "testCaseKey": "read-only-mode-has-no-mutation-controls",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "c9ade7782b0513833bb4b19e5b44f5b76daa69b05c7c76f303aab36a8e8d560f"
+        },
+        {
+          "testCaseKey": "accessibility-contract-present",
+          "status": "passed",
+          "durationMilliseconds": 0,
+          "fixtureKeys": [
+            "character-creation.minimal-valid-character",
+            "character-creation.metis-valid-character",
+            "character-creation.metis-missing-deformity"
+          ],
+          "assertionCount": 1,
+          "failureKey": null,
+          "failureMessageKey": null,
+          "failureArguments": {},
+          "diagnosticRefs": [],
+          "transactionId": null,
+          "resultFingerprint": "c981096eead565ecacbeefb23c631deb13561382a33f9201aadb68a8761b3546"
+        }
+      ],
+      "startedAt": "2026-08-03T00:00:00.000Z",
+      "completedAt": "2026-08-03T00:00:00.000Z",
+      "suiteFingerprint": "48ee77c258976b86c2d28d0a961e8af4fedd4d179e1f4e1d6b763c389b0372c3"
+    }
+  ],
+  "fixtureSummary": {
+    "indexedFixtureCount": 7,
+    "loadedFixtureCount": 7,
+    "executedFixtureCount": 7,
+    "partialFixtureCount": 2,
+    "blockedFixtureCount": 0,
+    "fixtureUsage": [
+      {
+        "fixtureKey": "character-creation.minimal-valid-character",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded",
+        "usedBySuiteKeys": [
+          "tests.character-creation-happy-path",
+          "tests.ledger-integrity",
+          "tests.character-sheet-projection"
+        ],
+        "executionCount": 1,
+        "resultStatuses": [
+          "passed"
+        ]
+      },
+      {
+        "fixtureKey": "character-creation.metis-valid-character",
+        "readiness": "candidate-partial",
+        "loadStatus": "loaded",
+        "usedBySuiteKeys": [
+          "tests.character-creation-happy-path",
+          "tests.ledger-integrity",
+          "tests.character-sheet-projection"
+        ],
+        "executionCount": 1,
+        "resultStatuses": [
+          "passed"
+        ]
+      },
+      {
+        "fixtureKey": "character-creation.metis-missing-deformity",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded",
+        "usedBySuiteKeys": [
+          "tests.character-creation-invalid-paths",
+          "tests.dependency-and-invalidation",
+          "tests.completion-atomicity",
+          "tests.character-sheet-projection"
+        ],
+        "executionCount": 1,
+        "resultStatuses": [
+          "passed"
+        ]
+      },
+      {
+        "fixtureKey": "character-creation.lupus-restricted-ability",
+        "readiness": "candidate-partial",
+        "loadStatus": "loaded",
+        "usedBySuiteKeys": [
+          "tests.character-creation-invalid-paths",
+          "tests.dependency-and-invalidation"
+        ],
+        "executionCount": 1,
+        "resultStatuses": [
+          "passed"
+        ]
+      },
+      {
+        "fixtureKey": "character-creation.freebie-budget-overspent",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded",
+        "usedBySuiteKeys": [
+          "tests.character-creation-invalid-paths",
+          "tests.ledger-integrity",
+          "tests.completion-atomicity"
+        ],
+        "executionCount": 1,
+        "resultStatuses": [
+          "passed"
+        ]
+      },
+      {
+        "fixtureKey": "character-creation.classification-change-invalidates-state",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded",
+        "usedBySuiteKeys": [
+          "tests.dependency-and-invalidation",
+          "tests.completion-atomicity"
+        ],
+        "executionCount": 1,
+        "resultStatuses": [
+          "passed"
+        ]
+      },
+      {
+        "fixtureKey": "character-creation.complete-character-atomicity",
+        "readiness": "prototype-candidate",
+        "loadStatus": "loaded",
+        "usedBySuiteKeys": [
+          "tests.completion-atomicity"
+        ],
+        "executionCount": 1,
+        "resultStatuses": [
+          "passed"
+        ]
+      }
+    ],
+    "fixtureFingerprintSet": [
+      {
+        "fixtureKey": "character-creation.minimal-valid-character",
+        "fingerprint": "d23649a44caedac1d226f0ccf4e37377dfb45ea462b3dbdb5449650361390ff9"
+      },
+      {
+        "fixtureKey": "character-creation.metis-valid-character",
+        "fingerprint": "11c12238217ebe66168a269876b2533ecf525e0f932f7dc53c7bb16bd0cf13a8"
+      },
+      {
+        "fixtureKey": "character-creation.metis-missing-deformity",
+        "fingerprint": "35b8de12a444788637cc600ea46c3e0b2bb2bb598b13677bef248c9b36cce2ca"
+      },
+      {
+        "fixtureKey": "character-creation.lupus-restricted-ability",
+        "fingerprint": "f938bbcb7ca459b655664006d4cdf0b8cb919041e1c22de0acb3e617c4d4d7eb"
+      },
+      {
+        "fixtureKey": "character-creation.freebie-budget-overspent",
+        "fingerprint": "7fbb52fa5722cc6c71fd33d857e543e2e10da3ff97f4b4741ac7c2293875ccf2"
+      },
+      {
+        "fixtureKey": "character-creation.classification-change-invalidates-state",
+        "fingerprint": "951c0bbb72dfe09a86188d4c75eb29f8d6da2ab2fea57d2ce9b58a4d31ca8e6c"
+      },
+      {
+        "fixtureKey": "character-creation.complete-character-atomicity",
+        "fingerprint": "87cd85bca5844c6b08192b2724089cba764ffa8915462560fac9729d372f8570"
+      }
+    ]
+  },
+  "coverageSummary": {
+    "declaredDomainKeys": [
+      "package-load",
+      "character-model-contracts",
+      "character-creation-happy-path",
+      "character-creation-invalid-paths",
+      "dependency-and-invalidation",
+      "ledger-integrity",
+      "completion-atomicity",
+      "character-sheet-projection"
+    ],
+    "executedDomainKeys": [
+      "package-load",
+      "character-model-contracts",
+      "character-creation-happy-path",
+      "character-creation-invalid-paths",
+      "dependency-and-invalidation",
+      "ledger-integrity",
+      "completion-atomicity",
+      "character-sheet-projection"
+    ],
+    "passedDomainKeys": [
+      "package-load",
+      "character-model-contracts",
+      "character-creation-happy-path",
+      "character-creation-invalid-paths",
+      "dependency-and-invalidation",
+      "ledger-integrity",
+      "completion-atomicity",
+      "character-sheet-projection"
+    ],
+    "blockedDomainKeys": [],
+    "futureDomainKeys": [
+      "runtime-character",
+      "gift-runtime"
+    ],
+    "knownCoverageGapKeys": [
+      "all-auspice-happy-paths",
+      "all-tribe-happy-paths",
+      "all-catalog-items",
+      "specialization-edge-cases",
+      "additional-gift-purchase",
+      "generic-dice-algorithm",
+      "post-creation-character-mutations",
+      "runtime-gift-execution"
+    ],
+    "acceptedCoverageGapKeys": [
+      "all-auspice-happy-paths",
+      "all-tribe-happy-paths",
+      "all-catalog-items",
+      "specialization-edge-cases",
+      "additional-gift-purchase",
+      "generic-dice-algorithm",
+      "post-creation-character-mutations",
+      "runtime-gift-execution"
+    ],
+    "unacceptedCurrentSliceGapKeys": [],
+    "coveragePercentage": 100
+  },
+  "failureSummary": {
+    "failureCount": 0,
+    "blockingFailureCount": 0,
+    "failedSuiteKeys": [],
+    "failedTestCaseKeys": [],
+    "failureGroups": [],
+    "firstFailureAt": null,
+    "lastFailureAt": null
+  },
+  "diagnosticSummary": {
+    "diagnosticCount": 0,
+    "errorDiagnosticCount": 0,
+    "warningDiagnosticCount": 0,
+    "informationDiagnosticCount": 0,
+    "diagnostics": [],
+    "diagnosticBundleRef": null
+  },
+  "promotionEvidence": {
+    "eligibleAsPromotionEvidence": false,
+    "promotionGateArtifactRef": "./promotion-gate.json",
+    "coveredGateKeys": [
+      "promotion.required-tests-pass"
+    ],
+    "unsupportedGateKeys": [],
+    "evidenceExpiresWhenArtifactSetChanges": true,
+    "signedByBuildInfrastructure": false,
+    "evidenceFingerprint": "1b9dd0baf541e408f8731b326d0942dc821afe53aa66891c3832a974f8abf6d7"
+  },
+  "overallResult": {
+    "status": "passed",
+    "requiredSuiteCount": 8,
+    "passedRequiredSuiteCount": 8,
+    "failedRequiredSuiteCount": 0,
+    "blockedRequiredSuiteCount": 0,
+    "skippedRequiredSuiteCount": 0,
+    "totalDurationMilliseconds": 0,
+    "promotionEvidenceEligible": false,
+    "blockingReasonKeys": []
+  },
+  "startedAt": "2026-08-03T00:00:00.000Z",
+  "completedAt": "2026-08-03T00:00:00.000Z",
+  "reportFingerprint": "3ae7fcc27436983003f66923cf5560d9ceeeb4383d861f11460ee200a9cdd91b"
+}

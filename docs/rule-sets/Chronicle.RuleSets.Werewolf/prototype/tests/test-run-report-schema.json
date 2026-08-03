@@ -1,0 +1,459 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.test-run-report-schema",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.test-run-report-schema.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeTestReporting",
+  "purpose": [
+    "Define the canonical structured report produced by Werewolf prototype test runs.",
+    "Capture environment identity, package fingerprints, suite results, fixture usage, coverage, failures, diagnostics, and promotion evidence.",
+    "Make local and continuous-integration test results comparable and auditable.",
+    "Provide immutable evidence for the prototype promotion gate."
+  ],
+  "authority": {
+    "schemaDefinitionAuthority": "ChronicleTestInfrastructure",
+    "packageSpecificExpectationAuthority": "RuleSetPackage",
+    "reportGenerationAuthority": "ChronicleTestInfrastructure",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualStatusOverrideAllowed": false
+  },
+  "reportShape": {
+    "reportId": "Reference",
+    "reportVersion": "Integer",
+    "packageId": "Text",
+    "prototypeVersion": "Text",
+    "runContext": "StructuredObject",
+    "environment": "StructuredObject",
+    "artifactSet": "StructuredObject",
+    "suiteResults": "StructuredCollection",
+    "fixtureSummary": "StructuredObject",
+    "coverageSummary": "StructuredObject",
+    "failureSummary": "StructuredObject",
+    "diagnosticSummary": "StructuredObject",
+    "promotionEvidence": "StructuredObject",
+    "overallResult": "StructuredObject",
+    "reportFingerprint": "Text",
+    "startedAt": "Text",
+    "completedAt": "Text"
+  },
+  "runContext": {
+    "fields": {
+      "runKind": "Text",
+      "trigger": "Text",
+      "requestedSuiteKeys": "ReferenceCollection",
+      "requestedFixtureKeys": "ReferenceCollection",
+      "repositoryRevision": "Text",
+      "workingTreeState": "Text",
+      "buildConfiguration": "Text",
+      "runnerVersion": "Text",
+      "operatingSystem": "Text",
+      "architecture": "Text",
+      "processId": "Integer",
+      "correlationId": "Reference"
+    },
+    "allowedRunKinds": [
+      "full-prototype",
+      "suite-selection",
+      "fixture-selection",
+      "promotion-validation",
+      "local-development"
+    ],
+    "allowedTriggers": [
+      "manual",
+      "continuous-integration",
+      "pre-commit",
+      "pre-promotion",
+      "scheduled"
+    ],
+    "repositoryRevisionRequiredForPromotionEvidence": true,
+    "dirtyWorkingTreeAllowedForPromotionEvidence": false
+  },
+  "environmentProjection": {
+    "sourceArtifactRef": "./test-environment.json",
+    "fields": {
+      "profileKey": "Reference",
+      "environmentFingerprint": "Text",
+      "databaseEngine": "Text",
+      "storageMode": "Text",
+      "encryptionEnabled": "Boolean",
+      "networkMode": "Text",
+      "providerMode": "Text",
+      "clockMode": "Text",
+      "identifierMode": "Text",
+      "randomnessMode": "Text",
+      "eventPublicationMode": "Text",
+      "maximumWorkers": "Integer"
+    },
+    "environmentFingerprintMustMatchLoadedEnvironment": true
+  },
+  "artifactSet": {
+    "fields": {
+      "prototypeIndexFingerprint": "Text",
+      "manifestFingerprint": "Text",
+      "characterModelIndexFingerprint": "Text",
+      "operationIndexFingerprint": "Text",
+      "characterSheetIndexFingerprint": "Text",
+      "fixtureIndexFingerprint": "Text",
+      "testSuiteIndexFingerprint": "Text",
+      "testEnvironmentFingerprint": "Text",
+      "promotionGateFingerprint": "Text",
+      "loadedArtifactFingerprints": "StructuredCollection"
+    },
+    "loadedArtifactFingerprintShape": {
+      "artifactKey": "Reference",
+      "artifactVersion": "Text",
+      "contractVersion": "Integer",
+      "fingerprint": "Text",
+      "readiness": "Text",
+      "loadStatus": "Text"
+    },
+    "allRequiredArtifactsMustBePresent": true,
+    "duplicateArtifactKeysAllowed": false,
+    "staleArtifactFingerprintBehavior": "report-invalid"
+  },
+  "suiteResultShape": {
+    "suiteKey": "Reference",
+    "suiteRole": "Text",
+    "required": "Boolean",
+    "readiness": "Text",
+    "status": "Text",
+    "dependencyStatus": "Text",
+    "executedTestCount": "Integer",
+    "passedTestCount": "Integer",
+    "failedTestCount": "Integer",
+    "skippedTestCount": "Integer",
+    "blockedTestCount": "Integer",
+    "durationMilliseconds": "Integer",
+    "fixtureCollectionKeys": "ReferenceCollection",
+    "fixtureKeys": "ReferenceCollection",
+    "testResults": "StructuredCollection",
+    "suiteFingerprint": "Text",
+    "startedAt": "Text",
+    "completedAt": "Text"
+  },
+  "testResultShape": {
+    "testCaseKey": "Reference",
+    "status": "Text",
+    "durationMilliseconds": "Integer",
+    "fixtureKeys": "ReferenceCollection",
+    "assertionCount": "Integer",
+    "failureKey": "Reference",
+    "failureMessageKey": "Reference",
+    "failureArguments": "StructuredObject",
+    "diagnosticRefs": "ReferenceCollection",
+    "transactionId": "Reference",
+    "resultFingerprint": "Text"
+  },
+  "allowedTestStatuses": [
+    "passed",
+    "failed",
+    "skipped-dependency",
+    "blocked-readiness",
+    "not-executed"
+  ],
+  "suiteStatusCalculation": {
+    "failedWhenAnyTestFailed": true,
+    "blockedWhenNoFailureAndAnyRequiredTestBlocked": true,
+    "skippedWhenDependencyUnavailable": true,
+    "passedWhenAllExecutedRequiredTestsPassed": true,
+    "manualStatusAssignmentAllowed": false
+  },
+  "fixtureSummary": {
+    "fields": {
+      "indexedFixtureCount": "Integer",
+      "loadedFixtureCount": "Integer",
+      "executedFixtureCount": "Integer",
+      "partialFixtureCount": "Integer",
+      "blockedFixtureCount": "Integer",
+      "fixtureUsage": "StructuredCollection",
+      "fixtureFingerprintSet": "StructuredCollection"
+    },
+    "fixtureUsageShape": {
+      "fixtureKey": "Reference",
+      "readiness": "Text",
+      "loadStatus": "Text",
+      "usedBySuiteKeys": "ReferenceCollection",
+      "executionCount": "Integer",
+      "resultStatuses": "StructuredCollection"
+    },
+    "allReferencedFixturesMustResolve": true,
+    "productionDataFixtureAllowed": false
+  },
+  "coverageSummary": {
+    "fields": {
+      "declaredDomainKeys": "ReferenceCollection",
+      "executedDomainKeys": "ReferenceCollection",
+      "passedDomainKeys": "ReferenceCollection",
+      "blockedDomainKeys": "ReferenceCollection",
+      "futureDomainKeys": "ReferenceCollection",
+      "knownCoverageGapKeys": "ReferenceCollection",
+      "acceptedCoverageGapKeys": "ReferenceCollection",
+      "unacceptedCurrentSliceGapKeys": "ReferenceCollection",
+      "coveragePercentage": "Integer"
+    },
+    "calculationPolicy": {
+      "futureDomainsExcludedFromPercentage": true,
+      "blockedCurrentSliceDomainsCountAsUncovered": true,
+      "acceptedCoverageGapsRemainVisible": true,
+      "coveragePercentageFormula": "floor(passed-current-slice-domains * 100 / declared-current-slice-domains)"
+    }
+  },
+  "failureSummary": {
+    "fields": {
+      "failureCount": "Integer",
+      "blockingFailureCount": "Integer",
+      "failedSuiteKeys": "ReferenceCollection",
+      "failedTestCaseKeys": "ReferenceCollection",
+      "failureGroups": "StructuredCollection",
+      "firstFailureAt": "Text",
+      "lastFailureAt": "Text"
+    },
+    "failureGroupShape": {
+      "failureKey": "Reference",
+      "category": "Text",
+      "occurrenceCount": "Integer",
+      "suiteKeys": "ReferenceCollection",
+      "testCaseKeys": "ReferenceCollection",
+      "fixtureKeys": "ReferenceCollection",
+      "diagnosticRefs": "ReferenceCollection"
+    },
+    "allowedCategories": [
+      "package-load",
+      "contract",
+      "fixture",
+      "validation",
+      "ledger",
+      "transaction",
+      "idempotency",
+      "recovery",
+      "projection",
+      "security",
+      "environment",
+      "unexpected"
+    ]
+  },
+  "diagnosticSummary": {
+    "fields": {
+      "diagnosticCount": "Integer",
+      "errorDiagnosticCount": "Integer",
+      "warningDiagnosticCount": "Integer",
+      "informationDiagnosticCount": "Integer",
+      "diagnostics": "StructuredCollection",
+      "diagnosticBundleRef": "Reference"
+    },
+    "diagnosticShape": {
+      "diagnosticId": "Reference",
+      "severity": "Text",
+      "diagnosticKey": "Reference",
+      "messageKey": "Reference",
+      "messageArguments": "StructuredObject",
+      "artifactKeys": "ReferenceCollection",
+      "suiteKeys": "ReferenceCollection",
+      "testCaseKeys": "ReferenceCollection",
+      "fixtureKeys": "ReferenceCollection",
+      "transactionId": "Reference",
+      "createdAt": "Text"
+    },
+    "rawCharacterStateIncluded": false,
+    "rawNarrativeTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretMaterialIncluded": false
+  },
+  "promotionEvidence": {
+    "fields": {
+      "eligibleAsPromotionEvidence": "Boolean",
+      "promotionGateArtifactRef": "Reference",
+      "coveredGateKeys": "ReferenceCollection",
+      "unsupportedGateKeys": "ReferenceCollection",
+      "evidenceFingerprint": "Text",
+      "evidenceExpiresWhenArtifactSetChanges": "Boolean",
+      "signedByBuildInfrastructure": "Boolean"
+    },
+    "eligibilityCriteria": [
+      "run-kind-is-promotion-validation",
+      "working-tree-clean",
+      "all-required-suites-executed",
+      "all-ready-required-suites-passed",
+      "no-required-suite-skipped",
+      "environment-fingerprint-valid",
+      "artifact-fingerprint-set-complete",
+      "report-fingerprint-valid"
+    ],
+    "manualPromotionEvidenceFlagAllowed": false
+  },
+  "overallResult": {
+    "fields": {
+      "status": "Text",
+      "requiredSuiteCount": "Integer",
+      "passedRequiredSuiteCount": "Integer",
+      "failedRequiredSuiteCount": "Integer",
+      "blockedRequiredSuiteCount": "Integer",
+      "skippedRequiredSuiteCount": "Integer",
+      "totalDurationMilliseconds": "Integer",
+      "promotionEvidenceEligible": "Boolean",
+      "blockingReasonKeys": "ReferenceCollection"
+    },
+    "allowedStatuses": [
+      "passed",
+      "failed",
+      "blocked",
+      "invalid-report"
+    ],
+    "calculationPolicy": {
+      "failedWhenAnyRequiredSuiteFailed": true,
+      "blockedWhenNoFailureAndRequiredSuiteBlockedOrSkipped": true,
+      "invalidWhenIntegrityRuleFails": true,
+      "passedOnlyWhenAllReadyRequiredSuitesPass": true,
+      "manualOverrideAllowed": false
+    }
+  },
+  "integrityRules": [
+    {
+      "ruleKey": "test-run-report.report-id-present",
+      "severity": "blocking",
+      "requirement": "reportId is present and unique"
+    },
+    {
+      "ruleKey": "test-run-report.artifact-fingerprints-complete",
+      "severity": "blocking",
+      "requirement": "all loaded required artifacts have versioned fingerprints"
+    },
+    {
+      "ruleKey": "test-run-report.suite-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "suite test counts reconcile with nested test results"
+    },
+    {
+      "ruleKey": "test-run-report.fixture-refs-resolve",
+      "severity": "blocking",
+      "requirement": "all suite and test fixture references resolve through the fixture indexes"
+    },
+    {
+      "ruleKey": "test-run-report.failure-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "failure summary reconciles with failed tests and diagnostics"
+    },
+    {
+      "ruleKey": "test-run-report.coverage-reconciles",
+      "severity": "blocking",
+      "requirement": "coverage summary reconciles with suite execution and declared test domains"
+    },
+    {
+      "ruleKey": "test-run-report.overall-status-reconciles",
+      "severity": "blocking",
+      "requirement": "overall status is deterministically derived from required suite results"
+    },
+    {
+      "ruleKey": "test-run-report.timestamps-valid",
+      "severity": "blocking",
+      "requirement": "all timestamps are valid RFC3339 UTC values and completedAt is not before startedAt"
+    },
+    {
+      "ruleKey": "test-run-report.fingerprint-valid",
+      "severity": "blocking",
+      "requirement": "report fingerprint recomputes successfully"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reportFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeRunContext": true,
+    "includeEnvironment": true,
+    "includeArtifactSet": true,
+    "includeSuiteResults": true,
+    "includeFixtureSummary": true,
+    "includeCoverageSummary": true,
+    "includeFailureSummary": true,
+    "includePromotionEvidence": true,
+    "excludeDiagnosticBundleBinaryContent": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "storagePolicy": {
+    "canonicalFormat": "JSON",
+    "storePerRun": true,
+    "immutableAfterFinalization": true,
+    "encryptedAtRest": true,
+    "retentionClass": "build-evidence",
+    "promotionEvidenceRetention": "release-lifetime",
+    "nonPromotionRunRetention": "configurable",
+    "overwriteExistingReportAllowed": false,
+    "diagnosticBundleStoredSeparately": true
+  },
+  "exportPolicy": {
+    "canonicalStructuredJsonRequired": true,
+    "junitProjectionSupported": true,
+    "humanReadableSummarySupported": true,
+    "coverageProjectionSupported": true,
+    "promotionEvidenceProjectionSupported": true,
+    "exportMustPreserveReportIdAndFingerprint": true,
+    "exportedProjectionMayNotChangeCanonicalStatus": true
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "reportId",
+      "suiteKeys",
+      "fixtureKeys",
+      "testCaseKeys",
+      "statuses",
+      "durations",
+      "failureKeys",
+      "artifactFingerprints",
+      "reportFingerprint"
+    ],
+    "ordinaryLogsMustExclude": [
+      "production-character-state",
+      "production-narrative-text",
+      "sourcebook-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeTestRunCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "reportId": "Reference",
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "overallStatus": "Text",
+        "failedSuiteKeys": "ReferenceCollection",
+        "promotionEvidenceEligible": "Boolean",
+        "reportFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "none",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "promotionEvidenceReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This schema defines test evidence and does not encode Werewolf mechanics.",
+    "Promotion evidence becomes stale whenever any evaluated artifact fingerprint changes.",
+    "Human-readable and JUnit exports are projections of the canonical JSON report.",
+    "A report cannot be manually changed from failed or blocked to passed.",
+    "Raw production data, narrative text, sourcebook text, credentials, and encryption keys are excluded.",
+    "Chronicle owns report generation, integrity validation, persistence, export, and promotion evidence handling.",
+    "The Rule Set package owns expected suites, fixtures, test domains, and mechanical assertions."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "created": "2026-08-03",
+  "authoritativeSource": "ADR-0043 sections 91-135",
+  "direction": "Domain inward; Application depends inward on Domain/contracts/abstractions; concrete implementations depend outward on Application ports and abstractions; Desktop is composition root.",
+  "allowedReferences": {
+    "Chronicle.Domain": [],
+    "Chronicle.Contracts": ["minimal shared primitives only"],
+    "Chronicle.RuleSets.Abstractions": ["Chronicle.Contracts", "approved Domain abstractions"],
+    "Chronicle.NarrativeIntelligence.Abstractions": ["Chronicle.Contracts", "approved shared primitives"],
+    "Chronicle.Application": ["Chronicle.Domain", "Chronicle.Contracts", "Chronicle.RuleSets.Abstractions", "Chronicle.NarrativeIntelligence.Abstractions"],
+    "Chronicle.Infrastructure": ["Chronicle.Application", "Chronicle.Contracts", "Chronicle.RuleSets.Abstractions", "Chronicle.NarrativeIntelligence.Abstractions"],
+    "Chronicle.Persistence.Sqlite": ["Chronicle.Application", "Chronicle.Domain", "Chronicle.Contracts", "Chronicle.RuleSets.Abstractions"],
+    "Chronicle.NarrativeIntelligence.OpenAI": ["Chronicle.NarrativeIntelligence.Abstractions", "Chronicle.Contracts", "approved Application ports"],
+    "Chronicle.Presentation.Desktop": ["Chronicle.Application", "Chronicle.Contracts", "UI framework packages"],
+    "Chronicle.Desktop": ["required concrete implementation projects"],
+    "Chronicle.RuleSets.Werewolf": ["Chronicle.RuleSets.Abstractions", "Chronicle.Contracts", "approved Domain primitives"]
+  },
+  "forbiddenReferences": [
+    "Domain to Application",
+    "Domain to EF Core",
+    "Application to Persistence.Sqlite",
+    "Application to OpenAI SDK",
+    "Application to Presentation.Desktop",
+    "Persistence.Sqlite to Presentation.Desktop",
+    "OpenAI adapter to Persistence.Sqlite",
+    "Presentation.Desktop to Persistence.Sqlite",
+    "Core projects to Werewolf package implementation",
+    "Rule Set package to ChronicleDbContext",
+    "provider adapter to ChronicleDbContext",
+    "Rule Set package to provider SDKs",
+    "Rule Set package to UI dependencies"
+  ],
+  "acceptanceCriteria": [
+    "Architecture tests fail on intentionally introduced forbidden references.",
+    "No circular dependencies exist.",
+    "No Core project depends on Werewolf mechanics."
+  ]
+}

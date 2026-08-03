@@ -1,0 +1,613 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-action-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-action-index.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewActions",
+  "purpose": [
+    "Provide the canonical registry of resolution and execution actions used by catalog review tasks and issues.",
+    "Define required inputs, owners, outputs, preconditions, side effects, evidence requirements, and completion rules for every catalog review action.",
+    "Allow Chronicle delivery infrastructure to dispatch and validate review actions without hardcoded Werewolf-specific workflow logic.",
+    "Prevent ambiguous issue-resolution notes from being treated as executable or complete work."
+  ],
+  "authority": {
+    "actionModelAuthority": "ChronicleArchitecture",
+    "substantiveActionAuthority": "AssignedActionOwner",
+    "dispatchAuthority": "ChronicleDeliveryInfrastructure",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticDispatchAllowed": false,
+    "automaticCompletionAllowed": false,
+    "implementationMayInventMissingAction": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewExecutionPlanArtifactRef": "./catalog-review-execution-plan.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "actionStatusModel": {
+    "allowedStatuses": [
+      "not-started",
+      "ready",
+      "in-progress",
+      "blocked",
+      "submitted",
+      "validated",
+      "complete",
+      "stale",
+      "superseded"
+    ],
+    "readyRequiresPreconditions": true,
+    "inProgressRequiresOwner": true,
+    "blockedRequiresReasonKey": true,
+    "submittedRequiresOutputsAndEvidence": true,
+    "validatedRequiresIndependentValidation": true,
+    "completeRequiresValidatedOutputs": true,
+    "staleRequiresChangedInputFingerprint": true,
+    "supersededRequiresReplacementActionKey": true
+  },
+  "actions": [
+    {
+      "actionKey": "catalog-review.action.execute-checklist",
+      "actionType": "review-execution",
+      "ownerType": "AssignedCatalogReviewer",
+      "status": "not-started",
+      "requiredInputs": [
+        "./catalog-review-checklist.json",
+        "./catalog-review-model-index.json"
+      ],
+      "preconditions": [
+        "catalog-review.task.validate-review-model.complete",
+        "catalog-review.task.validate-catalog-contracts.complete"
+      ],
+      "outputs": [
+        "catalog-check-execution-records"
+      ],
+      "evidenceTypes": [
+        "catalog-review-record"
+      ],
+      "sideEffects": [
+        "updates-check-statuses",
+        "may-open-new-review-issues"
+      ],
+      "completionCriteria": [
+        "all-required-checks-executed-or-explicitly-blocked",
+        "all-non-passed-checks-have-reason-or-issue-keys"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.submit-review-evidence",
+      "actionType": "evidence-submission",
+      "ownerType": "AssignedCatalogReviewer",
+      "status": "not-started",
+      "requiredInputs": [
+        "catalog-check-execution-records",
+        "./catalog-review-evidence.json"
+      ],
+      "preconditions": [
+        "at-least-one-review-check-executed"
+      ],
+      "outputs": [
+        "submitted-catalog-review-evidence-records"
+      ],
+      "evidenceTypes": [
+        "source-review-record",
+        "catalog-review-record",
+        "contract-validation-report",
+        "localization-validation-report",
+        "fixture-validation-report",
+        "test-run-report",
+        "security-review-record",
+        "reconciliation-report",
+        "formal-decision-record"
+      ],
+      "sideEffects": [
+        "updates-evidence-ledger",
+        "may-change-task-status-to-in-review"
+      ],
+      "completionCriteria": [
+        "every-submitted-record-has-current-artifact-fingerprints",
+        "every-submitted-record-has-reviewer-and-timestamp"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.validate-review-evidence",
+      "actionType": "evidence-validation",
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "status": "not-started",
+      "requiredInputs": [
+        "submitted-catalog-review-evidence-records",
+        "./catalog-review-evidence.json"
+      ],
+      "preconditions": [
+        "at-least-one-evidence-record-submitted"
+      ],
+      "outputs": [
+        "validated-catalog-review-evidence-records",
+        "rejected-catalog-review-evidence-records"
+      ],
+      "evidenceTypes": [
+        "evidence-validation-report"
+      ],
+      "sideEffects": [
+        "updates-evidence-statuses",
+        "may-open-evidence-issues",
+        "recalculates-checklist-and-task-readiness"
+      ],
+      "completionCriteria": [
+        "all-submitted-records-validated-or-rejected",
+        "validation-report-fingerprint-recorded"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.review-metis-deformity-source",
+      "actionType": "source-review",
+      "ownerType": "RuleSetExtractionAndReview",
+      "status": "not-started",
+      "requiredInputs": [
+        "source.werewolf3e.cleaned-ptbr",
+        "../character-model/catalogs/metis-deformities.json"
+      ],
+      "preconditions": [
+        "catalog-review.stage-3.rating-catalogs.complete"
+      ],
+      "outputs": [
+        "metis-deformity-source-review-record"
+      ],
+      "evidenceTypes": [
+        "source-review-record"
+      ],
+      "sideEffects": [
+        "may-confirm-change-reject-or-exclude-candidate-identity"
+      ],
+      "completionCriteria": [
+        "source-identity-claim-explicit",
+        "source-evidence-ref-recorded",
+        "source-confidence-recorded"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.record-final-metis-deformity-decision",
+      "actionType": "formal-decision",
+      "ownerType": "RuleSetExtractionAndReview",
+      "status": "not-started",
+      "requiredInputs": [
+        "metis-deformity-source-review-record",
+        "./catalog-identity-decisions.json"
+      ],
+      "preconditions": [
+        "catalog-review.action.review-metis-deformity-source.complete"
+      ],
+      "outputs": [
+        "catalog-identity-decision.metis-deformity.horns"
+      ],
+      "evidenceTypes": [
+        "formal-decision-record"
+      ],
+      "sideEffects": [
+        "updates-catalog-identity-decision-set",
+        "may-require-alias-or-migration-metadata"
+      ],
+      "completionCriteria": [
+        "one-active-final-decision-recorded",
+        "affected-artifacts-fixtures-and-tests-explicit"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.reconcile-metis-fixtures-and-tests",
+      "actionType": "reconciliation",
+      "ownerType": "ChronicleTestInfrastructure",
+      "status": "not-started",
+      "requiredInputs": [
+        "catalog-identity-decision.metis-deformity.horns",
+        "../fixtures/character-creation/metis-valid-character.json",
+        "../fixtures/character-creation/metis-missing-deformity.json"
+      ],
+      "preconditions": [
+        "catalog-review.action.record-final-metis-deformity-decision.complete"
+      ],
+      "outputs": [
+        "reconciled-metis-fixtures",
+        "metis-fixture-validation-report",
+        "metis-affected-test-report"
+      ],
+      "evidenceTypes": [
+        "fixture-validation-report",
+        "test-run-report",
+        "reconciliation-report"
+      ],
+      "sideEffects": [
+        "updates-fixture-fingerprints",
+        "may-resolve-metis-deformity-issue"
+      ],
+      "completionCriteria": [
+        "all-metis-fixture-identity-refs-resolve",
+        "all-affected-required-tests-pass"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.review-initial-gift-source-identities",
+      "actionType": "source-review",
+      "ownerType": "RuleSetExtractionAndReview",
+      "status": "not-started",
+      "requiredInputs": [
+        "source.werewolf3e.cleaned-ptbr",
+        "../character-model/catalogs/initial-gifts.json"
+      ],
+      "preconditions": [
+        "catalog-review.task.review-rank.complete"
+      ],
+      "outputs": [
+        "initial-gift-source-review-records"
+      ],
+      "evidenceTypes": [
+        "source-review-record"
+      ],
+      "sideEffects": [
+        "may-confirm-change-reject-or-exclude-candidate-gift-identities"
+      ],
+      "completionCriteria": [
+        "all-six-candidate-identities-reviewed",
+        "level-one-and-classification-slot-claims-explicit",
+        "source-evidence-refs-recorded"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.record-final-initial-gift-decisions",
+      "actionType": "formal-decision",
+      "ownerType": "RuleSetExtractionAndReview",
+      "status": "not-started",
+      "requiredInputs": [
+        "initial-gift-source-review-records",
+        "./catalog-identity-decisions.json"
+      ],
+      "preconditions": [
+        "catalog-review.action.review-initial-gift-source-identities.complete"
+      ],
+      "outputs": [
+        "final-initial-gift-identity-decisions"
+      ],
+      "evidenceTypes": [
+        "formal-decision-record"
+      ],
+      "sideEffects": [
+        "updates-catalog-identity-decision-set",
+        "does-not-enable-additional-gift-purchase",
+        "does-not-enable-runtime-gift-effects"
+      ],
+      "completionCriteria": [
+        "all-six-current-slice-gift-identities-have-final-decisions",
+        "affected-artifacts-fixtures-and-tests-explicit"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.reconcile-gift-fixtures-and-tests",
+      "actionType": "reconciliation",
+      "ownerType": "ChronicleTestInfrastructure",
+      "status": "not-started",
+      "requiredInputs": [
+        "final-initial-gift-identity-decisions",
+        "../fixtures/fixture-index-root.json",
+        "../tests/test-model-index.json"
+      ],
+      "preconditions": [
+        "catalog-review.action.record-final-initial-gift-decisions.complete"
+      ],
+      "outputs": [
+        "reconciled-gift-fixtures",
+        "gift-fixture-validation-report",
+        "gift-affected-test-report"
+      ],
+      "evidenceTypes": [
+        "fixture-validation-report",
+        "test-run-report",
+        "reconciliation-report"
+      ],
+      "sideEffects": [
+        "updates-fixture-fingerprints",
+        "may-resolve-initial-gift-identity-issue"
+      ],
+      "completionCriteria": [
+        "all-gift-fixture-identity-refs-resolve",
+        "additional-gift-purchase-remains-blocked",
+        "all-affected-required-tests-pass"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.record-all-required-identity-decisions",
+      "actionType": "formal-decision",
+      "ownerType": "RuleSetExtractionAndReview",
+      "status": "not-started",
+      "requiredInputs": [
+        "validated-catalog-review-evidence-records",
+        "./catalog-identity-decisions.json"
+      ],
+      "preconditions": [
+        "all-nine-catalogs-reviewed"
+      ],
+      "outputs": [
+        "complete-current-slice-identity-decision-set"
+      ],
+      "evidenceTypes": [
+        "formal-decision-record"
+      ],
+      "sideEffects": [
+        "updates-decision-counts",
+        "recalculates-unresolved-identity-count"
+      ],
+      "completionCriteria": [
+        "all-46-required-identities-have-one-active-final-decision"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.reconcile-decision-impacts",
+      "actionType": "reconciliation",
+      "ownerType": "RuleSetPackage",
+      "status": "not-started",
+      "requiredInputs": [
+        "complete-current-slice-identity-decision-set",
+        "../character-model/character-model-index.json",
+        "../operations/character-creation/operation-index.json",
+        "../character-model/validation/validation-index.json",
+        "../fixtures/fixture-index-root.json"
+      ],
+      "preconditions": [
+        "catalog-review.action.record-all-required-identity-decisions.complete"
+      ],
+      "outputs": [
+        "reconciled-catalog-decision-impact-report",
+        "updated-artifact-and-fixture-fingerprints"
+      ],
+      "evidenceTypes": [
+        "reconciliation-report"
+      ],
+      "sideEffects": [
+        "updates-package-artifacts",
+        "invalidates-stale-evidence",
+        "requires-affected-test-rerun"
+      ],
+      "completionCriteria": [
+        "all-approved-identities-resolve",
+        "all-changed-identities-have-alias-or-migration-metadata",
+        "all-rejected-or-excluded-identities-removed-from-current-slice-dependencies"
+      ]
+    },
+    {
+      "actionKey": "catalog-review.action.finalize-decision-set",
+      "actionType": "decision-finalization",
+      "ownerType": "RuleSetExtractionAndReview",
+      "status": "not-started",
+      "requiredInputs": [
+        "complete-current-slice-identity-decision-set",
+        "reconciled-catalog-decision-impact-report",
+        "canonical-catalog-review-test-report"
+      ],
+      "preconditions": [
+        "catalog-review.action.reconcile-decision-impacts.complete",
+        "catalog-review.task.rerun-affected-tests.complete"
+      ],
+      "outputs": [
+        "finalized-catalog-identity-decision-set"
+      ],
+      "evidenceTypes": [
+        "review-record",
+        "reconciliation-report",
+        "test-run-report"
+      ],
+      "sideEffects": [
+        "updates-review-decision-index",
+        "recalculates-catalog-review-result",
+        "recalculates-dependent-mechanics-review-readiness"
+      ],
+      "completionCriteria": [
+        "decision-set-status-finalized",
+        "decision-set-fingerprint-recorded",
+        "all-supporting-evidence-current"
+      ]
+    }
+  ],
+  "actionSummary": {
+    "actionCount": 12,
+    "notStartedActionCount": 12,
+    "readyActionCount": 0,
+    "inProgressActionCount": 0,
+    "blockedActionCount": 0,
+    "submittedActionCount": 0,
+    "validatedActionCount": 0,
+    "completeActionCount": 0,
+    "staleActionCount": 0,
+    "supersededActionCount": 0,
+    "currentActionKey": null,
+    "nextCandidateActionKey": "catalog-review.action.execute-checklist",
+    "promotionBlockingActionCount": 12
+  },
+  "dispatchPolicy": {
+    "dispatchRequiresActionKnown": true,
+    "dispatchRequiresPreconditionsSatisfied": true,
+    "dispatchRequiresOwnerAssigned": true,
+    "dispatchRequiresCurrentInputFingerprints": true,
+    "parallelDispatchAllowedWhenInputsDoNotConflict": true,
+    "sharedDecisionSetWritesRequireSerialization": true,
+    "networkDispatchRequired": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "completionPolicy": {
+    "actionCompleteWhen": "all-completion-criteria-have-current-validated-evidence",
+    "issueResolutionActionCompleteWhen": "issue-resolution-evidence-recorded-and-verified",
+    "finalizationActionCompleteWhen": "decision-set-finalized-and-dependent-statuses-recalculated",
+    "manualCompletionAllowed": false,
+    "candidateTemplateMayNotSatisfyCompletion": true
+  },
+  "issueIntegration": {
+    "resolutionActionKeysMustResolve": true,
+    "openBlockingIssueKeepsRequiredActionsVisible": true,
+    "verifiedIssueRequiresAllResolutionActionsComplete": true,
+    "reopenedIssueMayMarkCompletedActionsStale": true,
+    "unrelatedIssuesMayNotBlockActionDispatch": true
+  },
+  "taskIntegration": {
+    "actionMaySatisfyOneOrMoreTaskOutputs": true,
+    "taskCannotCompleteUntilRequiredActionsComplete": true,
+    "actionOutputFingerprintsMustBindToTaskEvidence": true,
+    "staleActionReopensDependentTask": true
+  },
+  "stalenessPolicy": {
+    "changedSourceFingerprintMarksSourceReviewActionsStale": true,
+    "changedCatalogFingerprintMarksDependentActionsStale": true,
+    "changedDecisionFingerprintMarksReconciliationActionsStale": true,
+    "changedFixtureFingerprintMarksFixtureActionsStale": true,
+    "changedTestReportFingerprintMarksFinalizationActionStale": true,
+    "automaticStaleTransitionAllowed": true,
+    "silentOutputReuseAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-action-index.action-keys-unique",
+      "severity": "blocking",
+      "requirement": "every actionKey is unique"
+    },
+    {
+      "ruleKey": "catalog-review-action-index.issue-action-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every issue resolutionActionKey resolves to a declared action"
+    },
+    {
+      "ruleKey": "catalog-review-action-index.preconditions-resolve",
+      "severity": "blocking",
+      "requirement": "every action precondition resolves to a known task, stage, action, evidence state, or model state"
+    },
+    {
+      "ruleKey": "catalog-review-action-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "action dependencies are acyclic"
+    },
+    {
+      "ruleKey": "catalog-review-action-index.complete-actions-have-evidence",
+      "severity": "blocking",
+      "requirement": "every complete action has current validated output evidence"
+    },
+    {
+      "ruleKey": "catalog-review-action-index.summary-reconciles",
+      "severity": "blocking",
+      "requirement": "actionSummary counts reconcile with action records"
+    },
+    {
+      "ruleKey": "catalog-review-action-index.no-implicit-resolution",
+      "severity": "blocking",
+      "requirement": "issue notes, artifact presence, or candidate templates never imply action completion"
+    }
+  ],
+  "fingerprintPolicy": {
+    "actionIndexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeBindings": true,
+    "includeActionDefinitions": true,
+    "includeActionSummary": true,
+    "includeDispatchCompletionAndStalenessPolicies": true,
+    "includeIssueAndTaskIntegration": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "action-statuses",
+      "ready-action-keys",
+      "blocked-action-keys",
+      "stale-action-keys",
+      "missing-owner-action-keys",
+      "unsatisfied-preconditions",
+      "missing-output-evidence",
+      "affected-issue-keys",
+      "affected-task-keys",
+      "promotion-impact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "actionKeys",
+      "actionTypes",
+      "statuses",
+      "ownerTypes",
+      "preconditionKeys",
+      "outputRefs",
+      "evidenceIds",
+      "issueKeys",
+      "taskKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewActionStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "actionKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "actionIndexFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewActionCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "actionKey": "Reference",
+        "outputArtifactRefs": "ReferenceCollection",
+        "evidenceIds": "ReferenceCollection",
+        "actionIndexFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high-for-source-review-actions",
+    "architectureConfidence": "high",
+    "actionIndexStatus": "not-started",
+    "dispatchStatus": "pending",
+    "issueResolutionStatus": "pending",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This index defines actions but records no completed action.",
+    "The first candidate action is checklist execution, which becomes ready only after structural validation tasks complete.",
+    "Metis deformity and initial Gift resolution use explicit source-review, decision, and reconciliation actions.",
+    "Completing initial Gift identity actions does not enable additional Gift purchase or runtime Gift execution.",
+    "Chronicle owns action discovery, dispatch validation, dependency enforcement, evidence checks, staleness propagation, diagnostics, fingerprints, and promotion integration.",
+    "Assigned action owners remain responsible for substantive source review, decisions, reconciliation, and evidence production."
+  ]
+}

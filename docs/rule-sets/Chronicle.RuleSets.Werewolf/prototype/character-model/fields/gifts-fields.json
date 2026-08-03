@@ -1,0 +1,304 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "gifts",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.gifts",
+  "publicationStatus": "candidate-partial",
+  "ownership": "Character",
+  "catalogRef": "../catalogs/initial-gifts.json",
+  "fields": [
+    {
+      "fieldKey": "character.gifts.initial",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.gifts.initial",
+      "descriptionResourceKey": "character.gifts.initial.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "itemIdentitySource": "../catalogs/initial-gifts.json#entries",
+      "itemValueShape": {
+        "giftKey": "Reference",
+        "selectionSourceType": "Text",
+        "selectionSourceKey": "Reference",
+        "acquisitionStage": "Text",
+        "acquisitionCost": "StructuredObject",
+        "provenance": "StructuredObject"
+      },
+      "creationPolicy": {
+        "selectionProfileRef": "../catalogs/initial-gifts.json#selectionPolicy",
+        "requiredSourceTypes": [
+          "race",
+          "auspice",
+          "tribe"
+        ],
+        "exactSelectionsPerSource": 1,
+        "distinctGiftIdentityRequired": true,
+        "distinctGiftIdentityStatus": "prototype-decision"
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-initial-gifts.json"
+      ]
+    },
+    {
+      "fieldKey": "character.gifts.acquired",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.gifts.acquired",
+      "descriptionResourceKey": "character.gifts.acquired.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "RuleSetAuthoritative",
+      "itemValueShape": {
+        "giftKey": "Reference",
+        "giftLevel": "Integer",
+        "acquisitionMethod": "Text",
+        "acquisitionOperationId": "Reference",
+        "acquiredAt": "Text",
+        "sourceClassificationRefs": "ReferenceCollection",
+        "notes": "LongText"
+      },
+      "runtimePolicy": {
+        "initialCreationSelectionsProjectedHere": true,
+        "freebiePurchasesSupported": "candidate",
+        "postCreationAcquisitionSupported": false
+      }
+    }
+  ],
+  "eligibilityPolicy": {
+    "classificationFields": {
+      "race": "character.classification.race",
+      "auspice": "character.classification.auspice",
+      "tribe": "character.classification.tribe"
+    },
+    "lookupSource": "../catalogs/initial-gifts.json#entries[].eligibilitySources",
+    "validationMode": "rule-set-authoritative",
+    "narratorMayOverride": false
+  },
+  "identityPolicy": {
+    "currentMode": "source-scoped-gift-identities",
+    "normalizedIdentityRequiredForDuplicateValidation": true,
+    "normalizationReadiness": "blocked",
+    "fallbackPolicy": "compare-source-label-and-provisional-canonical-key",
+    "ambiguityRef": "ambiguity.werewolf3e.creation.duplicate-gifts"
+  },
+  "freebiePolicy": {
+    "creationStage": "CreationBonusPurchase",
+    "purchaseSupported": false,
+    "costPerLevelOneGift": 7,
+    "costStatus": "candidate",
+    "eligibilityPolicy": "source-defined-but-not-fully-extracted",
+    "maximumAdditionalGifts": 0,
+    "allowedSourceLists": "not-established",
+    "duplicatePolicy": "same-as-initial-selection",
+    "completionBlocking": true,
+    "ambiguityRefs": [
+      "ambiguity.werewolf3e.creation.freebie-limits",
+      "ambiguity.werewolf3e.creation.duplicate-gifts"
+    ]
+  },
+  "executionBoundary": {
+    "ownershipPersistenceSupported": true,
+    "selectionValidationSupported": true,
+    "activationRequestSupported": false,
+    "mechanicalResolutionSupported": false,
+    "effectApplicationSupported": false,
+    "reason": "Slice 001 models Gift acquisition and ownership only. Detailed Gift activation and effect mechanics remain unsegmented."
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.gifts.one-race-gift",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "collectionField": "character.gifts.initial",
+        "filter": {
+          "selectionSourceType": "race"
+        },
+        "operator": "count-equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.race-gift-count-invalid"
+    },
+    {
+      "ruleKey": "character.creation.gifts.one-auspice-gift",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "collectionField": "character.gifts.initial",
+        "filter": {
+          "selectionSourceType": "auspice"
+        },
+        "operator": "count-equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.auspice-gift-count-invalid"
+    },
+    {
+      "ruleKey": "character.creation.gifts.one-tribe-gift",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "collectionField": "character.gifts.initial",
+        "filter": {
+          "selectionSourceType": "tribe"
+        },
+        "operator": "count-equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.tribe-gift-count-invalid"
+    },
+    {
+      "ruleKey": "character.creation.gifts.match-current-classifications",
+      "ruleVersion": 1,
+      "ruleType": "eligibility",
+      "status": "candidate",
+      "lookupSource": "../catalogs/initial-gifts.json#entries[].eligibilitySources",
+      "classificationFields": [
+        "character.classification.race",
+        "character.classification.auspice",
+        "character.classification.tribe"
+      ],
+      "errorKey": "character.creation.gift-not-eligible"
+    },
+    {
+      "ruleKey": "character.creation.gifts.distinct-identities",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "prototype-decision",
+      "operator": "all-distinct-by-normalized-gift-identity",
+      "errorKey": "character.creation.gifts-must-be-distinct"
+    },
+    {
+      "ruleKey": "character.creation.gifts.level-one-only",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "collectionField": "character.gifts.initial",
+        "operator": "all-referenced-entries-match",
+        "property": "level",
+        "value": 1
+      },
+      "errorKey": "character.creation.initial-gift-level-invalid"
+    }
+  ],
+  "changePolicy": {
+    "creationChangesAllowed": true,
+    "classificationChangeBehavior": {
+      "previewRequired": true,
+      "preserveStillEligibleSelections": true,
+      "removeIneligibleSelections": true,
+      "refundFreebieCostWhenApplicable": true,
+      "requireReplacementBeforeCompletion": true
+    },
+    "postCompletionDirectEditAllowed": false,
+    "postCompletionOperations": [
+      "progression.gift.acquire",
+      "narrative.gift.award",
+      "correction.gift.add",
+      "correction.gift.remove",
+      "import.gift.restore"
+    ],
+    "operationReadiness": {
+      "progression.gift.acquire": "unavailable",
+      "narrative.gift.award": "future",
+      "correction.gift.add": "future",
+      "correction.gift.remove": "future",
+      "import.gift.restore": "future"
+    },
+    "auditRequired": true
+  },
+  "layoutHints": {
+    "sectionStyle": "grouped-selection-cards",
+    "groups": [
+      {
+        "groupKey": "initial-gift.race",
+        "filter": {
+          "selectionSourceType": "race"
+        },
+        "displayNameResourceKey": "character.gifts.group.race"
+      },
+      {
+        "groupKey": "initial-gift.auspice",
+        "filter": {
+          "selectionSourceType": "auspice"
+        },
+        "displayNameResourceKey": "character.gifts.group.auspice"
+      },
+      {
+        "groupKey": "initial-gift.tribe",
+        "filter": {
+          "selectionSourceType": "tribe"
+        },
+        "displayNameResourceKey": "character.gifts.group.tribe"
+      },
+      {
+        "groupKey": "gifts.additional",
+        "filter": {
+          "acquisitionStage": "CreationBonusPurchase"
+        },
+        "displayNameResourceKey": "character.gifts.group.additional"
+      }
+    ],
+    "showGiftLevel": true,
+    "showEligibilitySource": true,
+    "showAcquisitionCost": true,
+    "showExecutionUnavailableIndicator": true
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.duplicate-gifts",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "May one Gift appearing in several eligibility lists satisfy more than one creation slot?",
+      "prototypeDecision": "Require three distinct normalized Gift identities."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.freebie-gift-source",
+      "severity": "high",
+      "status": "source-search-required",
+      "question": "From which lists may a Character purchase an additional Level One Gift with freebie points?",
+      "prototypeDecision": "Permit storage of a candidate purchase only after Rule Set validation; do not expose an unrestricted UI."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.gift.global-identity",
+      "severity": "high",
+      "status": "normalization-review-required",
+      "question": "Do repeated Gift names across Race, Auspice, and Tribe lists represent the same global Gift definition?",
+      "prototypeDecision": "Preserve source-scoped keys and defer identity merging."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.gift.execution",
+      "severity": "critical",
+      "status": "deferred",
+      "question": "What activation, cost, test, duration, and effect contract applies to each Gift?",
+      "prototypeDecision": "Ownership only; execution remains unavailable."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "medium",
+    "semanticReviewStatus": "changes-required",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The initial Gift collection stores exactly one Race, one Auspice, and one Tribe selection.",
+    "Gift ownership is supported independently from Gift execution.",
+    "The seven-point freebie cost is represented as a candidate, but unrestricted freebie eligibility is not assumed.",
+    "Repeated Gift names remain source-scoped until canonical identity normalization is reviewed.",
+    "The distinct-Gift rule is a reversible prototype decision rather than approved source truth.",
+    "Chronicle Core remains unaware of Gifts, Gift levels, and all Werewolf eligibility sources."
+  ]
+}

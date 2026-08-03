@@ -1,0 +1,1319 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.auspice-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.auspice-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceAuspiceCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for Auspice identities required by the current Character creation slice.",
+    "Review Ragabash and Philodox identity names, normalized keys, initial Rage bindings, initial Renown bindings, and initial Gift-slot ownership bindings.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, and tests.",
+    "Prevent structural catalog presence from being treated as substantive Auspice approval."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/auspices.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "raceReviewRecordArtifactRef": "./race-review-record.json",
+    "taskKey": "catalog-review.task.review-auspices",
+    "catalogKey": "character-model.catalog.auspices"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved-with-warnings",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-02T20:56:30.545Z",
+    "completedAt": "2026-08-02T20:56:30.545Z",
+    "requiredIdentityCount": 2,
+    "reviewedIdentityCount": 2,
+    "approvedIdentityCount": 2,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 3,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.auspice.ragabash",
+      "expectedSourceName": "Ragabash",
+      "expectedInitialRage": 1,
+      "expectedInitialRenown": {
+        "allocationMode": "free-combination",
+        "total": 3
+      },
+      "expectedInitialGiftSlotType": "Auspice",
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.auspice.philodox",
+      "expectedSourceName": "Philodox",
+      "expectedInitialRage": 3,
+      "expectedInitialRenown": {
+        "honor": 3,
+        "glory": 0,
+        "wisdom": 0
+      },
+      "expectedInitialGiftSlotType": "Auspice",
+      "status": "reviewed-approved"
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "auspice-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "auspice-review.finding.ragabash.reference-integrity",
+        "auspice-review.finding.philodox.reference-integrity"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.source-identities-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "auspice-review.finding.ragabash.identity-name",
+        "auspice-review.finding.philodox.identity-name"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.normalized-keys-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "auspice-review.finding.ragabash.normalized-key",
+        "auspice-review.finding.ragabash.deterministic-order",
+        "auspice-review.finding.philodox.normalized-key",
+        "auspice-review.finding.philodox.deterministic-order"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.initial-rage-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.auspices.rage-values-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "auspice-review.finding.ragabash.initial-rage",
+        "auspice-review.finding.philodox.initial-rage"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578",
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.initial-renown-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.auspices.initial-renown-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "auspice-review.finding.ragabash.initial-renown",
+        "auspice-review.finding.philodox.initial-renown"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578",
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.initial-gift-slot-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.auspices.gift-eligibility-resolves"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "auspice-review.finding.ragabash.initial-gift-slot",
+        "auspice-review.finding.philodox.initial-gift-slot"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.auspices.4a254e81b7f28578",
+        "catalog-review.evidence.catalog-review-record.auspices.fbe55815626b1ed7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.localization-bindings-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [
+        "auspice-review.finding.ragabash.reference-integrity",
+        "auspice-review.finding.philodox.reference-integrity"
+      ],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "auspice-review.formal-decisions-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.auspices.b5239753f3d93130"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "initial-rage",
+    "initial-renown",
+    "initial-gift-slot",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "auspice-review.finding.ragabash.identity-name",
+      "identityKey": "character.auspice.ragabash",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Ragabash"
+      },
+      "catalogClaim": {
+        "entryKey": "character.auspice.ragabash",
+        "displayNameResourceKey": "character.auspice.ragabash"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Identity label aligns with required current-slice Auspice identity."
+    },
+    {
+      "findingId": "auspice-review.finding.ragabash.normalized-key",
+      "identityKey": "character.auspice.ragabash",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.auspice.ragabash"
+      },
+      "catalogClaim": {
+        "entryKey": "character.auspice.ragabash"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Stable key is deterministic and scoped to auspice namespace."
+    },
+    {
+      "findingId": "auspice-review.finding.ragabash.initial-rage",
+      "identityKey": "character.auspice.ragabash",
+      "findingType": "initial-rage",
+      "sourceClaim": {
+        "initialRage": 1
+      },
+      "catalogClaim": {
+        "initialRage": 1
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/resources.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Initial Rage binding is mapped from selected Auspice."
+    },
+    {
+      "findingId": "auspice-review.finding.ragabash.initial-renown",
+      "identityKey": "character.auspice.ragabash",
+      "findingType": "initial-renown",
+      "sourceClaim": {
+        "allocationMode": "free-combination",
+        "total": 3
+      },
+      "catalogClaim": {
+        "initialRenown": {
+          "allocationMode": "free-combination",
+          "total": 3,
+          "dimensions": [
+            "character.renown.glory",
+            "character.renown.honor",
+            "character.renown.wisdom"
+          ],
+          "status": "candidate"
+        }
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-renown",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/renown-and-rank.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Initial Renown candidate values align with cleaned extraction candidates."
+    },
+    {
+      "findingId": "auspice-review.finding.ragabash.initial-gift-slot",
+      "identityKey": "character.auspice.ragabash",
+      "findingType": "initial-gift-slot",
+      "sourceClaim": {
+        "initialAuspiceGiftRequired": true,
+        "slotType": "Auspice",
+        "level": 1
+      },
+      "catalogClaim": {
+        "initialGiftEligibilityCount": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-gift-slot",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "This task validates auspice gift-slot responsibility only, not concrete gift identity approval."
+    },
+    {
+      "findingId": "auspice-review.finding.ragabash.reference-integrity",
+      "identityKey": "character.auspice.ragabash",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "auspiceSelectionAffectsDownstreamState": true
+      },
+      "catalogClaim": {
+        "dependencyImpactAffects": [
+          "character.resource.rage",
+          "character.renown.glory",
+          "character.renown.honor",
+          "character.renown.wisdom",
+          "character.initial-gift.auspice"
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.downstream-effects",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/fields/classification.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.dependency-and-invalidation"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Auspice selection drives downstream state via declarative dependency impact."
+    },
+    {
+      "findingId": "auspice-review.finding.ragabash.deterministic-order",
+      "identityKey": "character.auspice.ragabash",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "deterministicCurrentSliceOrder": [
+          "character.auspice.ragabash",
+          "character.auspice.philodox"
+        ]
+      },
+      "catalogClaim": {
+        "catalogIndex": 0
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Deterministic order is evaluated for current-slice identities only, without changing out-of-slice catalog entries."
+    },
+    {
+      "findingId": "auspice-review.finding.philodox.identity-name",
+      "identityKey": "character.auspice.philodox",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Philodox"
+      },
+      "catalogClaim": {
+        "entryKey": "character.auspice.philodox",
+        "displayNameResourceKey": "character.auspice.philodox"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Identity label aligns with required current-slice Auspice identity."
+    },
+    {
+      "findingId": "auspice-review.finding.philodox.normalized-key",
+      "identityKey": "character.auspice.philodox",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.auspice.philodox"
+      },
+      "catalogClaim": {
+        "entryKey": "character.auspice.philodox"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Stable key is deterministic and scoped to auspice namespace."
+    },
+    {
+      "findingId": "auspice-review.finding.philodox.initial-rage",
+      "identityKey": "character.auspice.philodox",
+      "findingType": "initial-rage",
+      "sourceClaim": {
+        "initialRage": 3
+      },
+      "catalogClaim": {
+        "initialRage": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/resources.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Initial Rage binding is mapped from selected Auspice."
+    },
+    {
+      "findingId": "auspice-review.finding.philodox.initial-renown",
+      "identityKey": "character.auspice.philodox",
+      "findingType": "initial-renown",
+      "sourceClaim": {
+        "allocationMode": "fixed",
+        "values": {
+          "character.renown.glory": 0,
+          "character.renown.honor": 3,
+          "character.renown.wisdom": 0
+        }
+      },
+      "catalogClaim": {
+        "initialRenown": {
+          "allocationMode": "fixed",
+          "values": {
+            "character.renown.glory": 0,
+            "character.renown.honor": 3,
+            "character.renown.wisdom": 0
+          },
+          "status": "candidate"
+        }
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-renown",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/renown-and-rank.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Initial Renown candidate values align with cleaned extraction candidates."
+    },
+    {
+      "findingId": "auspice-review.finding.philodox.initial-gift-slot",
+      "identityKey": "character.auspice.philodox",
+      "findingType": "initial-gift-slot",
+      "sourceClaim": {
+        "initialAuspiceGiftRequired": true,
+        "slotType": "Auspice",
+        "level": 1
+      },
+      "catalogClaim": {
+        "initialGiftEligibilityCount": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-gift-slot",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "This task validates auspice gift-slot responsibility only, not concrete gift identity approval."
+    },
+    {
+      "findingId": "auspice-review.finding.philodox.reference-integrity",
+      "identityKey": "character.auspice.philodox",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "auspiceSelectionAffectsDownstreamState": true
+      },
+      "catalogClaim": {
+        "dependencyImpactAffects": [
+          "character.resource.rage",
+          "character.renown.glory",
+          "character.renown.honor",
+          "character.renown.wisdom",
+          "character.initial-gift.auspice"
+        ]
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.downstream-effects",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/fields/classification.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.dependency-and-invalidation"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Auspice selection drives downstream state via declarative dependency impact."
+    },
+    {
+      "findingId": "auspice-review.finding.philodox.deterministic-order",
+      "identityKey": "character.auspice.philodox",
+      "findingType": "reference-integrity",
+      "sourceClaim": {
+        "deterministicCurrentSliceOrder": [
+          "character.auspice.ragabash",
+          "character.auspice.philodox"
+        ]
+      },
+      "catalogClaim": {
+        "catalogIndex": 2
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Deterministic order is evaluated for current-slice identities only, without changing out-of-slice catalog entries."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "auspice-review.claim.ragabash-initial-rage",
+      "identityKey": "character.auspice.ragabash",
+      "claim": {
+        "initialRage": 1
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage"
+    },
+    {
+      "claimKey": "auspice-review.claim.philodox-initial-rage",
+      "identityKey": "character.auspice.philodox",
+      "claim": {
+        "initialRage": 3
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage"
+    },
+    {
+      "claimKey": "auspice-review.claim.ragabash-initial-renown",
+      "identityKey": "character.auspice.ragabash",
+      "claim": {
+        "allocationMode": "free-combination",
+        "total": 3
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-renown"
+    },
+    {
+      "claimKey": "auspice-review.claim.philodox-initial-renown",
+      "identityKey": "character.auspice.philodox",
+      "claim": {
+        "honor": 3,
+        "glory": 0,
+        "wisdom": 0
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-renown"
+    }
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/auspices.json",
+    "../character-model/fields/classification.json",
+    "../character-model/fields/resources.json",
+    "../character-model/fields/renown-and-rank.json",
+    "../character-model/fields/gifts.json",
+    "../character-model/creation/dependency-graph.json",
+    "../character-model/creation/invalidations.json",
+    "../character-model/validation/character-creation.json",
+    "../operations/character-creation/preview-classification-change.json",
+    "../operations/character-creation/apply-classification-change.json",
+    "../operations/character-creation/select-initial-gift.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.metis-missing-deformity",
+    "character-creation.classification-change-invalidates-state"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.dependency-and-invalidation",
+    "tests.character-sheet-projection"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.auspice.ragabash",
+      "catalog-identity-decision.auspice.philodox"
+    ],
+    "decisionEntriesMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "bothDecisionsRequiredForReviewCompletion": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "both-required-auspice-identities-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "both-active-final-identity-decisions-recorded",
+      "initial-rage-bindings-reviewed",
+      "initial-renown-bindings-reviewed",
+      "initial-gift-slot-bindings-reviewed",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-pass",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateClaimsMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchOpensIssueType": "ambiguous-source-identity",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingAuspiceIdentityOpensIssueType": "missing-required-identity",
+    "invalidBindingOpensIssueType": "invalid-catalog-binding",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "auspiceCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "auspice-review-record.required-identities-complete",
+      "severity": "blocking",
+      "requirement": "Ragabash and Philodox each appear exactly once"
+    },
+    {
+      "ruleKey": "auspice-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every Auspice review check key is unique"
+    },
+    {
+      "ruleKey": "auspice-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "auspice-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references one required Auspice identity"
+    },
+    {
+      "ruleKey": "auspice-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "auspice-review-record.final-decisions-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires active final decisions for both Auspice identities"
+    },
+    {
+      "ruleKey": "auspice-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, and decisions"
+    },
+    {
+      "ruleKey": "auspice-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixtures, or candidate source claims do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentities": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceAndDecisionRefs": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-statuses",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-ids",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfAuspiceCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfAuspiceCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfAuspiceCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "blockedIdentityKeys": "ReferenceCollection",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "draft",
+    "reconciliationStatus": "pending",
+    "taskCompletionStatus": "not-eligible"
+  },
+  "prototypeNotes": [
+    "This artifact defines the Auspice review record and contains no fabricated findings or approvals.",
+    "The expected Rage and Renown values are candidate source claims until evidence references are recorded.",
+    "Only Ragabash and Philodox are required by the current fixture-backed slice, even though the complete source system contains additional Auspices.",
+    "Auspice Gift-slot ownership review does not approve individual Gift identities or runtime Gift effects.",
+    "Chronicle owns contract validation, evidence integrity, staleness detection, diagnostics, fingerprints, task-status integration, and promotion enforcement.",
+    "Assigned Rule Set reviewers own substantive source-backed findings and final Auspice identity recommendations."
+  ],
+  "executionResult": {
+    "executionStatus": "executed",
+    "reviewer": "RuleSetExtractionAndReview",
+    "executedAtUtc": "2026-08-02T20:56:30.545Z",
+    "sourceIdentity": "source.werewolf3e.cleaned-ptbr",
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "catalogFingerprint": "66ba79286fa6a5ba02cb655ce1d153fb256172e5da28bcb8a87728779716e74f",
+    "auspiceLevelResults": [
+      {
+        "identityKey": "character.auspice.ragabash",
+        "sourceIdentityName": "Ragabash",
+        "reviewResult": "approved-with-warnings",
+        "inScopePropertyResults": [
+          {
+            "property": "canonical-identity-name",
+            "status": "supported"
+          },
+          {
+            "property": "stable-identity-key",
+            "status": "supported"
+          },
+          {
+            "property": "display-name-mapping",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "source-backed-classification-meaning",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "initial-rage",
+            "status": "supported"
+          },
+          {
+            "property": "initial-renown-allocation",
+            "status": "supported"
+          },
+          {
+            "property": "initial-auspice-gift-responsibility",
+            "status": "supported"
+          },
+          {
+            "property": "current-slice-creation-implications",
+            "status": "supported"
+          },
+          {
+            "property": "field-and-catalog-references",
+            "status": "supported"
+          },
+          {
+            "property": "deterministic-order",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "candidate-final-status",
+            "status": "supported"
+          },
+          {
+            "property": "unresolved-ambiguities",
+            "status": "ambiguous"
+          }
+        ]
+      },
+      {
+        "identityKey": "character.auspice.philodox",
+        "sourceIdentityName": "Philodox",
+        "reviewResult": "approved-with-warnings",
+        "inScopePropertyResults": [
+          {
+            "property": "canonical-identity-name",
+            "status": "supported"
+          },
+          {
+            "property": "stable-identity-key",
+            "status": "supported"
+          },
+          {
+            "property": "display-name-mapping",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "source-backed-classification-meaning",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "initial-rage",
+            "status": "supported"
+          },
+          {
+            "property": "initial-renown-allocation",
+            "status": "supported"
+          },
+          {
+            "property": "initial-auspice-gift-responsibility",
+            "status": "supported"
+          },
+          {
+            "property": "current-slice-creation-implications",
+            "status": "supported"
+          },
+          {
+            "property": "field-and-catalog-references",
+            "status": "supported"
+          },
+          {
+            "property": "deterministic-order",
+            "status": "supported-with-normalization"
+          },
+          {
+            "property": "candidate-final-status",
+            "status": "supported"
+          },
+          {
+            "property": "unresolved-ambiguities",
+            "status": "ambiguous"
+          }
+        ]
+      }
+    ],
+    "propertyLevelFindings": [
+      {
+        "findingId": "auspice-review.finding.ragabash.identity-name",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.ragabash.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.ragabash.initial-rage",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.ragabash.initial-renown",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.ragabash.initial-gift-slot",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.ragabash.reference-integrity",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.ragabash.deterministic-order",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "auspice-review.finding.philodox.identity-name",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.philodox.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.philodox.initial-rage",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.philodox.initial-renown",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.philodox.initial-gift-slot",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.philodox.reference-integrity",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "auspice-review.finding.philodox.deterministic-order",
+        "comparisonResult": "match-with-normalization-change"
+      }
+    ],
+    "rageComparison": [
+      {
+        "identityKey": "character.auspice.ragabash",
+        "sourceValue": 1,
+        "catalogValue": 1,
+        "comparisonResult": "supported",
+        "sourceLocator": "EXTRACTION-0002 §5.3",
+        "confidence": "high",
+        "decisionEligible": true
+      },
+      {
+        "identityKey": "character.auspice.philodox",
+        "sourceValue": 3,
+        "catalogValue": 3,
+        "comparisonResult": "supported",
+        "sourceLocator": "EXTRACTION-0002 §5.3",
+        "confidence": "high",
+        "decisionEligible": true
+      }
+    ],
+    "renownComparison": [
+      {
+        "identityKey": "character.auspice.ragabash",
+        "categories": [
+          {
+            "categoryKey": "allocationMode",
+            "sourceValue": "free-combination",
+            "catalogValue": "free-combination",
+            "comparisonResult": "supported",
+            "ambiguity": false,
+            "decisionEligible": true
+          },
+          {
+            "categoryKey": "total",
+            "sourceValue": 3,
+            "catalogValue": 3,
+            "comparisonResult": "supported",
+            "ambiguity": false,
+            "decisionEligible": true
+          }
+        ],
+        "sourceLocator": "EXTRACTION-0004 A-005",
+        "confidence": "medium"
+      },
+      {
+        "identityKey": "character.auspice.philodox",
+        "categories": [
+          {
+            "categoryKey": "character.renown.glory",
+            "sourceValue": 0,
+            "catalogValue": 0,
+            "comparisonResult": "supported",
+            "ambiguity": false,
+            "decisionEligible": true
+          },
+          {
+            "categoryKey": "character.renown.honor",
+            "sourceValue": 3,
+            "catalogValue": 3,
+            "comparisonResult": "supported",
+            "ambiguity": false,
+            "decisionEligible": true
+          },
+          {
+            "categoryKey": "character.renown.wisdom",
+            "sourceValue": 0,
+            "catalogValue": 0,
+            "comparisonResult": "supported",
+            "ambiguity": false,
+            "decisionEligible": true
+          }
+        ],
+        "sourceLocator": "EXTRACTION-0004 A-005",
+        "confidence": "medium"
+      }
+    ],
+    "propertyLevelMismatches": [],
+    "evidenceReferences": [],
+    "ambiguityRecords": [
+      {
+        "ambiguityKey": "ambiguity.werewolf3e.creation.initial-renown",
+        "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+        "sourceLocator": "A-005 Exact Initial Renown by Auspice",
+        "impactScope": "renown-representation",
+        "status": "open",
+        "blocking": false,
+        "notes": "The extraction flags unresolved questions about permanence/temporary interpretation of initial Renown despite candidate allocation values."
+      }
+    ],
+    "issueReferences": [],
+    "blockerReferences": [
+      "catalog-review.blocker.validated-evidence-missing",
+      "catalog-review.blocker.initial-gift-source-review-required"
+    ],
+    "proposedDecisions": [
+      "catalog-identity-decision.auspice.ragabash",
+      "catalog-identity-decision.auspice.philodox"
+    ],
+    "completionEligibility": {
+      "substantiveReviewComplete": true,
+      "fullEvidenceWorkItemComplete": false
+    }
+  },
+  "sourceEvidence": [
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 5.3 Auspice, lines 289-302",
+      "sourceSectionPath": [
+        "5.3 Auspice"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "The cleaned extraction lists Rage initialization by Auspice, including Ragabash 1 and Philodox 3."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-renown",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+      "sourceLocator": "A-005 Exact Initial Renown by Auspice, lines 286-303",
+      "sourceSectionPath": [
+        "A-005 Exact Initial Renown by Auspice"
+      ],
+      "supportType": "direct",
+      "confidence": "medium",
+      "paraphrase": "Current candidates specify Ragabash with three Renown points in permitted combination and Philodox with Honor 3."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-gift-slot",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 9.1 Initial Gift Selection, lines 714-722",
+      "sourceSectionPath": [
+        "9.1 Initial Gift Selection"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Character creation selects one initial Level One Auspice Gift as part of three initial Gifts."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.downstream-effects",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+      "sourceLocator": "CF-003 and CF-004",
+      "sourceSectionPath": [
+        "CF-003",
+        "CF-004"
+      ],
+      "supportType": "derived",
+      "confidence": "high",
+      "paraphrase": "Auspice selection drives downstream initialization of Rage and Renown and contributes to Gift eligibility in the creation workflow."
+    }
+  ],
+  "ambiguityRecords": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.initial-renown",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+      "sourceLocator": "A-005 Exact Initial Renown by Auspice",
+      "impactScope": "renown-representation",
+      "status": "open",
+      "blocking": false,
+      "notes": "The extraction flags unresolved questions about permanence/temporary interpretation of initial Renown despite candidate allocation values."
+    }
+  ],
+  "reviewRecordFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "4a254e81b7f28578fbe55815626b1ed716f7aa5e0c067d17f03dd9fa9602394a",
+    "calculatedAt": "2026-08-02T20:56:30.545Z"
+  }
+}

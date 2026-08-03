@@ -1,0 +1,956 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.abilities",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.abilities.display-name",
+  "publicationStatus": "candidate",
+  "ratingPolicy": {
+    "valueType": "RankTrack",
+    "minimum": 0,
+    "maximum": 5,
+    "creationBase": 0,
+    "maximumDuringBaseAllocation": 3,
+    "specializationEligibilityMinimum": 4
+  },
+  "categories": [
+    {
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "ability-category.talents",
+      "creationPriorityEligible": true,
+      "untrainedPolicy": {
+        "mode": "attribute-only",
+        "difficultyModifier": 0,
+        "storytellerOverrideAllowed": false
+      },
+      "entries": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.dodge",
+        "character.ability.empathy",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.primal-urge",
+        "character.ability.streetwise",
+        "character.ability.subterfuge"
+      ]
+    },
+    {
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "ability-category.skills",
+      "creationPriorityEligible": true,
+      "untrainedPolicy": {
+        "mode": "attribute-only",
+        "difficultyModifier": 1,
+        "storytellerOverrideAllowed": false
+      },
+      "entries": [
+        "character.ability.animal-ken",
+        "character.ability.crafts",
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.firearms",
+        "character.ability.leadership",
+        "character.ability.melee",
+        "character.ability.performance",
+        "character.ability.stealth",
+        "character.ability.survival"
+      ]
+    },
+    {
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "ability-category.knowledges",
+      "creationPriorityEligible": true,
+      "untrainedPolicy": {
+        "mode": "test-prohibited",
+        "difficultyModifier": 0,
+        "storytellerOverrideAllowed": true,
+        "overrideConditionResourceKey": "ability-category.knowledges.untrained-intuitive-exception"
+      },
+      "entries": [
+        "character.ability.computer",
+        "character.ability.enigmas",
+        "character.ability.investigation",
+        "character.ability.law",
+        "character.ability.linguistics",
+        "character.ability.medicine",
+        "character.ability.occult",
+        "character.ability.politics",
+        "character.ability.rituals",
+        "character.ability.science"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "entryKey": "character.ability.alertness",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.alertness",
+      "descriptionResourceKey": "character.ability.alertness.description",
+      "sourceLabelPtBr": "Prontidão",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-alertness.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.athletics",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.athletics",
+      "descriptionResourceKey": "character.ability.athletics.description",
+      "sourceLabelPtBr": "Esportes",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-athletics.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.brawl",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.brawl",
+      "descriptionResourceKey": "character.ability.brawl.description",
+      "sourceLabelPtBr": "Briga",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-brawl.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.dodge",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.dodge",
+      "descriptionResourceKey": "character.ability.dodge.description",
+      "sourceLabelPtBr": "Esquiva",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-dodge.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.empathy",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.empathy",
+      "descriptionResourceKey": "character.ability.empathy.description",
+      "sourceLabelPtBr": "Empatia",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-empathy.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.expression",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.expression",
+      "descriptionResourceKey": "character.ability.expression.description",
+      "sourceLabelPtBr": "Expressão",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-expression.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.intimidation",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.intimidation",
+      "descriptionResourceKey": "character.ability.intimidation.description",
+      "sourceLabelPtBr": "Intimidação",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-intimidation.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.primal-urge",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.primal-urge",
+      "descriptionResourceKey": "character.ability.primal-urge.description",
+      "sourceLabelPtBr": "Instinto Primitivo",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-primal-urge.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.streetwise",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.streetwise",
+      "descriptionResourceKey": "character.ability.streetwise.description",
+      "sourceLabelPtBr": "Manha",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-streetwise.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.subterfuge",
+      "categoryKey": "ability-category.talents",
+      "displayNameResourceKey": "character.ability.subterfuge",
+      "descriptionResourceKey": "character.ability.subterfuge.description",
+      "sourceLabelPtBr": "Lábia",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-subterfuge.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.animal-ken",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.animal-ken",
+      "descriptionResourceKey": "character.ability.animal-ken.description",
+      "sourceLabelPtBr": "Empatia com Animais",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-animal-ken.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.crafts",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.crafts",
+      "descriptionResourceKey": "character.ability.crafts.description",
+      "sourceLabelPtBr": "Ofícios",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-crafts.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.drive",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.drive",
+      "descriptionResourceKey": "character.ability.drive.description",
+      "sourceLabelPtBr": "Condução",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-drive.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.etiquette",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.etiquette",
+      "descriptionResourceKey": "character.ability.etiquette.description",
+      "sourceLabelPtBr": "Etiqueta",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-etiquette.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.firearms",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.firearms",
+      "descriptionResourceKey": "character.ability.firearms.description",
+      "sourceLabelPtBr": "Armas de Fogo",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-firearms.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.leadership",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.leadership",
+      "descriptionResourceKey": "character.ability.leadership.description",
+      "sourceLabelPtBr": "Liderança",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-leadership.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.melee",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.melee",
+      "descriptionResourceKey": "character.ability.melee.description",
+      "sourceLabelPtBr": "Armas Brancas",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-melee.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.performance",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.performance",
+      "descriptionResourceKey": "character.ability.performance.description",
+      "sourceLabelPtBr": "Performance",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-performance.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.stealth",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.stealth",
+      "descriptionResourceKey": "character.ability.stealth.description",
+      "sourceLabelPtBr": "Furtividade",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-stealth.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.survival",
+      "categoryKey": "ability-category.skills",
+      "displayNameResourceKey": "character.ability.survival",
+      "descriptionResourceKey": "character.ability.survival.description",
+      "sourceLabelPtBr": "Sobrevivência",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-survival.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.computer",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.computer",
+      "descriptionResourceKey": "character.ability.computer.description",
+      "sourceLabelPtBr": "Computador",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-computer.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.enigmas",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.enigmas",
+      "descriptionResourceKey": "character.ability.enigmas.description",
+      "sourceLabelPtBr": "Enigmas",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-enigmas.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.investigation",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.investigation",
+      "descriptionResourceKey": "character.ability.investigation.description",
+      "sourceLabelPtBr": "Investigação",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-investigation.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.law",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.law",
+      "descriptionResourceKey": "character.ability.law.description",
+      "sourceLabelPtBr": "Direito",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-law.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.linguistics",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.linguistics",
+      "descriptionResourceKey": "character.ability.linguistics.description",
+      "sourceLabelPtBr": "Linguística",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-linguistics.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.medicine",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.medicine",
+      "descriptionResourceKey": "character.ability.medicine.description",
+      "sourceLabelPtBr": "Medicina",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-medicine.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.occult",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.occult",
+      "descriptionResourceKey": "character.ability.occult.description",
+      "sourceLabelPtBr": "Ocultismo",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-occult.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.politics",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.politics",
+      "descriptionResourceKey": "character.ability.politics.description",
+      "sourceLabelPtBr": "Política",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-politics.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.rituals",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.rituals",
+      "descriptionResourceKey": "character.ability.rituals.description",
+      "sourceLabelPtBr": "Rituais",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-rituals.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.ability.science",
+      "categoryKey": "ability-category.knowledges",
+      "displayNameResourceKey": "character.ability.science",
+      "descriptionResourceKey": "character.ability.science.description",
+      "sourceLabelPtBr": "Ciência",
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5,
+        "creationBase": 0,
+        "maximumDuringStage": {
+          "CreationBaseAllocation": 3,
+          "CreationBonusPurchase": 5
+        },
+        "specializationEligibilityMinimum": 4
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/ability-science.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "terminologyReviewStatus": "pending"
+      }
+    }
+  ],
+  "creationAllocation": {
+    "creationStage": "CreationBaseAllocation",
+    "allEntriesStartAt": 0,
+    "prioritySlots": [
+      {
+        "priorityKey": "primary",
+        "points": 13
+      },
+      {
+        "priorityKey": "secondary",
+        "points": 9
+      },
+      {
+        "priorityKey": "tertiary",
+        "points": 5
+      }
+    ],
+    "maximumPerEntry": 3,
+    "requirements": [
+      "Each category receives exactly one distinct priority.",
+      "All points are allocated within the category assigned to that priority.",
+      "No Ability exceeds rating 3 during base allocation.",
+      "Ratings 4 and 5 may only be acquired during CreationBonusPurchase or later progression, subject to Rule Set validation."
+    ]
+  },
+  "raceRestrictions": [
+    {
+      "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+      "appliesWhen": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.lupus"
+      },
+      "appliesDuring": [
+        "CreationBaseAllocation"
+      ],
+      "restrictionType": "prohibited-field-allocation",
+      "targetFieldKeys": [
+        "character.ability.crafts",
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.firearms",
+        "character.ability.computer",
+        "character.ability.law",
+        "character.ability.linguistics",
+        "character.ability.politics",
+        "character.ability.science"
+      ],
+      "status": "candidate",
+      "ambiguityRef": "ambiguity.werewolf3e.creation.lupus-restricted-abilities"
+    }
+  ],
+  "specializationPolicy": {
+    "eligibilityMinimumRating": 4,
+    "selectionMode": "user-authored-or-suggested",
+    "resolutionRuleRef": "../../dice/resolution/specialization.json",
+    "status": "candidate",
+    "ambiguityRef": "ambiguity.werewolf3e.dice.specialization"
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.abilities.start-at-zero",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "value": 0
+    },
+    {
+      "ruleKey": "character.creation.abilities.priority-allocation",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "priorityTotals": {
+        "primary": 13,
+        "secondary": 9,
+        "tertiary": 5
+      },
+      "errorKey": "character.creation.ability-allocation-invalid"
+    },
+    {
+      "ruleKey": "character.creation.abilities.base-maximum-three",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "appliesDuring": [
+        "CreationBaseAllocation"
+      ],
+      "maximum": 3,
+      "errorKey": "character.creation.ability-base-maximum-exceeded"
+    },
+    {
+      "ruleKey": "character.ability.untrained-policy",
+      "ruleVersion": 1,
+      "ruleType": "dice-plan",
+      "status": "candidate",
+      "lookupSource": "categories[].untrainedPolicy"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The catalog contains ten Talents, ten Skills, and ten Knowledges from the cleaned source.",
+    "Talents may be attempted untrained using only the governing Attribute.",
+    "Skills may be attempted untrained using only the governing Attribute with +1 difficulty.",
+    "Knowledges cannot normally be attempted untrained, except when the Storyteller considers the action intuitive.",
+    "All Abilities begin at 0 and use the 13 / 9 / 5 creation allocation.",
+    "No Ability may exceed 3 during base allocation; ratings 4 and 5 require freebie points or later progression.",
+    "Lupus restrictions apply to base allocation; same-workflow freebie purchases remain unresolved.",
+    "Canonical English keys are provisional and require terminology review."
+  ]
+}

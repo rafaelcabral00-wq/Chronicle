@@ -1,0 +1,553 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.creation-ledger",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.creation-ledger.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "purpose": [
+    "Record every creation-time mechanical allocation and refund as an immutable entry.",
+    "Separate classification-derived values from purchased values.",
+    "Provide deterministic budget reconstruction without trusting mutable totals.",
+    "Support validation, completion snapshots, recovery, audit, and diagnostics."
+  ],
+  "authority": {
+    "ledgerSchemaAuthority": "RuleSet",
+    "ledgerPersistenceAuthority": "Chronicle",
+    "entryProposalAuthority": "RuleSet",
+    "entryCommitAuthority": "Chronicle",
+    "narratorMayWrite": false,
+    "chronicleDirectorMayWrite": false,
+    "manualDatabaseMutationAllowed": false
+  },
+  "ledgerShape": {
+    "ledgerId": "Reference",
+    "characterId": "Reference",
+    "campaignId": "Reference",
+    "packageBinding": "StructuredObject",
+    "status": "Text",
+    "integrityStatus": "Text",
+    "openedAt": "Text",
+    "frozenAt": "Text",
+    "frozenByOperationId": "Reference",
+    "entrySequence": "Integer",
+    "entries": "CreationLedgerEntryCollection",
+    "budgetSummaries": "StructuredObject",
+    "contentFingerprint": "Text",
+    "version": "Integer"
+  },
+  "statusPolicy": {
+    "allowedStatuses": [
+      "open",
+      "frozen",
+      "recovery-required"
+    ],
+    "initialStatus": "open",
+    "normalCompletionStatus": "frozen",
+    "mutationAllowedByStatus": {
+      "open": true,
+      "frozen": false,
+      "recovery-required": false
+    },
+    "statusTransitions": {
+      "open": [
+        "open",
+        "frozen",
+        "recovery-required"
+      ],
+      "frozen": [
+        "frozen",
+        "recovery-required"
+      ],
+      "recovery-required": [
+        "recovery-required",
+        "open",
+        "frozen"
+      ]
+    },
+    "recoveryTransitionsRequireAuditedOperation": true
+  },
+  "entryShape": {
+    "entryId": "Reference",
+    "sequence": "Integer",
+    "entryType": "Reference",
+    "operationId": "Reference",
+    "idempotencyKeyFingerprint": "Text",
+    "createdAt": "Text",
+    "stageKey": "Reference",
+    "target": {
+      "entityType": "Text",
+      "fieldKey": "Reference",
+      "itemKey": "Reference",
+      "slotKey": "Reference"
+    },
+    "source": {
+      "sourceType": "Text",
+      "sourceKey": "Reference",
+      "sourceOperationId": "Reference",
+      "sourceEntryId": "Reference"
+    },
+    "change": {
+      "previousValue": "StructuredValue",
+      "newValue": "StructuredValue",
+      "delta": "StructuredValue"
+    },
+    "budgetEffects": "BudgetEffectCollection",
+    "classificationContext": "StructuredObject",
+    "ruleRefs": "ReferenceCollection",
+    "ambiguityRefs": "ReferenceCollection",
+    "warningAcknowledgementRefs": "ReferenceCollection",
+    "metadata": "StructuredObject",
+    "entryFingerprint": "Text"
+  },
+  "entryTypes": [
+    {
+      "entryType": "character-draft-initialized",
+      "category": "workflow",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "classification-selected",
+      "category": "classification",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "classification-derived-value-applied",
+      "category": "derived-value",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "attribute-priorities-set",
+      "category": "allocation",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "attribute-base-allocation",
+      "category": "allocation",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.attribute-points"
+    },
+    {
+      "entryType": "attribute-freebie-purchase",
+      "category": "purchase",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "attribute-freebie-refund",
+      "category": "refund",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "ability-priorities-set",
+      "category": "allocation",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "ability-base-allocation",
+      "category": "allocation",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.ability-points"
+    },
+    {
+      "entryType": "ability-freebie-purchase",
+      "category": "purchase",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "ability-freebie-refund",
+      "category": "refund",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "background-base-allocation",
+      "category": "allocation",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.background-points"
+    },
+    {
+      "entryType": "background-freebie-purchase",
+      "category": "purchase",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "background-freebie-refund",
+      "category": "refund",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "initial-gift-selected",
+      "category": "selection",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "metis-deformity-selected",
+      "category": "selection",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "resource-classification-initialization",
+      "category": "derived-value",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "resource-freebie-purchase",
+      "category": "purchase",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "resource-freebie-refund",
+      "category": "refund",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points"
+    },
+    {
+      "entryType": "level-one-gift-freebie-purchase",
+      "category": "purchase",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points",
+      "readiness": "blocked"
+    },
+    {
+      "entryType": "level-one-gift-freebie-refund",
+      "category": "refund",
+      "budgetEffectAllowed": true,
+      "budgetKey": "character-creation.freebie-points",
+      "readiness": "blocked"
+    },
+    {
+      "entryType": "specialization-set",
+      "category": "selection",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "narrative-field-changed",
+      "category": "narrative",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "character-goal-added",
+      "category": "narrative",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "character-goal-updated",
+      "category": "narrative",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "character-relationship-added",
+      "category": "narrative",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "character-relationship-updated",
+      "category": "narrative",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "warning-acknowledged",
+      "category": "workflow",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "ledger-frozen",
+      "category": "workflow",
+      "budgetEffectAllowed": false
+    },
+    {
+      "entryType": "recovery-adjustment",
+      "category": "recovery",
+      "budgetEffectAllowed": true,
+      "requiresRecoveryOperation": true
+    }
+  ],
+  "budgetDefinitions": [
+    {
+      "budgetKey": "character-creation.attribute-points",
+      "budgetKind": "priority-derived-category-allocation",
+      "initialAmount": {
+        "physical": "derived-from-priority-assignment",
+        "social": "derived-from-priority-assignment",
+        "mental": "derived-from-priority-assignment"
+      },
+      "priorityAmounts": [
+        7,
+        5,
+        3
+      ],
+      "baseRatingExcludedFromBudget": true,
+      "overspendAllowed": false,
+      "underspendAtCompletionAllowed": false
+    },
+    {
+      "budgetKey": "character-creation.ability-points",
+      "budgetKind": "priority-derived-category-allocation",
+      "initialAmount": {
+        "talents": "derived-from-priority-assignment",
+        "skills": "derived-from-priority-assignment",
+        "knowledges": "derived-from-priority-assignment"
+      },
+      "priorityAmounts": [
+        13,
+        9,
+        5
+      ],
+      "overspendAllowed": false,
+      "underspendAtCompletionAllowed": false
+    },
+    {
+      "budgetKey": "character-creation.background-points",
+      "budgetKind": "fixed-pool",
+      "initialAmount": 5,
+      "overspendAllowed": false,
+      "underspendAtCompletionAllowed": false
+    },
+    {
+      "budgetKey": "character-creation.freebie-points",
+      "budgetKind": "fixed-pool",
+      "initialAmount": 15,
+      "overspendAllowed": false,
+      "underspendAtCompletionAllowed": true,
+      "costTable": {
+        "attribute-per-dot": 5,
+        "ability-per-dot": 2,
+        "background-per-dot": 1,
+        "level-one-gift": 7,
+        "rage-per-dot": 1,
+        "gnosis-per-dot": 2,
+        "willpower-per-dot": 1
+      }
+    }
+  ],
+  "budgetEffectShape": {
+    "budgetKey": "Reference",
+    "dimensionKey": "Reference",
+    "effectType": "Text",
+    "amount": "Integer",
+    "unit": "Text",
+    "costPerUnit": "Integer",
+    "totalCost": "Integer"
+  },
+  "budgetEffectPolicy": {
+    "allowedEffectTypes": [
+      "allocate",
+      "spend",
+      "refund",
+      "initialize",
+      "rebase"
+    ],
+    "positiveAmountRequired": true,
+    "refundMustReferenceOriginalEntry": true,
+    "refundCannotExceedUnrefundedOriginalCost": true,
+    "mutableRunningTotalIsNonAuthoritative": true,
+    "authoritativeBalanceDerivedFromEntries": true,
+    "summaryMustMatchRecalculation": true
+  },
+  "sourceSeparationPolicy": {
+    "classificationDerivedAndPurchasedValuesMustRemainDistinct": true,
+    "baseAllocationAndFreebiePurchaseMustRemainDistinct": true,
+    "refundMustReverseSpecificPurchaseSource": true,
+    "silentReclassificationOfEntrySourceAllowed": false,
+    "historicalEntriesMayBeSupersededButNeverDeleted": true
+  },
+  "integrityRules": [
+    {
+      "ruleKey": "creation-ledger.sequence-contiguous",
+      "severity": "blocking",
+      "requirement": "entry sequences begin at one and increase by one"
+    },
+    {
+      "ruleKey": "creation-ledger.entry-id-unique",
+      "severity": "blocking",
+      "requirement": "entryId is unique within the ledger"
+    },
+    {
+      "ruleKey": "creation-ledger.operation-id-present",
+      "severity": "blocking",
+      "requirement": "every entry references the operation that created it"
+    },
+    {
+      "ruleKey": "creation-ledger.fingerprint-valid",
+      "severity": "blocking",
+      "requirement": "each entry fingerprint and the ledger content fingerprint recompute successfully"
+    },
+    {
+      "ruleKey": "creation-ledger.budget-summary-reconciles",
+      "severity": "blocking",
+      "requirement": "stored summaries equal deterministic reconstruction from entries"
+    },
+    {
+      "ruleKey": "creation-ledger.no-overspend",
+      "severity": "blocking",
+      "requirement": "no budget balance is negative after any committed sequence"
+    },
+    {
+      "ruleKey": "creation-ledger.refund-source-valid",
+      "severity": "blocking",
+      "requirement": "every refund references an existing unrefunded purchase entry"
+    },
+    {
+      "ruleKey": "creation-ledger.frozen-is-immutable",
+      "severity": "blocking",
+      "requirement": "no normal operation appends entries after ledger freeze"
+    },
+    {
+      "ruleKey": "creation-ledger.character-binding-valid",
+      "severity": "blocking",
+      "requirement": "ledger characterId, campaignId, and package binding match the Character"
+    }
+  ],
+  "appendPolicy": {
+    "appendOnly": true,
+    "hardDeleteAllowed": false,
+    "inPlaceEntryUpdateAllowed": false,
+    "correctionMethod": "append-compensating-or-recovery-entry",
+    "expectedCharacterVersionRequired": true,
+    "idempotencyRequired": true,
+    "singleTransactionWithCharacterMutationRequired": true,
+    "entryFingerprintRequired": true,
+    "ledgerFingerprintRecalculationRequired": true
+  },
+  "summaryProjection": {
+    "authoritative": false,
+    "rebuildable": true,
+    "fields": {
+      "attributePointsRemaining": "StructuredObject",
+      "abilityPointsRemaining": "StructuredObject",
+      "backgroundPointsRemaining": "Integer",
+      "freebiePointsRemaining": "Integer",
+      "spentByEntryType": "StructuredObject",
+      "refundedByEntryType": "StructuredObject",
+      "lastSequence": "Integer",
+      "lastUpdatedAt": "Text"
+    }
+  },
+  "freezePolicy": {
+    "triggerOperation": "character-creation.complete-character",
+    "freshValidationRequired": true,
+    "openInvalidationsAllowed": false,
+    "invalidIntegrityAllowed": false,
+    "appendFreezeEntry": true,
+    "freezeAndActivateCharacterInSameTransaction": true,
+    "snapshotLedgerInsideCompletionSnapshot": true
+  },
+  "recoveryPolicy": {
+    "automaticRepairAllowed": false,
+    "detectionCases": [
+      "budget-summary-mismatch",
+      "fingerprint-mismatch",
+      "sequence-gap",
+      "invalid-refund-reference",
+      "frozen-ledger-with-draft-character",
+      "active-character-with-open-ledger"
+    ],
+    "onDetection": {
+      "setIntegrityStatus": "invalid",
+      "setStatus": "recovery-required",
+      "blockNormalMutation": true
+    },
+    "repairRequires": [
+      "explicit-recovery-operation",
+      "audited-reason",
+      "before-and-after-fingerprints",
+      "compensating-entry-when-data-change-is-required"
+    ]
+  },
+  "securityPolicy": {
+    "encryptedAtRest": true,
+    "containsNarrativePayloadByDefault": false,
+    "narrativeEntriesStore": "references-fingerprints-and-lengths-only",
+    "ordinaryLogsMayContain": [
+      "ledgerId",
+      "characterId",
+      "entryType",
+      "sequence",
+      "budget-deltas",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-narrative-text",
+      "provider-secrets",
+      "sourcebook-text"
+    ],
+    "networkAccessRequired": false
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "numericRepresentation": "base-10-integer",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationLedgerEntryAppended",
+      "emittedAfterCommit": true,
+      "payload": {
+        "ledgerId": "Reference",
+        "characterId": "Reference",
+        "entryId": "Reference",
+        "sequence": "Integer",
+        "entryType": "Reference",
+        "operationId": "Reference",
+        "entryFingerprint": "Text",
+        "ledgerVersion": "Integer",
+        "createdAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationLedgerFrozen",
+      "emittedAfterCommit": true,
+      "payload": {
+        "ledgerId": "Reference",
+        "characterId": "Reference",
+        "frozenByOperationId": "Reference",
+        "contentFingerprint": "Text",
+        "ledgerVersion": "Integer",
+        "frozenAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationLedgerRecoveryRequired",
+      "emittedAfterCommit": true,
+      "payload": {
+        "ledgerId": "Reference",
+        "characterId": "Reference",
+        "integrityIssueKeys": "ReferenceCollection",
+        "detectedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-budgets-and-cost-table",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "recoveryReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The ledger is an immutable history, not merely a set of current counters.",
+    "Authoritative budget balances are reconstructed from entries.",
+    "Classification-derived values, base allocations, freebie purchases, and refunds remain separate sources.",
+    "A refund always points to a specific committed purchase and cannot exceed its unrefunded cost.",
+    "Narrative operations may be audited in the ledger without storing raw narrative text.",
+    "The ledger freezes atomically when Character creation completes.",
+    "Chronicle owns persistence, encryption, transactionality, sequencing, fingerprints, and recovery state.",
+    "The Rule Set owns budget definitions, allowed entry semantics, costs, and integrity validation."
+  ]
+}

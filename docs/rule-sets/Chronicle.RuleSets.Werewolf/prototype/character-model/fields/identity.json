@@ -1,0 +1,237 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "identity",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.identity",
+  "publicationStatus": "candidate",
+  "ownership": "Character",
+  "fields": [
+    {
+      "fieldKey": "character.identity.name",
+      "fieldType": "Text",
+      "displayNameResourceKey": "character.identity.name",
+      "descriptionResourceKey": "character.identity.name.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "required"
+      },
+      "constraints": {
+        "minimumLength": 1,
+        "maximumLength": 120,
+        "trimWhitespace": true
+      },
+      "authority": "UserAuthored",
+      "visibility": "primary",
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-sheet-identity-fields.json"
+      ]
+    },
+    {
+      "fieldKey": "character.identity.player-name",
+      "fieldType": "Text",
+      "displayNameResourceKey": "character.identity.player-name",
+      "descriptionResourceKey": "character.identity.player-name.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "constraints": {
+        "maximumLength": 120,
+        "trimWhitespace": true
+      },
+      "authority": "UserAuthored",
+      "visibility": "secondary",
+      "runtimePolicy": {
+        "storageRecommendation": "campaign-player-profile-reference-preferred",
+        "prototypeStorage": "character-local-text",
+        "futureNormalization": "pending"
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-sheet-identity-fields.json"
+      ]
+    },
+    {
+      "fieldKey": "character.identity.chronicle-name",
+      "fieldType": "Text",
+      "displayNameResourceKey": "character.identity.chronicle-name",
+      "descriptionResourceKey": "character.identity.chronicle-name.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "constraints": {
+        "maximumLength": 160,
+        "trimWhitespace": true
+      },
+      "authority": "Derived",
+      "visibility": "secondary",
+      "runtimePolicy": {
+        "preferredSource": "campaign.display-name",
+        "prototypeStorage": "computed-display",
+        "persistOnCharacter": false
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-sheet-identity-fields.json"
+      ]
+    },
+    {
+      "fieldKey": "character.identity.pack-name",
+      "fieldType": "Text",
+      "displayNameResourceKey": "character.identity.pack-name",
+      "descriptionResourceKey": "character.identity.pack-name.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "constraints": {
+        "maximumLength": 160,
+        "trimWhitespace": true
+      },
+      "authority": "UserAuthored",
+      "ownership": "Group",
+      "visibility": "secondary",
+      "runtimePolicy": {
+        "futureEntityReference": "Pack",
+        "prototypeStorage": "character-local-text",
+        "normalizationStatus": "deferred"
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-sheet-identity-fields.json"
+      ]
+    },
+    {
+      "fieldKey": "character.identity.concept",
+      "fieldType": "Text",
+      "displayNameResourceKey": "character.identity.concept",
+      "descriptionResourceKey": "character.identity.concept.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "constraints": {
+        "maximumLength": 160,
+        "trimWhitespace": true
+      },
+      "authority": "UserAuthored",
+      "visibility": "primary",
+      "semanticRole": "short-character-summary",
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-sheet-identity-fields.json"
+      ]
+    },
+    {
+      "fieldKey": "character.identity.nature",
+      "fieldType": "SingleChoice",
+      "displayNameResourceKey": "character.identity.nature",
+      "descriptionResourceKey": "character.identity.nature.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "catalogRef": "../catalogs/archetypes.json#nature",
+      "authority": "UserAuthored",
+      "visibility": "primary",
+      "readiness": "blocked",
+      "blocker": {
+        "reason": "The exact archetype catalog and Nature mechanics have not yet been extracted for Slice 001.",
+        "requiredArtifact": "../catalogs/archetypes.json"
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-sheet-identity-fields.json"
+      ]
+    },
+    {
+      "fieldKey": "character.identity.demeanor",
+      "fieldType": "SingleChoice",
+      "displayNameResourceKey": "character.identity.demeanor",
+      "descriptionResourceKey": "character.identity.demeanor.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "catalogRef": "../catalogs/archetypes.json#demeanor",
+      "authority": "UserAuthored",
+      "visibility": "primary",
+      "readiness": "blocked",
+      "blocker": {
+        "reason": "The exact archetype catalog and Demeanor mechanics have not yet been extracted for Slice 001.",
+        "requiredArtifact": "../catalogs/archetypes.json"
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-sheet-identity-fields.json"
+      ]
+    }
+  ],
+  "layoutHints": {
+    "sectionStyle": "identity-header",
+    "columnCount": 2,
+    "preferredOrder": [
+      "character.identity.name",
+      "character.identity.player-name",
+      "character.identity.chronicle-name",
+      "character.identity.pack-name",
+      "character.identity.concept",
+      "character.identity.nature",
+      "character.identity.demeanor"
+    ]
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.completion.identity.name-required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "prototype",
+      "appliesDuring": [
+        "character-completion"
+      ],
+      "requirement": {
+        "field": "character.identity.name",
+        "operator": "non-empty"
+      },
+      "errorKey": "character.completion.name-required"
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.identity-requiredness",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "Which identity fields are strictly required by the source before a Character is considered complete?",
+      "prototypeDecision": "Only Character Name is required for completion; all other identity fields remain optional."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.player-and-chronicle-storage",
+      "severity": "low",
+      "status": "implementation-decision-required",
+      "question": "Should Player and Chronicle names be persisted on the Character or projected from Chronicle-owned Campaign data?",
+      "prototypeDecision": "Prefer derived Campaign data while allowing temporary local text during prototyping."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.pack-identity",
+      "severity": "medium",
+      "status": "deferred",
+      "question": "Should Pack be represented by text, a Group reference, or a Campaign-owned aggregate?",
+      "prototypeDecision": "Use optional text until the Pack aggregate contract exists."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "medium",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Identity fields are modeled separately from Race, Auspice, Tribe, and other mechanical classifications.",
+    "Only Character Name is required by the prototype completion validator.",
+    "Player Name and Chronicle Name should eventually be projections from Chronicle-owned entities rather than duplicated authority.",
+    "Pack Name is temporary text until a Group or Pack aggregate exists.",
+    "Nature and Demeanor are reserved but blocked until their exact catalogs and mechanics are extracted.",
+    "No identity-field requiredness beyond Character Name is asserted as source truth."
+  ]
+}

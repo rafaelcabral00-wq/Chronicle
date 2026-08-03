@@ -1,0 +1,454 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.set-resource-rating",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.set-resource-rating",
+  "descriptionResourceKey": "character-creation.operation.set-resource-rating.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-resource-and-target-rating",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "SetResourceRatingInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "resourceKey",
+        "fieldType": "Reference",
+        "required": true,
+        "allowedValues": [
+          "character.resource.rage",
+          "character.resource.gnosis",
+          "character.resource.willpower"
+        ]
+      },
+      {
+        "fieldKey": "targetPermanentRating",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "creationStage",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "ClassificationInitialization",
+          "CreationBonusPurchase"
+        ]
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "set-resource-rating.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.set-resource-rating.not-a-draft"
+    },
+    {
+      "preconditionKey": "set-resource-rating.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.set-resource-rating.stale-draft"
+    },
+    {
+      "preconditionKey": "set-resource-rating.required-classification-present",
+      "requirement": {
+        "resourceClassificationMapping": {
+          "character.resource.rage": "character.classification.auspice",
+          "character.resource.gnosis": "character.classification.race",
+          "character.resource.willpower": "character.classification.tribe"
+        },
+        "resourceKeyField": "resourceKey",
+        "operator": "mapped-classification-exists"
+      },
+      "failureKey": "character-creation.set-resource-rating.required-classification-missing"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "set-resource-rating.resource-valid",
+      "ruleType": "fixed-set-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "resourceKey",
+      "allowedValues": [
+        "character.resource.rage",
+        "character.resource.gnosis",
+        "character.resource.willpower"
+      ],
+      "errorKey": "character-creation.set-resource-rating.invalid-resource"
+    },
+    {
+      "ruleKey": "set-resource-rating.range",
+      "ruleType": "range",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "targetPermanentRating",
+      "minimum": 1,
+      "maximum": 10,
+      "errorKey": "character-creation.set-resource-rating.out-of-range"
+    },
+    {
+      "ruleKey": "set-resource-rating.classification-initial-value",
+      "ruleType": "catalog-driven-initialization",
+      "severity": "blocking",
+      "status": "candidate",
+      "appliesWhen": {
+        "creationStage": "ClassificationInitialization"
+      },
+      "classificationMapping": {
+        "character.resource.rage": {
+          "classificationField": "character.classification.auspice",
+          "catalogRef": "../../character-model/catalogs/auspices.json",
+          "lookupPath": "entries[].mechanicalData.initialResources.character.resource.rage"
+        },
+        "character.resource.gnosis": {
+          "classificationField": "character.classification.race",
+          "catalogRef": "../../character-model/catalogs/races.json",
+          "lookupPath": "entries[].mechanicalData.initialResources.character.resource.gnosis"
+        },
+        "character.resource.willpower": {
+          "classificationField": "character.classification.tribe",
+          "catalogRef": "../../character-model/catalogs/tribes.json",
+          "lookupPath": "entries[].mechanicalData.initialResources.character.resource.willpower"
+        }
+      },
+      "requirement": {
+        "targetPermanentRating": "equals-derived-initial-value"
+      },
+      "errorKey": "character-creation.set-resource-rating.invalid-classification-initial-value"
+    },
+    {
+      "ruleKey": "set-resource-rating.freebie-budget-available",
+      "ruleType": "ledger-budget",
+      "severity": "blocking",
+      "status": "candidate",
+      "appliesWhen": {
+        "creationStage": "CreationBonusPurchase",
+        "operator": "target-rating-increases-beyond-classification-initial-rating"
+      },
+      "ledgerRef": "character.creationLedger",
+      "budgetKey": "character-creation.freebie-points",
+      "costByResource": {
+        "character.resource.rage": 1,
+        "character.resource.gnosis": 2,
+        "character.resource.willpower": 1
+      },
+      "errorKey": "character-creation.set-resource-rating.insufficient-freebies"
+    },
+    {
+      "ruleKey": "set-resource-rating.refund-valid",
+      "ruleType": "ledger-consistency",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "creationStage": "CreationBonusPurchase",
+        "operator": "target-rating-decreases"
+      },
+      "requirement": {
+        "operator": "refund-only-recorded-resource-freebie-purchases"
+      },
+      "errorKey": "character-creation.set-resource-rating.invalid-refund"
+    },
+    {
+      "ruleKey": "set-resource-rating.not-below-classification-base",
+      "ruleType": "derived-minimum",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "targetPermanentRating",
+      "minimumSource": "classification-derived-initial-rating",
+      "errorKey": "character-creation.set-resource-rating.below-classification-base"
+    }
+  ],
+  "resourceSourceModel": {
+    "persistedPermanentFieldPattern": "character.resource.{resource}.permanent",
+    "persistedCurrentFieldPattern": "character.resource.{resource}.current",
+    "ledgerSources": [
+      {
+        "sourceKey": "classification-initialization",
+        "points": "derived",
+        "cost": 0
+      },
+      {
+        "sourceKey": "freebie-purchase",
+        "points": "variable",
+        "costByResource": {
+          "rage": 1,
+          "gnosis": 2,
+          "willpower": 1
+        }
+      }
+    ],
+    "runtimeSpendingExcluded": true,
+    "temporaryEffectsExcluded": true
+  },
+  "changeCalculation": {
+    "mode": "ledger-aware",
+    "steps": [
+      "load-current-permanent-rating",
+      "resolve-classification-initial-rating",
+      "resolve-freebie-purchased-points",
+      "calculate-target-stage-distribution",
+      "calculate-freebie-cost-or-refund",
+      "calculate-current-rating-reconciliation",
+      "calculate-validation-impact"
+    ],
+    "decreasePolicy": {
+      "removeFreebiePointsOnly": true,
+      "neverReduceBelowClassificationInitialRating": true,
+      "refundOnlyCommittedFreebieEntries": true
+    }
+  },
+  "currentRatingReconciliationPolicy": {
+    "mode": "preserve-valid-delta",
+    "formula": "newCurrent = clamp(oldCurrent + (newPermanent - oldPermanent), 0, newPermanent)",
+    "fallback": "set-current-equal-to-permanent",
+    "status": "prototype-decision",
+    "ambiguityRef": "ambiguity.werewolf3e.creation.resource-current-values",
+    "silentRuntimeSpendingAllowed": false
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-resource-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-resource-permanent-rating",
+        "load-current-resource-current-rating",
+        "load-resource-ledger-entries",
+        "load-freebie-budget",
+        "load-required-classification"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "resolve-classification-base",
+      "executor": "RuleSet",
+      "effects": [
+        "load-classification-catalog-entry",
+        "resolve-source-derived-initial-rating",
+        "validate-target-not-below-base"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "validate-target-rating",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-resource-identity",
+        "validate-rating-range",
+        "validate-creation-stage",
+        "validate-classification-initialization",
+        "validate-freebie-budget",
+        "validate-refund"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "calculate-ledger-delta",
+      "executor": "RuleSet",
+      "effects": [
+        "calculate-freebie-purchase-delta",
+        "calculate-refund-delta",
+        "calculate-remaining-freebie-points",
+        "calculate-current-rating-reconciliation"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "persist-resource-change",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-previous-permanent-rating",
+        "record-previous-current-rating",
+        "set-target-permanent-rating",
+        "set-reconciled-current-rating"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "append-classification-initialization-entry-when-needed",
+        "append-freebie-purchase-entry-when-needed",
+        "append-freebie-refund-entry-when-needed",
+        "record-current-rating-reconciliation",
+        "preserve-ledger-history"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-resource-range",
+        "validate-classification-derived-base",
+        "validate-freebie-budget",
+        "validate-current-not-above-permanent",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true
+  },
+  "resultContract": {
+    "resultKey": "SetResourceRatingResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "resourceKey": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "previousPermanentRating": "Integer",
+      "newPermanentRating": "Integer",
+      "previousCurrentRating": "Integer",
+      "newCurrentRating": "Integer",
+      "classificationInitialRating": "Integer",
+      "creationStage": "Text",
+      "freebiePointDelta": "Integer",
+      "remainingFreebiePoints": "Integer",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "SetResourceRatingFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "resourceKey": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterResourceRatingChanged",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "resourceKey": "Reference",
+        "previousPermanentRating": "Integer",
+        "newPermanentRating": "Integer",
+        "previousCurrentRating": "Integer",
+        "newCurrentRating": "Integer",
+        "creationStage": "Text",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.resource-current-values",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "How should current Rage, Gnosis, or Willpower change when the permanent rating changes during creation?",
+      "prototypeDecision": "Preserve the valid current delta, clamp to the new permanent value, and fall back to current equals permanent."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.resource-freebie-limits",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "Do resource purchases during creation have additional maxima below the known rating limit of ten?",
+      "prototypeDecision": "Use the known range of one to ten and explicit classification-derived minimums only."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-initial-values-and-freebie-costs",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation changes one permanent creation-time Resource rating at a time.",
+    "Rage derives from Auspice, Gnosis from Race, and Willpower from Tribe.",
+    "Classification-derived starting ratings are free and form the minimum value during creation.",
+    "Freebie increases cost one point for Rage, two for Gnosis, and one for Willpower.",
+    "Reducing a rating refunds only freebie points that were actually purchased and recorded.",
+    "Current values are reconciled explicitly and are never treated as runtime spending during Character creation.",
+    "Chronicle owns persistence, versioning, idempotency, ledger history, and events.",
+    "The Rule Set owns classification-derived values, costs, ranges, and mechanical validation."
+  ]
+}

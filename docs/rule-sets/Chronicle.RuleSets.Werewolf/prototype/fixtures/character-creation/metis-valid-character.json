@@ -1,0 +1,452 @@
+{
+  "contractVersion": 1,
+  "fixtureKey": "character-creation.metis-valid-character",
+  "fixtureVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "fixtureKind": "character-creation-state",
+  "publicationStatus": "prototype-candidate",
+  "purpose": [
+    "Provide one deterministic valid Character creation fixture for the conditional Metis path.",
+    "Exercise mandatory Metis deformity selection, Metis-derived Gnosis, Philodox-derived Rage and Renown, initial Gift eligibility, allocation budgets, validation, and completion readiness.",
+    "Verify that the Metis-specific stage is applicable and blocks completion when its required selection is absent.",
+    "Serve as a shared input for dependency, invalidation, validation, projection, and completion tests."
+  ],
+  "binding": {
+    "characterModelId": "chronicle.rulesets.werewolf.character-model",
+    "characterModelVersion": "0.1.0-prototype",
+    "creationProfileVersion": "0.1.0-prototype",
+    "operationIndexVersion": "0.1.0-prototype",
+    "fixtureUsesPrototypeDecisions": true
+  },
+  "fixtureIdentity": {
+    "characterId": "fixture-character-metis-valid-001",
+    "campaignId": "fixture-campaign-001",
+    "playerUserId": "fixture-user-001",
+    "draftVersion": 1
+  },
+  "character": {
+    "status": "Draft",
+    "version": 1,
+    "identity": {
+      "name": "Rowan Vale",
+      "concept": "Metis mediator raised within the sept",
+      "playerName": "Fixture Player"
+    },
+    "classification": {
+      "race": "character.race.metis",
+      "auspice": "character.auspice.philodox",
+      "tribe": "character.tribe.glass-walkers",
+      "metisDeformity": "character.metis-deformity.horns"
+    },
+    "attributes": {
+      "character.attribute.strength": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.dexterity": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.stamina": {
+        "rating": 4,
+        "baseRating": 1,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.attribute.charisma": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.manipulation": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.attribute.appearance": {
+        "rating": 3,
+        "baseRating": 1,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.attribute.perception": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.attribute.intelligence": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.attribute.wits": {
+        "rating": 2,
+        "baseRating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      }
+    },
+    "abilities": {
+      "character.ability.empathy": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.ability.expression": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.ability.intimidation": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.leadership": {
+        "rating": 3,
+        "baseAllocationDots": 3,
+        "freebieDots": 0
+      },
+      "character.ability.subterfuge": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.athletics": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.brawl": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.etiquette": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.stealth": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.survival": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.ability.investigation": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.ability.law": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.ability.occult": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.ability.politics": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      }
+    },
+    "backgrounds": {
+      "character.background.mentor": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      },
+      "character.background.contacts": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.background.allies": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      },
+      "character.background.rites": {
+        "rating": 1,
+        "baseAllocationDots": 1,
+        "freebieDots": 0
+      }
+    },
+    "gifts": {
+      "initial": {
+        "race": {
+          "giftKey": "gift.race.metis.create-element",
+          "eligibilitySourceType": "race",
+          "eligibilitySourceKey": "character.race.metis"
+        },
+        "auspice": {
+          "giftKey": "gift.auspice.philodox.resist-pain",
+          "eligibilitySourceType": "auspice",
+          "eligibilitySourceKey": "character.auspice.philodox"
+        },
+        "tribe": {
+          "giftKey": "gift.tribe.glass-walkers.control-simple-machine",
+          "eligibilitySourceType": "tribe",
+          "eligibilitySourceKey": "character.tribe.glass-walkers"
+        }
+      },
+      "acquired": []
+    },
+    "renown": {
+      "character.renown.glory": {
+        "permanent": 0,
+        "temporary": 0,
+        "source": "character.auspice.philodox"
+      },
+      "character.renown.honor": {
+        "permanent": 3,
+        "temporary": 0,
+        "source": "character.auspice.philodox"
+      },
+      "character.renown.wisdom": {
+        "permanent": 0,
+        "temporary": 0,
+        "source": "character.auspice.philodox"
+      }
+    },
+    "rank": {
+      "rankKey": "character.rank.cliath",
+      "numericRank": 1,
+      "source": "character.creation.rank.initialize-cliath"
+    },
+    "resources": {
+      "character.resource.rage": {
+        "permanent": 3,
+        "current": 3,
+        "classificationInitialRating": 3,
+        "freebieDots": 0,
+        "source": "character.auspice.philodox"
+      },
+      "character.resource.gnosis": {
+        "permanent": 3,
+        "current": 3,
+        "classificationInitialRating": 3,
+        "freebieDots": 0,
+        "source": "character.race.metis"
+      },
+      "character.resource.willpower": {
+        "permanent": 3,
+        "current": 3,
+        "classificationInitialRating": 3,
+        "freebieDots": 0,
+        "source": "character.tribe.glass-walkers"
+      }
+    },
+    "specializations": [],
+    "narrative": {
+      "backstory": "",
+      "personality": "",
+      "appearanceNotes": "",
+      "notes": "",
+      "goals": [],
+      "relationships": []
+    },
+    "ruleSetBinding": {
+      "packageId": "chronicle.rulesets.werewolf",
+      "packageVersion": "0.1.0-prototype",
+      "characterModelVersion": "0.1.0-prototype"
+    }
+  },
+  "creationState": {
+    "attributePriorities": {
+      "primary": "physical",
+      "secondary": "social",
+      "tertiary": "mental",
+      "allocatedPoints": {
+        "physical": 7,
+        "social": 5,
+        "mental": 3
+      }
+    },
+    "abilityPriorities": {
+      "primary": "talents",
+      "secondary": "skills",
+      "tertiary": "knowledges",
+      "allocatedPoints": {
+        "talents": 13,
+        "skills": 9,
+        "knowledges": 5
+      }
+    },
+    "budgetSummary": {
+      "attributePointsRemaining": {
+        "physical": 0,
+        "social": 0,
+        "mental": 0
+      },
+      "abilityPointsRemaining": {
+        "talents": 0,
+        "skills": 0,
+        "knowledges": 0
+      },
+      "backgroundPointsRemaining": 0,
+      "freebiePointsRemaining": 15
+    },
+    "invalidations": [],
+    "warningAcknowledgements": [],
+    "pendingDependencyRecalculation": false
+  },
+  "creationLedger": {
+    "status": "open",
+    "integrityStatus": "valid",
+    "expectedBudgetEffects": {
+      "character-creation.attribute-points": {
+        "physical": -7,
+        "social": -5,
+        "mental": -3
+      },
+      "character-creation.ability-points": {
+        "talents": -13,
+        "skills": -9,
+        "knowledges": -5
+      },
+      "character-creation.background-points": -5,
+      "character-creation.freebie-points": 0
+    },
+    "expectedRemainingBudgets": {
+      "attributePoints": {
+        "physical": 0,
+        "social": 0,
+        "mental": 0
+      },
+      "abilityPoints": {
+        "talents": 0,
+        "skills": 0,
+        "knowledges": 0
+      },
+      "backgroundPoints": 0,
+      "freebiePoints": 15
+    },
+    "entryMaterialization": "generated-by-test-builder"
+  },
+  "stageExpectations": {
+    "creation.identity": "complete",
+    "creation.classifications": "complete",
+    "creation.attributes": "complete",
+    "creation.abilities": "complete",
+    "creation.backgrounds": "complete",
+    "creation.initial-gifts": "complete",
+    "creation.resources-renown-rank": "complete",
+    "creation.metis-deformity": "complete",
+    "creation.specializations": "not-started",
+    "creation.freebie-points": "complete",
+    "creation.narrative": "not-started",
+    "creation.review-and-complete": "complete"
+  },
+  "validationExpectations": {
+    "validationMode": "completion-readiness",
+    "isStructurallyValid": true,
+    "isCompletionReady": true,
+    "blockingIssueCount": 0,
+    "errorCount": 0,
+    "expectedWarnings": [
+      "character-creation.warning.prototype-rule-in-use",
+      "character-creation.warning.unspent-freebie-points"
+    ],
+    "requiredAcknowledgementsBeforeCompletion": [
+      "character-creation.warning.prototype-rule-in-use",
+      "character-creation.warning.unspent-freebie-points"
+    ],
+    "openInvalidationCount": 0,
+    "ledgerIntegrityValid": true,
+    "packageBindingCompatible": true
+  },
+  "completionExpectations": {
+    "completionWithoutAcknowledgementsSucceeds": false,
+    "completionWithRequiredAcknowledgementsSucceeds": true,
+    "finalCharacterStatus": "Active",
+    "finalCreationLedgerStatus": "frozen",
+    "completionSnapshotCreated": true,
+    "characterSheetProjectionRebuildable": true
+  },
+  "prototypeDecisions": [
+    {
+      "decisionKey": "fixture.metis-deformity-key",
+      "basis": "The fixture requires one catalog-backed Metis deformity, but the exact normalized catalog identity requires content review.",
+      "fixtureChoice": "character.metis-deformity.horns",
+      "authority": "fixture-candidate",
+      "mustResolveAgainstCatalogBeforeTestExecution": true
+    },
+    {
+      "decisionKey": "fixture.initial-gift-keys",
+      "basis": "Gift identities must resolve against the reviewed initial-gifts catalog.",
+      "fixtureChoice": [
+        "gift.race.metis.create-element",
+        "gift.auspice.philodox.resist-pain",
+        "gift.tribe.glass-walkers.control-simple-machine"
+      ],
+      "authority": "fixture-candidate",
+      "mustResolveAgainstCatalogBeforeTestExecution": true
+    },
+    {
+      "decisionKey": "fixture.current-resources-equal-permanent",
+      "basis": "The prototype reconciliation policy permits current equal to permanent at initialization.",
+      "fixtureChoice": "current-equals-permanent",
+      "authority": "prototype-decision"
+    }
+  ],
+  "negativeAssertions": [
+    "The Metis deformity stage is applicable and complete.",
+    "No Ability exceeds rating three during base allocation.",
+    "No additional Gift purchase is used.",
+    "No freebie points are spent.",
+    "No specialization is required.",
+    "No narrative content is required for mechanical completion.",
+    "No Narrator or Chronicle Director authority is used."
+  ],
+  "testUses": [
+    "character-creation-metis-happy-path",
+    "metis-deformity-required",
+    "classification-dependency",
+    "resource-initialization",
+    "initial-renown",
+    "ledger-integrity",
+    "completion-warning-acknowledgements",
+    "completion-atomicity",
+    "completion-snapshot",
+    "character-sheet-conditional-visibility"
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-metis-classification-resources-renown-and-gifts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "contentIdentityReviewStatus": "required",
+    "fixtureReviewStatus": "pending",
+    "implementationReviewStatus": "pending"
+  },
+  "fixtureNotes": [
+    "This fixture exercises the conditional Metis deformity stage.",
+    "Metis supplies initial Gnosis three; Philodox supplies initial Rage three and Honor three.",
+    "The selected Tribe reuses the prototype catalog binding used by the minimal fixture.",
+    "Deformity and Gift keys are candidate normalized identities and must resolve against reviewed catalogs before executable tests are enabled.",
+    "Stable IDs, timestamps, fingerprints, and ledger entries must be generated by the test builder.",
+    "Chronicle owns generated identifiers, persistence, encryption, ledger materialization, and completion commit.",
+    "The Rule Set owns mechanical validation and interpretation of the fixture values."
+  ]
+}

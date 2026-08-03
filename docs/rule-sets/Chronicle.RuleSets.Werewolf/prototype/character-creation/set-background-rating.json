@@ -1,0 +1,468 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.set-background-rating",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.set-background-rating",
+  "descriptionResourceKey": "character-creation.operation.set-background-rating.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-background-and-target-rating",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "SetBackgroundRatingInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "backgroundKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "targetRating",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "creationStage",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "CreationBaseAllocation",
+          "CreationBonusPurchase"
+        ]
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "set-background-rating.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.set-background-rating.not-a-draft"
+    },
+    {
+      "preconditionKey": "set-background-rating.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.set-background-rating.stale-draft"
+    },
+    {
+      "preconditionKey": "set-background-rating.catalog-available",
+      "requirement": {
+        "artifactRef": "../character-model/catalogs/backgrounds.json",
+        "operator": "readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.set-background-rating.catalog-unavailable"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "set-background-rating.background-valid",
+      "ruleType": "catalog-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "backgroundKey",
+      "catalogRef": "../../character-model/catalogs/backgrounds.json#entries",
+      "errorKey": "character-creation.set-background-rating.invalid-background"
+    },
+    {
+      "ruleKey": "set-background-rating.range",
+      "ruleType": "range",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "targetRating",
+      "minimum": 0,
+      "maximum": 5,
+      "errorKey": "character-creation.set-background-rating.out-of-range"
+    },
+    {
+      "ruleKey": "set-background-rating.base-budget-not-exceeded",
+      "ruleType": "budget",
+      "severity": "blocking",
+      "status": "candidate",
+      "appliesWhen": {
+        "creationStage": "CreationBaseAllocation"
+      },
+      "targetPath": "character.backgrounds[].rating",
+      "calculation": "projected sum(base-allocation points)",
+      "maximum": 5,
+      "errorKey": "character-creation.set-background-rating.base-budget-exceeded"
+    },
+    {
+      "ruleKey": "set-background-rating.tribe-restrictions",
+      "ruleType": "catalog-driven-constraint",
+      "severity": "blocking",
+      "status": "candidate",
+      "classificationField": "character.classification.tribe",
+      "lookupSource": "../../character-model/catalogs/tribes.json#entries[].mechanicalData.backgroundRestrictions",
+      "targetBackground": "backgroundKey",
+      "targetRating": "targetRating",
+      "errorKey": "character-creation.set-background-rating.tribe-restriction-violated"
+    },
+    {
+      "ruleKey": "set-background-rating.required-minimums",
+      "ruleType": "catalog-driven-minimum",
+      "severity": "blocking",
+      "status": "candidate-partial",
+      "classificationField": "character.classification.tribe",
+      "lookupSource": "../../character-model/catalogs/tribes.json#entries[].mechanicalData.requiredBackgroundMinimums",
+      "targetBackground": "backgroundKey",
+      "targetRating": "targetRating",
+      "errorKey": "character-creation.set-background-rating.required-minimum-violated"
+    },
+    {
+      "ruleKey": "set-background-rating.freebie-budget-available",
+      "ruleType": "ledger-budget",
+      "severity": "blocking",
+      "status": "candidate",
+      "appliesWhen": {
+        "creationStage": "CreationBonusPurchase",
+        "operator": "target-rating-increases-beyond-base-allocation-rating"
+      },
+      "ledgerRef": "character.creationLedger",
+      "budgetKey": "character-creation.freebie-points",
+      "costPerPoint": 1,
+      "errorKey": "character-creation.set-background-rating.insufficient-freebies"
+    },
+    {
+      "ruleKey": "set-background-rating.refund-valid",
+      "ruleType": "ledger-consistency",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "creationStage": "CreationBonusPurchase",
+        "operator": "target-rating-decreases"
+      },
+      "requirement": {
+        "operator": "refund-only-recorded-background-freebie-purchases"
+      },
+      "errorKey": "character-creation.set-background-rating.invalid-refund"
+    }
+  ],
+  "ratingSourceModel": {
+    "persistedRating": "character.backgrounds[].rating",
+    "ledgerSources": [
+      {
+        "sourceKey": "base-initialization",
+        "defaultPoints": 0,
+        "cost": 0
+      },
+      {
+        "sourceKey": "base-allocation",
+        "points": "variable",
+        "sharedBudget": 5,
+        "cost": 0
+      },
+      {
+        "sourceKey": "freebie-purchase",
+        "points": "variable",
+        "costPerPoint": 1
+      }
+    ],
+    "runtimeContributionsExcluded": true,
+    "reason": "Pack, Totem, shared, temporary, and narrative contributions do not alter the personal creation rating directly."
+  },
+  "changeCalculation": {
+    "mode": "ledger-aware",
+    "steps": [
+      "load-current-rating",
+      "resolve-base-allocation-rating",
+      "resolve-freebie-purchased-points",
+      "calculate-target-stage-distribution",
+      "calculate-shared-base-budget-impact",
+      "calculate-tribe-restriction-impact",
+      "calculate-required-minimum-impact",
+      "calculate-freebie-cost-or-refund",
+      "calculate-validation-impact"
+    ],
+    "decreasePolicy": {
+      "removeFreebiePointsBeforeBaseAllocationPoints": true,
+      "neverReduceBelowZero": true,
+      "refundOnlyCommittedFreebieEntries": true,
+      "doNotViolateRequiredMinimums": true
+    }
+  },
+  "specialPolicies": {
+    "totem": {
+      "backgroundKey": "character.background.totem",
+      "personalContributionOnly": true,
+      "packAggregationExcluded": true,
+      "runtimeSupport": "deferred",
+      "note": "The creation operation stores only this Character's contribution."
+    },
+    "sharedOrGroupBackgrounds": {
+      "aggregationDuringCreation": false,
+      "personalRatingRemainsAuthoritative": true,
+      "campaignProjectionDeferred": true
+    }
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-background-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-background-rating",
+        "load-background-ledger-entries",
+        "load-freebie-budget",
+        "load-current-tribe",
+        "load-open-background-invalidations"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-target-rating",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-background-identity",
+        "validate-rating-range",
+        "validate-base-background-budget",
+        "validate-tribe-restrictions",
+        "validate-required-minimums",
+        "validate-freebie-budget"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "calculate-ledger-delta",
+      "executor": "RuleSet",
+      "effects": [
+        "calculate-base-allocation-delta",
+        "calculate-freebie-purchase-delta",
+        "calculate-refund-delta",
+        "calculate-remaining-base-background-points",
+        "calculate-remaining-freebie-points"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "calculate-dependent-impact",
+      "executor": "RuleSet",
+      "effects": [
+        "identify-resolved-background-budget-invalidations",
+        "identify-tribe-restriction-invalidations",
+        "identify-required-minimum-invalidations"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "persist-rating-change",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-previous-rating",
+        "set-target-rating"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "append-base-allocation-entry-when-needed",
+        "append-freebie-purchase-entry-when-needed",
+        "append-freebie-refund-entry-when-needed",
+        "preserve-ledger-history"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "update-invalidations",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "clear-resolved-background-budget-invalidations",
+        "clear-resolved-tribe-restriction-invalidations",
+        "clear-resolved-required-minimum-invalidations",
+        "preserve-unrelated-invalidations"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-background-range",
+        "validate-total-base-allocation",
+        "validate-tribe-restrictions",
+        "validate-required-minimums",
+        "validate-freebie-budget",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 90,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "invalidationContract": {
+    "supportedTypes": [
+      {
+        "invalidationType": "BackgroundBaseBudgetMismatch",
+        "resolution": "Adjust one or more Background base-allocation ratings until their total is five."
+      },
+      {
+        "invalidationType": "BackgroundRestrictedByTribe",
+        "resolution": "Remove the prohibited rating or change Tribe."
+      },
+      {
+        "invalidationType": "RequiredBackgroundMinimumNotMet",
+        "resolution": "Raise the required Background to the minimum or change Tribe."
+      }
+    ],
+    "automaticResolutionAllowed": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "persistInvalidations": true
+  },
+  "resultContract": {
+    "resultKey": "SetBackgroundRatingResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "backgroundKey": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "previousRating": "Integer",
+      "newRating": "Integer",
+      "creationStage": "Text",
+      "baseAllocationDelta": "Integer",
+      "freebiePointDelta": "Integer",
+      "remainingBaseBackgroundPoints": "Integer",
+      "remainingFreebiePoints": "Integer",
+      "createdInvalidations": "StructuredCollection",
+      "resolvedInvalidations": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "SetBackgroundRatingFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "backgroundKey": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterBackgroundRatingChanged",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "backgroundKey": "Reference",
+        "previousRating": "Integer",
+        "newRating": "Integer",
+        "creationStage": "Text",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.background-freebie-limits",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "Do Background purchases with freebie points have additional category-specific limits beyond the known maximum rating?",
+      "prototypeDecision": "Apply the known rating maximum of five and explicit Tribe restrictions only."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.shared-backgrounds",
+      "severity": "medium",
+      "status": "implementation-decision-required",
+      "question": "How should shared or Pack Background ratings be aggregated during Character creation?",
+      "prototypeDecision": "Persist only the individual Character contribution; group aggregation is deferred."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-five-point-budget-range-and-freebie-cost",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation changes one personal Background rating at a time.",
+    "Base allocation and freebie purchases remain separate ledger sources.",
+    "The shared base-allocation budget is five points across all Backgrounds.",
+    "Each freebie-purchased Background dot costs one point.",
+    "Reducing a rating refunds only freebie points that were actually purchased and recorded.",
+    "Tribe restrictions and required minimums are evaluated deterministically from package catalogs.",
+    "Totem stores only the Character's personal contribution; Pack aggregation remains deferred."
+  ]
+}

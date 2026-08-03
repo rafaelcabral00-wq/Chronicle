@@ -1,0 +1,592 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.update-character-relationship",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.update-character-relationship",
+  "descriptionResourceKey": "character-creation.operation.update-character-relationship.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false,
+    "narratorMayPropose": true
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-relationship-and-target-state",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "UpdateCharacterRelationshipInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "relationshipId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "subjectName",
+        "fieldType": "Text",
+        "required": true
+      },
+      {
+        "fieldKey": "subjectEntityRef",
+        "fieldType": "Reference",
+        "required": false
+      },
+      {
+        "fieldKey": "relationshipType",
+        "fieldType": "Text",
+        "required": true
+      },
+      {
+        "fieldKey": "summary",
+        "fieldType": "LongText",
+        "required": true
+      },
+      {
+        "fieldKey": "importance",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "low",
+          "normal",
+          "high"
+        ]
+      },
+      {
+        "fieldKey": "status",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "active",
+          "inactive",
+          "ended"
+        ]
+      },
+      {
+        "fieldKey": "changeOrigin",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "user-authored",
+          "accepted-narrator-suggestion"
+        ]
+      },
+      {
+        "fieldKey": "suggestionId",
+        "fieldType": "Reference",
+        "required": false
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "update-character-relationship.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.update-character-relationship.not-a-draft"
+    },
+    {
+      "preconditionKey": "update-character-relationship.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.update-character-relationship.stale-draft"
+    },
+    {
+      "preconditionKey": "update-character-relationship.relationship-exists",
+      "requirement": {
+        "collection": "character.narrative.relationships",
+        "idField": "relationshipId",
+        "operator": "matching-item-exists"
+      },
+      "failureKey": "character-creation.update-character-relationship.relationship-not-found"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "update-character-relationship.subject-name-required",
+      "ruleType": "text",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "subjectName",
+      "constraints": {
+        "trimWhitespace": true,
+        "minimumLength": 1,
+        "maximumLength": 240
+      },
+      "errorKey": "character-creation.update-character-relationship.subject-name-invalid"
+    },
+    {
+      "ruleKey": "update-character-relationship.entity-reference-valid",
+      "ruleType": "optional-reference",
+      "severity": "error",
+      "status": "prototype",
+      "targetField": "subjectEntityRef",
+      "requirement": {
+        "operator": "absent-or-references-visible-campaign-entity"
+      },
+      "errorKey": "character-creation.update-character-relationship.entity-reference-invalid"
+    },
+    {
+      "ruleKey": "update-character-relationship.relationship-type-required",
+      "ruleType": "text",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "relationshipType",
+      "constraints": {
+        "trimWhitespace": true,
+        "minimumLength": 1,
+        "maximumLength": 120
+      },
+      "errorKey": "character-creation.update-character-relationship.relationship-type-invalid"
+    },
+    {
+      "ruleKey": "update-character-relationship.summary-required",
+      "ruleType": "text",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "summary",
+      "constraints": {
+        "trimWhitespace": true,
+        "minimumLength": 1,
+        "maximumLength": 4000
+      },
+      "errorKey": "character-creation.update-character-relationship.summary-invalid"
+    },
+    {
+      "ruleKey": "update-character-relationship.importance-valid",
+      "ruleType": "fixed-set-membership",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "importance",
+      "allowedValues": [
+        "low",
+        "normal",
+        "high"
+      ],
+      "errorKey": "character-creation.update-character-relationship.importance-invalid"
+    },
+    {
+      "ruleKey": "update-character-relationship.status-valid",
+      "ruleType": "fixed-set-membership",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "status",
+      "allowedValues": [
+        "active",
+        "inactive",
+        "ended"
+      ],
+      "errorKey": "character-creation.update-character-relationship.status-invalid"
+    },
+    {
+      "ruleKey": "update-character-relationship.status-transition-valid",
+      "ruleType": "state-transition",
+      "severity": "blocking",
+      "status": "prototype",
+      "allowedTransitions": {
+        "active": [
+          "active",
+          "inactive",
+          "ended"
+        ],
+        "inactive": [
+          "inactive",
+          "active",
+          "ended"
+        ],
+        "ended": [
+          "ended",
+          "active"
+        ]
+      },
+      "errorKey": "character-creation.update-character-relationship.status-transition-invalid"
+    },
+    {
+      "ruleKey": "update-character-relationship.no-duplicate-active-subject",
+      "ruleType": "distinct-values",
+      "severity": "error",
+      "status": "prototype",
+      "targetCollection": "character.narrative.relationships",
+      "excludeItemIdField": "relationshipId",
+      "identityResolution": [
+        "subjectEntityRef-when-present",
+        "normalizedSubjectName-otherwise"
+      ],
+      "includeProposedValue": true,
+      "activeStatuses": [
+        "active"
+      ],
+      "errorKey": "character-creation.update-character-relationship.duplicate-subject"
+    },
+    {
+      "ruleKey": "update-character-relationship.origin-valid",
+      "ruleType": "conditional-reference",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "field": "changeOrigin",
+        "operator": "equals",
+        "value": "accepted-narrator-suggestion"
+      },
+      "requirements": [
+        {
+          "field": "suggestionId",
+          "operator": "exists"
+        },
+        {
+          "field": "suggestionId",
+          "operator": "references-pending-relationship-update-suggestion-for-character-and-relationship"
+        },
+        {
+          "field": "suggestionId",
+          "operator": "suggestion-not-already-consumed"
+        }
+      ],
+      "errorKey": "character-creation.update-character-relationship.invalid-suggestion"
+    },
+    {
+      "ruleKey": "update-character-relationship.user-origin-has-no-suggestion",
+      "ruleType": "conditional-absence",
+      "severity": "error",
+      "status": "prototype",
+      "appliesWhen": {
+        "field": "changeOrigin",
+        "operator": "equals",
+        "value": "user-authored"
+      },
+      "requirement": {
+        "field": "suggestionId",
+        "operator": "absent"
+      },
+      "errorKey": "character-creation.update-character-relationship.unexpected-suggestion-reference"
+    },
+    {
+      "ruleKey": "update-character-relationship.no-mechanical-authority",
+      "ruleType": "authority-boundary",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirement": {
+        "operator": "operation-effects-limited-to-character-relationship-state"
+      },
+      "errorKey": "character-creation.update-character-relationship.mechanical-effect-forbidden"
+    }
+  ],
+  "normalizationPolicy": {
+    "subjectName": {
+      "trimLeadingAndTrailingWhitespace": true,
+      "collapseRepeatedWhitespace": true,
+      "unicodeNormalization": "NFC"
+    },
+    "relationshipType": {
+      "trimLeadingAndTrailingWhitespace": true,
+      "collapseRepeatedWhitespace": true,
+      "unicodeNormalization": "NFC"
+    },
+    "summary": {
+      "trimLeadingAndTrailingWhitespace": true,
+      "normalizeLineEndings": true,
+      "preserveParagraphs": true,
+      "unicodeNormalization": "NFC"
+    },
+    "automaticRewritingAllowed": false
+  },
+  "statusPolicy": {
+    "active": {
+      "endedAt": null
+    },
+    "inactive": {
+      "endedAt": null
+    },
+    "ended": {
+      "endedAt": "set-on-transition"
+    },
+    "reactivation": {
+      "from": [
+        "ended"
+      ],
+      "to": "active",
+      "clearEndedAt": true,
+      "auditRequired": true
+    },
+    "automaticTransitionAllowed": false
+  },
+  "mechanicalBoundary": {
+    "mechanicalAuthority": false,
+    "mayChangeBackgrounds": false,
+    "mayCreateAlliesOrContactsRatings": false,
+    "mayGrantRenown": false,
+    "mayChangeRank": false,
+    "mayCreateDiceModifiers": false,
+    "structuredMechanicalOperationRequired": true
+  },
+  "memoryProjectionPolicy": {
+    "eligible": true,
+    "projectionMode": "curated-summary",
+    "automaticProjectionDuringUpdate": false,
+    "proposalMayBeScheduledAfterCommit": true,
+    "proposalOnly": true,
+    "userReviewRequired": true,
+    "statusChangesMayTriggerProposal": true,
+    "rawSummaryCopiedByDefault": false
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-existing-relationship",
+        "load-current-relationships",
+        "load-referenced-entity-when-present",
+        "load-suggestion-when-present"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-update",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-subject-name",
+        "validate-entity-reference-when-present",
+        "validate-relationship-type",
+        "validate-summary",
+        "validate-importance",
+        "validate-status",
+        "validate-status-transition",
+        "validate-no-duplicate-active-subject",
+        "validate-origin",
+        "validate-suggestion-reference-when-present",
+        "validate-no-mechanical-effects"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "normalize-content",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "normalize-subject-name",
+        "normalize-relationship-type",
+        "normalize-summary",
+        "calculate-previous-subject-identity",
+        "calculate-new-subject-identity",
+        "calculate-previous-summary-fingerprint",
+        "calculate-new-summary-fingerprint"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "persist-relationship-update",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-previous-relationship-snapshot",
+        "set-subject-name",
+        "set-normalized-subject-name",
+        "set-or-clear-subject-entity-reference",
+        "set-relationship-type",
+        "set-summary",
+        "set-importance",
+        "set-status",
+        "set-or-clear-ended-at-from-transition",
+        "record-change-origin",
+        "record-suggestion-id-when-present",
+        "record-updated-by-operation-id"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "update-suggestion-state",
+      "executor": "ChronicleApplication",
+      "condition": "suggestionId exists",
+      "effects": [
+        "mark-suggestion-accepted",
+        "mark-suggestion-consumed",
+        "preserve-original-suggestion",
+        "record-updated-relationship-id"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-character-relationship-updated",
+        "record-relationship-id",
+        "record-status-transition",
+        "record-subject-identity-change",
+        "record-change-origin",
+        "record-suggestion-reference-when-present",
+        "record-no-mechanical-cost"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-relationship-collection",
+        "validate-reference-consistency",
+        "validate-status-consistency",
+        "validate-no-mechanical-authority",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "historicalRecordPolicy": {
+    "preservePreviousSnapshot": true,
+    "preserveStatusTransitions": true,
+    "preserveEntityReferenceHistory": true,
+    "preserveSuggestionReferences": true,
+    "hardDeleteAllowed": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "consumeSuggestionInsideTransaction": true
+  },
+  "resultContract": {
+    "resultKey": "UpdateCharacterRelationshipResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "relationshipId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "previousSubjectIdentity": "Text",
+      "newSubjectIdentity": "Text",
+      "previousSummaryFingerprint": "Text",
+      "newSummaryFingerprint": "Text",
+      "previousImportance": "Text",
+      "newImportance": "Text",
+      "previousStatus": "Text",
+      "newStatus": "Text",
+      "endedAt": "Text",
+      "changeOrigin": "Text",
+      "suggestionId": "Reference",
+      "memoryProposalEligible": "Boolean",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "UpdateCharacterRelationshipFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "relationshipId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "suggestionConsumptionRecoverySupported": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false,
+    "sensitiveTextLogging": "references-fingerprints-and-lengths-only",
+    "relationshipContentEncryptedAtRest": true
+  },
+  "events": [
+    {
+      "eventKey": "CharacterRelationshipUpdated",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "relationshipId": "Reference",
+        "subjectEntityRef": "Reference",
+        "subjectNameFingerprint": "Text",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "changeOrigin": "Text",
+        "suggestionId": "Reference",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "low",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "privacyReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation updates one structured Character relationship during creation.",
+    "Relationship status changes are explicit, audited, and never performed automatically by the Narrator.",
+    "Ended relationships may be reactivated, with historical transitions preserved.",
+    "Changing a subject entity reference does not merge or create Campaign entities automatically.",
+    "Relationships remain narrative records and have no direct mechanical authority.",
+    "Narrator suggestions require explicit user acceptance.",
+    "Relationship content is encrypted at rest and excluded from ordinary logs.",
+    "Chronicle owns persistence, encryption, versioning, idempotency, suggestion consumption, history, and events.",
+    "The Rule Set owns text constraints, duplicate detection, status validation, reference consistency, and authority boundaries."
+  ]
+}

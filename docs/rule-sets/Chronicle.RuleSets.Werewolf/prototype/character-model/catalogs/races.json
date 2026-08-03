@@ -1,0 +1,220 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.races",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.races.display-name",
+  "publicationStatus": "candidate",
+  "selectionPolicy": {
+    "selectionMode": "single",
+    "required": true,
+    "creationStage": "CreationBaseAllocation"
+  },
+  "entries": [
+    {
+      "entryKey": "character.race.homid",
+      "displayNameResourceKey": "character.race.homid",
+      "descriptionResourceKey": "character.race.homid.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "tags": [
+        "character-origin",
+        "birth-form-human",
+        "race-gift-source"
+      ],
+      "mechanicalData": {
+        "naturalFormKey": "character.form.homid",
+        "initialResources": {
+          "character.resource.gnosis": 1
+        },
+        "creationRestrictions": [],
+        "requiredSelections": [],
+        "initialGiftEligibility": [
+          "gift.race.homid.master-of-fire",
+          "gift.race.homid.persuasion",
+          "gift.race.homid.scent-of-man"
+        ]
+      },
+      "guidanceRefs": [
+        "../../narrative-guidance/character/races/homid.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/homid.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/race-homid.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.race.metis",
+      "displayNameResourceKey": "character.race.metis",
+      "descriptionResourceKey": "character.race.metis.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "tags": [
+        "character-origin",
+        "birth-form-crinos",
+        "race-gift-source",
+        "mandatory-deformity"
+      ],
+      "mechanicalData": {
+        "naturalFormKey": "character.form.crinos",
+        "initialResources": {
+          "character.resource.gnosis": 3
+        },
+        "creationRestrictions": [],
+        "requiredSelections": [
+          {
+            "selectionKey": "character.metis-deformity",
+            "catalogRef": "metis-deformities.json",
+            "minimumSelections": 1,
+            "maximumSelections": 1,
+            "status": "candidate"
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.race.metis.create-element",
+          "gift.race.metis.primal-anger",
+          "gift.race.metis.sense-wyrm"
+        ]
+      },
+      "guidanceRefs": [
+        "../../narrative-guidance/character/races/metis.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/metis.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/race-metis.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.race.lupus",
+      "displayNameResourceKey": "character.race.lupus",
+      "descriptionResourceKey": "character.race.lupus.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "tags": [
+        "character-origin",
+        "birth-form-wolf",
+        "race-gift-source",
+        "creation-ability-restrictions"
+      ],
+      "mechanicalData": {
+        "naturalFormKey": "character.form.lupus",
+        "initialResources": {
+          "character.resource.gnosis": 5
+        },
+        "creationRestrictions": [
+          {
+            "restrictionKey": "character.race.lupus.base-allocation-ability-restrictions",
+            "appliesDuring": [
+              "CreationBaseAllocation"
+            ],
+            "restrictionType": "prohibited-field-allocation",
+            "targetFieldKeys": [
+              "character.ability.crafts",
+              "character.ability.drive",
+              "character.ability.etiquette",
+              "character.ability.firearms",
+              "character.ability.computer",
+              "character.ability.law",
+              "character.ability.linguistics",
+              "character.ability.politics",
+              "character.ability.science"
+            ],
+            "status": "candidate"
+          }
+        ],
+        "unresolvedRestrictions": [
+          {
+            "ambiguityRef": "ambiguity.werewolf3e.creation.lupus-restricted-abilities",
+            "question": "Whether the listed Abilities may be purchased with freebie points during the same Character creation workflow."
+          }
+        ],
+        "requiredSelections": [],
+        "initialGiftEligibility": [
+          "gift.race.lupus.hare-leap",
+          "gift.race.lupus.heightened-senses",
+          "gift.race.lupus.sense-prey"
+        ]
+      },
+      "guidanceRefs": [
+        "../../narrative-guidance/character/races/lupus.json"
+      ],
+      "terminologyRefs": [
+        "../../terminology/concepts/lupus.json"
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/race-lupus.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.race.required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "condition": {
+        "field": "character.classification.race",
+        "operator": "exists"
+      },
+      "errorKey": "character.creation.race-required"
+    },
+    {
+      "ruleKey": "character.creation.race.initializes-gnosis",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "lookupSource": "entries[].mechanicalData.initialResources"
+    },
+    {
+      "ruleKey": "character.creation.metis.requires-deformity",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "appliesWhen": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.metis"
+      },
+      "requirement": {
+        "field": "character.metis-deformity",
+        "operator": "count-equals",
+        "value": 1
+      },
+      "errorKey": "character.creation.metis-deformity-required"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "prototypeNotes": [
+    "The source classifies these entries using the Portuguese term 'Raça'.",
+    "Canonical technical naming remains subject to terminology review.",
+    "The Lupus freebie-purchase exception is unresolved and is not enforced here.",
+    "Gift entries are eligibility references only; Gift execution is outside Slice 001.",
+    "Metis deformity effects require a separate hybrid effect model."
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "catalog-review.fixture-validation-report",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "scope": "CurrentSliceFixtureValidation",
+  "executedAt": "2026-08-03T00:00:00.000Z",
+  "fixtureRecords": [
+    {
+      "fixtureKey": "character-creation.minimal-valid-character",
+      "artifactRef": "fixtures/character-creation/minimal-valid-character.json",
+      "status": "passed",
+      "fingerprint": "d23649a44caedac1d226f0ccf4e37377dfb45ea462b3dbdb5449650361390ff9"
+    },
+    {
+      "fixtureKey": "character-creation.metis-valid-character",
+      "artifactRef": "fixtures/character-creation/metis-valid-character.json",
+      "status": "passed",
+      "fingerprint": "11c12238217ebe66168a269876b2533ecf525e0f932f7dc53c7bb16bd0cf13a8"
+    },
+    {
+      "fixtureKey": "character-creation.metis-missing-deformity",
+      "artifactRef": "fixtures/character-creation/metis-missing-deformity.json",
+      "status": "passed",
+      "fingerprint": "35b8de12a444788637cc600ea46c3e0b2bb2bb598b13677bef248c9b36cce2ca"
+    },
+    {
+      "fixtureKey": "character-creation.lupus-restricted-ability",
+      "artifactRef": "fixtures/character-creation/lupus-restricted-ability.json",
+      "status": "passed",
+      "fingerprint": "f938bbcb7ca459b655664006d4cdf0b8cb919041e1c22de0acb3e617c4d4d7eb"
+    },
+    {
+      "fixtureKey": "character-creation.freebie-budget-overspent",
+      "artifactRef": "fixtures/character-creation/freebie-budget-overspent.json",
+      "status": "passed",
+      "fingerprint": "7fbb52fa5722cc6c71fd33d857e543e2e10da3ff97f4b4741ac7c2293875ccf2"
+    },
+    {
+      "fixtureKey": "character-creation.classification-change-invalidates-state",
+      "artifactRef": "fixtures/character-creation/classification-change-invalidates-state.json",
+      "status": "passed",
+      "fingerprint": "951c0bbb72dfe09a86188d4c75eb29f8d6da2ab2fea57d2ce9b58a4d31ca8e6c"
+    },
+    {
+      "fixtureKey": "character-creation.complete-character-atomicity",
+      "artifactRef": "fixtures/character-creation/complete-character-atomicity.json",
+      "status": "passed",
+      "fingerprint": "87cd85bca5844c6b08192b2724089cba764ffa8915462560fac9729d372f8570"
+    }
+  ],
+  "checks": [
+    {
+      "checkKey": "fixture.indexes-load",
+      "status": "passed"
+    },
+    {
+      "checkKey": "fixture.artifacts-load",
+      "status": "passed",
+      "failedFixtureKeys": []
+    },
+    {
+      "checkKey": "fixture.coverage-counts-reconcile",
+      "status": "passed"
+    }
+  ],
+  "overallStatus": "passed",
+  "failureKeys": [],
+  "reportFingerprint": "81f97cd7eae8c93d6af957827f65499cb92edbb052068a7163680d472225c832"
+}

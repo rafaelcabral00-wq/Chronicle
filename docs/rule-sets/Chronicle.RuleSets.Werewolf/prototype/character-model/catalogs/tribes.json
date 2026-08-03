@@ -1,0 +1,503 @@
+{
+  "contractVersion": 1,
+  "catalogKey": "character.tribes",
+  "catalogVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.tribes.display-name",
+  "publicationStatus": "candidate",
+  "selectionPolicy": {
+    "selectionMode": "single",
+    "required": true,
+    "creationStage": "CreationBaseAllocation"
+  },
+  "entries": [
+    {
+      "entryKey": "character.tribe.glass-walkers",
+      "displayNameResourceKey": "character.tribe.glass-walkers",
+      "descriptionResourceKey": "character.tribe.glass-walkers.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.cockroach",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.pure-breed",
+              "character.background.mentor"
+            ]
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.glass-walkers.control-simple-machine",
+          "gift.tribe.glass-walkers.diagnostics",
+          "gift.tribe.glass-walkers.trick-shot"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-glass-walkers.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.get-of-fenris",
+      "displayNameResourceKey": "character.tribe.get-of-fenris",
+      "descriptionResourceKey": "character.tribe.get-of-fenris.description",
+      "enabled": true,
+      "readiness": "candidate-with-special-rule",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.fenris-wolf",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.contacts"
+            ]
+          },
+          {
+            "restrictionType": "conditional-permission",
+            "backgroundKeys": [
+              "character.background.mentor"
+            ],
+            "conditionKey": "mentor.advisory-only",
+            "notesResourceKey": "character.tribe.get-of-fenris.mentor-restriction"
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.get-of-fenris.razor-claws",
+          "gift.tribe.get-of-fenris.resist-pain",
+          "gift.tribe.get-of-fenris.visage-of-fenris"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-get-of-fenris.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.fianna",
+      "displayNameResourceKey": "character.tribe.fianna",
+      "descriptionResourceKey": "character.tribe.fianna.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.stag",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [],
+        "initialGiftEligibility": [
+          "gift.tribe.fianna.faerie-light",
+          "gift.tribe.fianna.persuasion",
+          "gift.tribe.fianna.resist-toxin"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-fianna.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.children-of-gaia",
+      "displayNameResourceKey": "character.tribe.children-of-gaia",
+      "descriptionResourceKey": "character.tribe.children-of-gaia.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.unicorn",
+        "initialResources": {
+          "character.resource.willpower": 4
+        },
+        "backgroundRestrictions": [],
+        "initialGiftEligibility": [
+          "gift.tribe.children-of-gaia.mercy",
+          "gift.tribe.children-of-gaia.resist-pain",
+          "gift.tribe.children-of-gaia.mothers-touch"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-children-of-gaia.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.black-furies",
+      "displayNameResourceKey": "character.tribe.black-furies",
+      "descriptionResourceKey": "character.tribe.black-furies.description",
+      "enabled": true,
+      "readiness": "candidate-with-eligibility-review",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.pegasus",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [],
+        "initialGiftEligibility": [
+          "gift.tribe.black-furies.breath-of-the-wyrm",
+          "gift.tribe.black-furies.heightened-senses",
+          "gift.tribe.black-furies.sense-wyrm"
+        ]
+      },
+      "eligibilityRules": [
+        {
+          "ruleKey": "character.creation.tribe.black-furies.eligibility",
+          "ruleType": "candidate-eligibility-constraint",
+          "sourceStatement": "The source describes the Tribe as exclusively female.",
+          "status": "semantic-review-required",
+          "enforcement": "not-yet-enabled"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-black-furies.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "changes-required",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.red-talons",
+      "displayNameResourceKey": "character.tribe.red-talons",
+      "descriptionResourceKey": "character.tribe.red-talons.description",
+      "enabled": true,
+      "readiness": "candidate-with-eligibility-review",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.griffin",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.allies",
+              "character.background.contacts",
+              "character.background.resources"
+            ]
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.red-talons.beast-speech",
+          "gift.tribe.red-talons.wolf-at-the-door",
+          "gift.tribe.red-talons.scent-of-running-water"
+        ]
+      },
+      "eligibilityRules": [
+        {
+          "ruleKey": "character.creation.tribe.red-talons.requires-lupus",
+          "ruleType": "candidate-eligibility-constraint",
+          "condition": {
+            "field": "character.classification.race",
+            "operator": "equals",
+            "value": "character.race.lupus"
+          },
+          "status": "candidate",
+          "enforcement": "prototype-enabled"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-red-talons.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.silent-striders",
+      "displayNameResourceKey": "character.tribe.silent-striders",
+      "descriptionResourceKey": "character.tribe.silent-striders.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.owl",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.ancestors",
+              "character.background.resources"
+            ]
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.silent-striders.sense-wyrm",
+          "gift.tribe.silent-striders.silence",
+          "gift.tribe.silent-striders.speed-of-thought"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-silent-striders.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.silver-fangs",
+      "displayNameResourceKey": "character.tribe.silver-fangs",
+      "descriptionResourceKey": "character.tribe.silver-fangs.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.falcon",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "required-minimum",
+            "backgroundKey": "character.background.pure-breed",
+            "minimumRating": 3
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.silver-fangs.lambent-flame",
+          "gift.tribe.silver-fangs.falcons-grasp",
+          "gift.tribe.silver-fangs.sense-wyrm"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-silver-fangs.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.bone-gnawers",
+      "displayNameResourceKey": "character.tribe.bone-gnawers",
+      "descriptionResourceKey": "character.tribe.bone-gnawers.description",
+      "enabled": true,
+      "readiness": "candidate-with-terminology-review",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.rat",
+        "initialResources": {
+          "character.resource.willpower": 4
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.ancestors",
+              "character.background.pure-breed",
+              "character.background.resources"
+            ]
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.bone-gnawers.cooking",
+          "gift.tribe.bone-gnawers.sticky-fingers",
+          "gift.tribe.bone-gnawers.resist-toxin"
+        ]
+      },
+      "eligibilityRules": [],
+      "terminologyIssues": [
+        {
+          "issueKey": "terminology.bone-gnawers.grude",
+          "sourceLabel": "Grude",
+          "candidateCanonicalKey": "gift.tribe.bone-gnawers.sticky-fingers",
+          "status": "review-required"
+        }
+      ],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-bone-gnawers.json"
+      ],
+      "review": {
+        "extractionConfidence": "medium",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.shadow-lords",
+      "displayNameResourceKey": "character.tribe.shadow-lords",
+      "descriptionResourceKey": "character.tribe.shadow-lords.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.grandfather-thunder",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.allies",
+              "character.background.mentor"
+            ]
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.shadow-lords.seizing-the-edge",
+          "gift.tribe.shadow-lords.aura-of-confidence",
+          "gift.tribe.shadow-lords.fatal-flaw"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-shadow-lords.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.uktena",
+      "displayNameResourceKey": "character.tribe.uktena",
+      "descriptionResourceKey": "character.tribe.uktena.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.uktena",
+        "initialResources": {
+          "character.resource.willpower": 3
+        },
+        "backgroundRestrictions": [],
+        "initialGiftEligibility": [
+          "gift.tribe.uktena.spirit-speech",
+          "gift.tribe.uktena.shroud",
+          "gift.tribe.uktena.sense-magic"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-uktena.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    },
+    {
+      "entryKey": "character.tribe.wendigo",
+      "displayNameResourceKey": "character.tribe.wendigo",
+      "descriptionResourceKey": "character.tribe.wendigo.description",
+      "enabled": true,
+      "readiness": "candidate",
+      "mechanicalData": {
+        "tribalTotemKey": "spirit.totem.wendigo",
+        "initialResources": {
+          "character.resource.willpower": 4
+        },
+        "backgroundRestrictions": [
+          {
+            "restrictionType": "prohibited-selection",
+            "backgroundKeys": [
+              "character.background.contacts",
+              "character.background.resources"
+            ]
+          }
+        ],
+        "initialGiftEligibility": [
+          "gift.tribe.wendigo.camouflage",
+          "gift.tribe.wendigo.call-the-breeze",
+          "gift.tribe.wendigo.resist-pain"
+        ]
+      },
+      "eligibilityRules": [],
+      "provenanceRefs": [
+        "../../provenance/source-segments/tribe-wendigo.json"
+      ],
+      "review": {
+        "extractionConfidence": "high",
+        "semanticReviewStatus": "pending",
+        "implementationReviewStatus": "pending",
+        "legalReviewStatus": "pending"
+      }
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.tribe.required",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "condition": {
+        "field": "character.classification.tribe",
+        "operator": "exists"
+      },
+      "errorKey": "character.creation.tribe-required"
+    },
+    {
+      "ruleKey": "character.creation.tribe.initializes-willpower",
+      "ruleVersion": 1,
+      "ruleType": "initialization",
+      "status": "candidate",
+      "lookupSource": "entries[].mechanicalData.initialResources"
+    },
+    {
+      "ruleKey": "character.creation.tribe.background-restrictions",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "lookupSource": "entries[].mechanicalData.backgroundRestrictions"
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "prototypeNotes": [
+    "The twelve active Tribes in the cleaned source are represented.",
+    "Initial Willpower, Background restrictions, and three initial Gift candidates are source-derived candidates.",
+    "Narrative descriptions are excluded from mechanical enforcement.",
+    "Black Furies eligibility remains disabled pending semantic and product-policy review.",
+    "Red Talons Lupus eligibility is represented as a candidate mechanical constraint.",
+    "Canonical English Gift keys are provisional and require terminology review.",
+    "Portadores da Luz Interior are not included among the twelve active Western Concordat Tribe choices in this prototype."
+  ]
+}

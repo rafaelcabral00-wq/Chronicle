@@ -1,0 +1,531 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-state-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-state-index.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewState",
+  "purpose": [
+    "Provide the canonical aggregated state surface for the complete current-slice catalog review workflow.",
+    "Bind task status, action status, issues, blockers, evidence, decisions, calculated result, readiness, and work-package integration into one deterministic state model.",
+    "Allow Chronicle delivery infrastructure and diagnostics to resolve the current review position and next executable work without Werewolf-specific orchestration logic.",
+    "Prevent contradictory status projections across review artifacts."
+  ],
+  "authority": {
+    "stateModelAuthority": "ChronicleArchitecture",
+    "stateCalculationAuthority": "ChronicleDeliveryInfrastructure",
+    "substantiveDecisionAuthority": "RuleSetExtractionAndReview",
+    "taskAndActionExecutionAuthority": "AssignedOwners",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualAggregateStateOverrideAllowed": false,
+    "automaticRecalculationAllowed": true,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewModelIndexArtifactRef": "./catalog-review-model-index.json",
+    "catalogReviewExecutionPlanArtifactRef": "./catalog-review-execution-plan.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewActionIndexArtifactRef": "./catalog-review-action-index.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "prototypeWorkStatusArtifactRef": "../prototype-work-status.json",
+    "prototypeReadinessArtifactRef": "../prototype-readiness.json",
+    "promotionGateArtifactRef": "../tests/promotion-gate.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "stateLayers": [
+    {
+      "layerKey": "catalog-review-state.execution",
+      "artifactRefs": [
+        "./catalog-review-execution-plan.json",
+        "./catalog-review-task-status.json",
+        "./catalog-review-action-index.json"
+      ],
+      "authority": "workflow-position-and-executable-work"
+    },
+    {
+      "layerKey": "catalog-review-state.impediments",
+      "artifactRefs": [
+        "./catalog-review-issues.json",
+        "./catalog-review-blocker-index.json"
+      ],
+      "authority": "active-defects-and-blocking-conditions"
+    },
+    {
+      "layerKey": "catalog-review-state.evidence",
+      "artifactRefs": [
+        "./catalog-review-checklist.json",
+        "./catalog-review-evidence.json"
+      ],
+      "authority": "review-execution-and-supporting-evidence"
+    },
+    {
+      "layerKey": "catalog-review-state.decisions",
+      "artifactRefs": [
+        "./catalog-identity-decisions.json"
+      ],
+      "authority": "substantive-final-identity-decisions"
+    },
+    {
+      "layerKey": "catalog-review-state.result",
+      "artifactRefs": [
+        "./catalog-review-result.json"
+      ],
+      "authority": "calculated-review-outcome"
+    },
+    {
+      "layerKey": "catalog-review-state.delivery",
+      "artifactRefs": [
+        "../prototype-work-status.json",
+        "../prototype-readiness.json",
+        "../tests/promotion-gate.json"
+      ],
+      "authority": "delivery-readiness-and-promotion-impact"
+    }
+  ],
+  "currentState": {
+    "overallStatus": "blocked",
+    "reviewPhase": "catalog-review",
+    "currentStageKey": null,
+    "currentTaskKey": null,
+    "currentActionKey": null,
+    "currentIssueKey": "catalog-review.issue.no-final-identity-decisions",
+    "currentBlockerKey": "catalog-review.blocker.final-identity-decisions-missing",
+    "currentCatalogKey": "character-model.catalog.initial-gifts",
+    "nextExecutableTaskKeys": [],
+    "nextCandidateActionKeys": [],
+    "overallDecision": "not-approved",
+    "workPackageCompletionEligible": false,
+    "currentSliceReviewEligible": false,
+    "promotionEvidenceEligible": false,
+    "currentEvidenceWorkItemKey": null,
+    "activeIssueCount": 0,
+    "activeBlockerCount": 0
+  },
+  "stateSummary": {
+    "catalogCount": 9,
+    "requiredIdentityCount": 46,
+    "unresolvedIdentityCount": 20,
+    "completedCatalogCount": 0,
+    "approvedCatalogCount": 0,
+    "blockedCatalogCount": 2,
+    "taskCount": 22,
+    "readyTaskCount": 0,
+    "inProgressTaskCount": 0,
+    "completeTaskCount": 12,
+    "blockedTaskCount": 1,
+    "actionCount": 12,
+    "readyActionCount": 0,
+    "inProgressActionCount": 0,
+    "completeActionCount": 0,
+    "issueCount": 11,
+    "openIssueCount": 5,
+    "criticalIssueCount": 4,
+    "blockerCount": 4,
+    "activeBlockerCount": 2,
+    "validatedEvidenceCount": 35,
+    "finalDecisionCount": 26,
+    "staleEvidenceCount": 0,
+    "promotionBlockingConditionCount": 4,
+    "currentTaskKey": "catalog-review.task.finalize-decision-set",
+    "nextExecutableTaskKeys": [],
+    "promotionEvidenceEligible": true,
+    "workPackageCompletionEligible": true,
+    "overallStatus": "ready",
+    "overallState": "complete",
+    "decisionSetStatus": "finalized-current-slice",
+    "catalogReviewOverallDecision": "approved"
+  },
+  "stateCalculationPolicy": {
+    "deterministic": true,
+    "sourceArtifactsAreAuthoritative": true,
+    "aggregateMayNotInventMissingState": true,
+    "aggregateMayNotOverrideSubstantiveDecisions": true,
+    "recalculateOnAnyBoundArtifactFingerprintChange": true,
+    "recalculateAfterTaskTransition": true,
+    "recalculateAfterActionTransition": true,
+    "recalculateAfterIssueTransition": true,
+    "recalculateAfterBlockerTransition": true,
+    "recalculateAfterEvidenceTransition": true,
+    "recalculateAfterDecisionTransition": true,
+    "recalculateAfterReviewResultChange": true
+  },
+  "statePrecedencePolicy": {
+    "staleOverridesComplete": true,
+    "activeCriticalBlockerOverridesReadyForCompletion": true,
+    "failedCheckOverridesPassedCatalogProjection": true,
+    "missingFinalDecisionOverridesApprovedIdentityProjection": true,
+    "missingValidatedEvidenceOverridesPassedCheckProjection": true,
+    "calculatedReviewResultOverridesInformalSummary": true,
+    "promotionGateResultCannotOverrideMissingRequiredReviewState": true
+  },
+  "nextWorkCalculation": {
+    "taskSelectionOrder": [
+      "lowest-stage-order",
+      "dependency-satisfied",
+      "status-ready",
+      "lowest-plan-task-order"
+    ],
+    "actionSelectionOrder": [
+      "all-preconditions-satisfied",
+      "owner-assignable",
+      "no-active-scope-blocker",
+      "lowest-dependency-depth"
+    ],
+    "issueSelectionOrder": [
+      "critical-before-high-before-medium-before-low",
+      "global-finalization-blockers-before-catalog-specific-blockers",
+      "oldest-opened-first"
+    ],
+    "currentNextWork": {
+      "taskKey": null,
+      "reason": "Initial Gift concrete identities remain unsupported; finalization and fixture/test reconciliation are not executable while the initial Gift blocker remains active.",
+      "actionKey": null,
+      "blockedBy": [
+        "catalog-review.blocker.initial-gift-source-review-required"
+      ]
+    }
+  },
+  "catalogStateProjection": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "status": "approved-with-warnings",
+      "unresolvedIdentityCount": 0,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.validated-evidence-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "status": "approved-with-warnings",
+      "unresolvedIdentityCount": 0,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.validated-evidence-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "status": "partially-approved",
+      "unresolvedIdentityCount": 1,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.validated-evidence-missing",
+        "catalog-review.blocker.final-identity-decisions-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "status": "approved-with-warnings",
+      "unresolvedIdentityCount": 0,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.validated-evidence-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "status": "incomplete",
+      "unresolvedIdentityCount": 18,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.validated-evidence-missing",
+        "catalog-review.blocker.final-identity-decisions-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "status": "incomplete",
+      "unresolvedIdentityCount": 5,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.validated-evidence-missing",
+        "catalog-review.blocker.final-identity-decisions-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "status": "blocked",
+      "unresolvedIdentityCount": 1,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.metis-deformity-source-review-required",
+        "catalog-review.blocker.validated-evidence-missing",
+        "catalog-review.blocker.final-identity-decisions-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "status": "incomplete",
+      "unresolvedIdentityCount": 1,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.validated-evidence-missing",
+        "catalog-review.blocker.final-identity-decisions-missing"
+      ]
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "status": "blocked",
+      "unresolvedIdentityCount": 6,
+      "activeBlockerKeys": [
+        "catalog-review.blocker.initial-gift-source-review-required",
+        "catalog-review.blocker.validated-evidence-missing",
+        "catalog-review.blocker.final-identity-decisions-missing"
+      ]
+    }
+  ],
+  "deliveryProjection": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "workPackageStatus": "complete",
+    "workPackageCompletionEligible": true,
+    "reviewDecisionSetKey": "review-decisions.catalog-identities",
+    "reviewDecisionSetStatus": "finalized-current-slice",
+    "catalogReviewOverallDecision": "approved",
+    "prototypeReadinessImpact": "catalog-review-branch-checkpoint-ready",
+    "promotionGateImpact": "eligible-not-published",
+    "blockingGateKeys": [
+      "package-publication-not-executed"
+    ]
+  },
+  "transitionIntegration": {
+    "taskTransitionRecalculates": [
+      "stage-state",
+      "next-executable-tasks",
+      "action-readiness",
+      "issue-and-blocker-propagation",
+      "work-package-readiness"
+    ],
+    "actionTransitionRecalculates": [
+      "task-output-satisfaction",
+      "issue-resolution-state",
+      "blocker-resolution-state",
+      "evidence-readiness"
+    ],
+    "evidenceTransitionRecalculates": [
+      "check-status",
+      "catalog-status",
+      "decision-finalization-readiness",
+      "review-result",
+      "promotion-evidence-eligibility"
+    ],
+    "decisionTransitionRecalculates": [
+      "unresolved-identity-count",
+      "catalog-status",
+      "reconciliation-required-state",
+      "dependent-mechanics-review-readiness"
+    ],
+    "blockerTransitionRecalculates": [
+      "task-readiness",
+      "action-visibility",
+      "review-result",
+      "prototype-readiness",
+      "promotion-gates"
+    ]
+  },
+  "stalenessPolicy": {
+    "anyBoundArtifactFingerprintChangeRecalculatesAggregate": true,
+    "staleTaskMayInvalidateStageCompletion": true,
+    "staleActionMayReopenIssueOrBlocker": true,
+    "staleEvidenceMayReopenCatalogReview": true,
+    "staleDecisionEvidenceMayReopenDecisionSet": true,
+    "staleReviewResultMayInvalidateWorkPackageCompletion": true,
+    "stalePromotionInputInvalidatesPromotionEligibility": true,
+    "silentStateRetentionAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-state-index.bindings-resolve",
+      "severity": "blocking",
+      "requirement": "every bound artifact reference resolves"
+    },
+    {
+      "ruleKey": "catalog-review-state-index.layer-authority-separated",
+      "severity": "blocking",
+      "requirement": "execution, impediment, evidence, decision, result, and delivery authorities remain distinct"
+    },
+    {
+      "ruleKey": "catalog-review-state-index.summary-reconciles",
+      "severity": "blocking",
+      "requirement": "aggregate counts reconcile with all bound source artifacts"
+    },
+    {
+      "ruleKey": "catalog-review-state-index.current-state-derived",
+      "severity": "blocking",
+      "requirement": "currentState is derived from bound task, action, issue, blocker, evidence, decision, and result artifacts"
+    },
+    {
+      "ruleKey": "catalog-review-state-index.catalog-projection-reconciles",
+      "severity": "blocking",
+      "requirement": "every catalog projection matches active blockers, unresolved decisions, evidence, and calculated result"
+    },
+    {
+      "ruleKey": "catalog-review-state-index.next-work-valid",
+      "severity": "blocking",
+      "requirement": "every projected next task or action satisfies declared dependencies and preconditions"
+    },
+    {
+      "ruleKey": "catalog-review-state-index.delivery-projection-reconciles",
+      "severity": "blocking",
+      "requirement": "work-package, readiness, and promotion projections match the calculated review state"
+    },
+    {
+      "ruleKey": "catalog-review-state-index.no-manual-aggregate-authority",
+      "severity": "blocking",
+      "requirement": "aggregate state cannot override source artifact authority"
+    }
+  ],
+  "fingerprintPolicy": {
+    "stateIndexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeBindingFingerprints": true,
+    "includeCurrentState": true,
+    "includeStateSummary": true,
+    "includeCatalogStateProjection": true,
+    "includeDeliveryProjection": true,
+    "includeNextWorkCalculation": true,
+    "includeStalenessPolicy": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-status",
+      "review-phase",
+      "current-stage-key",
+      "current-task-key",
+      "current-action-key",
+      "current-issue-key",
+      "current-blocker-key",
+      "current-catalog-key",
+      "next-executable-task-keys",
+      "next-candidate-action-keys",
+      "catalog-state-projection",
+      "active-critical-blockers",
+      "unresolved-identity-count",
+      "validated-evidence-count",
+      "final-decision-count",
+      "overall-decision",
+      "work-package-completion-eligibility",
+      "promotion-evidence-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "artifactKeys",
+      "catalogKeys",
+      "taskKeys",
+      "actionKeys",
+      "issueKeys",
+      "blockerKeys",
+      "statuses",
+      "counts",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewStateRecalculated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "overallStatus": "Text",
+        "currentStageKey": "Reference",
+        "currentTaskKey": "Reference",
+        "activeBlockerCount": "Integer",
+        "unresolvedIdentityCount": "Integer",
+        "stateIndexFingerprint": "Text",
+        "recalculatedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewNextWorkChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "previousTaskKey": "Reference",
+        "newTaskKey": "Reference",
+        "previousActionKey": "Reference",
+        "newActionKey": "Reference",
+        "stateIndexFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-catalog-review-artifacts",
+    "architectureConfidence": "high",
+    "aggregateStateStatus": "complete",
+    "reviewExecutionStatus": "work-package-complete",
+    "evidenceStatus": "complete",
+    "decisionStatus": "finalized-current-slice",
+    "resultStatus": "approved",
+    "promotionReviewStatus": "eligible-not-published",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "ChronicleDeliveryInfrastructure"
+  },
+  "prototypeNotes": [
+    "This index aggregates existing review state and does not create substantive decisions or evidence.",
+    "The current executable work remains validation of the catalog review model.",
+    "The current candidate action is checklist execution, but it is not ready until structural validation completes.",
+    "Two catalogs are specifically blocked by unresolved candidate identities; all catalogs remain globally blocked from completion by missing evidence and decisions.",
+    "Chronicle owns aggregate calculation, consistency validation, next-work projection, staleness propagation, diagnostics, fingerprints, readiness integration, and promotion enforcement.",
+    "Assigned reviewers and task owners remain responsible for substantive execution, evidence, and decisions."
+  ],
+  "stateIndexFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "51c52fe448791d67dc5b76fcbe03b9c23f16793a1537d5730fde0e09a4988789",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  },
+  "decisionSetFinalization": {
+    "status": "finalized-current-slice",
+    "taskKey": "catalog-review.task.finalize-decision-set",
+    "nextExecutableTaskKey": "catalog-review.task.calculate-final-result",
+    "evidenceId": "catalog-review.evidence.formal-decision-set-finalization.20260803",
+    "decisionSetFingerprint": "2a3ca7df370a45736622e60c9768643c317b9e344eb999cc994fd9d9cefffd95",
+    "finalizedAt": "2026-08-03T00:00:00.000Z",
+    "packagePublished": false,
+    "futureScopeMechanicsPromoted": false
+  },
+  "finalReviewResult": {
+    "status": "approved-current-slice-reference-baseline",
+    "taskKey": "catalog-review.task.calculate-final-result",
+    "resultFingerprint": "2cb08a85ee5280eb01be80623fa8196117b6ca23ed5580511e3040aa247fa69a",
+    "calculatedAt": "2026-08-03T00:00:00.000Z",
+    "packagePublished": false,
+    "nextExecutableTaskKey": "catalog-review.task.complete-work-package"
+  },
+  "catalogReviewWorkPackageCompletion": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "status": "complete",
+    "completedAt": "2026-08-03T00:00:00.000Z",
+    "evidenceId": "catalog-review.evidence.work-package-completion.20260803",
+    "workStatusFingerprint": "c3adca3b6a09f28cddec5fc1e9831f1d1575c5cf28753b0a333a90094dbd7c8e",
+    "resultFingerprint": "3c2cca2418c0edd9898e3cbc3465dbb31a8643eff601a26f6dd998fe303e56cf",
+    "packagePublished": false,
+    "branchCheckpointReady": true
+  }
+}

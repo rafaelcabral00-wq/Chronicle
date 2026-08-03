@@ -1,0 +1,449 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.purchase-additional-gift",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.purchase-additional-gift",
+  "descriptionResourceKey": "character-creation.operation.purchase-additional-gift.description",
+  "publicationStatus": "blocked",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-and-additional-gift-purchase",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "PurchaseAdditionalGiftInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "giftKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "eligibilitySourceType",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "race",
+          "auspice",
+          "tribe",
+          "other-explicit-rule"
+        ]
+      },
+      {
+        "fieldKey": "eligibilitySourceKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "acknowledgedWarningKeys",
+        "fieldType": "ReferenceCollection",
+        "required": false
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "purchase-additional-gift.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.purchase-additional-gift.not-a-draft"
+    },
+    {
+      "preconditionKey": "purchase-additional-gift.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.purchase-additional-gift.stale-draft"
+    },
+    {
+      "preconditionKey": "purchase-additional-gift.catalog-available",
+      "requirement": {
+        "artifactRef": "../character-model/catalogs/initial-gifts.json",
+        "operator": "readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.purchase-additional-gift.catalog-unavailable"
+    },
+    {
+      "preconditionKey": "purchase-additional-gift.capability-enabled",
+      "requirement": {
+        "capabilityKey": "character-creation.purchase-additional-gift",
+        "operator": "explicitly-enabled-by-reviewed-package-artifact"
+      },
+      "failureKey": "character-creation.purchase-additional-gift.capability-unavailable"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "purchase-additional-gift.gift-valid",
+      "ruleType": "catalog-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "giftKey",
+      "catalogRef": "../../character-model/catalogs/initial-gifts.json#entries",
+      "errorKey": "character-creation.purchase-additional-gift.invalid-gift"
+    },
+    {
+      "ruleKey": "purchase-additional-gift.level-one-only",
+      "ruleType": "catalog-property",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "giftKey",
+      "catalogRef": "../../character-model/catalogs/initial-gifts.json#entries",
+      "property": "level",
+      "operator": "equals",
+      "value": 1,
+      "errorKey": "character-creation.purchase-additional-gift.not-level-one"
+    },
+    {
+      "ruleKey": "purchase-additional-gift.explicit-eligibility",
+      "ruleType": "catalog-driven-eligibility",
+      "severity": "blocking",
+      "status": "blocked-pending-source-review",
+      "targetField": "giftKey",
+      "eligibilitySourceTypeField": "eligibilitySourceType",
+      "eligibilitySourceKeyField": "eligibilitySourceKey",
+      "requirement": {
+        "operator": "gift-explicitly-eligible-from-current-character-state"
+      },
+      "errorKey": "character-creation.purchase-additional-gift.eligibility-unconfirmed"
+    },
+    {
+      "ruleKey": "purchase-additional-gift.not-already-owned",
+      "ruleType": "distinct-values",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetCollections": [
+        "character.gifts.initial",
+        "character.gifts.acquired"
+      ],
+      "identityResolution": "normalized-gift-identity",
+      "includeProposedGift": true,
+      "errorKey": "character-creation.purchase-additional-gift.already-owned"
+    },
+    {
+      "ruleKey": "purchase-additional-gift.freebie-budget-available",
+      "ruleType": "ledger-budget",
+      "severity": "blocking",
+      "status": "candidate",
+      "ledgerRef": "character.creationLedger",
+      "budgetKey": "character-creation.freebie-points",
+      "cost": 7,
+      "errorKey": "character-creation.purchase-additional-gift.insufficient-freebies"
+    },
+    {
+      "ruleKey": "purchase-additional-gift.warnings-acknowledged",
+      "ruleType": "acknowledgement",
+      "severity": "blocking",
+      "status": "prototype",
+      "source": "eligibility-result.warnings[]",
+      "acknowledgementField": "acknowledgedWarningKeys",
+      "errorKey": "character-creation.purchase-additional-gift.warning-not-acknowledged"
+    }
+  ],
+  "purchasePolicy": {
+    "creationStage": "CreationBonusPurchase",
+    "giftLevel": 1,
+    "freebieCost": 7,
+    "automaticEligibilityInferenceAllowed": false,
+    "unrestrictedCatalogPurchaseAllowed": false,
+    "initialGiftSlotConsumed": false,
+    "maximumAdditionalGiftCount": 0,
+    "capabilityReadiness": "blocked",
+    "reason": "Current slice boundary keeps additional Gift purchase unavailable until eligibility is source-reviewed and promoted."
+  },
+  "eligibilityResolution": {
+    "supportedCandidateSources": [
+      {
+        "sourceType": "race",
+        "classificationField": "character.classification.race",
+        "status": "source-review-required"
+      },
+      {
+        "sourceType": "auspice",
+        "classificationField": "character.classification.auspice",
+        "status": "source-review-required"
+      },
+      {
+        "sourceType": "tribe",
+        "classificationField": "character.classification.tribe",
+        "status": "source-review-required"
+      },
+      {
+        "sourceType": "other-explicit-rule",
+        "status": "future"
+      }
+    ],
+    "mustReturn": [
+      "isEligible",
+      "eligibilitySourceType",
+      "eligibilitySourceKey",
+      "matchedRuleKey",
+      "warnings"
+    ],
+    "defaultWhenUnresolved": "reject"
+  },
+  "mechanicalExecutionBoundary": {
+    "persistOwnershipAllowed": false,
+    "giftExecutionEnabled": false,
+    "runtimeContractRef": "../../mechanics/gifts/execution.json",
+    "runtimeReadiness": "blocked",
+    "silentMechanicalApproximationAllowed": false
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-classifications",
+        "load-owned-gifts",
+        "load-gift-catalog",
+        "load-creation-ledger",
+        "load-freebie-budget"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-basic-purchase",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-gift-exists",
+        "validate-level-one",
+        "validate-not-already-owned",
+        "validate-freebie-budget"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "resolve-explicit-eligibility",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-eligibility-source-type",
+        "validate-eligibility-source-key",
+        "resolve-matching-explicit-rule",
+        "reject-unresolved-eligibility",
+        "collect-review-warnings"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "persist-additional-gift",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "add-gift-to-acquired-collection",
+        "record-normalized-gift-identity",
+        "record-gift-level",
+        "record-acquisition-stage-creation-bonus-purchase",
+        "record-eligibility-source",
+        "record-acquired-by-operation-id",
+        "set-status-owned-runtime-unavailable"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "append-level-one-gift-freebie-purchase",
+        "spend-seven-freebie-points",
+        "record-eligibility-rule-and-source",
+        "record-warning-acknowledgements",
+        "preserve-ledger-history"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-freebie-budget",
+        "validate-gift-ownership-uniqueness",
+        "validate-acquired-gift-eligibility",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "persistedAcquisitionShape": {
+    "giftKey": "Reference",
+    "normalizedGiftIdentity": "Text",
+    "giftLevel": "Integer",
+    "acquisitionStage": "Text",
+    "eligibilitySourceType": "Text",
+    "eligibilitySourceKey": "Reference",
+    "matchedEligibilityRuleKey": "Reference",
+    "freebieCost": "Integer",
+    "acquiredByOperationId": "Reference",
+    "status": "Text"
+  },
+  "refundPolicy": {
+    "directRemovalThroughThisOperation": false,
+    "refundRequiresSeparateOperation": true,
+    "plannedOperationKey": "character-creation.remove-additional-gift",
+    "refundOnlyCommittedPurchase": true,
+    "expectedRefund": 7
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true
+  },
+  "resultContract": {
+    "resultKey": "PurchaseAdditionalGiftResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "giftKey": "Reference",
+      "normalizedGiftIdentity": "Text",
+      "giftLevel": "Integer",
+      "eligibilitySourceType": "Text",
+      "eligibilitySourceKey": "Reference",
+      "matchedEligibilityRuleKey": "Reference",
+      "freebiePointDelta": "Integer",
+      "remainingFreebiePoints": "Integer",
+      "warnings": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "PurchaseAdditionalGiftFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "giftKey": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterAdditionalGiftPurchased",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "giftKey": "Reference",
+        "giftLevel": "Integer",
+        "eligibilitySourceType": "Text",
+        "eligibilitySourceKey": "Reference",
+        "freebieCost": "Integer",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.freebie-gift-source",
+      "severity": "critical",
+      "status": "source-search-required",
+      "question": "Which Race, Auspice, Tribe, or other Gift lists may supply a Level One Gift purchased with freebie points during Character creation?",
+      "prototypeDecision": "Keep the operation blocked unless a reviewed package artifact provides an explicit eligibility rule."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.additional-gift-count",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "May a Character purchase more than one additional Level One Gift if enough freebie points remain?",
+      "prototypeDecision": "Do not define a maximum until the source is reviewed."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.gift.identity-normalization",
+      "severity": "high",
+      "status": "content-review-required",
+      "question": "Which translated or variant labels represent the same underlying Gift?",
+      "prototypeDecision": "Use known catalog normalization and reject only confirmed duplicate identities."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-cost-critical-for-eligibility",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "changes-required",
+    "contentReviewStatus": "pending",
+    "implementationReviewStatus": "blocked",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The source summary supports a seven-point freebie cost for one Level One Gift.",
+    "The exact eligible Gift lists are not yet established and must not be inferred.",
+    "The operation therefore remains blocked until an explicit reviewed eligibility artifact exists.",
+    "An additional purchased Gift does not fill or replace the three required initial Gift slots.",
+    "Gift ownership may be persisted independently from runtime Gift execution.",
+    "Chronicle owns persistence, versioning, idempotency, ledger history, and events.",
+    "The Rule Set owns Gift eligibility, identity, level validation, and freebie cost."
+  ]
+}

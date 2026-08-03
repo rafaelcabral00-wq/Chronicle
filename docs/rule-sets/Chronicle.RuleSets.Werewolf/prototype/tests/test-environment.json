@@ -1,0 +1,381 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.test-environment",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.test-environment.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeTestEnvironment",
+  "purpose": [
+    "Define the deterministic execution environment required by the Werewolf prototype test suites.",
+    "Standardize clocks, identifiers, randomness, storage, encryption, failure injection, event publication, package loading, and cleanup behavior.",
+    "Ensure tests produce repeatable results without Narrative Intelligence providers, external services, or shared mutable state.",
+    "Provide a portable contract for local development, continuous integration, and package promotion validation."
+  ],
+  "authority": {
+    "environmentDefinitionAuthority": "ChronicleTestInfrastructure",
+    "packageSpecificRequirementsAuthority": "RuleSetPackage",
+    "testExecutionAuthority": "ChronicleTestInfrastructure",
+    "productionRuntimeAuthority": false,
+    "narratorParticipationAllowed": false,
+    "chronicleDirectorBypassAllowed": false
+  },
+  "environmentProfile": {
+    "profileKey": "test-environment.werewolf-prototype.default",
+    "executionMode": "isolated-deterministic",
+    "canonicalTimeZone": "UTC",
+    "canonicalLocale": "en",
+    "networkMode": "disabled",
+    "providerMode": "disabled",
+    "storageMode": "ephemeral-encrypted-sqlite",
+    "eventPublicationMode": "captured-outbox",
+    "randomnessMode": "seeded-deterministic",
+    "clockMode": "deterministic",
+    "identifierMode": "deterministic",
+    "packageLoadingMode": "filesystem-manifest-driven"
+  },
+  "clock": {
+    "adapterKey": "chronicle.test-clock",
+    "initialInstant": "2030-01-01T00:00:00Z",
+    "timeZone": "UTC",
+    "autoAdvance": false,
+    "manualAdvanceAllowed": true,
+    "defaultAdvanceIncrement": "PT1S",
+    "monotonicityRequired": true,
+    "wallClockAccessAllowed": false,
+    "timestampPrecision": "milliseconds"
+  },
+  "identifiers": {
+    "adapterKey": "chronicle.deterministic-id-factory",
+    "algorithm": "namespace-sequence",
+    "namespace": "chronicle.rulesets.werewolf.prototype.tests",
+    "initialSequence": 1,
+    "resetPerTest": true,
+    "randomUuidGenerationAllowed": false,
+    "stableAcrossRunsForSameScenario": true,
+    "supportedIdKinds": [
+      "character",
+      "campaign",
+      "ledger-entry",
+      "invalidation",
+      "acknowledgement",
+      "snapshot",
+      "event",
+      "transaction",
+      "idempotency-record",
+      "validation-result"
+    ]
+  },
+  "randomness": {
+    "adapterKey": "chronicle.seeded-random-adapter",
+    "defaultSeed": 194201,
+    "resetPerTest": true,
+    "seedOverrideAllowedPerScenario": true,
+    "cryptographicRandomnessRequired": false,
+    "systemRandomAccessAllowed": false,
+    "diceExecutionEnabled": false,
+    "disabledReasonKey": "werewolf-prototype.tests.dice.algorithm-not-frozen"
+  },
+  "database": {
+    "engine": "SQLite",
+    "databasePerTest": true,
+    "databaseLifetime": "test-scope",
+    "storageLocation": "temporary-directory",
+    "sharedDatabaseAllowed": false,
+    "foreignKeysEnabled": true,
+    "journalMode": "WAL",
+    "synchronousMode": "FULL",
+    "busyTimeoutMilliseconds": 5000,
+    "migrationsAppliedBeforeFixtureLoad": true,
+    "schemaValidationRequired": true,
+    "cleanupAfterTest": true,
+    "retainOnFailure": "developer-mode-only"
+  },
+  "encryption": {
+    "atRestRequired": true,
+    "testKeyProvider": "deterministic-ephemeral-key-provider",
+    "keyScope": "test",
+    "keyPersistenceAfterTest": false,
+    "plaintextDatabaseAllowed": false,
+    "backupEncryptionRequired": true,
+    "productionKeysAllowed": false,
+    "secretsInLogsAllowed": false
+  },
+  "packageLoading": {
+    "prototypeRoot": "../",
+    "entryArtifactRef": "../prototype-index.json",
+    "manifestRef": "../manifest.json",
+    "loadFromWorkingTree": true,
+    "copyToIsolatedTestDirectory": true,
+    "packageRootReadOnlyDuringTest": true,
+    "artifactMutationAllowed": false,
+    "networkArtifactResolutionAllowed": false,
+    "hardcodedWerewolfRegistrationAllowed": false,
+    "validateFingerprintsBeforeExecution": true,
+    "validateAllRequiredIndexesBeforeFixtureLoad": true
+  },
+  "fixtures": {
+    "fixtureIndexRef": "../fixtures/fixture-index.json",
+    "loadMode": "index-driven",
+    "materializeBaseFixturesBeforePatches": true,
+    "deterministicPatchApplicationRequired": true,
+    "semanticRebaseAdapterRequired": true,
+    "runtimeIdentifiersGeneratedByTestEnvironment": true,
+    "runtimeTimestampsGeneratedByTestEnvironment": true,
+    "ledgerEntriesGeneratedByTestBuilder": true,
+    "fixtureArtifactsReadOnly": true,
+    "productionDataImportAllowed": false
+  },
+  "transactions": {
+    "realDatabaseTransactionsRequired": true,
+    "nestedTransactionSimulationAllowed": false,
+    "failureInjectionSupported": true,
+    "rollbackVerificationRequired": true,
+    "transactionBoundaryTracingEnabled": true,
+    "uncommittedStateVisibleOutsideTransaction": false,
+    "commitOrderDeterministic": true
+  },
+  "failureInjection": {
+    "adapterKey": "chronicle.test-failure-injection",
+    "enabledByDefault": false,
+    "supportedInjectionPoints": [
+      "after-validation",
+      "after-snapshot-build",
+      "after-ledger-freeze",
+      "after-character-activation",
+      "after-persistence",
+      "after-idempotency-record",
+      "after-event-append",
+      "before-commit",
+      "after-commit-before-response"
+    ],
+    "injectionMustUseStableFailureKey": true,
+    "injectionMayNotCorruptFixtureArtifacts": true,
+    "injectionMayNotBypassRollbackVerification": true
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeTestEnvironmentInitialized",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "profileKey": "Reference",
+        "environmentFingerprint": "Text",
+        "databaseEngine": "Text",
+        "initializedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeTestEnvironmentDisposed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "profileKey": "Reference",
+        "cleanupSucceeded": "Boolean",
+        "disposedAt": "Text"
+      }
+    }
+  ],
+  "idempotency": {
+    "storageEnabled": true,
+    "storageScope": "test-database",
+    "successResultStoredAtomically": true,
+    "failedUncommittedResultStored": false,
+    "sameKeySameRequestReturnsOriginalResult": true,
+    "sameKeyDifferentRequestRejected": true,
+    "cleanupBetweenTests": true
+  },
+  "validation": {
+    "validationIndexRef": "../character-model/validation/validation-index.json",
+    "freshValidationRequiredForCompletion": true,
+    "cachedResultMayAuthorizeCommit": false,
+    "providerCallsAllowed": false,
+    "networkAccessAllowed": false,
+    "stableRuleOrderingRequired": true,
+    "collectAllIssues": true,
+    "fingerprintResults": true
+  },
+  "presentation": {
+    "characterSheetIndexRef": "../character-sheet/character-sheet-index.json",
+    "headlessProjectionTestsEnabled": true,
+    "fullDesktopUiRequired": false,
+    "resourceResolutionEnabled": true,
+    "accessibilityContractChecksEnabled": true,
+    "visualSnapshotTestingEnabled": false,
+    "directDatabaseBindingAllowed": false
+  },
+  "logging": {
+    "minimumLevel": "Information",
+    "capturePerTest": true,
+    "structuredLoggingRequired": true,
+    "includeCorrelationIds": true,
+    "includeTransactionIds": true,
+    "includeArtifactFingerprints": true,
+    "includeRawCharacterState": false,
+    "includeRawNarrativeText": false,
+    "includeSourcebookText": false,
+    "includeSecrets": false,
+    "retainOnSuccess": false,
+    "retainOnFailure": true
+  },
+  "diagnostics": {
+    "packageLoadDiagnosticsEnabled": true,
+    "contractDiagnosticsEnabled": true,
+    "fixtureDiagnosticsEnabled": true,
+    "validationDiagnosticsEnabled": true,
+    "ledgerDiagnosticsEnabled": true,
+    "transactionDiagnosticsEnabled": true,
+    "projectionDiagnosticsEnabled": true,
+    "developerDetailsRequireDeveloperMode": true
+  },
+  "parallelism": {
+    "parallelTestExecutionAllowed": true,
+    "maximumDefaultWorkers": 4,
+    "databaseSharedAcrossWorkers": false,
+    "clockSharedAcrossWorkers": false,
+    "identifierFactorySharedAcrossWorkers": false,
+    "randomAdapterSharedAcrossWorkers": false,
+    "packageArtifactCacheMayBeSharedReadOnly": true,
+    "testsMustBeOrderIndependent": true
+  },
+  "resourceLimits": {
+    "defaultTestTimeoutSeconds": 30,
+    "defaultSuiteTimeoutSeconds": 300,
+    "maximumDatabaseSizeMegabytes": 64,
+    "maximumCapturedLogMegabytesPerTest": 8,
+    "maximumCapturedEventCountPerTest": 1000,
+    "networkRequestLimit": 0,
+    "providerCallLimit": 0
+  },
+  "cleanupPolicy": {
+    "alwaysAttemptCleanup": true,
+    "deleteTemporaryDatabase": true,
+    "deleteEphemeralEncryptionKeys": true,
+    "clearCapturedEvents": true,
+    "clearIdempotencyState": true,
+    "clearFailureInjectionState": true,
+    "resetClock": true,
+    "resetIdentifierFactory": true,
+    "resetRandomAdapter": true,
+    "retainArtifactsOnFailure": "developer-mode-only"
+  },
+  "continuousIntegration": {
+    "supported": true,
+    "requiresDesktopSession": false,
+    "requiresInternet": false,
+    "requiresProviderCredentials": false,
+    "requiresProductionEncryptionKeys": false,
+    "testResultFormat": "structured-json",
+    "junitProjectionSupported": true,
+    "coverageReportSupported": true,
+    "artifactFingerprintReportRequired": true,
+    "failedDiagnosticsBundleSupported": true
+  },
+  "localDevelopment": {
+    "supported": true,
+    "singleSuiteExecutionSupported": true,
+    "singleFixtureExecutionSupported": true,
+    "developerModeSupported": true,
+    "retainFailedDatabaseSupported": true,
+    "inspectCapturedEventsSupported": true,
+    "inspectLedgerHistorySupported": true,
+    "productionDataAttachmentAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "test-environment.network-disabled",
+      "severity": "blocking",
+      "requirement": "all network and provider access is disabled"
+    },
+    {
+      "ruleKey": "test-environment.database-isolated",
+      "severity": "blocking",
+      "requirement": "every test receives an isolated database and encryption key"
+    },
+    {
+      "ruleKey": "test-environment.adapters-deterministic",
+      "severity": "blocking",
+      "requirement": "clock, identifiers, and randomness use deterministic adapters"
+    },
+    {
+      "ruleKey": "test-environment.package-read-only",
+      "severity": "blocking",
+      "requirement": "prototype and fixture artifacts remain read-only during execution"
+    },
+    {
+      "ruleKey": "test-environment.events-after-commit",
+      "severity": "blocking",
+      "requirement": "captured events become publishable only after transaction commit"
+    },
+    {
+      "ruleKey": "test-environment.no-production-secrets",
+      "severity": "blocking",
+      "requirement": "production encryption keys and provider credentials are never loaded"
+    },
+    {
+      "ruleKey": "test-environment.cleanup-complete",
+      "severity": "blocking",
+      "requirement": "database, keys, events, idempotency state, and adapters reset after each test"
+    }
+  ],
+  "fingerprintPolicy": {
+    "environmentFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeAdapterConfiguration": true,
+    "includeDatabaseConfiguration": true,
+    "includeEncryptionConfiguration": true,
+    "includePackageLoadingConfiguration": true,
+    "includeResourceLimits": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "filesystemAccess": "isolated-test-root",
+    "productionUserDataAllowed": false,
+    "productionSecretsAllowed": false,
+    "ordinaryLogsMayContain": [
+      "suiteKeys",
+      "fixtureKeys",
+      "testCaseKeys",
+      "generated-test-identifiers",
+      "transactionIds",
+      "failureKeys",
+      "artifactFingerprints",
+      "durations"
+    ],
+    "ordinaryLogsMustExclude": [
+      "production-character-state",
+      "production-narrative-text",
+      "sourcebook-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "durationFormat": "ISO8601",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "review": {
+    "sourceRuleDependency": "none",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "continuousIntegrationReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This environment contract validates Chronicle infrastructure behavior rather than Werewolf mechanics.",
+    "Every test executes without internet access, Narrative Intelligence providers, production credentials, or shared mutable state.",
+    "SQLite remains encrypted at rest even in tests so the persistence path matches the architectural security requirement.",
+    "Dice execution remains disabled until the generic Dice algorithm is frozen and its fixtures are added.",
+    "Failure injection is available only through stable, test-owned injection points.",
+    "Chronicle owns deterministic adapters, database isolation, encryption, transactionality, event capture, cleanup, and diagnostics.",
+    "The Rule Set package owns only the package-specific test requirements and fixture semantics."
+  ]
+}

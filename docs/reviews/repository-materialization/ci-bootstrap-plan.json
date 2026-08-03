@@ -1,0 +1,28 @@
+{
+  "created": "2026-08-03",
+  "authoritativeSources": ["ADR-0012-CI-and-Release-Pipeline.md", "ADR-0043 sections 120-128", "ADR-0044 sections 1189-1197 and 1326-1338", "RFC-0040-Testing-Strategy-and-Quality-Gates.md"],
+  "bootstrapToolchain": {
+    "dotnetSdk": {
+      "selected": "10.0.x",
+      "authority": "ADR-0001 sections 4-5 select C# on .NET 10 LTS; ADR-0012 section 22 requires global.json to pin the SDK version or accepted roll-forward policy.",
+      "pinningPolicy": "BOOT-001 should create global.json for .NET 10 LTS using an exact installed 10.0 SDK patch or an approved latestFeature roll-forward policy. The exact patch is owner-controlled at bootstrap time."
+    },
+    "githubActionsRunner": {
+      "selected": "windows-latest",
+      "authority": "ADR-0006 selects Windows x64 as the first fully supported MVP platform; ADR-0011 selects Windows x64 installer delivery; ADR-0012 supports Windows validation and packaging.",
+      "scope": "Smallest initial Windows desktop MVP bootstrap runner. Multi-platform CI is deferred until explicitly required by a later pipeline stage."
+    }
+  },
+  "pipelineStages": [
+    {"name": "restore", "purpose": "Restore .NET dependencies using central package management.", "projectType": "ci-stage", "exactPathOrName": ".github/workflows/ci.yml: restore", "allowedDependencies": ["Directory.Packages.props"], "forbiddenDependencies": ["secrets"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Restore succeeds without privileged credentials."]},
+    {"name": "build", "purpose": "Compile production projects.", "projectType": "ci-stage", "exactPathOrName": ".github/workflows/ci.yml: build", "allowedDependencies": ["Chronicle.sln"], "forbiddenDependencies": ["generated source that is not reproducible or committed by policy"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Build succeeds with nullable/warnings policy."]},
+    {"name": "architecture-tests", "purpose": "Enforce dependency direction.", "projectType": "ci-stage", "exactPathOrName": ".github/workflows/ci.yml: architecture-tests", "allowedDependencies": ["Chronicle.Architecture.Tests"], "forbiddenDependencies": ["forbidden references"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Fails for ADR-0043 forbidden reference examples."]},
+    {"name": "unit-and-contract-tests", "purpose": "Run unit, contract, persistence, provider, Rule Set, desktop, and end-to-end tests by maturity.", "projectType": "ci-stage", "exactPathOrName": ".github/workflows/ci.yml: tests", "allowedDependencies": ["test projects"], "forbiddenDependencies": ["live provider calls in default CI"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Initial empty/smoke tests pass; later suites expand by boundary."]},
+    {"name": "provenance-and-secret-scans", "purpose": "Scan secrets, dependency licenses, package provenance.", "projectType": "ci-stage", "exactPathOrName": ".github/workflows/ci.yml: scans", "allowedDependencies": ["scanner tools"], "forbiddenDependencies": ["publishing unknown-license artifacts"], "initialMaterializationStatus": "planned", "requiredForBootstrap": true, "acceptanceCriteria": ["Fails on committed secrets or missing required provenance."]},
+    {"name": "package-artifact-build", "purpose": "Build package artifacts only in release workflow after validation.", "projectType": "ci-stage", "exactPathOrName": ".github/workflows/release.yml: package", "allowedDependencies": ["validated package source"], "forbiddenDependencies": ["publication by build", "signing secrets on fork-based CI"], "initialMaterializationStatus": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["Build artifact is not published unless release workflow authorizes distribution."]},
+    {"name": "installer-build", "purpose": "Build Windows installer for release workflows.", "projectType": "ci-stage", "exactPathOrName": ".github/workflows/release.yml: installer", "allowedDependencies": ["build/installer/windows"], "forbiddenDependencies": ["committed signing credentials"], "initialMaterializationStatus": "deferred", "requiredForBootstrap": false, "acceptanceCriteria": ["Installer includes required license and notice inventory."]}
+  ],
+  "issues": [
+    {"id": "CI-ISSUE-001", "summary": "Exact CI runner OS and .NET SDK version must match ADR-0001 and ADR-0012 at bootstrap time.", "impact": "Resolved for BOOT-001 planning as .NET 10 LTS with Windows-only initial runner. Exact SDK patch remains owner-controlled at bootstrap file creation.", "status": "resolved-for-boot-001", "resolvedDate": "2026-08-03"}
+  ]
+}

@@ -1,0 +1,49 @@
+﻿{
+  "supersessions": [
+    {
+      "id": "SUPERSESSION-001",
+      "supersededMaterial": "ADR-0043@0.1.0",
+      "authorityDocument": "docs/adrs/ADR-0043-Repository-Topology-Project-Boundaries-and-Solution-Structure-v0.2.0.md",
+      "evidence": "frontmatter supersedes ADR-0043@0.1.0 and section 1 says the revision resolves conflict between ADR-0002 and the earlier ADR-0043.",
+      "requiredAction": "No edit needed; already explicit. Future inventory should not treat ADR-0043@0.1.0 as active authority.",
+      "architectureChange": false
+    },
+    {
+      "id": "SUPERSESSION-002",
+      "supersededMaterial": "ADR-0002 concrete topology examples when they conflict with ADR-0043 v0.2.0",
+      "authorityDocument": "docs/adrs/ADR-0043-Repository-Topology-Project-Boundaries-and-Solution-Structure-v0.2.0.md",
+      "evidence": "ADR-0043 says it defines folders/project names/solution organization and ADR-0002 remains architecture authority. This creates partial supersession of examples, not decisions.",
+      "requiredAction": "Applied by DR-0001 on 2026-08-03.",
+      "architectureChange": false,
+      "status": "resolved",
+      "resolvedBy": "DR-0001",
+      "effectiveDate": "2026-08-03",
+      "authorityBoundary": "ADR-0002 remains architecture-semantics authority; ADR-0043 v0.2.0 controls concrete current topology, project boundaries, paths, project names, and dependency layout.",
+      "conflictResolutionRule": "Where concrete topology statements conflict, ADR-0043 prevails."
+    },
+    {
+      "id": "SUPERSESSION-003",
+      "supersededMaterial": "Implicit direct extraction-to-publication assumptions",
+      "authorityDocument": "docs/specs/SPEC-0001-rule-set-package-artifact-model-and-extraction-contract.md plus Werewolf promotion-gate evidence",
+      "evidence": "Werewolf has extraction candidate documents, prototype-candidate artifacts, review-working-records, promotion gates, and runtimePublicationReady=false.",
+      "requiredAction": "Applied by DR-0003 on 2026-08-03.",
+      "architectureChange": true,
+      "status": "resolved",
+      "resolvedBy": "DR-0003",
+      "effectiveDate": "2026-08-03",
+      "resolution": "Defined shared lifecycle state metadata and allowed transitions in RFC-0027 and SPEC-0001. Direct extraction-to-publication assumptions are superseded by explicit promotion and publication states."
+    },
+    {
+      "id": "SUPERSESSION-004",
+      "supersededMaterial": "Implicit docs-prototype-to-package-source assumptions",
+      "authorityDocument": "docs/specs/SPEC-0001-rule-set-package-artifact-model-and-extraction-contract.md",
+      "evidence": "DR-0004 accepted Option B. SPEC-0001 now distinguishes documentation prototype, package source, packaged artifact, and installed artifact roles.",
+      "requiredAction": "Applied by DR-0004 on 2026-08-03.",
+      "architectureChange": true,
+      "status": "resolved",
+      "resolvedBy": "DR-0004",
+      "effectiveDate": "2026-08-03",
+      "resolution": "Documentation prototypes are review and authoring evidence only. Progression to package source, packaged artifact, and installed artifact requires explicit transformation, identity preservation, fingerprints, validation, reconciliation, and accepted evidence."
+    }
+  ]
+}

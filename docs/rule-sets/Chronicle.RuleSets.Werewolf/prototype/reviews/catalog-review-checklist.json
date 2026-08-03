@@ -1,0 +1,662 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-checklist",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-checklist.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewChecklist",
+  "purpose": [
+    "Provide the executable checklist used to review every current-slice catalog identity.",
+    "Standardize source verification, key normalization, classification bindings, localization requirements, fixture impact, test impact, and promotion readiness.",
+    "Ensure catalog review work produces complete, auditable, and comparable evidence across all catalogs.",
+    "Prevent partial approval, skipped checks, and implicit acceptance of candidate identities."
+  ],
+  "authority": {
+    "checklistDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "completionValidationAuthority": "ChronicleDeliveryInfrastructure",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticCheckCompletionAllowed": false,
+    "implementationMayMarkReviewComplete": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "reviewBindings": {
+    "catalogIdentityReviewArtifactRef": "./catalog-identity-review.json",
+    "catalogIdentityDecisionArtifactRef": "./catalog-identity-decisions.json",
+    "reviewModelIndexArtifactRef": "./review-model-index.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "checkStatusModel": {
+    "allowedStatuses": [
+      "not-started",
+      "in-progress",
+      "passed",
+      "failed",
+      "blocked",
+      "not-applicable"
+    ],
+    "passedRequiresEvidence": true,
+    "notApplicableRequiresRationale": true,
+    "failedRequiresIssueKey": true,
+    "blockedRequiresBlockingReasonKey": true,
+    "manualOverallApprovalWithoutPassedRequiredChecksAllowed": false
+  },
+  "commonChecklist": [
+    {
+      "checkKey": "catalog-review.artifact-loads",
+      "category": "contract",
+      "required": true,
+      "description": "The catalog artifact loads successfully under its declared contract version.",
+      "requiredEvidenceTypes": [
+        "contract-validation-report"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.catalog-key-matches-index",
+      "category": "contract",
+      "required": true,
+      "description": "The catalog key, artifact key, and index binding reconcile.",
+      "requiredEvidenceTypes": [
+        "contract-validation-report"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.entry-keys-unique",
+      "category": "identity",
+      "required": true,
+      "description": "Every entry key in the catalog is unique.",
+      "requiredEvidenceTypes": [
+        "catalog-review-record"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.source-name-match",
+      "category": "source",
+      "required": true,
+      "description": "The source-backed identity name matches the intended catalog entry.",
+      "requiredEvidenceTypes": [
+        "source-review-record"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.normalized-key-stable",
+      "category": "identity",
+      "required": true,
+      "description": "The normalized technical key is stable, unambiguous, and compliant with naming policy.",
+      "requiredEvidenceTypes": [
+        "catalog-review-record"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.display-name-not-used-as-identity",
+      "category": "identity",
+      "required": true,
+      "description": "Display names and localized text are not used as persistent identifiers.",
+      "requiredEvidenceTypes": [
+        "catalog-review-record"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.localization-key-present",
+      "category": "localization",
+      "required": true,
+      "description": "Every current-slice entry declares a localization resource key.",
+      "requiredEvidenceTypes": [
+        "localization-validation-report"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.required-entry-present",
+      "category": "coverage",
+      "required": true,
+      "description": "Every current-slice required identity is present.",
+      "requiredEvidenceTypes": [
+        "catalog-review-record"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.fixture-references-resolve",
+      "category": "fixtures",
+      "required": true,
+      "description": "Every fixture reference to the catalog resolves to an active reviewed identity.",
+      "requiredEvidenceTypes": [
+        "fixture-validation-report"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.operation-bindings-resolve",
+      "category": "operations",
+      "required": true,
+      "description": "Every operation binding using catalog identities resolves.",
+      "requiredEvidenceTypes": [
+        "contract-validation-report"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.validation-bindings-resolve",
+      "category": "validation",
+      "required": true,
+      "description": "Every validation rule using catalog identities resolves.",
+      "requiredEvidenceTypes": [
+        "contract-validation-report"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.test-bindings-resolve",
+      "category": "tests",
+      "required": true,
+      "description": "Every required test using catalog identities resolves.",
+      "requiredEvidenceTypes": [
+        "test-run-report"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.no-raw-source-text",
+      "category": "security",
+      "required": true,
+      "description": "The catalog does not embed raw sourcebook text.",
+      "requiredEvidenceTypes": [
+        "security-review-record"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.decision-recorded",
+      "category": "review",
+      "required": true,
+      "description": "Every required identity has exactly one active formal decision.",
+      "requiredEvidenceTypes": [
+        "review-record"
+      ]
+    },
+    {
+      "checkKey": "catalog-review.affected-artifacts-reconciled",
+      "category": "reconciliation",
+      "required": true,
+      "description": "All artifacts affected by identity changes have been updated and fingerprinted.",
+      "requiredEvidenceTypes": [
+        "reconciliation-report"
+      ]
+    }
+  ],
+  "catalogChecklists": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "artifactRef": "../character-model/catalogs/races.json",
+      "requiredIdentityKeys": [
+        "character.race.homid",
+        "character.race.metis",
+        "character.race.lupus"
+      ],
+      "specificChecks": [
+        "catalog-review.races.gnosis-values-resolve",
+        "catalog-review.races.gift-eligibility-resolves",
+        "catalog-review.races.metis-deformity-applicability-resolves"
+      ],
+      "status": "not-started"
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "artifactRef": "../character-model/catalogs/auspices.json",
+      "requiredIdentityKeys": [
+        "character.auspice.ragabash",
+        "character.auspice.philodox"
+      ],
+      "specificChecks": [
+        "catalog-review.auspices.rage-values-resolve",
+        "catalog-review.auspices.initial-renown-resolves",
+        "catalog-review.auspices.gift-eligibility-resolves"
+      ],
+      "status": "not-started"
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "artifactRef": "../character-model/catalogs/tribes.json",
+      "requiredIdentityKeys": [
+        "character.tribe.glass-walkers"
+      ],
+      "specificChecks": [
+        "catalog-review.tribes.willpower-values-resolve",
+        "catalog-review.tribes.gift-eligibility-resolves",
+        "catalog-review.tribes.background-restrictions-resolve"
+      ],
+      "status": "not-started"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "artifactRef": "../character-model/catalogs/attributes.json",
+      "requiredIdentityKeys": [
+        "character.attribute.strength",
+        "character.attribute.dexterity",
+        "character.attribute.stamina",
+        "character.attribute.charisma",
+        "character.attribute.manipulation",
+        "character.attribute.appearance",
+        "character.attribute.perception",
+        "character.attribute.intelligence",
+        "character.attribute.wits"
+      ],
+      "specificChecks": [
+        "catalog-review.attributes.all-nine-present",
+        "catalog-review.attributes.category-bindings-valid",
+        "catalog-review.attributes.stable-order-valid"
+      ],
+      "status": "not-started"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "artifactRef": "../character-model/catalogs/abilities.json",
+      "requiredIdentityKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.leadership",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.performance",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.occult",
+        "character.ability.politics",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.etiquette",
+        "character.ability.law"
+      ],
+      "specificChecks": [
+        "catalog-review.abilities.category-bindings-valid",
+        "catalog-review.abilities.lupus-restriction-keys-resolve",
+        "catalog-review.abilities.stable-order-valid"
+      ],
+      "status": "not-started"
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "artifactRef": "../character-model/catalogs/backgrounds.json",
+      "requiredIdentityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "specificChecks": [
+        "catalog-review.backgrounds.tribe-restriction-bindings-resolve",
+        "catalog-review.backgrounds.stable-order-valid"
+      ],
+      "status": "not-started"
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "artifactRef": "../character-model/catalogs/metis-deformities.json",
+      "requiredIdentityKeys": [
+        "character.metis-deformity.horns"
+      ],
+      "specificChecks": [
+        "catalog-review.metis-deformities.candidate-identity-resolved",
+        "catalog-review.metis-deformities.metis-only-binding-valid",
+        "catalog-review.metis-deformities.fixture-impact-reconciled"
+      ],
+      "status": "blocked"
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "artifactRef": "../character-model/catalogs/ranks.json",
+      "requiredIdentityKeys": [
+        "character.rank.cliath"
+      ],
+      "specificChecks": [
+        "catalog-review.ranks.initial-rank-identity-valid",
+        "catalog-review.ranks.numeric-binding-valid"
+      ],
+      "status": "not-started"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "artifactRef": "../character-model/catalogs/initial-gifts.json",
+      "requiredIdentityKeys": [
+        "gift.race.homid.master-of-fire",
+        "gift.auspice.ragabash.open-seal",
+        "gift.tribe.glass-walkers.control-simple-machine",
+        "gift.race.metis.create-element",
+        "gift.auspice.philodox.resist-pain",
+        "gift.race.lupus.hare-leap"
+      ],
+      "specificChecks": [
+        "catalog-review.initial-gifts.candidate-identities-resolved",
+        "catalog-review.initial-gifts.level-one-binding-valid",
+        "catalog-review.initial-gifts.classification-eligibility-valid",
+        "catalog-review.initial-gifts.runtime-effect-text-not-required",
+        "catalog-review.initial-gifts.additional-purchase-remains-blocked"
+      ],
+      "status": "blocked"
+    }
+  ],
+  "specificCheckDefinitions": [
+    {
+      "checkKey": "catalog-review.races.gnosis-values-resolve",
+      "required": true,
+      "description": "Homid, Metis, and Lupus identities bind to reviewed initial Gnosis values."
+    },
+    {
+      "checkKey": "catalog-review.races.gift-eligibility-resolves",
+      "required": true,
+      "description": "Race identities bind only to reviewed initial Gift eligibility."
+    },
+    {
+      "checkKey": "catalog-review.races.metis-deformity-applicability-resolves",
+      "required": true,
+      "description": "Metis identity activates the deformity requirement and other races do not."
+    },
+    {
+      "checkKey": "catalog-review.auspices.rage-values-resolve",
+      "required": true,
+      "description": "Auspice identities bind to reviewed initial Rage values."
+    },
+    {
+      "checkKey": "catalog-review.auspices.initial-renown-resolves",
+      "required": true,
+      "description": "Auspice identities bind to reviewed initial Renown rules."
+    },
+    {
+      "checkKey": "catalog-review.auspices.gift-eligibility-resolves",
+      "required": true,
+      "description": "Auspice identities bind only to reviewed initial Gift eligibility."
+    },
+    {
+      "checkKey": "catalog-review.tribes.willpower-values-resolve",
+      "required": true,
+      "description": "Tribe identities bind to reviewed initial Willpower values."
+    },
+    {
+      "checkKey": "catalog-review.tribes.gift-eligibility-resolves",
+      "required": true,
+      "description": "Tribe identities bind only to reviewed initial Gift eligibility."
+    },
+    {
+      "checkKey": "catalog-review.tribes.background-restrictions-resolve",
+      "required": true,
+      "description": "Any Tribe-specific Background restrictions reference valid reviewed identities."
+    },
+    {
+      "checkKey": "catalog-review.attributes.all-nine-present",
+      "required": true,
+      "description": "All nine current-slice Attribute identities are present."
+    },
+    {
+      "checkKey": "catalog-review.attributes.category-bindings-valid",
+      "required": true,
+      "description": "Physical, Social, and Mental category assignments are valid."
+    },
+    {
+      "checkKey": "catalog-review.attributes.stable-order-valid",
+      "required": true,
+      "description": "The declared Attribute order is stable and deterministic."
+    },
+    {
+      "checkKey": "catalog-review.abilities.category-bindings-valid",
+      "required": true,
+      "description": "Talent, Skill, and Knowledge category assignments are valid."
+    },
+    {
+      "checkKey": "catalog-review.abilities.lupus-restriction-keys-resolve",
+      "required": true,
+      "description": "Every Lupus-restricted Ability key resolves to a reviewed Ability identity."
+    },
+    {
+      "checkKey": "catalog-review.abilities.stable-order-valid",
+      "required": true,
+      "description": "The declared Ability order is stable and deterministic."
+    },
+    {
+      "checkKey": "catalog-review.backgrounds.tribe-restriction-bindings-resolve",
+      "required": true,
+      "description": "Any Tribe-specific Background restriction references valid reviewed identities."
+    },
+    {
+      "checkKey": "catalog-review.backgrounds.stable-order-valid",
+      "required": true,
+      "description": "The declared Background order is stable and deterministic."
+    },
+    {
+      "checkKey": "catalog-review.metis-deformities.candidate-identity-resolved",
+      "required": true,
+      "description": "The candidate Metis deformity identity receives a final source-backed decision."
+    },
+    {
+      "checkKey": "catalog-review.metis-deformities.metis-only-binding-valid",
+      "required": true,
+      "description": "The deformity catalog is applicable only when Race is Metis."
+    },
+    {
+      "checkKey": "catalog-review.metis-deformities.fixture-impact-reconciled",
+      "required": true,
+      "description": "All fixtures using the deformity identity are updated and fingerprinted."
+    },
+    {
+      "checkKey": "catalog-review.ranks.initial-rank-identity-valid",
+      "required": true,
+      "description": "Cliath is the reviewed initial Rank identity."
+    },
+    {
+      "checkKey": "catalog-review.ranks.numeric-binding-valid",
+      "required": true,
+      "description": "The initial Rank identity binds to numeric Rank 1."
+    },
+    {
+      "checkKey": "catalog-review.initial-gifts.candidate-identities-resolved",
+      "required": true,
+      "description": "Every current-slice initial Gift candidate receives a final source-backed identity decision."
+    },
+    {
+      "checkKey": "catalog-review.initial-gifts.level-one-binding-valid",
+      "required": true,
+      "description": "Every current-slice initial Gift is reviewed as Level One."
+    },
+    {
+      "checkKey": "catalog-review.initial-gifts.classification-eligibility-valid",
+      "required": true,
+      "description": "Each Gift binds to exactly one valid Race, Auspice, or Tribe initial slot."
+    },
+    {
+      "checkKey": "catalog-review.initial-gifts.runtime-effect-text-not-required",
+      "required": true,
+      "description": "Runtime effect text is not required for ownership-only Character creation support."
+    },
+    {
+      "checkKey": "catalog-review.initial-gifts.additional-purchase-remains-blocked",
+      "required": true,
+      "description": "Reviewing initial Gift identities does not enable additional Gift purchases."
+    }
+  ],
+  "evidenceRecordShape": {
+    "evidenceId": "Reference",
+    "catalogKey": "Reference",
+    "checkKey": "Reference",
+    "status": "Text",
+    "sourceEvidenceRef": "Reference",
+    "artifactEvidenceRefs": "ReferenceCollection",
+    "fixtureKeys": "ReferenceCollection",
+    "testSuiteKeys": "ReferenceCollection",
+    "issueKey": "Reference",
+    "blockingReasonKey": "Reference",
+    "rationale": "Text",
+    "reviewer": "Text",
+    "recordedAt": "Text"
+  },
+  "evidenceRecords": [],
+  "completionPolicy": {
+    "catalogCompleteWhen": "all-common-and-specific-required-checks-pass-or-have-approved-not-applicable-decisions",
+    "overallChecklistCompleteWhen": "all-current-slice-catalogs-complete",
+    "blockedCatalogMayNotCountAsComplete": true,
+    "failedCheckBlocksCatalogApproval": true,
+    "missingEvidenceBlocksCheckPass": true,
+    "candidateIdentityBlocksCompletion": true,
+    "completionRequiresDecisionSetReconciliation": true
+  },
+  "reviewOrder": [
+    "character-model.catalog.races",
+    "character-model.catalog.auspices",
+    "character-model.catalog.tribes",
+    "character-model.catalog.attributes",
+    "character-model.catalog.abilities",
+    "character-model.catalog.backgrounds",
+    "character-model.catalog.metis-deformities",
+    "character-model.catalog.ranks",
+    "character-model.catalog.initial-gifts"
+  ],
+  "currentStatus": {
+    "status": "not-started",
+    "completedCatalogCount": 0,
+    "inProgressCatalogCount": 0,
+    "blockedCatalogCount": 2,
+    "notStartedCatalogCount": 7,
+    "failedCheckCount": 0,
+    "passedCheckCount": 0,
+    "currentCatalogKey": "character-model.catalog.races",
+    "promotionBlocking": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-checklist.catalog-keys-unique",
+      "severity": "blocking",
+      "requirement": "every catalogKey appears exactly once"
+    },
+    {
+      "ruleKey": "catalog-review-checklist.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every common and specific checkKey is unique"
+    },
+    {
+      "ruleKey": "catalog-review-checklist.check-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every catalog-specific check reference resolves"
+    },
+    {
+      "ruleKey": "catalog-review-checklist.required-identities-resolve",
+      "severity": "blocking",
+      "requirement": "every required identity key resolves in its catalog"
+    },
+    {
+      "ruleKey": "catalog-review-checklist.passed-check-has-evidence",
+      "severity": "blocking",
+      "requirement": "every passed check has a complete evidence record"
+    },
+    {
+      "ruleKey": "catalog-review-checklist.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "currentStatus counts reconcile with catalog and evidence states"
+    },
+    {
+      "ruleKey": "catalog-review-checklist.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog approval requires all required checks and formal decisions"
+    }
+  ],
+  "fingerprintPolicy": {
+    "checklistFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeCommonChecklist": true,
+    "includeCatalogChecklists": true,
+    "includeSpecificCheckDefinitions": true,
+    "includeEvidenceRecords": true,
+    "includeCurrentStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "current-catalog-key",
+      "catalog-statuses",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-evidence-check-keys",
+      "candidate-identity-keys",
+      "fixture-impact",
+      "test-impact",
+      "promotion-impact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "catalogKeys",
+      "identityKeys",
+      "checkKeys",
+      "statuses",
+      "issueKeys",
+      "fixtureKeys",
+      "suiteKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewCheckRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "checkKey": "Reference",
+        "status": "Text",
+        "checklistFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewChecklistCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "completedCatalogKeys": "ReferenceCollection",
+        "checklistFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "checklistStatus": "not-started",
+    "evidenceStatus": "missing",
+    "fixtureReconciliationStatus": "pending",
+    "testReconciliationStatus": "pending",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This checklist starts with Race identities and proceeds through the declared catalog review order.",
+    "Metis deformities and initial Gifts begin blocked because candidate identities remain unresolved.",
+    "A check cannot pass without a versioned evidence record.",
+    "Reviewing ownership identities for Gifts does not require runtime Gift effect implementation.",
+    "Completing this checklist does not by itself finalize the decision set; formal decisions and reconciliation remain required.",
+    "Chronicle owns checklist validation, evidence integrity, status calculation, diagnostics, fingerprints, and promotion enforcement.",
+    "Assigned Rule Set reviewers own the actual source-backed review work."
+  ]
+}

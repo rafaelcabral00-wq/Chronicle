@@ -1,0 +1,1212 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.prototype-delivery-plan",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.delivery-plan.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeDelivery",
+  "purpose": [
+    "Define the implementation and review sequence required to turn the Werewolf prototype artifacts into an executable, testable, and promotable Rule Set slice.",
+    "Translate prototype readiness, blockers, dependencies, and promotion gates into ordered delivery work packages.",
+    "Keep the current Character creation slice bounded while preserving explicit future capabilities.",
+    "Provide a deterministic planning artifact for implementation, review, testing, security, packaging, and release preparation."
+  ],
+  "authority": {
+    "planDefinitionAuthority": "ChronicleArchitecture",
+    "workPackageExecutionAuthority": "AssignedOwner",
+    "statusEvidenceAuthority": "VersionedImplementationReviewAndTestArtifacts",
+    "scopeChangeAuthority": "ChronicleArchitectureReview",
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false,
+    "silentScopeExpansionAllowed": false
+  },
+  "deliveryObjective": {
+    "objectiveKey": "werewolf-prototype.delivery.character-creation-slice",
+    "description": "Deliver one local-first, deterministic, package-driven Werewolf Character creation slice from draft initialization through atomic Character activation.",
+    "includedCapabilities": [
+      "character-model",
+      "character-creation",
+      "character-validation",
+      "character-sheet",
+      "creation-ledger",
+      "invalidation-lifecycle",
+      "completion-snapshot",
+      "completion-atomicity",
+      "fixture-driven-tests",
+      "promotion-evidence"
+    ],
+    "excludedCapabilities": [
+      "generic-dice",
+      "additional-gift-purchase",
+      "post-creation-character-operations",
+      "runtime-gift-execution",
+      "multiplayer",
+      "mobile-clients",
+      "streaming",
+      "additional-rule-sets"
+    ]
+  },
+  "deliveryPhases": [
+    {
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "order": 10,
+      "nameResourceKey": "werewolf-prototype.delivery.phase.semantic-review",
+      "objective": "Make all current-slice mechanical and content identities reviewable and unambiguous enough for implementation.",
+      "entryCriteria": [
+        "prototype-package-index-loads",
+        "prototype-readiness-available",
+        "source-fingerprint-known"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.review-catalog-identities",
+        "delivery.wp.review-creation-mechanics",
+        "delivery.wp.resolve-candidate-fixture-keys",
+        "delivery.wp.freeze-current-slice-ambiguity-boundaries"
+      ],
+      "exitCriteria": [
+        "all-current-slice-catalog-identities-reviewed",
+        "all-current-slice-mechanical-rules-reviewed",
+        "candidate-fixture-keys-resolved",
+        "unsupported-ambiguities-explicitly-excluded",
+        "semantic-review-record-created"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "phaseKey": "delivery.phase-2.package-loading-foundation",
+      "order": 20,
+      "nameResourceKey": "werewolf-prototype.delivery.phase.package-foundation",
+      "objective": "Implement manifest-driven package discovery, artifact loading, contract validation, and package isolation.",
+      "entryCriteria": [
+        "delivery.phase-1.semantic-and-content-review.complete"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.implement-package-loader",
+        "delivery.wp.implement-contract-validator",
+        "delivery.wp.implement-fingerprint-service",
+        "delivery.wp.implement-package-diagnostics"
+      ],
+      "exitCriteria": [
+        "prototype-package-loads-without-werewolf-registration",
+        "all-required-artifact-refs-resolve",
+        "unsupported-contracts-fail-deterministically",
+        "package-root-isolation-enforced",
+        "package-load-test-suite-passes"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "order": 30,
+      "nameResourceKey": "werewolf-prototype.delivery.phase.creation-runtime",
+      "objective": "Implement Character creation state, operations, deterministic dependencies, validation, and ledger semantics.",
+      "entryCriteria": [
+        "delivery.phase-2.package-loading-foundation.complete"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.implement-character-draft-model",
+        "delivery.wp.implement-operation-dispatch",
+        "delivery.wp.implement-creation-ledger",
+        "delivery.wp.implement-dependency-reconciliation",
+        "delivery.wp.implement-invalidation-lifecycle",
+        "delivery.wp.implement-validation-dispatch",
+        "delivery.wp.implement-stage-and-review-projections"
+      ],
+      "exitCriteria": [
+        "all-indexed-character-creation-operations-executable",
+        "base-and-freebie-budgets-reconcile",
+        "classification-dependencies-reconcile",
+        "invalid-user-selections-preserved-and-flagged",
+        "validation-modes-operational",
+        "creation-fixtures-materialize",
+        "character-creation-contract-and-invalid-path-suites-pass"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "phaseKey": "delivery.phase-4-character-sheet",
+      "order": 40,
+      "nameResourceKey": "werewolf-prototype.delivery.phase.character-sheet",
+      "objective": "Render the package-defined Character sheet without Werewolf-specific presentation code.",
+      "entryCriteria": [
+        "delivery.phase-3.character-creation-runtime.complete"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.implement-sheet-loader",
+        "delivery.wp.implement-headless-sheet-projection",
+        "delivery.wp.implement-desktop-sheet-rendering",
+        "delivery.wp.implement-sheet-operation-bindings",
+        "delivery.wp.implement-accessibility-contracts"
+      ],
+      "exitCriteria": [
+        "default-sheet-renders-valid-and-invalid-fixtures",
+        "all-field-and-operation-bindings-resolve",
+        "metis-conditional-visibility-works",
+        "stale-draft-controls-disabled",
+        "read-only-mode-has-no-mutations",
+        "character-sheet-projection-suite-passes"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "phaseKey": "delivery.phase-5-completion-and-persistence",
+      "order": 50,
+      "nameResourceKey": "werewolf-prototype.delivery.phase.completion-persistence",
+      "objective": "Implement encrypted persistence and atomic Character completion.",
+      "entryCriteria": [
+        "delivery.phase-3.character-creation-runtime.complete"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.implement-encrypted-sqlite",
+        "delivery.wp.implement-completion-snapshot",
+        "delivery.wp.implement-complete-character-transaction",
+        "delivery.wp.implement-idempotency",
+        "delivery.wp.implement-event-outbox",
+        "delivery.wp.implement-backup-and-restore"
+      ],
+      "exitCriteria": [
+        "sqlite-encrypted-at-rest",
+        "completion-snapshot-immutable",
+        "ledger-freeze-and-character-activation-atomic",
+        "idempotent-retry-behavior-correct",
+        "failure-injection-rolls-back-all-state",
+        "encrypted-backup-and-clean-install-restore-pass",
+        "completion-atomicity-suite-passes"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "phaseKey": "delivery.phase-6-test-and-security-hardening",
+      "order": 60,
+      "nameResourceKey": "werewolf-prototype.delivery.phase.test-security",
+      "objective": "Implement the deterministic test model and complete security verification.",
+      "entryCriteria": [
+        "delivery.phase-4-character-sheet.complete",
+        "delivery.phase-5-completion-and-persistence.complete"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.implement-test-environment",
+        "delivery.wp.implement-fixture-builder",
+        "delivery.wp.implement-test-suite-runner",
+        "delivery.wp.implement-test-reporting",
+        "delivery.wp.complete-security-review",
+        "delivery.wp.close-required-test-gaps"
+      ],
+      "exitCriteria": [
+        "all-required-ready-suites-pass",
+        "canonical-test-report-generated",
+        "security-review-approved",
+        "no-required-suite-skipped",
+        "artifact-and-result-fingerprints-recorded",
+        "promotion-profile-evidence-eligible"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "phaseKey": "delivery.phase-7-packaging-and-promotion",
+      "order": 70,
+      "nameResourceKey": "werewolf-prototype.delivery.phase.packaging-promotion",
+      "objective": "Produce versioned publishable package artifacts from the reviewed and tested prototype.",
+      "entryCriteria": [
+        "delivery.phase-6-test-and-security-hardening.complete"
+      ],
+      "workPackageKeys": [
+        "delivery.wp.define-prototype-to-package-migration",
+        "delivery.wp.implement-reproducible-package-build",
+        "delivery.wp.generate-release-metadata",
+        "delivery.wp.evaluate-promotion-gate",
+        "delivery.wp.promote-current-slice"
+      ],
+      "exitCriteria": [
+        "migration-strategy-approved",
+        "clean-build-reproducible",
+        "package-content-allowlist-valid",
+        "promotion-gate-passed",
+        "new-versioned-package-artifacts-created",
+        "prototype-history-preserved",
+        "clean-install-package-load-passes"
+      ],
+      "promotionImpact": "final"
+    }
+  ],
+  "workPackages": [
+    {
+      "workPackageKey": "delivery.wp.review-catalog-identities",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "deliverables": [
+        "reviewed-race-auspice-tribe-identities",
+        "reviewed-attribute-ability-background-identities",
+        "reviewed-rank-deformity-and-gift-identities",
+        "catalog-review-evidence"
+      ],
+      "dependsOn": [],
+      "definitionOfDone": [
+        "all-current-slice-catalog-keys-stable",
+        "all-fixture-references-resolve",
+        "all-localization-keys-defined-or-tracked"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.review-creation-mechanics",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "deliverables": [
+        "reviewed-allocation-rules",
+        "reviewed-freebie-costs",
+        "reviewed-derived-resources",
+        "reviewed-initial-renown",
+        "reviewed-conditional-restrictions"
+      ],
+      "dependsOn": [
+        "delivery.wp.review-catalog-identities"
+      ],
+      "definitionOfDone": [
+        "all-promoted-mechanical-claims-trace-to-reviewed-extraction",
+        "no-unreviewed-rule-marked-confirmed",
+        "unsupported-rules-remain-blocked-or-excluded"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.resolve-candidate-fixture-keys",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "deliverables": [
+        "resolved-metis-deformity-key",
+        "resolved-metis-gift-keys",
+        "resolved-lupus-gift-key",
+        "updated-fixture-fingerprints"
+      ],
+      "dependsOn": [
+        "delivery.wp.review-catalog-identities"
+      ],
+      "definitionOfDone": [
+        "no-current-slice-fixture-remains-candidate-partial-because-of-content-identity"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.freeze-current-slice-ambiguity-boundaries",
+      "phaseKey": "delivery.phase-1.semantic-and-content-review",
+      "ownerType": "ChronicleArchitectureReview",
+      "priority": "high",
+      "deliverables": [
+        "accepted-exclusion-record",
+        "supported-capability-list",
+        "blocked-capability-list"
+      ],
+      "dependsOn": [
+        "delivery.wp.review-creation-mechanics"
+      ],
+      "definitionOfDone": [
+        "generic-dice-excluded",
+        "additional-gift-purchase-excluded",
+        "post-creation-runtime-excluded",
+        "runtime-gift-execution-excluded"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-package-loader",
+      "phaseKey": "delivery.phase-2.package-loading-foundation",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "manifest-driven-package-discovery",
+        "recursive-index-loader",
+        "package-root-isolation"
+      ],
+      "dependsOn": [
+        "delivery.wp.freeze-current-slice-ambiguity-boundaries"
+      ],
+      "definitionOfDone": [
+        "prototype-loads-from-filesystem",
+        "no-services-add-werewolf-registration",
+        "missing-required-artifact-fails-deterministically"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-contract-validator",
+      "phaseKey": "delivery.phase-2.package-loading-foundation",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "artifact-contract-validation",
+        "reference-validation",
+        "dependency-cycle-validation",
+        "readiness-validation"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-package-loader"
+      ],
+      "definitionOfDone": [
+        "all-package-load-contract-tests-pass"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-fingerprint-service",
+      "phaseKey": "delivery.phase-2.package-loading-foundation",
+      "ownerType": "ChronicleImplementation",
+      "priority": "high",
+      "deliverables": [
+        "canonical-json-serialization",
+        "sha-256-artifact-fingerprints",
+        "fingerprint-reconciliation"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-contract-validator"
+      ],
+      "definitionOfDone": [
+        "same-artifact-produces-stable-fingerprint",
+        "changed-artifact-invalidates-dependent-evidence"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-package-diagnostics",
+      "phaseKey": "delivery.phase-2.package-loading-foundation",
+      "ownerType": "ChronicleImplementation",
+      "priority": "medium",
+      "deliverables": [
+        "package-load-diagnostics",
+        "developer-mode-details",
+        "capability-impact-reporting"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-contract-validator"
+      ],
+      "definitionOfDone": [
+        "load-failures-expose-stable-diagnostic-keys-without-sensitive-content"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-character-draft-model",
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "versioned-character-draft",
+        "package-binding",
+        "creation-state-persistence"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-package-loader"
+      ],
+      "definitionOfDone": [
+        "minimal-valid-fixture-materializes",
+        "draft-version-checks-enforced"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-operation-dispatch",
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "operation-index-dispatch",
+        "precondition-validation",
+        "idempotent-operation-contracts"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-character-draft-model"
+      ],
+      "definitionOfDone": [
+        "all-current-slice-operation-keys-dispatch",
+        "unknown-operation-rejected"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-creation-ledger",
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "append-only-creation-ledger",
+        "budget-reconciliation",
+        "compensating-entries"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-operation-dispatch"
+      ],
+      "definitionOfDone": [
+        "base-budgets-reconcile",
+        "freebie-costs-reconcile",
+        "overspend-detected",
+        "history-preserved"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-dependency-reconciliation",
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "dependency-closure-evaluation",
+        "deterministic-derived-value-recalculation",
+        "preserve-and-review-behavior"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-operation-dispatch"
+      ],
+      "definitionOfDone": [
+        "classification-change-preview-no-mutation",
+        "race-change-recalculates-gnosis",
+        "user-selections-not-silently-replaced"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-invalidation-lifecycle",
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "open-resolved-superseded-invalidations",
+        "resolution-operation-binding",
+        "invalidation-history"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-dependency-reconciliation"
+      ],
+      "definitionOfDone": [
+        "fixture-invalidations-created-and-resolved-as-declared"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-validation-dispatch",
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "priority": "critical",
+      "deliverables": [
+        "affected-validation",
+        "current-stage-validation",
+        "full-draft-validation",
+        "completion-readiness-validation"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-creation-ledger",
+        "delivery.wp.implement-invalidation-lifecycle"
+      ],
+      "definitionOfDone": [
+        "validation-results-deterministic",
+        "all-issues-collected",
+        "cached-validation-cannot-authorize-completion"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-stage-and-review-projections",
+      "phaseKey": "delivery.phase-3.character-creation-runtime",
+      "ownerType": "ChronicleImplementation",
+      "priority": "high",
+      "deliverables": [
+        "stage-state-projection",
+        "review-summary-projection",
+        "projection-rebuild"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-validation-dispatch"
+      ],
+      "definitionOfDone": [
+        "stage-statuses-match-fixture-expectations",
+        "stale-projections-detected",
+        "review-summary-never-authorizes-commit"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-sheet-loader",
+      "phaseKey": "delivery.phase-4-character-sheet",
+      "ownerType": "ChroniclePresentation",
+      "priority": "high",
+      "deliverables": [
+        "character-sheet-index-loader",
+        "layout-contract-validation"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-stage-and-review-projections"
+      ],
+      "definitionOfDone": [
+        "default-sheet-loads-without-werewolf-specific-screen"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-headless-sheet-projection",
+      "phaseKey": "delivery.phase-4-character-sheet",
+      "ownerType": "ChroniclePresentation",
+      "priority": "high",
+      "deliverables": [
+        "field-binding-projection",
+        "conditional-visibility-projection",
+        "validation-and-stage-binding"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-sheet-loader"
+      ],
+      "definitionOfDone": [
+        "headless-projection-suite-passes"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-desktop-sheet-rendering",
+      "phaseKey": "delivery.phase-4-character-sheet",
+      "ownerType": "ChroniclePresentation",
+      "priority": "medium",
+      "deliverables": [
+        "desktop-first-sheet-rendering",
+        "rating-and-resource-components",
+        "creation-preview-mode",
+        "read-only-mode"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-headless-sheet-projection"
+      ],
+      "definitionOfDone": [
+        "valid-and-invalid-fixtures-render",
+        "semantic-section-order-preserved"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-sheet-operation-bindings",
+      "phaseKey": "delivery.phase-4-character-sheet",
+      "ownerType": "ChroniclePresentation",
+      "priority": "high",
+      "deliverables": [
+        "operation-key-bound-controls",
+        "blocked-operation-reasons",
+        "stale-draft-protection"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-desktop-sheet-rendering"
+      ],
+      "definitionOfDone": [
+        "no-direct-field-mutation",
+        "all-controls-use-indexed-operations"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-accessibility-contracts",
+      "phaseKey": "delivery.phase-4-character-sheet",
+      "ownerType": "ChroniclePresentation",
+      "priority": "high",
+      "deliverables": [
+        "keyboard-navigation",
+        "screen-reader-labels",
+        "text-alternatives-for-ratings",
+        "non-color-status-indicators"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-desktop-sheet-rendering"
+      ],
+      "definitionOfDone": [
+        "accessibility-contract-tests-pass"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-encrypted-sqlite",
+      "phaseKey": "delivery.phase-5-completion-and-persistence",
+      "ownerType": "ChroniclePersistence",
+      "priority": "critical",
+      "deliverables": [
+        "encrypted-sqlite-storage",
+        "key-provider-boundary",
+        "schema-migrations"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-character-draft-model"
+      ],
+      "definitionOfDone": [
+        "plaintext-database-forbidden",
+        "foreign-keys-enabled",
+        "clean-install-storage-initializes"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-completion-snapshot",
+      "phaseKey": "delivery.phase-5-completion-and-persistence",
+      "ownerType": "ChroniclePersistence",
+      "priority": "critical",
+      "deliverables": [
+        "immutable-completion-snapshot",
+        "source-and-validation-fingerprint-binding"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-validation-dispatch",
+        "delivery.wp.implement-encrypted-sqlite"
+      ],
+      "definitionOfDone": [
+        "snapshot-rebuild-not-required-after-commit",
+        "snapshot-cannot-be-mutated"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-complete-character-transaction",
+      "phaseKey": "delivery.phase-5-completion-and-persistence",
+      "ownerType": "ChronicleApplication",
+      "priority": "critical",
+      "deliverables": [
+        "fresh-validation-inside-transaction",
+        "ledger-freeze",
+        "character-activation",
+        "snapshot-persistence"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-completion-snapshot",
+        "delivery.wp.implement-stage-and-review-projections"
+      ],
+      "definitionOfDone": [
+        "success-is-atomic",
+        "all-injected-failures-fully-roll-back"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-idempotency",
+      "phaseKey": "delivery.phase-5-completion-and-persistence",
+      "ownerType": "ChronicleApplication",
+      "priority": "high",
+      "deliverables": [
+        "idempotency-record-storage",
+        "same-key-same-request-replay",
+        "same-key-different-request-conflict"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-complete-character-transaction"
+      ],
+      "definitionOfDone": [
+        "retries-do-not-duplicate-snapshot-version-or-events"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-event-outbox",
+      "phaseKey": "delivery.phase-5-completion-and-persistence",
+      "ownerType": "ChroniclePersistence",
+      "priority": "high",
+      "deliverables": [
+        "transactional-event-outbox",
+        "post-commit-publication",
+        "duplicate-detection"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-complete-character-transaction"
+      ],
+      "definitionOfDone": [
+        "no-event-visible-before-commit",
+        "rollback-publishes-nothing"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-backup-and-restore",
+      "phaseKey": "delivery.phase-5-completion-and-persistence",
+      "ownerType": "ChroniclePersistence",
+      "priority": "high",
+      "deliverables": [
+        "encrypted-backup",
+        "clean-install-restore",
+        "key-recovery-boundary"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-encrypted-sqlite"
+      ],
+      "definitionOfDone": [
+        "backup-remains-encrypted",
+        "clean-install-recovery-test-passes"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-test-environment",
+      "phaseKey": "delivery.phase-6-test-and-security-hardening",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "deterministic-clock",
+        "deterministic-identifiers",
+        "seeded-random-adapter",
+        "isolated-encrypted-test-database",
+        "failure-injection"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-encrypted-sqlite"
+      ],
+      "definitionOfDone": [
+        "test-environment-contract-loads",
+        "tests-run-without-network-or-provider"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-fixture-builder",
+      "phaseKey": "delivery.phase-6-test-and-security-hardening",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "fixture-index-loader",
+        "base-fixture-patching",
+        "semantic-rebase",
+        "ledger-materialization"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-test-environment"
+      ],
+      "definitionOfDone": [
+        "all-ready-fixtures-materialize-deterministically"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-test-suite-runner",
+      "phaseKey": "delivery.phase-6-test-and-security-hardening",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "suite-index-loader",
+        "dependency-aware-execution",
+        "parallel-isolated-execution"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-fixture-builder"
+      ],
+      "definitionOfDone": [
+        "all-ready-required-suites-execute",
+        "suite-order-does-not-change-results"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-test-reporting",
+      "phaseKey": "delivery.phase-6-test-and-security-hardening",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "high",
+      "deliverables": [
+        "canonical-json-test-report",
+        "junit-projection",
+        "coverage-projection",
+        "promotion-evidence-fingerprint"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-test-suite-runner"
+      ],
+      "definitionOfDone": [
+        "every-run-produces-immutable-report",
+        "failed-run-still-produces-report"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.complete-security-review",
+      "phaseKey": "delivery.phase-6-test-and-security-hardening",
+      "ownerType": "ChronicleSecurityReview",
+      "priority": "critical",
+      "deliverables": [
+        "security-review-record",
+        "encryption-verification",
+        "log-redaction-verification",
+        "package-isolation-verification",
+        "provider-authority-boundary-verification"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-backup-and-restore",
+        "delivery.wp.implement-test-reporting"
+      ],
+      "definitionOfDone": [
+        "promotion.security-approved"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.close-required-test-gaps",
+      "phaseKey": "delivery.phase-6-test-and-security-hardening",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "passing-required-test-report",
+        "coverage-review-record"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-test-reporting",
+        "delivery.wp.complete-security-review"
+      ],
+      "definitionOfDone": [
+        "all-ready-required-suites-pass",
+        "all-current-slice-gaps-closed-or-accepted"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.define-prototype-to-package-migration",
+      "phaseKey": "delivery.phase-7-packaging-and-promotion",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "prototype-to-package-version-map",
+        "character-binding-migration-policy",
+        "rollback-plan"
+      ],
+      "dependsOn": [
+        "delivery.wp.close-required-test-gaps"
+      ],
+      "definitionOfDone": [
+        "historical-snapshots-remain-immutable",
+        "migration-and-rollback-reviewed"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.implement-reproducible-package-build",
+      "phaseKey": "delivery.phase-7-packaging-and-promotion",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "allowlisted-package-build",
+        "package-content-manifest",
+        "reproducible-artifact-fingerprints"
+      ],
+      "dependsOn": [
+        "delivery.wp.define-prototype-to-package-migration"
+      ],
+      "definitionOfDone": [
+        "two-clean-builds-produce-identical-fingerprints",
+        "prototype-only-files-excluded"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.generate-release-metadata",
+      "phaseKey": "delivery.phase-7-packaging-and-promotion",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "priority": "high",
+      "deliverables": [
+        "package-version",
+        "minimum-chronicle-version",
+        "capability-declarations",
+        "changelog",
+        "license-and-attribution-review"
+      ],
+      "dependsOn": [
+        "delivery.wp.implement-reproducible-package-build"
+      ],
+      "definitionOfDone": [
+        "promotion.release-metadata-complete"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.evaluate-promotion-gate",
+      "phaseKey": "delivery.phase-7-packaging-and-promotion",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "promotion-gate-result",
+        "evaluated-evidence-set",
+        "gate-result-fingerprint"
+      ],
+      "dependsOn": [
+        "delivery.wp.generate-release-metadata"
+      ],
+      "definitionOfDone": [
+        "overall-promotion-gate-status-passed"
+      ]
+    },
+    {
+      "workPackageKey": "delivery.wp.promote-current-slice",
+      "phaseKey": "delivery.phase-7-packaging-and-promotion",
+      "ownerType": "ChronicleBuildAndReleaseInfrastructure",
+      "priority": "critical",
+      "deliverables": [
+        "new-versioned-package-artifacts",
+        "published-package-manifest",
+        "promotion-event",
+        "rollback-reference"
+      ],
+      "dependsOn": [
+        "delivery.wp.evaluate-promotion-gate"
+      ],
+      "definitionOfDone": [
+        "package-loads-from-clean-install",
+        "prototype-history-preserved",
+        "published-capabilities-match-approved-slice"
+      ]
+    }
+  ],
+  "criticalPath": [
+    "delivery.wp.review-catalog-identities",
+    "delivery.wp.review-creation-mechanics",
+    "delivery.wp.resolve-candidate-fixture-keys",
+    "delivery.wp.freeze-current-slice-ambiguity-boundaries",
+    "delivery.wp.implement-package-loader",
+    "delivery.wp.implement-contract-validator",
+    "delivery.wp.implement-character-draft-model",
+    "delivery.wp.implement-operation-dispatch",
+    "delivery.wp.implement-creation-ledger",
+    "delivery.wp.implement-dependency-reconciliation",
+    "delivery.wp.implement-invalidation-lifecycle",
+    "delivery.wp.implement-validation-dispatch",
+    "delivery.wp.implement-stage-and-review-projections",
+    "delivery.wp.implement-encrypted-sqlite",
+    "delivery.wp.implement-completion-snapshot",
+    "delivery.wp.implement-complete-character-transaction",
+    "delivery.wp.implement-test-environment",
+    "delivery.wp.implement-fixture-builder",
+    "delivery.wp.implement-test-suite-runner",
+    "delivery.wp.implement-test-reporting",
+    "delivery.wp.complete-security-review",
+    "delivery.wp.close-required-test-gaps",
+    "delivery.wp.define-prototype-to-package-migration",
+    "delivery.wp.implement-reproducible-package-build",
+    "delivery.wp.generate-release-metadata",
+    "delivery.wp.evaluate-promotion-gate",
+    "delivery.wp.promote-current-slice"
+  ],
+  "parallelizationPolicy": {
+    "allowed": true,
+    "safeParallelTracks": [
+      [
+        "delivery.wp.implement-fingerprint-service",
+        "delivery.wp.implement-package-diagnostics"
+      ],
+      [
+        "delivery.wp.implement-creation-ledger",
+        "delivery.wp.implement-dependency-reconciliation"
+      ],
+      [
+        "delivery.wp.implement-sheet-loader",
+        "delivery.wp.implement-encrypted-sqlite"
+      ],
+      [
+        "delivery.wp.implement-idempotency",
+        "delivery.wp.implement-event-outbox",
+        "delivery.wp.implement-backup-and-restore"
+      ]
+    ],
+    "sharedContractChangeRequiresRevalidation": true,
+    "parallelWorkMayNotChangeDeclaredScope": true
+  },
+  "statusModel": {
+    "allowedStatuses": [
+      "not-started",
+      "ready",
+      "in-progress",
+      "blocked",
+      "in-review",
+      "complete",
+      "superseded"
+    ],
+    "statusEvidenceRequiredFor": [
+      "in-review",
+      "complete",
+      "superseded"
+    ],
+    "manualCompletionWithoutEvidenceAllowed": false
+  },
+  "changeControl": {
+    "newCurrentSliceCapabilityRequiresArchitectureReview": true,
+    "newMechanicalClaimRequiresSourceAndSemanticReview": true,
+    "contractChangeRequiresDependentArtifactValidation": true,
+    "fixtureChangeRequiresAffectedSuiteRerun": true,
+    "securityBoundaryChangeRequiresSecurityReview": true,
+    "promotionEvidenceInvalidatedByArtifactFingerprintChange": true
+  },
+  "riskRegister": [
+    {
+      "riskKey": "delivery.risk.source-summary-incomplete",
+      "severity": "high",
+      "mitigation": "Promote only reviewed current-slice mechanics and keep unsupported capabilities blocked."
+    },
+    {
+      "riskKey": "delivery.risk.contract-volume-before-implementation",
+      "severity": "medium",
+      "mitigation": "Implement loaders and validators first, then drive runtime work through fixtures and suites."
+    },
+    {
+      "riskKey": "delivery.risk.silent-ruleset-coupling",
+      "severity": "high",
+      "mitigation": "Require package-driven discovery and reject Werewolf-specific Core or Presentation registration."
+    },
+    {
+      "riskKey": "delivery.risk.partial-completion-state",
+      "severity": "critical",
+      "mitigation": "Implement real database transactions, failure injection, idempotency, and completion atomicity tests."
+    },
+    {
+      "riskKey": "delivery.risk.unencrypted-local-data",
+      "severity": "critical",
+      "mitigation": "Make encrypted SQLite and encrypted backup/restore promotion blockers."
+    },
+    {
+      "riskKey": "delivery.risk.scope-expansion",
+      "severity": "high",
+      "mitigation": "Preserve accepted exclusions and require formal change control for new current-slice capabilities."
+    }
+  ],
+  "completionDefinition": {
+    "deliveryCompleteWhen": [
+      "all-seven-phases-complete",
+      "all-critical-path-work-packages-complete",
+      "all-current-slice-promotion-blockers-resolved",
+      "all-ready-required-test-suites-pass",
+      "security-review-approved",
+      "migration-strategy-approved",
+      "reproducible-package-build-passes",
+      "promotion-gate-passed",
+      "published-package-loads-from-clean-install"
+    ],
+    "deliveryNotCompleteWhen": [
+      "prototype-artifacts-only-exist",
+      "tests-defined-but-not-implemented",
+      "tests-pass-with-stale-artifact-fingerprints",
+      "security-review-pending",
+      "package-build-not-reproducible",
+      "promotion-gate-not-passed"
+    ]
+  },
+  "calculationPolicy": {
+    "deterministic": true,
+    "sourceArtifacts": [
+      "./prototype-readiness.json",
+      "./prototype-package-index.json",
+      "./tests/promotion-gate.json",
+      "./tests/test-model-index.json",
+      "./fixtures/fixture-index.json"
+    ],
+    "recalculateWhenSourceFingerprintChanges": true,
+    "persistProjection": true,
+    "persistedProjectionAuthoritative": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "prototype-delivery-plan.phase-keys-unique",
+      "severity": "blocking",
+      "requirement": "every phaseKey is unique"
+    },
+    {
+      "ruleKey": "prototype-delivery-plan.work-package-keys-unique",
+      "severity": "blocking",
+      "requirement": "every workPackageKey is unique"
+    },
+    {
+      "ruleKey": "prototype-delivery-plan.dependencies-resolve",
+      "severity": "blocking",
+      "requirement": "every work package dependency resolves"
+    },
+    {
+      "ruleKey": "prototype-delivery-plan.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "work package dependencies are acyclic"
+    },
+    {
+      "ruleKey": "prototype-delivery-plan.phase-membership-valid",
+      "severity": "blocking",
+      "requirement": "every work package belongs to exactly one declared phase"
+    },
+    {
+      "ruleKey": "prototype-delivery-plan.critical-path-valid",
+      "severity": "blocking",
+      "requirement": "every critical path key resolves and respects dependencies"
+    },
+    {
+      "ruleKey": "prototype-delivery-plan.scope-exclusions-preserved",
+      "severity": "blocking",
+      "requirement": "excluded capabilities remain outside the current delivery objective"
+    },
+    {
+      "ruleKey": "prototype-delivery-plan.completion-reconciles-with-promotion",
+      "severity": "blocking",
+      "requirement": "delivery completion requires a passed promotion gate and clean-install package load"
+    }
+  ],
+  "fingerprintPolicy": {
+    "planFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeDeliveryObjective": true,
+    "includePhases": true,
+    "includeWorkPackages": true,
+    "includeCriticalPath": true,
+    "includeRisks": true,
+    "includeChangeControl": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-phase-statuses",
+      "work-package-statuses",
+      "blocking-work-package-keys",
+      "critical-path-progress",
+      "open-risk-keys",
+      "scope-change-requests",
+      "evidence-statuses"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "rawCharacterStateIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "phaseKeys",
+      "workPackageKeys",
+      "statuses",
+      "ownerTypes",
+      "riskKeys",
+      "blockingReasonKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeDeliveryPlanRecalculated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "currentPhaseKey": "Reference",
+        "blockingWorkPackageKeys": "ReferenceCollection",
+        "planFingerprint": "Text",
+        "calculatedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeDeliveryCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "prototypeVersion": "Text",
+        "publishedPackageVersion": "Text",
+        "promotionGateResultFingerprint": "Text",
+        "packageManifestFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-delivered-mechanical-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-plan-shape",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "deliveryReviewStatus": "pending",
+    "promotionReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This plan begins with semantic review because implementation must not normalize candidate identities or unresolved mechanics by guesswork.",
+    "Package loading and contract validation come before runtime mechanics so every later component is artifact-driven.",
+    "Character sheet work and persistence work may proceed in parallel after the creation runtime foundation is stable.",
+    "The current delivery objective ends at atomic Character activation and does not include Dice or post-creation gameplay.",
+    "Delivery is not complete merely because the prototype contracts exist; implementation, tests, security, packaging, and promotion must all pass.",
+    "Chronicle owns implementation infrastructure, persistence, testing, security, packaging, and promotion.",
+    "The Rule Set package owns reviewed mechanical semantics, catalog identities, fixtures, and expected outcomes."
+  ]
+}

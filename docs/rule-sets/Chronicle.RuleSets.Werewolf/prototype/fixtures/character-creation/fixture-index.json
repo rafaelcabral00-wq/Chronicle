@@ -1,0 +1,481 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "character-creation.fixture-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.fixture-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreationFixtures",
+  "purpose": [
+    "Provide the canonical discovery surface for Character creation fixtures in the Werewolf prototype.",
+    "Declare fixture roles, dependencies, readiness, expected validation outcomes, and test-suite coverage.",
+    "Allow Chronicle test infrastructure to load fixtures without filename conventions or Werewolf-specific registration.",
+    "Support deterministic contract, validation, dependency, invalidation, completion, recovery, and presentation tests."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "fixtureDiscoveryAuthority": "ChronicleTestInfrastructure",
+    "fixtureSemanticAuthority": "RuleSetPackage",
+    "testExecutionAuthority": "ChronicleTestInfrastructure",
+    "productionRuntimeAuthority": false,
+    "hardcodedWerewolfFixtureRegistrationAllowed": false
+  },
+  "fixtures": [
+    {
+      "fixtureKey": "character-creation.minimal-valid-character",
+      "artifactRef": "./minimal-valid-character.json",
+      "fixtureRole": "happy-path-minimal-valid",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "expectedOutcome": "completion-ready-with-required-warning-acknowledgements",
+      "dependsOn": [],
+      "tags": [
+        "valid",
+        "homid",
+        "ragabash",
+        "glass-walkers",
+        "minimal",
+        "happy-path"
+      ]
+    },
+    {
+      "fixtureKey": "character-creation.metis-valid-character",
+      "artifactRef": "./metis-valid-character.json",
+      "fixtureRole": "happy-path-conditional-metis",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "candidate-partial",
+      "expectedOutcome": "completion-ready-with-required-warning-acknowledgements",
+      "dependsOn": [],
+      "tags": [
+        "valid",
+        "metis",
+        "philodox",
+        "conditional-stage",
+        "happy-path"
+      ],
+      "blockingReviewRequirements": [
+        "deformity-key-must-resolve-against-reviewed-catalog",
+        "gift-keys-must-resolve-against-reviewed-catalog"
+      ]
+    },
+    {
+      "fixtureKey": "character-creation.metis-missing-deformity",
+      "artifactRef": "./metis-missing-deformity.json",
+      "fixtureRole": "negative-path-required-conditional-selection",
+      "loadOrder": 30,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "expectedOutcome": "completion-blocked",
+      "dependsOn": [
+        "character-creation.metis-valid-character"
+      ],
+      "tags": [
+        "invalid",
+        "metis",
+        "missing-selection",
+        "blocking-invalidation",
+        "completion-rejection"
+      ]
+    },
+    {
+      "fixtureKey": "character-creation.lupus-restricted-ability",
+      "artifactRef": "./lupus-restricted-ability.json",
+      "fixtureRole": "negative-path-race-restriction",
+      "loadOrder": 40,
+      "required": true,
+      "readiness": "candidate-partial",
+      "expectedOutcome": "completion-blocked",
+      "dependsOn": [
+        "character-creation.minimal-valid-character"
+      ],
+      "tags": [
+        "invalid",
+        "lupus",
+        "ability-restriction",
+        "review-required",
+        "completion-rejection"
+      ],
+      "blockingReviewRequirements": [
+        "lupus-race-gift-key-must-resolve-against-reviewed-catalog"
+      ]
+    },
+    {
+      "fixtureKey": "character-creation.freebie-budget-overspent",
+      "artifactRef": "./freebie-budget-overspent.json",
+      "fixtureRole": "negative-path-budget-overspend",
+      "loadOrder": 50,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "expectedOutcome": "completion-blocked",
+      "dependsOn": [
+        "character-creation.minimal-valid-character"
+      ],
+      "tags": [
+        "invalid",
+        "freebie-points",
+        "budget-overspend",
+        "ledger",
+        "completion-rejection"
+      ]
+    },
+    {
+      "fixtureKey": "character-creation.classification-change-invalidates-state",
+      "artifactRef": "./classification-change-invalidates-state.json",
+      "fixtureRole": "transition-dependency-and-invalidation",
+      "loadOrder": 60,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "expectedOutcome": "preview-no-mutation-apply-creates-two-blocking-invalidations",
+      "dependsOn": [
+        "character-creation.minimal-valid-character"
+      ],
+      "tags": [
+        "transition",
+        "classification-change",
+        "dependency-graph",
+        "preserve-and-invalidate",
+        "explicit-repair"
+      ]
+    },
+    {
+      "fixtureKey": "character-creation.complete-character-atomicity",
+      "artifactRef": "./complete-character-atomicity.json",
+      "fixtureRole": "transaction-atomicity-and-recovery",
+      "loadOrder": 70,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "expectedOutcome": "atomic-success-or-total-rollback",
+      "dependsOn": [
+        "character-creation.minimal-valid-character"
+      ],
+      "tags": [
+        "transaction",
+        "completion",
+        "atomicity",
+        "idempotency",
+        "recovery",
+        "events"
+      ]
+    }
+  ],
+  "fixtureKinds": [
+    {
+      "fixtureKind": "character-creation-state",
+      "description": "A complete Character creation draft and its expected projections."
+    },
+    {
+      "fixtureKind": "character-creation-invalid-state",
+      "description": "An intentionally invalid draft with expected issues, invalidations, and repair paths."
+    },
+    {
+      "fixtureKind": "character-creation-transition-scenario",
+      "description": "A deterministic sequence of operations with preconditions, previews, commits, and postconditions."
+    },
+    {
+      "fixtureKind": "character-creation-transaction-scenario",
+      "description": "A transaction-focused scenario with failure injection, rollback, recovery, and idempotency expectations."
+    }
+  ],
+  "baseFixturePolicy": {
+    "baseFixtureReferencesAllowed": true,
+    "baseFixtureMustAppearEarlierInLoadOrder": true,
+    "baseFixtureVersionMustBeExplicit": true,
+    "patchApplicationMustBeDeterministic": true,
+    "patchMayEscapeFixtureRoot": false,
+    "cyclicBaseFixtureReferencesAllowed": false,
+    "semanticRebaseRequiresTestBuilderSupport": true
+  },
+  "executionPolicy": {
+    "fixtureArtifactsAreReadOnly": true,
+    "stableIdsMayBeDeclared": true,
+    "runtimeIdsGeneratedByTestBuilder": true,
+    "timestampsGeneratedByTestBuilder": true,
+    "fingerprintsGeneratedByTestBuilder": true,
+    "ledgerEntriesMaterializedByTestBuilder": true,
+    "externalProviderCallsAllowed": false,
+    "networkAccessAllowed": false,
+    "testDatabaseIsolationRequired": true,
+    "fixtureOrderMayNotCreateSharedMutableState": true
+  },
+  "assertionPolicy": {
+    "positiveAssertionsRequired": true,
+    "negativeAssertionsRequiredForInvalidFixtures": true,
+    "expectedValidationModeMustBeDeclaredWhenApplicable": true,
+    "expectedCompletionOutcomeMustBeDeclaredWhenApplicable": true,
+    "expectedOpenInvalidationsMustBeDeclaredForInvalidFixtures": true,
+    "repairPathRequiredWhenRepairIsSupported": true,
+    "sourceAmbiguitiesMustRemainExplicit": true,
+    "silentExpectationInferenceAllowed": false
+  },
+  "testSuiteMap": {
+    "package-load": [
+      "character-creation.minimal-valid-character"
+    ],
+    "character-model-contracts": [
+      "character-creation.minimal-valid-character",
+      "character-creation.metis-valid-character"
+    ],
+    "character-creation-happy-path": [
+      "character-creation.minimal-valid-character",
+      "character-creation.metis-valid-character"
+    ],
+    "character-creation-invalid-paths": [
+      "character-creation.metis-missing-deformity",
+      "character-creation.lupus-restricted-ability",
+      "character-creation.freebie-budget-overspent"
+    ],
+    "dependency-impact": [
+      "character-creation.lupus-restricted-ability",
+      "character-creation.classification-change-invalidates-state"
+    ],
+    "invalidation-lifecycle": [
+      "character-creation.metis-missing-deformity",
+      "character-creation.lupus-restricted-ability",
+      "character-creation.freebie-budget-overspent",
+      "character-creation.classification-change-invalidates-state"
+    ],
+    "ledger-integrity": [
+      "character-creation.minimal-valid-character",
+      "character-creation.metis-valid-character",
+      "character-creation.freebie-budget-overspent"
+    ],
+    "completion-atomicity": [
+      "character-creation.metis-missing-deformity",
+      "character-creation.freebie-budget-overspent",
+      "character-creation.classification-change-invalidates-state",
+      "character-creation.complete-character-atomicity"
+    ],
+    "completion-snapshot": [
+      "character-creation.minimal-valid-character",
+      "character-creation.metis-valid-character",
+      "character-creation.complete-character-atomicity"
+    ],
+    "character-sheet-reference-validation": [
+      "character-creation.minimal-valid-character",
+      "character-creation.metis-valid-character",
+      "character-creation.metis-missing-deformity"
+    ]
+  },
+  "coverageSummary": {
+    "validFixtureCount": 2,
+    "invalidFixtureCount": 3,
+    "transitionFixtureCount": 1,
+    "transactionFixtureCount": 1,
+    "coveredRaces": [
+      "character.race.homid",
+      "character.race.metis",
+      "character.race.lupus"
+    ],
+    "coveredAuspices": [
+      "character.auspice.ragabash",
+      "character.auspice.philodox"
+    ],
+    "coveredTribes": [
+      "character.tribe.glass-walkers"
+    ],
+    "coveredCriticalBehaviors": [
+      "base-allocation-budgets",
+      "initial-gift-slots",
+      "classification-derived-resources",
+      "initial-renown",
+      "conditional-metis-deformity",
+      "lupus-base-ability-restriction",
+      "freebie-budget-overspend",
+      "classification-change-preview-and-apply",
+      "preserve-and-invalidate",
+      "explicit-repair",
+      "completion-warning-acknowledgements",
+      "completion-atomicity",
+      "idempotency",
+      "crash-recovery"
+    ],
+    "knownCoverageGaps": [
+      "theurge-galliard-and-ahroun-happy-paths",
+      "additional-gift-purchase",
+      "specialization-eligibility",
+      "all-tribe-specific-background-restrictions",
+      "all-catalog-items",
+      "generic-dice-test",
+      "post-creation-character-operations"
+    ]
+  },
+  "readinessPolicy": {
+    "allowedValues": [
+      "prototype-candidate",
+      "candidate-partial",
+      "blocked",
+      "future"
+    ],
+    "requiredBlockedFixtureBehavior": "disable-dependent-test-suite",
+    "partialFixtureBehavior": "run-only-after-declared-content-identities-resolve",
+    "blockedFixturesRemainDiscoverable": true,
+    "productionPackagePromotionRequiresAllRequiredFixturesReady": true
+  },
+  "loadPolicy": {
+    "loadMode": "index-driven",
+    "sortBy": "loadOrder",
+    "duplicateFixtureKeyBehavior": "fixture-load-failure",
+    "missingRequiredFixtureBehavior": "disable-dependent-test-suite",
+    "unsupportedContractVersionBehavior": "fixture-load-failure",
+    "artifactOutsideFixtureRootAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "fixture-index.fixture-keys-unique",
+      "severity": "blocking",
+      "requirement": "every fixtureKey is unique"
+    },
+    {
+      "ruleKey": "fixture-index.refs-resolve",
+      "severity": "blocking",
+      "requirement": "every fixture artifact reference resolves inside the Character creation fixture root"
+    },
+    {
+      "ruleKey": "fixture-index.base-fixture-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every base fixture reference resolves and appears earlier in load order"
+    },
+    {
+      "ruleKey": "fixture-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "fixture dependencies and base-fixture relationships are acyclic"
+    },
+    {
+      "ruleKey": "fixture-index.expected-outcomes-present",
+      "severity": "blocking",
+      "requirement": "every fixture declares a stable expected outcome"
+    },
+    {
+      "ruleKey": "fixture-index.invalid-fixtures-declare-repair-or-terminal-state",
+      "severity": "blocking",
+      "requirement": "every invalid fixture declares either a repair path or an intentionally terminal unsupported state"
+    },
+    {
+      "ruleKey": "fixture-index.test-suite-refs-known",
+      "severity": "blocking",
+      "requirement": "every test-suite fixture reference resolves to an indexed fixture"
+    },
+    {
+      "ruleKey": "fixture-index.coverage-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "coverage summary counts reconcile with indexed fixture kinds"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeFixtureFingerprints": true,
+    "includeDependencyMetadata": true,
+    "includeExpectedOutcomes": true,
+    "includeReadiness": true,
+    "includeCoverageSummary": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "fixtureKey",
+      "artifactRef",
+      "fixtureRole",
+      "fixtureKind",
+      "required",
+      "readiness",
+      "expectedOutcome",
+      "dependencyStatus",
+      "contractStatus",
+      "fingerprintStatus",
+      "testSuiteKeys"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawCharacterStateIncluded": false,
+    "rawNarrativeTextIncluded": false
+  },
+  "promotionPolicy": {
+    "fixturesRequiredForPrototypePromotion": true,
+    "allRequiredFixtureContractsMustLoad": true,
+    "allReadyFixtureTestsMustPass": true,
+    "partialFixturesMustResolveDeclaredReviewRequirements": true,
+    "knownCoverageGapsMustBeAcceptedOrClosed": true,
+    "fixtureHistoryPreserved": true,
+    "silentFixtureReplacementAllowed": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "filesystemAccess": "fixture-artifacts-read-only",
+    "fixturesContainProductionUserData": false,
+    "fixturesContainProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "fixtureKeys",
+      "artifactRefs",
+      "readiness",
+      "expectedOutcomes",
+      "testSuiteKeys",
+      "fingerprints",
+      "diagnosticKeys"
+    ],
+    "ordinaryLogsMustExclude": [
+      "production-character-state",
+      "production-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationFixtureModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "fixtureCount": "Integer",
+        "readyFixtureCount": "Integer",
+        "partialFixtureCount": "Integer",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "CharacterCreationFixtureModelLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "failureKey": "Reference",
+        "affectedFixtureKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-fixtures",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "fixtureConsistencyReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "testCoverageReviewStatus": "pending",
+    "promotionReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for Character creation fixtures.",
+    "Fixtures are test artifacts and never become runtime Character authority.",
+    "Partial fixtures remain disabled until their candidate content identities resolve against reviewed catalogs.",
+    "Base fixtures reduce duplication but all patch application remains deterministic and explicit.",
+    "The indexed suite covers the supported prototype slice while preserving known coverage gaps.",
+    "Chronicle owns fixture loading, test isolation, generated identities, persistence setup, diagnostics, and fingerprints.",
+    "The Rule Set package owns fixture semantics, expected mechanical outcomes, invalidations, and repair expectations."
+  ]
+}

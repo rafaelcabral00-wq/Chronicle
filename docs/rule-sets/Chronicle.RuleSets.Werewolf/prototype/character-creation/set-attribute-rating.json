@@ -1,0 +1,477 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.set-attribute-rating",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.set-attribute-rating",
+  "descriptionResourceKey": "character-creation.operation.set-attribute-rating.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-attribute-and-target-rating",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "SetAttributeRatingInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "attributeKey",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "targetBaseRating",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "creationStage",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "CreationBaseAllocation",
+          "CreationBonusPurchase"
+        ]
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "set-attribute-rating.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.set-attribute-rating.not-a-draft"
+    },
+    {
+      "preconditionKey": "set-attribute-rating.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.set-attribute-rating.stale-draft"
+    },
+    {
+      "preconditionKey": "set-attribute-rating.attribute-catalog-available",
+      "requirement": {
+        "artifactRef": "../character-model/catalogs/attributes.json",
+        "operator": "readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.set-attribute-rating.catalog-unavailable"
+    },
+    {
+      "preconditionKey": "set-attribute-rating.priority-assignment-present",
+      "requirement": {
+        "field": "character.attributes.priority-assignment",
+        "operator": "exists"
+      },
+      "failureKey": "character-creation.set-attribute-rating.priorities-not-set"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "set-attribute-rating.attribute-valid",
+      "ruleType": "catalog-membership",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "attributeKey",
+      "catalogRef": "../../character-model/catalogs/attributes.json#entries",
+      "errorKey": "character-creation.set-attribute-rating.invalid-attribute"
+    },
+    {
+      "ruleKey": "set-attribute-rating.range",
+      "ruleType": "range",
+      "severity": "blocking",
+      "status": "candidate",
+      "targetField": "targetBaseRating",
+      "minimum": 1,
+      "maximum": 5,
+      "errorKey": "character-creation.set-attribute-rating.out-of-range"
+    },
+    {
+      "ruleKey": "set-attribute-rating.stage-transition-valid",
+      "ruleType": "stage-aware-change",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirements": [
+        {
+          "when": {
+            "creationStage": "CreationBaseAllocation"
+          },
+          "allowedLedgerSources": [
+            "base-initialization",
+            "base-allocation"
+          ]
+        },
+        {
+          "when": {
+            "creationStage": "CreationBonusPurchase"
+          },
+          "allowedLedgerSources": [
+            "base-initialization",
+            "base-allocation",
+            "freebie-purchase"
+          ]
+        }
+      ],
+      "errorKey": "character-creation.set-attribute-rating.invalid-stage-transition"
+    },
+    {
+      "ruleKey": "set-attribute-rating.category-budget-not-exceeded",
+      "ruleType": "typed-budget",
+      "severity": "blocking",
+      "status": "candidate",
+      "appliesWhen": {
+        "creationStage": "CreationBaseAllocation"
+      },
+      "categorySource": "../../character-model/catalogs/attributes.json#entries[].categoryKey",
+      "priorityField": "character.attributes.priority-assignment",
+      "budgetByPriority": {
+        "primary": 7,
+        "secondary": 5,
+        "tertiary": 3
+      },
+      "calculation": "projected sum(baseRating - 1) by category",
+      "errorKey": "character-creation.set-attribute-rating.category-budget-exceeded"
+    },
+    {
+      "ruleKey": "set-attribute-rating.freebie-budget-available",
+      "ruleType": "ledger-budget",
+      "severity": "blocking",
+      "status": "candidate",
+      "appliesWhen": {
+        "creationStage": "CreationBonusPurchase",
+        "operator": "target-rating-increases-beyond-base-allocation-rating"
+      },
+      "ledgerRef": "character.creationLedger",
+      "budgetKey": "character-creation.freebie-points",
+      "costPerPoint": 5,
+      "errorKey": "character-creation.set-attribute-rating.insufficient-freebies"
+    },
+    {
+      "ruleKey": "set-attribute-rating.no-negative-freebie-refund",
+      "ruleType": "ledger-consistency",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "creationStage": "CreationBonusPurchase",
+        "operator": "target-rating-decreases"
+      },
+      "requirement": {
+        "operator": "refund-only-recorded-attribute-freebie-purchases"
+      },
+      "errorKey": "character-creation.set-attribute-rating.invalid-refund"
+    }
+  ],
+  "ratingSourceModel": {
+    "persistedBaseRating": "character.attributes[].baseRating",
+    "ledgerSources": [
+      {
+        "sourceKey": "base-initialization",
+        "defaultPoints": 1,
+        "cost": 0
+      },
+      {
+        "sourceKey": "base-allocation",
+        "points": "variable",
+        "cost": 0
+      },
+      {
+        "sourceKey": "freebie-purchase",
+        "points": "variable",
+        "costPerPoint": 5
+      }
+    ],
+    "currentRatingProjectionExcluded": true,
+    "reason": "Form and effect modifiers do not belong to Character creation base-rating changes."
+  },
+  "changeCalculation": {
+    "mode": "ledger-aware",
+    "steps": [
+      "load-current-base-rating",
+      "resolve-base-allocation-rating",
+      "resolve-freebie-purchased-points",
+      "calculate-target-stage-distribution",
+      "calculate-category-budget-impact",
+      "calculate-freebie-cost-or-refund",
+      "calculate-specialization-impact",
+      "calculate-validation-impact"
+    ],
+    "decreasePolicy": {
+      "removeFreebiePointsBeforeBaseAllocationPoints": true,
+      "neverReduceBelowOne": true,
+      "refundOnlyCommittedFreebieEntries": true
+    }
+  },
+  "specializationImpact": {
+    "eligibilityMinimumRating": 4,
+    "whenTargetFallsBelowMinimum": {
+      "removeSpecializationsAutomatically": false,
+      "createInvalidation": true,
+      "completionBlockedUntilResolved": true,
+      "reason": "The player must confirm which specialization records are removed."
+    },
+    "whenTargetReachesMinimum": {
+      "specializationRequired": false,
+      "showSuggestion": true,
+      "status": "prototype-decision"
+    }
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-attribute-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-attribute-rating",
+        "load-priority-assignment",
+        "load-attribute-ledger-entries",
+        "load-freebie-budget",
+        "load-linked-specializations"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-target-rating",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-attribute-identity",
+        "validate-rating-range",
+        "validate-creation-stage",
+        "validate-category-budget",
+        "validate-freebie-budget"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "calculate-ledger-delta",
+      "executor": "RuleSet",
+      "effects": [
+        "calculate-base-allocation-delta",
+        "calculate-freebie-purchase-delta",
+        "calculate-refund-delta",
+        "calculate-remaining-category-points",
+        "calculate-remaining-freebie-points"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "calculate-dependent-impact",
+      "executor": "RuleSet",
+      "effects": [
+        "evaluate-specialization-eligibility",
+        "identify-resolved-attribute-invalidations",
+        "identify-new-specialization-invalidations"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "persist-rating-change",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-previous-base-rating",
+        "set-target-base-rating"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "append-base-allocation-entry-when-needed",
+        "append-freebie-purchase-entry-when-needed",
+        "append-freebie-refund-entry-when-needed",
+        "preserve-ledger-history"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "update-invalidations",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "clear-resolved-attribute-budget-invalidations",
+        "create-specialization-eligibility-invalidations",
+        "preserve-unrelated-invalidations"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-attribute-range",
+        "validate-category-allocation",
+        "validate-freebie-budget",
+        "validate-specialization-targets",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 90,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "invalidationContract": {
+    "supportedTypes": [
+      {
+        "invalidationType": "AttributeCategoryBudgetMismatch",
+        "resolution": "Adjust one or more Attribute ratings in the affected category."
+      },
+      {
+        "invalidationType": "AttributeSpecializationNoLongerEligible",
+        "resolution": "Remove or replace the specialization after confirming the rating reduction."
+      }
+    ],
+    "automaticResolutionAllowed": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "persistInvalidations": true
+  },
+  "resultContract": {
+    "resultKey": "SetAttributeRatingResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "attributeKey": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "previousBaseRating": "Integer",
+      "newBaseRating": "Integer",
+      "creationStage": "Text",
+      "baseAllocationDelta": "Integer",
+      "freebiePointDelta": "Integer",
+      "remainingCategoryPoints": "Integer",
+      "remainingFreebiePoints": "Integer",
+      "createdInvalidations": "StructuredCollection",
+      "resolvedInvalidations": "StructuredCollection",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "SetAttributeRatingFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "attributeKey": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false
+  },
+  "events": [
+    {
+      "eventKey": "CharacterAttributeRatingChanged",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "attributeKey": "Reference",
+        "previousBaseRating": "Integer",
+        "newBaseRating": "Integer",
+        "creationStage": "Text",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.freebie-limits",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "May freebie points raise any Attribute to 5 during Character creation?",
+      "prototypeDecision": "Allow ratings up to the known Character creation maximum of 5."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.specialization.required-at-four",
+      "severity": "high",
+      "status": "semantic-review-required",
+      "question": "Does reaching rating 4 require an immediate specialization selection?",
+      "prototypeDecision": "No. Reaching 4 only makes specialization available."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-rating-range-allocation-and-freebie-cost",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation changes one persisted Attribute base rating at a time.",
+    "Base allocation and freebie purchases remain separate ledger sources.",
+    "The base-allocation budget is calculated as rating increases above the universal starting value of 1.",
+    "Freebie increases cost five points per Attribute dot.",
+    "Reducing a rating refunds only freebie points that were actually purchased and recorded.",
+    "A reduction below rating 4 creates an explicit specialization invalidation rather than deleting player-authored data silently.",
+    "Current ratings modified by forms or effects are outside this operation."
+  ]
+}

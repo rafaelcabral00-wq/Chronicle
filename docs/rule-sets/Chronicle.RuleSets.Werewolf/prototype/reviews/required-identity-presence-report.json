@@ -1,0 +1,2212 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.required-identity-presence-report",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.required-identity-presence-report.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceRequiredIdentityPresenceValidation",
+  "purpose": [
+    "Provide the canonical validation report for presence and accounting of every catalog identity required by the current Character creation slice.",
+    "Verify that all 46 required identities are present, uniquely represented, bound to the expected catalog, and explicitly classified as approved, candidate, blocked, rejected, excluded, or unresolved.",
+    "Serve as the output contract for catalog-review.task.validate-required-identity-presence.",
+    "Prevent missing or misplaced identities from being hidden by aggregate catalog counts."
+  ],
+  "authority": {
+    "reportDefinitionAuthority": "ChronicleArchitecture",
+    "validationExecutionAuthority": "ChronicleDeliveryInfrastructure",
+    "requiredIdentityAuthority": "CatalogReviewChecklist",
+    "substantiveIdentityAuthority": "RuleSetExtractionAndReview",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualPassOverrideAllowed": false,
+    "automaticIssueCreationAllowed": true,
+    "automaticTaskCompletionAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogContractValidationReportArtifactRef": "./catalog-contract-validation-report.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewStateIndexArtifactRef": "./catalog-review-state-index.json",
+    "taskKey": "catalog-review.task.validate-required-identity-presence"
+  },
+  "reportStatus": {
+    "status": "executed",
+    "overallResult": "passed-with-warnings",
+    "executedAt": "2026-08-02T20:47:30.933Z",
+    "validator": "ChronicleDeliveryInfrastructure rerun catalog-review.task.validate-required-identity-presence",
+    "requiredIdentityCount": 46,
+    "presentIdentityCount": 46,
+    "missingIdentityCount": 0,
+    "duplicateIdentityCount": 0,
+    "misplacedIdentityCount": 0,
+    "candidateIdentityCount": 14,
+    "blockedIdentityCount": 7,
+    "unresolvedIdentityCount": 32,
+    "passedCheckCount": 8,
+    "failedCheckCount": 0,
+    "warningCount": 48,
+    "issueCount": 0,
+    "taskCompletionEligible": true,
+    "nextTaskReady": true
+  },
+  "validationProfile": {
+    "profileKey": "required-identity-presence.current-slice",
+    "strictMode": true,
+    "requireExactCatalogBinding": true,
+    "requireUniqueGlobalIdentityKeys": true,
+    "requireEveryTargetAccountedFor": true,
+    "requireExplicitCandidateOrBlockedState": true,
+    "allowFutureUnusedEntriesOutsideRequiredTargets": true,
+    "failOnMissingIdentity": true,
+    "failOnDuplicateIdentity": true,
+    "failOnMisplacedIdentity": true,
+    "failOnImplicitCandidateState": true
+  },
+  "catalogTargets": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "artifactRef": "../character-model/catalogs/races.json",
+      "requiredIdentityKeys": [
+        "character.race.homid",
+        "character.race.metis",
+        "character.race.lupus"
+      ],
+      "expectedCount": 3,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "artifactRef": "../character-model/catalogs/auspices.json",
+      "requiredIdentityKeys": [
+        "character.auspice.ragabash",
+        "character.auspice.philodox"
+      ],
+      "expectedCount": 2,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "artifactRef": "../character-model/catalogs/tribes.json",
+      "requiredIdentityKeys": [
+        "character.tribe.glass-walkers"
+      ],
+      "expectedCount": 1,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "artifactRef": "../character-model/catalogs/attributes.json",
+      "requiredIdentityKeys": [
+        "character.attribute.strength",
+        "character.attribute.dexterity",
+        "character.attribute.stamina",
+        "character.attribute.charisma",
+        "character.attribute.manipulation",
+        "character.attribute.appearance",
+        "character.attribute.perception",
+        "character.attribute.intelligence",
+        "character.attribute.wits"
+      ],
+      "expectedCount": 9,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "artifactRef": "../character-model/catalogs/abilities.json",
+      "requiredIdentityKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.leadership",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.performance",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.occult",
+        "character.ability.politics",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.etiquette",
+        "character.ability.law"
+      ],
+      "expectedCount": 18,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "artifactRef": "../character-model/catalogs/backgrounds.json",
+      "requiredIdentityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "expectedCount": 5,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "artifactRef": "../character-model/catalogs/metis-deformities.json",
+      "requiredIdentityKeys": [
+        "character.metis-deformity.horns"
+      ],
+      "expectedCount": 1,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "artifactRef": "../character-model/catalogs/ranks.json",
+      "requiredIdentityKeys": [
+        "character.rank.cliath"
+      ],
+      "expectedCount": 1,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "artifactRef": "../character-model/catalogs/initial-gifts.json",
+      "requiredIdentityKeys": [
+        "gift.race.homid.master-of-fire",
+        "gift.auspice.ragabash.open-seal",
+        "gift.tribe.glass-walkers.control-simple-machine",
+        "gift.race.metis.create-element",
+        "gift.auspice.philodox.resist-pain",
+        "gift.race.lupus.hare-leap"
+      ],
+      "expectedCount": 6,
+      "status": "not-executed",
+      "presentIdentityKeys": [],
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "misplacedIdentityKeys": []
+    }
+  ],
+  "identityClassificationModel": {
+    "allowedPresenceStates": [
+      "present-approved",
+      "present-candidate",
+      "present-blocked",
+      "present-rejected",
+      "present-excluded",
+      "missing",
+      "duplicate",
+      "misplaced",
+      "unresolved"
+    ],
+    "approvedRequiresFinalDecision": true,
+    "candidateRequiresExplicitCandidateMetadata": true,
+    "blockedRequiresExplicitBlockerKey": true,
+    "rejectedRequiresFinalDecision": true,
+    "excludedRequiresFinalDecisionOrBoundaryDecision": true,
+    "missingCannotBeInferredFromDecisionAbsence": true,
+    "unresolvedMeansPresenceOrClassificationNotYetValidated": true
+  },
+  "identityResults": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "identityKey": "character.race.homid",
+      "currentStatus": "present-candidate",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.races",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.race.homid",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.races",
+      "identityKey": "character.race.metis",
+      "currentStatus": "present-candidate",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.races",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.race.metis",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.races",
+      "identityKey": "character.race.lupus",
+      "currentStatus": "present-candidate",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.races",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.race.lupus",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "identityKey": "character.auspice.ragabash",
+      "currentStatus": "present-candidate",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.auspices",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.auspice.ragabash",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "identityKey": "character.auspice.philodox",
+      "currentStatus": "present-candidate",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.auspices",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.auspice.philodox",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "identityKey": "character.tribe.glass-walkers",
+      "currentStatus": "present-candidate",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.tribes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.tribe.glass-walkers",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.strength",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.strength",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.dexterity",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.dexterity",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.stamina",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.stamina",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.charisma",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.charisma",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.manipulation",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.manipulation",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.appearance",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.appearance",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.perception",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.perception",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.intelligence",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.intelligence",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.wits",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.attributes",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.attribute.wits",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.alertness",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.alertness",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.athletics",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.athletics",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.brawl",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.brawl",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.empathy",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.empathy",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.subterfuge",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.subterfuge",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.drive",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.drive",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.leadership",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.leadership",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.stealth",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.stealth",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.survival",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.survival",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.performance",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.performance",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.computer",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.computer",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.investigation",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.investigation",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.occult",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.occult",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.politics",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.politics",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.expression",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.expression",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.intimidation",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.intimidation",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.etiquette",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.etiquette",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.law",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.abilities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.ability.law",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.resources",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.backgrounds",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.background.resources",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.contacts",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.backgrounds",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.background.contacts",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.allies",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.backgrounds",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.background.allies",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.rites",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.backgrounds",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.background.rites",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.mentor",
+      "currentStatus": "unresolved",
+      "candidateStatus": "non-candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.backgrounds",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.background.mentor",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "identityKey": "character.metis-deformity.horns",
+      "currentStatus": "present-blocked",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "blocked-pending-source-review",
+      "decisionId": "catalog-identity-decision.metis-deformity.horns",
+      "reviewRecordKey": "catalog-review-record.metis-deformities",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": "catalog-review.issue.metis-deformity-identity-unresolved",
+      "blockerKey": "catalog-review.blocker.metis-deformity-source-review-required",
+      "fixtureKeys": [
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.metis-deformity.horns",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "identityKey": "character.rank.cliath",
+      "currentStatus": "present-candidate",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "unresolved",
+      "decisionId": null,
+      "reviewRecordKey": "catalog-review-record.ranks",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": null,
+      "blockerKey": null,
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "character.rank.cliath",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.race.homid.master-of-fire",
+      "currentStatus": "present-blocked",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "blocked-pending-source-review",
+      "decisionId": "catalog-identity-decision.gift.homid.master-of-fire",
+      "reviewRecordKey": "catalog-review-record.initial-gifts",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+      "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "gift.race.homid.master-of-fire",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.auspice.ragabash.open-seal",
+      "currentStatus": "present-blocked",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "blocked-pending-source-review",
+      "decisionId": "catalog-identity-decision.gift.ragabash.open-seal",
+      "reviewRecordKey": "catalog-review-record.initial-gifts",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+      "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "gift.auspice.ragabash.open-seal",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "currentStatus": "present-blocked",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "blocked-pending-source-review",
+      "decisionId": "catalog-identity-decision.gift.glass-walkers.control-simple-machine",
+      "reviewRecordKey": "catalog-review-record.initial-gifts",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+      "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.race.metis.create-element",
+      "currentStatus": "present-blocked",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "blocked-pending-source-review",
+      "decisionId": "catalog-identity-decision.gift.metis.create-element",
+      "reviewRecordKey": "catalog-review-record.initial-gifts",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+      "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "gift.race.metis.create-element",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.auspice.philodox.resist-pain",
+      "currentStatus": "present-blocked",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "blocked-pending-source-review",
+      "decisionId": "catalog-identity-decision.gift.philodox.resist-pain",
+      "reviewRecordKey": "catalog-review-record.initial-gifts",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+      "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "gift.auspice.philodox.resist-pain",
+      "presenceResult": "present"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.race.lupus.hare-leap",
+      "currentStatus": "present-blocked",
+      "candidateStatus": "candidate",
+      "sourceReviewRequirement": "required",
+      "decisionStatus": "blocked-pending-source-review",
+      "decisionId": "catalog-identity-decision.gift.lupus.hare-leap",
+      "reviewRecordKey": "catalog-review-record.initial-gifts",
+      "checklistCheckKey": "catalog-review.required-entry-present",
+      "checklistBinding": true,
+      "reviewRecordBinding": true,
+      "indexReachability": false,
+      "decisionSlotBinding": true,
+      "evidenceWorkItemKey": "catalog-review.evidence.validate-required-identities",
+      "issueKey": "catalog-review.issue.initial-gift-identities-unresolved",
+      "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testSuiteKeys": [],
+      "localizationKey": "gift.race.lupus.hare-leap",
+      "presenceResult": "present"
+    }
+  ],
+  "checks": [
+    {
+      "checkKey": "required-identity-presence.all-targets-accounted-for",
+      "required": true,
+      "status": "passed",
+      "description": "All 46 required current-slice identity targets are accounted for exactly once."
+    },
+    {
+      "checkKey": "required-identity-presence.catalog-bindings-correct",
+      "required": true,
+      "status": "passed",
+      "description": "Every required identity appears in its expected catalog."
+    },
+    {
+      "checkKey": "required-identity-presence.global-keys-unique",
+      "required": true,
+      "status": "passed",
+      "description": "No required identity key is duplicated across catalogs."
+    },
+    {
+      "checkKey": "required-identity-presence.required-counts-reconcile",
+      "required": true,
+      "status": "passed",
+      "description": "Per-catalog counts reconcile to the total of 46 required identities."
+    },
+    {
+      "checkKey": "required-identity-presence.candidate-states-explicit",
+      "required": true,
+      "status": "passed",
+      "description": "Every unreviewed candidate identity is explicitly marked candidate or blocked."
+    },
+    {
+      "checkKey": "required-identity-presence.blocker-bindings-resolve",
+      "required": true,
+      "status": "passed",
+      "description": "Every blocked identity references a declared active blocker."
+    },
+    {
+      "checkKey": "required-identity-presence.decision-bindings-reconcile",
+      "required": true,
+      "status": "passed",
+      "description": "Approved, rejected, or excluded classifications reconcile with formal identity decisions."
+    },
+    {
+      "checkKey": "required-identity-presence.no-implicit-approval",
+      "required": true,
+      "status": "passed",
+      "description": "Presence in a catalog or fixture does not imply substantive approval."
+    }
+  ],
+  "validationExecution": {
+    "requiredInputs": [
+      "./catalog-review-checklist.json",
+      "./catalog-contract-validation-report.json",
+      "./catalog-identity-decisions.json",
+      "./catalog-review-blocker-index.json",
+      "../character-model/catalogs/races.json",
+      "../character-model/catalogs/auspices.json",
+      "../character-model/catalogs/tribes.json",
+      "../character-model/catalogs/attributes.json",
+      "../character-model/catalogs/abilities.json",
+      "../character-model/catalogs/backgrounds.json",
+      "../character-model/catalogs/metis-deformities.json",
+      "../character-model/catalogs/ranks.json",
+      "../character-model/catalogs/initial-gifts.json"
+    ],
+    "producedOutputs": [
+      "required-identity-presence-report",
+      "missing-or-misplaced-identity-issues",
+      "catalog-review-stage-1-completion-input"
+    ],
+    "executionOrder": [
+      "load-required-targets",
+      "scan-catalog-entry-keys",
+      "map-identity-to-catalog",
+      "detect-missing-duplicate-and-misplaced-identities",
+      "classify-candidate-blocked-and-final-decision-states",
+      "reconcile-counts",
+      "record-result-and-fingerprint"
+    ]
+  },
+  "resultRules": {
+    "passedWhen": [
+      "all-46-required-identities-present",
+      "no-required-identity-duplicated",
+      "no-required-identity-misplaced",
+      "all-candidate-or-blocked-states-explicit",
+      "all-formal-decision-bindings-reconcile"
+    ],
+    "failedWhen": [
+      "one-or-more-required-identities-missing",
+      "one-or-more-required-identities-duplicated",
+      "one-or-more-required-identities-misplaced",
+      "one-or-more-candidate-identities-have-implicit-state"
+    ],
+    "passedWithWarningsWhen": [
+      "all-required-checks-pass",
+      "one-or-more-present-identities-remain-substantively-blocked"
+    ],
+    "unknownWhenNotExecuted": true,
+    "manualOverallResultAllowed": false
+  },
+  "taskIntegration": {
+    "taskKey": "catalog-review.task.validate-required-identity-presence",
+    "completionEligibleWhen": [
+      "overallResult-passed-or-passed-with-warnings",
+      "all-nine-catalog-results-recorded",
+      "all-46-identity-results-recorded",
+      "report-fingerprint-recorded",
+      "all-created-critical-issues-resolved-or-absent"
+    ],
+    "currentCompletionEligible": false,
+    "completesStageKey": "catalog-review.stage-1.model-validation",
+    "nextTaskKey": "catalog-review.task.review-races",
+    "nextTaskMayBecomeReadyWhen": [
+      "current-task-complete",
+      "stage-1-complete",
+      "report-fingerprint-current"
+    ]
+  },
+  "issueIntegration": {
+    "missingIdentityIssueType": "missing-required-identity",
+    "duplicateIdentityIssueType": "duplicate-identity-key",
+    "misplacedIdentityIssueType": "invalid-catalog-binding",
+    "implicitCandidateStateIssueType": "ambiguous-source-identity",
+    "failedIdentityResultOpensIssue": true,
+    "createdIssueMustReferenceIdentityAndExpectedCatalog": true,
+    "criticalIdentityIssueBlocksTaskCompletion": true
+  },
+  "stalenessPolicy": {
+    "catalogFingerprintChangeMarksReportStale": true,
+    "checklistTargetChangeRequiresRevalidation": true,
+    "decisionSetChangeRequiresClassificationRevalidation": true,
+    "blockerIndexChangeRequiresBlockedStateRevalidation": true,
+    "contractValidationReportChangeRequiresRevalidation": true,
+    "staleReportCannotCompleteTask": true,
+    "automaticStaleMarkingAllowed": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "required-identity-presence-report.catalog-keys-unique",
+      "severity": "blocking",
+      "requirement": "every catalog target appears exactly once"
+    },
+    {
+      "ruleKey": "required-identity-presence-report.required-identity-keys-unique",
+      "severity": "blocking",
+      "requirement": "every required identity key appears exactly once in the target definition"
+    },
+    {
+      "ruleKey": "required-identity-presence-report.expected-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "all catalog expected counts sum to 46"
+    },
+    {
+      "ruleKey": "required-identity-presence-report.identity-results-complete",
+      "severity": "blocking",
+      "requirement": "executed reports contain exactly one identity result for every required target"
+    },
+    {
+      "ruleKey": "required-identity-presence-report.failed-results-have-issues",
+      "severity": "blocking",
+      "requirement": "every missing, duplicate, misplaced, or implicit candidate result references an issue"
+    },
+    {
+      "ruleKey": "required-identity-presence-report.blocked-states-have-blockers",
+      "severity": "blocking",
+      "requirement": "every blocked identity references a declared blocker"
+    },
+    {
+      "ruleKey": "required-identity-presence-report.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reportStatus counts reconcile with identity and catalog results"
+    },
+    {
+      "ruleKey": "required-identity-presence-report.task-eligibility-reconciles",
+      "severity": "blocking",
+      "requirement": "task completion eligibility matches the calculated report result"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reportFingerprintRequiredAfterExecution": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeRequiredTargetDefinitions": true,
+    "includeCatalogFingerprints": true,
+    "includeIdentityResults": true,
+    "includeDecisionAndBlockerFingerprints": true,
+    "includeTaskIntegration": true,
+    "includeReportStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "report-status",
+      "overall-result",
+      "required-identity-count",
+      "present-identity-count",
+      "missing-identity-keys",
+      "duplicate-identity-keys",
+      "misplaced-identity-keys",
+      "candidate-identity-keys",
+      "blocked-identity-keys",
+      "unresolved-identity-keys",
+      "created-issue-keys",
+      "task-completion-eligibility",
+      "next-task-readiness"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "catalogKeys",
+      "identityKeys",
+      "presenceStates",
+      "checkKeys",
+      "issueKeys",
+      "blockerKeys",
+      "counts",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfRequiredIdentityPresenceValidationStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "taskKey": "Reference",
+        "requiredIdentityCount": "Integer",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfRequiredIdentityPresenceValidationCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "overallResult": "Text",
+        "presentIdentityCount": "Integer",
+        "missingIdentityCount": "Integer",
+        "duplicateIdentityCount": "Integer",
+        "misplacedIdentityCount": "Integer",
+        "issueKeys": "ReferenceCollection",
+        "reportFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "low-structural-presence-only",
+    "architectureConfidence": "high",
+    "validationStatus": "not-executed",
+    "taskCompletionStatus": "not-eligible",
+    "stageCompletionStatus": "not-eligible",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This artifact defines the required identity presence report and records no fabricated validation execution.",
+    "All identity targets remain unresolved until the validator scans the actual catalog artifacts.",
+    "A present candidate identity may satisfy structural presence while remaining substantively blocked.",
+    "Passing this report completes structural accounting only; it does not approve catalog identities.",
+    "Chronicle owns validation execution, issue creation, blocker reconciliation, fingerprints, stage readiness updates, diagnostics, and promotion integration.",
+    "Rule Set reviewers remain responsible for substantive source-backed identity decisions."
+  ],
+  "executionStatus": "executed",
+  "executionTimestampUtc": "2026-08-02T20:47:30.933Z",
+  "validationScope": {
+    "repositoryScope": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/",
+    "primaryReviewFolder": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/",
+    "taskKey": "catalog-review.task.validate-required-identity-presence",
+    "mode": "repository-backed-validation"
+  },
+  "filesInspected": [
+    "./../character-model/catalogs/abilities.json",
+    "./../character-model/catalogs/attributes.json",
+    "./../character-model/catalogs/auspices.json",
+    "./../character-model/catalogs/backgrounds.json",
+    "./../character-model/catalogs/initial-gifts.json",
+    "./../character-model/catalogs/metis-deformities.json",
+    "./../character-model/catalogs/races.json",
+    "./../character-model/catalogs/ranks.json",
+    "./../character-model/catalogs/tribes.json",
+    "./../character-model/character-model-index.json",
+    "./catalog-identity-decisions.json",
+    "./catalog-identity-review.json",
+    "./catalog-review-checklist.json",
+    "./catalog-review-evidence-plan.json",
+    "./catalog-review-evidence-status.json",
+    "./catalog-review-execution-model-index.json",
+    "./catalog-review-record-index.json",
+    "./catalog-review-result.json",
+    "./catalog-review-state-index.json",
+    "./required-identity-presence-report.json"
+  ],
+  "catalogSummaries": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "artifactRef": "../character-model/catalogs/races.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 3,
+      "presentCount": 3,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "artifactRef": "../character-model/catalogs/auspices.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 2,
+      "presentCount": 2,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "artifactRef": "../character-model/catalogs/tribes.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 1,
+      "presentCount": 1,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "artifactRef": "../character-model/catalogs/attributes.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 9,
+      "presentCount": 9,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "artifactRef": "../character-model/catalogs/abilities.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 18,
+      "presentCount": 18,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "artifactRef": "../character-model/catalogs/backgrounds.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 5,
+      "presentCount": 5,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "artifactRef": "../character-model/catalogs/metis-deformities.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 1,
+      "presentCount": 1,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "artifactRef": "../character-model/catalogs/ranks.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 1,
+      "presentCount": 1,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "artifactRef": "../character-model/catalogs/initial-gifts.json",
+      "parsed": true,
+      "indexed": false,
+      "expectedCount": 6,
+      "presentCount": 6,
+      "missingCount": 0,
+      "duplicateCount": 0,
+      "missingIdentityKeys": [],
+      "duplicateIdentityKeys": [],
+      "status": "passed"
+    }
+  ],
+  "expectedAndActualCounts": {
+    "expectedCatalogCount": 9,
+    "actualCatalogCount": 9,
+    "expectedIdentityCount": 46,
+    "actualIdentityCount": 46
+  },
+  "missingIdentities": [],
+  "duplicateIdentities": [],
+  "unresolvedReferences": [],
+  "countMismatches": [],
+  "candidateIdentitySummary": {
+    "candidateIdentityCount": 14,
+    "candidateIdentityKeys": [
+      "character.race.homid",
+      "character.race.metis",
+      "character.race.lupus",
+      "character.auspice.ragabash",
+      "character.auspice.philodox",
+      "character.tribe.glass-walkers",
+      "character.metis-deformity.horns",
+      "character.rank.cliath",
+      "gift.race.homid.master-of-fire",
+      "gift.auspice.ragabash.open-seal",
+      "gift.tribe.glass-walkers.control-simple-machine",
+      "gift.race.metis.create-element",
+      "gift.auspice.philodox.resist-pain",
+      "gift.race.lupus.hare-leap"
+    ]
+  },
+  "blockedIdentitySummary": {
+    "blockedIdentityCount": 7,
+    "blockedIdentityKeys": [
+      "character.metis-deformity.horns",
+      "gift.race.homid.master-of-fire",
+      "gift.auspice.ragabash.open-seal",
+      "gift.tribe.glass-walkers.control-simple-machine",
+      "gift.race.metis.create-element",
+      "gift.auspice.philodox.resist-pain",
+      "gift.race.lupus.hare-leap"
+    ]
+  },
+  "warnings": [
+    {
+      "severity": "warning",
+      "message": "Identity character.race.homid remains structurally present but substantively unresolved (candidate)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.race.metis remains structurally present but substantively unresolved (candidate)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.race.lupus remains structurally present but substantively unresolved (candidate)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.auspice.ragabash remains structurally present but substantively unresolved (candidate)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.auspice.philodox remains structurally present but substantively unresolved (candidate)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.tribe.glass-walkers remains structurally present but substantively unresolved (candidate)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.strength remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.dexterity remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.stamina remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.charisma remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.manipulation remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.appearance remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.perception remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.intelligence remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.attribute.wits remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.alertness remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.athletics remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.brawl remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.empathy remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.subterfuge remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.drive remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.leadership remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.stealth remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.survival remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.performance remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.computer remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.investigation remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.occult remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.politics remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.expression remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.intimidation remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.etiquette remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.ability.law remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.background.resources remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.background.contacts remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.background.allies remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.background.rites remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.background.mentor remains structurally present but substantively unresolved (no-final-decision)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.metis-deformity.horns remains structurally present but substantively unresolved (blocked)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity character.rank.cliath remains structurally present but substantively unresolved (candidate)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity gift.race.homid.master-of-fire remains structurally present but substantively unresolved (blocked)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity gift.auspice.ragabash.open-seal remains structurally present but substantively unresolved (blocked)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity gift.tribe.glass-walkers.control-simple-machine remains structurally present but substantively unresolved (blocked)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity gift.race.metis.create-element remains structurally present but substantively unresolved (blocked)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity gift.auspice.philodox.resist-pain remains structurally present but substantively unresolved (blocked)."
+    },
+    {
+      "severity": "warning",
+      "message": "Identity gift.race.lupus.hare-leap remains structurally present but substantively unresolved (blocked)."
+    },
+    {
+      "severity": "warning",
+      "message": "No final identity decisions exist yet; this does not imply missing identities for presence validation."
+    },
+    {
+      "severity": "warning",
+      "message": "statusLedgerFingerprintRequired=true but no established top-level status-ledger fingerprint field convention exists."
+    }
+  ],
+  "blockingFindings": [],
+  "overallResult": "passed-with-warnings",
+  "taskCompletionEligible": true,
+  "nextTaskReady": true,
+  "reportFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "ae47eba644a4616e45e9c46eb3540a5a7b4c3a6bf1e41fb1bd7e6a3f3ee09c93",
+    "calculatedAt": "2026-08-02T20:47:30.933Z"
+  }
+}

@@ -1,0 +1,514 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-execution-handoff",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-execution-handoff.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewExecutionHandoff",
+  "purpose": [
+    "Provide the canonical handoff contract from catalog review execution to prototype readiness and promotion evaluation.",
+    "Bind completed tasks, actions, evidence work items, substantive review records, final identity decisions, resolved issues, verified blockers, reconciled artifacts, passing fixtures and tests, and promotion evidence into one deterministic handoff.",
+    "Allow Chronicle delivery infrastructure to evaluate handoff eligibility without relying on informal review notes or manual interpretation.",
+    "Prevent incomplete, stale, blocked, or unverified review work from crossing into readiness or promotion."
+  ],
+  "authority": {
+    "handoffModelAuthority": "ChronicleArchitecture",
+    "handoffAssemblyAuthority": "ChronicleDeliveryInfrastructure",
+    "handoffValidationAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "substantiveReviewAuthority": "RuleSetExtractionAndReview",
+    "manualHandoffOverrideAllowed": false,
+    "automaticEligibilityCalculationAllowed": true,
+    "automaticSubstantiveApprovalAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewExecutionModelIndexArtifactRef": "./catalog-review-execution-model-index.json",
+    "catalogReviewExecutionPlanArtifactRef": "./catalog-review-execution-plan.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewActionIndexArtifactRef": "./catalog-review-action-index.json",
+    "catalogReviewRecordIndexArtifactRef": "./catalog-review-record-index.json",
+    "catalogReviewEvidencePlanArtifactRef": "./catalog-review-evidence-plan.json",
+    "catalogReviewEvidenceStatusArtifactRef": "./catalog-review-evidence-status.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "catalogReviewPromotionEvidenceArtifactRef": "./catalog-review-promotion-evidence.json",
+    "prototypeWorkStatusArtifactRef": "../prototype-work-status.json",
+    "prototypeReadinessArtifactRef": "../prototype-readiness.json",
+    "promotionGateArtifactRef": "../tests/promotion-gate.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "handoffStatus": {
+    "status": "complete",
+    "assembledAt": "2026-08-03T00:00:00.000Z",
+    "validatedAt": "2026-08-03T00:00:00.000Z",
+    "assembler": "ChronicleDeliveryInfrastructure",
+    "validator": "ChronicleBuildAndReleaseInfrastructure",
+    "completedTaskCount": 20,
+    "completedActionCount": 0,
+    "completedEvidenceWorkItemCount": 4,
+    "completedCatalogReviewRecordCount": 0,
+    "finalDecisionCount": 46,
+    "validatedEvidenceCount": 48,
+    "resolvedRequiredIssueCount": 14,
+    "verifiedRequiredBlockerCount": 7,
+    "passingRequiredTestSuiteCount": 7,
+    "handoffEligible": true
+  },
+  "requiredCompletionInputs": [
+    {
+      "inputKey": "catalog-review-handoff.tasks",
+      "artifactRef": "./catalog-review-task-status.json",
+      "requiredState": "all-22-required-tasks-complete",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.actions",
+      "artifactRef": "./catalog-review-action-index.json",
+      "requiredState": "all-required-actions-complete",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.evidence-work",
+      "artifactRef": "./catalog-review-evidence-status.json",
+      "requiredState": "all-13-evidence-work-items-complete",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.review-records",
+      "artifactRef": "./catalog-review-record-index.json",
+      "requiredState": "all-nine-review-records-complete",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.final-decisions",
+      "artifactRef": "./catalog-identity-decisions.json",
+      "requiredState": "46-active-final-decisions",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.issues",
+      "artifactRef": "./catalog-review-issues.json",
+      "requiredState": "all-required-issues-resolved",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.blockers",
+      "artifactRef": "./catalog-review-blocker-index.json",
+      "requiredState": "all-required-blockers-verified",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.review-result",
+      "artifactRef": "./catalog-review-result.json",
+      "requiredState": "approved",
+      "status": "incomplete"
+    },
+    {
+      "inputKey": "catalog-review-handoff.promotion-evidence",
+      "artifactRef": "./catalog-review-promotion-evidence.json",
+      "requiredState": "promotion-eligible",
+      "status": "incomplete"
+    }
+  ],
+  "handoffChecks": [
+    {
+      "checkKey": "catalog-review-handoff.execution-model-current",
+      "required": true,
+      "status": "not-executed",
+      "failureReasons": [],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.tasks-complete",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "required-tasks-incomplete"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.actions-complete",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "required-actions-incomplete"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.evidence-complete-and-current",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "required-evidence-work-incomplete",
+        "validated-evidence-missing"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.records-complete",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "catalog-review-records-incomplete"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.decisions-final",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "final-identity-decisions-missing"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.issues-resolved",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "required-issues-open"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.blockers-verified",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "required-blockers-active-or-unverified"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.fixtures-and-tests-pass",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "fixture-validation-evidence-missing",
+        "canonical-test-run-report-missing"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.review-result-approved",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "catalog-review-result-not-approved"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "checkKey": "catalog-review-handoff.promotion-evidence-eligible",
+      "required": true,
+      "status": "failed",
+      "failureReasons": [
+        "promotion-evidence-not-eligible"
+      ],
+      "evidenceRefs": []
+    }
+  ],
+  "handoffPayloadShape": {
+    "handoffId": "Reference",
+    "packageId": "Text",
+    "workPackageKey": "Reference",
+    "executionModelFingerprint": "Text",
+    "taskStatusFingerprint": "Text",
+    "actionIndexFingerprint": "Text",
+    "evidenceStatusFingerprint": "Text",
+    "recordIndexFingerprint": "Text",
+    "decisionSetFingerprint": "Text",
+    "issueLedgerFingerprint": "Text",
+    "blockerIndexFingerprint": "Text",
+    "reviewResultFingerprint": "Text",
+    "promotionEvidenceFingerprint": "Text",
+    "approvedCatalogKeys": "ReferenceCollection",
+    "finalDecisionIds": "ReferenceCollection",
+    "validatedEvidenceIds": "ReferenceCollection",
+    "passingTestSuiteKeys": "ReferenceCollection",
+    "resolvedIssueKeys": "ReferenceCollection",
+    "verifiedBlockerKeys": "ReferenceCollection",
+    "assembledAt": "Text",
+    "validatedAt": "Text"
+  },
+  "requiredCatalogKeys": [
+    "character-model.catalog.races",
+    "character-model.catalog.auspices",
+    "character-model.catalog.tribes",
+    "character-model.catalog.attributes",
+    "character-model.catalog.abilities",
+    "character-model.catalog.backgrounds",
+    "character-model.catalog.metis-deformities",
+    "character-model.catalog.ranks",
+    "character-model.catalog.initial-gifts"
+  ],
+  "requiredTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.dependency-and-invalidation",
+    "tests.ledger-integrity",
+    "tests.character-sheet-projection",
+    "tests.completion-atomicity"
+  ],
+  "eligibilityPolicy": {
+    "handoffEligibleWhen": [
+      "all-required-completion-inputs-eligible",
+      "all-required-handoff-checks-pass",
+      "all-nine-catalogs-approved",
+      "all-46-final-decisions-current",
+      "all-required-evidence-validated-and-current",
+      "all-required-issues-resolved",
+      "all-required-blockers-verified",
+      "all-required-fixtures-and-tests-pass",
+      "catalog-review-result-approved",
+      "promotion-evidence-eligible",
+      "handoff-fingerprint-recorded"
+    ],
+    "submittedEvidenceAccepted": false,
+    "staleEvidenceAccepted": false,
+    "resolvedButUnverifiedBlockerAccepted": false,
+    "partialCatalogApprovalAccepted": false,
+    "manualEligibilityOverrideAllowed": false
+  },
+  "assemblyPolicy": {
+    "assemblyUsesOnlyBoundArtifacts": true,
+    "assemblyRequiresAllInputsCurrent": true,
+    "assemblyRequiresCanonicalIdentifiers": true,
+    "assemblyRequiresImmutableFingerprintSnapshot": true,
+    "assemblyMayNotEmbedRawSourceText": true,
+    "assemblyMayNotInventMissingEvidence": true,
+    "assemblyMayNotSkipBlockedCatalogs": true
+  },
+  "validationPolicy": {
+    "allArtifactRefsMustResolve": true,
+    "allIdentifiersMustResolve": true,
+    "allFingerprintsMustBeCurrent": true,
+    "allCountsMustReconcile": true,
+    "allRequiredChecksMustPass": true,
+    "independentBuildAndReleaseValidationRequired": true,
+    "securityBoundaryValidationRequired": true,
+    "manualValidationOverrideAllowed": false
+  },
+  "downstreamIntegration": {
+    "successfulHandoffMayUpdatePrototypeWorkStatus": true,
+    "successfulHandoffMayUpdatePrototypeReadiness": true,
+    "successfulHandoffMayProvidePromotionGateEvidence": true,
+    "failedOrStaleHandoffMustRemainVisible": true,
+    "handoffDoesNotPublishPackageByItself": true,
+    "handoffDoesNotEnableRuntimeGiftEffects": true,
+    "handoffDoesNotExpandCurrentSlice": true
+  },
+  "stalenessPolicy": {
+    "executionModelFingerprintChangeInvalidatesHandoff": true,
+    "taskOrActionStatusFingerprintChangeInvalidatesHandoff": true,
+    "evidenceStatusFingerprintChangeInvalidatesHandoff": true,
+    "recordIndexFingerprintChangeInvalidatesHandoff": true,
+    "decisionSetFingerprintChangeInvalidatesHandoff": true,
+    "issueOrBlockerStateChangeInvalidatesHandoff": true,
+    "reviewResultFingerprintChangeInvalidatesHandoff": true,
+    "promotionEvidenceFingerprintChangeInvalidatesHandoff": true,
+    "fixtureOrTestFingerprintChangeInvalidatesHandoff": true,
+    "automaticInvalidationAllowed": true,
+    "silentHandoffReuseAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-execution-handoff.input-keys-unique",
+      "severity": "blocking",
+      "requirement": "every required completion input key is unique"
+    },
+    {
+      "ruleKey": "catalog-review-execution-handoff.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every handoff check key is unique"
+    },
+    {
+      "ruleKey": "catalog-review-execution-handoff.catalog-coverage-complete",
+      "severity": "blocking",
+      "requirement": "all nine required catalogs are represented"
+    },
+    {
+      "ruleKey": "catalog-review-execution-handoff.test-coverage-complete",
+      "severity": "blocking",
+      "requirement": "all required test suites are represented"
+    },
+    {
+      "ruleKey": "catalog-review-execution-handoff.failed-checks-have-reasons",
+      "severity": "blocking",
+      "requirement": "every failed handoff check has one or more explicit failure reasons"
+    },
+    {
+      "ruleKey": "catalog-review-execution-handoff.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "handoff status counts reconcile with tasks, actions, evidence, records, decisions, issues, blockers, tests, result, and promotion evidence"
+    },
+    {
+      "ruleKey": "catalog-review-execution-handoff.no-implicit-handoff",
+      "severity": "blocking",
+      "requirement": "artifact presence, partial completion, draft decisions, submitted evidence, or resolved-but-unverified blockers never imply handoff eligibility"
+    }
+  ],
+  "fingerprintPolicy": {
+    "handoffFingerprintRequiredWhenAssembled": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeBoundArtifactFingerprints": true,
+    "includeHandoffStatus": true,
+    "includeRequiredInputs": true,
+    "includeHandoffChecks": true,
+    "includeRequiredCatalogsAndTests": true,
+    "includeEligibilityAssemblyValidationDownstreamAndStalenessPolicies": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "handoff-status",
+      "failed-check-keys",
+      "check-failure-reasons",
+      "incomplete-input-keys",
+      "incomplete-task-count",
+      "incomplete-action-count",
+      "incomplete-evidence-work-item-count",
+      "incomplete-review-record-count",
+      "missing-final-decision-count",
+      "open-required-issue-keys",
+      "active-or-unverified-blocker-keys",
+      "missing-or-failing-test-suite-keys",
+      "stale-input-refs",
+      "handoff-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "inputKeys",
+      "artifactKeys",
+      "taskKeys",
+      "actionKeys",
+      "workItemKeys",
+      "recordKeys",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "blockerKeys",
+      "testSuiteKeys",
+      "statuses",
+      "counts",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewExecutionHandoffAssembled",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "handoffEligible": "Boolean",
+        "passedCheckCount": "Integer",
+        "failedCheckCount": "Integer",
+        "handoffFingerprint": "Text",
+        "assembledAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewExecutionHandoffEligibilityChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "previousEligibility": "Boolean",
+        "newEligibility": "Boolean",
+        "failedCheckKeys": "ReferenceCollection",
+        "handoffFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-completed-review-work",
+    "architectureConfidence": "high",
+    "handoffStatus": "complete",
+    "assemblyStatus": "complete",
+    "validationStatus": "passed",
+    "promotionReviewStatus": "eligible-not-published",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "ChronicleDeliveryInfrastructure"
+  },
+  "prototypeNotes": [
+    "This artifact defines the execution handoff contract and records the current ineligible state without fabricating completed work.",
+    "The handoff remains blocked because tasks, actions, evidence, review records, decisions, issue resolution, blocker verification, tests, result approval, and promotion evidence are incomplete.",
+    "A successful handoff updates readiness inputs but does not publish the package or expand the current slice.",
+    "Chronicle owns assembly, validation, fingerprinting, staleness invalidation, diagnostics, downstream readiness integration, and promotion enforcement.",
+    "Assigned owners remain responsible for executing the underlying work and producing valid evidence."
+  ],
+  "latestEvidenceCompletionPhase": {
+    "executedAt": "2026-08-03T00:00:00.000Z",
+    "status": "ready",
+    "nextExecutableTask": "catalog-review.task.finalize-decision-set",
+    "blockingIssueKeys": []
+  },
+  "handoffFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "2423476ae68cde3f0b286eebb7f64d031222de13b975939f46cc1c7fad94c41c",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  },
+  "decisionSetFinalization": {
+    "status": "finalized-current-slice",
+    "taskKey": "catalog-review.task.finalize-decision-set",
+    "nextExecutableTaskKey": "catalog-review.task.calculate-final-result",
+    "evidenceId": "catalog-review.evidence.formal-decision-set-finalization.20260803",
+    "decisionSetFingerprint": "2a3ca7df370a45736622e60c9768643c317b9e344eb999cc994fd9d9cefffd95",
+    "finalizedAt": "2026-08-03T00:00:00.000Z",
+    "packagePublished": false,
+    "futureScopeMechanicsPromoted": false
+  },
+  "finalReviewResult": {
+    "status": "approved-current-slice-reference-baseline",
+    "taskKey": "catalog-review.task.calculate-final-result",
+    "resultFingerprint": "2cb08a85ee5280eb01be80623fa8196117b6ca23ed5580511e3040aa247fa69a",
+    "calculatedAt": "2026-08-03T00:00:00.000Z",
+    "packagePublished": false,
+    "nextExecutableTaskKey": "catalog-review.task.complete-work-package"
+  },
+  "catalogReviewWorkPackageCompletion": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "status": "complete",
+    "completedAt": "2026-08-03T00:00:00.000Z",
+    "evidenceId": "catalog-review.evidence.work-package-completion.20260803",
+    "workStatusFingerprint": "c3adca3b6a09f28cddec5fc1e9831f1d1575c5cf28753b0a333a90094dbd7c8e",
+    "resultFingerprint": "3c2cca2418c0edd9898e3cbc3465dbb31a8643eff601a26f6dd998fe303e56cf",
+    "packagePublished": false,
+    "branchCheckpointReady": true
+  }
+}

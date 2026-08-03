@@ -1,0 +1,277 @@
+{
+  "contractVersion": 1,
+  "fixtureKey": "character-creation.lupus-restricted-ability",
+  "fixtureVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "fixtureKind": "character-creation-invalid-state",
+  "publicationStatus": "prototype-candidate",
+  "purpose": [
+    "Provide one deterministic invalid Character creation fixture for a Lupus Character with a restricted Ability purchased during base allocation.",
+    "Verify Race-dependent Ability restrictions, dependency impact, invalidation creation, stage-state projection, and completion blocking.",
+    "Keep the known ambiguity about later or freebie purchases separate by exercising only base allocation.",
+    "Serve as a shared input for negative-path validation and repair tests."
+  ],
+  "binding": {
+    "characterModelId": "chronicle.rulesets.werewolf.character-model",
+    "characterModelVersion": "0.1.0-prototype",
+    "creationProfileVersion": "0.1.0-prototype",
+    "operationIndexVersion": "0.1.0-prototype",
+    "fixtureUsesPrototypeDecisions": true
+  },
+  "baseFixture": {
+    "fixtureKey": "character-creation.minimal-valid-character",
+    "artifactRef": "./minimal-valid-character.json",
+    "requiredBaseFixtureVersion": "0.1.0-prototype",
+    "applicationMode": "canonical-patch"
+  },
+  "fixtureIdentity": {
+    "characterId": "fixture-character-lupus-restricted-ability-001",
+    "campaignId": "fixture-campaign-001",
+    "playerUserId": "fixture-user-001",
+    "draftVersion": 2
+  },
+  "patches": [
+    {
+      "patchKey": "replace-race-with-lupus",
+      "operation": "replace",
+      "path": "character.classification.race",
+      "previousValue": "character.race.homid",
+      "newValue": "character.race.lupus"
+    },
+    {
+      "patchKey": "replace-race-gift-with-lupus-gift-candidate",
+      "operation": "replace",
+      "path": "character.gifts.initial.race",
+      "previousValue": {
+        "giftKey": "gift.race.homid.master-of-fire",
+        "eligibilitySourceType": "race",
+        "eligibilitySourceKey": "character.race.homid"
+      },
+      "newValue": {
+        "giftKey": "gift.race.lupus.hare-leap",
+        "eligibilitySourceType": "race",
+        "eligibilitySourceKey": "character.race.lupus"
+      },
+      "contentIdentityStatus": "candidate-must-resolve-against-reviewed-catalog"
+    },
+    {
+      "patchKey": "rebase-gnosis-to-lupus",
+      "operation": "replace",
+      "path": "character.resources.character.resource.gnosis",
+      "newValue": {
+        "permanent": 5,
+        "current": 5,
+        "classificationInitialRating": 5,
+        "freebieDots": 0,
+        "source": "character.race.lupus"
+      }
+    },
+    {
+      "patchKey": "retain-computer-base-allocation",
+      "operation": "assert",
+      "path": "character.abilities.character.ability.computer",
+      "expectedValue": {
+        "rating": 2,
+        "baseAllocationDots": 2,
+        "freebieDots": 0
+      }
+    },
+    {
+      "patchKey": "replace-race-ledger-source",
+      "operation": "semantic-rebase",
+      "path": "creationLedger",
+      "instruction": "Replace Homid classification and Gnosis initialization entries with Lupus classification and Gnosis five entries while preserving all unrelated allocation entries."
+    }
+  ],
+  "targetedRestriction": {
+    "raceKey": "character.race.lupus",
+    "abilityKey": "character.ability.computer",
+    "creationStage": "BaseAllocation",
+    "rating": 2,
+    "baseAllocationDots": 2,
+    "freebieDots": 0,
+    "knownRestrictedAbilityKeys": [
+      "character.ability.crafts",
+      "character.ability.drive",
+      "character.ability.etiquette",
+      "character.ability.firearms",
+      "character.ability.computer",
+      "character.ability.law",
+      "character.ability.linguistics",
+      "character.ability.politics",
+      "character.ability.science"
+    ],
+    "expectedRuleBehavior": "reject-base-allocation",
+    "laterOrFreebiePurchaseBehavior": "unresolved-and-not-exercised"
+  },
+  "creationStateExpectations": {
+    "attributeBudgetRemainsValid": true,
+    "abilityBudgetNumericallyReconciles": true,
+    "backgroundBudgetRemainsValid": true,
+    "freebieBudgetRemainsValid": true,
+    "pendingDependencyRecalculation": false,
+    "invalidations": [
+      {
+        "invalidationKey": "character-creation.ability-allocation-invalid",
+        "category": "allocation-overflow",
+        "severity": "blocking",
+        "status": "open",
+        "causedByFieldKeys": [
+          "character.classification.race"
+        ],
+        "affectedFieldKeys": [
+          "character.abilities.character.ability.computer"
+        ],
+        "affectedItemRefs": [
+          "character.ability.computer"
+        ],
+        "requiredResolutionType": "reallocate",
+        "allowedResolutionOperationKeys": [
+          "character-creation.set-ability-rating"
+        ]
+      }
+    ]
+  },
+  "stageExpectations": {
+    "creation.identity": "complete",
+    "creation.classifications": "complete",
+    "creation.attributes": "complete",
+    "creation.abilities": "review-required",
+    "creation.backgrounds": "complete",
+    "creation.initial-gifts": "complete",
+    "creation.resources-renown-rank": "complete",
+    "creation.metis-deformity": "not-applicable",
+    "creation.specializations": "not-started",
+    "creation.freebie-points": "complete",
+    "creation.narrative": "not-started",
+    "creation.review-and-complete": "blocked"
+  },
+  "validationExpectations": {
+    "validationMode": "completion-readiness",
+    "isStructurallyValid": false,
+    "isCompletionReady": false,
+    "blockingIssueCount": 1,
+    "errorCount": 0,
+    "expectedBlockingIssues": [
+      "character-creation.ability-allocation-invalid"
+    ],
+    "expectedOpenInvalidations": [
+      "character-creation.ability-allocation-invalid"
+    ],
+    "expectedIssueFields": [
+      "character.classification.race",
+      "character.abilities.character.ability.computer"
+    ],
+    "requiredResolutionOperationKeys": [
+      "character-creation.set-ability-rating"
+    ],
+    "ledgerIntegrityValid": true,
+    "packageBindingCompatible": true
+  },
+  "completionExpectations": {
+    "completionSucceeds": false,
+    "failureKey": "character-creation.complete-character.validation-failed",
+    "freshValidationReturned": true,
+    "characterStatusRemains": "Draft",
+    "creationLedgerStatusRemains": "open",
+    "completionSnapshotCreated": false,
+    "partialCommitOccurred": false
+  },
+  "dependencyExpectations": {
+    "startingNodeKeys": [
+      "character.classification.race"
+    ],
+    "directlyAffectedNodeKeys": [
+      "character.abilities.ratings",
+      "character.resource.gnosis",
+      "character.gifts.initial.race",
+      "character.metis-deformity"
+    ],
+    "targetInvalidNodeKeys": [
+      "character.abilities.ratings"
+    ],
+    "createdInvalidationKeys": [
+      "character-creation.ability-allocation-invalid"
+    ],
+    "deterministicallyRecalculatedNodeKeys": [
+      "character.resource.gnosis"
+    ],
+    "preservedSelectionNodeKeys": [
+      "character.gifts.initial.race"
+    ],
+    "silentAbilityRemovalAllowed": false
+  },
+  "repairExpectations": {
+    "operationKey": "character-creation.set-ability-rating",
+    "repairInstruction": "Move both base-allocation dots out of Computer and into one or more Abilities allowed for Lupus base allocation while preserving the thirteen-nine-five category budgets.",
+    "afterValidReallocation": {
+      "invalidationResolved": true,
+      "abilityStageStatus": "complete",
+      "reviewStageStatus": "complete",
+      "isCompletionReady": true
+    }
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.lupus-ability-purchase-timing",
+      "status": "source-review-required",
+      "question": "May Lupus Characters acquire normally restricted Abilities later in creation or with freebie points?",
+      "fixtureBoundary": "This fixture tests only base allocation and makes no claim about later or freebie purchases."
+    }
+  ],
+  "prototypeDecisions": [
+    {
+      "decisionKey": "fixture.lupus-race-gift-key",
+      "basis": "The fixture requires a Lupus initial Gift but its normalized identity must resolve against the reviewed catalog.",
+      "fixtureChoice": "gift.race.lupus.hare-leap",
+      "authority": "fixture-candidate",
+      "mustResolveAgainstCatalogBeforeTestExecution": true
+    },
+    {
+      "decisionKey": "fixture.current-gnosis-equals-permanent",
+      "basis": "The prototype reconciliation policy permits current equal to permanent at classification initialization.",
+      "fixtureChoice": 5,
+      "authority": "prototype-decision"
+    }
+  ],
+  "negativeAssertions": [
+    "The numerical Ability budget remains balanced; the failure is Race eligibility, not overspending.",
+    "Computer is purchased only with base-allocation dots in this fixture.",
+    "The fixture does not claim that freebie or later purchase is forbidden.",
+    "The Rule Set does not silently remove or move the invalid dots.",
+    "Completion does not activate the Character, freeze the ledger, or create a completion snapshot.",
+    "No Narrator or Chronicle Director bypass is allowed."
+  ],
+  "testUses": [
+    "character-creation-lupus-invalid-path",
+    "lupus-base-ability-restrictions",
+    "classification-dependency-impact",
+    "ability-allocation-invalidation",
+    "stage-review-required",
+    "completion-rejection",
+    "completion-atomicity",
+    "explicit-reallocation-repair"
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "high-for-lupus-base-ability-restrictions",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "contentIdentityReviewStatus": "required-for-race-gift",
+    "fixtureReviewStatus": "pending",
+    "implementationReviewStatus": "pending"
+  },
+  "fixtureNotes": [
+    "This fixture intentionally isolates a known base-allocation restriction from the unresolved later-purchase question.",
+    "The base fixture remains numerically valid; changing Race to Lupus makes the existing Computer allocation mechanically invalid.",
+    "Gnosis is deterministically rebased from Homid one to Lupus five.",
+    "The invalid Computer allocation is preserved for explicit user repair rather than silently moved.",
+    "Stable IDs, timestamps, fingerprints, and materialized ledger entries must be generated by the test builder.",
+    "Chronicle owns patch application, persistence, invalidation history, transactions, and completion rollback.",
+    "The Rule Set owns Race restrictions, dependency semantics, validation, and proof of repair."
+  ]
+}

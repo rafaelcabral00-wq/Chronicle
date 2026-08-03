@@ -1,0 +1,537 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.current-slice-boundary-review",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.current-slice-boundary-review.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceBoundary",
+  "purpose": [
+    "Define and review the exact boundary of the current Werewolf prototype delivery slice.",
+    "Separate supported Character creation capabilities from blocked, excluded, deferred, and future capabilities.",
+    "Ensure unresolved mechanics do not enter implementation, tests, presentation, persistence, promotion, or release metadata by implication.",
+    "Provide versioned evidence for scope control, readiness calculation, delivery planning, and promotion-gate evaluation."
+  ],
+  "authority": {
+    "boundaryDefinitionAuthority": "ChronicleArchitectureReview",
+    "mechanicalCapabilityAuthority": "RuleSetPackage",
+    "runtimeEnforcementAuthority": "Chronicle",
+    "promotionEnforcementAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticScopeExpansionAllowed": false,
+    "implementationMayInferIncludedCapability": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "workPackageBinding": {
+    "workPackageKey": "delivery.wp.freeze-current-slice-ambiguity-boundaries",
+    "deliveryPlanArtifactRef": "../prototype-delivery-plan.json",
+    "workStatusArtifactRef": "../prototype-work-status.json",
+    "catalogIdentityReviewArtifactRef": "./catalog-identity-review.json",
+    "creationMechanicsReviewArtifactRef": "./creation-mechanics-review.json",
+    "requiredOutputKey": "accepted-exclusion-record"
+  },
+  "reviewStatus": {
+    "status": "in-progress",
+    "overallDecision": "not-approved",
+    "boundaryFrozen": false,
+    "includedCapabilityCount": 10,
+    "excludedCapabilityCount": 8,
+    "blockedCapabilityCount": 2,
+    "futureCapabilityCount": 6,
+    "promotionBlocking": true
+  },
+  "deliverySlice": {
+    "sliceKey": "werewolf.character-creation-foundation",
+    "sliceVersion": "0.1.0-prototype",
+    "startBoundary": "Initialize an empty Character draft bound to the Werewolf Rule Set package.",
+    "endBoundary": "Atomically validate, snapshot, freeze, and activate one completed Character.",
+    "runtimeAfterEndBoundaryIncluded": false,
+    "singlePlayerOnly": true,
+    "onePlayerCharacterPerCampaign": true,
+    "desktopFirst": true,
+    "localFirst": true,
+    "networkRequired": false,
+    "narrativeIntelligenceRequired": false
+  },
+  "includedCapabilities": [
+    {
+      "capabilityKey": "character-model",
+      "status": "included",
+      "description": "Package-defined Character fields, catalogs, dependencies, and creation state.",
+      "requiredArtifacts": [
+        "../character-model/character-model-index.json"
+      ]
+    },
+    {
+      "capabilityKey": "character-draft-initialization",
+      "status": "included",
+      "description": "Creation of a versioned, package-bound Character draft.",
+      "requiredArtifacts": [
+        "../operations/character-creation/initialize-character-draft.json"
+      ]
+    },
+    {
+      "capabilityKey": "classification-selection",
+      "status": "included",
+      "description": "Race, Auspice, and Tribe selection with deterministic derived-state reconciliation.",
+      "requiredArtifacts": [
+        "../operations/character-creation/preview-classification-change.json",
+        "../operations/character-creation/apply-classification-change.json"
+      ]
+    },
+    {
+      "capabilityKey": "creation-allocation",
+      "status": "included",
+      "description": "Attribute, Ability, Background, initial Gift, resource, specialization, and narrative-field operations within reviewed creation rules.",
+      "requiredArtifacts": [
+        "../operations/character-creation/operation-index.json"
+      ]
+    },
+    {
+      "capabilityKey": "creation-ledger",
+      "status": "included",
+      "description": "Append-only accounting of base allocations, freebie spending, and compensating changes.",
+      "requiredArtifacts": [
+        "../character-model/creation/creation-ledger.json"
+      ]
+    },
+    {
+      "capabilityKey": "dependency-and-invalidation",
+      "status": "included",
+      "description": "Deterministic dependency closure, recalculation, preserved invalid selections, and explicit invalidation lifecycle.",
+      "requiredArtifacts": [
+        "../character-model/creation/dependency-graph.json",
+        "../character-model/creation/invalidations.json"
+      ]
+    },
+    {
+      "capabilityKey": "character-validation",
+      "status": "included",
+      "description": "Affected, stage, full-draft, and completion-readiness validation.",
+      "requiredArtifacts": [
+        "../character-model/validation/validation-index.json"
+      ]
+    },
+    {
+      "capabilityKey": "character-sheet",
+      "status": "included",
+      "description": "Package-defined Character sheet projection for creation preview and read-only display.",
+      "requiredArtifacts": [
+        "../character-sheet/character-sheet-index.json"
+      ]
+    },
+    {
+      "capabilityKey": "atomic-character-completion",
+      "status": "included",
+      "description": "Fresh validation, immutable completion snapshot, ledger freeze, Character activation, idempotency, and post-commit events.",
+      "requiredArtifacts": [
+        "../operations/character-creation/complete-character.json",
+        "../character-model/creation/completion-snapshot.json"
+      ]
+    },
+    {
+      "capabilityKey": "fixture-driven-promotion-evidence",
+      "status": "included",
+      "description": "Deterministic fixtures, required tests, canonical reports, and promotion-gate evidence.",
+      "requiredArtifacts": [
+        "../fixtures/fixture-index-root.json",
+        "../tests/test-model-index.json",
+        "../tests/promotion-gate.json"
+      ]
+    }
+  ],
+  "blockedCapabilities": [
+    {
+      "capabilityKey": "additional-gift-purchase",
+      "status": "blocked",
+      "blockingReasonKey": "werewolf-prototype.capability.additional-gift-purchase.eligibility-unresolved",
+      "knownSupportedElement": "A Level One Gift has a freebie cost of seven.",
+      "unresolvedElement": "The exact creation-time eligibility pool and allowed additional selections.",
+      "enforcement": {
+        "operationUnavailable": true,
+        "presentationControlHiddenOrDisabled": true,
+        "fixturesMayNotRequireSuccess": true,
+        "testsMustAssertUnavailable": true,
+        "releaseMetadataMustDeclareBlocked": true
+      }
+    },
+    {
+      "capabilityKey": "generic-dice",
+      "status": "blocked",
+      "blockingReasonKey": "werewolf-prototype.capability.dice.algorithm-not-frozen",
+      "knownSupportedElement": "Chronicle owns randomness and the Rule Set defines mechanical resolution.",
+      "unresolvedElement": "The exact Werewolf generic test algorithm and its edge cases.",
+      "enforcement": {
+        "diceExecutionUnavailable": true,
+        "creationFlowMustNotRequireRolls": true,
+        "fixturesMayNotContainAuthoritativeDiceOutcomes": true,
+        "testsMustDeclareDiceSuiteBlocked": true,
+        "releaseMetadataMustDeclareBlocked": true
+      }
+    }
+  ],
+  "excludedCapabilities": [
+    {
+      "capabilityKey": "post-creation-character-operations",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.runtime-character.outside-current-slice",
+      "boundaryReason": "The current slice ends at Character activation."
+    },
+    {
+      "capabilityKey": "runtime-gift-execution",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.gift-runtime.outside-current-slice",
+      "boundaryReason": "Gift ownership is represented, but runtime effects are not."
+    },
+    {
+      "capabilityKey": "session-runtime",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.session-runtime.outside-current-slice",
+      "boundaryReason": "Sessions, Acts, Scenes, and narration runtime are Chronicle-level work outside this package slice."
+    },
+    {
+      "capabilityKey": "campaign-memory-runtime",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.memories.outside-current-slice",
+      "boundaryReason": "Campaign Memories are not required to validate Character creation."
+    },
+    {
+      "capabilityKey": "character-knowledge-runtime",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.character-knowledge.outside-current-slice",
+      "boundaryReason": "Character Knowledge remains separate from Character creation."
+    },
+    {
+      "capabilityKey": "narrative-intelligence-integration",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.narrative-intelligence.not-required",
+      "boundaryReason": "Character creation and validation must work without any provider."
+    },
+    {
+      "capabilityKey": "print-character-sheet",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.printing.future",
+      "boundaryReason": "The current slice requires interactive desktop projection only."
+    },
+    {
+      "capabilityKey": "additional-rule-set-content",
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.additional-content.future",
+      "boundaryReason": "Only mechanics required by the current Character creation fixtures are eligible for promotion."
+    }
+  ],
+  "futureCapabilities": [
+    {
+      "capabilityKey": "generic-dice",
+      "futureEntryCriteria": [
+        "exact-algorithm-source-reviewed",
+        "dice-contracts-defined",
+        "dice-fixtures-defined",
+        "dice-test-suite-passes"
+      ]
+    },
+    {
+      "capabilityKey": "additional-gift-purchase",
+      "futureEntryCriteria": [
+        "eligibility-source-reviewed",
+        "catalog-coverage-complete",
+        "operation-and-validation-contracts-updated",
+        "fixtures-and-tests-pass"
+      ]
+    },
+    {
+      "capabilityKey": "post-creation-character-operations",
+      "futureEntryCriteria": [
+        "runtime-character-scope-approved",
+        "migration-and-history-rules-defined",
+        "runtime-operation-contracts-tested"
+      ]
+    },
+    {
+      "capabilityKey": "runtime-gift-execution",
+      "futureEntryCriteria": [
+        "gift-effect-model-approved",
+        "resource-and-targeting-contracts-defined",
+        "deterministic-execution-tests-pass"
+      ]
+    },
+    {
+      "capabilityKey": "session-and-scene-integration",
+      "futureEntryCriteria": [
+        "Chronicle-session-runtime-ready",
+        "RuleSet-runtime-hooks-approved",
+        "campaign-authority-boundaries-tested"
+      ]
+    },
+    {
+      "capabilityKey": "additional-rule-set-slices",
+      "futureEntryCriteria": [
+        "current-slice-promoted",
+        "new-slice-architecture-review-approved",
+        "new-source-extraction-and-review-complete"
+      ]
+    }
+  ],
+  "boundaryEnforcement": {
+    "manifest": {
+      "supportedCapabilitiesMustListOnlyIncludedCapabilities": true,
+      "blockedCapabilitiesMustBeExplicit": true,
+      "excludedCapabilitiesMayNotBeAdvertised": true
+    },
+    "operations": {
+      "excludedOperationMayNotDispatch": true,
+      "blockedOperationMustReturnStableUnavailableReason": true,
+      "unknownOperationMayNotFallBackToProvider": true
+    },
+    "validation": {
+      "mayValidateOnlySupportedCurrentSliceRules": true,
+      "mayNotInventResolutionForExcludedMechanics": true,
+      "blockedCapabilityUseMustProduceStableIssue": true
+    },
+    "presentation": {
+      "mustNotExposeUnsupportedSuccessfulPath": true,
+      "blockedControlsMustBeHiddenOrDisabledWithReason": true,
+      "futureSectionsMayNotAppearAsImplemented": true
+    },
+    "fixtures": {
+      "requiredPromotionFixturesMayUseOnlyIncludedCapabilities": true,
+      "blockedCapabilitiesMayAppearOnlyInNegativeAvailabilityTests": true,
+      "futureCapabilitiesMayNotBeRequiredByCurrentSliceFixtures": true
+    },
+    "tests": {
+      "mustAssertIncludedCapabilities": true,
+      "mustAssertBlockedCapabilitiesRemainUnavailable": true,
+      "mustNotMarkFutureSuitesAsPassed": true
+    },
+    "releaseMetadata": {
+      "mustDeclareSupportedBlockedAndFutureCapabilities": true,
+      "mustMatchPromotionEvidence": true,
+      "silentCapabilityAdditionAllowed": false
+    }
+  },
+  "architectureBoundaries": {
+    "chronicleOwns": [
+      "persistence",
+      "transactions",
+      "encryption",
+      "randomness",
+      "package-discovery",
+      "authority",
+      "event-publication",
+      "test-infrastructure",
+      "promotion"
+    ],
+    "ruleSetOwns": [
+      "character-schema",
+      "catalog-identities",
+      "creation-mechanics",
+      "validation-semantics",
+      "operation-semantics",
+      "sheet-layout",
+      "fixture-expectations"
+    ],
+    "narrativeIntelligenceOwns": [
+      "no-authoritative-responsibility-in-current-slice"
+    ],
+    "forbiddenCoupling": [
+      "Werewolf-specific Core types",
+      "Werewolf-specific Presentation screens",
+      "Werewolf-specific persistence columns",
+      "services.AddWerewolf registration",
+      "provider-authorized state changes"
+    ]
+  },
+  "scopeChangePolicy": {
+    "newIncludedCapabilityRequires": [
+      "architecture-review",
+      "source-and-semantic-review-when-mechanical",
+      "contract-artifacts",
+      "fixtures",
+      "required-tests",
+      "security-impact-review",
+      "delivery-plan-update",
+      "readiness-update",
+      "promotion-gate-update"
+    ],
+    "blockedToIncludedTransitionRequiresAllEntryCriteria": true,
+    "excludedToIncludedTransitionCreatesNewSliceVersion": true,
+    "silentReclassificationAllowed": false,
+    "scopeChangeInvalidatesPriorPromotionEvidence": true
+  },
+  "decisionRecordShape": {
+    "decisionId": "Reference",
+    "capabilityKey": "Reference",
+    "previousClassification": "Text",
+    "newClassification": "Text",
+    "rationale": "Text",
+    "evidenceRefs": "ReferenceCollection",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "reviewer": "Text",
+    "decidedAt": "Text"
+  },
+  "allowedClassifications": [
+    "included",
+    "blocked",
+    "excluded",
+    "future"
+  ],
+  "reviewEvidence": {
+    "evidenceType": "review-record",
+    "evidenceStatus": "not-finalized",
+    "reviewer": null,
+    "startedAt": null,
+    "completedAt": null,
+    "decisionRecordCount": 0,
+    "evidenceFingerprint": null
+  },
+  "approvalCriteria": [
+    "catalog-identity-review-approved-for-current-slice",
+    "creation-mechanics-review-approved-for-current-slice",
+    "all-unresolved-mechanics-classified-as-blocked-excluded-or-future",
+    "all-included-capabilities-have-artifact-and-test-bindings",
+    "all-blocked-capabilities-have-enforcement-rules",
+    "manifest-operation-validation-presentation-fixture-test-and-release-boundaries-reconcile",
+    "review-evidence-fingerprint-recorded"
+  ],
+  "consistencyRules": [
+    {
+      "ruleKey": "current-slice-boundary.capability-classification-exclusive",
+      "severity": "blocking",
+      "requirement": "every declared capability belongs to exactly one active classification"
+    },
+    {
+      "ruleKey": "current-slice-boundary.included-bindings-resolve",
+      "severity": "blocking",
+      "requirement": "every included capability has resolvable artifact and test bindings"
+    },
+    {
+      "ruleKey": "current-slice-boundary.blocked-enforcement-complete",
+      "severity": "blocking",
+      "requirement": "every blocked capability declares operation, presentation, fixture, test, and release enforcement"
+    },
+    {
+      "ruleKey": "current-slice-boundary.exclusions-not-advertised",
+      "severity": "blocking",
+      "requirement": "excluded and future capabilities are not advertised as supported"
+    },
+    {
+      "ruleKey": "current-slice-boundary.no-provider-authority",
+      "severity": "blocking",
+      "requirement": "Narrative Intelligence cannot authorize or persist any current-slice state"
+    },
+    {
+      "ruleKey": "current-slice-boundary.release-metadata-reconciles",
+      "severity": "blocking",
+      "requirement": "release capability declarations match the reviewed boundary and promotion evidence"
+    },
+    {
+      "ruleKey": "current-slice-boundary.overall-decision-reconciles",
+      "severity": "blocking",
+      "requirement": "overallDecision is approved only when all approval criteria are satisfied"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewFingerprintRequiredWhenFinalized": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeDeliverySlice": true,
+    "includeCapabilityClassifications": true,
+    "includeBoundaryEnforcement": true,
+    "includeArchitectureBoundaries": true,
+    "includeScopeChangePolicy": true,
+    "includeReviewEvidence": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-review-status",
+      "included-capability-keys",
+      "blocked-capability-keys",
+      "excluded-capability-keys",
+      "future-capability-keys",
+      "boundary-enforcement-status",
+      "scope-change-impact",
+      "promotion-impact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "rawCharacterStateIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "capabilityKeys",
+      "classifications",
+      "reasonKeys",
+      "artifactRefs",
+      "decisionIds",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCurrentSliceBoundaryReviewUpdated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "sliceKey": "Reference",
+        "overallDecision": "Text",
+        "includedCapabilityKeys": "ReferenceCollection",
+        "blockedCapabilityKeys": "ReferenceCollection",
+        "reviewFingerprint": "Text",
+        "updatedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCurrentSliceBoundaryFrozen",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "sliceKey": "Reference",
+        "sliceVersion": "Text",
+        "includedCapabilityKeys": "ReferenceCollection",
+        "excludedCapabilityKeys": "ReferenceCollection",
+        "reviewFingerprint": "Text",
+        "frozenAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-mechanical-boundary",
+    "architectureConfidence": "high",
+    "catalogReviewDependencyStatus": "pending",
+    "mechanicsReviewDependencyStatus": "pending",
+    "boundaryReviewStatus": "in-progress",
+    "implementationConsistencyStatus": "pending",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This record intentionally does not freeze or approve the current slice yet.",
+    "The slice begins with Character draft initialization and ends with atomic Character activation.",
+    "Generic Dice and additional Gift purchase remain blocked rather than partially implemented.",
+    "Session runtime, Campaign Memories, Character Knowledge, runtime Gifts, and Narrative Intelligence integration remain outside this package slice.",
+    "Every future scope increase requires explicit architecture, contract, fixture, test, security, planning, readiness, and promotion updates.",
+    "Chronicle owns runtime authority and enforcement of the reviewed boundary.",
+    "The Rule Set package owns the mechanical capabilities that may eventually be admitted into that boundary."
+  ]
+}

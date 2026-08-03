@@ -1,0 +1,240 @@
+{
+  "contractVersion": 1,
+  "fieldGroupKey": "backgrounds",
+  "fieldGroupVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character.field-group.backgrounds",
+  "publicationStatus": "candidate",
+  "ownership": "Character",
+  "catalogRef": "../catalogs/backgrounds.json",
+  "fieldModel": {
+    "mode": "catalog-backed-rank-fields",
+    "entryFieldTemplate": {
+      "fieldType": "RankTrack",
+      "authority": "RuleSetAuthoritative",
+      "minimum": 0,
+      "maximum": 5,
+      "creationBase": 0
+    }
+  },
+  "fields": [
+    {
+      "fieldKey": "character.backgrounds",
+      "fieldType": "StructuredCollection",
+      "displayNameResourceKey": "character.backgrounds",
+      "descriptionResourceKey": "character.backgrounds.description",
+      "requiredness": {
+        "duringDraft": "required-structure",
+        "forCompletion": "required"
+      },
+      "authority": "RuleSetAuthoritative",
+      "itemIdentitySource": "../catalogs/backgrounds.json#entries",
+      "itemValueShape": {
+        "backgroundKey": "Reference",
+        "rating": "Integer",
+        "creationStageSources": "StructuredCollection",
+        "ownershipMetadata": "StructuredObject",
+        "notes": "LongText"
+      },
+      "ratingPolicy": {
+        "minimum": 0,
+        "maximum": 5
+      },
+      "creationPolicy": {
+        "initialRating": 0,
+        "allocationProfileRef": "../catalogs/backgrounds.json#creationAllocation",
+        "totalPoints": 5,
+        "tribeRestrictionsRequired": true
+      },
+      "provenanceRefs": [
+        "../../provenance/source-segments/character-creation-backgrounds.json"
+      ]
+    },
+    {
+      "fieldKey": "character.backgrounds.totem-contribution",
+      "fieldType": "StructuredObject",
+      "displayNameResourceKey": "character.backgrounds.totem-contribution",
+      "descriptionResourceKey": "character.backgrounds.totem-contribution.description",
+      "requiredness": {
+        "duringDraft": "optional",
+        "forCompletion": "optional"
+      },
+      "authority": "RuleSetAuthoritative",
+      "ownership": "Contribution",
+      "valueShape": {
+        "rating": "Integer",
+        "targetGroupId": "Reference",
+        "aggregationStatus": "Text"
+      },
+      "runtimePolicy": {
+        "prototypeStorage": "character-local-contribution",
+        "futureOwner": "Pack",
+        "aggregationMode": "sum-character-contributions",
+        "runtimeSupport": "deferred"
+      },
+      "ambiguityRef": "ambiguity.werewolf3e.creation.totem-ownership",
+      "provenanceRefs": [
+        "../../provenance/source-segments/background-totem.json"
+      ]
+    }
+  ],
+  "tribeRestrictionLink": {
+    "sourceCatalogRef": "../catalogs/tribes.json#entries[].mechanicalData.backgroundRestrictions",
+    "applicationStage": "CreationBaseAllocation",
+    "supportedRestrictionTypes": [
+      "prohibited-selection",
+      "required-minimum",
+      "conditional-permission",
+      "recommended-selection"
+    ],
+    "validationMode": "rule-set-authoritative"
+  },
+  "progressionPolicy": {
+    "ordinaryExperienceIncreaseAllowed": false,
+    "defaultAllowedOperations": [
+      "progression.background.narrative-award",
+      "progression.background.narrative-loss",
+      "correction.background.set",
+      "import.background.restore"
+    ],
+    "exceptions": [
+      {
+        "backgroundKey": "character.background.totem",
+        "ordinaryExperienceIncreaseAllowed": true,
+        "status": "candidate"
+      }
+    ]
+  },
+  "validationRules": [
+    {
+      "ruleKey": "character.creation.backgrounds.all-present",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "requirement": {
+        "collectionField": "character.backgrounds",
+        "operator": "contains-every-catalog-entry",
+        "catalogRef": "../catalogs/backgrounds.json#entries"
+      },
+      "errorKey": "character.creation.backgrounds-missing"
+    },
+    {
+      "ruleKey": "character.creation.backgrounds.minimum-zero",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "minimum": 0,
+      "targetPath": "character.backgrounds[].rating",
+      "errorKey": "character.creation.background-below-minimum"
+    },
+    {
+      "ruleKey": "character.creation.backgrounds.maximum-five",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "maximum": 5,
+      "targetPath": "character.backgrounds[].rating",
+      "errorKey": "character.creation.background-above-maximum"
+    },
+    {
+      "ruleKey": "character.creation.backgrounds.total-five",
+      "ruleVersion": 1,
+      "ruleType": "allocation",
+      "status": "candidate",
+      "targetPath": "character.backgrounds[].rating",
+      "operator": "sum-equals",
+      "value": 5,
+      "errorKey": "character.creation.background-total-invalid"
+    },
+    {
+      "ruleKey": "character.creation.backgrounds.apply-tribe-restrictions",
+      "ruleVersion": 1,
+      "ruleType": "constraint",
+      "status": "candidate",
+      "lookupSource": "../catalogs/tribes.json#entries[].mechanicalData.backgroundRestrictions",
+      "errorKey": "character.creation.background-tribe-restriction-violated"
+    },
+    {
+      "ruleKey": "character.progression.backgrounds.no-ordinary-experience",
+      "ruleVersion": 1,
+      "ruleType": "prohibition",
+      "status": "candidate",
+      "exceptionBackgroundKeys": [
+        "character.background.totem"
+      ],
+      "errorKey": "character.progression.background-experience-prohibited"
+    }
+  ],
+  "changePolicy": {
+    "creationChangesAllowed": true,
+    "postCompletionDirectEditAllowed": false,
+    "postCompletionOperations": [
+      "progression.background.narrative-award",
+      "progression.background.narrative-loss",
+      "progression.background.totem-increase",
+      "correction.background.set",
+      "import.background.restore"
+    ],
+    "operationReadiness": {
+      "progression.background.narrative-award": "future",
+      "progression.background.narrative-loss": "future",
+      "progression.background.totem-increase": "unavailable",
+      "correction.background.set": "future",
+      "import.background.restore": "future"
+    },
+    "auditRequired": true,
+    "changeReasonRequired": true
+  },
+  "layoutHints": {
+    "sectionStyle": "single-column-rating-list",
+    "groupBy": "mechanicalCategory",
+    "showRating": true,
+    "showRestrictionIndicator": true,
+    "showOwnershipIndicator": true,
+    "showNarrativeChangeHelp": true,
+    "preferredControl": "dot-rating"
+  },
+  "ambiguities": [
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.totem-ownership",
+      "severity": "high",
+      "status": "deferred",
+      "question": "How should individual Totem points be reconciled with a Pack-owned aggregate?",
+      "prototypeDecision": "Persist only the individual contribution and defer active aggregation."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.character.rites-dual-concept",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "What is the exact mechanical relationship between the Rites Background and the Rituals Ability?",
+      "prototypeDecision": "Keep separate technical identities and do not infer a dependency."
+    },
+    {
+      "ambiguityKey": "ambiguity.werewolf3e.creation.background-maximum",
+      "severity": "medium",
+      "status": "semantic-review-required",
+      "question": "Do any Backgrounds use creation-specific maxima or special limits beyond Tribe restrictions?",
+      "prototypeDecision": "Use the catalog-wide candidate maximum of 5 and enforce only explicit Tribe rules."
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The ten Background identities are supplied by the catalog rather than duplicated as hardcoded fields.",
+    "All Backgrounds begin at 0 and the Character receives five total creation points.",
+    "Tribe restrictions are resolved from the selected Tribe entry.",
+    "Ordinary experience increases are prohibited by default; changes should occur through explicit narrative or correction operations.",
+    "Totem is represented as an individual contribution until the Pack aggregate exists.",
+    "Rites Background and Rituals Ability remain separate concepts with no inferred mechanical link.",
+    "Chronicle Core remains unaware of all Werewolf Background identities and restrictions."
+  ]
+}

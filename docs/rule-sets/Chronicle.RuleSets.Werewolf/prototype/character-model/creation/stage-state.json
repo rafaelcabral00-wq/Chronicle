@@ -1,0 +1,753 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.character-creation-stage-state",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.stage-state.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "CharacterCreation",
+  "compatibilityArtifactKeys": [
+    "character-creation.stage-state"
+  ],
+  "purpose": [
+    "Define the canonical stage progression and per-stage readiness projection for Werewolf Character creation.",
+    "Separate stage completion, review-required state, blocked capability state, and applicability state.",
+    "Expose deterministic stage metadata for validation, review summary, and character sheet projection.",
+    "Preserve current slice boundaries so unsupported or blocked capabilities cannot appear as available."
+  ],
+  "authority": {
+    "stageDefinitionAuthority": "RuleSet",
+    "stageComputationAuthority": "RuleSet",
+    "stageProjectionPersistenceAuthority": "Chronicle",
+    "completionAuthority": "Chronicle",
+    "narratorMayModify": false,
+    "chronicleDirectorMayBypass": false
+  },
+  "externalDependencies": [
+    {
+      "artifactKey": "character-creation.profile",
+      "artifactRef": "./profile.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.dependency-graph",
+      "artifactRef": "./dependency-graph.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.invalidations",
+      "artifactRef": "./invalidations.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.warning-acknowledgements",
+      "artifactRef": "./warning-acknowledgements.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.creation-ledger",
+      "artifactRef": "./creation-ledger.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.validation.character-creation",
+      "artifactRef": "../validation/character-creation.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.validation.character-completion",
+      "artifactRef": "../validation/character-completion.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../../character-creation/operation-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.current-slice-boundary-review",
+      "artifactRef": "../../reviews/current-slice-boundary-review.json",
+      "required": true
+    }
+  ],
+  "stateShape": {
+    "characterId": "Reference",
+    "draftVersion": "Integer",
+    "currentStageKey": "Reference",
+    "stages": "StageStateCollection",
+    "requiredStageSummary": "StructuredObject",
+    "blockingSummary": "StructuredObject",
+    "contentFingerprint": "Text",
+    "updatedAt": "Text"
+  },
+  "stageStateShape": {
+    "stageKey": "Reference",
+    "order": "Integer",
+    "status": "Text",
+    "availability": "Text",
+    "isRequired": "Boolean",
+    "isApplicable": "Boolean",
+    "isMechanicallyValid": "Boolean",
+    "isReviewRequired": "Boolean",
+    "blockingIssueCount": "Integer",
+    "errorCount": "Integer",
+    "warningCount": "Integer",
+    "openInvalidationCount": "Integer",
+    "remainingBudgets": "StructuredObject",
+    "availableOperationKeys": "ReferenceCollection",
+    "blockedOperationKeys": "ReferenceCollection",
+    "ruleKeys": "ReferenceCollection",
+    "dependencyNodeKeys": "ReferenceCollection",
+    "invalidationKeys": "ReferenceCollection",
+    "prototypeDecisionRefs": "ReferenceCollection",
+    "ambiguityRefs": "ReferenceCollection",
+    "stageFingerprint": "Text"
+  },
+  "statusModel": {
+    "allowedStatuses": [
+      "not-started",
+      "in-progress",
+      "complete",
+      "review-required",
+      "blocked",
+      "not-applicable"
+    ],
+    "completionEligibleStatuses": [
+      "complete",
+      "not-applicable"
+    ],
+    "reviewRequiredStatuses": [
+      "review-required"
+    ],
+    "blockingStatuses": [
+      "blocked"
+    ]
+  },
+  "availabilityModel": {
+    "allowedAvailabilities": [
+      "available",
+      "conditional",
+      "blocked",
+      "not-applicable"
+    ],
+    "conditionalAvailabilityRequires": [
+      "entry-conditions-satisfied"
+    ],
+    "blockedAvailabilityRequires": [
+      "capability-blocked-or-required-dependency-unavailable"
+    ]
+  },
+  "stageDefinitions": [
+    {
+      "stageKey": "creation.identity",
+      "displayNameResourceKey": "character-creation.stage.identity",
+      "order": 10,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/identity.json"
+      ],
+      "entryConditions": [],
+      "completionRuleKeys": [
+        "character.completion.identity.name-required"
+      ],
+      "operationKeys": [
+        "character-creation.initialize-character-draft"
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "stageKey": "creation.classifications",
+      "displayNameResourceKey": "character-creation.stage.classifications",
+      "order": 20,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/classification.json"
+      ],
+      "entryConditions": [],
+      "completionRuleKeys": [
+        "character.completion.classification.race-required",
+        "character.completion.classification.auspice-required",
+        "character.completion.classification.tribe-required",
+        "character.completion.classification.rank-valid"
+      ],
+      "operationKeys": [
+        "character-creation.preview-classification-change",
+        "character-creation.apply-classification-change"
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "stageKey": "creation.attributes",
+      "displayNameResourceKey": "character-creation.stage.attributes",
+      "order": 30,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/attributes-fields.json"
+      ],
+      "entryConditions": [],
+      "completionRuleKeys": [
+        "character.creation.attributes.priority-allocation",
+        "character.creation.attributes.base-minimum-one",
+        "character.creation.attributes.base-maximum-five"
+      ],
+      "operationKeys": [
+        "character-creation.set-attribute-priorities",
+        "character-creation.set-attribute-rating"
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "stageKey": "creation.abilities",
+      "displayNameResourceKey": "character-creation.stage.abilities",
+      "order": 40,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/abilities-fields.json"
+      ],
+      "entryConditions": [],
+      "completionRuleKeys": [
+        "character.creation.abilities.priority-allocation",
+        "character.creation.abilities.base-allocation-maximum-three",
+        "character.creation.abilities.race-restrictions"
+      ],
+      "operationKeys": [
+        "character-creation.set-ability-priorities",
+        "character-creation.set-ability-rating"
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "stageKey": "creation.backgrounds",
+      "displayNameResourceKey": "character-creation.stage.backgrounds",
+      "order": 50,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/backgrounds-fields.json"
+      ],
+      "entryConditions": [
+        {
+          "field": "character.classification.tribe",
+          "operator": "exists"
+        }
+      ],
+      "completionRuleKeys": [
+        "character.creation.backgrounds.total-five",
+        "character.creation.backgrounds.apply-tribe-restrictions"
+      ],
+      "operationKeys": [
+        "character-creation.set-background-rating"
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "stageKey": "creation.initial-gifts",
+      "displayNameResourceKey": "character-creation.stage.initial-gifts",
+      "order": 60,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/gifts-fields.json"
+      ],
+      "entryConditions": [
+        {
+          "field": "character.classification.race",
+          "operator": "exists"
+        },
+        {
+          "field": "character.classification.auspice",
+          "operator": "exists"
+        },
+        {
+          "field": "character.classification.tribe",
+          "operator": "exists"
+        }
+      ],
+      "completionRuleKeys": [
+        "character.creation.gifts.one-race-gift",
+        "character.creation.gifts.one-auspice-gift",
+        "character.creation.gifts.one-tribe-gift",
+        "character.creation.gifts.match-current-classifications",
+        "character.creation.gifts.level-one-only",
+        "character.creation.gifts.distinct-identities"
+      ],
+      "operationKeys": [
+        "character-creation.select-initial-gift"
+      ],
+      "readiness": "candidate"
+    },
+    {
+      "stageKey": "creation.resources-renown-rank",
+      "displayNameResourceKey": "character-creation.stage.resources-renown-rank",
+      "order": 70,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/resources.json",
+        "../fields/renown-and-rank.json"
+      ],
+      "entryConditions": [
+        {
+          "field": "character.classification.race",
+          "operator": "exists"
+        },
+        {
+          "field": "character.classification.auspice",
+          "operator": "exists"
+        },
+        {
+          "field": "character.classification.tribe",
+          "operator": "exists"
+        }
+      ],
+      "completionRuleKeys": [
+        "character.creation.resources.initial-values-match-classifications",
+        "character.creation.renown.matches-auspice",
+        "character.creation.rank.is-cliath",
+        "character.creation.rank.numeric-is-one"
+      ],
+      "operationKeys": [
+        "character-creation.set-resource-rating"
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "stageKey": "creation.metis-deformity",
+      "displayNameResourceKey": "character-creation.stage.metis-deformity",
+      "order": 80,
+      "requiredForCompletion": "conditional",
+      "requiredWhen": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.metis"
+      },
+      "fieldGroupRefs": [
+        "../catalogs/metis-deformities.json"
+      ],
+      "entryConditions": [
+        {
+          "field": "character.classification.race",
+          "operator": "equals",
+          "value": "character.race.metis"
+        }
+      ],
+      "completionRuleKeys": [
+        "character.creation.metis.requires-one-deformity"
+      ],
+      "operationKeys": [
+        "character-creation.select-metis-deformity"
+      ],
+      "readiness": "candidate"
+    },
+    {
+      "stageKey": "creation.specializations",
+      "displayNameResourceKey": "character-creation.stage.specializations",
+      "order": 90,
+      "requiredForCompletion": false,
+      "fieldGroupRefs": [
+        "../fields/specializations.json"
+      ],
+      "entryConditions": [
+        {
+          "operator": "any-target-rating-at-least",
+          "targetFieldGroups": [
+            "attributes",
+            "abilities"
+          ],
+          "value": 4
+        }
+      ],
+      "completionRuleKeys": [],
+      "operationKeys": [
+        "character-creation.set-specialization"
+      ],
+      "readiness": "candidate"
+    },
+    {
+      "stageKey": "creation.freebie-points",
+      "displayNameResourceKey": "character-creation.stage.freebie-points",
+      "order": 100,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [
+        "../fields/attributes-fields.json",
+        "../fields/abilities-fields.json",
+        "../fields/backgrounds-fields.json",
+        "../fields/gifts-fields.json",
+        "../fields/resources.json"
+      ],
+      "entryConditions": [
+        {
+          "operator": "all-prior-required-stages-valid"
+        }
+      ],
+      "budget": {
+        "budgetKey": "character-creation.freebie-points",
+        "total": 15,
+        "allowUnspent": true,
+        "allowOverspend": false,
+        "costs": {
+          "attribute-per-dot": 5,
+          "ability-per-dot": 2,
+          "background-per-dot": 1,
+          "level-one-gift": 7,
+          "rage-per-dot": 1,
+          "gnosis-per-dot": 2,
+          "willpower-per-dot": 1
+        }
+      },
+      "completionRuleKeys": [
+        "character.creation.freebies.not-overspent",
+        "character.creation.freebies.all-purchases-valid"
+      ],
+      "operationKeys": [
+        "character-creation.set-attribute-rating",
+        "character-creation.set-ability-rating",
+        "character-creation.set-background-rating",
+        "character-creation.set-resource-rating",
+        "character-creation.purchase-additional-gift",
+        "character-creation.remove-additional-gift"
+      ],
+      "blockedOperationKeys": [
+        "character-creation.purchase-additional-gift",
+        "character-creation.remove-additional-gift"
+      ],
+      "readiness": "candidate"
+    },
+    {
+      "stageKey": "creation.narrative",
+      "displayNameResourceKey": "character-creation.stage.narrative",
+      "order": 110,
+      "requiredForCompletion": false,
+      "fieldGroupRefs": [
+        "../fields/narrative.json"
+      ],
+      "entryConditions": [],
+      "completionRuleKeys": [],
+      "operationKeys": [
+        "character-creation.set-narrative-field",
+        "character-creation.add-character-goal",
+        "character-creation.update-character-goal",
+        "character-creation.add-character-relationship",
+        "character-creation.update-character-relationship"
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "stageKey": "creation.review-and-complete",
+      "displayNameResourceKey": "character-creation.stage.review-and-complete",
+      "order": 120,
+      "requiredForCompletion": true,
+      "fieldGroupRefs": [],
+      "entryConditions": [
+        {
+          "operator": "all-required-stages-valid"
+        }
+      ],
+      "completionRuleKeys": [
+        "character.completion.all-required-fields-valid",
+        "character.completion.all-allocation-budgets-valid",
+        "character.completion.all-classification-dependencies-valid",
+        "character.completion.no-unresolved-invalidations"
+      ],
+      "operationKeys": [
+        "character-creation.validate-character",
+        "character-creation.complete-character"
+      ],
+      "readiness": "prototype"
+    }
+  ],
+  "stageOperationPolicy": {
+    "operationAvailabilityResolvedFromOperationIndex": true,
+    "blockedOperationsRemainDiscoverable": true,
+    "blockedOperationsExcludedFromAvailableOperationKeys": true,
+    "unknownOperationKeyBehavior": "stage-computation-failure",
+    "mutationWithoutOperationKeyAllowed": false
+  },
+  "dependencyProjection": {
+    "sourceRef": "./dependency-graph.json",
+    "nodeTypesIncluded": [
+      "classification",
+      "priority-assignment",
+      "rating-collection",
+      "selection",
+      "derived-value",
+      "resource",
+      "specialization",
+      "budget",
+      "validation",
+      "workflow"
+    ],
+    "edgeImpactModesRequiringReview": [
+      "invalidate-for-review",
+      "block-until-resolved"
+    ],
+    "edgeImpactModesAllowingSilentRecalc": [
+      "deterministic-recalculate"
+    ],
+    "affectedStageStatusPolicy": {
+      "deterministic-recalculate": "preserve-or-complete-when-valid",
+      "invalidate-for-review": "review-required",
+      "block-until-resolved": "blocked",
+      "clear-if-not-applicable": "not-applicable-when-condition-false",
+      "no-state-change-validation-only": "derive-from-validation-outcome"
+    }
+  },
+  "invalidationMapping": {
+    "sourceRef": "./invalidations.json",
+    "mapByInvalidationKey": {
+      "character-creation.classification-dependent-state-review-required": [
+        "creation.classifications",
+        "creation.review-and-complete"
+      ],
+      "character-creation.initial-gift-no-longer-eligible": [
+        "creation.initial-gifts",
+        "creation.review-and-complete"
+      ],
+      "character-creation.required-initial-gift-missing": [
+        "creation.initial-gifts",
+        "creation.review-and-complete"
+      ],
+      "character-creation.metis-deformity-required": [
+        "creation.metis-deformity",
+        "creation.review-and-complete"
+      ],
+      "character-creation.metis-deformity-no-longer-applicable": [
+        "creation.metis-deformity",
+        "creation.review-and-complete"
+      ],
+      "character-creation.attribute-allocation-invalid": [
+        "creation.attributes",
+        "creation.freebie-points",
+        "creation.review-and-complete"
+      ],
+      "character-creation.ability-allocation-invalid": [
+        "creation.abilities",
+        "creation.freebie-points",
+        "creation.review-and-complete"
+      ],
+      "character-creation.background-allocation-invalid": [
+        "creation.backgrounds",
+        "creation.freebie-points",
+        "creation.review-and-complete"
+      ],
+      "character-creation.specialization-no-longer-valid": [
+        "creation.specializations",
+        "creation.review-and-complete"
+      ],
+      "character-creation.resource-state-review-required": [
+        "creation.resources-renown-rank",
+        "creation.review-and-complete"
+      ],
+      "character-creation.freebie-budget-overspent": [
+        "creation.freebie-points",
+        "creation.review-and-complete"
+      ],
+      "character-creation.ledger-reconciliation-failed": [
+        "creation.freebie-points",
+        "creation.review-and-complete"
+      ],
+      "character-creation.package-binding-incompatible": [
+        "creation.review-and-complete"
+      ],
+      "character-creation.stage-review-required": [
+        "creation.review-and-complete"
+      ]
+    }
+  },
+  "warningAcknowledgementProjection": {
+    "sourceRef": "./warning-acknowledgements.json",
+    "activeRequiredWarningBehavior": "does-not-change-stage-validity",
+    "missingRequiredAcknowledgementBehavior": "review-and-complete-blocked",
+    "warningCountIncludedPerStage": true
+  },
+  "giftBoundaryPolicy": {
+    "initialGiftSlots": {
+      "required": [
+        "race",
+        "auspice",
+        "tribe"
+      ],
+      "minimumPerSlot": 1,
+      "maximumPerSlot": 1,
+      "distinctNormalizedGiftIdentityRequired": true,
+      "stageKey": "creation.initial-gifts"
+    },
+    "additionalGiftPurchase": {
+      "status": "blocked",
+      "operationKeys": [
+        "character-creation.purchase-additional-gift",
+        "character-creation.remove-additional-gift"
+      ],
+      "reasonKey": "werewolf-prototype.capability.additional-gift-purchase.eligibility-unresolved",
+      "stageKey": "creation.freebie-points",
+      "testsMustAssertUnavailable": true,
+      "runtimeExecutionEnabled": false
+    },
+    "runtimeGiftEffects": {
+      "enabled": false,
+      "status": "excluded",
+      "reasonKey": "werewolf-prototype.capability.gift-runtime.outside-current-slice"
+    }
+  },
+  "computationPolicy": {
+    "deterministic": true,
+    "recomputeAfterEveryCommittedCreationOperation": true,
+    "recomputeOnValidation": true,
+    "recomputeOnExplicitReviewRequest": true,
+    "inputRequirements": [
+      "character-draft",
+      "operation-index",
+      "dependency-graph",
+      "invalidations",
+      "warning-acknowledgements",
+      "latest-validation-summary"
+    ],
+    "stageOrdering": "stage-definition-order",
+    "currentStageSelectionPolicy": {
+      "preferFirstRequiredStageNotInCompletionEligibleStatus": true,
+      "fallbackToReviewAndCompleteWhenAllRequiredEligible": true,
+      "conditionalStagesIgnoredWhenNotApplicable": true
+    },
+    "reviewRequiredComputation": {
+      "triggeredBy": [
+        "open-warning-or-invalidation-with-review-required-impact",
+        "dependency-edge-impact-mode-invalidate-for-review"
+      ],
+      "cannotAutoResolve": true
+    }
+  },
+  "stageStatusRules": [
+    {
+      "ruleKey": "stage-state.required-stage-must-be-complete-or-not-applicable",
+      "severity": "blocking",
+      "requirement": "every required applicable stage is complete before review-and-complete can become complete"
+    },
+    {
+      "ruleKey": "stage-state.blocking-invalidation-blocks-stage",
+      "severity": "blocking",
+      "requirement": "stage with open blocking or error invalidation mapped to it cannot be complete"
+    },
+    {
+      "ruleKey": "stage-state.review-required-distinct-from-blocked",
+      "severity": "blocking",
+      "requirement": "review-required means explicit user review is needed, not hard operation unavailability"
+    },
+    {
+      "ruleKey": "stage-state.blocked-operations-excluded-from-available",
+      "severity": "blocking",
+      "requirement": "operation keys with blocked readiness must not be returned in availableOperationKeys"
+    },
+    {
+      "ruleKey": "stage-state.metis-stage-conditional-applicability",
+      "severity": "blocking",
+      "requirement": "metis-deformity stage is not-applicable unless race is character.race.metis"
+    },
+    {
+      "ruleKey": "stage-state.fingerprint-recomputes",
+      "severity": "blocking",
+      "requirement": "stage and collection fingerprints recompute from canonical serialization"
+    }
+  ],
+  "projectionForConsumers": {
+    "reviewSummary": {
+      "sourceRef": "./review-summary.json",
+      "requiredFields": [
+        "stageKey",
+        "status",
+        "availability",
+        "isRequired",
+        "isMechanicallyValid",
+        "isReviewRequired",
+        "blockingIssueCount",
+        "errorCount",
+        "warningCount",
+        "remainingBudgets",
+        "availableOperationKeys",
+        "blockedOperationKeys"
+      ]
+    },
+    "characterSheet": {
+      "sourceRef": "../../character-sheet/character-sheet-index.json",
+      "renderingMode": "creation-preview",
+      "blockedOperationsMustShowReason": true,
+      "reviewRequiredStagesMustBeVisible": true
+    },
+    "validationIndex": {
+      "sourceRef": "../validation/validation-index.json",
+      "supportsCurrentStageMode": true
+    }
+  },
+  "securityPolicy": {
+    "encryptedAtRest": true,
+    "networkAccessRequired": false,
+    "providerCallAllowed": false,
+    "secretAccessAllowed": false,
+    "ordinaryLogsMayContain": [
+      "characterId",
+      "draftVersion",
+      "stage-status-counts",
+      "blocking-summary",
+      "contentFingerprint"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "fingerprintPolicy": {
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "unicodeNormalization": "NFC",
+    "fingerprintCovers": [
+      "characterId",
+      "draftVersion",
+      "currentStageKey",
+      "stages",
+      "requiredStageSummary",
+      "blockingSummary"
+    ]
+  },
+  "recoveryPolicy": {
+    "projectionRebuildAllowed": true,
+    "authoritativeStateMutationAllowed": false,
+    "rebuildSources": [
+      "character-draft",
+      "operation-index",
+      "dependency-graph",
+      "invalidations",
+      "warning-acknowledgements",
+      "validation-results"
+    ],
+    "rebuildMismatchBehavior": "replace-stage-projection-and-record-diagnostic",
+    "corruptSourceBehavior": "mark-recovery-required-and-block-completion"
+  },
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-profile-dependency-and-validation-artifacts",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "contractConsistencyReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Stage state is a deterministic projection and does not authorize completion by itself.",
+    "The complete-character operation must rerun fresh validation inside its own authoritative transaction.",
+    "Review-required state preserves user-owned selections that became invalid instead of silently replacing them.",
+    "Initial gifts are constrained to one race, one auspice, and one tribe selection in this slice.",
+    "Additional gift purchase and removal remain blocked until eligibility scope is source-reviewed and promoted.",
+    "Gift runtime execution is excluded from the current slice and cannot appear as available here.",
+    "Chronicle owns persistence, encryption, fingerprints, and transactional boundaries.",
+    "The Rule Set owns stage definitions, dependency semantics, status mapping, and boundary semantics."
+  ]
+}

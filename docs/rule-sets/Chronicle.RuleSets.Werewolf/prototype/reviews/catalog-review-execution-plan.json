@@ -1,0 +1,869 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-execution-plan",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-execution-plan.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewExecution",
+  "purpose": [
+    "Define the ordered execution plan for completing the current-slice catalog review.",
+    "Translate catalog review requirements, checklist checks, evidence needs, formal decisions, reconciliation, and test reruns into executable tasks.",
+    "Provide explicit entry criteria, outputs, dependencies, ownership, completion criteria, and blocker handling for every review stage.",
+    "Ensure catalog review progresses without inventing identities, skipping evidence, or treating candidate templates as final authority."
+  ],
+  "authority": {
+    "planDefinitionAuthority": "RuleSetExtractionAndReview",
+    "executionAuthority": "AssignedCatalogReviewer",
+    "evidenceValidationAuthority": "ChronicleDeliveryInfrastructure",
+    "reconciliationAuthority": "Chronicle",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticTaskCompletionAllowed": false,
+    "implementationMayResolveReviewTask": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewModelIndexArtifactRef": "./catalog-review-model-index.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "prototypeWorkStatusArtifactRef": "../prototype-work-status.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "executionObjective": {
+    "objectiveKey": "catalog-review.complete-current-slice-identities",
+    "description": "Review, decide, reconcile, validate, and approve every catalog identity required by the current Character creation slice.",
+    "catalogCount": 9,
+    "requiredIdentityCount": 46,
+    "completionRequiresAllCatalogsApproved": true,
+    "candidateIdentitiesMayRemainUnresolved": false,
+    "unusedFutureEntriesMayRemainOutsideAllowlist": true
+  },
+  "executionStages": [
+    {
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "order": 10,
+      "objective": "Validate that the review model and all required catalog artifacts are structurally loadable.",
+      "taskKeys": [
+        "catalog-review.task.validate-review-model",
+        "catalog-review.task.validate-catalog-contracts",
+        "catalog-review.task.validate-required-identity-presence"
+      ],
+      "entryCriteria": [
+        "catalog-review-model-index-loads"
+      ],
+      "exitCriteria": [
+        "all-review-artifact-refs-resolve",
+        "all-nine-catalog-artifacts-load",
+        "all-required-identity-keys-present-or-explicitly-blocked"
+      ]
+    },
+    {
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "order": 20,
+      "objective": "Review Race, Auspice, and Tribe identities and their deterministic creation bindings.",
+      "taskKeys": [
+        "catalog-review.task.review-races",
+        "catalog-review.task.review-auspices",
+        "catalog-review.task.review-tribes"
+      ],
+      "entryCriteria": [
+        "catalog-review.stage-1.model-validation.complete"
+      ],
+      "exitCriteria": [
+        "race-identities-decided",
+        "auspice-identities-decided",
+        "tribe-identities-decided",
+        "gnosis-rage-willpower-bindings-reviewed",
+        "classification-gift-bindings-reviewed"
+      ]
+    },
+    {
+      "stageKey": "catalog-review.stage-3-rating-catalogs",
+      "order": 30,
+      "objective": "Review Attribute, Ability, and Background identities, categories, ordering, and restrictions.",
+      "taskKeys": [
+        "catalog-review.task.review-attributes",
+        "catalog-review.task.review-abilities",
+        "catalog-review.task.review-backgrounds"
+      ],
+      "entryCriteria": [
+        "catalog-review.stage-2.classification-catalogs.complete"
+      ],
+      "exitCriteria": [
+        "attribute-identities-decided",
+        "ability-identities-decided",
+        "background-identities-decided",
+        "category-bindings-reviewed",
+        "lupus-restriction-keys-resolve",
+        "stable-ordering-reviewed"
+      ]
+    },
+    {
+      "stageKey": "catalog-review.stage-4-special-catalogs",
+      "order": 40,
+      "objective": "Resolve the Metis deformity, initial Rank, and initial Gift identities.",
+      "taskKeys": [
+        "catalog-review.task.resolve-metis-deformity",
+        "catalog-review.task.review-rank",
+        "catalog-review.task.resolve-initial-gifts"
+      ],
+      "entryCriteria": [
+        "catalog-review.stage-3.rating-catalogs.complete"
+      ],
+      "exitCriteria": [
+        "metis-deformity-identity-finalized",
+        "initial-rank-identity-finalized",
+        "all-current-slice-initial-gift-identities-finalized",
+        "gift-slot-eligibility-bindings-reviewed"
+      ]
+    },
+    {
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "order": 50,
+      "objective": "Reconcile localization keys and every artifact reference affected by catalog decisions.",
+      "taskKeys": [
+        "catalog-review.task.reconcile-localization",
+        "catalog-review.task.reconcile-character-model",
+        "catalog-review.task.reconcile-operations-and-validation"
+      ],
+      "entryCriteria": [
+        "catalog-review.stage-4.special-catalogs.complete"
+      ],
+      "exitCriteria": [
+        "all-required-localization-keys-present-or-tracked",
+        "all-catalog-references-resolve",
+        "all-operation-and-validation-bindings-resolve",
+        "updated-artifact-fingerprints-recorded"
+      ]
+    },
+    {
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "order": 60,
+      "objective": "Rebase fixtures and rerun all tests affected by catalog decisions.",
+      "taskKeys": [
+        "catalog-review.task.rebase-fixtures",
+        "catalog-review.task.validate-fixtures",
+        "catalog-review.task.rerun-affected-tests"
+      ],
+      "entryCriteria": [
+        "catalog-review.stage-5.localization-and-reference-reconciliation.complete"
+      ],
+      "exitCriteria": [
+        "all-required-fixtures-resolve",
+        "all-fixture-fingerprints-current",
+        "all-affected-required-test-suites-pass",
+        "canonical-test-evidence-recorded"
+      ]
+    },
+    {
+      "stageKey": "catalog-review.stage-7.finalization",
+      "order": 70,
+      "objective": "Finalize evidence, decision set, calculated result, and work-package completion.",
+      "taskKeys": [
+        "catalog-review.task.finalize-evidence-ledger",
+        "catalog-review.task.finalize-decision-set",
+        "catalog-review.task.calculate-final-result",
+        "catalog-review.task.complete-work-package"
+      ],
+      "entryCriteria": [
+        "catalog-review.stage-6.fixture-and-test-reconciliation.complete"
+      ],
+      "exitCriteria": [
+        "all-nine-catalogs-approved-or-approved-with-changes",
+        "catalog-identity-decision-set-finalized",
+        "catalog-review-result-approved",
+        "work-package-completion-evidence-recorded",
+        "prototype-readiness-and-work-status-updated"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "taskKey": "catalog-review.task.validate-review-model",
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "priority": "critical",
+      "dependsOn": [],
+      "inputs": [
+        "./catalog-review-model-index.json"
+      ],
+      "outputs": [
+        "catalog-review-model-validation-report"
+      ],
+      "definitionOfDone": [
+        "all-required-review-artifacts-load",
+        "dependency-graph-acyclic",
+        "authority-layers-valid"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.validate-catalog-contracts",
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.validate-review-model"
+      ],
+      "inputs": [
+        "../character-model/catalogs/races.json",
+        "../character-model/catalogs/auspices.json",
+        "../character-model/catalogs/tribes.json",
+        "../character-model/catalogs/attributes.json",
+        "../character-model/catalogs/abilities.json",
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/catalogs/metis-deformities.json",
+        "../character-model/catalogs/ranks.json",
+        "../character-model/catalogs/initial-gifts.json"
+      ],
+      "outputs": [
+        "catalog-contract-validation-report"
+      ],
+      "definitionOfDone": [
+        "all-nine-catalogs-load",
+        "entry-keys-unique",
+        "catalog-and-index-bindings-reconcile"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.validate-required-identity-presence",
+      "stageKey": "catalog-review.stage-1.model-validation",
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.validate-catalog-contracts"
+      ],
+      "inputs": [
+        "./catalog-review-checklist.json"
+      ],
+      "outputs": [
+        "required-identity-presence-report"
+      ],
+      "definitionOfDone": [
+        "all-46-required-identity-targets-accounted-for",
+        "missing-identity-keys-reported-with-stable-issue-keys"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.review-races",
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.validate-required-identity-presence"
+      ],
+      "inputs": [
+        "../character-model/catalogs/races.json",
+        "./catalog-review-checklist.json"
+      ],
+      "outputs": [
+        "race-check-evidence",
+        "race-identity-decisions"
+      ],
+      "definitionOfDone": [
+        "homid-metis-lupus-identities-reviewed",
+        "gnosis-bindings-reviewed",
+        "metis-applicability-reviewed",
+        "race-gift-bindings-reviewed"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.review-auspices",
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.review-races"
+      ],
+      "inputs": [
+        "../character-model/catalogs/auspices.json",
+        "./catalog-review-checklist.json"
+      ],
+      "outputs": [
+        "auspice-check-evidence",
+        "auspice-identity-decisions"
+      ],
+      "definitionOfDone": [
+        "required-auspice-identities-reviewed",
+        "rage-bindings-reviewed",
+        "initial-renown-bindings-reviewed",
+        "auspice-gift-bindings-reviewed"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.review-tribes",
+      "stageKey": "catalog-review.stage-2.classification-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.review-auspices"
+      ],
+      "inputs": [
+        "../character-model/catalogs/tribes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "outputs": [
+        "tribe-check-evidence",
+        "tribe-identity-decisions"
+      ],
+      "definitionOfDone": [
+        "glass-walkers-identity-reviewed",
+        "willpower-binding-reviewed",
+        "tribe-gift-binding-reviewed",
+        "background-restriction-bindings-reviewed"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.review-attributes",
+      "stageKey": "catalog-review.stage-3.rating-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "high",
+      "dependsOn": [
+        "catalog-review.task.review-tribes"
+      ],
+      "inputs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "outputs": [
+        "attribute-check-evidence",
+        "attribute-identity-decisions"
+      ],
+      "definitionOfDone": [
+        "all-nine-attributes-reviewed",
+        "physical-social-mental-bindings-reviewed",
+        "stable-order-reviewed"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.review-abilities",
+      "stageKey": "catalog-review.stage-3.rating-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.review-attributes"
+      ],
+      "inputs": [
+        "../character-model/catalogs/abilities.json"
+      ],
+      "outputs": [
+        "ability-check-evidence",
+        "ability-identity-decisions"
+      ],
+      "definitionOfDone": [
+        "all-current-slice-abilities-reviewed",
+        "talent-skill-knowledge-bindings-reviewed",
+        "lupus-restriction-keys-resolve",
+        "stable-order-reviewed"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.review-backgrounds",
+      "stageKey": "catalog-review.stage-3.rating-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "high",
+      "dependsOn": [
+        "catalog-review.task.review-abilities"
+      ],
+      "inputs": [
+        "../character-model/catalogs/backgrounds.json"
+      ],
+      "outputs": [
+        "background-check-evidence",
+        "background-identity-decisions"
+      ],
+      "definitionOfDone": [
+        "all-current-slice-backgrounds-reviewed",
+        "tribe-restriction-bindings-reviewed",
+        "stable-order-reviewed"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.resolve-metis-deformity",
+      "stageKey": "catalog-review.stage-4.special-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.review-backgrounds"
+      ],
+      "inputs": [
+        "../character-model/catalogs/metis-deformities.json",
+        "../fixtures/character-creation/metis-valid-character.json"
+      ],
+      "outputs": [
+        "metis-deformity-source-evidence",
+        "metis-deformity-final-decision"
+      ],
+      "definitionOfDone": [
+        "candidate-deformity-identity-approved-changed-rejected-or-excluded",
+        "fixture-impact-explicit",
+        "metis-only-binding-reviewed"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.review-rank",
+      "stageKey": "catalog-review.stage-4.special-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "high",
+      "dependsOn": [
+        "catalog-review.task.review-backgrounds"
+      ],
+      "inputs": [
+        "../character-model/catalogs/ranks.json"
+      ],
+      "outputs": [
+        "rank-check-evidence",
+        "rank-identity-decision"
+      ],
+      "definitionOfDone": [
+        "cliath-identity-reviewed",
+        "numeric-rank-one-binding-reviewed"
+      ],
+      "notes": "Dependency corrected on 2026-08-03: Rank is unrelated to the concrete Metis deformity identity; Metis blocker mayBlockUnrelatedCatalogs=false."
+    },
+    {
+      "taskKey": "catalog-review.task.resolve-initial-gifts",
+      "stageKey": "catalog-review.stage-4.special-catalogs",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.review-rank"
+      ],
+      "inputs": [
+        "../character-model/catalogs/initial-gifts.json"
+      ],
+      "outputs": [
+        "initial-gift-source-evidence",
+        "initial-gift-final-decisions"
+      ],
+      "definitionOfDone": [
+        "all-six-current-slice-gift-identities-resolved",
+        "all-level-one-bindings-reviewed",
+        "all-classification-slot-bindings-reviewed",
+        "additional-gift-purchase-remains-blocked"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.reconcile-localization",
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "ownerType": "RuleSetPackage",
+      "priority": "high",
+      "dependsOn": [
+        "catalog-review.task.resolve-initial-gifts"
+      ],
+      "inputs": [
+        "active-final-catalog-identity-decisions"
+      ],
+      "outputs": [
+        "reconciled-localization-resource-keys",
+        "localization-validation-report"
+      ],
+      "definitionOfDone": [
+        "every-promoted-identity-has-localization-key",
+        "source-language-display-values-tracked",
+        "technical-keys-remain-english"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.reconcile-character-model",
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "ownerType": "RuleSetPackage",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.reconcile-localization"
+      ],
+      "inputs": [
+        "active-final-catalog-identity-decisions",
+        "../character-model/character-model-index.json"
+      ],
+      "outputs": [
+        "reconciled-character-model-artifacts",
+        "updated-character-model-fingerprints"
+      ],
+      "definitionOfDone": [
+        "all-catalog-and-field-refs-resolve",
+        "normalization-changes-have-alias-or-migration-metadata",
+        "rejected-identities-not-required"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.reconcile-operations-and-validation",
+      "stageKey": "catalog-review.stage-5.localization-and-reference-reconciliation",
+      "ownerType": "RuleSetPackage",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.reconcile-character-model"
+      ],
+      "inputs": [
+        "../operations/character-creation/operation-index.json",
+        "../character-model/validation/validation-index.json"
+      ],
+      "outputs": [
+        "reconciled-operation-artifacts",
+        "reconciled-validation-artifacts",
+        "updated-operation-and-validation-fingerprints"
+      ],
+      "definitionOfDone": [
+        "all-operation-identity-refs-resolve",
+        "all-validation-identity-refs-resolve",
+        "blocked-capabilities-remain-unavailable"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.rebase-fixtures",
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.reconcile-operations-and-validation"
+      ],
+      "inputs": [
+        "../fixtures/fixture-index-root.json",
+        "active-final-catalog-identity-decisions"
+      ],
+      "outputs": [
+        "rebased-current-slice-fixtures",
+        "updated-fixture-fingerprints"
+      ],
+      "definitionOfDone": [
+        "all-fixture-identity-refs-resolve",
+        "no-current-slice-fixture-remains-candidate-partial-because-of-identity"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.validate-fixtures",
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.rebase-fixtures"
+      ],
+      "inputs": [
+        "../fixtures/fixture-index-root.json"
+      ],
+      "outputs": [
+        "fixture-validation-report"
+      ],
+      "definitionOfDone": [
+        "all-required-fixtures-load",
+        "all-base-fixture-dependencies-resolve",
+        "fixture-coverage-counts-reconcile"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.rerun-affected-tests",
+      "stageKey": "catalog-review.stage-6.fixture-and-test-reconciliation",
+      "ownerType": "ChronicleTestInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.validate-fixtures"
+      ],
+      "inputs": [
+        "../tests/test-model-index.json"
+      ],
+      "outputs": [
+        "canonical-catalog-review-test-report"
+      ],
+      "definitionOfDone": [
+        "all-affected-required-suites-execute",
+        "all-affected-ready-required-suites-pass",
+        "artifact-fingerprint-set-matches-reviewed-artifacts"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.finalize-evidence-ledger",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.rerun-affected-tests"
+      ],
+      "inputs": [
+        "./catalog-review-evidence.json"
+      ],
+      "outputs": [
+        "finalized-catalog-review-evidence-ledger"
+      ],
+      "definitionOfDone": [
+        "all-required-checks-have-current-validated-evidence",
+        "no-required-evidence-stale",
+        "evidence-ledger-fingerprint-recorded"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.finalize-decision-set",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "ownerType": "RuleSetExtractionAndReview",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.finalize-evidence-ledger"
+      ],
+      "inputs": [
+        "./catalog-identity-decisions.json"
+      ],
+      "outputs": [
+        "finalized-catalog-identity-decision-set"
+      ],
+      "definitionOfDone": [
+        "all-46-required-identities-have-active-final-decisions",
+        "all-reconciliation-complete",
+        "decision-set-fingerprint-recorded"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.calculate-final-result",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.finalize-decision-set"
+      ],
+      "inputs": [
+        "./catalog-review-result.json"
+      ],
+      "outputs": [
+        "approved-catalog-review-result"
+      ],
+      "definitionOfDone": [
+        "overall-decision-approved",
+        "all-nine-catalogs-approved-or-approved-with-changes",
+        "result-fingerprint-recorded"
+      ]
+    },
+    {
+      "taskKey": "catalog-review.task.complete-work-package",
+      "stageKey": "catalog-review.stage-7.finalization",
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "priority": "critical",
+      "dependsOn": [
+        "catalog-review.task.calculate-final-result"
+      ],
+      "inputs": [
+        "../prototype-work-status.json",
+        "../prototype-readiness.json"
+      ],
+      "outputs": [
+        "completed-catalog-review-work-package",
+        "updated-prototype-readiness",
+        "updated-prototype-work-status"
+      ],
+      "definitionOfDone": [
+        "delivery.wp.review-catalog-identities-complete",
+        "review-decisions.catalog-identities-finalized",
+        "next-dependent-work-packages-recalculated"
+      ]
+    }
+  ],
+  "currentExecutionState": {
+    "status": "ready",
+    "currentStageKey": "catalog-review.stage-4.special-catalogs",
+    "currentTaskKey": "catalog-review.task.review-rank",
+    "completedStageCount": 3,
+    "totalStageCount": 7,
+    "completedTaskCount": 9,
+    "totalTaskCount": 22,
+    "blockedTaskCount": 1,
+    "promotionEvidenceEligible": false
+  },
+  "parallelizationPolicy": {
+    "allowed": true,
+    "safeParallelTaskGroups": [
+      [
+        "catalog-review.task.review-attributes",
+        "catalog-review.task.review-backgrounds"
+      ],
+      [
+        "catalog-review.task.reconcile-localization",
+        "catalog-review.task.reconcile-character-model"
+      ]
+    ],
+    "sourceDecisionDependenciesMustStillBeRespected": true,
+    "parallelTasksMayNotFinalizeSharedDecisionSetIndependently": true,
+    "artifactChangesRequireDependentTaskRevalidation": true
+  },
+  "blockerPolicy": {
+    "blockedTaskRequiresStableReasonKey": true,
+    "blockedTaskRequiresResolutionAction": true,
+    "candidateIdentityMayBlockOnlyAffectedCatalogTask": true,
+    "blockedCurrentSliceIdentityBlocksFinalization": true,
+    "futureUnusedIdentityMayRemainOutsideAllowlist": true,
+    "automaticScopeExpansionToResolveBlockerAllowed": false
+  },
+  "statusTransitionPolicy": {
+    "allowedStatuses": [
+      "not-started",
+      "ready",
+      "in-progress",
+      "blocked",
+      "in-review",
+      "complete",
+      "superseded"
+    ],
+    "automaticReadyCalculationAllowed": true,
+    "automaticCompletionAllowed": false,
+    "completeRequiresCurrentEvidence": true,
+    "staleInputReopensCompletedTask": true,
+    "supersededRequiresReplacementTaskOrPlanVersion": true
+  },
+  "completionPolicy": {
+    "stageCompleteWhen": "all-stage-tasks-complete",
+    "planCompleteWhen": "all-seven-stages-complete",
+    "workPackageCompleteWhen": "final-result-approved-and-final-decision-set-and-current-evidence-exist",
+    "promotionSupportAllowedWhen": "plan-complete-and-all-evidence-current",
+    "manualCompletionAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-execution-plan.stage-keys-unique",
+      "severity": "blocking",
+      "requirement": "every stageKey is unique"
+    },
+    {
+      "ruleKey": "catalog-review-execution-plan.task-keys-unique",
+      "severity": "blocking",
+      "requirement": "every taskKey is unique"
+    },
+    {
+      "ruleKey": "catalog-review-execution-plan.task-dependencies-resolve",
+      "severity": "blocking",
+      "requirement": "every task dependency resolves"
+    },
+    {
+      "ruleKey": "catalog-review-execution-plan.task-dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "task dependencies are acyclic"
+    },
+    {
+      "ruleKey": "catalog-review-execution-plan.stage-membership-valid",
+      "severity": "blocking",
+      "requirement": "every task belongs to exactly one declared stage"
+    },
+    {
+      "ruleKey": "catalog-review-execution-plan.catalog-coverage-complete",
+      "severity": "blocking",
+      "requirement": "all nine current-slice catalogs and 46 required identities are covered"
+    },
+    {
+      "ruleKey": "catalog-review-execution-plan.finalization-requires-tests",
+      "severity": "blocking",
+      "requirement": "decision and result finalization occur only after fixture reconciliation and affected test success"
+    },
+    {
+      "ruleKey": "catalog-review-execution-plan.no-candidate-authority",
+      "severity": "blocking",
+      "requirement": "candidate templates and unresolved identities never satisfy task completion"
+    }
+  ],
+  "fingerprintPolicy": {
+    "planFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeExecutionObjective": true,
+    "includeStages": true,
+    "includeTasks": true,
+    "includeCurrentExecutionState": true,
+    "includeParallelizationAndBlockerPolicies": true,
+    "includeCompletionPolicy": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "current-stage-key",
+      "current-task-key",
+      "stage-statuses",
+      "task-statuses",
+      "blocked-task-keys",
+      "waiting-task-keys",
+      "missing-input-refs",
+      "stale-evidence-refs",
+      "catalog-coverage",
+      "work-package-completion-eligibility",
+      "promotion-evidence-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "stageKeys",
+      "taskKeys",
+      "catalogKeys",
+      "identityKeys",
+      "statuses",
+      "evidenceIds",
+      "decisionIds",
+      "artifactFingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewExecutionTaskStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "stageKey": "Reference",
+        "taskKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "planFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewExecutionCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "completedStageKeys": "ReferenceCollection",
+        "completedTaskKeys": "ReferenceCollection",
+        "catalogReviewResultFingerprint": "Text",
+        "planFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "executionPlanStatus": "ready",
+    "implementationStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "draft",
+    "promotionReviewStatus": "blocked",
+    "lastReviewedAt": "2026-08-03T00:00:00.000-03:00",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "This plan begins with structural validation before any substantive identity approval.",
+    "Race review is the first source-backed catalog task.",
+    "Metis deformity and initial Gift tasks remain critical because their candidate identities affect required fixtures.",
+    "Finalization happens only after localization, artifact, fixture, and test reconciliation.",
+    "No task may complete based on candidate templates or unvalidated evidence.",
+    "Chronicle owns execution state, dependency validation, evidence validation, reconciliation checks, diagnostics, fingerprints, and promotion integration.",
+    "Assigned Rule Set reviewers own source-backed identity review and final substantive decisions.",
+    "Workflow correction: Rank review no longer depends on blocked Metis deformity resolution because that blocker is catalog-scoped and mayBlockUnrelatedCatalogs=false."
+  ]
+}

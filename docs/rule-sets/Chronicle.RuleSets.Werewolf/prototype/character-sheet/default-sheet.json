@@ -1,0 +1,445 @@
+{
+  "contractVersion": 1,
+  "sheetKey": "character-sheet.default",
+  "sheetVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-sheet.default.display-name",
+  "descriptionResourceKey": "character-sheet.default.description",
+  "publicationStatus": "prototype-candidate",
+  "modelRef": "../character-model/model.json",
+  "renderingMode": "declarative",
+  "targetSurfaces": [
+    "desktop"
+  ],
+  "layout": {
+    "layoutType": "responsive-section-grid",
+    "minimumWidth": 960,
+    "preferredWidth": 1280,
+    "maximumContentWidth": 1600,
+    "columnSystem": 12,
+    "density": "comfortable",
+    "stickyHeader": true,
+    "sectionCollapseSupported": true
+  },
+  "header": {
+    "componentType": "character-sheet-header",
+    "span": 12,
+    "bindings": [
+      {
+        "slot": "title",
+        "fieldRef": "character.identity.name",
+        "fallbackResourceKey": "character-sheet.default.unnamed-character"
+      },
+      {
+        "slot": "subtitle-primary",
+        "fieldRef": "character.identity.concept"
+      },
+      {
+        "slot": "subtitle-secondary",
+        "computedExpression": "join-nonempty(character.classification.race, character.classification.auspice, character.classification.tribe, ' • ')",
+        "localizeReferences": true
+      },
+      {
+        "slot": "rank-badge",
+        "fieldRef": "character.rank.rankKey",
+        "localizeReference": true
+      },
+      {
+        "slot": "status",
+        "fieldRef": "character.status"
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "character-sheet.edit",
+        "visibility": "when-editable",
+        "operationRef": "../operations/character/edit-character.json",
+        "readiness": "future"
+      },
+      {
+        "actionKey": "character-sheet.validate",
+        "visibility": "during-creation",
+        "operationRef": "../operations/character-creation/validate-character.json",
+        "readiness": "prototype"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "sectionKey": "sheet.identity",
+      "displayNameResourceKey": "character-sheet.section.identity",
+      "order": 10,
+      "span": 12,
+      "componentType": "field-grid",
+      "sourceRef": "../character-model/fields/identity.json",
+      "visibleFields": [
+        "character.identity.player-name",
+        "character.identity.chronicle-name",
+        "character.identity.pack-name",
+        "character.identity.nature",
+        "character.identity.demeanor"
+      ],
+      "fieldLayout": {
+        "character.identity.player-name": {
+          "span": 4
+        },
+        "character.identity.chronicle-name": {
+          "span": 4
+        },
+        "character.identity.pack-name": {
+          "span": 4
+        },
+        "character.identity.nature": {
+          "span": 6
+        },
+        "character.identity.demeanor": {
+          "span": 6
+        }
+      },
+      "emptyFieldPolicy": "show-placeholder",
+      "readiness": "prototype"
+    },
+    {
+      "sectionKey": "sheet.classifications",
+      "displayNameResourceKey": "character-sheet.section.classifications",
+      "order": 20,
+      "span": 12,
+      "componentType": "classification-cards",
+      "sourceRef": "../character-model/fields/classification.json",
+      "visibleFields": [
+        "character.classification.race",
+        "character.classification.auspice",
+        "character.classification.tribe",
+        "character.rank.rankKey"
+      ],
+      "cardSpan": 3,
+      "showDescriptions": false,
+      "showGuidanceLinks": true,
+      "readiness": "prototype"
+    },
+    {
+      "sectionKey": "sheet.attributes",
+      "displayNameResourceKey": "character-sheet.section.attributes",
+      "order": 30,
+      "span": 6,
+      "componentType": "grouped-dot-grid",
+      "sourceRef": "../character-model/fields/attributes.json",
+      "catalogRef": "../character-model/catalogs/attributes.json",
+      "groupBy": "categoryKey",
+      "categoryOrder": [
+        "attribute-category.physical",
+        "attribute-category.social",
+        "attribute-category.mental"
+      ],
+      "valueBinding": "character.attributes[].baseRating",
+      "secondaryValueBinding": "character.attribute.current-rating",
+      "showSecondaryOnlyWhenDifferent": true,
+      "showSpecializations": true,
+      "showPriorityIndicatorsDuringCreation": true,
+      "readiness": "prototype"
+    },
+    {
+      "sectionKey": "sheet.abilities",
+      "displayNameResourceKey": "character-sheet.section.abilities",
+      "order": 40,
+      "span": 6,
+      "componentType": "grouped-dot-grid",
+      "sourceRef": "../character-model/fields/abilities.json",
+      "catalogRef": "../character-model/catalogs/abilities.json",
+      "groupBy": "categoryKey",
+      "categoryOrder": [
+        "ability-category.talents",
+        "ability-category.skills",
+        "ability-category.knowledges"
+      ],
+      "valueBinding": "character.abilities[].rating",
+      "showSpecializations": true,
+      "showUntrainedPolicyHelp": true,
+      "showPriorityIndicatorsDuringCreation": true,
+      "readiness": "prototype"
+    },
+    {
+      "sectionKey": "sheet.backgrounds",
+      "displayNameResourceKey": "character-sheet.section.backgrounds",
+      "order": 50,
+      "span": 4,
+      "componentType": "dot-list",
+      "sourceRef": "../character-model/fields/backgrounds.json",
+      "catalogRef": "../character-model/catalogs/backgrounds.json",
+      "valueBinding": "character.backgrounds[].rating",
+      "showRestrictionIndicators": true,
+      "showOwnershipIndicators": true,
+      "specialEntries": [
+        {
+          "entryKey": "character.background.totem",
+          "showContributionIndicator": true,
+          "showGroupAggregation": false,
+          "runtimeSupport": "deferred"
+        }
+      ],
+      "readiness": "prototype"
+    },
+    {
+      "sectionKey": "sheet.gifts",
+      "displayNameResourceKey": "character-sheet.section.gifts",
+      "order": 60,
+      "span": 4,
+      "componentType": "grouped-reference-list",
+      "sourceRef": "../character-model/fields/gifts.json",
+      "catalogRef": "../character-model/catalogs/initial-gifts.json",
+      "groups": [
+        {
+          "groupKey": "gift-group.race",
+          "displayNameResourceKey": "character.gifts.group.race",
+          "filter": {
+            "selectionSourceType": "race"
+          }
+        },
+        {
+          "groupKey": "gift-group.auspice",
+          "displayNameResourceKey": "character.gifts.group.auspice",
+          "filter": {
+            "selectionSourceType": "auspice"
+          }
+        },
+        {
+          "groupKey": "gift-group.tribe",
+          "displayNameResourceKey": "character.gifts.group.tribe",
+          "filter": {
+            "selectionSourceType": "tribe"
+          }
+        },
+        {
+          "groupKey": "gift-group.additional",
+          "displayNameResourceKey": "character.gifts.group.additional",
+          "filter": {
+            "acquisitionStage": "CreationBonusPurchase"
+          }
+        }
+      ],
+      "showGiftLevel": true,
+      "showEligibilitySource": true,
+      "showExecutionUnavailableIndicator": true,
+      "readiness": "candidate"
+    },
+    {
+      "sectionKey": "sheet.resources",
+      "displayNameResourceKey": "character-sheet.section.resources",
+      "order": 70,
+      "span": 4,
+      "componentType": "resource-track-stack",
+      "sourceRef": "../character-model/fields/resources.json",
+      "resources": [
+        {
+          "fieldRef": "character.resource.rage",
+          "showPermanent": true,
+          "showCurrent": true
+        },
+        {
+          "fieldRef": "character.resource.gnosis",
+          "showPermanent": true,
+          "showCurrent": true
+        },
+        {
+          "fieldRef": "character.resource.willpower",
+          "showPermanent": true,
+          "showCurrent": true
+        }
+      ],
+      "runtimeActionsVisible": false,
+      "showRuntimeUnavailableIndicator": true,
+      "readiness": "prototype"
+    },
+    {
+      "sectionKey": "sheet.renown-and-rank",
+      "displayNameResourceKey": "character-sheet.section.renown-and-rank",
+      "order": 80,
+      "span": 6,
+      "componentType": "renown-track-grid",
+      "sourceRef": "../character-model/fields/renown-and-rank.json",
+      "renownDimensions": [
+        "character.renown.glory",
+        "character.renown.honor",
+        "character.renown.wisdom"
+      ],
+      "showPermanentAndTemporarySeparately": true,
+      "showRankBadge": true,
+      "showProgressionUnavailableIndicator": true,
+      "readiness": "candidate"
+    },
+    {
+      "sectionKey": "sheet.metis-deformity",
+      "displayNameResourceKey": "character-sheet.section.metis-deformity",
+      "order": 90,
+      "span": 6,
+      "componentType": "conditional-reference-card",
+      "sourceRef": "../character-model/catalogs/metis-deformities.json",
+      "visibilityCondition": {
+        "field": "character.classification.race",
+        "operator": "equals",
+        "value": "character.race.metis"
+      },
+      "fieldRef": "character.metis-deformity",
+      "showStructuredEffects": true,
+      "showDeferredEffectIndicators": true,
+      "readiness": "candidate"
+    },
+    {
+      "sectionKey": "sheet.narrative",
+      "displayNameResourceKey": "character-sheet.section.narrative",
+      "order": 100,
+      "span": 12,
+      "componentType": "expandable-narrative-sections",
+      "sourceRef": "../character-model/fields/narrative.json",
+      "collapsedByDefault": true,
+      "subsections": [
+        {
+          "subsectionKey": "narrative.appearance",
+          "fieldRefs": [
+            "character.narrative.appearance-notes"
+          ]
+        },
+        {
+          "subsectionKey": "narrative.personality",
+          "fieldRefs": [
+            "character.narrative.personality"
+          ]
+        },
+        {
+          "subsectionKey": "narrative.backstory",
+          "fieldRefs": [
+            "character.narrative.backstory"
+          ]
+        },
+        {
+          "subsectionKey": "narrative.goals",
+          "fieldRefs": [
+            "character.narrative.goals"
+          ]
+        },
+        {
+          "subsectionKey": "narrative.relationships",
+          "fieldRefs": [
+            "character.narrative.relationships"
+          ]
+        },
+        {
+          "subsectionKey": "narrative.notes",
+          "fieldRefs": [
+            "character.narrative.notes"
+          ]
+        }
+      ],
+      "showMechanicalBoundaryNotice": true,
+      "readiness": "prototype"
+    }
+  ],
+  "creationMode": {
+    "enabled": true,
+    "profileRef": "../character-model/creation/profile.json",
+    "showStageNavigation": true,
+    "showValidationSummary": true,
+    "showRemainingBudgets": true,
+    "showDependencyRecalculationPreview": true,
+    "showCreationLedger": true,
+    "showPrototypeDecisionWarnings": true,
+    "completionAction": {
+      "operationRef": "../operations/character-creation/complete-character.json",
+      "requiresValidationGroup": "../character-model/validation/character-completion.json",
+      "readiness": "prototype"
+    }
+  },
+  "readOnlyMode": {
+    "enabled": true,
+    "showHistoricalRuleSetBinding": true,
+    "showPackageVersion": true,
+    "showWarningsAcknowledgedAtCompletion": false,
+    "showCreationLedger": false,
+    "showUnavailableMechanics": true
+  },
+  "editingPolicy": {
+    "userMayEditUserAuthoredFields": true,
+    "userMayDirectlyEditRuleSetAuthoritativeFieldsDuringCreation": true,
+    "userMayDirectlyEditRuleSetAuthoritativeFieldsAfterCompletion": false,
+    "structuredOperationRequiredAfterCompletion": true,
+    "narratorMaySuggestChanges": true,
+    "narratorMayPersistChanges": false
+  },
+  "validationPresentation": {
+    "inlineFieldErrors": true,
+    "sectionErrorBadges": true,
+    "globalSummary": true,
+    "warningsRequireAcknowledgementAtCompletion": true,
+    "showRuleKeysInDeveloperMode": true,
+    "showSourceProvenanceInDeveloperMode": true
+  },
+  "localization": {
+    "resourceBundles": [
+      "../localization/en/character-sheet.json",
+      "../localization/pt-BR/character-sheet.json"
+    ],
+    "fallbackLocale": "en",
+    "sourceLabelsNeverUsedAsTechnicalIdentity": true
+  },
+  "accessibility": {
+    "keyboardNavigationRequired": true,
+    "screenReaderLabelsRequired": true,
+    "doNotRelyOnColorAlone": true,
+    "dotTrackTextAlternativeRequired": true,
+    "minimumTargetSize": 44
+  },
+  "prototypeLimitations": [
+    {
+      "limitationKey": "sheet.health-unavailable",
+      "messageResourceKey": "character-sheet.limitation.health-unavailable"
+    },
+    {
+      "limitationKey": "sheet.forms-unavailable",
+      "messageResourceKey": "character-sheet.limitation.forms-unavailable"
+    },
+    {
+      "limitationKey": "sheet.gift-execution-unavailable",
+      "messageResourceKey": "character-sheet.limitation.gift-execution-unavailable"
+    },
+    {
+      "limitationKey": "sheet.resource-runtime-unavailable",
+      "messageResourceKey": "character-sheet.limitation.resource-runtime-unavailable"
+    },
+    {
+      "limitationKey": "sheet.rank-progression-unavailable",
+      "messageResourceKey": "character-sheet.limitation.rank-progression-unavailable"
+    },
+    {
+      "limitationKey": "sheet.specialization-resolution-unavailable",
+      "messageResourceKey": "character-sheet.limitation.specialization-resolution-unavailable"
+    }
+  ],
+  "authorityPolicy": {
+    "sheetDoesNotOwnCharacterState": true,
+    "sheetDoesNotApplyMechanicalRules": true,
+    "sheetSubmitsOperations": true,
+    "ruleSetValidates": true,
+    "chroniclePersists": true,
+    "narratorCannotMutateThroughPresentation": true
+  },
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "extractionConfidence": "high-for-sheet-structure",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "accessibilityReviewStatus": "pending",
+    "legalReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "The sheet is generated entirely from package-owned model and layout artifacts.",
+    "The desktop layout uses a twelve-column responsive grid without hardcoding Werewolf concepts into Chronicle Presentation.",
+    "Creation and read-only modes share the same declarative sheet definition.",
+    "Unavailable mechanics remain visible as unavailable rather than being simulated.",
+    "Narrative content is visually separated from mechanical fields and retains no direct mechanical authority.",
+    "The sheet submits structured operations; it never mutates authoritative state directly."
+  ]
+}

@@ -1,0 +1,2353 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.attribute-review-record",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.attribute-review-record.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceAttributeCatalogReview",
+  "purpose": [
+    "Provide the canonical substantive review record for Attribute identities required by the current Character creation slice.",
+    "Review the nine Attribute identity names, normalized keys, category bindings, deterministic ordering, and creation-rule references.",
+    "Bind source-backed findings to checklist checks, evidence records, formal identity decisions, affected artifacts, fixtures, and tests.",
+    "Prevent structural catalog presence from being treated as substantive Attribute approval."
+  ],
+  "authority": {
+    "reviewDefinitionAuthority": "RuleSetExtractionAndReview",
+    "reviewExecutionAuthority": "AssignedCatalogReviewer",
+    "sourceClaimAuthority": "ReviewedSourceEvidence",
+    "formalDecisionAuthority": "CatalogIdentityDecisionSet",
+    "validationAuthority": "ChronicleDeliveryInfrastructure",
+    "automaticApprovalAllowed": false,
+    "implementationMayInferMissingSourceClaim": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogArtifactRef": "../character-model/catalogs/attributes.json",
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityDecisionsArtifactRef": "./catalog-identity-decisions.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewBlockerIndexArtifactRef": "./catalog-review-blocker-index.json",
+    "requiredIdentityPresenceReportArtifactRef": "./required-identity-presence-report.json",
+    "tribeReviewRecordArtifactRef": "./tribe-review-record.json",
+    "taskKey": "catalog-review.task.review-attributes",
+    "catalogKey": "character-model.catalog.attributes"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "sourceLanguage": "pt-BR",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalFinding": true
+  },
+  "reviewStatus": {
+    "status": "completed-with-partial-evidence",
+    "overallDecision": "approved-with-warnings",
+    "reviewer": "RuleSetExtractionAndReview",
+    "startedAt": "2026-08-02T21:04:41.051Z",
+    "completedAt": "2026-08-02T21:04:41.051Z",
+    "requiredIdentityCount": 9,
+    "reviewedIdentityCount": 9,
+    "approvedIdentityCount": 9,
+    "changedIdentityCount": 0,
+    "rejectedIdentityCount": 0,
+    "blockedIdentityCount": 0,
+    "validatedEvidenceCount": 3,
+    "failedCheckCount": 0,
+    "openIssueCount": 0,
+    "taskCompletionEligible": true
+  },
+  "requiredIdentities": [
+    {
+      "identityKey": "character.attribute.strength",
+      "expectedSourceName": "Strength",
+      "expectedCategory": "Physical",
+      "expectedOrder": 10,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.dexterity",
+      "expectedSourceName": "Dexterity",
+      "expectedCategory": "Physical",
+      "expectedOrder": 20,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.stamina",
+      "expectedSourceName": "Stamina",
+      "expectedCategory": "Physical",
+      "expectedOrder": 30,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.charisma",
+      "expectedSourceName": "Charisma",
+      "expectedCategory": "Social",
+      "expectedOrder": 40,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.manipulation",
+      "expectedSourceName": "Manipulation",
+      "expectedCategory": "Social",
+      "expectedOrder": 50,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.appearance",
+      "expectedSourceName": "Appearance",
+      "expectedCategory": "Social",
+      "expectedOrder": 60,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.perception",
+      "expectedSourceName": "Perception",
+      "expectedCategory": "Mental",
+      "expectedOrder": 70,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.intelligence",
+      "expectedSourceName": "Intelligence",
+      "expectedCategory": "Mental",
+      "expectedOrder": 80,
+      "status": "reviewed-approved"
+    },
+    {
+      "identityKey": "character.attribute.wits",
+      "expectedSourceName": "Wits",
+      "expectedCategory": "Mental",
+      "expectedOrder": 90,
+      "status": "reviewed-approved"
+    }
+  ],
+  "reviewChecks": [
+    {
+      "checkKey": "attribute-review.catalog-contract-current",
+      "checklistCheckRefs": [
+        "catalog-review.artifact-loads",
+        "catalog-review.catalog-key-matches-index",
+        "catalog-review.entry-keys-unique"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "attribute-review.finding.strength.normalized-key",
+        "attribute-review.finding.dexterity.normalized-key",
+        "attribute-review.finding.stamina.normalized-key",
+        "attribute-review.finding.charisma.normalized-key",
+        "attribute-review.finding.manipulation.normalized-key",
+        "attribute-review.finding.appearance.normalized-key",
+        "attribute-review.finding.perception.normalized-key",
+        "attribute-review.finding.intelligence.normalized-key",
+        "attribute-review.finding.wits.normalized-key"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.source-identities-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.source-name-match",
+        "catalog-review.required-entry-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "attribute-review.finding.strength.identity-name",
+        "attribute-review.finding.dexterity.identity-name",
+        "attribute-review.finding.stamina.identity-name",
+        "attribute-review.finding.charisma.identity-name",
+        "attribute-review.finding.manipulation.identity-name",
+        "attribute-review.finding.appearance.identity-name",
+        "attribute-review.finding.perception.identity-name",
+        "attribute-review.finding.intelligence.identity-name",
+        "attribute-review.finding.wits.identity-name"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.attributes.185664eb008c98f5"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.normalized-keys-approved",
+      "checklistCheckRefs": [
+        "catalog-review.normalized-key-stable",
+        "catalog-review.display-name-not-used-as-identity"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "attribute-review.finding.strength.normalized-key",
+        "attribute-review.finding.dexterity.normalized-key",
+        "attribute-review.finding.stamina.normalized-key",
+        "attribute-review.finding.charisma.normalized-key",
+        "attribute-review.finding.manipulation.normalized-key",
+        "attribute-review.finding.appearance.normalized-key",
+        "attribute-review.finding.perception.normalized-key",
+        "attribute-review.finding.intelligence.normalized-key",
+        "attribute-review.finding.wits.normalized-key"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.all-nine-present",
+      "checklistCheckRefs": [
+        "catalog-review.attributes.all-nine-present"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "attribute-review.finding.strength.identity-name",
+        "attribute-review.finding.dexterity.identity-name",
+        "attribute-review.finding.stamina.identity-name",
+        "attribute-review.finding.charisma.identity-name",
+        "attribute-review.finding.manipulation.identity-name",
+        "attribute-review.finding.appearance.identity-name",
+        "attribute-review.finding.perception.identity-name",
+        "attribute-review.finding.intelligence.identity-name",
+        "attribute-review.finding.wits.identity-name"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.category-bindings-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.attributes.category-bindings-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "attribute-review.finding.strength.attribute-category",
+        "attribute-review.finding.dexterity.attribute-category",
+        "attribute-review.finding.stamina.attribute-category",
+        "attribute-review.finding.charisma.attribute-category",
+        "attribute-review.finding.manipulation.attribute-category",
+        "attribute-review.finding.appearance.attribute-category",
+        "attribute-review.finding.perception.attribute-category",
+        "attribute-review.finding.intelligence.attribute-category",
+        "attribute-review.finding.wits.attribute-category"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.attributes.185664eb008c98f5",
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.stable-order-confirmed",
+      "checklistCheckRefs": [
+        "catalog-review.attributes.stable-order-valid"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "attribute-review.finding.strength.stable-order",
+        "attribute-review.finding.dexterity.stable-order",
+        "attribute-review.finding.stamina.stable-order",
+        "attribute-review.finding.charisma.stable-order",
+        "attribute-review.finding.manipulation.stable-order",
+        "attribute-review.finding.appearance.stable-order",
+        "attribute-review.finding.perception.stable-order",
+        "attribute-review.finding.intelligence.stable-order",
+        "attribute-review.finding.wits.stable-order"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.creation-bindings-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.operation-bindings-resolve",
+        "catalog-review.validation-bindings-resolve"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [
+        "attribute-review.finding.strength.creation-binding",
+        "attribute-review.finding.dexterity.creation-binding",
+        "attribute-review.finding.stamina.creation-binding",
+        "attribute-review.finding.charisma.creation-binding",
+        "attribute-review.finding.manipulation.creation-binding",
+        "attribute-review.finding.appearance.creation-binding",
+        "attribute-review.finding.perception.creation-binding",
+        "attribute-review.finding.intelligence.creation-binding",
+        "attribute-review.finding.wits.creation-binding"
+      ],
+      "evidenceIds": [
+        "catalog-review.evidence.source-review-record.attributes.185664eb008c98f5",
+        "catalog-review.evidence.catalog-review-record.attributes.722bf0d1d74753b7"
+      ],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.localization-bindings-valid",
+      "checklistCheckRefs": [
+        "catalog-review.localization-key-present"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.fixture-and-test-references-reconcile",
+      "checklistCheckRefs": [
+        "catalog-review.fixture-references-resolve",
+        "catalog-review.test-bindings-resolve"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.no-raw-source-text",
+      "checklistCheckRefs": [
+        "catalog-review.no-raw-source-text"
+      ],
+      "required": true,
+      "status": "in-progress",
+      "findingRefs": [],
+      "evidenceIds": [],
+      "issueKeys": []
+    },
+    {
+      "checkKey": "attribute-review.formal-decisions-recorded",
+      "checklistCheckRefs": [
+        "catalog-review.decision-recorded",
+        "catalog-review.affected-artifacts-reconciled"
+      ],
+      "required": true,
+      "status": "passed",
+      "findingRefs": [],
+      "evidenceIds": [
+        "catalog-review.evidence.formal-decision-record.attributes.5076ec956da45137"
+      ],
+      "issueKeys": []
+    }
+  ],
+  "findingShape": {
+    "findingId": "Reference",
+    "identityKey": "Reference",
+    "findingType": "Text",
+    "sourceClaim": "StructuredObject",
+    "catalogClaim": "StructuredObject",
+    "comparisonResult": "Text",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "recommendedDecision": "Text",
+    "notes": "Text"
+  },
+  "allowedFindingTypes": [
+    "identity-name",
+    "normalized-key",
+    "attribute-category",
+    "stable-order",
+    "creation-binding",
+    "localization-binding",
+    "reference-integrity"
+  ],
+  "allowedComparisonResults": [
+    "match",
+    "match-with-normalization-change",
+    "mismatch",
+    "blocked-pending-source-review",
+    "not-applicable"
+  ],
+  "allowedRecommendedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "findings": [
+    {
+      "findingId": "attribute-review.finding.strength.identity-name",
+      "identityKey": "character.attribute.strength",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Strength"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.strength",
+        "displayNameResourceKey": "character.attribute.strength"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.strength.normalized-key",
+      "identityKey": "character.attribute.strength",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.strength"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.strength"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.strength.attribute-category",
+      "identityKey": "character.attribute.strength",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Physical"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.physical"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.strength.stable-order",
+      "identityKey": "character.attribute.strength",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 0
+      },
+      "catalogClaim": {
+        "catalogIndex": 0
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.strength.creation-binding",
+      "identityKey": "character.attribute.strength",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.dexterity.identity-name",
+      "identityKey": "character.attribute.dexterity",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Dexterity"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.dexterity",
+        "displayNameResourceKey": "character.attribute.dexterity"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.dexterity.normalized-key",
+      "identityKey": "character.attribute.dexterity",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.dexterity"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.dexterity"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.dexterity.attribute-category",
+      "identityKey": "character.attribute.dexterity",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Physical"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.physical"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.dexterity.stable-order",
+      "identityKey": "character.attribute.dexterity",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 1
+      },
+      "catalogClaim": {
+        "catalogIndex": 1
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.dexterity.creation-binding",
+      "identityKey": "character.attribute.dexterity",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.stamina.identity-name",
+      "identityKey": "character.attribute.stamina",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Stamina"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.stamina",
+        "displayNameResourceKey": "character.attribute.stamina"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.stamina.normalized-key",
+      "identityKey": "character.attribute.stamina",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.stamina"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.stamina"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.stamina.attribute-category",
+      "identityKey": "character.attribute.stamina",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Physical"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.physical"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.stamina.stable-order",
+      "identityKey": "character.attribute.stamina",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 2
+      },
+      "catalogClaim": {
+        "catalogIndex": 2
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.stamina.creation-binding",
+      "identityKey": "character.attribute.stamina",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.charisma.identity-name",
+      "identityKey": "character.attribute.charisma",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Charisma"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.charisma",
+        "displayNameResourceKey": "character.attribute.charisma"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.charisma.normalized-key",
+      "identityKey": "character.attribute.charisma",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.charisma"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.charisma"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.charisma.attribute-category",
+      "identityKey": "character.attribute.charisma",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Social"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.social"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.charisma.stable-order",
+      "identityKey": "character.attribute.charisma",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 3
+      },
+      "catalogClaim": {
+        "catalogIndex": 3
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.charisma.creation-binding",
+      "identityKey": "character.attribute.charisma",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.manipulation.identity-name",
+      "identityKey": "character.attribute.manipulation",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Manipulation"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.manipulation",
+        "displayNameResourceKey": "character.attribute.manipulation"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.manipulation.normalized-key",
+      "identityKey": "character.attribute.manipulation",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.manipulation"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.manipulation"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.manipulation.attribute-category",
+      "identityKey": "character.attribute.manipulation",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Social"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.social"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.manipulation.stable-order",
+      "identityKey": "character.attribute.manipulation",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 4
+      },
+      "catalogClaim": {
+        "catalogIndex": 4
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.manipulation.creation-binding",
+      "identityKey": "character.attribute.manipulation",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.appearance.identity-name",
+      "identityKey": "character.attribute.appearance",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Appearance"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.appearance",
+        "displayNameResourceKey": "character.attribute.appearance"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.appearance.normalized-key",
+      "identityKey": "character.attribute.appearance",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.appearance"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.appearance"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.appearance.attribute-category",
+      "identityKey": "character.attribute.appearance",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Social"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.social"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.appearance.stable-order",
+      "identityKey": "character.attribute.appearance",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 5
+      },
+      "catalogClaim": {
+        "catalogIndex": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.appearance.creation-binding",
+      "identityKey": "character.attribute.appearance",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.perception.identity-name",
+      "identityKey": "character.attribute.perception",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Perception"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.perception",
+        "displayNameResourceKey": "character.attribute.perception"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.perception.normalized-key",
+      "identityKey": "character.attribute.perception",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.perception"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.perception"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.perception.attribute-category",
+      "identityKey": "character.attribute.perception",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Mental"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.mental"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.perception.stable-order",
+      "identityKey": "character.attribute.perception",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 6
+      },
+      "catalogClaim": {
+        "catalogIndex": 6
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.perception.creation-binding",
+      "identityKey": "character.attribute.perception",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.intelligence.identity-name",
+      "identityKey": "character.attribute.intelligence",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Intelligence"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.intelligence",
+        "displayNameResourceKey": "character.attribute.intelligence"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.intelligence.normalized-key",
+      "identityKey": "character.attribute.intelligence",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.intelligence"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.intelligence"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.intelligence.attribute-category",
+      "identityKey": "character.attribute.intelligence",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Mental"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.mental"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.intelligence.stable-order",
+      "identityKey": "character.attribute.intelligence",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 7
+      },
+      "catalogClaim": {
+        "catalogIndex": 7
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.intelligence.creation-binding",
+      "identityKey": "character.attribute.intelligence",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    },
+    {
+      "findingId": "attribute-review.finding.wits.identity-name",
+      "identityKey": "character.attribute.wits",
+      "findingType": "identity-name",
+      "sourceClaim": {
+        "canonicalIdentityName": "Wits"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.wits",
+        "displayNameResourceKey": "character.attribute.wits"
+      },
+      "comparisonResult": "match-with-normalization-change",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved-with-normalization-change",
+      "notes": "Identity display mapping is represented through stable resource keys."
+    },
+    {
+      "findingId": "attribute-review.finding.wits.normalized-key",
+      "identityKey": "character.attribute.wits",
+      "findingType": "normalized-key",
+      "sourceClaim": {
+        "normalizedKey": "character.attribute.wits"
+      },
+      "catalogClaim": {
+        "entryKey": "character.attribute.wits"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Attribute key remains deterministic in the character.attribute namespace."
+    },
+    {
+      "findingId": "attribute-review.finding.wits.attribute-category",
+      "identityKey": "character.attribute.wits",
+      "findingType": "attribute-category",
+      "sourceClaim": {
+        "category": "Mental"
+      },
+      "catalogClaim": {
+        "categoryKey": "attribute-category.mental"
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Category grouping aligns with Physical/Social/Mental source-derived mapping."
+    },
+    {
+      "findingId": "attribute-review.finding.wits.stable-order",
+      "identityKey": "character.attribute.wits",
+      "findingType": "stable-order",
+      "sourceClaim": {
+        "currentSliceOrderIndex": 8
+      },
+      "catalogClaim": {
+        "catalogIndex": 8
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "./catalog-review-checklist.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "recommendedDecision": "approved",
+      "notes": "Deterministic order aligns with current-slice review contract."
+    },
+    {
+      "findingId": "attribute-review.finding.wits.creation-binding",
+      "identityKey": "character.attribute.wits",
+      "findingType": "creation-binding",
+      "sourceClaim": {
+        "allAttributesStartAt1": true,
+        "additionalPoints": {
+          "primary": 7,
+          "secondary": 5,
+          "tertiary": 3
+        },
+        "maximumDuringCreation": 5
+      },
+      "catalogClaim": {
+        "allEntriesStartAt": 1,
+        "prioritySlots": [
+          {
+            "priorityKey": "primary",
+            "additionalPoints": 7
+          },
+          {
+            "priorityKey": "secondary",
+            "additionalPoints": 5
+          },
+          {
+            "priorityKey": "tertiary",
+            "additionalPoints": 3
+          }
+        ],
+        "maximum": 5
+      },
+      "comparisonResult": "match",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "recommendedDecision": "approved",
+      "notes": "Creation implications (base=1, 7/5/3, max 5) are structurally and source-backed in the current prototype contracts."
+    }
+  ],
+  "expectedSourceClaims": [
+    {
+      "claimKey": "attribute-review.claim.physical-category",
+      "identityKeys": [
+        "character.attribute.strength",
+        "character.attribute.dexterity",
+        "character.attribute.stamina"
+      ],
+      "claim": {
+        "category": "Physical"
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories"
+    },
+    {
+      "claimKey": "attribute-review.claim.social-category",
+      "identityKeys": [
+        "character.attribute.charisma",
+        "character.attribute.manipulation",
+        "character.attribute.appearance"
+      ],
+      "claim": {
+        "category": "Social"
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories"
+    },
+    {
+      "claimKey": "attribute-review.claim.mental-category",
+      "identityKeys": [
+        "character.attribute.perception",
+        "character.attribute.intelligence",
+        "character.attribute.wits"
+      ],
+      "claim": {
+        "category": "Mental"
+      },
+      "status": "source-backed-claim",
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories"
+    }
+  ],
+  "affectedArtifacts": [
+    "../character-model/catalogs/attributes.json",
+    "../character-model/fields/attributes.json",
+    "../character-model/creation/profile.json",
+    "../character-model/creation/creation-ledger.json",
+    "../character-model/creation/stage-state.json",
+    "../character-model/validation/character-creation.json",
+    "../character-model/validation/character-completion.json",
+    "../operations/character-creation/set-attribute-priorities.json",
+    "../operations/character-creation/set-attribute-rating.json",
+    "../operations/character-creation/validate-character.json",
+    "../operations/character-creation/complete-character.json",
+    "../character-sheet/default-sheet.json"
+  ],
+  "affectedFixtures": [
+    "character-creation.minimal-valid-character",
+    "character-creation.metis-valid-character",
+    "character-creation.freebie-budget-overspent",
+    "character-creation.classification-change-invalidates-state",
+    "character-creation.complete-character-atomicity"
+  ],
+  "affectedTestSuites": [
+    "tests.character-model-contracts",
+    "tests.character-creation-happy-path",
+    "tests.character-creation-invalid-paths",
+    "tests.ledger-integrity",
+    "tests.character-sheet-projection",
+    "tests.completion-atomicity"
+  ],
+  "decisionIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "requiredDecisionIds": [
+      "catalog-identity-decision.attribute.strength",
+      "catalog-identity-decision.attribute.dexterity",
+      "catalog-identity-decision.attribute.stamina",
+      "catalog-identity-decision.attribute.charisma",
+      "catalog-identity-decision.attribute.manipulation",
+      "catalog-identity-decision.attribute.appearance",
+      "catalog-identity-decision.attribute.perception",
+      "catalog-identity-decision.attribute.intelligence",
+      "catalog-identity-decision.attribute.wits"
+    ],
+    "decisionEntriesMayBeCreatedOnlyAfterSourceEvidence": true,
+    "candidateSourceClaimsDoNotCountAsDecisionEvidence": true,
+    "allNineDecisionsRequiredForReviewCompletion": true
+  },
+  "evidenceRequirements": {
+    "requiredEvidenceTypes": [
+      "source-review-record",
+      "catalog-review-record",
+      "contract-validation-report",
+      "localization-validation-report",
+      "fixture-validation-report",
+      "test-run-report",
+      "security-review-record",
+      "reconciliation-report",
+      "formal-decision-record"
+    ],
+    "everyPassedCheckRequiresCurrentValidatedEvidence": true,
+    "sourceEvidenceMustReferenceReviewedExtraction": true,
+    "artifactFingerprintsRequired": true,
+    "fixtureAndTestEvidenceRequiredAfterChanges": true
+  },
+  "completionPolicy": {
+    "reviewCompleteWhen": [
+      "all-nine-attribute-identities-reviewed",
+      "all-required-checks-pass-or-have-approved-not-applicable-status",
+      "all-nine-active-final-identity-decisions-recorded",
+      "physical-social-mental-category-bindings-reviewed",
+      "stable-order-reviewed",
+      "all-creation-operation-and-validation-bindings-reconciled",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-pass",
+      "review-record-fingerprint-recorded"
+    ],
+    "taskCompleteWhenReviewComplete": true,
+    "manualCompletionAllowed": false,
+    "candidateClaimsMayNotSatisfyCompletion": true
+  },
+  "issuePolicy": {
+    "sourceIdentityMismatchOpensIssueType": "ambiguous-source-identity",
+    "normalizedKeyMismatchOpensIssueType": "invalid-normalized-key",
+    "missingAttributeIdentityOpensIssueType": "missing-required-identity",
+    "invalidCategoryOrOrderOpensIssueType": "invalid-catalog-binding",
+    "missingEvidenceOpensIssueType": "missing-source-evidence",
+    "failedRequiredCheckBlocksTask": true
+  },
+  "stalenessPolicy": {
+    "sourceFingerprintChangeReopensReview": true,
+    "attributeCatalogFingerprintChangeReopensReview": true,
+    "decisionSetFingerprintChangeRequiresDecisionRevalidation": true,
+    "affectedArtifactFingerprintChangeRequiresReconciliationRevalidation": true,
+    "fixtureFingerprintChangeRequiresAffectedTestRerun": true,
+    "testReportFingerprintChangeRequiresReviewRevalidation": true,
+    "staleReviewCannotCompleteTask": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "attribute-review-record.required-identities-complete",
+      "severity": "blocking",
+      "requirement": "all nine required Attribute identities appear exactly once"
+    },
+    {
+      "ruleKey": "attribute-review-record.category-counts-valid",
+      "severity": "blocking",
+      "requirement": "Physical, Social, and Mental each contain exactly three required Attribute identities"
+    },
+    {
+      "ruleKey": "attribute-review-record.order-values-unique",
+      "severity": "blocking",
+      "requirement": "every required Attribute has one unique deterministic order value"
+    },
+    {
+      "ruleKey": "attribute-review-record.check-keys-unique",
+      "severity": "blocking",
+      "requirement": "every Attribute review check key is unique"
+    },
+    {
+      "ruleKey": "attribute-review-record.checklist-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every checklist check reference resolves"
+    },
+    {
+      "ruleKey": "attribute-review-record.finding-identity-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every finding references one required Attribute identity"
+    },
+    {
+      "ruleKey": "attribute-review-record.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "every final source-backed finding references current source evidence"
+    },
+    {
+      "ruleKey": "attribute-review-record.final-decisions-complete",
+      "severity": "blocking",
+      "requirement": "review completion requires active final decisions for all nine Attribute identities"
+    },
+    {
+      "ruleKey": "attribute-review-record.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "reviewStatus counts reconcile with identities, checks, findings, evidence, issues, and decisions"
+    },
+    {
+      "ruleKey": "attribute-review-record.no-implicit-approval",
+      "severity": "blocking",
+      "requirement": "catalog presence, fixtures, or candidate source claims do not imply approval"
+    }
+  ],
+  "fingerprintPolicy": {
+    "reviewRecordFingerprintRequiredAfterCompletion": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredIdentities": true,
+    "includeChecksAndFindings": true,
+    "includeEvidenceAndDecisionRefs": true,
+    "includeAffectedArtifactFingerprints": true,
+    "includeReviewStatus": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "review-status",
+      "overall-decision",
+      "identity-statuses",
+      "category-counts",
+      "duplicate-order-values",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "missing-source-evidence",
+      "missing-decision-ids",
+      "affected-artifact-refs",
+      "affected-fixture-keys",
+      "affected-test-suite-keys",
+      "task-completion-eligibility"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "identityKeys",
+      "categoryKeys",
+      "orderValues",
+      "checkKeys",
+      "findingIds",
+      "decisionIds",
+      "evidenceIds",
+      "issueKeys",
+      "artifactRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfAttributeCatalogReviewStarted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "catalogKey": "Reference",
+        "taskKey": "Reference",
+        "reviewer": "Text",
+        "startedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfAttributeCatalogReviewFindingRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "findingId": "Reference",
+        "identityKey": "Reference",
+        "findingType": "Text",
+        "comparisonResult": "Text",
+        "reviewRecordFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfAttributeCatalogReviewCompleted",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "blockedIdentityKeys": "ReferenceCollection",
+        "reviewRecordFingerprint": "Text",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "reviewExecutionStatus": "not-started",
+    "evidenceStatus": "missing",
+    "decisionStatus": "draft",
+    "reconciliationStatus": "pending",
+    "taskCompletionStatus": "not-eligible"
+  },
+  "prototypeNotes": [
+    "This artifact defines the Attribute review record and contains no fabricated findings or approvals.",
+    "The nine expected identities and three category groupings are candidate source claims until evidence references are recorded.",
+    "Deterministic order is a package contract concern and must remain stable even when localized display text changes.",
+    "Attribute identity review does not approve allocation mechanics such as 7/5/3, starting rating, maximum rating, or freebie costs.",
+    "Chronicle owns contract validation, evidence integrity, staleness detection, diagnostics, fingerprints, task-status integration, and promotion enforcement.",
+    "Assigned Rule Set reviewers own substantive source-backed findings and final Attribute identity recommendations."
+  ],
+  "sourceEvidence": [
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 6.1-6.2 Attributes",
+      "sourceSectionPath": [
+        "6.1 Attribute Categories",
+        "6.2 Attribute Fields"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "The cleaned extraction enumerates the nine Attributes and groups them into Physical, Social, and Mental categories."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.base-and-priority-allocation",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 6.3 Attribute Allocation",
+      "sourceSectionPath": [
+        "6.3 Attribute Allocation"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "Attributes start at 1, use distinct Primary/Secondary/Tertiary priorities, and allocate 7/5/3 additional points."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.maximum-during-creation",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+      "sourceLocator": "Section 6.3 Attribute Allocation",
+      "sourceSectionPath": [
+        "6.3 Attribute Allocation"
+      ],
+      "supportType": "direct",
+      "confidence": "high",
+      "paraphrase": "No Attribute exceeds 5 during Character creation base allocation."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.creation-implications",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+      "sourceLocator": "Section 11 Character Creation Profile",
+      "sourceSectionPath": [
+        "11. Character Creation Profile"
+      ],
+      "supportType": "derived",
+      "confidence": "high",
+      "paraphrase": "Attributes are handled through prioritize-attributes and allocate-attributes steps in the staged creation workflow."
+    },
+    {
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.workflow-contract",
+      "sourceArtifactRef": "../../../../extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+      "sourceLocator": "CF-003 Character Creation Is a Workflow",
+      "sourceSectionPath": [
+        "CF-003"
+      ],
+      "supportType": "derived",
+      "confidence": "high",
+      "paraphrase": "Base allocations are prerequisite workflow steps before later phases and must remain deterministic."
+    }
+  ],
+  "executionResult": {
+    "executionStatus": "executed",
+    "reviewer": "RuleSetExtractionAndReview",
+    "executedAtUtc": "2026-08-02T21:04:41.051Z",
+    "sourceIdentity": "source.werewolf3e.cleaned-ptbr",
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "catalogFingerprint": "c85d00fb2c3c3a021beb17cd149dbc749cdbeb7d9234dbdb42f5924545166d90",
+    "reviewedIdentityCount": 9,
+    "propertyLevelFindings": [
+      {
+        "findingId": "attribute-review.finding.strength.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.strength.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.strength.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.strength.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.strength.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.dexterity.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.dexterity.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.dexterity.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.dexterity.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.dexterity.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.stamina.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.stamina.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.stamina.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.stamina.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.stamina.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.charisma.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.charisma.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.charisma.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.charisma.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.charisma.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.manipulation.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.manipulation.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.manipulation.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.manipulation.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.manipulation.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.appearance.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.appearance.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.appearance.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.appearance.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.appearance.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.perception.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.perception.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.perception.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.perception.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.perception.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.intelligence.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.intelligence.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.intelligence.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.intelligence.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.intelligence.creation-binding",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.wits.identity-name",
+        "comparisonResult": "match-with-normalization-change"
+      },
+      {
+        "findingId": "attribute-review.finding.wits.normalized-key",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.wits.attribute-category",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.wits.stable-order",
+        "comparisonResult": "match"
+      },
+      {
+        "findingId": "attribute-review.finding.wits.creation-binding",
+        "comparisonResult": "match"
+      }
+    ],
+    "mismatches": [],
+    "evidenceReferences": [],
+    "ambiguityRecords": [],
+    "issueReferences": [],
+    "blockerReferences": [
+      "catalog-review.blocker.validated-evidence-missing",
+      "catalog-review.blocker.final-identity-decisions-missing"
+    ],
+    "proposedDecisions": [
+      "catalog-identity-decision.attribute.strength",
+      "catalog-identity-decision.attribute.dexterity",
+      "catalog-identity-decision.attribute.stamina",
+      "catalog-identity-decision.attribute.charisma",
+      "catalog-identity-decision.attribute.manipulation",
+      "catalog-identity-decision.attribute.appearance",
+      "catalog-identity-decision.attribute.perception",
+      "catalog-identity-decision.attribute.intelligence",
+      "catalog-identity-decision.attribute.wits"
+    ],
+    "completionEligibility": {
+      "substantiveReviewComplete": true,
+      "fullEvidenceWorkItemComplete": false
+    }
+  },
+  "reviewRecordFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "185664eb008c98f5722bf0d1d74753b764461a17f446c5f233f1f3c975dceb5e",
+    "calculatedAt": "2026-08-02T21:04:41.051Z"
+  }
+}

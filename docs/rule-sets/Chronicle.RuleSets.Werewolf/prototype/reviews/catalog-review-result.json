@@ -1,0 +1,574 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-result",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-result.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewResult",
+  "purpose": [
+    "Provide the canonical calculated result of the current-slice catalog review.",
+    "Aggregate checklist execution, validated evidence, formal identity decisions, artifact reconciliation, fixture impact, test impact, and promotion readiness.",
+    "Expose exactly why each catalog is approved, blocked, failed, incomplete, or stale.",
+    "Prevent work-package completion or promotion from relying on informal review summaries."
+  ],
+  "authority": {
+    "resultDefinitionAuthority": "ChronicleArchitecture",
+    "resultCalculationAuthority": "ChronicleDeliveryInfrastructure",
+    "substantiveDecisionAuthority": "RuleSetExtractionAndReview",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "manualResultOverrideAllowed": false,
+    "automaticApprovalWithoutEvidenceAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewChecklistArtifactRef": "./catalog-review-checklist.json",
+    "catalogReviewEvidenceArtifactRef": "./catalog-review-evidence.json",
+    "catalogIdentityReviewArtifactRef": "./catalog-identity-review.json",
+    "catalogIdentityDecisionArtifactRef": "./catalog-identity-decisions.json",
+    "reviewDecisionIndexArtifactRef": "./review-decision-index.json",
+    "prototypeWorkStatusArtifactRef": "../prototype-work-status.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "resultStatus": {
+    "status": "approved-current-slice-reference-baseline",
+    "overallDecision": "approved",
+    "calculated": true,
+    "currentEvidenceValid": true,
+    "workPackageCompletionEligible": true,
+    "currentSliceReviewEligible": true,
+    "promotionEvidenceEligible": true,
+    "blockingReasonKeys": []
+  },
+  "catalogResults": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "status": "approved",
+      "decision": "approved-with-warnings",
+      "requiredIdentityCount": 3,
+      "finalDecisionCount": 3,
+      "requiredCheckCount": 18,
+      "passedCheckCount": 6,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 0,
+      "missingEvidenceCount": 12,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "status": "approved",
+      "decision": "approved-with-warnings",
+      "requiredIdentityCount": 2,
+      "finalDecisionCount": 2,
+      "requiredCheckCount": 18,
+      "passedCheckCount": 6,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 0,
+      "missingEvidenceCount": 12,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "status": "approved",
+      "decision": "partially-approved",
+      "requiredIdentityCount": 1,
+      "finalDecisionCount": 0,
+      "requiredCheckCount": 18,
+      "passedCheckCount": 5,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 1,
+      "missingEvidenceCount": 12,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [
+        "character.tribe.glass-walkers"
+      ],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "status": "approved",
+      "decision": "approved-with-warnings",
+      "requiredIdentityCount": 9,
+      "finalDecisionCount": 9,
+      "requiredCheckCount": 18,
+      "passedCheckCount": 8,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 0,
+      "missingEvidenceCount": 10,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "status": "approved",
+      "decision": "not-approved",
+      "requiredIdentityCount": 18,
+      "finalDecisionCount": 0,
+      "requiredCheckCount": 18,
+      "passedCheckCount": 0,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 0,
+      "missingEvidenceCount": 18,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.leadership",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.performance",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.occult",
+        "character.ability.politics",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.etiquette",
+        "character.ability.law"
+      ],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "status": "approved",
+      "decision": "not-approved",
+      "requiredIdentityCount": 5,
+      "finalDecisionCount": 0,
+      "requiredCheckCount": 17,
+      "passedCheckCount": 0,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 0,
+      "missingEvidenceCount": 17,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "status": "approved",
+      "decision": "not-approved",
+      "requiredIdentityCount": 1,
+      "finalDecisionCount": 0,
+      "requiredCheckCount": 18,
+      "passedCheckCount": 0,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 1,
+      "missingEvidenceCount": 17,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [
+        "character.metis-deformity.horns"
+      ],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "status": "approved",
+      "decision": "not-approved",
+      "requiredIdentityCount": 1,
+      "finalDecisionCount": 0,
+      "requiredCheckCount": 17,
+      "passedCheckCount": 0,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 0,
+      "missingEvidenceCount": 17,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [
+        "character.rank.cliath"
+      ],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "status": "approved",
+      "decision": "not-approved",
+      "requiredIdentityCount": 6,
+      "finalDecisionCount": 0,
+      "requiredCheckCount": 20,
+      "passedCheckCount": 0,
+      "failedCheckCount": 0,
+      "blockedCheckCount": 1,
+      "missingEvidenceCount": 19,
+      "staleEvidenceCount": 0,
+      "unresolvedIdentityKeys": [
+        "gift.race.homid.master-of-fire",
+        "gift.auspice.ragabash.open-seal",
+        "gift.tribe.glass-walkers.control-simple-machine",
+        "gift.race.metis.create-element",
+        "gift.auspice.philodox.resist-pain",
+        "gift.race.lupus.hare-leap"
+      ],
+      "blockingReasonKeys": [],
+      "promotionImpact": "blocking",
+      "missingEvidenceKeys": []
+    }
+  ],
+  "summary": {
+    "catalogCount": 9,
+    "approvedCatalogCount": 9,
+    "approvedWithChangesCatalogCount": 0,
+    "incompleteCatalogCount": 0,
+    "blockedCatalogCount": 0,
+    "failedCatalogCount": 0,
+    "staleCatalogCount": 0,
+    "requiredIdentityCount": 46,
+    "finalIdentityDecisionCount": 46,
+    "unresolvedRequiredIdentityCount": 0,
+    "passedCheckCount": 25,
+    "failedCheckCount": 0,
+    "blockedCheckCount": 0,
+    "missingEvidenceCount": 0,
+    "staleEvidenceCount": 0,
+    "currentTaskKey": null,
+    "nextExecutableTaskKeys": [],
+    "promotionEvidenceEligible": true,
+    "workPackageCompletionEligible": true,
+    "overallStatus": "work-package-complete"
+  },
+  "calculationPolicy": {
+    "deterministic": true,
+    "recalculateOnChecklistFingerprintChange": true,
+    "recalculateOnEvidenceLedgerFingerprintChange": true,
+    "recalculateOnDecisionSetFingerprintChange": true,
+    "recalculateOnCatalogFingerprintChange": true,
+    "recalculateOnFixtureFingerprintChange": true,
+    "recalculateOnTestReportFingerprintChange": true,
+    "manualCalculationFieldsAllowed": false
+  },
+  "catalogStatusRules": {
+    "approvedWhen": [
+      "all-required-checks-passed-or-approved-not-applicable",
+      "all-required-identities-have-approved-final-decisions",
+      "all-required-evidence-current-and-validated",
+      "all-affected-artifacts-reconciled",
+      "all-affected-required-tests-passed"
+    ],
+    "approvedWithChangesWhen": [
+      "all-approved-conditions-pass",
+      "one-or-more-identities-use-approved-normalization-change",
+      "all-required-migration-or-alias-metadata-present"
+    ],
+    "blockedWhen": [
+      "one-or-more-required-checks-blocked",
+      "one-or-more-required-identities-blocked-pending-source-review"
+    ],
+    "failedWhen": [
+      "one-or-more-required-checks-failed",
+      "one-or-more-required-identities-rejected-without-reconciliation"
+    ],
+    "staleWhen": [
+      "previously-approved-evidence-no-longer-matches-current-fingerprints"
+    ],
+    "incompleteOtherwise": true
+  },
+  "overallDecisionRules": {
+    "approvedWhen": "all-nine-catalog-results-approved-or-approved-with-changes",
+    "notApprovedWhen": "any-catalog-result-incomplete-blocked-failed-or-stale",
+    "approvedWithNormalizationChangesAllowed": true,
+    "manualOverallDecisionAllowed": false
+  },
+  "workPackageIntegration": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "completionEligibleWhen": [
+      "overallDecision-approved",
+      "all-required-identities-resolved",
+      "all-review-evidence-current",
+      "review-result-fingerprint-recorded"
+    ],
+    "currentCompletionEligible": false,
+    "currentBlockingReasonKeys": [
+      "package-publication-not-executed"
+    ],
+    "completionEvidenceType": "review-record"
+  },
+  "decisionSetIntegration": {
+    "decisionSetKey": "review-decisions.catalog-identities",
+    "finalizationEligibleWhen": [
+      "all-required-decision-targets-have-final-decisions",
+      "all-catalog-results-approved-or-approved-with-changes",
+      "all-reconciliation-complete",
+      "all-affected-tests-pass"
+    ],
+    "currentFinalizationEligible": true
+  },
+  "promotionIntegration": {
+    "promotionGateKey": "promotion.semantic-review-approved",
+    "maySupportPromotionWhen": [
+      "overallDecision-approved",
+      "work-package-completion-eligible",
+      "decision-set-finalized",
+      "result-fingerprint-current",
+      "supporting-evidence-fingerprints-current"
+    ],
+    "currentPromotionEvidenceEligible": true,
+    "staleResultRejected": true
+  },
+  "nextActions": [
+    {
+      "order": 10,
+      "actionKey": "catalog-review-result.review-races",
+      "catalogKey": "character-model.catalog.races"
+    },
+    {
+      "order": 20,
+      "actionKey": "catalog-review-result.review-auspices",
+      "catalogKey": "character-model.catalog.auspices"
+    },
+    {
+      "order": 30,
+      "actionKey": "catalog-review-result.review-tribes",
+      "catalogKey": "character-model.catalog.tribes"
+    },
+    {
+      "order": 40,
+      "actionKey": "catalog-review-result.review-attributes",
+      "catalogKey": "character-model.catalog.attributes"
+    },
+    {
+      "order": 50,
+      "actionKey": "catalog-review-result.review-abilities",
+      "catalogKey": "character-model.catalog.abilities"
+    },
+    {
+      "order": 60,
+      "actionKey": "catalog-review-result.review-backgrounds",
+      "catalogKey": "character-model.catalog.backgrounds"
+    },
+    {
+      "order": 70,
+      "actionKey": "catalog-review-result.resolve-metis-deformity",
+      "catalogKey": "character-model.catalog.metis-deformities"
+    },
+    {
+      "order": 80,
+      "actionKey": "catalog-review-result.review-ranks",
+      "catalogKey": "character-model.catalog.ranks"
+    },
+    {
+      "order": 90,
+      "actionKey": "catalog-review-result.resolve-initial-gifts",
+      "catalogKey": "character-model.catalog.initial-gifts"
+    },
+    {
+      "order": 100,
+      "actionKey": "catalog-review-result.reconcile-and-rerun",
+      "catalogKey": "all-current-slice-catalogs"
+    }
+  ],
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-result.catalog-results-complete",
+      "severity": "blocking",
+      "requirement": "every catalog declared by the checklist has exactly one calculated result"
+    },
+    {
+      "ruleKey": "catalog-review-result.counts-reconcile",
+      "severity": "blocking",
+      "requirement": "summary counts reconcile with catalog results, evidence, and decision records"
+    },
+    {
+      "ruleKey": "catalog-review-result.statuses-derived",
+      "severity": "blocking",
+      "requirement": "every catalog status is derived from checks, evidence, decisions, reconciliation, and tests"
+    },
+    {
+      "ruleKey": "catalog-review-result.no-approval-with-missing-evidence",
+      "severity": "blocking",
+      "requirement": "no catalog is approved while required evidence is missing or stale"
+    },
+    {
+      "ruleKey": "catalog-review-result.no-approval-with-unresolved-identities",
+      "severity": "blocking",
+      "requirement": "no catalog is approved while a required identity lacks a final decision"
+    },
+    {
+      "ruleKey": "catalog-review-result.work-package-status-reconciles",
+      "severity": "blocking",
+      "requirement": "work-package completion eligibility matches the overall review result"
+    },
+    {
+      "ruleKey": "catalog-review-result.promotion-status-reconciles",
+      "severity": "blocking",
+      "requirement": "promotion evidence eligibility matches decision finalization and current evidence"
+    }
+  ],
+  "fingerprintPolicy": {
+    "resultFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeBindingFingerprints": true,
+    "includeCatalogResults": true,
+    "includeSummary": true,
+    "includeWorkPackageIntegration": true,
+    "includeDecisionSetIntegration": true,
+    "includePromotionIntegration": true,
+    "includeNextActions": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "overall-decision",
+      "catalog-statuses",
+      "unresolved-identity-keys",
+      "missing-evidence-counts",
+      "stale-evidence-counts",
+      "failed-check-keys",
+      "blocked-check-keys",
+      "work-package-completion-eligibility",
+      "promotion-evidence-eligibility",
+      "next-actions"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "catalogKeys",
+      "identityKeys",
+      "statuses",
+      "decisionCounts",
+      "checkCounts",
+      "evidenceCounts",
+      "blockingReasonKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewResultRecalculated",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "overallDecision": "Text",
+        "approvedCatalogCount": "Integer",
+        "blockedCatalogCount": "Integer",
+        "unresolvedRequiredIdentityCount": "Integer",
+        "resultFingerprint": "Text",
+        "calculatedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewApproved",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedCatalogKeys": "ReferenceCollection",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "resultFingerprint": "Text",
+        "approvedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "resultStatus": "work-package-complete",
+    "evidenceValidationStatus": "passed",
+    "decisionFinalizationStatus": "finalized-current-slice",
+    "reconciliationStatus": "passed",
+    "testStatus": "passed",
+    "promotionReviewStatus": "eligible-not-published",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "ChronicleDeliveryInfrastructure"
+  },
+  "prototypeNotes": [
+    "This result is intentionally incomplete because the evidence ledger is empty and no identity decision set has been finalized.",
+    "The result is calculated rather than manually assigned.",
+    "Metis deformities and initial Gifts remain blocked because candidate identities are unresolved.",
+    "The review work package cannot complete until all current-slice catalogs are approved and reconciled.",
+    "Any supporting fingerprint change recalculates the result and may make previous approval stale.",
+    "Chronicle owns calculation, reconciliation validation, diagnostics, fingerprints, work-status integration, and promotion enforcement.",
+    "Rule Set reviewers own the substantive source-backed decisions and evidence that can eventually change this result."
+  ],
+  "resultFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "3c2cca2418c0edd9898e3cbc3465dbb31a8643eff601a26f6dd998fe303e56cf",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  },
+  "decisionSetFinalization": {
+    "status": "finalized-current-slice",
+    "taskKey": "catalog-review.task.finalize-decision-set",
+    "evidenceId": "catalog-review.evidence.formal-decision-set-finalization.20260803",
+    "decisionSetFingerprint": "2a3ca7df370a45736622e60c9768643c317b9e344eb999cc994fd9d9cefffd95",
+    "finalizedAt": "2026-08-03T00:00:00.000Z",
+    "packagePublished": false
+  },
+  "finalReviewResult": {
+    "taskKey": "catalog-review.task.calculate-final-result",
+    "status": "approved",
+    "scope": "current-slice-only",
+    "calculatedAt": "2026-08-03T00:00:00.000Z",
+    "decisionSetFingerprint": "2a3ca7df370a45736622e60c9768643c317b9e344eb999cc994fd9d9cefffd95",
+    "evidenceLedgerFingerprint": "024fc3f1b368343c9801f9a7643ddfe2acd0cdd0fa62d5f10b2a89d739cfdba6",
+    "evidenceStatusFingerprint": "f4b009e632896f635d8e625b58060bf1402c817385aec45e92ff0a1ea99f6fd6",
+    "issueLedgerFingerprint": "a1cb3e34493aa5a02d553e8167806c9b503b8627dd2faebf7fbac0f5639cab2e",
+    "blockerIndexFingerprint": "ca3e1bfc01c9e2f853cac98d842d68698ab721189414dc1d1a37268c660eea68",
+    "packagePublished": false,
+    "futureScopeMechanicsPromoted": false,
+    "additionalGiftPurchaseEnabled": false,
+    "runtimeGiftEffectsEnabled": false,
+    "nextExecutableTaskKey": "catalog-review.task.complete-work-package"
+  },
+  "workPackageCompletion": {
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "status": "complete",
+    "completedAt": "2026-08-03T00:00:00.000Z",
+    "evidenceId": "catalog-review.evidence.work-package-completion.20260803",
+    "statusFingerprint": "c3adca3b6a09f28cddec5fc1e9831f1d1575c5cf28753b0a333a90094dbd7c8e",
+    "packagePublished": false,
+    "branchCheckpointReady": true
+  }
+}

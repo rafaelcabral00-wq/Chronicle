@@ -1,0 +1,471 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.add-character-goal",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.add-character-goal",
+  "descriptionResourceKey": "character-creation.operation.add-character-goal.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false,
+    "narratorMayPropose": true
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-goal-and-normalized-summary",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "AddCharacterGoalInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "summary",
+        "fieldType": "Text",
+        "required": true
+      },
+      {
+        "fieldKey": "details",
+        "fieldType": "LongText",
+        "required": false
+      },
+      {
+        "fieldKey": "priority",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "low",
+          "normal",
+          "high"
+        ]
+      },
+      {
+        "fieldKey": "changeOrigin",
+        "fieldType": "Text",
+        "required": true,
+        "allowedValues": [
+          "user-authored",
+          "accepted-narrator-suggestion"
+        ]
+      },
+      {
+        "fieldKey": "suggestionId",
+        "fieldType": "Reference",
+        "required": false
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "add-character-goal.character-is-draft",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "field": "status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.add-character-goal.not-a-draft"
+    },
+    {
+      "preconditionKey": "add-character-goal.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.add-character-goal.stale-draft"
+    },
+    {
+      "preconditionKey": "add-character-goal.definition-available",
+      "requirement": {
+        "artifactRef": "../character-model/fields/narrative.json",
+        "operator": "readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.add-character-goal.definition-unavailable"
+    }
+  ],
+  "validationRules": [
+    {
+      "ruleKey": "add-character-goal.summary-required",
+      "ruleType": "text",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "summary",
+      "constraints": {
+        "trimWhitespace": true,
+        "minimumLength": 1,
+        "maximumLength": 240
+      },
+      "errorKey": "character-creation.add-character-goal.summary-invalid"
+    },
+    {
+      "ruleKey": "add-character-goal.details-length",
+      "ruleType": "text",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "details",
+      "constraints": {
+        "trimWhitespace": true,
+        "maximumLength": 4000
+      },
+      "errorKey": "character-creation.add-character-goal.details-too-long"
+    },
+    {
+      "ruleKey": "add-character-goal.priority-valid",
+      "ruleType": "fixed-set-membership",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetField": "priority",
+      "allowedValues": [
+        "low",
+        "normal",
+        "high"
+      ],
+      "errorKey": "character-creation.add-character-goal.priority-invalid"
+    },
+    {
+      "ruleKey": "add-character-goal.no-duplicate-active-summary",
+      "ruleType": "distinct-values",
+      "severity": "error",
+      "status": "prototype",
+      "targetCollection": "character.narrative.goals",
+      "identityProperty": "normalizedSummary",
+      "comparison": "case-insensitive-trimmed",
+      "includeProposedValue": true,
+      "activeStatuses": [
+        "active",
+        "paused"
+      ],
+      "errorKey": "character-creation.add-character-goal.duplicate-active-goal"
+    },
+    {
+      "ruleKey": "add-character-goal.origin-valid",
+      "ruleType": "conditional-reference",
+      "severity": "blocking",
+      "status": "prototype",
+      "appliesWhen": {
+        "field": "changeOrigin",
+        "operator": "equals",
+        "value": "accepted-narrator-suggestion"
+      },
+      "requirements": [
+        {
+          "field": "suggestionId",
+          "operator": "exists"
+        },
+        {
+          "field": "suggestionId",
+          "operator": "references-pending-goal-suggestion-for-character"
+        },
+        {
+          "field": "suggestionId",
+          "operator": "suggestion-not-already-consumed"
+        }
+      ],
+      "errorKey": "character-creation.add-character-goal.invalid-suggestion"
+    },
+    {
+      "ruleKey": "add-character-goal.user-origin-has-no-suggestion",
+      "ruleType": "conditional-absence",
+      "severity": "error",
+      "status": "prototype",
+      "appliesWhen": {
+        "field": "changeOrigin",
+        "operator": "equals",
+        "value": "user-authored"
+      },
+      "requirement": {
+        "field": "suggestionId",
+        "operator": "absent"
+      },
+      "errorKey": "character-creation.add-character-goal.unexpected-suggestion-reference"
+    },
+    {
+      "ruleKey": "add-character-goal.no-mechanical-authority",
+      "ruleType": "authority-boundary",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirement": {
+        "operator": "operation-effects-limited-to-character-goal-state"
+      },
+      "errorKey": "character-creation.add-character-goal.mechanical-effect-forbidden"
+    }
+  ],
+  "normalizationPolicy": {
+    "summary": {
+      "trimLeadingAndTrailingWhitespace": true,
+      "collapseRepeatedWhitespace": true,
+      "unicodeNormalization": "NFC"
+    },
+    "details": {
+      "trimLeadingAndTrailingWhitespace": true,
+      "normalizeLineEndings": true,
+      "preserveParagraphs": true,
+      "unicodeNormalization": "NFC"
+    },
+    "automaticRewritingAllowed": false
+  },
+  "goalPolicy": {
+    "initialStatus": "active",
+    "allowedStatuses": [
+      "active",
+      "paused",
+      "resolved",
+      "abandoned"
+    ],
+    "priorityHasMechanicalEffect": false,
+    "maximumActiveGoals": "unbounded-in-prototype",
+    "automaticResolutionAllowed": false,
+    "automaticNarratorCreationAllowed": false,
+    "userAcceptanceRequiredForSuggestions": true
+  },
+  "mechanicalBoundary": {
+    "mechanicalAuthority": false,
+    "mayGrantExperience": false,
+    "mayChangeRenown": false,
+    "mayChangeRank": false,
+    "mayCreateDiceModifiers": false,
+    "mayChangeBackgrounds": false,
+    "structuredMechanicalOperationRequired": true
+  },
+  "memoryProjectionPolicy": {
+    "eligible": true,
+    "projectionMode": "curated-summary",
+    "automaticProjectionDuringCreation": false,
+    "proposalMayBeScheduledAfterCommit": true,
+    "proposalOnly": true,
+    "userReviewRequired": true,
+    "rawDetailsCopiedByDefault": false
+  },
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-current-state",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft",
+        "load-current-goals",
+        "load-narrative-field-definition",
+        "load-suggestion-when-present"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "validate-goal",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-summary",
+        "validate-details",
+        "validate-priority",
+        "validate-no-duplicate-active-goal",
+        "validate-origin",
+        "validate-suggestion-reference-when-present",
+        "validate-no-mechanical-effects"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "normalize-goal-content",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "normalize-summary",
+        "normalize-details",
+        "calculate-summary-fingerprint"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "persist-goal",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "allocate-goal-id",
+        "persist-summary",
+        "persist-normalized-summary",
+        "persist-details",
+        "set-priority",
+        "set-status-active",
+        "set-created-at",
+        "record-change-origin",
+        "record-suggestion-id-when-present"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "update-suggestion-state",
+      "executor": "ChronicleApplication",
+      "condition": "suggestionId exists",
+      "effects": [
+        "mark-suggestion-accepted",
+        "mark-suggestion-consumed",
+        "preserve-original-suggestion",
+        "record-created-goal-id"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "update-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-character-goal-added",
+        "record-goal-id",
+        "record-change-origin",
+        "record-suggestion-reference-when-present",
+        "record-no-mechanical-cost"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "run-affected-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "validate-goal-collection",
+        "validate-no-mechanical-authority",
+        "persist-validation-summary"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "increment-draft-version",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "persistedGoalShape": {
+    "goalId": "Reference",
+    "summary": "Text",
+    "normalizedSummary": "Text",
+    "details": "LongText",
+    "status": "Text",
+    "priority": "Text",
+    "createdAt": "Text",
+    "resolvedAt": "Text",
+    "changeOrigin": "Text",
+    "suggestionId": "Reference",
+    "createdByOperationId": "Reference"
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacterDraft": true,
+    "persistCreationLedger": true,
+    "persistValidationSummary": true,
+    "consumeSuggestionInsideTransaction": true
+  },
+  "resultContract": {
+    "resultKey": "AddCharacterGoalResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newDraftVersion": "Integer",
+      "goalId": "Reference",
+      "summary": "Text",
+      "priority": "Text",
+      "status": "Text",
+      "changeOrigin": "Text",
+      "suggestionId": "Reference",
+      "memoryProposalEligible": "Boolean",
+      "validationSummary": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "AddCharacterGoalFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "suggestionConsumptionRecoverySupported": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false,
+    "sensitiveTextLogging": "fingerprints-and-lengths-only",
+    "goalContentEncryptedAtRest": true
+  },
+  "events": [
+    {
+      "eventKey": "CharacterGoalAdded",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "goalId": "Reference",
+        "priority": "Text",
+        "changeOrigin": "Text",
+        "suggestionId": "Reference",
+        "summaryFingerprint": "Text",
+        "draftVersion": "Integer",
+        "operationId": "Reference",
+        "updatedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "low",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "privacyReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This operation adds one structured Character goal during creation.",
+    "Goals are narrative intent records and have no direct mechanical authority.",
+    "Priority is an organizational value only.",
+    "Narrator suggestions require explicit user acceptance.",
+    "Goal content is encrypted at rest and excluded from ordinary logs.",
+    "Memory projection is proposal-only and requires review.",
+    "Chronicle owns persistence, encryption, versioning, idempotency, suggestion consumption, and events.",
+    "The Rule Set owns collection availability, text constraints, duplicate detection, and authority boundaries."
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "contractVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "packageVersion": "0.1.0-prototype",
+  "publisherId": "chronicle",
+  "packageKind": "rule-set",
+  "displayNameResourceKey": "ruleset.werewolf.display-name",
+  "descriptionResourceKey": "ruleset.werewolf.description",
+  "publicationStatus": "prototype-candidate",
+  "canonicalLanguage": "en",
+  "supportedLocales": [
+    "en",
+    "pt-BR"
+  ],
+  "chronicleCompatibility": {
+    "minimumVersion": "0.1.0",
+    "maximumVersionPolicy": "same-major-contract"
+  },
+  "ruleSetContractVersion": 1,
+  "capabilities": [
+    {
+      "capabilityKey": "character-model",
+      "readiness": "prototype"
+    },
+    {
+      "capabilityKey": "character-creation",
+      "readiness": "prototype"
+    },
+    {
+      "capabilityKey": "character-sheet",
+      "readiness": "prototype"
+    },
+    {
+      "capabilityKey": "generic-dice-test",
+      "readiness": "candidate"
+    },
+    {
+      "capabilityKey": "combat",
+      "readiness": "unavailable"
+    },
+    {
+      "capabilityKey": "progression",
+      "readiness": "unavailable"
+    },
+    {
+      "capabilityKey": "gift-execution",
+      "readiness": "unavailable"
+    },
+    {
+      "capabilityKey": "rites",
+      "readiness": "unavailable"
+    },
+    {
+      "capabilityKey": "umbra",
+      "readiness": "unavailable"
+    }
+  ],
+  "dependencies": [],
+  "artifactFamilies": [
+    {
+      "artifactFamilyKey": "character-model",
+      "contractVersion": 1,
+      "root": "character-model/model.json",
+      "required": true
+    },
+    {
+      "artifactFamilyKey": "character-sheet",
+      "contractVersion": 1,
+      "root": "character-sheet/default-sheet.json",
+      "required": true
+    },
+    {
+      "artifactFamilyKey": "operations",
+      "contractVersion": 1,
+      "root": "operations/",
+      "required": true
+    },
+    {
+      "artifactFamilyKey": "dice",
+      "contractVersion": 1,
+      "root": "dice/",
+      "required": false
+    },
+    {
+      "artifactFamilyKey": "progression",
+      "contractVersion": 1,
+      "root": "progression/",
+      "required": false
+    },
+    {
+      "artifactFamilyKey": "rules",
+      "contractVersion": 1,
+      "root": "rules/",
+      "required": true
+    },
+    {
+      "artifactFamilyKey": "terminology",
+      "contractVersion": 1,
+      "root": "terminology/",
+      "required": true
+    },
+    {
+      "artifactFamilyKey": "localization",
+      "contractVersion": 1,
+      "root": "localization/",
+      "required": true
+    },
+    {
+      "artifactFamilyKey": "provenance",
+      "contractVersion": 1,
+      "root": "provenance/",
+      "required": true
+    },
+    {
+      "artifactFamilyKey": "fixtures",
+      "contractVersion": 1,
+      "root": "fixtures/",
+      "required": true
+    }
+  ],
+  "moduleEntryPoints": [],
+  "trust": {
+    "distributionChannel": "bundled-prototype",
+    "signatureRequired": false,
+    "signatureStatus": "not-configured",
+    "integrityManifest": "integrity/manifest.json"
+  },
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceLanguage": "pt-BR",
+    "sourceType": "cleaned-working-summary",
+    "exactEditionVerification": "pending",
+    "rawSourceIncluded": false
+  },
+  "legal": {
+    "packageStatus": "review-required",
+    "rawSourceRedistribution": "not-authorized",
+    "artifactReviewPolicy": "artifact-specific"
+  },
+  "prototype": {
+    "sliceId": "werewolf3e.character-creation.slice-001",
+    "intendedUse": [
+      "package-contract-validation",
+      "character-model-validation",
+      "character-creation-workflow-validation",
+      "generic-sheet-rendering-validation",
+      "generic-dice-boundary-validation"
+    ],
+    "notFor": [
+      "complete-gameplay",
+      "production-distribution",
+      "legal-redistribution",
+      "full-werewolf-compatibility"
+    ]
+  },
+  "provenanceReference": "provenance/source-document.json",
+  "licenseReference": "provenance/legal-status.json",
+  "integrityReference": "integrity/manifest.json"
+}

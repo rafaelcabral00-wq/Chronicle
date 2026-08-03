@@ -1,0 +1,2388 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-identity-decisions",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-identity-decisions.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogIdentityDecisions",
+  "purpose": [
+    "Record explicit source-backed decisions for catalog identities used by the current Character creation slice.",
+    "Separate approved identities from candidate, rejected, replaced, blocked, and excluded identities.",
+    "Provide a deterministic reconciliation surface for catalog artifacts, fixtures, operations, validation rules, localization resources, tests, and promotion evidence.",
+    "Prevent implicit approval through prototype usage or fixture references."
+  ],
+  "authority": {
+    "decisionAuthority": "RuleSetExtractionAndReview",
+    "catalogMutationAuthority": "RuleSetPackage",
+    "artifactReconciliationAuthority": "Chronicle",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticDecisionAllowed": false,
+    "implementationMayInventReplacementKey": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "reviewBinding": {
+    "reviewArtifactRef": "./catalog-identity-review.json",
+    "reviewIndexArtifactRef": "./review-index.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities",
+    "requiredDecisionNamespace": "catalog-identity-decision"
+  },
+  "sourceBinding": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a",
+    "sourceType": "cleaned-working-summary",
+    "rawSourceTextEmbedded": false,
+    "sourceEvidenceRequiredPerFinalDecision": true
+  },
+  "decisionStatus": {
+    "status": "finalized-current-slice",
+    "decisionCount": 46,
+    "approvedCount": 46,
+    "approvedWithNormalizationChangeCount": 0,
+    "rejectedCount": 0,
+    "blockedCount": 0,
+    "excludedCount": 0,
+    "unresolvedRequiredIdentityCount": 0,
+    "promotionBlocking": false
+  },
+  "decisionShape": {
+    "decisionId": "Reference",
+    "catalogKey": "Reference",
+    "identityKey": "Reference",
+    "sourceIdentityName": "Text",
+    "decision": "Text",
+    "replacementIdentityKey": "Reference",
+    "sourceEvidenceRef": "Reference",
+    "sourceConfidence": "Text",
+    "affectedArtifactRefs": "ReferenceCollection",
+    "affectedFixtureKeys": "ReferenceCollection",
+    "affectedTestSuiteKeys": "ReferenceCollection",
+    "requiredLocalizationKeys": "ReferenceCollection",
+    "requiredMigrationKeys": "ReferenceCollection",
+    "reviewer": "Text",
+    "reviewedAt": "Text",
+    "notes": "Text"
+  },
+  "allowedDecisions": [
+    "approved",
+    "approved-with-normalization-change",
+    "rejected",
+    "blocked-pending-source-review",
+    "excluded-from-current-slice"
+  ],
+  "allowedSourceConfidence": [
+    "high",
+    "medium",
+    "low"
+  ],
+  "requiredDecisionTargets": [
+    {
+      "catalogKey": "character-model.catalog.races",
+      "identityKeys": [
+        "character.race.homid",
+        "character.race.metis",
+        "character.race.lupus"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.auspices",
+      "identityKeys": [
+        "character.auspice.ragabash",
+        "character.auspice.philodox"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.tribes",
+      "identityKeys": [
+        "character.tribe.glass-walkers"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKeys": [
+        "character.attribute.strength",
+        "character.attribute.dexterity",
+        "character.attribute.stamina",
+        "character.attribute.charisma",
+        "character.attribute.manipulation",
+        "character.attribute.appearance",
+        "character.attribute.perception",
+        "character.attribute.intelligence",
+        "character.attribute.wits"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKeys": [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.empathy",
+        "character.ability.subterfuge",
+        "character.ability.drive",
+        "character.ability.leadership",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.performance",
+        "character.ability.computer",
+        "character.ability.investigation",
+        "character.ability.occult",
+        "character.ability.politics",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.etiquette",
+        "character.ability.law"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKeys": [
+        "character.background.resources",
+        "character.background.contacts",
+        "character.background.allies",
+        "character.background.rites",
+        "character.background.mentor"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "identityKeys": [
+        "character.metis-deformity.horns"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.ranks",
+      "identityKeys": [
+        "character.rank.cliath"
+      ],
+      "requiredForCurrentSlice": true
+    },
+    {
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKeys": [
+        "gift.race.homid.master-of-fire",
+        "gift.auspice.ragabash.open-seal",
+        "gift.tribe.glass-walkers.control-simple-machine",
+        "gift.race.metis.create-element",
+        "gift.auspice.philodox.resist-pain",
+        "gift.race.lupus.hare-leap"
+      ],
+      "requiredForCurrentSlice": true
+    }
+  ],
+  "decisions": [
+    {
+      "decisionId": "catalog-identity-decision.race.homid",
+      "catalogKey": "character-model.catalog.races",
+      "identityKey": "character.race.homid",
+      "sourceIdentityName": "Homid",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-model/fields/classification.json",
+        "../character-model/fields/resources.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json",
+        "../character-creation/select-metis-deformity.json",
+        "../character-creation/select-initial-gift.json",
+        "../character-creation/set-resource-rating.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.dependency-and-invalidation",
+        "tests.character-sheet-projection"
+      ],
+      "requiredLocalizationKeys": [
+        "character.race.homid",
+        "character.race.homid.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T20:53:04.145Z",
+      "notes": "Race identity reviewed against cleaned source extraction for current slice; decision is final for race scope."
+    },
+    {
+      "decisionId": "catalog-identity-decision.race.metis",
+      "catalogKey": "character-model.catalog.races",
+      "identityKey": "character.race.metis",
+      "sourceIdentityName": "Metis",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.metis-deformity",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-model/fields/classification.json",
+        "../character-model/fields/resources.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json",
+        "../character-creation/select-metis-deformity.json",
+        "../character-creation/select-initial-gift.json",
+        "../character-creation/set-resource-rating.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.dependency-and-invalidation",
+        "tests.character-sheet-projection"
+      ],
+      "requiredLocalizationKeys": [
+        "character.race.metis",
+        "character.race.metis.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T20:53:04.145Z",
+      "notes": "Race identity reviewed against cleaned source extraction for current slice; decision is final for race scope."
+    },
+    {
+      "decisionId": "catalog-identity-decision.race.lupus",
+      "catalogKey": "character-model.catalog.races",
+      "identityKey": "character.race.lupus",
+      "sourceIdentityName": "Lupus",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.races.identity-and-gnosis",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/races.json",
+        "../character-model/fields/classification.json",
+        "../character-model/fields/resources.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json",
+        "../character-creation/select-metis-deformity.json",
+        "../character-creation/select-initial-gift.json",
+        "../character-creation/set-resource-rating.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.dependency-and-invalidation",
+        "tests.character-sheet-projection"
+      ],
+      "requiredLocalizationKeys": [
+        "character.race.lupus",
+        "character.race.lupus.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T20:53:04.145Z",
+      "notes": "Race identity reviewed against cleaned source extraction for current slice; decision is final for race scope."
+    },
+    {
+      "decisionId": "catalog-identity-decision.auspice.ragabash",
+      "catalogKey": "character-model.catalog.auspices",
+      "identityKey": "character.auspice.ragabash",
+      "sourceIdentityName": "Ragabash",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-renown",
+      "sourceConfidence": "medium",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/classification.json",
+        "../character-model/fields/resources.json",
+        "../character-model/fields/renown-and-rank.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json",
+        "../character-creation/select-initial-gift.json",
+        "../character-creation/set-resource-rating.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.dependency-and-invalidation",
+        "tests.character-sheet-projection"
+      ],
+      "requiredLocalizationKeys": [
+        "character.auspice.ragabash",
+        "character.auspice.ragabash.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T20:56:30.545Z",
+      "notes": "Auspice identity reviewed against cleaned extraction in current slice scope."
+    },
+    {
+      "decisionId": "catalog-identity-decision.auspice.philodox",
+      "catalogKey": "character-model.catalog.auspices",
+      "identityKey": "character.auspice.philodox",
+      "sourceIdentityName": "Philodox",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.auspices.initial-rage",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/auspices.json",
+        "../character-model/fields/classification.json",
+        "../character-model/fields/resources.json",
+        "../character-model/fields/renown-and-rank.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json",
+        "../character-creation/select-initial-gift.json",
+        "../character-creation/set-resource-rating.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.dependency-and-invalidation",
+        "tests.character-sheet-projection"
+      ],
+      "requiredLocalizationKeys": [
+        "character.auspice.philodox",
+        "character.auspice.philodox.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T20:56:30.545Z",
+      "notes": "Auspice identity reviewed against cleaned extraction in current slice scope."
+    },
+    {
+      "decisionId": "catalog-identity-decision.tribe.glass-walkers",
+      "catalogKey": "character-model.catalog.tribes",
+      "identityKey": "character.tribe.glass-walkers",
+      "sourceIdentityName": "Andarilhos do Asfalto",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.tribe.glass-walkers.lines-652-656-and-964-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/tribes.json",
+        "../character-model/fields/classification.json",
+        "../character-model/fields/resources.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/dependency-graph.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/preview-classification-change.json",
+        "../character-creation/apply-classification-change.json",
+        "../character-creation/select-initial-gift.json",
+        "../character-creation/set-resource-rating.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.dependency-and-invalidation",
+        "tests.character-sheet-projection"
+      ],
+      "requiredLocalizationKeys": [
+        "character.tribe.glass-walkers",
+        "character.tribe.glass-walkers.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source: Andarilhos do Asfalto maps to Glass Walkers; initial Willpower 3 is directly supported."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.strength",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.strength",
+      "sourceIdentityName": "Strength",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.strength",
+        "character.attribute.strength.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.dexterity",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.dexterity",
+      "sourceIdentityName": "Dexterity",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.dexterity",
+        "character.attribute.dexterity.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.stamina",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.stamina",
+      "sourceIdentityName": "Stamina",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.stamina",
+        "character.attribute.stamina.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.charisma",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.charisma",
+      "sourceIdentityName": "Charisma",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.charisma",
+        "character.attribute.charisma.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.manipulation",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.manipulation",
+      "sourceIdentityName": "Manipulation",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.manipulation",
+        "character.attribute.manipulation.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.appearance",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.appearance",
+      "sourceIdentityName": "Appearance",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.appearance",
+        "character.attribute.appearance.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.perception",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.perception",
+      "sourceIdentityName": "Perception",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.perception",
+        "character.attribute.perception.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.intelligence",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.intelligence",
+      "sourceIdentityName": "Intelligence",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.intelligence",
+        "character.attribute.intelligence.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.attribute.wits",
+      "catalogKey": "character-model.catalog.attributes",
+      "identityKey": "character.attribute.wits",
+      "sourceIdentityName": "Wits",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.attributes.catalog-and-categories",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/attributes.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../character-creation/validate-character.json",
+        "../character-creation/complete-character.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.attribute.wits",
+        "character.attribute.wits.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-02T21:04:41.051Z",
+      "notes": "Attribute identity reviewed against cleaned extraction; base allocation and category bindings validated for current slice."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.alertness",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.alertness",
+      "sourceIdentityName": "Prontid?o",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.alertness",
+        "character.ability.alertness.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.athletics",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.athletics",
+      "sourceIdentityName": "Esportes",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.athletics",
+        "character.ability.athletics.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.brawl",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.brawl",
+      "sourceIdentityName": "Briga",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.brawl",
+        "character.ability.brawl.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.empathy",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.empathy",
+      "sourceIdentityName": "Empatia",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.empathy",
+        "character.ability.empathy.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.expression",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.expression",
+      "sourceIdentityName": "Express?o",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.expression",
+        "character.ability.expression.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.intimidation",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.intimidation",
+      "sourceIdentityName": "Intimida??o",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.intimidation",
+        "character.ability.intimidation.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.leadership",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.leadership",
+      "sourceIdentityName": "Lideran?a",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.leadership",
+        "character.ability.leadership.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.subterfuge",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.subterfuge",
+      "sourceIdentityName": "L?bia",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.subterfuge",
+        "character.ability.subterfuge.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.drive",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.drive",
+      "sourceIdentityName": "Condu??o",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.drive",
+        "character.ability.drive.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.etiquette",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.etiquette",
+      "sourceIdentityName": "Etiqueta",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.etiquette",
+        "character.ability.etiquette.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.performance",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.performance",
+      "sourceIdentityName": "Performance",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.performance",
+        "character.ability.performance.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.stealth",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.stealth",
+      "sourceIdentityName": "Furtividade",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.stealth",
+        "character.ability.stealth.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.survival",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.survival",
+      "sourceIdentityName": "Sobreviv?ncia",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.survival",
+        "character.ability.survival.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.computer",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.computer",
+      "sourceIdentityName": "Computador",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.computer",
+        "character.ability.computer.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.investigation",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.investigation",
+      "sourceIdentityName": "Investiga??o",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.investigation",
+        "character.ability.investigation.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.law",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.law",
+      "sourceIdentityName": "Direito",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.law",
+        "character.ability.law.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.occult",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.occult",
+      "sourceIdentityName": "Ocultismo",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.occult",
+        "character.ability.occult.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.ability.politics",
+      "catalogKey": "character-model.catalog.abilities",
+      "identityKey": "character.ability.politics",
+      "sourceIdentityName": "Pol?tica",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.abilities.lines-547-and-1185-1532",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/abilities.json",
+        "../character-model/fields/abilities.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-ability-priorities.json",
+        "../operations/character-creation/set-ability-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.ability.politics",
+        "character.ability.politics.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order/category is authoritative for this current-slice identity. Leadership/Lideran?a is Skill/Per?cia where applicable; Lupus later trained purchase support does not enable unreviewed freebie behavior."
+    },
+    {
+      "decisionId": "catalog-identity-decision.background.resources",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.resources",
+      "sourceIdentityName": "Recursos",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-986-and-1534-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/fields/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-background-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.background.resources",
+        "character.background.resources.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order is authoritative. Tribe-specific restrictions remain enforced through Tribe bindings; Mentor is prohibited for Glass Walkers."
+    },
+    {
+      "decisionId": "catalog-identity-decision.background.contacts",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.contacts",
+      "sourceIdentityName": "Contatos",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-986-and-1534-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/fields/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-background-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.background.contacts",
+        "character.background.contacts.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order is authoritative. Tribe-specific restrictions remain enforced through Tribe bindings; Mentor is prohibited for Glass Walkers."
+    },
+    {
+      "decisionId": "catalog-identity-decision.background.allies",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.allies",
+      "sourceIdentityName": "Aliados",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-986-and-1534-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/fields/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-background-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.background.allies",
+        "character.background.allies.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order is authoritative. Tribe-specific restrictions remain enforced through Tribe bindings; Mentor is prohibited for Glass Walkers."
+    },
+    {
+      "decisionId": "catalog-identity-decision.background.rites",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.rites",
+      "sourceIdentityName": "Ritos",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-986-and-1534-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/fields/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-background-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.background.rites",
+        "character.background.rites.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order is authoritative. Tribe-specific restrictions remain enforced through Tribe bindings; Mentor is prohibited for Glass Walkers."
+    },
+    {
+      "decisionId": "catalog-identity-decision.background.mentor",
+      "catalogKey": "character-model.catalog.backgrounds",
+      "identityKey": "character.background.mentor",
+      "sourceIdentityName": "Mentor",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.backgrounds.lines-927-986-and-1534-1630",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/backgrounds.json",
+        "../character-model/fields/backgrounds.json",
+        "../character-model/creation/profile.json",
+        "../character-model/creation/creation-ledger.json",
+        "../character-model/creation/stage-state.json",
+        "../character-model/validation/character-creation.json",
+        "../character-model/validation/character-completion.json",
+        "../operations/character-creation/set-background-rating.json",
+        "../operations/character-creation/validate-character.json",
+        "../operations/character-creation/complete-character.json",
+        "../character-sheet/default-sheet.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.complete-character-atomicity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths",
+        "tests.ledger-integrity",
+        "tests.character-sheet-projection",
+        "tests.completion-atomicity"
+      ],
+      "requiredLocalizationKeys": [
+        "character.background.mentor",
+        "character.background.mentor.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved by focused original-source reconciliation. Portuguese/English labels are terminology normalization; complete-catalog order is authoritative. Tribe-specific restrictions remain enforced through Tribe bindings; Mentor is prohibited for Glass Walkers."
+    },
+    {
+      "decisionId": "catalog-identity-decision.metis-deformity.horns",
+      "catalogKey": "character-model.catalog.metis-deformities",
+      "identityKey": "character.metis-deformity.horns",
+      "sourceIdentityName": "Cornos",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.metis-deformity.cornos.lines-523-533",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/metis-deformities.json",
+        "../operations/character-creation/select-metis-deformity.json",
+        "../character-model/validation/character-creation.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.metis-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-sheet-projection"
+      ],
+      "requiredLocalizationKeys": [
+        "character.metis-deformity.horns.display-name"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source: Cornos maps to Horns as terminology normalization; mechanics are source-supported but not newly implemented."
+    },
+    {
+      "decisionId": "catalog-identity-decision.rank.cliath",
+      "catalogKey": "character-model.catalog.ranks",
+      "identityKey": "character.rank.cliath",
+      "sourceIdentityName": "Cliath",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-evidence.werewolf3e.creation.initial-rank-cliath-rank-1",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/ranks.json",
+        "../character-model/fields/renown-and-rank.json",
+        "../character-model/fields/classification.json"
+      ],
+      "affectedFixtureKeys": [],
+      "affectedTestSuiteKeys": [],
+      "requiredLocalizationKeys": [
+        "character.rank.cliath",
+        "character.rank.cliath.description"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved only for the current-slice initial Rank identity: Cliath, numeric Rank 1, system-assigned at standard Character creation. This decision does not approve higher-rank hierarchy, advancement, Rank benefits, or Renown threshold mechanics."
+    },
+    {
+      "decisionId": "catalog-identity-decision.gift.homid.master-of-fire",
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.race.homid.master-of-fire",
+      "sourceIdentityName": "Mestre do Fogo",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-511-511-and-945-945-and-1733-1735",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../operations/character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.dependency-and-invalidation"
+      ],
+      "requiredLocalizationKeys": [
+        "gift.race.homid.master-of-fire.display-name"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source; Mestre do Fogo maps to master-of-fire."
+    },
+    {
+      "decisionId": "catalog-identity-decision.gift.ragabash.open-seal",
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.auspice.ragabash.open-seal",
+      "sourceIdentityName": "Abrir Objetos",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-951-951-and-1874-1876",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../operations/character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path"
+      ],
+      "requiredLocalizationKeys": [
+        "gift.auspice.ragabash.open-seal.display-name"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source; Abrir Objetos maps to open-seal as terminology normalization."
+    },
+    {
+      "decisionId": "catalog-identity-decision.gift.glass-walkers.control-simple-machine",
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.tribe.glass-walkers.control-simple-machine",
+      "sourceIdentityName": "Controle de M?quinas Simples",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-654-656-and-966-966",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../operations/character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "requiredLocalizationKeys": [
+        "gift.tribe.glass-walkers.control-simple-machine.display-name"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source; Controle de M?quinas Simples maps to control-simple-machine."
+    },
+    {
+      "decisionId": "catalog-identity-decision.gift.metis.create-element",
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.race.metis.create-element",
+      "sourceIdentityName": "Criar Elemento",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-522-522-and-946-946-and-1788-1790",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../operations/character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "requiredLocalizationKeys": [
+        "gift.race.metis.create-element.display-name"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source; Criar Elemento maps to create-element."
+    },
+    {
+      "decisionId": "catalog-identity-decision.gift.philodox.resist-pain",
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.auspice.philodox.resist-pain",
+      "sourceIdentityName": "Resist?ncia ? Dor",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-953-953-and-1973-1975",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../operations/character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-happy-path",
+        "tests.character-creation-invalid-paths"
+      ],
+      "requiredLocalizationKeys": [
+        "gift.auspice.philodox.resist-pain.display-name"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source; Resist?ncia ? Dor maps to resist-pain."
+    },
+    {
+      "decisionId": "catalog-identity-decision.gift.lupus.hare-leap",
+      "catalogKey": "character-model.catalog.initial-gifts",
+      "identityKey": "gift.race.lupus.hare-leap",
+      "sourceIdentityName": "Salto da Lebre",
+      "decision": "approved",
+      "replacementIdentityKey": null,
+      "sourceEvidenceRef": "source-original.werewolf3e.initial-gifts.lines-549-549-and-947-947-and-1827-1829",
+      "sourceConfidence": "high",
+      "affectedArtifactRefs": [
+        "../character-model/catalogs/initial-gifts.json",
+        "../operations/character-creation/select-initial-gift.json"
+      ],
+      "affectedFixtureKeys": [
+        "character-creation.lupus-restricted-ability"
+      ],
+      "affectedTestSuiteKeys": [
+        "tests.character-creation-invalid-paths",
+        "tests.dependency-and-invalidation"
+      ],
+      "requiredLocalizationKeys": [
+        "gift.race.lupus.hare-leap.display-name"
+      ],
+      "requiredMigrationKeys": [],
+      "reviewer": "RuleSetExtractionAndReview",
+      "reviewedAt": "2026-08-03T00:00:00.000-03:00",
+      "notes": "Approved from original pt-BR source; Salto da Lebre maps to hare-leap."
+    }
+  ],
+  "candidateDecisionTemplates": [],
+  "normalizationChangePolicy": {
+    "replacementIdentityKeyRequired": true,
+    "oldIdentityMustNotBeDeletedSilently": true,
+    "aliasOrMigrationMetadataRequired": true,
+    "allAffectedArtifactsMustUpdate": true,
+    "allAffectedFixtureFingerprintsMustUpdate": true,
+    "allAffectedTestsMustRerun": true,
+    "reviewEvidenceMustRecordOriginalAndReplacementKeys": true
+  },
+  "rejectionPolicy": {
+    "rejectedIdentityMustNotRemainInPromotedAllowlist": true,
+    "fixtureUsingRejectedIdentityBecomesInvalidUntilReconciled": true,
+    "replacementMayNotBeInferred": true,
+    "rejectionRequiresRationale": true
+  },
+  "exclusionPolicy": {
+    "excludedIdentityMayRemainInPrototypeHistory": true,
+    "excludedIdentityMayNotBeRequiredByCurrentSliceFixtures": true,
+    "excludedIdentityMayNotBeAdvertisedAsSupported": true,
+    "excludedIdentityMayNotEnterPublishedPackageAllowlist": true
+  },
+  "reconciliationPolicy": {
+    "catalogArtifactsFirst": true,
+    "operationAndValidationArtifactsSecond": true,
+    "fixturesThird": true,
+    "testsFourth": true,
+    "reviewAndReadinessIndexesLast": true,
+    "partialReconciliationAllowed": false,
+    "staleFingerprintInvalidatesDecisionEvidence": true
+  },
+  "completionCriteria": [
+    "every-required-decision-target-has-final-decision",
+    "every-approved-identity-has-source-evidence",
+    "every-normalization-change-has-migration-or-alias-metadata",
+    "every-rejected-or-excluded-identity-is-removed-from-current-slice-dependencies",
+    "all-affected-artifacts-and-fixtures-reconcile",
+    "all-affected-test-suites-pass",
+    "decision-set-fingerprint-recorded"
+  ],
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-identity-decisions.decision-ids-unique",
+      "severity": "blocking",
+      "requirement": "every decisionId is unique"
+    },
+    {
+      "ruleKey": "catalog-identity-decisions.one-final-decision-per-target",
+      "severity": "blocking",
+      "requirement": "every required identity target has exactly one active final decision"
+    },
+    {
+      "ruleKey": "catalog-identity-decisions.source-evidence-required",
+      "severity": "blocking",
+      "requirement": "approved, changed, rejected, and excluded decisions have source evidence or explicit architectural exclusion evidence"
+    },
+    {
+      "ruleKey": "catalog-identity-decisions.replacements-known",
+      "severity": "blocking",
+      "requirement": "every normalization-change decision declares a valid replacement identity"
+    },
+    {
+      "ruleKey": "catalog-identity-decisions.fixture-impact-reconciles",
+      "severity": "blocking",
+      "requirement": "all affected fixtures resolve and carry updated fingerprints"
+    },
+    {
+      "ruleKey": "catalog-identity-decisions.test-impact-reconciles",
+      "severity": "blocking",
+      "requirement": "all affected suites rerun against the reconciled identities"
+    },
+    {
+      "ruleKey": "catalog-identity-decisions.status-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "decision summary counts reconcile with the active final decisions"
+    }
+  ],
+  "fingerprintPolicy": {
+    "decisionSetFingerprintRequiredWhenFinalized": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSourceBinding": true,
+    "includeRequiredDecisionTargets": true,
+    "includeFinalDecisions": true,
+    "includeReconciliationMetadata": true,
+    "excludeCandidateDecisionTemplates": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "decision-status",
+      "unresolved-required-identities",
+      "approved-identities",
+      "normalization-changes",
+      "rejected-identities",
+      "excluded-identities",
+      "fixture-impact",
+      "test-impact",
+      "promotion-impact"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "decisionIds",
+      "catalogKeys",
+      "identityKeys",
+      "decisionTypes",
+      "fixtureKeys",
+      "suiteKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogIdentityDecisionRecorded",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "decisionId": "Reference",
+        "catalogKey": "Reference",
+        "identityKey": "Reference",
+        "decision": "Text",
+        "decisionSetFingerprint": "Text",
+        "recordedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogIdentityDecisionSetFinalized",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "approvedIdentityKeys": "ReferenceCollection",
+        "changedIdentityKeys": "ReferenceCollection",
+        "excludedIdentityKeys": "ReferenceCollection",
+        "decisionSetFingerprint": "Text",
+        "finalizedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high",
+    "architectureConfidence": "high",
+    "decisionStatus": "finalized-current-slice",
+    "catalogReconciliationStatus": "complete",
+    "fixtureReconciliationStatus": "passed",
+    "testReconciliationStatus": "passed",
+    "promotionReviewStatus": "eligible-not-published",
+    "lastReviewedAt": "2026-08-03T00:00:00.000Z",
+    "reviewer": "RuleSetExtractionAndReview"
+  },
+  "prototypeNotes": [
+    "This file contains no final identity approvals yet.",
+    "Candidate decision templates are non-authoritative helpers and are excluded from the finalized decision-set fingerprint.",
+    "Every required current-slice identity must receive an explicit final decision.",
+    "Normalization changes require explicit replacement, migration or alias metadata, fixture updates, and test reruns.",
+    "Rejected and excluded identities remain part of review history but cannot enter the promoted package allowlist.",
+    "Chronicle owns reconciliation validation, fingerprints, diagnostics, evidence storage, and promotion enforcement.",
+    "Rule Set reviewers own the substantive source-backed identity decisions.",
+    "Focused Ability/Background reconciliation 2026-08-03 finalized remaining current-slice Ability and Background identity decisions from the original pt-BR source; promotion remains blocked by incomplete evidence/finalization workflow.",
+    "Current-slice identity decision set finalized without publishing package or enabling future-scope Gift purchase/effects."
+  ],
+  "decisionSetFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "2a3ca7df370a45736622e60c9768643c317b9e344eb999cc994fd9d9cefffd95",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  },
+  "finalization": {
+    "taskKey": "catalog-review.task.finalize-decision-set",
+    "status": "finalized",
+    "scope": "current-slice-only",
+    "finalizedAt": "2026-08-03T00:00:00.000Z",
+    "finalizedBy": "RuleSetExtractionAndReview",
+    "approvedDecisionCount": 46,
+    "catalogEntryBindingsCurrent": true,
+    "requiredEvidenceValidated": true,
+    "resolvedIssuesAndBlockersVerified": true,
+    "futureScopeMechanicsPromoted": false,
+    "additionalGiftPurchaseEnabled": false,
+    "runtimeGiftEffectsEnabled": false,
+    "packagePublished": false,
+    "evidenceIds": [
+      "catalog-review.evidence.localization-validation-report.20260803",
+      "catalog-review.evidence.fixture-validation-report.20260803",
+      "catalog-review.evidence.test-run-report.20260803",
+      "catalog-review.evidence.security-review-record.20260803",
+      "catalog-review.evidence.reconciliation-report.20260803",
+      "catalog-review.evidence.formal-decision-set-finalization.20260803"
+    ],
+    "consistencyFindings": {
+      "requiredDecisionCount": 46,
+      "approvedCurrentSliceDecisionCount": 46,
+      "duplicateDecisionIds": [],
+      "duplicateIdentityKeys": [],
+      "catalogEntriesMissingForApprovedDecisions": [],
+      "requiredEvidenceValidatedAndCurrent": true,
+      "activeIssueCount": 0,
+      "activeBlockerCount": 0,
+      "unverifiedResolvedIssueCount": 0,
+      "unverifiedResolvedBlockerCount": 0,
+      "securityControls": {
+        "additionalGiftPurchaseDisabled": true,
+        "runtimeGiftEffectsDisabled": true,
+        "networkProviderDependencyDisabled": true,
+        "sourcebookTextLeakageDisabled": true,
+        "secretLeakageDisabled": true
+      },
+      "futureScopeMechanicsPromoted": false,
+      "packagePublished": false
+    }
+  }
+}

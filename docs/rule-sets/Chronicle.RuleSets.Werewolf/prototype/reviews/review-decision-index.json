@@ -1,0 +1,380 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.review-decision-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.review-decision-index.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "PrototypeReviewDecisions",
+  "purpose": [
+    "Provide the canonical discovery surface for all formal decision sets produced by Werewolf prototype reviews.",
+    "Declare dependency order, finalization requirements, reconciliation rules, evidence fingerprints, and promotion impact.",
+    "Allow Chronicle review, delivery, test, and promotion infrastructure to load decision sets without Werewolf-specific registration.",
+    "Keep review descriptions distinct from final decisions and prevent candidate templates from becoming authority."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "ChronicleArchitecture",
+    "decisionContentAuthority": "AssignedReviewOwner",
+    "decisionDiscoveryAuthority": "ChronicleDeliveryInfrastructure",
+    "reconciliationAuthority": "Chronicle",
+    "promotionEvidenceAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticFinalizationAllowed": false,
+    "manualFinalizationWithoutEvidenceAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "decisionSets": [
+    {
+      "decisionSetKey": "review-decisions.catalog-identities",
+      "artifactKey": "werewolf-prototype.catalog-identity-decisions",
+      "artifactRef": "./catalog-identity-decisions.json",
+      "decisionRole": "source-backed-catalog-identity-decisions",
+      "ownerType": "RuleSetExtractionAndReview",
+      "loadOrder": 10,
+      "requiredForCurrentSlice": true,
+      "requiredForPromotion": true,
+      "status": "draft",
+      "finalized": false,
+      "dependsOn": [],
+      "reviewArtifactRef": "./catalog-identity-review.json",
+      "workPackageKeys": [
+        "delivery.wp.review-catalog-identities",
+        "delivery.wp.resolve-candidate-fixture-keys"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "decisionSetKey": "review-decisions.creation-mechanics",
+      "artifactKey": "werewolf-prototype.creation-mechanics-decisions",
+      "artifactRef": "./creation-mechanics-decisions.json",
+      "decisionRole": "source-backed-character-creation-mechanic-decisions",
+      "ownerType": "RuleSetExtractionAndReview",
+      "loadOrder": 20,
+      "requiredForCurrentSlice": true,
+      "requiredForPromotion": true,
+      "status": "draft",
+      "finalized": false,
+      "dependsOn": [
+        "review-decisions.catalog-identities"
+      ],
+      "reviewArtifactRef": "./creation-mechanics-review.json",
+      "workPackageKeys": [
+        "delivery.wp.review-creation-mechanics"
+      ],
+      "promotionImpact": "blocking"
+    },
+    {
+      "decisionSetKey": "review-decisions.current-slice-boundary",
+      "artifactKey": "werewolf-prototype.current-slice-boundary-decisions",
+      "artifactRef": "./current-slice-boundary-decisions.json",
+      "decisionRole": "architecture-and-capability-boundary-decisions",
+      "ownerType": "ChronicleArchitectureReview",
+      "loadOrder": 30,
+      "requiredForCurrentSlice": true,
+      "requiredForPromotion": true,
+      "status": "draft",
+      "finalized": false,
+      "dependsOn": [
+        "review-decisions.catalog-identities",
+        "review-decisions.creation-mechanics"
+      ],
+      "reviewArtifactRef": "./current-slice-boundary-review.json",
+      "workPackageKeys": [
+        "delivery.wp.freeze-current-slice-ambiguity-boundaries"
+      ],
+      "promotionImpact": "blocking"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "werewolf-prototype.review-index",
+      "artifactRef": "./review-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.prototype-work-status",
+      "artifactRef": "../prototype-work-status.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.prototype-readiness",
+      "artifactRef": "../prototype-readiness.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.promotion-gate",
+      "artifactRef": "../tests/promotion-gate.json",
+      "required": true
+    }
+  ],
+  "decisionDependencyPolicy": {
+    "dependenciesMustResolve": true,
+    "cyclesAllowed": false,
+    "loadOrderMustRespectDependencies": true,
+    "dependentDecisionSetMayBeDraftedBeforeDependencyFinalizes": true,
+    "dependentDecisionSetMayFinalizeBeforeDependencyFinalizes": false,
+    "staleDependencyFingerprintReopensDependentDecisionSet": true,
+    "candidateTemplatesMayReferencePendingDependencies": true,
+    "candidateTemplatesAreNeverAuthority": true
+  },
+  "finalizationPolicy": {
+    "allowedStatuses": [
+      "draft",
+      "in-progress",
+      "blocked",
+      "finalized",
+      "superseded"
+    ],
+    "finalizedRequiresAllRequiredTargetsResolved": true,
+    "finalizedRequiresEvidenceFingerprint": true,
+    "finalizedRequiresReviewerIdentity": true,
+    "finalizedRequiresCompletionTimestamp": true,
+    "finalizedRequiresReconciliationComplete": true,
+    "finalizedRequiresAffectedTestsPassed": true,
+    "supersededRequiresReplacementDecisionSetRef": true,
+    "manualStatusOverrideAllowed": false
+  },
+  "decisionAuthorityPolicy": {
+    "reviewNarrativeIsNotDecisionAuthority": true,
+    "candidateTemplateIsNotDecisionAuthority": true,
+    "onlyActiveFinalDecisionEntriesAreAuthority": true,
+    "missingDecisionRemainsUnresolved": true,
+    "absenceOfRejectionDoesNotEqualApproval": true,
+    "implementationMayNotUseCandidateTemplateAsFallback": true
+  },
+  "reconciliationOrder": [
+    {
+      "order": 10,
+      "stepKey": "decision-reconciliation.catalogs",
+      "affectedDecisionSetKeys": [
+        "review-decisions.catalog-identities"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "decision-reconciliation.character-model-and-operations",
+      "affectedDecisionSetKeys": [
+        "review-decisions.catalog-identities",
+        "review-decisions.creation-mechanics"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "decision-reconciliation.validation-and-presentation",
+      "affectedDecisionSetKeys": [
+        "review-decisions.creation-mechanics",
+        "review-decisions.current-slice-boundary"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "decision-reconciliation.fixtures",
+      "affectedDecisionSetKeys": [
+        "review-decisions.catalog-identities",
+        "review-decisions.creation-mechanics",
+        "review-decisions.current-slice-boundary"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "decision-reconciliation.tests",
+      "affectedDecisionSetKeys": [
+        "review-decisions.catalog-identities",
+        "review-decisions.creation-mechanics",
+        "review-decisions.current-slice-boundary"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "decision-reconciliation.readiness-delivery-and-promotion",
+      "affectedDecisionSetKeys": [
+        "review-decisions.catalog-identities",
+        "review-decisions.creation-mechanics",
+        "review-decisions.current-slice-boundary"
+      ]
+    }
+  ],
+  "currentDecisionSummary": {
+    "decisionSetCount": 3,
+    "finalizedDecisionSetCount": 0,
+    "draftDecisionSetCount": 3,
+    "blockedDecisionSetCount": 0,
+    "supersededDecisionSetCount": 0,
+    "promotionBlockingDecisionSetCount": 3,
+    "currentExecutableDecisionSetKey": "review-decisions.catalog-identities"
+  },
+  "currentSliceFinalizationRequirements": [
+    "review-decisions.catalog-identities",
+    "review-decisions.creation-mechanics",
+    "review-decisions.current-slice-boundary"
+  ],
+  "promotionIntegration": {
+    "allCurrentSliceDecisionSetsMustFinalize": true,
+    "decisionSetFingerprintsMustBeIncludedInPromotionEvidence": true,
+    "staleDecisionEvidenceBlocksPromotion": true,
+    "unresolvedRequiredTargetBlocksPromotion": true,
+    "candidateTemplateMayNotAppearInPromotedAllowlist": true,
+    "releaseCapabilityMetadataMustMatchBoundaryDecisionSet": true
+  },
+  "statusCalculation": {
+    "decisionModelStatus": "draft",
+    "currentSliceDecisionsFinalizedWhen": "all-current-slice-finalization-requirements-have-finalized-status-and-current-evidence",
+    "promotionDecisionStatus": "blocked",
+    "automaticFinalizationAllowed": false
+  },
+  "loadPolicy": {
+    "loadMode": "index-driven",
+    "sortBy": "loadOrder",
+    "duplicateDecisionSetKeyBehavior": "decision-model-load-failure",
+    "duplicateArtifactKeyBehavior": "decision-model-load-failure",
+    "missingRequiredDecisionSetBehavior": "decision-model-incomplete",
+    "unsupportedContractVersionBehavior": "decision-model-load-failure",
+    "artifactOutsideReviewRootAllowed": false,
+    "networkResolutionAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "review-decision-index.decision-set-keys-unique",
+      "severity": "blocking",
+      "requirement": "every decisionSetKey is unique"
+    },
+    {
+      "ruleKey": "review-decision-index.artifact-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every required decision set and review artifact reference resolves"
+    },
+    {
+      "ruleKey": "review-decision-index.dependencies-resolve",
+      "severity": "blocking",
+      "requirement": "every declared decision set dependency resolves"
+    },
+    {
+      "ruleKey": "review-decision-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "decision set dependencies are acyclic"
+    },
+    {
+      "ruleKey": "review-decision-index.finalized-evidence-current",
+      "severity": "blocking",
+      "requirement": "every finalized decision set has current evidence and reconciled dependent artifacts"
+    },
+    {
+      "ruleKey": "review-decision-index.summary-reconciles",
+      "severity": "blocking",
+      "requirement": "decision summary counts reconcile with indexed decision set statuses"
+    },
+    {
+      "ruleKey": "review-decision-index.current-slice-requirements-complete",
+      "severity": "blocking",
+      "requirement": "all current-slice decision categories are declared"
+    },
+    {
+      "ruleKey": "review-decision-index.no-candidate-authority",
+      "severity": "blocking",
+      "requirement": "candidate templates never count as active final decisions"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeDecisionSetFingerprints": true,
+    "includeDependencyMetadata": true,
+    "includeFinalizationRequirements": true,
+    "includeReconciliationOrder": true,
+    "includeCurrentDecisionSummary": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "decisionSetKey",
+      "decisionRole",
+      "ownerType",
+      "status",
+      "finalized",
+      "dependencyStatus",
+      "unresolvedTargetCount",
+      "evidenceStatus",
+      "reconciliationStatus",
+      "promotionImpact",
+      "nextExecutableDecisionSetKey"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "decisionSetKeys",
+      "artifactKeys",
+      "statuses",
+      "ownerTypes",
+      "unresolvedTargetCounts",
+      "evidenceRefs",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeReviewDecisionModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "decisionSetCount": "Integer",
+        "finalizedDecisionSetCount": "Integer",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeReviewDecisionSetStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "decisionSetKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "decisionSetFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-decision-sets",
+    "architectureConfidence": "high",
+    "decisionModelStatus": "draft",
+    "reconciliationStatus": "pending",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "This index discovers formal decision sets and does not finalize them.",
+    "The current executable decision set is catalog identity decisions.",
+    "Creation mechanic decisions depend on finalized catalog identity decisions.",
+    "Current-slice boundary decisions depend on both catalog and mechanic decisions.",
+    "Candidate templates are intentionally excluded from authority and promotion fingerprints.",
+    "Chronicle owns decision discovery, dependency validation, reconciliation checks, fingerprints, diagnostics, and promotion enforcement.",
+    "Assigned review owners remain responsible for recording and finalizing substantive decisions."
+  ]
+}

@@ -1,0 +1,561 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.test-suite-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.test-suite-index.display-name",
+  "publicationStatus": "prototype-candidate",
+  "scope": "PrototypeTests",
+  "purpose": [
+    "Provide the canonical discovery surface for all automated test suites in the Werewolf prototype.",
+    "Declare suite ownership, dependencies, fixture collections, execution order, readiness, coverage, and promotion requirements.",
+    "Allow Chronicle test infrastructure to discover and execute tests without Werewolf-specific registration.",
+    "Support deterministic validation of package loading, Character creation, ledger behavior, completion, recovery, and Character sheet projections."
+  ],
+  "authority": {
+    "indexDefinitionAuthority": "RuleSetPackage",
+    "testSuiteDiscoveryAuthority": "ChronicleTestInfrastructure",
+    "testExecutionAuthority": "ChronicleTestInfrastructure",
+    "fixtureSemanticAuthority": "RuleSetPackage",
+    "productionRuntimeAuthority": false,
+    "hardcodedWerewolfTestRegistrationAllowed": false
+  },
+  "testSuites": [
+    {
+      "suiteKey": "tests.package-load",
+      "suiteRole": "package-and-index-contracts",
+      "loadOrder": 10,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [],
+      "testCases": [
+        "manifest-loads",
+        "prototype-index-loads",
+        "character-model-index-loads",
+        "validation-index-loads",
+        "operation-index-loads",
+        "character-sheet-index-loads",
+        "fixture-index-loads",
+        "all-required-refs-resolve",
+        "all-required-contract-versions-supported",
+        "all-required-dependency-graphs-acyclic",
+        "no-artifact-escapes-package-root",
+        "no-hardcoded-werewolf-registration-required"
+      ]
+    },
+    {
+      "suiteKey": "tests.character-model-contracts",
+      "suiteRole": "character-model-schema-and-reference-validation",
+      "loadOrder": 20,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [
+        "tests.package-load"
+      ],
+      "testCases": [
+        "catalog-entry-keys-unique",
+        "field-keys-unique",
+        "field-catalog-refs-resolve",
+        "creation-artifacts-load-in-dependency-order",
+        "validation-rule-refs-resolve",
+        "operation-refs-resolve",
+        "sheet-field-refs-resolve",
+        "sheet-operation-refs-resolve",
+        "fingerprint-configurations-valid",
+        "security-declarations-present"
+      ]
+    },
+    {
+      "suiteKey": "tests.character-creation-happy-path",
+      "suiteRole": "supported-character-creation-success-paths",
+      "loadOrder": 30,
+      "required": true,
+      "readiness": "candidate-partial",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [
+        "tests.character-model-contracts"
+      ],
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character"
+      ],
+      "testCases": [
+        "initialize-draft",
+        "classification-derived-values",
+        "attribute-priority-allocation",
+        "ability-priority-allocation",
+        "background-allocation",
+        "initial-gift-slots",
+        "initial-renown-and-rank",
+        "conditional-metis-deformity",
+        "stage-state-completion",
+        "review-summary-readiness",
+        "warning-acknowledgement-gating",
+        "complete-character-success",
+        "completion-snapshot-created",
+        "character-sheet-projection-rebuilds"
+      ],
+      "blockingReviewRequirements": [
+        "candidate-metis-deformity-and-gift-identities-must-resolve"
+      ]
+    },
+    {
+      "suiteKey": "tests.character-creation-invalid-paths",
+      "suiteRole": "creation-validation-and-repair-failures",
+      "loadOrder": 40,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [
+        "tests.character-creation-happy-path"
+      ],
+      "fixtureKeys": [
+        "character-creation.metis-missing-deformity",
+        "character-creation.lupus-restricted-ability",
+        "character-creation.freebie-budget-overspent"
+      ],
+      "testCases": [
+        "required-metis-deformity-blocks",
+        "lupus-restricted-base-ability-blocks",
+        "freebie-overspend-blocks",
+        "blocking-issues-cannot-be-acknowledged",
+        "invalid-state-remains-editable",
+        "repair-operations-explicit",
+        "no-silent-selection-or-allocation-repair",
+        "completion-rejected-without-partial-commit"
+      ]
+    },
+    {
+      "suiteKey": "tests.dependency-and-invalidation",
+      "suiteRole": "dependency-closure-and-invalidation-lifecycle",
+      "loadOrder": 50,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [
+        "tests.character-creation-invalid-paths"
+      ],
+      "fixtureKeys": [
+        "character-creation.lupus-restricted-ability",
+        "character-creation.classification-change-invalidates-state",
+        "character-creation.metis-missing-deformity"
+      ],
+      "testCases": [
+        "affected-field-closure-deterministic",
+        "classification-change-preview-no-mutation",
+        "classification-change-apply-versioned",
+        "derived-resource-recalculated",
+        "user-selections-preserved-and-invalidated",
+        "review-required-distinct-from-invalid",
+        "invalidation-history-preserved",
+        "resolution-operation-closes-invalidation",
+        "projection-recalculation-deterministic"
+      ]
+    },
+    {
+      "suiteKey": "tests.ledger-integrity",
+      "suiteRole": "creation-ledger-budget-and-compensation",
+      "loadOrder": 60,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [
+        "tests.character-creation-happy-path"
+      ],
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.freebie-budget-overspent"
+      ],
+      "testCases": [
+        "base-budgets-reconcile",
+        "freebie-cost-table-applied",
+        "ledger-append-only",
+        "negative-freebie-balance-detected",
+        "ledger-may-be-internally-valid-while-character-invalid",
+        "repair-appends-compensating-entry",
+        "ledger-fingerprint-stable",
+        "frozen-ledger-rejects-creation-mutations"
+      ]
+    },
+    {
+      "suiteKey": "tests.completion-atomicity",
+      "suiteRole": "completion-transaction-idempotency-and-recovery",
+      "loadOrder": 70,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [
+        "tests.ledger-integrity",
+        "tests.dependency-and-invalidation"
+      ],
+      "fixtureKeys": [
+        "character-creation.complete-character-atomicity",
+        "character-creation.metis-missing-deformity",
+        "character-creation.freebie-budget-overspent",
+        "character-creation.classification-change-invalidates-state"
+      ],
+      "testCases": [
+        "fresh-validation-runs-inside-transaction",
+        "warning-acknowledgements-verified-inside-transaction",
+        "snapshot-ledger-freeze-and-activation-commit-together",
+        "failure-after-snapshot-build-rolls-back",
+        "failure-after-ledger-freeze-rolls-back",
+        "failure-after-activation-rolls-back",
+        "failure-before-commit-publishes-no-events",
+        "same-idempotency-key-replays-success",
+        "idempotency-key-conflict-rejected",
+        "crash-before-commit-restores-draft",
+        "crash-after-commit-retry-returns-success",
+        "no-partial-completion-state-possible"
+      ]
+    },
+    {
+      "suiteKey": "tests.character-sheet-projection",
+      "suiteRole": "layout-reference-visibility-and-interaction-contracts",
+      "loadOrder": 80,
+      "required": true,
+      "readiness": "prototype-candidate",
+      "fixtureCollections": [
+        "fixtures.character-creation"
+      ],
+      "dependsOnSuites": [
+        "tests.character-model-contracts",
+        "tests.character-creation-happy-path"
+      ],
+      "fixtureKeys": [
+        "character-creation.minimal-valid-character",
+        "character-creation.metis-valid-character",
+        "character-creation.metis-missing-deformity"
+      ],
+      "testCases": [
+        "default-layout-loads",
+        "all-field-bindings-resolve",
+        "all-operation-bindings-resolve",
+        "creation-preview-shows-stage-state",
+        "metis-section-visible-when-applicable",
+        "metis-section-hidden-when-not-applicable",
+        "blocking-issue-visible",
+        "mutation-controls-use-operation-keys",
+        "stale-draft-disables-mutations",
+        "read-only-mode-has-no-mutation-controls",
+        "accessibility-contract-present"
+      ]
+    }
+  ],
+  "futureTestSuites": [
+    {
+      "suiteKey": "tests.generic-dice",
+      "suiteRole": "generic-dice-resolution",
+      "readiness": "blocked",
+      "blockingReasonKey": "werewolf-prototype.tests.dice.algorithm-not-frozen",
+      "requiredFixtureCollection": "fixtures.dice"
+    },
+    {
+      "suiteKey": "tests.runtime-character",
+      "suiteRole": "post-creation-character-operations",
+      "readiness": "future",
+      "blockingReasonKey": "werewolf-prototype.tests.runtime-character.outside-current-slice",
+      "requiredFixtureCollection": "fixtures.runtime-character"
+    },
+    {
+      "suiteKey": "tests.gift-runtime",
+      "suiteRole": "gift-runtime-execution",
+      "readiness": "future",
+      "blockingReasonKey": "werewolf-prototype.tests.gifts.runtime-not-modeled",
+      "requiredFixtureCollection": "fixtures.gifts"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "artifactKey": "werewolf-prototype.prototype-index",
+      "artifactRef": "../prototype-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "werewolf-prototype.fixture-index",
+      "artifactRef": "../fixtures/fixture-index-root.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-model.character-model-index",
+      "artifactRef": "../character-model/character-model-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-creation.operation-index",
+      "artifactRef": "../character-creation/operation-index.json",
+      "required": true
+    },
+    {
+      "artifactKey": "character-sheet.character-sheet-index",
+      "artifactRef": "../character-sheet/character-sheet-index.json",
+      "required": true
+    }
+  ],
+  "executionPolicy": {
+    "testMode": "deterministic",
+    "networkAccessAllowed": false,
+    "externalProviderCallsAllowed": false,
+    "seededRandomAdapterRequired": true,
+    "deterministicClockRequired": true,
+    "deterministicIdentifierFactoryRequired": true,
+    "isolatedDatabasePerTestRequired": true,
+    "parallelExecutionAllowed": true,
+    "sharedMutableStateAllowed": false,
+    "testOrderMustNotAffectResults": true,
+    "failureInjectionAdapterAllowed": true
+  },
+  "suiteDependencyPolicy": {
+    "dependenciesMustResolve": true,
+    "cyclesAllowed": false,
+    "cycleBehavior": "test-model-load-failure-with-cycle-path",
+    "loadOrderMustRespectDependencies": true,
+    "failedRequiredDependencySkipsDependentSuite": true,
+    "skippedSuiteReportedAsNot-executed": true
+  },
+  "resultContract": {
+    "suiteResultFields": {
+      "suiteKey": "Reference",
+      "status": "Text",
+      "executedTestCount": "Integer",
+      "passedTestCount": "Integer",
+      "failedTestCount": "Integer",
+      "skippedTestCount": "Integer",
+      "durationMilliseconds": "Integer",
+      "fixtureKeys": "ReferenceCollection",
+      "failureKeys": "ReferenceCollection",
+      "artifactFingerprints": "StructuredCollection",
+      "resultFingerprint": "Text",
+      "executedAt": "Text"
+    },
+    "allowedStatuses": [
+      "passed",
+      "failed",
+      "skipped-dependency",
+      "blocked-readiness",
+      "not-executed"
+    ]
+  },
+  "coverageSummary": {
+    "indexedSuiteCount": 8,
+    "futureOrBlockedSuiteCount": 3,
+    "requiredSuiteCount": 8,
+    "currentSliceDomains": [
+      "package-load",
+      "character-model-contracts",
+      "character-creation-happy-path",
+      "character-creation-invalid-paths",
+      "dependency-and-invalidation",
+      "ledger-integrity",
+      "completion-atomicity",
+      "character-sheet-projection"
+    ],
+    "blockedDomains": [
+      "generic-dice"
+    ],
+    "futureDomains": [
+      "runtime-character",
+      "gift-runtime"
+    ],
+    "knownCoverageGaps": [
+      "all-auspice-happy-paths",
+      "all-tribe-happy-paths",
+      "all-catalog-items",
+      "specialization-edge-cases",
+      "additional-gift-purchase",
+      "generic-dice-algorithm",
+      "post-creation-character-mutations",
+      "runtime-gift-execution"
+    ]
+  },
+  "readinessPolicy": {
+    "allowedValues": [
+      "prototype-candidate",
+      "candidate-partial",
+      "blocked",
+      "future"
+    ],
+    "requiredBlockedSuiteBehavior": "prototype-promotion-blocked",
+    "partialSuiteBehavior": "execute-ready-cases-and-report-blocked-cases",
+    "futureSuitesDoNotBlockCurrentSlicePromotion": true,
+    "blockedCurrentSliceSuiteBlocksPromotion": true
+  },
+  "promotionPolicy": {
+    "allRequiredSuitesMustLoad": true,
+    "allReadyRequiredSuitesMustPass": true,
+    "partialSuiteReviewRequirementsMustResolve": true,
+    "noRequiredSuiteMayBeSkippedForDependencyFailure": true,
+    "knownCoverageGapsMustBeAcceptedOrClosed": true,
+    "testResultFingerprintsMustBeRecorded": true,
+    "testModelHistoryPreserved": true,
+    "silentTestReplacementAllowed": false
+  },
+  "loadPolicy": {
+    "loadMode": "index-driven",
+    "sortBy": "loadOrder",
+    "duplicateSuiteKeyBehavior": "test-model-load-failure",
+    "missingRequiredSuiteBehavior": "prototype-promotion-blocked",
+    "unsupportedContractVersionBehavior": "test-model-load-failure",
+    "artifactOutsideTestRootAllowed": false,
+    "hardcodedFallbackAllowed": false
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "test-suite-index.suite-keys-unique",
+      "severity": "blocking",
+      "requirement": "every suiteKey is unique"
+    },
+    {
+      "ruleKey": "test-suite-index.dependencies-resolve",
+      "severity": "blocking",
+      "requirement": "every suite dependency resolves to an indexed suite"
+    },
+    {
+      "ruleKey": "test-suite-index.dependencies-acyclic",
+      "severity": "blocking",
+      "requirement": "suite dependencies are acyclic"
+    },
+    {
+      "ruleKey": "test-suite-index.fixture-refs-known",
+      "severity": "blocking",
+      "requirement": "every fixture collection and fixture key resolves through fixture indexes"
+    },
+    {
+      "ruleKey": "test-suite-index.test-case-keys-unique-per-suite",
+      "severity": "blocking",
+      "requirement": "test case keys are unique within each suite"
+    },
+    {
+      "ruleKey": "test-suite-index.required-suite-readiness-explicit",
+      "severity": "blocking",
+      "requirement": "every required suite declares readiness and blocking review requirements"
+    },
+    {
+      "ruleKey": "test-suite-index.coverage-counts-reconcile",
+      "severity": "blocking",
+      "requirement": "coverage summary counts reconcile with indexed and future suites"
+    }
+  ],
+  "fingerprintPolicy": {
+    "indexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeSuiteDefinitions": true,
+    "includeDependencyMetadata": true,
+    "includeFixtureBindings": true,
+    "includeReadiness": true,
+    "includeCoverageSummary": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "suiteKey",
+      "suiteRole",
+      "required",
+      "readiness",
+      "loadOrder",
+      "fixtureCollections",
+      "fixtureKeys",
+      "dependencyStatus",
+      "testCaseCount",
+      "coverageDomains",
+      "fingerprintStatus"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawFixtureStateIncluded": false,
+    "rawNarrativeTextIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "filesystemAccess": "test-and-fixture-artifacts-read-only",
+    "testsContainProductionUserData": false,
+    "testsContainProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "suiteKeys",
+      "fixtureKeys",
+      "testCaseKeys",
+      "statuses",
+      "durations",
+      "failureKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "production-character-state",
+      "production-narrative-text",
+      "sourcebook-text",
+      "provider-secrets"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfPrototypeTestModelLoaded",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "suiteCount": "Integer",
+        "requiredSuiteCount": "Integer",
+        "blockedSuiteCount": "Integer",
+        "futureSuiteCount": "Integer",
+        "indexFingerprint": "Text",
+        "loadedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfPrototypeTestModelLoadFailed",
+      "emittedAfterPersistence": false,
+      "payload": {
+        "packageId": "Text",
+        "failureKey": "Reference",
+        "affectedSuiteKeys": "ReferenceCollection",
+        "failedAt": "Text"
+      }
+    }
+  ],
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-indexed-tests-and-fixtures",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-index-shape",
+    "testConsistencyReviewStatus": "pending",
+    "implementationReviewStatus": "pending",
+    "coverageReviewStatus": "pending",
+    "promotionReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "This index is the canonical discovery surface for all current Werewolf prototype test suites.",
+    "The test model validates the supported Character creation slice and preserves blocked or future domains explicitly.",
+    "Tests use deterministic Chronicle adapters and never call Narrative Intelligence providers.",
+    "Fixture and suite artifacts are test-only inputs and never become runtime authority.",
+    "Chronicle owns test discovery, isolation, deterministic adapters, execution, diagnostics, and result persistence.",
+    "The Rule Set package owns suite semantics, fixture expectations, mechanical assertions, and declared coverage boundaries."
+  ]
+}

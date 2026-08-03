@@ -1,0 +1,431 @@
+{
+  "contractVersion": 1,
+  "operationKey": "character-creation.complete-character",
+  "operationVersion": 1,
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "character-creation.operation.complete-character",
+  "descriptionResourceKey": "character-creation.operation.complete-character.description",
+  "publicationStatus": "prototype-candidate",
+  "operationKind": "command",
+  "scope": "CharacterCreation",
+  "authority": {
+    "requestAuthority": "ChronicleApplication",
+    "validationAuthority": "RuleSet",
+    "commitAuthority": "Chronicle",
+    "narratorMayRequest": false,
+    "narratorMayExecute": false,
+    "chronicleDirectorMayBypass": false
+  },
+  "idempotency": {
+    "required": true,
+    "keyScope": "character-draft-version-and-completion-request",
+    "sameKeySameInputReturnsPreviousResult": true,
+    "sameKeyDifferentInputRejected": true
+  },
+  "inputContract": {
+    "inputKey": "CompleteCharacterInput",
+    "fields": [
+      {
+        "fieldKey": "characterId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "draftVersion",
+        "fieldType": "Integer",
+        "required": true
+      },
+      {
+        "fieldKey": "acknowledgedWarningKeys",
+        "fieldType": "ReferenceCollection",
+        "required": false
+      },
+      {
+        "fieldKey": "expectedValidationFingerprint",
+        "fieldType": "Text",
+        "required": false
+      },
+      {
+        "fieldKey": "operationId",
+        "fieldType": "Reference",
+        "required": true
+      },
+      {
+        "fieldKey": "idempotencyKey",
+        "fieldType": "Text",
+        "required": true
+      }
+    ]
+  },
+  "preconditions": [
+    {
+      "preconditionKey": "complete-character.character-exists",
+      "requirement": {
+        "entityType": "Character",
+        "idField": "characterId",
+        "operator": "exists"
+      },
+      "failureKey": "character-creation.complete-character.not-found"
+    },
+    {
+      "preconditionKey": "complete-character.character-is-draft",
+      "requirement": {
+        "field": "character.status",
+        "operator": "equals",
+        "value": "Draft"
+      },
+      "failureKey": "character-creation.complete-character.not-a-draft"
+    },
+    {
+      "preconditionKey": "complete-character.draft-version-matches",
+      "requirement": {
+        "field": "draftVersion",
+        "operator": "equals-current-character-version"
+      },
+      "failureKey": "character-creation.complete-character.stale-draft"
+    },
+    {
+      "preconditionKey": "complete-character.package-binding-compatible",
+      "requirement": {
+        "field": "character.ruleSetBinding",
+        "operator": "compatible-with-installed-package-and-contracts"
+      },
+      "failureKey": "character-creation.complete-character.package-binding-incompatible"
+    },
+    {
+      "preconditionKey": "complete-character.validation-artifacts-readable",
+      "requirement": {
+        "artifactRefs": [
+          "../character-model/validation/character-creation.json",
+          "../character-model/validation/character-completion.json",
+          "../character-model/creation/profile.json"
+        ],
+        "operator": "all-readable-and-contract-compatible"
+      },
+      "failureKey": "character-creation.complete-character.validation-artifact-unavailable"
+    }
+  ],
+  "validationPolicy": {
+    "alwaysRunFreshValidationInsideTransaction": true,
+    "validationGroups": [
+      "character-creation",
+      "character-completion"
+    ],
+    "cachedValidationMayAuthorizeCommit": false,
+    "expectedValidationFingerprintPurpose": "optimistic-user-feedback-only",
+    "fingerprintMismatchBehavior": "return-fresh-result-and-require-review",
+    "blockingSeverities": [
+      "blocking",
+      "error"
+    ],
+    "warningsRequireAcknowledgement": true
+  },
+  "validationRules": [
+    {
+      "ruleKey": "complete-character.fresh-validation-passes",
+      "ruleType": "delegated-validation",
+      "severity": "blocking",
+      "status": "prototype",
+      "requiredResultField": "isCompletionAllowed",
+      "expectedValue": true,
+      "errorKey": "character-creation.complete-character.validation-failed"
+    },
+    {
+      "ruleKey": "complete-character.required-warnings-acknowledged",
+      "ruleType": "acknowledgement",
+      "severity": "blocking",
+      "status": "prototype",
+      "source": "fresh-validation-result.requiredAcknowledgements",
+      "acknowledgementField": "acknowledgedWarningKeys",
+      "errorKey": "character-creation.complete-character.warning-not-acknowledged"
+    },
+    {
+      "ruleKey": "complete-character.no-open-invalidations",
+      "ruleType": "workflow-consistency",
+      "severity": "blocking",
+      "status": "prototype",
+      "targetStatePath": "character.creation.invalidations",
+      "operator": "count-equals",
+      "value": 0,
+      "errorKey": "character-creation.complete-character.open-invalidations"
+    },
+    {
+      "ruleKey": "complete-character.creation-ledger-open-and-valid",
+      "ruleType": "ledger",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirements": [
+        {
+          "field": "character.creationLedger",
+          "operator": "exists"
+        },
+        {
+          "field": "character.creationLedger.status",
+          "operator": "equals",
+          "value": "open"
+        },
+        {
+          "field": "character.creationLedger.integrityStatus",
+          "operator": "equals",
+          "value": "valid"
+        }
+      ],
+      "errorKey": "character-creation.complete-character.creation-ledger-invalid"
+    },
+    {
+      "ruleKey": "complete-character.no-pending-dependency-recalculation",
+      "ruleType": "workflow-consistency",
+      "severity": "blocking",
+      "status": "prototype",
+      "requirement": {
+        "field": "character.creation.pendingDependencyRecalculation",
+        "operator": "absent-or-false"
+      },
+      "errorKey": "character-creation.complete-character.pending-recalculation"
+    }
+  ],
+  "executionPlan": [
+    {
+      "order": 10,
+      "stepKey": "load-authoritative-draft",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "load-character-draft-for-update",
+        "load-rule-set-binding",
+        "load-creation-ledger",
+        "load-invalidations",
+        "load-warning-acknowledgements",
+        "verify-draft-version"
+      ]
+    },
+    {
+      "order": 20,
+      "stepKey": "run-fresh-creation-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "run-full-character-creation-validation",
+        "collect-errors-warnings-and-blocking-issues",
+        "calculate-remaining-budgets",
+        "calculate-creation-readiness"
+      ]
+    },
+    {
+      "order": 30,
+      "stepKey": "run-fresh-completion-validation",
+      "executor": "RuleSet",
+      "effects": [
+        "run-full-character-completion-validation",
+        "verify-required-artifacts",
+        "verify-package-binding",
+        "verify-creation-ledger",
+        "verify-no-open-invalidations",
+        "calculate-completion-allowance"
+      ]
+    },
+    {
+      "order": 40,
+      "stepKey": "verify-user-acknowledgements",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "compare-required-and-provided-warning-keys",
+        "reject-missing-acknowledgements",
+        "persist-acknowledgement-intent"
+      ]
+    },
+    {
+      "order": 50,
+      "stepKey": "build-completion-snapshot",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "capture-final-character-state",
+        "capture-rule-set-binding",
+        "capture-creation-ledger",
+        "capture-fresh-validation-result",
+        "capture-warning-acknowledgements",
+        "capture-prototype-decision-refs",
+        "capture-artifact-contract-versions",
+        "calculate-snapshot-fingerprint"
+      ]
+    },
+    {
+      "order": 60,
+      "stepKey": "freeze-creation-ledger",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "set-ledger-status-frozen",
+        "set-ledger-frozen-at",
+        "set-ledger-frozen-by-operation-id",
+        "prevent-future-creation-ledger-mutation"
+      ]
+    },
+    {
+      "order": 70,
+      "stepKey": "publish-character",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "set-character-status-active",
+        "set-character-completed-at",
+        "set-character-completed-by-operation-id",
+        "persist-warning-acknowledgements",
+        "persist-completion-snapshot",
+        "persist-final-validation-fingerprint",
+        "increment-character-version"
+      ]
+    },
+    {
+      "order": 80,
+      "stepKey": "finalize-operation-record",
+      "executor": "ChronicleApplication",
+      "effects": [
+        "record-operation-result",
+        "record-authoritative-commit",
+        "set-updated-at"
+      ]
+    }
+  ],
+  "completionSnapshotPolicy": {
+    "snapshotKind": "CharacterCreationCompletionSnapshot",
+    "immutable": true,
+    "encryptedAtRest": true,
+    "include": [
+      "characterState",
+      "ruleSetBinding",
+      "creationLedger",
+      "freshCreationValidation",
+      "freshCompletionValidation",
+      "warningAcknowledgements",
+      "prototypeDecisionRefs",
+      "artifactContractVersions",
+      "operationId",
+      "completedAt"
+    ],
+    "exclude": [
+      "raw-source-text",
+      "provider-secrets",
+      "narrative-provider-private-reasoning",
+      "ordinary-application-logs"
+    ]
+  },
+  "publicationPolicy": {
+    "partialPublicationAllowed": false,
+    "creationDraftMutationAfterCompletionAllowed": false,
+    "structuredPostCompletionOperationsRequired": true,
+    "characterAvailableToCampaignAfterCommit": true,
+    "characterSheetProjectionRefreshRequired": true,
+    "memoryProposalMayBeScheduled": true,
+    "memoryProposalIsAuthoritative": false
+  },
+  "transactionPolicy": {
+    "transactionBoundary": "single-authoritative-commit",
+    "isolationRequirement": "write-serialized-for-character",
+    "partialCommitAllowed": false,
+    "persistOperationRecord": true,
+    "persistCharacter": true,
+    "persistFrozenCreationLedger": true,
+    "persistCompletionSnapshot": true,
+    "persistValidationResults": true,
+    "persistWarningAcknowledgements": true,
+    "emitEventsAfterCommitOnly": true
+  },
+  "resultContract": {
+    "resultKey": "CompleteCharacterResult",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "previousDraftVersion": "Integer",
+      "newCharacterVersion": "Integer",
+      "previousStatus": "Text",
+      "newStatus": "Text",
+      "completedAt": "Text",
+      "creationLedgerId": "Reference",
+      "creationLedgerStatus": "Text",
+      "completionSnapshotId": "Reference",
+      "completionSnapshotFingerprint": "Text",
+      "validationFingerprint": "Text",
+      "acknowledgedWarningKeys": "ReferenceCollection",
+      "packageBinding": "StructuredObject",
+      "updatedAt": "Text"
+    }
+  },
+  "failureContract": {
+    "failureKey": "CompleteCharacterFailure",
+    "fields": {
+      "operationId": "Reference",
+      "characterId": "Reference",
+      "errorKey": "Text",
+      "errorArguments": "StructuredObject",
+      "retryable": "Boolean",
+      "failedAtStepKey": "Text",
+      "freshValidationResult": "StructuredObject",
+      "newReviewRequired": "Boolean"
+    }
+  },
+  "recoveryPolicy": {
+    "retryWithSameIdempotencyKey": true,
+    "detectAlreadyCommittedOperation": true,
+    "returnCommittedResultWhenDetected": true,
+    "staleDraftRequiresReload": true,
+    "validationMismatchRequiresReview": true,
+    "detect-frozen-ledger-with-draft-character": true,
+    "detect-active-character-with-unfrozen-ledger": true,
+    "repairMode": "explicit-recovery-operation-only"
+  },
+  "securityPolicy": {
+    "rawSourceAccessRequired": false,
+    "providerCallAllowed": false,
+    "networkAccessAllowed": false,
+    "filesystemAccess": "package-artifacts-read-only",
+    "secretAccessAllowed": false,
+    "completionSnapshotEncryptedAtRest": true,
+    "sensitiveNarrativeLogging": "excluded",
+    "validationLogging": "keys-counts-and-fingerprints-only"
+  },
+  "events": [
+    {
+      "eventKey": "CharacterCreationCompleted",
+      "emittedAfterCommit": true,
+      "payload": {
+        "characterId": "Reference",
+        "campaignId": "Reference",
+        "packageId": "Text",
+        "packageVersion": "Text",
+        "characterVersion": "Integer",
+        "completionSnapshotId": "Reference",
+        "completionSnapshotFingerprint": "Text",
+        "operationId": "Reference",
+        "completedAt": "Text"
+      }
+    }
+  ],
+  "authorityPolicy": {
+    "ruleSetOwnsMechanicalValidation": true,
+    "chronicleOwnsCommitAndPersistence": true,
+    "narratorMayBypassValidation": false,
+    "chronicleDirectorMayBypassValidation": false,
+    "administrativeOverrideAllowed": false,
+    "correctionRequiresSeparateAuditedOperation": true
+  },
+  "source": {
+    "sourceDocumentId": "source.werewolf3e.cleaned-ptbr",
+    "sourceDocumentVersion": 1,
+    "sourceFingerprint": "a4302e2938a137fb42d154c45decd43e02a19a2ba0eb3030b6eb1de942dab64a"
+  },
+  "review": {
+    "sourceRuleDependency": "indirect-through-completion-validation",
+    "architectureConfidence": "high",
+    "semanticReviewStatus": "not-required-for-commit-boundary",
+    "implementationReviewStatus": "pending",
+    "securityReviewStatus": "pending",
+    "recoveryReviewStatus": "pending"
+  },
+  "prototypeNotes": [
+    "Completion always runs fresh validation inside the same authoritative transaction.",
+    "A cached validation snapshot may improve the user experience but never authorizes publication.",
+    "Errors and blocking issues cannot be bypassed by the Narrator, Chronicle Director, or an administrative flag.",
+    "Warnings may be accepted only through explicit persisted acknowledgements.",
+    "The creation ledger is frozen and the completion snapshot is made immutable at the same commit boundary that activates the Character.",
+    "No partial Character publication is allowed.",
+    "Chronicle owns transactions, persistence, encryption, idempotency, snapshots, and events.",
+    "The Rule Set owns deterministic mechanical validation and completion eligibility."
+  ]
+}

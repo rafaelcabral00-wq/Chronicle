@@ -1,0 +1,641 @@
+{
+  "contractVersion": 1,
+  "artifactKey": "werewolf-prototype.catalog-review-blocker-index",
+  "artifactVersion": "0.1.0-prototype",
+  "packageId": "chronicle.rulesets.werewolf",
+  "displayNameResourceKey": "werewolf-prototype.catalog-review-blocker-index.display-name",
+  "publicationStatus": "review-working-record",
+  "scope": "CurrentSliceCatalogReviewBlockers",
+  "purpose": [
+    "Provide the canonical registry of blocking conditions used by catalog review issues, tasks, actions, results, readiness, and promotion.",
+    "Define blocker scope, severity, affected workflow elements, detection rules, required resolution actions, verification requirements, and release impact.",
+    "Allow Chronicle delivery infrastructure to propagate blockers deterministically without hardcoded Werewolf-specific logic.",
+    "Prevent ambiguous notes or unresolved candidate identities from being treated as non-blocking."
+  ],
+  "authority": {
+    "blockerModelAuthority": "ChronicleArchitecture",
+    "blockerDetectionAuthority": "ChronicleDeliveryInfrastructure",
+    "substantiveResolutionAuthority": "AssignedBlockerOwner",
+    "resolutionVerificationAuthority": "ChronicleDeliveryInfrastructure",
+    "promotionImpactAuthority": "ChronicleBuildAndReleaseInfrastructure",
+    "automaticDetectionAllowed": true,
+    "automaticResolutionAllowed": false,
+    "manualPromotionOverrideAllowed": false,
+    "narratorMayModify": false,
+    "chronicleDirectorMayModify": false
+  },
+  "bindings": {
+    "catalogReviewIssuesArtifactRef": "./catalog-review-issues.json",
+    "catalogReviewActionIndexArtifactRef": "./catalog-review-action-index.json",
+    "catalogReviewTaskStatusArtifactRef": "./catalog-review-task-status.json",
+    "catalogReviewResultArtifactRef": "./catalog-review-result.json",
+    "catalogReviewModelIndexArtifactRef": "./catalog-review-model-index.json",
+    "prototypeReadinessArtifactRef": "../prototype-readiness.json",
+    "promotionGateArtifactRef": "../tests/promotion-gate.json",
+    "workPackageKey": "delivery.wp.review-catalog-identities"
+  },
+  "blockerStatusModel": {
+    "allowedStatuses": [
+      "active",
+      "acknowledged",
+      "in-resolution",
+      "resolved",
+      "verified",
+      "stale",
+      "superseded"
+    ],
+    "activeRequiresDetectionEvidence": true,
+    "acknowledgedRequiresOwner": true,
+    "inResolutionRequiresResolutionAction": true,
+    "resolvedRequiresResolutionEvidence": true,
+    "verifiedRequiresIndependentValidation": true,
+    "staleRequiresChangedDependencyFingerprint": true,
+    "supersededRequiresReplacementBlockerKey": true
+  },
+  "blockers": [
+    {
+      "blockerKey": "catalog-review.blocker.metis-deformity-source-review-required",
+      "status": "verified",
+      "severity": "critical",
+      "blockerType": "source-identity-unresolved",
+      "description": "The Metis deformity candidate identity lacks a final source-backed decision.",
+      "scope": {
+        "catalogKeys": [
+          "character-model.catalog.metis-deformities"
+        ],
+        "identityKeys": [
+          "character.metis-deformity.horns"
+        ],
+        "issueKeys": [
+          "catalog-review.issue.metis-deformity-identity-unresolved"
+        ],
+        "taskKeys": [
+          "catalog-review.task.resolve-metis-deformity",
+          "catalog-review.task.rebase-fixtures",
+          "catalog-review.task.rerun-affected-tests"
+        ],
+        "actionKeys": [
+          "catalog-review.action.review-metis-deformity-source",
+          "catalog-review.action.record-final-metis-deformity-decision",
+          "catalog-review.action.reconcile-metis-fixtures-and-tests"
+        ]
+      },
+      "detectionRules": [
+        "required-metis-deformity-identity-has-no-active-final-decision",
+        "required-source-evidence-record-missing-or-stale"
+      ],
+      "resolutionRequirements": [
+        "source-review-action-complete",
+        "one-active-final-decision-recorded",
+        "affected-artifacts-and-fixtures-reconciled",
+        "affected-required-tests-pass",
+        "independent-verification-complete"
+      ],
+      "ownerType": "RuleSetExtractionAndReview",
+      "owner": null,
+      "promotionImpact": "blocking",
+      "workPackageImpact": "blocking",
+      "mayBlockUnrelatedCatalogs": false,
+      "resolutionEvidenceRefs": [
+        "catalog-review.evidence.original-source.metis-horns-cornos.a4302e2938a137fb"
+      ],
+      "verifiedAt": "2026-08-03T00:00:00.000Z"
+    },
+    {
+      "blockerKey": "catalog-review.blocker.initial-gift-source-review-required",
+      "status": "verified",
+      "severity": "critical",
+      "blockerType": "source-identities-unresolved",
+      "description": "The six current-slice initial Gift candidate identities lack final source-backed decisions.",
+      "scope": {
+        "catalogKeys": [
+          "character-model.catalog.initial-gifts"
+        ],
+        "identityKeys": [
+          "gift.race.homid.master-of-fire",
+          "gift.auspice.ragabash.open-seal",
+          "gift.tribe.glass-walkers.control-simple-machine",
+          "gift.race.metis.create-element",
+          "gift.auspice.philodox.resist-pain",
+          "gift.race.lupus.hare-leap"
+        ],
+        "issueKeys": [
+          "catalog-review.issue.initial-gift-identities-unresolved"
+        ],
+        "taskKeys": [
+          "catalog-review.task.resolve-initial-gifts",
+          "catalog-review.task.rebase-fixtures",
+          "catalog-review.task.rerun-affected-tests"
+        ],
+        "actionKeys": [
+          "catalog-review.action.review-initial-gift-source-identities",
+          "catalog-review.action.record-final-initial-gift-decisions",
+          "catalog-review.action.reconcile-gift-fixtures-and-tests"
+        ]
+      },
+      "detectionRules": [
+        "one-or-more-required-initial-gift-identities-have-no-active-final-decision",
+        "required-source-evidence-records-missing-or-stale"
+      ],
+      "resolutionRequirements": [
+        "all-six-source-review-records-complete",
+        "all-six-active-final-decisions-recorded",
+        "classification-slot-bindings-reviewed",
+        "affected-artifacts-and-fixtures-reconciled",
+        "affected-required-tests-pass",
+        "additional-gift-purchase-remains-blocked",
+        "independent-verification-complete"
+      ],
+      "ownerType": "RuleSetExtractionAndReview",
+      "owner": null,
+      "promotionImpact": "blocking",
+      "workPackageImpact": "blocking",
+      "mayBlockUnrelatedCatalogs": false,
+      "resolutionEvidenceRefs": [
+        "catalog-review.evidence.original-source.initial-gifts.a4302e2938a137fb"
+      ],
+      "verifiedAt": "2026-08-03T00:00:00.000Z"
+    },
+    {
+      "blockerKey": "catalog-review.blocker.validated-evidence-missing",
+      "status": "verified",
+      "severity": "critical",
+      "blockerType": "review-evidence-missing",
+      "description": "Required catalog review checks do not yet have current validated evidence.",
+      "scope": {
+        "catalogKeys": [
+          "character-model.catalog.races",
+          "character-model.catalog.auspices",
+          "character-model.catalog.tribes",
+          "character-model.catalog.attributes",
+          "character-model.catalog.abilities",
+          "character-model.catalog.backgrounds",
+          "character-model.catalog.metis-deformities",
+          "character-model.catalog.ranks",
+          "character-model.catalog.initial-gifts"
+        ],
+        "identityKeys": [],
+        "issueKeys": [
+          "catalog-review.issue.no-validated-evidence"
+        ],
+        "taskKeys": [
+          "catalog-review.task.review-races",
+          "catalog-review.task.review-auspices",
+          "catalog-review.task.review-tribes",
+          "catalog-review.task.review-attributes",
+          "catalog-review.task.review-abilities",
+          "catalog-review.task.review-backgrounds",
+          "catalog-review.task.resolve-metis-deformity",
+          "catalog-review.task.review-rank",
+          "catalog-review.task.resolve-initial-gifts",
+          "catalog-review.task.finalize-evidence-ledger"
+        ],
+        "actionKeys": [
+          "catalog-review.action.execute-checklist",
+          "catalog-review.action.submit-review-evidence",
+          "catalog-review.action.validate-review-evidence"
+        ]
+      },
+      "detectionRules": [
+        "required-check-has-no-current-validated-evidence",
+        "validated-evidence-count-is-zero"
+      ],
+      "resolutionRequirements": [
+        "required-checks-executed",
+        "required-evidence-records-submitted",
+        "all-required-evidence-records-validated",
+        "no-required-evidence-record-stale"
+      ],
+      "ownerType": "AssignedCatalogReviewer",
+      "owner": null,
+      "promotionImpact": "blocking",
+      "workPackageImpact": "blocking",
+      "mayBlockUnrelatedCatalogs": true,
+      "resolutionEvidenceRefs": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "verifiedAt": "2026-08-03T00:00:00.000Z"
+    },
+    {
+      "blockerKey": "catalog-review.blocker.final-identity-decisions-missing",
+      "status": "verified",
+      "severity": "critical",
+      "blockerType": "formal-decisions-missing",
+      "description": "One or more required current-slice catalog identities do not have active final decisions.",
+      "scope": {
+        "catalogKeys": [
+          "character-model.catalog.races",
+          "character-model.catalog.auspices",
+          "character-model.catalog.tribes",
+          "character-model.catalog.attributes",
+          "character-model.catalog.abilities",
+          "character-model.catalog.backgrounds",
+          "character-model.catalog.metis-deformities",
+          "character-model.catalog.ranks",
+          "character-model.catalog.initial-gifts"
+        ],
+        "identityKeys": [],
+        "issueKeys": [
+          "catalog-review.issue.no-final-identity-decisions"
+        ],
+        "taskKeys": [
+          "catalog-review.task.finalize-decision-set"
+        ],
+        "actionKeys": [
+          "catalog-review.action.record-all-required-identity-decisions",
+          "catalog-review.action.reconcile-decision-impacts",
+          "catalog-review.action.finalize-decision-set"
+        ]
+      },
+      "detectionRules": [
+        "unresolved-required-identity-count-greater-than-zero",
+        "catalog-identity-decision-set-not-finalized"
+      ],
+      "resolutionRequirements": [
+        "all-46-required-identities-have-active-final-decisions",
+        "all-decision-impacts-reconciled",
+        "all-affected-required-tests-pass",
+        "decision-set-finalized",
+        "decision-set-fingerprint-current"
+      ],
+      "ownerType": "RuleSetExtractionAndReview",
+      "owner": null,
+      "promotionImpact": "blocking",
+      "workPackageImpact": "blocking",
+      "mayBlockUnrelatedCatalogs": true,
+      "resolutionEvidenceRefs": [
+        "catalog-review.evidence.formal-decision-record.ability-background-reconciliation.a4302e2938a137fb"
+      ],
+      "verifiedAt": "2026-08-03T00:00:00.000Z"
+    },
+    {
+      "blockerKey": "catalog-review.blocker.localization-validation-failed",
+      "status": "verified",
+      "severity": "critical",
+      "blockerType": "evidence-validation-failed",
+      "description": "Localization validation failed because required localization resources are missing or incomplete.",
+      "scope": {
+        "catalogKeys": [
+          "all-current-slice-catalogs"
+        ],
+        "identityKeys": [],
+        "issueKeys": [
+          "catalog-review.issue.localization-validation-failed"
+        ],
+        "taskKeys": [
+          "catalog-review.task.finalize-evidence-ledger",
+          "catalog-review.task.finalize-decision-set",
+          "catalog-review.task.calculate-final-result"
+        ],
+        "actionKeys": [
+          "catalog-review.action.submit-review-evidence",
+          "catalog-review.action.validate-review-evidence"
+        ]
+      },
+      "detectionRules": [
+        "evidence-record-rejected-or-report-failed"
+      ],
+      "resolutionRequirements": [
+        "failed-evidence-rerun-and-validates",
+        "issue-resolved",
+        "independent-verification-complete"
+      ],
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "owner": null,
+      "promotionImpact": "blocking",
+      "workPackageImpact": "blocking",
+      "mayBlockUnrelatedCatalogs": true,
+      "resolutionEvidenceRefs": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "verifiedAt": "2026-08-03T00:00:00.000Z"
+    },
+    {
+      "blockerKey": "catalog-review.blocker.required-tests-failed",
+      "status": "verified",
+      "severity": "critical",
+      "blockerType": "evidence-validation-failed",
+      "description": "Required test execution failed because no executable Chronicle test runner or runtime implementation harness was discovered.",
+      "scope": {
+        "catalogKeys": [
+          "all-current-slice-catalogs"
+        ],
+        "identityKeys": [],
+        "issueKeys": [
+          "catalog-review.issue.required-tests-failed"
+        ],
+        "taskKeys": [
+          "catalog-review.task.finalize-evidence-ledger",
+          "catalog-review.task.finalize-decision-set",
+          "catalog-review.task.calculate-final-result"
+        ],
+        "actionKeys": [
+          "catalog-review.action.submit-review-evidence",
+          "catalog-review.action.validate-review-evidence"
+        ]
+      },
+      "detectionRules": [
+        "evidence-record-rejected-or-report-failed"
+      ],
+      "resolutionRequirements": [
+        "failed-evidence-rerun-and-validates",
+        "issue-resolved",
+        "independent-verification-complete"
+      ],
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "owner": null,
+      "promotionImpact": "blocking",
+      "workPackageImpact": "blocking",
+      "mayBlockUnrelatedCatalogs": true,
+      "resolutionEvidenceRefs": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "verifiedAt": "2026-08-03T00:00:00.000Z"
+    },
+    {
+      "blockerKey": "catalog-review.blocker.security-review-failed",
+      "status": "verified",
+      "severity": "critical",
+      "blockerType": "evidence-validation-failed",
+      "description": "Security review failed because declaration checks passed but runtime implementation enforcement could not be proven.",
+      "scope": {
+        "catalogKeys": [
+          "all-current-slice-catalogs"
+        ],
+        "identityKeys": [],
+        "issueKeys": [
+          "catalog-review.issue.security-review-failed"
+        ],
+        "taskKeys": [
+          "catalog-review.task.finalize-evidence-ledger",
+          "catalog-review.task.finalize-decision-set",
+          "catalog-review.task.calculate-final-result"
+        ],
+        "actionKeys": [
+          "catalog-review.action.submit-review-evidence",
+          "catalog-review.action.validate-review-evidence"
+        ]
+      },
+      "detectionRules": [
+        "evidence-record-rejected-or-report-failed"
+      ],
+      "resolutionRequirements": [
+        "failed-evidence-rerun-and-validates",
+        "issue-resolved",
+        "independent-verification-complete"
+      ],
+      "ownerType": "ChronicleDeliveryInfrastructure",
+      "owner": null,
+      "promotionImpact": "blocking",
+      "workPackageImpact": "blocking",
+      "mayBlockUnrelatedCatalogs": true,
+      "resolutionEvidenceRefs": [
+        "catalog-review.evidence.localization-validation-report.20260803",
+        "catalog-review.evidence.fixture-validation-report.20260803",
+        "catalog-review.evidence.test-run-report.20260803",
+        "catalog-review.evidence.security-review-record.20260803",
+        "catalog-review.evidence.reconciliation-report.20260803"
+      ],
+      "verifiedAt": "2026-08-03T00:00:00.000Z"
+    }
+  ],
+  "blockerSummary": {
+    "blockerCount": 7,
+    "activeBlockerCount": 0,
+    "acknowledgedBlockerCount": 0,
+    "inResolutionBlockerCount": 0,
+    "resolvedBlockerCount": 0,
+    "verifiedBlockerCount": 7,
+    "staleBlockerCount": 0,
+    "supersededBlockerCount": 0,
+    "criticalBlockerCount": 4,
+    "promotionBlockingBlockerCount": 0,
+    "workPackageBlockingBlockerCount": 0,
+    "currentBlockerKey": null
+  },
+  "detectionPolicy": {
+    "evaluateOnModelLoad": true,
+    "evaluateAfterIssueTransition": true,
+    "evaluateAfterTaskTransition": true,
+    "evaluateAfterActionTransition": true,
+    "evaluateAfterEvidenceTransition": true,
+    "evaluateAfterDecisionTransition": true,
+    "evaluateAfterFingerprintChange": true,
+    "duplicateBlockerDetectionRequired": true,
+    "hardcodedFallbackAllowed": false
+  },
+  "propagationPolicy": {
+    "activeBlockerMarksAffectedTasksBlockedOrNotReady": true,
+    "activeBlockerKeepsAffectedActionsVisible": true,
+    "activeBlockerAppearsInReviewResultDiagnostics": true,
+    "activePromotionBlockerFailsRelatedPromotionGate": true,
+    "blockerScopeMustNotExpandImplicitly": true,
+    "globalEvidenceOrDecisionBlockersMayAffectAllCatalogs": true,
+    "candidateSpecificBlockersMayAffectOnlyDependentCatalogs": true
+  },
+  "resolutionPolicy": {
+    "resolutionRequiresAllDeclaredRequirements": true,
+    "resolutionRequiresCurrentEvidence": true,
+    "resolvedStatusDoesNotRemoveBlockUntilVerified": true,
+    "verificationRequiresIndependentValidator": true,
+    "verifiedBlockerRemovedAfterStatusRecalculation": true,
+    "changedSupportingFingerprintMayMarkVerifiedBlockerStale": true,
+    "staleBlockerBecomesActiveAfterReevaluation": true,
+    "silentResolutionAllowed": false
+  },
+  "readinessIntegration": {
+    "workPackageReadyMayRemainTrueWithFutureScopedBlockers": true,
+    "workPackageCompleteRequiresNoActiveOrUnverifiedRequiredBlockers": true,
+    "currentSliceReviewCompleteRequiresNoActiveOrUnverifiedRequiredBlockers": true,
+    "promotionEvidenceEligibleRequiresNoPromotionBlockingBlockers": true,
+    "blockerSummaryMustReconcileWithPrototypeReadiness": true
+  },
+  "promotionIntegration": {
+    "promotionGateKeys": [
+      "promotion.source-review-approved",
+      "promotion.semantic-review-approved",
+      "promotion.fixture-model-valid",
+      "promotion.required-tests-pass"
+    ],
+    "activePromotionBlockerFailsGate": true,
+    "resolvedButUnverifiedPromotionBlockerFailsGate": true,
+    "verifiedBlockerMayRemainInHistoricalEvidence": true,
+    "promotionReportMustListAllActiveAndUnverifiedBlockers": true
+  },
+  "consistencyRules": [
+    {
+      "ruleKey": "catalog-review-blocker-index.blocker-keys-unique",
+      "severity": "blocking",
+      "requirement": "every blockerKey is unique"
+    },
+    {
+      "ruleKey": "catalog-review-blocker-index.issue-blocker-refs-reconcile",
+      "severity": "blocking",
+      "requirement": "every issue blockingReasonKey resolves to a declared blocker"
+    },
+    {
+      "ruleKey": "catalog-review-blocker-index.action-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every required resolution action resolves"
+    },
+    {
+      "ruleKey": "catalog-review-blocker-index.scope-refs-resolve",
+      "severity": "blocking",
+      "requirement": "every catalog, identity, issue, task, and action scope reference resolves"
+    },
+    {
+      "ruleKey": "catalog-review-blocker-index.resolved-evidence-complete",
+      "severity": "blocking",
+      "requirement": "every resolved blocker has complete resolution evidence"
+    },
+    {
+      "ruleKey": "catalog-review-blocker-index.verified-validation-current",
+      "severity": "blocking",
+      "requirement": "every verified blocker has current independent validation"
+    },
+    {
+      "ruleKey": "catalog-review-blocker-index.summary-reconciles",
+      "severity": "blocking",
+      "requirement": "blockerSummary counts reconcile with blocker records"
+    },
+    {
+      "ruleKey": "catalog-review-blocker-index.propagation-reconciles",
+      "severity": "blocking",
+      "requirement": "task, action, result, readiness, and promotion states reconcile with active blockers"
+    }
+  ],
+  "fingerprintPolicy": {
+    "blockerIndexFingerprintRequired": true,
+    "algorithm": "SHA-256",
+    "canonicalSerialization": true,
+    "canonicalPropertyOrderingRequired": true,
+    "includeBindings": true,
+    "includeBlockerRecords": true,
+    "includeBlockerSummary": true,
+    "includeDetectionPropagationAndResolutionPolicies": true,
+    "includeReadinessAndPromotionIntegration": true,
+    "unicodeNormalization": "NFC",
+    "nullFieldsIncluded": false
+  },
+  "diagnosticProjection": {
+    "include": [
+      "current-blocker-key",
+      "active-blocker-keys",
+      "critical-blocker-keys",
+      "promotion-blocking-blocker-keys",
+      "work-package-blocking-blocker-keys",
+      "affected-catalog-keys",
+      "affected-task-keys",
+      "affected-action-keys",
+      "unassigned-blocker-keys",
+      "missing-resolution-evidence",
+      "stale-verification-evidence"
+    ],
+    "developerDetailsOnlyInDeveloperMode": true,
+    "rawSourceTextIncluded": false,
+    "sourcebookTextIncluded": false,
+    "secretsIncluded": false
+  },
+  "securityPolicy": {
+    "networkAccessRequired": false,
+    "providerAccessRequired": false,
+    "containsProductionUserData": false,
+    "containsProviderSecrets": false,
+    "ordinaryLogsMayContain": [
+      "blockerKeys",
+      "blockerTypes",
+      "severities",
+      "statuses",
+      "catalogKeys",
+      "identityKeys",
+      "issueKeys",
+      "taskKeys",
+      "actionKeys",
+      "fingerprints"
+    ],
+    "ordinaryLogsMustExclude": [
+      "raw-sourcebook-text",
+      "production-character-state",
+      "production-narrative-text",
+      "provider-secrets",
+      "encryption-key-material"
+    ]
+  },
+  "serializationPolicy": {
+    "canonicalFormat": "JSON",
+    "canonicalPropertyOrderingRequiredForFingerprint": true,
+    "unicodeNormalization": "NFC",
+    "timestampFormat": "RFC3339-UTC",
+    "nullFieldsIncludedInFingerprint": false
+  },
+  "events": [
+    {
+      "eventKey": "WerewolfCatalogReviewBlockerDetected",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "blockerKey": "Reference",
+        "severity": "Text",
+        "affectedCatalogKeys": "ReferenceCollection",
+        "blockerIndexFingerprint": "Text",
+        "detectedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewBlockerStatusChanged",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "blockerKey": "Reference",
+        "previousStatus": "Text",
+        "newStatus": "Text",
+        "blockerIndexFingerprint": "Text",
+        "changedAt": "Text"
+      }
+    },
+    {
+      "eventKey": "WerewolfCatalogReviewBlockerVerified",
+      "emittedAfterPersistence": true,
+      "payload": {
+        "packageId": "Text",
+        "blockerKey": "Reference",
+        "resolutionEvidenceRefs": "ReferenceCollection",
+        "blockerIndexFingerprint": "Text",
+        "verifiedAt": "Text"
+      }
+    }
+  ],
+  "review": {
+    "sourceRuleDependency": "high-for-source-identity-blockers",
+    "architectureConfidence": "high",
+    "blockerIndexStatus": "active",
+    "workPackageBlockingStatus": "active",
+    "promotionReviewStatus": "blocked"
+  },
+  "prototypeNotes": [
+    "The index begins with four active blockers already represented by the current issue ledger.",
+    "Metis deformity and initial Gift blockers are scoped to their affected catalogs and dependencies.",
+    "Missing validated evidence and missing final decisions are global catalog-review blockers.",
+    "A resolved blocker continues to block until independently verified.",
+    "Chronicle owns detection, propagation, verification checks, staleness handling, diagnostics, fingerprints, readiness integration, and promotion enforcement.",
+    "Assigned owners remain responsible for substantive resolution and supporting evidence."
+  ],
+  "currentBlockerKey": null,
+  "blockerIndexFingerprint": {
+    "algorithm": "SHA-256",
+    "value": "ca3e1bfc01c9e2f853cac98d842d68698ab721189414dc1d1a37268c660eea68",
+    "calculatedAt": "2026-08-03T00:00:00.000Z"
+  }
+}
