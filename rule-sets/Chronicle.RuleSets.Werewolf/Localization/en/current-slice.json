@@ -1,4 +1,9 @@
 {
   "ruleset.werewolf.display-name": "Werewolf Reference Current Slice",
-  "ruleset.werewolf.description": "Metadata-only source skeleton for the Werewolf character creation current slice."
+  "ruleset.werewolf.description": "Executable current-slice package source for deterministic Werewolf character creation increments.",
+  "gift.auspice.ragabash.open-seal.display-name": "Open Seal",
+  "gift.auspice.theurge.spirit-speech.display-name": "Spirit Speech",
+  "gift.auspice.philodox.resist-pain.display-name": "Resist Pain",
+  "gift.auspice.galliard.beast-speech.display-name": "Beast Speech",
+  "gift.auspice.ahroun.falling-touch.display-name": "Falling Touch"
 }

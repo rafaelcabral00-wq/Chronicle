@@ -1,7 +1,7 @@
 {
   "contractVersion": 1,
   "sliceId": "werewolf3e.character-creation.current-slice",
-  "sliceStatus": "source-skeleton",
+  "sliceStatus": "executable-increment",
   "prototypeBaseline": "approved-current-slice-reference-baseline",
   "prototypeCompletion": {
     "requiredIdentitiesFinalized": "46/46",
@@ -27,8 +27,8 @@
     "umbra"
   ],
   "knownLimitations": [
-    "Package source is metadata-only in this implementation step.",
-    "Runtime mechanics are not implemented.",
+    "Runtime implements deterministic character-creation increments through classification, Metis deformity, initial Gifts, and Attribute priority selection.",
+    "Character creation is not complete; Attribute allocation, Abilities, Backgrounds, resources, Rank, identity fields, and completion validation remain unimplemented.",
     "Package is not promoted, published, installed, enabled, active, or Campaign-bound.",
     "Final PackageId remains a governance decision; packageId value is provisional."
   ],

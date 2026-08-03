@@ -8,7 +8,7 @@
   "packageKind": "rule-set",
   "displayNameResourceKey": "ruleset.werewolf.display-name",
   "descriptionResourceKey": "ruleset.werewolf.description",
-  "publicationStatus": "source-skeleton-not-published",
+  "publicationStatus": "executable-increment-not-published",
   "promotionStatus": "not-promoted",
   "canonicalLanguage": "en",
   "supportedLocales": [
@@ -22,18 +22,18 @@
   },
   "declaredReleaseScope": {
     "scopeId": "werewolf3e.character-creation.current-slice",
-    "scopeStatus": "source-skeleton",
+    "scopeStatus": "executable-increment",
     "sourceSystemCompleteness": "not-complete",
-    "declaredScopeCompleteness": "metadata-only",
-    "implementationCompleteness": "not-implemented",
-    "validationCompleteness": "bootstrap-manifest-tests-only",
+    "declaredScopeCompleteness": "partial-executable-current-slice",
+    "implementationCompleteness": "classification-and-initial-selection-increments",
+    "validationCompleteness": "bootstrap-and-runtime-increment-tests",
     "publicationStatus": "not-published"
   },
   "prototypeMapping": {
     "documentationPrototypePath": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype",
     "prototypeRole": "review-and-authoring-evidence-only",
     "packageSourcePath": "rule-sets/Chronicle.RuleSets.Werewolf",
-    "transformationStatus": "initial-source-skeleton",
+    "transformationStatus": "partial-executable-package-source",
     "copiedReviewEvidence": false,
     "copiedRawSource": false,
     "prototypeFingerprint": {
@@ -53,23 +53,23 @@
   "capabilities": [
     {
       "capabilityKey": "character-creation",
-      "status": "declared-source-skeleton"
+      "status": "partial-executable"
     },
     {
       "capabilityKey": "character-model",
-      "status": "declared-source-skeleton"
+      "status": "partial-executable"
     },
     {
       "capabilityKey": "character-sheet",
-      "status": "declared-source-skeleton"
+      "status": "declared-not-yet-executable"
     },
     {
       "capabilityKey": "character-validation",
-      "status": "declared-source-skeleton"
+      "status": "declared-not-yet-executable"
     },
     {
       "capabilityKey": "fixture-driven-tests",
-      "status": "declared-source-skeleton"
+      "status": "declared-not-yet-executable"
     }
   ],
   "excludedMechanics": [

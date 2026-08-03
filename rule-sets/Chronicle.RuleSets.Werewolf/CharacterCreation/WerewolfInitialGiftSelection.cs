@@ -52,13 +52,19 @@ public static class WerewolfInitialGiftIdentifiers
     public const string MetisCreateElement = "gift.race.metis.create-element";
     public const string LupusHareLeap = "gift.race.lupus.hare-leap";
     public const string RagabashOpenSeal = "gift.auspice.ragabash.open-seal";
+    public const string TheurgeSpiritSpeech = "gift.auspice.theurge.spirit-speech";
     public const string PhilodoxResistPain = "gift.auspice.philodox.resist-pain";
+    public const string GalliardBeastSpeech = "gift.auspice.galliard.beast-speech";
+    public const string AhrounFallingTouch = "gift.auspice.ahroun.falling-touch";
     public const string GlassWalkersControlSimpleMachine = "gift.tribe.glass-walkers.control-simple-machine";
 
     public static IReadOnlyList<string> Supported { get; } =
     [
         RagabashOpenSeal,
+        TheurgeSpiritSpeech,
         PhilodoxResistPain,
+        GalliardBeastSpeech,
+        AhrounFallingTouch,
         HomidMasterOfFire,
         LupusHareLeap,
         MetisCreateElement,
@@ -79,7 +85,10 @@ public static class WerewolfInitialGiftSelectionService
         new(WerewolfInitialGiftIdentifiers.MetisCreateElement, WerewolfInitialGiftSource.Race, WerewolfRaceIdentifiers.Metis, 1),
         new(WerewolfInitialGiftIdentifiers.LupusHareLeap, WerewolfInitialGiftSource.Race, WerewolfRaceIdentifiers.Lupus, 1),
         new(WerewolfInitialGiftIdentifiers.RagabashOpenSeal, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Ragabash, 1),
+        new(WerewolfInitialGiftIdentifiers.TheurgeSpiritSpeech, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Theurge, 1),
         new(WerewolfInitialGiftIdentifiers.PhilodoxResistPain, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Philodox, 1),
+        new(WerewolfInitialGiftIdentifiers.GalliardBeastSpeech, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Galliard, 1),
+        new(WerewolfInitialGiftIdentifiers.AhrounFallingTouch, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Ahroun, 1),
         new(WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GlassWalkers, 1)
     ];
 

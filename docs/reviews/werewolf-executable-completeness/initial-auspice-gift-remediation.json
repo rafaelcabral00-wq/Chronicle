@@ -1,0 +1,87 @@
+{
+  "remediationId": "REM-WEC-001-initial-auspice-gift-executable-decision-set",
+  "status": "implemented-and-validated",
+  "effectiveDate": "2026-08-03",
+  "problem": "The current slice permits all five Auspices and requires one initial Auspice Gift, but the previous executable decision set approved only Ragabash and Philodox Auspice Gifts.",
+  "rootCause": "The finalized executable Gift decision target was scoped to six identities total and did not include one executable Auspice Gift for every supported Auspice.",
+  "authorityInspected": [
+    "docs/extraction/werewolf-3e/EXTRACTION-0001-source-inventory.md",
+    "docs/extraction/werewolf-3e/EXTRACTION-0002-content-classification.md",
+    "docs/extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md",
+    "docs/extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md",
+    "docs/extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/initial-gifts.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/catalog-identity-decisions.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/initial-gift-review-record.json",
+    "docs/reviews/werewolf-executable-completeness/discrepancy-register.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfInitialGiftSelection.cs"
+  ],
+  "decisionGovernance": {
+    "existingDecisionSetReopened": true,
+    "newDecisionRequestRequired": false,
+    "decisionSetArtifact": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/catalog-identity-decisions.json",
+    "reviewRecordArtifact": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/initial-gift-review-record.json",
+    "decisionBoundary": "Adds acquisition eligibility only for initial Auspice Gift selection; does not approve Gift effects, additional Gift purchase, publication, installation, activation, or Campaign binding."
+  },
+  "executableAuspiceGiftMatrix": [
+    {
+      "auspiceId": "ragabash",
+      "giftId": "gift.auspice.ragabash.open-seal",
+      "sourceEvidenceStatus": "previously-approved",
+      "extractionStatus": "slot-and-level-extracted",
+      "prototypeCatalogStatus": "present",
+      "decisionStatus": "approved",
+      "runtimeStatus": "supported"
+    },
+    {
+      "auspiceId": "theurge",
+      "giftId": "gift.auspice.theurge.spirit-speech",
+      "sourceEvidenceStatus": "registered-source-and-prototype-provenance-present",
+      "extractionStatus": "slot-and-level-extracted",
+      "prototypeCatalogStatus": "present",
+      "decisionStatus": "approved-by-remediation",
+      "runtimeStatus": "supported"
+    },
+    {
+      "auspiceId": "philodox",
+      "giftId": "gift.auspice.philodox.resist-pain",
+      "sourceEvidenceStatus": "previously-approved",
+      "extractionStatus": "slot-and-level-extracted",
+      "prototypeCatalogStatus": "present",
+      "decisionStatus": "approved",
+      "runtimeStatus": "supported"
+    },
+    {
+      "auspiceId": "galliard",
+      "giftId": "gift.auspice.galliard.beast-speech",
+      "sourceEvidenceStatus": "registered-source-and-prototype-provenance-present",
+      "extractionStatus": "slot-and-level-extracted",
+      "prototypeCatalogStatus": "present",
+      "decisionStatus": "approved-by-remediation",
+      "runtimeStatus": "supported"
+    },
+    {
+      "auspiceId": "ahroun",
+      "giftId": "gift.auspice.ahroun.falling-touch",
+      "sourceEvidenceStatus": "registered-source-and-prototype-provenance-present",
+      "extractionStatus": "slot-and-level-extracted",
+      "prototypeCatalogStatus": "present",
+      "decisionStatus": "approved-by-remediation",
+      "runtimeStatus": "supported"
+    }
+  ],
+  "preservedRestrictions": [
+    "exactly-one-initial-auspice-gift-required",
+    "additional-gift-purchase-disabled",
+    "runtime-gift-effects-disabled",
+    "gift-effects-not-implemented"
+  ],
+  "remainingCharacterCompletionBlockers": [
+    "individual-attribute-allocation",
+    "ability-priority-and-allocation",
+    "background-allocation-and-restrictions",
+    "initial-resources-renown-and-rank",
+    "completion-required-identity-fields",
+    "completion-validation-and-finalization"
+  ]
+}

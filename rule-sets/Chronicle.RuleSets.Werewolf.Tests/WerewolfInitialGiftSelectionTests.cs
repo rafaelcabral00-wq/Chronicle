@@ -12,7 +12,10 @@ public sealed class WerewolfInitialGiftSelectionTests
     [InlineData(WerewolfInitialGiftSource.Race, WerewolfRaceIdentifiers.Metis, null, null, WerewolfInitialGiftIdentifiers.MetisCreateElement)]
     [InlineData(WerewolfInitialGiftSource.Race, WerewolfRaceIdentifiers.Lupus, null, null, WerewolfInitialGiftIdentifiers.LupusHareLeap)]
     [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Ragabash, null, WerewolfInitialGiftIdentifiers.RagabashOpenSeal)]
+    [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Theurge, null, WerewolfInitialGiftIdentifiers.TheurgeSpiritSpeech)]
     [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Philodox, null, WerewolfInitialGiftIdentifiers.PhilodoxResistPain)]
+    [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Galliard, null, WerewolfInitialGiftIdentifiers.GalliardBeastSpeech)]
+    [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Ahroun, null, WerewolfInitialGiftIdentifiers.AhrounFallingTouch)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.GlassWalkers, WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine)]
     public void SelectsEveryApprovedCurrentSliceInitialGift(
         WerewolfInitialGiftSource source,
@@ -35,6 +38,22 @@ public sealed class WerewolfInitialGiftSelectionTests
         Assert.Contains(result.Findings, finding => finding.Code == WerewolfInitialGiftSelectionErrorCode.GiftSelected);
         Assert.Equal(giftId, SelectedGift(result.Draft!, source));
         Assert.Empty(result.Draft?.Gifts ?? []);
+    }
+
+    [Theory]
+    [InlineData(WerewolfAuspiceIdentifiers.Ragabash, WerewolfInitialGiftIdentifiers.RagabashOpenSeal)]
+    [InlineData(WerewolfAuspiceIdentifiers.Theurge, WerewolfInitialGiftIdentifiers.TheurgeSpiritSpeech)]
+    [InlineData(WerewolfAuspiceIdentifiers.Philodox, WerewolfInitialGiftIdentifiers.PhilodoxResistPain)]
+    [InlineData(WerewolfAuspiceIdentifiers.Galliard, WerewolfInitialGiftIdentifiers.GalliardBeastSpeech)]
+    [InlineData(WerewolfAuspiceIdentifiers.Ahroun, WerewolfInitialGiftIdentifiers.AhrounFallingTouch)]
+    public void SelectsOneExecutableInitialGiftForEverySupportedAuspice(string auspiceId, string giftId)
+    {
+        var draft = Draft() with { Auspice = auspiceId };
+
+        var result = Select(draft, WerewolfInitialGiftSource.Auspice, giftId);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(giftId, result.Draft?.AuspiceGift);
     }
 
     [Theory]
@@ -199,6 +218,67 @@ public sealed class WerewolfInitialGiftSelectionTests
         Assert.DoesNotContain(WerewolfInitialGiftSelectionService.SelectInitialGiftsStep, tribeGift.Outputs["nextSteps"], StringComparison.Ordinal);
     }
 
+    [Theory]
+    [MemberData(nameof(AllClassificationPaths))]
+    public void EveryRaceAuspiceTribePathPassesClassificationAndInitialGiftPhase(string raceId, string raceGiftId, string auspiceId, string auspiceGiftId)
+    {
+        var registry = RuntimeRegistry();
+        var created = registry.Execute(Request(WerewolfReferenceRuntime.CreateCharacterOperation, new Dictionary<string, string>(StringComparer.Ordinal) { ["requestId"] = $"request-{raceId}-{auspiceId}" }));
+        var race = registry.Execute(Request(WerewolfReferenceRuntime.SelectRaceOperation, new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["draftId"] = created.Outputs["draftId"],
+            ["draftVersion"] = created.Outputs["draftVersion"],
+            ["expectedDraftVersion"] = created.Outputs["draftVersion"],
+            ["raceId"] = raceId
+        }));
+
+        var afterDeformity = race;
+        if (StringComparer.Ordinal.Equals(raceId, WerewolfRaceIdentifiers.Metis))
+        {
+            afterDeformity = registry.Execute(Request(WerewolfReferenceRuntime.SelectMetisDeformityOperation, new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["draftId"] = race.Outputs["draftId"],
+                ["draftVersion"] = race.Outputs["draftVersion"],
+                ["expectedDraftVersion"] = race.Outputs["draftVersion"],
+                ["currentRace"] = race.Outputs["raceId"],
+                ["deformityId"] = WerewolfMetisDeformityIdentifiers.Horns
+            }));
+        }
+
+        var auspice = registry.Execute(Request(WerewolfReferenceRuntime.SelectAuspiceOperation, new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["draftId"] = afterDeformity.Outputs["draftId"],
+            ["draftVersion"] = afterDeformity.Outputs["draftVersion"],
+            ["expectedDraftVersion"] = afterDeformity.Outputs["draftVersion"],
+            ["currentRace"] = afterDeformity.Outputs["raceId"],
+            ["currentMetisDeformity"] = afterDeformity.Outputs["metisDeformityId"],
+            ["auspiceId"] = auspiceId
+        }));
+        var tribe = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeOperation, new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["draftId"] = auspice.Outputs["draftId"],
+            ["draftVersion"] = auspice.Outputs["draftVersion"],
+            ["expectedDraftVersion"] = auspice.Outputs["draftVersion"],
+            ["currentRace"] = auspice.Outputs["raceId"],
+            ["currentMetisDeformity"] = auspice.Outputs["metisDeformityId"],
+            ["currentAuspice"] = auspice.Outputs["auspiceId"],
+            ["tribeId"] = WerewolfTribeIdentifiers.GlassWalkers
+        }));
+
+        var raceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectRaceGiftOperation, GiftInputs(tribe, raceGiftId)));
+        var auspiceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectAuspiceGiftOperation, GiftInputs(raceGift, auspiceGiftId)));
+        var tribeGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeGiftOperation, GiftInputs(auspiceGift, WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine)));
+
+        Assert.True(tribeGift.Succeeded);
+        Assert.Equal(raceId, tribeGift.Outputs["raceId"]);
+        Assert.Equal(auspiceId, tribeGift.Outputs["auspiceId"]);
+        Assert.Equal(WerewolfTribeIdentifiers.GlassWalkers, tribeGift.Outputs["tribeId"]);
+        Assert.Equal(raceGiftId, tribeGift.Outputs["raceGiftId"]);
+        Assert.Equal(auspiceGiftId, tribeGift.Outputs["auspiceGiftId"]);
+        Assert.Equal(WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine, tribeGift.Outputs["tribeGiftId"]);
+        Assert.DoesNotContain(WerewolfInitialGiftSelectionService.SelectInitialGiftsStep, tribeGift.Outputs["nextSteps"], StringComparison.Ordinal);
+    }
+
     [Fact]
     public void InitialGiftSelectionHasNoForbiddenDependencies()
     {
@@ -253,6 +333,32 @@ public sealed class WerewolfInitialGiftSelectionTests
             WerewolfRuleSetPackage.PackageVersion,
             operationKey,
             inputs);
+    }
+
+    public static IEnumerable<object[]> AllClassificationPaths()
+    {
+        var races = new[]
+        {
+            (WerewolfRaceIdentifiers.Homid, WerewolfInitialGiftIdentifiers.HomidMasterOfFire),
+            (WerewolfRaceIdentifiers.Metis, WerewolfInitialGiftIdentifiers.MetisCreateElement),
+            (WerewolfRaceIdentifiers.Lupus, WerewolfInitialGiftIdentifiers.LupusHareLeap)
+        };
+        var auspices = new[]
+        {
+            (WerewolfAuspiceIdentifiers.Ragabash, WerewolfInitialGiftIdentifiers.RagabashOpenSeal),
+            (WerewolfAuspiceIdentifiers.Theurge, WerewolfInitialGiftIdentifiers.TheurgeSpiritSpeech),
+            (WerewolfAuspiceIdentifiers.Philodox, WerewolfInitialGiftIdentifiers.PhilodoxResistPain),
+            (WerewolfAuspiceIdentifiers.Galliard, WerewolfInitialGiftIdentifiers.GalliardBeastSpeech),
+            (WerewolfAuspiceIdentifiers.Ahroun, WerewolfInitialGiftIdentifiers.AhrounFallingTouch)
+        };
+
+        foreach (var race in races)
+        {
+            foreach (var auspice in auspices)
+            {
+                yield return [race.Item1, race.Item2, auspice.Item1, auspice.Item2];
+            }
+        }
     }
 
     private static RuleSetRuntimeRegistry RuntimeRegistry()

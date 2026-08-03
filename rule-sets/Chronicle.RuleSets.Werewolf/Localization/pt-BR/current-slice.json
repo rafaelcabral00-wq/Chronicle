@@ -1,4 +1,9 @@
 {
   "ruleset.werewolf.display-name": "Fatia Atual de Referencia de Werewolf",
-  "ruleset.werewolf.description": "Esqueleto de fonte apenas com metadados para a fatia atual de criacao de personagem de Werewolf."
+  "ruleset.werewolf.description": "Fonte de pacote executavel da fatia atual para incrementos deterministicos de criacao de personagem de Werewolf.",
+  "gift.auspice.ragabash.open-seal.display-name": "Abrir Objetos",
+  "gift.auspice.theurge.spirit-speech.display-name": "Falar com Espiritos",
+  "gift.auspice.philodox.resist-pain.display-name": "Resistencia a Dor",
+  "gift.auspice.galliard.beast-speech.display-name": "Falar com Animais",
+  "gift.auspice.ahroun.falling-touch.display-name": "Toque da Queda"
 }

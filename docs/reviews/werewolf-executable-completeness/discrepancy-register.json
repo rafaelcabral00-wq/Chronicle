@@ -13,7 +13,14 @@
         "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json"
       ],
       "completionImpact": "Theurge, Galliard, and Ahroun paths cannot satisfy required one Auspice Gift selection.",
-      "requiredRemediation": "Create a decision request or implementation-scope work package to either approve/implement executable Auspice Gifts for Theurge, Galliard, and Ahroun or restrict runtime-supported Auspices until completion support exists."
+      "requiredRemediation": "Create a decision request or implementation-scope work package to either approve/implement executable Auspice Gifts for Theurge, Galliard, and Ahroun or restrict runtime-supported Auspices until completion support exists.",
+      "remediationStatus": "remediated-by-focused-initial-auspice-gift-decision-set-2026-08-03",
+      "remediationEvidence": [
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/catalog-identity-decisions.json",
+        "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/initial-gift-review-record.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfInitialGiftSelection.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfInitialGiftSelectionTests.cs"
+      ]
     },
     {
       "id": "WEC-002",
