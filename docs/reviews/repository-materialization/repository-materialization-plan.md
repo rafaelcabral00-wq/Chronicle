@@ -982,3 +982,60 @@ Deferred:
 - final Werewolf PackageId governance.
 
 Next executable task: implement explicit Tribe selection for the current-slice draft after explicit authorization.
+
+## IMPLEMENT-011 Execution Evidence
+
+Status: complete on 2026-08-03.
+
+Created Tribe selection contracts and implementation:
+
+- `WerewolfTribeSelectionRequest`
+- `WerewolfTribeIdentifiers`
+- `WerewolfTribeSelectionResult`
+- `WerewolfTribeSelectionFinding`
+- `WerewolfTribeSelectionErrorCode`
+- `WerewolfTribeSelectionService`
+
+Tribe identifiers and behavior:
+
+- supported canonical identifier: `glass-walkers`;
+- identifier is stable and localization-independent;
+- missing, unknown, whitespace-padded, malformed, or cataloged non-current-slice Tribe identifiers are rejected;
+- successful selection updates the draft immutably and increments the draft version exactly once.
+
+Draft transition rules:
+
+- requires initialized draft and exact expected draft version;
+- allows explicit Tribe replacement;
+- preserves Race, Auspice, Metis deformity requirement, and unrelated draft state;
+- does not choose Tribe Gifts, Backgrounds, resources, narrative fields, or other options;
+- preserves disabled additional Gift purchase and runtime Gift effects.
+
+Runtime changes:
+
+- added enabled operation `character-creation.select-tribe`;
+- runtime envelope requires `draftId`, `draftVersion`, `expectedDraftVersion`, and `tribeId`;
+- runtime returns deterministic updated draft id, version, Tribe id, Auspice id, Race id, and next-step output fields.
+
+Validation:
+
+- `dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false`: passed;
+- `dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false`: passed with 0 warnings and 0 errors;
+- `dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false`: passed with 157 tests;
+- architecture rules: passed;
+- focused create-character to select-race to select-auspice to select-tribe runtime execution: passed.
+
+Deferred:
+
+- Gifts;
+- allocations;
+- deformity selection;
+- completion validation;
+- finalization;
+- persistence;
+- UI;
+- dice;
+- Campaign association;
+- final Werewolf PackageId governance.
+
+Next executable task: implement the next explicit current-slice character-creation operation after explicit authorization.

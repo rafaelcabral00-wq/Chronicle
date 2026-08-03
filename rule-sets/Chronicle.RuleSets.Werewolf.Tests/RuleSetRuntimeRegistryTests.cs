@@ -120,6 +120,7 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation,
                 WerewolfReferenceRuntime.SelectAuspiceOperation,
                 WerewolfReferenceRuntime.SelectRaceOperation,
+                WerewolfReferenceRuntime.SelectTribeOperation,
                 WerewolfReferenceRuntime.ExecuteGiftEffectOperation
             ],
             first[0].Operations.Select(operation => operation.OperationKey).ToArray());

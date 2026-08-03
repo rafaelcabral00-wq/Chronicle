@@ -276,5 +276,23 @@
       "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
     },
     "notCreated": ["Tribe selection", "Gifts", "allocations", "deformity selection", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
+  },
+  "implement011Evidence": {
+    "completedDate": "2026-08-03",
+    "createdTypes": ["WerewolfTribeSelectionRequest", "WerewolfTribeIdentifiers", "WerewolfTribeSelectionResult", "WerewolfTribeSelectionFinding", "WerewolfTribeSelectionFindingSeverity", "WerewolfTribeSelectionErrorCode", "WerewolfTribeSelectionService"],
+    "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfTribeSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfTribeSelectionTests.cs"],
+    "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"],
+    "tribeIdentifiers": ["glass-walkers"],
+    "draftTransitionRules": ["requires initialized draft and exact expected draft version", "accepts only canonical current-slice Tribe identifiers", "rejects cataloged non-current-slice Tribes as out of scope", "updates draft immutably", "increments draft version exactly once on success", "allows explicit Tribe replacement", "preserves Race, Auspice, and Metis deformity requirement", "does not choose Tribe Gifts, Backgrounds, resources, narrative fields, or other options", "preserves disabled capabilities"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false",
+      "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
+      "test": "passed: dotnet test Chronicle.sln --no-build /m:1 /p:BuildInParallel=false; 157 tests passed",
+      "architectureRules": "passed: 11 architecture tests passed",
+      "focusedRuntimeExecution": "passed: create-character -> select-race -> select-auspice -> select-tribe through runtime registry flow",
+      "sideEffects": "passed: no persistence, Campaign binding, UI, filesystem, network, provider access, dice, or randomness",
+      "generatedOutputStaging": "passed: generated bin/obj outputs are ignored and not staged"
+    },
+    "notCreated": ["Gifts", "allocations", "deformity selection", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
   }
 }
