@@ -25,7 +25,7 @@
     "scopeStatus": "executable-increment",
     "sourceSystemCompleteness": "not-complete",
     "declaredScopeCompleteness": "partial-executable-current-slice",
-    "implementationCompleteness": "classification-initial-selection-and-attribute-allocation-increments",
+    "implementationCompleteness": "classification-initial-selection-attribute-and-ability-allocation-increments",
     "validationCompleteness": "bootstrap-and-runtime-increment-tests",
     "publicationStatus": "not-published"
   },

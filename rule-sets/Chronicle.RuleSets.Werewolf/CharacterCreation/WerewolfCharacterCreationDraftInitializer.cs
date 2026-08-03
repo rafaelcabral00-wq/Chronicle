@@ -48,7 +48,27 @@ public sealed class WerewolfCharacterCreationDraftInitializer
 public static class WerewolfCharacterCreationDraftFactory
 {
     private static readonly string[] AttributeKeys = ["mental", "physical", "social"];
-    private static readonly string[] AbilityKeys = ["knowledge", "skills", "talents"];
+    private static readonly string[] AbilityKeys =
+    [
+        "character.ability.alertness",
+        "character.ability.athletics",
+        "character.ability.brawl",
+        "character.ability.computer",
+        "character.ability.drive",
+        "character.ability.empathy",
+        "character.ability.etiquette",
+        "character.ability.expression",
+        "character.ability.intimidation",
+        "character.ability.investigation",
+        "character.ability.law",
+        "character.ability.leadership",
+        "character.ability.occult",
+        "character.ability.performance",
+        "character.ability.politics",
+        "character.ability.stealth",
+        "character.ability.subterfuge",
+        "character.ability.survival"
+    ];
     private static readonly string[] BackgroundKeys = ["background-selection"];
     private static readonly string[] ResourceKeys = ["gnosis", "rage", "willpower"];
     private static readonly string[] NarrativeFieldKeys = ["character-concept", "character-goals", "character-relationships", "name"];
@@ -69,6 +89,8 @@ public static class WerewolfCharacterCreationDraftFactory
             TribeGift: null,
             AttributePriorityOrder: [],
             AttributeBudgets: new ReadOnlyDictionary<string, int>(new Dictionary<string, int>(StringComparer.Ordinal)),
+            AbilityPriorityOrder: [],
+            AbilityBudgets: new ReadOnlyDictionary<string, int>(new Dictionary<string, int>(StringComparer.Ordinal)),
             Attributes: UnsetDictionary(AttributeKeys),
             Abilities: UnsetDictionary(AbilityKeys),
             Backgrounds: UnsetDictionary(BackgroundKeys),

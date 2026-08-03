@@ -22,6 +22,8 @@ public sealed record WerewolfInitializedCharacterState(
     string? TribeGift,
     IReadOnlyList<string> AttributePriorityOrder,
     IReadOnlyDictionary<string, int> AttributeBudgets,
+    IReadOnlyList<string> AbilityPriorityOrder,
+    IReadOnlyDictionary<string, int> AbilityBudgets,
     IReadOnlyDictionary<string, int?> Attributes,
     IReadOnlyDictionary<string, int?> Abilities,
     IReadOnlyDictionary<string, int?> Backgrounds,

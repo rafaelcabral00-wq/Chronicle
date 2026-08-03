@@ -24,7 +24,7 @@
     },
     {
       "id": "WEC-002",
-      "title": "Package metadata and localization still report metadata-only/runtime-not-implemented status",
+      "title": "Package metadata and localization status lagged behind executable runtime increments",
       "classification": "contradiction between authoritative artifacts",
       "evidence": [
         "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
@@ -34,7 +34,12 @@
         "docs/reviews/repository-materialization/repository-materialization-plan.md"
       ],
       "completionImpact": "Does not directly block mechanics, but violates status/claim accuracy for executable completeness.",
-      "requiredRemediation": "Create a clerical package-status update after audit review; do not change supported mechanics silently."
+      "requiredRemediation": "Create a clerical package-status update after audit review; do not change supported mechanics silently.",
+      "remediationStatus": "partially-remediated-through-IMPLEMENT-016-status-update-2026-08-03",
+      "remediationEvidence": [
+        "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json"
+      ]
     },
     {
       "id": "WEC-003",
@@ -66,7 +71,13 @@
         "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/creation-mechanics-review.json"
       ],
       "completionImpact": "All paths blocked at required Ability allocation; Lupus paths require additional restriction handling.",
-      "requiredRemediation": "IMPLEMENT-016/017: Ability priority selection, allocation, and Lupus base restriction enforcement."
+      "requiredRemediation": "IMPLEMENT-016/017: Ability priority selection, allocation, and Lupus base restriction enforcement.",
+      "remediationStatus": "remediated-by-IMPLEMENT-016-2026-08-03",
+      "remediationEvidence": [
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAbilitySelection.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfAbilitySelectionTests.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs"
+      ]
     },
     {
       "id": "WEC-005",
@@ -151,12 +162,6 @@
       "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/initial-gifts.json",
       "absentFrom": "approved current-slice Gift decision set and runtime Gift selection",
       "classification": "decision omission"
-    },
-    {
-      "data": "Ability catalog and 13/9/5 priority allocation",
-      "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/abilities.json",
-      "absentFrom": "package runtime",
-      "classification": "runtime omission"
     },
     {
       "data": "Background catalog and 5-point allocation",

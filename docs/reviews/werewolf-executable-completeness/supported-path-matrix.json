@@ -1,4 +1,4 @@
-{
+﻿{
   "auditId": "AUDIT-WEREWOLF-EXECUTABLE-COMPLETENESS-2026-08-03",
   "pathBasis": {
     "races": [
@@ -33,8 +33,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -49,8 +47,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for theurge",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -64,8 +60,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -80,8 +74,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for galliard",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -96,8 +88,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for ahroun",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -111,8 +101,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -130,8 +118,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for theurge",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -148,8 +134,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -167,8 +151,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for galliard",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -186,8 +168,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for ahroun",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -204,9 +184,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
-        "Lupus base Ability restrictions not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -221,9 +198,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for theurge",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
-        "Lupus base Ability restrictions not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -237,9 +211,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
-        "Lupus base Ability restrictions not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -254,9 +225,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for galliard",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
-        "Lupus base Ability restrictions not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -271,9 +239,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for ahroun",
-        "Attribute dot allocation not implemented",
-        "Ability priority/allocation not implemented",
-        "Lupus base Ability restrictions not implemented",
         "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
@@ -290,3 +255,4 @@
     "pathsWithMandatorySelectionsExecutableButCompletionBlockedLater": 6
   }
 }
+

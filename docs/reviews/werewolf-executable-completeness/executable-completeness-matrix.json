@@ -51,6 +51,8 @@
     "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfMetisDeformitySelection.cs",
     "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfInitialGiftSelection.cs",
     "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAttributePrioritySelection.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAttributeAllocation.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAbilitySelection.cs",
     "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs"
   ],
   "matrix": [
@@ -60,8 +62,8 @@
       "sourceEvidenceStatus": "source-supported",
       "extractionStatus": "present in EXTRACTION-0003 sections 4 and 11",
       "prototypeDecisionStatus": "present in creation profile; initialization plan includes Attribute, Ability, Background, and Rank initialization",
-      "packageSourceStatus": "partially present: draft identity, status, unset choices, Attribute/Ability/Background dictionaries, disabled Gift capabilities",
-      "runtimeStatus": "partially implemented: creates draft but does not initialize Rank, Renown, resources, package binding, creation ledger, or full catalog-backed field entries",
+      "packageSourceStatus": "partially present: draft identity, status, unset choices, current-slice Attribute/Ability dictionaries, Background dictionary, disabled Gift capabilities",
+      "runtimeStatus": "partially implemented: creates draft but does not initialize Rank, Renown, resources, package binding, creation ledger, or Background catalog-backed field entries",
       "completionImpact": "blocks completion for every path because Rank, resources, Renown, ledger, and package binding completion prerequisites cannot be satisfied",
       "discrepancyClassification": "runtime omission",
       "requiredRemediation": "Implement source-backed initialization for Rank, resources, Renown placeholders or derived values, package binding, and creation ledger before enabling completion."
@@ -132,23 +134,23 @@
       "sourceEvidenceStatus": "source-supported",
       "extractionStatus": "present in EXTRACTION-0002 and EXTRACTION-0003",
       "prototypeDecisionStatus": "attribute identities approved; mechanics are candidate-confirmed but creation-mechanics review not finalized",
-      "packageSourceStatus": "priority selection implemented; individual Attribute catalog and allocation operation absent from package source",
-      "runtimeStatus": "priority order and budgets implemented; individual Attribute dot allocation not implemented",
-      "completionImpact": "all paths blocked because required Attribute allocation cannot be completed",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement individual Attribute allocation and validation against 7/5/3 budgets."
+      "packageSourceStatus": "implemented for current-slice Attribute catalog and allocation",
+      "runtimeStatus": "implemented with priority order, budgets, base-dot accounting, atomic replacement, and validation",
+      "completionImpact": "no longer blocks completion after IMPLEMENT-015; downstream Backgrounds/resources/Rank/identity/completion validation still block completion",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "No open Attribute allocation remediation; keep completion unavailable until downstream required areas are implemented."
     },
     {
       "area": "Abilities and category/budget rules",
-      "expectedAuthoritativeEntriesOrRules": "Talents, Skills, Knowledges; priorities 13/9/5; thirty Abilities start at 0; base cap 3; Lupus base-allocation restrictions.",
+      "expectedAuthoritativeEntriesOrRules": "Talents, Skills, Knowledges; current executable subset has eighteen approved identities; priorities 13/9/5; Abilities start at 0; base cap 3; approved current-slice Lupus base-allocation restrictions.",
       "sourceEvidenceStatus": "source-supported with Lupus timing ambiguity",
       "extractionStatus": "present in EXTRACTION-0002 and EXTRACTION-0003",
-      "prototypeDecisionStatus": "ability review has approved identities; creation mechanics remain not approved; Lupus freebie timing ambiguous",
-      "packageSourceStatus": "not materialized beyond generic draft dictionary",
-      "runtimeStatus": "not implemented",
-      "completionImpact": "blocks completion for every path; Lupus paths also require explicit restriction enforcement",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement Ability priority selection, allocation, base cap validation, and Lupus base-allocation restriction handling."
+      "prototypeDecisionStatus": "ability review approved eighteen current-slice identities and base-allocation Lupus restrictions; later/freebie purchase behavior remains unresolved and not enabled",
+      "packageSourceStatus": "implemented for current-slice Ability catalog, priority selection, allocation, and approved Lupus base restrictions",
+      "runtimeStatus": "implemented with priority order, budgets, base rating 0, base cap 3, atomic allocation replacement, and restricted Lupus base Ability enforcement",
+      "completionImpact": "no longer blocks completion after IMPLEMENT-016; downstream Backgrounds/resources/Rank/identity/completion validation still block completion",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "No open Ability allocation remediation; keep later/freebie purchase of restricted Abilities disabled until a future decision enables it."
     },
     {
       "area": "Backgrounds, entries, restrictions, and budgets",
@@ -228,11 +230,11 @@
       "sourceEvidenceStatus": "not source-mechanical",
       "extractionStatus": "not applicable",
       "prototypeDecisionStatus": "DR-0002 requires metadata/docs to match actual behavior",
-      "packageSourceStatus": "stale: metadata says metadata-only/runtime mechanics not implemented; localization only names package",
-      "runtimeStatus": "runtime has implemented operations through IMPLEMENT-014",
+      "packageSourceStatus": "metadata updated through IMPLEMENT-016 to describe partial executable current-slice increments through Attribute and Ability allocation; localization names/describes the executable current slice without claiming completion",
+      "runtimeStatus": "runtime has implemented operations through IMPLEMENT-016",
       "completionImpact": "does not itself block mechanical completion, but creates public/package status contradiction",
       "discrepancyClassification": "contradiction between authoritative artifacts",
-      "requiredRemediation": "Update package metadata/localization/status claims in a clerical implementation-status task after audit decisions are reviewed."
+      "requiredRemediation": "Continue keeping metadata and localization synchronized as later implementation increments add Backgrounds, resources, Rank, identity fields, and completion validation."
     }
   ]
 }

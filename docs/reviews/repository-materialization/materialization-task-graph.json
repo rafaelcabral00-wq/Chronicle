@@ -356,5 +356,33 @@
       "generatedOutputStaging": "passed: generated bin/obj and restore scratch outputs are ignored and not staged"
     },
     "notCreated": ["individual Attribute allocation", "Abilities", "Backgrounds", "resources", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization"]
+  },
+  "implement016Evidence": {
+    "completedDate": "2026-08-03",
+    "authoritativeAbilityInterpretation": {
+      "categoryIdentifiers": ["talents", "skills", "knowledges"],
+      "priorityBudgets": {"primary": 13, "secondary": 9, "tertiary": 5},
+      "creationBaseRating": 0,
+      "creationMaximumRating": 3,
+      "currentSliceAbilityCount": 18,
+      "lupusBaseRestrictedAbilities": ["character.ability.computer", "character.ability.drive", "character.ability.etiquette", "character.ability.law", "character.ability.politics"],
+      "unresolvedAndNotEnabled": ["later/freebie purchase behavior for Lupus-restricted Abilities", "complete thirty-Ability source catalog"]
+    },
+    "createdTypes": ["WerewolfAbilityPrioritySelectionRequest", "WerewolfAbilityCategoryIdentifiers", "WerewolfAbilityIdentifiers", "WerewolfAbilityPrioritySelectionResult", "WerewolfAbilityPrioritySelectionFinding", "WerewolfAbilityPrioritySelectionErrorCode", "WerewolfAbilityAllocationRequest", "WerewolfAbilityDotAllocation", "WerewolfAbilityAllocationResult", "WerewolfAbilityAllocationCategoryTotal", "WerewolfAbilityAllocationFinding", "WerewolfAbilityAllocationErrorCode", "WerewolfAbilitySelectionService"],
+    "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAbilitySelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfAbilitySelectionTests.cs"],
+    "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs", "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs", "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json", "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json", "docs/reviews/werewolf-executable-completeness/discrepancy-register.json", "docs/reviews/werewolf-executable-completeness/executable-completeness-matrix.json", "docs/reviews/werewolf-executable-completeness/supported-path-matrix.json", "docs/reviews/werewolf-executable-completeness/executable-completeness-audit-report.md"],
+    "operationKeys": ["character-creation.select-ability-priorities", "character-creation.allocate-abilities"],
+    "transitionRules": ["requires initialized draft and exact expected draft version", "requires talents, skills, and knowledges exactly once", "maps priority order to 13/9/5 budgets", "priority replacement clears existing Ability allocation", "allocation requires priorities first", "allocation payload must include every current-slice Ability exactly once", "ratings use base 0 and base-allocation maximum 3", "approved Lupus base restrictions reject nonzero allocation to restricted current-slice Abilities", "successful operations update immutably and increment draft version exactly once", "preserves classifications, deformity, Gifts, Attributes, disabled capabilities, and unrelated state"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln",
+      "build": "passed: dotnet build Chronicle.sln --no-restore -m:1 -v minimal with 0 warnings and 0 errors",
+      "focusedAbilityTests": "partially passed: 42 service and contract tests passed; 1 runtime-registry flow test blocked by Windows App Control loading Chronicle.RuleSets.Abstractions.dll",
+      "fullTestSuite": "blocked by Windows App Control for tests that load Chronicle.RuleSets.Abstractions.dll; architecture and non-Werewolf bootstrap tests ran before the policy block",
+      "packageSourceValidation": "blocked by Windows App Control loading Chronicle.RuleSets.Abstractions.dll in Chronicle.Tools.PackageValidator",
+      "jsonEvidence": "passed: touched JSON artifacts parse",
+      "generatedOutputStaging": "passed: no untracked binary/generated output reported by git scan",
+      "protectedSourceSecretScan": "passed: no protected sourcebook file, secret, binary, cache, or local path introduced in package source"
+    },
+    "notCreated": ["Backgrounds", "resources", "Renown", "Rank", "identity fields", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization", "later/freebie Lupus restricted Ability purchase"]
   }
 }
