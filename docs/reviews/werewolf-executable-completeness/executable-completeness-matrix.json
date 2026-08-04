@@ -136,7 +136,7 @@
       "prototypeDecisionStatus": "attribute identities approved; mechanics are candidate-confirmed but creation-mechanics review not finalized",
       "packageSourceStatus": "implemented for current-slice Attribute catalog and allocation",
       "runtimeStatus": "implemented with priority order, budgets, base-dot accounting, atomic replacement, and validation",
-      "completionImpact": "no longer blocks completion after IMPLEMENT-015; downstream Backgrounds/resources/Rank/identity/completion validation still block completion",
+      "completionImpact": "no longer blocks completion after IMPLEMENT-015; downstream resources/Rank/identity/completion validation still block completion",
       "discrepancyClassification": "remediated runtime omission",
       "requiredRemediation": "No open Attribute allocation remediation; keep completion unavailable until downstream required areas are implemented."
     },
@@ -148,7 +148,7 @@
       "prototypeDecisionStatus": "ability review approved eighteen current-slice identities and base-allocation Lupus restrictions; later/freebie purchase behavior remains unresolved and not enabled",
       "packageSourceStatus": "implemented for current-slice Ability catalog, priority selection, allocation, and approved Lupus base restrictions",
       "runtimeStatus": "implemented with priority order, budgets, base rating 0, base cap 3, atomic allocation replacement, and restricted Lupus base Ability enforcement",
-      "completionImpact": "no longer blocks completion after IMPLEMENT-016; downstream Backgrounds/resources/Rank/identity/completion validation still block completion",
+      "completionImpact": "no longer blocks completion after IMPLEMENT-016; downstream resources/Rank/identity/completion validation still block completion",
       "discrepancyClassification": "remediated runtime omission",
       "requiredRemediation": "No open Ability allocation remediation; keep later/freebie purchase of restricted Abilities disabled until a future decision enables it."
     },
@@ -158,11 +158,11 @@
       "sourceEvidenceStatus": "source-supported with Tribe restriction review required",
       "extractionStatus": "present in EXTRACTION-0003",
       "prototypeDecisionStatus": "background review exists; Glass Walker restriction enforcement is not executable",
-      "packageSourceStatus": "not materialized beyond generic draft dictionary",
-      "runtimeStatus": "not implemented",
-      "completionImpact": "blocks completion for every path",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement Background allocation and Glass Walker restriction validation before completion."
+      "packageSourceStatus": "implemented for the five approved current-slice Background identities",
+      "runtimeStatus": "implemented with complete atomic allocation, five-point budget validation, ratings 0-5, and Glass Walkers Mentor prohibition",
+      "completionImpact": "no longer blocks completion after IMPLEMENT-017; downstream resources/Rank/identity/completion validation still block completion",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "No open Background allocation remediation; keep later/freebie Background purchase and full Totem aggregation disabled until future decisions enable them."
     },
     {
       "area": "initial resources and derived starting values",
@@ -234,7 +234,7 @@
       "runtimeStatus": "runtime has implemented operations through IMPLEMENT-016",
       "completionImpact": "does not itself block mechanical completion, but creates public/package status contradiction",
       "discrepancyClassification": "contradiction between authoritative artifacts",
-      "requiredRemediation": "Continue keeping metadata and localization synchronized as later implementation increments add Backgrounds, resources, Rank, identity fields, and completion validation."
+      "requiredRemediation": "Continue keeping metadata and localization synchronized as later implementation increments add resources, Rank, identity fields, and completion validation."
     }
   ]
 }

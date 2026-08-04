@@ -229,7 +229,7 @@
     "createdTypes": ["WerewolfCreateCharacterRequest", "WerewolfCharacterDraftIdentity", "WerewolfCharacterDraftStatus", "WerewolfInitializedCharacterState", "WerewolfCreateCharacterResultPayload", "WerewolfCharacterInitializationFinding", "WerewolfCharacterInitializationFindingSeverity", "IWerewolfCharacterDraftIdentitySource", "WerewolfCharacterCreationDraftInitializer", "InMemoryWerewolfCharacterDraftIdentitySource"],
     "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfCharacterCreationDraftInitializerTests.cs"],
     "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"],
-    "initializedDraftShape": {"status": "Initialized", "draftVersion": 1, "unsetChoices": ["Race", "Auspice", "Tribe", "Attributes", "Abilities", "Backgrounds", "Gifts", "resources", "narrative fields"], "requiredNextSteps": ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "select-backgrounds", "select-initial-gifts", "review-resources", "add-narrative-fields"], "disabledCapabilities": ["additional-gift-purchase", "runtime-gift-execution"]},
+    "initializedDraftShape": {"status": "Initialized", "draftVersion": 1, "unsetChoices": ["Race", "Auspice", "Tribe", "Attributes", "Abilities", "Backgrounds", "Gifts", "resources", "narrative fields"], "requiredNextSteps": ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "review-resources", "add-narrative-fields"], "disabledCapabilities": ["additional-gift-purchase", "runtime-gift-execution"]},
     "validation": {
       "restore": "passed: dotnet restore Chronicle.sln --disable-parallel /p:BuildInParallel=false; required approved NuGet network access after sandbox network failure",
       "build": "passed: dotnet build Chronicle.sln --no-restore /m:1 /p:UseSharedCompilation=false /p:BuildInParallel=false with 0 warnings and 0 errors",
@@ -384,5 +384,34 @@
       "protectedSourceSecretScan": "passed: no protected sourcebook file, secret, binary, cache, or local path introduced in package source"
     },
     "notCreated": ["Backgrounds", "resources", "Renown", "Rank", "identity fields", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization", "later/freebie Lupus restricted Ability purchase"]
+  },
+  "implement017Evidence": {
+    "completedDate": "2026-08-03",
+    "authoritativeBackgroundInterpretation": {
+      "currentSliceBackgroundCount": 5,
+      "backgroundBudget": 5,
+      "creationBaseRating": 0,
+      "creationMinimumRating": 0,
+      "creationMaximumRating": 5,
+      "zeroValuedEntries": "required in the complete atomic payload",
+      "glassWalkersRestrictedBackgrounds": ["character.background.mentor"],
+      "outOfScopeRestrictionTargets": ["character.background.pure-breed"],
+      "unresolvedAndNotEnabled": ["later/freebie Background purchase", "complete ten-Background source catalog", "active Totem aggregation"]
+    },
+    "createdTypes": ["WerewolfBackgroundIdentifiers", "WerewolfBackgroundAllocationRequest", "WerewolfBackgroundRatingAllocation", "WerewolfBackgroundAllocationResult", "WerewolfBackgroundAllocationFinding", "WerewolfBackgroundAllocationErrorCode", "WerewolfBackgroundAllocationService"],
+    "createdFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfBackgroundAllocation.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfBackgroundAllocationTests.cs"],
+    "updatedFiles": ["rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs", "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfTribeSelection.cs", "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs", "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfTribeSelectionTests.cs", "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs", "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json", "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json", "docs/reviews/werewolf-executable-completeness/discrepancy-register.json", "docs/reviews/werewolf-executable-completeness/executable-completeness-matrix.json", "docs/reviews/werewolf-executable-completeness/supported-path-matrix.json", "docs/reviews/werewolf-executable-completeness/executable-completeness-audit-report.md"],
+    "operationKeys": ["character-creation.allocate-backgrounds"],
+    "transitionRules": ["requires initialized draft and exact expected draft version", "requires Tribe selection before allocation so restrictions can be evaluated", "allocation payload must include every approved current-slice Background exactly once, including zero-valued entries", "ratings use base 0 and creation range 0-5", "allocation must spend exactly five Background points", "Glass Walkers prohibits nonzero Mentor allocation", "successful allocation replaces prior Background allocation atomically", "successful allocation updates immutably and increments draft version exactly once", "Tribe replacement clears only Background allocations newly invalid for the selected Tribe", "preserves classifications, deformity, Gifts, Attributes, Abilities, disabled capabilities, and unrelated state"],
+    "validation": {
+      "restore": "passed: dotnet restore Chronicle.sln",
+      "build": "passed: dotnet build Chronicle.sln --no-restore -m:1 -v minimal with 0 warnings and 0 errors",
+      "focusedBackgroundTests": "passed: dotnet test rule-sets/Chronicle.RuleSets.Werewolf.Tests/Chronicle.RuleSets.Werewolf.Tests.csproj --no-build --filter FullyQualifiedName~WerewolfBackgroundAllocationTests -v minimal; 14 tests passed",
+      "fullTestSuite": "passed: dotnet test Chronicle.sln --no-build -m:1 -v minimal; 332 tests passed",
+      "architectureRules": "passed: dotnet test tests/Chronicle.Architecture.Tests/Chronicle.Architecture.Tests.csproj --no-build -v minimal; 11 tests passed",
+      "packageSourceValidation": "passed: Chronicle.Tools.PackageValidator reported valid package source, 18 files, 0 findings",
+      "jsonEvidence": "passed: repository-materialization, werewolf-executable-completeness, and Werewolf metadata JSON parse"
+    },
+    "notCreated": ["resources", "Renown", "Rank", "identity fields", "completion validation", "finalization", "persistence", "UI", "dice", "Campaign association", "Werewolf PackageId governance finalization", "freebies", "later Background purchase", "active Totem aggregation"]
   }
 }

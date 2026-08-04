@@ -113,7 +113,7 @@ public static class WerewolfTribeSelectionService
             RequiredNextSteps = Array.AsReadOnly(nextSteps),
             Attributes = CopyNumeric(request.Draft.Attributes),
             Abilities = CopyNumeric(request.Draft.Abilities),
-            Backgrounds = CopyNumeric(request.Draft.Backgrounds),
+            Backgrounds = tribeChanged ? ClearInvalidBackgroundsForTribe(request.Draft.Backgrounds, tribe) : CopyNumeric(request.Draft.Backgrounds),
             Gifts = Array.AsReadOnly(request.Draft.Gifts.ToArray()),
             Resources = CopyNumeric(request.Draft.Resources),
             NarrativeFields = CopyOptionalText(request.Draft.NarrativeFields),
@@ -142,6 +142,19 @@ public static class WerewolfTribeSelectionService
     private static ReadOnlyDictionary<string, int?> CopyNumeric(IReadOnlyDictionary<string, int?> values)
     {
         return new ReadOnlyDictionary<string, int?>(values.ToDictionary(entry => entry.Key, entry => entry.Value, StringComparer.Ordinal));
+    }
+
+    private static ReadOnlyDictionary<string, int?> ClearInvalidBackgroundsForTribe(IReadOnlyDictionary<string, int?> values, string tribe)
+    {
+        var copy = values.ToDictionary(entry => entry.Key, entry => entry.Value, StringComparer.Ordinal);
+        if (StringComparer.Ordinal.Equals(tribe, WerewolfTribeIdentifiers.GlassWalkers) &&
+            copy.TryGetValue(WerewolfBackgroundIdentifiers.Mentor, out var mentorRating) &&
+            mentorRating.GetValueOrDefault() > 0)
+        {
+            copy[WerewolfBackgroundIdentifiers.Mentor] = null;
+        }
+
+        return new ReadOnlyDictionary<string, int?>(copy);
     }
 
     private static ReadOnlyDictionary<string, string?> CopyOptionalText(IReadOnlyDictionary<string, string?> values)

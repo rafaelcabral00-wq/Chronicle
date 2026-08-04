@@ -81,15 +81,21 @@
     },
     {
       "id": "WEC-005",
-      "title": "Background allocation and Tribe restrictions are not executable",
+      "title": "Background allocation and Tribe restrictions were not executable",
       "classification": "runtime omission",
       "evidence": [
         "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/backgrounds.json",
         "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/set-background-rating.json",
         "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/background-review-record.json"
       ],
-      "completionImpact": "All paths blocked at required Background allocation.",
-      "requiredRemediation": "IMPLEMENT-018: Background allocation and Glass Walker restriction validation."
+      "completionImpact": "Previously blocked all paths at required Background allocation; no longer blocks completion after IMPLEMENT-017.",
+      "requiredRemediation": "IMPLEMENT-017: Background allocation and Glass Walker restriction validation.",
+      "remediationStatus": "remediated-by-IMPLEMENT-017-2026-08-03",
+      "remediationEvidence": [
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfBackgroundAllocation.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfBackgroundAllocationTests.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs"
+      ]
     },
     {
       "id": "WEC-006",
@@ -162,12 +168,6 @@
       "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/initial-gifts.json",
       "absentFrom": "approved current-slice Gift decision set and runtime Gift selection",
       "classification": "decision omission"
-    },
-    {
-      "data": "Background catalog and 5-point allocation",
-      "presentIn": "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/catalogs/backgrounds.json",
-      "absentFrom": "package runtime",
-      "classification": "runtime omission"
     },
     {
       "data": "Race/Auspice/Tribe-derived resources and Auspice-derived Renown",

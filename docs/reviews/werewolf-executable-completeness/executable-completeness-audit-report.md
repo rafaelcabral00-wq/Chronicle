@@ -86,18 +86,18 @@ Path counts:
 
 The current runtime preserves important authority boundaries: it does not execute Gift effects, does not allow additional Gift purchase, and does not perform persistence, Campaign binding, UI, provider access, network access, filesystem access, or randomness.
 
-However, documented current-slice completion requires more than the runtime currently provides. Missing executable areas now include Background allocation/restrictions, initial resources, initial Renown, Rank, narrative or identity fields required for completion, and completion validation.
+However, documented current-slice completion requires more than the runtime currently provides. Missing executable areas now include initial resources, initial Renown, Rank, narrative or identity fields required for completion, and completion validation.
 
 The broad prototype Gift catalog contains candidate level-one Auspice Gift entries for all five Auspices, but the accepted executable Gift review approves only six current-slice identities: one Race Gift for each Race, one Auspice Gift for Ragabash, one Auspice Gift for Philodox, and one Tribe Gift for Glass Walkers. The audit therefore records the missing Theurge, Galliard, and Ahroun executable Gift support as a decision/runtime gap, not as data that can be silently promoted from prototype catalog to runtime.
 
-Package metadata has been corrected through IMPLEMENT-016 to describe implemented character-creation operations through Attribute and Ability allocation increments. The package remains a partial executable increment, not a complete character-creation implementation.
+Package metadata has been corrected through IMPLEMENT-017 to describe implemented character-creation operations through Attribute, Ability, and Background allocation increments. The package remains a partial executable increment, not a complete character-creation implementation.
 
 ## Required Remediation Work Packages
 
 - REM-WEC-001: Decide and implement executable Auspice completion scope. Either approve and implement current-slice initial Auspice Gifts for Theurge, Galliard, and Ahroun, or restrict Auspice selection so unsupported Auspices are not presented as completable.
 - REM-WEC-002: Implement individual Attribute allocation using the approved categories, catalog, and priority budgets. Status: remediated by IMPLEMENT-015.
 - REM-WEC-003: Implement Ability priority and allocation, including approved Lupus restrictions. Status: remediated by IMPLEMENT-016.
-- REM-WEC-004: Implement Background allocation and Glass Walker restriction handling from accepted evidence.
+- REM-WEC-004: Implement Background allocation and Glass Walker restriction handling from accepted evidence. Status: remediated by IMPLEMENT-017.
 - REM-WEC-005: Implement initial resources, Auspice-derived Renown, and initial Rank.
 - REM-WEC-006: Implement completion-required identity/narrative field capture.
 - REM-WEC-007: Implement completion validation, ledger/package binding evidence, invalidation rules, and atomic finalization.
@@ -105,4 +105,4 @@ Package metadata has been corrected through IMPLEMENT-016 to describe implemente
 
 ## Implementation Scope Note
 
-IMPLEMENT-014 and IMPLEMENT-015 remain independently valid Attribute increments. IMPLEMENT-016 adds Ability priority/allocation and approved Lupus base restriction enforcement without claiming complete character creation or implementing omitted downstream completion behavior.
+IMPLEMENT-014 and IMPLEMENT-015 remain independently valid Attribute increments. IMPLEMENT-016 adds Ability priority/allocation and approved Lupus base restriction enforcement. IMPLEMENT-017 adds Background allocation and approved Glass Walkers Mentor restriction enforcement without claiming complete character creation or implementing omitted downstream completion behavior.

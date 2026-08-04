@@ -17,6 +17,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string AllocateAttributesOperation = "character-creation.allocate-attributes";
     public const string SelectAbilityPrioritiesOperation = "character-creation.select-ability-priorities";
     public const string AllocateAbilitiesOperation = "character-creation.allocate-abilities";
+    public const string AllocateBackgroundsOperation = "character-creation.allocate-backgrounds";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -44,6 +45,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(SelectAuspiceGiftOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(AllocateAbilitiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(AllocateAttributesOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(AllocateBackgroundsOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAbilityPrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAttributePrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectMetisDeformityOperation, "character-creation", RuleSetOperationStatus.Enabled),
@@ -114,6 +116,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             return ExecuteAllocateAbilities(request);
         }
 
+        if (StringComparer.Ordinal.Equals(request.OperationKey, AllocateBackgroundsOperation))
+        {
+            return ExecuteAllocateBackgrounds(request);
+        }
+
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
         {
             return new RuleSetOperationResult(
@@ -165,6 +172,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["attributeBudgets"] = FormatBudgets(payload.Draft.AttributeBudgets),
                 ["abilityPriorityOrder"] = string.Join(",", payload.Draft.AbilityPriorityOrder),
                 ["abilityBudgets"] = FormatBudgets(payload.Draft.AbilityBudgets),
+                ["backgrounds"] = FormatNullableRatings(payload.Draft.Backgrounds),
                 ["raceGiftId"] = payload.Draft.RaceGift ?? string.Empty,
                 ["auspiceGiftId"] = payload.Draft.AuspiceGift ?? string.Empty,
                 ["tribeGiftId"] = payload.Draft.TribeGift ?? string.Empty,
@@ -658,6 +666,44 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             result.CategoryTotals);
     }
 
+    private static RuleSetOperationResult ExecuteAllocateBackgrounds(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("backgrounds", out var backgroundsText) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidBackgroundAllocationRequest", "Background allocation requires draftId, draftVersion, expectedDraftVersion, and backgrounds.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var draft = BuildDraftFromInputs(request, draftId, draftVersion);
+        var result = WerewolfBackgroundAllocationService.AllocateBackgrounds(new WerewolfBackgroundAllocationRequest(draft, expectedVersion, ParseBackgroundAllocations(backgroundsText)));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["backgroundTotal"] = FormatBackgroundTotal(result.Spent, result.Budget, result.Remaining)
+                });
+        }
+
+        return ToDraftOperationResult(
+            result.Draft,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray(),
+            null,
+            null,
+            result);
+    }
+
     private static WerewolfInitializedCharacterState BuildDraftFromInputs(RuleSetOperationRequest request, string draftId, int draftVersion)
     {
         var currentRace = request.Inputs.GetValueOrDefault("currentRace");
@@ -673,6 +719,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         var abilityPriorityOrder = ParseCsv(request.Inputs.GetValueOrDefault("abilityPriorityOrder"));
         var abilityBudgets = ParseBudgets(request.Inputs.GetValueOrDefault("abilityBudgets"));
         var abilities = ParseNullableRatings(request.Inputs.GetValueOrDefault("abilities"));
+        var backgrounds = ParseNullableRatings(request.Inputs.GetValueOrDefault("backgrounds"));
 
         var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
@@ -699,6 +746,9 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             Abilities = abilities.Count == 0
                 ? WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).Abilities
                 : abilities,
+            Backgrounds = backgrounds.Count == 0
+                ? WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).Backgrounds
+                : backgrounds,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
         };
 
@@ -712,7 +762,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         WerewolfInitializedCharacterState draft,
         IReadOnlyList<RuleSetRuntimeFinding> findings,
         IReadOnlyList<WerewolfAttributeAllocationCategoryTotal>? attributeCategoryTotals = null,
-        IReadOnlyList<WerewolfAbilityAllocationCategoryTotal>? abilityCategoryTotals = null)
+        IReadOnlyList<WerewolfAbilityAllocationCategoryTotal>? abilityCategoryTotals = null,
+        WerewolfBackgroundAllocationResult? backgroundAllocation = null)
     {
         return new RuleSetOperationResult(
             true,
@@ -726,10 +777,14 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["attributePriorityOrder"] = string.Join(",", draft.AttributePriorityOrder),
                 ["abilityBudgets"] = FormatBudgets(draft.AbilityBudgets),
                 ["abilityCategoryTotals"] = FormatAbilityCategoryTotals(abilityCategoryTotals ?? []),
-                ["abilities"] = FormatNullableAttributes(draft.Abilities),
+                ["abilities"] = FormatNullableRatings(draft.Abilities),
                 ["abilityPriorityOrder"] = string.Join(",", draft.AbilityPriorityOrder),
                 ["auspiceGiftId"] = draft.AuspiceGift ?? string.Empty,
                 ["auspiceId"] = draft.Auspice ?? string.Empty,
+                ["backgroundTotal"] = backgroundAllocation is null
+                    ? string.Empty
+                    : FormatBackgroundTotal(backgroundAllocation.Spent, backgroundAllocation.Budget, backgroundAllocation.Remaining),
+                ["backgrounds"] = FormatNullableRatings(draft.Backgrounds),
                 ["draftId"] = draft.DraftIdentity.Value,
                 ["draftVersion"] = draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
                 ["metisDeformityId"] = draft.MetisDeformity ?? string.Empty,
@@ -819,6 +874,30 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         return allocations;
     }
 
+    private static List<WerewolfBackgroundRatingAllocation> ParseBackgroundAllocations(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return [];
+        }
+
+        var allocations = new List<WerewolfBackgroundRatingAllocation>();
+        foreach (var entry in value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            var parts = entry.Split(':', StringSplitOptions.TrimEntries);
+            if (parts.Length == 2 && int.TryParse(parts[1], System.Globalization.NumberStyles.AllowLeadingSign, System.Globalization.CultureInfo.InvariantCulture, out var rating))
+            {
+                allocations.Add(new WerewolfBackgroundRatingAllocation(parts[0], rating));
+            }
+            else
+            {
+                allocations.Add(new WerewolfBackgroundRatingAllocation(entry, -1));
+            }
+        }
+
+        return allocations;
+    }
+
     private static System.Collections.ObjectModel.ReadOnlyDictionary<string, int?> ParseNullableAttributes(string? value)
     {
         return ParseNullableRatings(value);
@@ -846,12 +925,22 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
 
     private static string FormatNullableAttributes(IReadOnlyDictionary<string, int?> attributes)
     {
+        return FormatNullableRatings(attributes);
+    }
+
+    private static string FormatNullableRatings(IReadOnlyDictionary<string, int?> attributes)
+    {
         return string.Join(
             ",",
             attributes
                 .Where(entry => entry.Value.HasValue)
                 .OrderBy(entry => entry.Key, StringComparer.Ordinal)
                 .Select(entry => $"{entry.Key}:{entry.Value!.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}"));
+    }
+
+    private static string FormatBackgroundTotal(int spent, int budget, int remaining)
+    {
+        return $"{spent.ToString(System.Globalization.CultureInfo.InvariantCulture)}/{budget.ToString(System.Globalization.CultureInfo.InvariantCulture)}/{remaining.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
     }
 
     private static string FormatAttributeCategoryTotals(IReadOnlyList<WerewolfAttributeAllocationCategoryTotal> totals)

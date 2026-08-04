@@ -1,4 +1,4 @@
-﻿{
+{
   "auditId": "AUDIT-WEREWOLF-EXECUTABLE-COMPLETENESS-2026-08-03",
   "pathBasis": {
     "races": [
@@ -33,7 +33,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -47,7 +46,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for theurge",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -60,7 +58,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -74,7 +71,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for galliard",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -88,7 +84,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for ahroun",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -101,7 +96,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -118,7 +112,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for theurge",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -134,7 +127,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -151,7 +143,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for galliard",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -168,7 +159,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for ahroun",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -184,7 +174,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -198,7 +187,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for theurge",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -211,7 +199,6 @@
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
       "blockingReasons": [
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -225,7 +212,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for galliard",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -239,7 +225,6 @@
       "mandatorySelectionsExecutable": false,
       "blockingReasons": [
         "No approved executable current-slice Auspice Gift for ahroun",
-        "Background allocation/restrictions not implemented",
         "resource and Renown initialization not implemented",
         "Rank initialization not implemented",
         "completion-required name not implemented",
@@ -255,4 +240,5 @@
     "pathsWithMandatorySelectionsExecutableButCompletionBlockedLater": 6
   }
 }
+
 

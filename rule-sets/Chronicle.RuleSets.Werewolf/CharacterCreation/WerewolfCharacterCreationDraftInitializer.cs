@@ -69,10 +69,17 @@ public static class WerewolfCharacterCreationDraftFactory
         "character.ability.subterfuge",
         "character.ability.survival"
     ];
-    private static readonly string[] BackgroundKeys = ["background-selection"];
+    private static readonly string[] BackgroundKeys =
+    [
+        "character.background.allies",
+        "character.background.contacts",
+        "character.background.mentor",
+        "character.background.resources",
+        "character.background.rites"
+    ];
     private static readonly string[] ResourceKeys = ["gnosis", "rage", "willpower"];
     private static readonly string[] NarrativeFieldKeys = ["character-concept", "character-goals", "character-relationships", "name"];
-    private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "select-backgrounds", "select-initial-gifts", "review-resources", "add-narrative-fields"];
+    private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "review-resources", "add-narrative-fields"];
 
     public static WerewolfInitializedCharacterState CreateInitializedDraft(WerewolfCharacterDraftIdentity identity, int draftVersion)
     {
