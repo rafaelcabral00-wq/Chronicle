@@ -125,6 +125,11 @@ public static class WerewolfTribeSelectionService
             RequiredNextSteps = WerewolfInitialGiftSelectionService.ReconcileInitialGiftNextSteps(updated)
         };
 
+        if (tribeChanged)
+        {
+            updated = WerewolfResourceRankInitializationService.ClearInitializedValues(updated);
+        }
+
         return new WerewolfTribeSelectionResult(
             true,
             updated,

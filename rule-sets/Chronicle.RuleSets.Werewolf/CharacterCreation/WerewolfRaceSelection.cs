@@ -116,6 +116,11 @@ public static class WerewolfRaceSelectionService
             RequiredNextSteps = WerewolfInitialGiftSelectionService.ReconcileInitialGiftNextSteps(updated)
         };
 
+        if (raceChanged)
+        {
+            updated = WerewolfResourceRankInitializationService.ClearInitializedValues(updated);
+        }
+
         return new WerewolfRaceSelectionResult(
             true,
             updated,

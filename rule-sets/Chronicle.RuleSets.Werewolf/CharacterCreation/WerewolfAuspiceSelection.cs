@@ -108,6 +108,11 @@ public static class WerewolfAuspiceSelectionService
             RequiredNextSteps = WerewolfInitialGiftSelectionService.ReconcileInitialGiftNextSteps(updated)
         };
 
+        if (auspiceChanged)
+        {
+            updated = WerewolfResourceRankInitializationService.ClearInitializedValues(updated);
+        }
+
         return new WerewolfAuspiceSelectionResult(
             true,
             updated,

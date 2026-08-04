@@ -77,9 +77,26 @@ public static class WerewolfCharacterCreationDraftFactory
         "character.background.resources",
         "character.background.rites"
     ];
-    private static readonly string[] ResourceKeys = ["gnosis", "rage", "willpower"];
+    private static readonly string[] ResourceKeys =
+    [
+        "character.resource.gnosis.current",
+        "character.resource.gnosis.permanent",
+        "character.resource.rage.current",
+        "character.resource.rage.permanent",
+        "character.resource.willpower.current",
+        "character.resource.willpower.permanent"
+    ];
+    private static readonly string[] RenownKeys =
+    [
+        "character.renown.glory.permanent",
+        "character.renown.glory.temporary",
+        "character.renown.honor.permanent",
+        "character.renown.honor.temporary",
+        "character.renown.wisdom.permanent",
+        "character.renown.wisdom.temporary"
+    ];
     private static readonly string[] NarrativeFieldKeys = ["character-concept", "character-goals", "character-relationships", "name"];
-    private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "review-resources", "add-narrative-fields"];
+    private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "initialize-resources-and-rank", "add-narrative-fields"];
 
     public static WerewolfInitializedCharacterState CreateInitializedDraft(WerewolfCharacterDraftIdentity identity, int draftVersion)
     {
@@ -103,6 +120,9 @@ public static class WerewolfCharacterCreationDraftFactory
             Backgrounds: UnsetDictionary(BackgroundKeys),
             Gifts: [],
             Resources: UnsetDictionary(ResourceKeys),
+            Renown: UnsetDictionary(RenownKeys),
+            Rank: null,
+            RankValue: null,
             NarrativeFields: NarrativeDictionary(NarrativeFieldKeys),
             RequiredNextSteps: Array.AsReadOnly(RequiredNextSteps.ToArray()),
             DisabledCapabilities: new ReadOnlyDictionary<string, string>(new Dictionary<string, string>(StringComparer.Ordinal)

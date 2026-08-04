@@ -18,6 +18,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string SelectAbilityPrioritiesOperation = "character-creation.select-ability-priorities";
     public const string AllocateAbilitiesOperation = "character-creation.allocate-abilities";
     public const string AllocateBackgroundsOperation = "character-creation.allocate-backgrounds";
+    public const string InitializeResourcesAndRankOperation = "character-creation.initialize-resources-and-rank";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -46,6 +47,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(AllocateAbilitiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(AllocateAttributesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(AllocateBackgroundsOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(InitializeResourcesAndRankOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAbilityPrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAttributePrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectMetisDeformityOperation, "character-creation", RuleSetOperationStatus.Enabled),
@@ -121,6 +123,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             return ExecuteAllocateBackgrounds(request);
         }
 
+        if (StringComparer.Ordinal.Equals(request.OperationKey, InitializeResourcesAndRankOperation))
+        {
+            return ExecuteInitializeResourcesAndRank(request);
+        }
+
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
         {
             return new RuleSetOperationResult(
@@ -173,6 +180,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["abilityPriorityOrder"] = string.Join(",", payload.Draft.AbilityPriorityOrder),
                 ["abilityBudgets"] = FormatBudgets(payload.Draft.AbilityBudgets),
                 ["backgrounds"] = FormatNullableRatings(payload.Draft.Backgrounds),
+                ["resources"] = FormatNullableRatings(payload.Draft.Resources),
+                ["renown"] = FormatNullableRatings(payload.Draft.Renown),
+                ["rankId"] = payload.Draft.Rank ?? string.Empty,
+                ["rankValue"] = payload.Draft.RankValue?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
                 ["raceGiftId"] = payload.Draft.RaceGift ?? string.Empty,
                 ["auspiceGiftId"] = payload.Draft.AuspiceGift ?? string.Empty,
                 ["tribeGiftId"] = payload.Draft.TribeGift ?? string.Empty,
@@ -704,6 +715,41 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             result);
     }
 
+    private static RuleSetOperationResult ExecuteInitializeResourcesAndRank(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidResourceRankInitializationRequest", "Resource and Rank initialization requires draftId, draftVersion, and expectedDraftVersion.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var draft = BuildDraftFromInputs(request, draftId, draftVersion);
+        var result = WerewolfResourceRankInitializationService.Initialize(new WerewolfResourceRankInitializationRequest(draft, expectedVersion));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return ToDraftOperationResult(
+            result.Draft,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfResourceRankInitializationFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                .ToArray());
+    }
+
     private static WerewolfInitializedCharacterState BuildDraftFromInputs(RuleSetOperationRequest request, string draftId, int draftVersion)
     {
         var currentRace = request.Inputs.GetValueOrDefault("currentRace");
@@ -720,6 +766,13 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         var abilityBudgets = ParseBudgets(request.Inputs.GetValueOrDefault("abilityBudgets"));
         var abilities = ParseNullableRatings(request.Inputs.GetValueOrDefault("abilities"));
         var backgrounds = ParseNullableRatings(request.Inputs.GetValueOrDefault("backgrounds"));
+        var resources = ParseNullableRatings(request.Inputs.GetValueOrDefault("resources"));
+        var renown = ParseNullableRatings(request.Inputs.GetValueOrDefault("renown"));
+        var rank = request.Inputs.GetValueOrDefault("rankId");
+        var rankValue = request.Inputs.TryGetValue("rankValue", out var rankValueText) &&
+            int.TryParse(rankValueText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var parsedRankValue)
+            ? parsedRankValue
+            : (int?)null;
 
         var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
@@ -749,6 +802,14 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             Backgrounds = backgrounds.Count == 0
                 ? WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).Backgrounds
                 : backgrounds,
+            Resources = resources.Count == 0
+                ? WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).Resources
+                : resources,
+            Renown = renown.Count == 0
+                ? WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).Renown
+                : renown,
+            Rank = string.IsNullOrWhiteSpace(rank) ? null : rank,
+            RankValue = rankValue,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
         };
 
@@ -791,6 +852,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["nextSteps"] = string.Join(",", draft.RequiredNextSteps),
                 ["raceGiftId"] = draft.RaceGift ?? string.Empty,
                 ["raceId"] = draft.Race ?? string.Empty,
+                ["rankId"] = draft.Rank ?? string.Empty,
+                ["rankValue"] = draft.RankValue?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                ["renown"] = FormatNullableRatings(draft.Renown),
+                ["resources"] = FormatNullableRatings(draft.Resources),
                 ["tribeGiftId"] = draft.TribeGift ?? string.Empty,
                 ["tribeId"] = draft.Tribe ?? string.Empty
             });
