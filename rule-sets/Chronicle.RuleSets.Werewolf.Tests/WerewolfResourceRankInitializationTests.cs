@@ -14,13 +14,13 @@ public sealed class WerewolfResourceRankInitializationTests
         { WerewolfRaceIdentifiers.Lupus, 5 }
     };
 
-    public static TheoryData<string, int, int?, int?, int?, bool> AuspiceValues => new()
+    public static TheoryData<string, int> AuspiceRage => new()
     {
-        { WerewolfAuspiceIdentifiers.Ragabash, 1, null, null, null, true },
-        { WerewolfAuspiceIdentifiers.Theurge, 2, 0, 0, 3, false },
-        { WerewolfAuspiceIdentifiers.Philodox, 3, 0, 3, 0, false },
-        { WerewolfAuspiceIdentifiers.Galliard, 4, 2, 0, 1, false },
-        { WerewolfAuspiceIdentifiers.Ahroun, 5, 2, 1, 0, false }
+        { WerewolfAuspiceIdentifiers.Ragabash, 1 },
+        { WerewolfAuspiceIdentifiers.Theurge, 2 },
+        { WerewolfAuspiceIdentifiers.Philodox, 3 },
+        { WerewolfAuspiceIdentifiers.Galliard, 4 },
+        { WerewolfAuspiceIdentifiers.Ahroun, 5 }
     };
 
     [Theory]
@@ -37,8 +37,8 @@ public sealed class WerewolfResourceRankInitializationTests
     }
 
     [Theory]
-    [MemberData(nameof(AuspiceValues))]
-    public void DerivesRageAndRenownForEverySupportedAuspice(string auspice, int expectedRage, int? glory, int? honor, int? wisdom, bool requiresSelection)
+    [MemberData(nameof(AuspiceRage))]
+    public void DerivesRageForEverySupportedAuspice(string auspice, int expectedRage)
     {
         var draft = Draft(WerewolfRaceIdentifiers.Homid, auspice);
 
@@ -47,22 +47,36 @@ public sealed class WerewolfResourceRankInitializationTests
         Assert.True(result.Succeeded, Format(result.Findings));
         Assert.Equal(expectedRage, result.Draft?.Resources[WerewolfCharacterResourceIdentifiers.RagePermanent]);
         Assert.Equal(expectedRage, result.Draft?.Resources[WerewolfCharacterResourceIdentifiers.RageCurrent]);
-        Assert.Equal(glory, result.Draft?.Renown[WerewolfRenownIdentifiers.GloryPermanent]);
-        Assert.Equal(honor, result.Draft?.Renown[WerewolfRenownIdentifiers.HonorPermanent]);
-        Assert.Equal(wisdom, result.Draft?.Renown[WerewolfRenownIdentifiers.WisdomPermanent]);
-        Assert.Equal(0, result.Draft?.Renown[WerewolfRenownIdentifiers.GloryTemporary]);
-        Assert.Equal(0, result.Draft?.Renown[WerewolfRenownIdentifiers.HonorTemporary]);
-        Assert.Equal(0, result.Draft?.Renown[WerewolfRenownIdentifiers.WisdomTemporary]);
+        Assert.NotNull(result.Draft);
+        Assert.All(result.Draft.Renown.Values, Assert.Null);
+        Assert.DoesNotContain(result.Findings, finding => finding.Severity == WerewolfResourceRankInitializationFindingSeverity.Warning);
+        Assert.DoesNotContain(WerewolfResourceRankInitializationService.InitializeResourcesAndRankStep, result.Draft.RequiredNextSteps);
+    }
 
-        if (requiresSelection)
-        {
-            Assert.Contains(WerewolfResourceRankInitializationService.SelectRagabashRenownStep, result.Draft?.RequiredNextSteps ?? []);
-            Assert.Contains(result.Findings, finding => finding.Code == WerewolfResourceRankInitializationErrorCode.RagabashRenownRequiresSelection);
-        }
-        else
-        {
-            Assert.DoesNotContain(WerewolfResourceRankInitializationService.SelectRagabashRenownStep, result.Draft?.RequiredNextSteps ?? []);
-        }
+    [Fact]
+    public void RagabashReceivesNoRenownFindingOrNextStep()
+    {
+        var draft = Draft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash);
+
+        var result = Initialize(draft);
+
+        Assert.True(result.Succeeded, Format(result.Findings));
+        Assert.DoesNotContain(result.Findings, finding => finding.Severity == WerewolfResourceRankInitializationFindingSeverity.Warning);
+        Assert.DoesNotContain(WerewolfResourceRankInitializationService.InitializeResourcesAndRankStep, result.Draft!.RequiredNextSteps);
+        Assert.All(result.Draft.Renown.Values, Assert.Null);
+    }
+
+    [Fact]
+    public void OperationDoesNotMutatePreExistingRenownStructuralState()
+    {
+        var draft = Draft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Philodox);
+        var originalRenown = draft.Renown;
+
+        var result = Initialize(draft);
+
+        Assert.True(result.Succeeded, Format(result.Findings));
+        Assert.Same(originalRenown, result.Draft!.Renown);
+        Assert.All(result.Draft.Renown.Values, Assert.Null);
     }
 
     [Fact]
@@ -115,10 +129,11 @@ public sealed class WerewolfResourceRankInitializationTests
         var second = Initialize(first with { Race = WerewolfRaceIdentifiers.Lupus, DraftVersion = first.DraftVersion });
 
         Assert.True(second.Succeeded, Format(second.Findings));
-        Assert.NotSame(first.Resources, second.Draft?.Resources);
-        Assert.NotSame(first.Renown, second.Draft?.Renown);
-        Assert.Equal(5, second.Draft?.Resources[WerewolfCharacterResourceIdentifiers.GnosisPermanent]);
-        Assert.Equal(first.DraftVersion + 1, second.Draft?.DraftVersion);
+        Assert.NotSame(first.Resources, second.Draft!.Resources);
+        Assert.Same(first.Renown, second.Draft.Renown);
+        Assert.All(second.Draft.Renown.Values, Assert.Null);
+        Assert.Equal(5, second.Draft.Resources[WerewolfCharacterResourceIdentifiers.GnosisPermanent]);
+        Assert.Equal(first.DraftVersion + 1, second.Draft.DraftVersion);
     }
 
     [Fact]
@@ -183,7 +198,7 @@ public sealed class WerewolfResourceRankInitializationTests
         Assert.Contains("character.resource.rage.permanent:3", initialized.Outputs["resources"], StringComparison.Ordinal);
         Assert.Contains("character.resource.gnosis.current:1", initialized.Outputs["resources"], StringComparison.Ordinal);
         Assert.Contains("character.resource.willpower.permanent:3", initialized.Outputs["resources"], StringComparison.Ordinal);
-        Assert.Contains("character.renown.honor.permanent:3", initialized.Outputs["renown"], StringComparison.Ordinal);
+        Assert.False(initialized.Outputs.TryGetValue("renown", out var renownOutput) && !string.IsNullOrEmpty(renownOutput));
     }
 
     [Fact]
