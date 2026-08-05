@@ -1,0 +1,213 @@
+{
+  "remediationId": "REM-WEC-006-initial-resources-rank-and-renown-boundary",
+  "status": "proposed",
+  "effectiveDate": "2026-08-05",
+  "problem": "Initial resources, Renown, and Rank are not represented as executable draft state.",
+  "rootCause": "No approved project decision authorizes deterministic initialization of Resources and Rank. Renown behavior is blocked by unresolved source ambiguities and an incomplete creation-mechanics review. The prototype candidate-confirmed mechanics have not been promoted to approved status.",
+  "authorityInspected": [
+    "docs/reviews/werewolf-executable-completeness/discrepancy-register.json",
+    "docs/reviews/werewolf-executable-completeness/executable-completeness-matrix.json",
+    "docs/reviews/werewolf-executable-completeness/executable-completeness-audit-report.md",
+    "docs/reviews/werewolf-executable-completeness/supported-path-matrix.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/catalog-identity-decisions.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/creation-mechanics-review.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/rank-review-record.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/auspice-review-record.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/tribe-review-record.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/creation/profile.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/operation-index.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfResourceRankInitialization.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0005-initial-resources-rank-and-renown-boundary.md"
+  ],
+  "decisionGovernance": {
+    "existingDecisionSetReopened": false,
+    "newDecisionRequestRequired": true,
+    "decisionRequestArtifact": "docs/reviews/documentation-reconciliation/decision-requests/DR-0005-initial-resources-rank-and-renown-boundary.md",
+    "decisionBoundary": "Approves only IMPLEMENT-019A deterministic Resources and Rank initialization. Does not approve Renown, completion validation, identity fields, ledger, persistence, publication, installation, activation, or Campaign binding."
+  },
+  "implement019aScope": {
+    "approved": true,
+    "description": "Deterministic initial Resources and Rank initialization.",
+    "values": [
+      {
+        "field": "character.resource.gnosis",
+        "derivation": "Race",
+        "mapping": {
+          "character.race.homid": {
+            "current": 1,
+            "permanent": 1
+          },
+          "character.race.metis": {
+            "current": 3,
+            "permanent": 3
+          },
+          "character.race.lupus": {
+            "current": 5,
+            "permanent": 5
+          }
+        }
+      },
+      {
+        "field": "character.resource.rage",
+        "derivation": "Auspice",
+        "mapping": {
+          "character.auspice.ragabash": {
+            "current": 1,
+            "permanent": 1
+          },
+          "character.auspice.theurge": {
+            "current": 2,
+            "permanent": 2
+          },
+          "character.auspice.philodox": {
+            "current": 3,
+            "permanent": 3
+          },
+          "character.auspice.galliard": {
+            "current": 4,
+            "permanent": 4
+          },
+          "character.auspice.ahroun": {
+            "current": 5,
+            "permanent": 5
+          }
+        }
+      },
+      {
+        "field": "character.resource.willpower",
+        "derivation": "Tribe",
+        "mapping": {
+          "character.tribe.glass-walkers": {
+            "current": 3,
+            "permanent": 3
+          }
+        }
+      },
+      {
+        "field": "character.rank",
+        "derivation": "system-assigned",
+        "mapping": {
+          "character.rank.cliath": {
+            "numericRank": 1
+          }
+        }
+      }
+    ],
+    "operation": {
+      "operationKey": "character-creation.initialize-resources-and-rank",
+      "boundary": "atomic-after-required-classifications",
+      "preconditions": [
+        "draft-initialized",
+        "draft-version-matches",
+        "race-selected",
+        "auspice-selected",
+        "tribe-selected",
+        "metis-deformity-selected-when-race-is-metis"
+      ],
+      "postconditions": [
+        "resources-dictionary-populated",
+        "rank-and-rankvalue-populated",
+        "draft-version-incremented-exactly-once",
+        "required-next-steps-updated",
+        "no-renown-initialized",
+        "no-renown-findings-emitted",
+        "no-renown-next-steps-emitted"
+      ]
+    }
+  },
+  "implement019aExclusions": [
+    "all-renown-initialization",
+    "ragabash-free-combination-renown",
+    "initial-temporary-renown-values",
+    "fixed-permanent-renown-allocations",
+    "select-ragabash-renown-operation",
+    "completion-requirements-involving-renown",
+    "per-classification-recalculation-boundary",
+    "freebie-points-interaction-with-resources-or-rank"
+  ],
+  "implement019aExpectedProductionChanges": [
+    "WerewolfResourceRankInitialization.cs: retain Gnosis/Rage/Willpower derivation and Rank=Cliath/1; remove all Renown logic",
+    "WerewolfReferenceRuntime.cs: retain Enabled registration and dispatch for character-creation.initialize-resources-and-rank",
+    "WerewolfCharacterCreationDraftInitializer.cs: retain RequiredNextSteps with initialize-resources-and-rank; retain null Resources/Rank until operation executes; remove RenownKeys",
+    "operation-contract-artifact: declare character-creation.initialize-resources-and-rank request/response contract"
+  ],
+  "implement019aRequiredTests": [
+    "Gnosis: homid->1, metis->3, lupus->5; UnsupportedRace for unknown Race",
+    "Rage: ragabash->1, theurge->2, philodox->3, galliard->4, ahroun->5; UnsupportedAuspice for unknown Auspice",
+    "Willpower: glass-walkers->3; UnsupportedTribe for non-Glass-Walkers",
+    "Rank: post-operation Rank=character.rank.cliath, RankValue=1",
+    "Atomicity: draft version increments exactly once; unrelated state preserved",
+    "Renown exclusion: Renown dictionary remains null/unset after operation",
+    "No Renown operation registered or dispatched",
+    "No Ragabash Renown warnings or findings emitted",
+    "Integration: tests.character-creation-happy-path, tests.character-creation-invalid-paths",
+    "Build: dotnet build and dotnet test pass with no new warnings"
+  ],
+  "implement019aCompletionCriteria": [
+    "DR-0005 decision record approved",
+    "character-creation.initialize-resources-and-rank declared in approved operation-contract artifact",
+    "Production code stripped of Renown logic",
+    "All listed tests pass",
+    "WEC-006 remediationStatus and remediationEvidence recorded",
+    "Package metadata and manifest reconciled"
+  ],
+  "implement019bBlockedBoundary": {
+    "status": "blocked",
+    "description": "Initial Renown is not approved for implementation in the current slice.",
+    "classifications": [
+      {
+        "behavior": "Ragabash free-combination Renown",
+        "status": "unresolved"
+      },
+      {
+        "behavior": "Philodox fixed Renown (Honor 3)",
+        "status": "unresolved"
+      },
+      {
+        "behavior": "Theurge initial Renown",
+        "status": "unresolved"
+      },
+      {
+        "behavior": "Galliard initial Renown",
+        "status": "unresolved"
+      },
+      {
+        "behavior": "Ahroun initial Renown",
+        "status": "unresolved"
+      },
+      {
+        "behavior": "Initial temporary Renown values for any Auspice",
+        "status": "unresolved"
+      },
+      {
+        "behavior": "select-ragabash-renown operation",
+        "status": "not-authorized"
+      }
+    ],
+    "structuralPresence": "Renown may remain structurally present in the draft contract with null/unset values. IMPLEMENT-019A must not initialize, interpret, validate, serialize as behavior, emit findings, or emit next steps for Renown.",
+    "completionRequirements": "Completion requirements involving Renown are outside this decision and belong to the future completion-validation work package."
+  },
+  "relationshipToWEC006": {
+    "wecId": "WEC-006",
+    "title": "Initial resources, Renown, and Rank are not represented as executable draft state",
+    "currentStatus": "open",
+    "partialRemediationPrecedent": "WEC-002",
+    "precedentDescription": "WEC-002 (package metadata and localization status lagged behind executable runtime increments) was assigned remediationStatus 'partially-remediated-through-IMPLEMENT-016-status-update-2026-08-03' without subdividing the WEC entry.",
+    "proposedStatusAfter019a": "partially-remediated-through-IMPLEMENT-019A",
+    "fullClosureRequirement": "IMPLEMENT-019B must complete or be formally deferred before WEC-006 can fully close.",
+    "note": "No accepted schema or precedent proves that the discrepancy register supports partial remediation by sub-item. The existing WEC-006 entry should remain and receive a status update rather than be split."
+  },
+  "precedentForPartialRemediation": {
+    "wecId": "WEC-002",
+    "remediationStatus": "partially-remediated-through-IMPLEMENT-016-status-update-2026-08-03",
+    "remediationEvidence": [
+      "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
+      "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json"
+    ]
+  },
+  "explicitStatement": "WEC-006 is not yet remediated merely by creating these documents. These documents record a proposed decision and contract. WEC-006 remains open until IMPLEMENT-019A evidence is recorded and the partial-remediation status is formally applied."
+}
