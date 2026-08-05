@@ -137,7 +137,7 @@ public sealed class WerewolfTribeSelectionTests
         Assert.DoesNotContain("select-tribe", first.Draft?.RequiredNextSteps ?? []);
         Assert.Contains("select-initial-gifts", first.Draft?.RequiredNextSteps ?? []);
         Assert.Contains(WerewolfBackgroundAllocationService.AllocateBackgroundsStep, first.Draft?.RequiredNextSteps ?? []);
-        Assert.Contains("review-resources", first.Draft?.RequiredNextSteps ?? []);
+        Assert.Contains("initialize-resources-and-rank", first.Draft?.RequiredNextSteps ?? []);
         Assert.All(first.Draft?.NarrativeFields ?? new Dictionary<string, string?>(), entry => Assert.Null(entry.Value));
     }
 
