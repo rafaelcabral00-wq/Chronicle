@@ -1,0 +1,118 @@
+{
+  "completionEvidenceId": "EVIDENCE-IMPLEMENT-019A",
+  "workPackage": "IMPLEMENT-019A",
+  "governingDecision": "DR-0005",
+  "governingDecisionArtifact": "docs/reviews/documentation-reconciliation/decision-requests/DR-0005-initial-resources-rank-and-renown-boundary.md",
+  "remediationContract": "docs/reviews/werewolf-executable-completeness/implement-019-remediation-contract.json",
+  "implementationCommit": "939578e",
+  "status": "completed",
+  "completedDate": "2026-08-05",
+  "scope": {
+    "approved": true,
+    "description": "Deterministic initial Resources and Rank initialization for the current executable slice.",
+    "values": [
+      {
+        "field": "character.resource.gnosis",
+        "derivation": "Race",
+        "mapping": {
+          "character.race.homid": { "current": 1, "permanent": 1 },
+          "character.race.metis": { "current": 3, "permanent": 3 },
+          "character.race.lupus": { "current": 5, "permanent": 5 }
+        }
+      },
+      {
+        "field": "character.resource.rage",
+        "derivation": "Auspice",
+        "mapping": {
+          "character.auspice.ragabash": { "current": 1, "permanent": 1 },
+          "character.auspice.theurge": { "current": 2, "permanent": 2 },
+          "character.auspice.philodox": { "current": 3, "permanent": 3 },
+          "character.auspice.galliard": { "current": 4, "permanent": 4 },
+          "character.auspice.ahroun": { "current": 5, "permanent": 5 }
+        }
+      },
+      {
+        "field": "character.resource.willpower",
+        "derivation": "Tribe",
+        "mapping": {
+          "character.tribe.glass-walkers": { "current": 3, "permanent": 3 }
+        }
+      },
+      {
+        "field": "character.rank",
+        "derivation": "system-assigned",
+        "mapping": {
+          "character.rank.cliath": { "numericRank": 1 }
+        }
+      }
+    ],
+    "operation": {
+      "operationKey": "character-creation.initialize-resources-and-rank",
+      "boundary": "atomic-after-required-classifications",
+      "preconditions": [
+        "draft-initialized",
+        "draft-version-matches",
+        "race-selected",
+        "auspice-selected",
+        "tribe-selected",
+        "metis-deformity-selected-when-race-is-metis"
+      ],
+      "postconditions": [
+        "resources-dictionary-populated",
+        "rank-and-rankvalue-populated",
+        "draft-version-incremented-exactly-once",
+        "required-next-steps-updated",
+        "no-renown-initialized",
+        "no-renown-findings-emitted",
+        "no-renown-next-steps-emitted"
+      ]
+    }
+  },
+  "renownBoundary": {
+    "status": "blocked",
+    "behavior": "Renown remains unresolved and behaviorally inactive within IMPLEMENT-019A.",
+    "structuralPresence": "Renown remains structurally present in the draft contract with null/unset values.",
+    "prohibitedBehaviors": [
+      "initialize Renown",
+      "interpret Renown",
+      "validate Renown",
+      "serialize Renown as operation behavior",
+      "emit Renown findings",
+      "emit Renown next steps",
+      "prescribe temporary Renown semantics",
+      "approve fixed Renown allocations",
+      "authorize select-ragabash-renown"
+    ]
+  },
+  "productionFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfResourceRankInitialization.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs"
+  ],
+  "testFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceRankInitializationTests.cs"
+  ],
+  "buildAndTestEvidence": {
+    "dotnetBuild": "passed",
+    "dotnetTestWerewolf": "325 passed, 0 failed",
+    "dotnetTestSolution": "passed",
+    "warnings": 0,
+    "whitespaceErrors": 0
+  },
+  "completionCriteriaAssessment": {
+    "dr0005Approved": true,
+    "operationDeclaredInApprovedContract": true,
+    "productionCodeStrippedOfRenownLogic": true,
+    "allTestsPass": true,
+    "wec006RemediationStatusRecorded": true,
+    "packageMetadataAndManifestReconciled": true,
+    "behavioralAuthority": "DR-0005-initial-resources-rank-and-renown-boundary.md",
+    "executableOperationDeclaration": "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs (line 50: new RuleSetOperationDescriptor(InitializeResourcesAndRankOperation, \"character-creation\", RuleSetOperationStatus.Enabled))",
+    "packageAuthorizationMechanism": "Enabled operations are implicit through declared capabilities unless explicitly disabled. The character-creation capability authorizes character-creation.initialize-resources-and-rank. No separate manifest enabledOperations declaration is required.",
+    "notes": "DR-0005 serves as the governing behavioral approval. The operation is declared in runtime metadata and authorized by the declared character-creation capability. Package metadata and manifest are reconciled to reflect the new scope."
+  },
+  "unresolvedContradictions": [
+    "WEC-006 Renown portion remains open, assigned to blocked IMPLEMENT-019B",
+    "Character completion still unavailable: identity fields and completion validation are still unimplemented"
+  ]
+}

@@ -109,7 +109,18 @@
         "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs"
       ],
       "completionImpact": "All paths blocked by missing derived starting values and required Rank.",
-      "requiredRemediation": "IMPLEMENT-019: deterministic initialization/recalculation for resources, Renown, and Rank."
+      "requiredRemediation": "IMPLEMENT-019: deterministic initialization/recalculation for resources, Renown, and Rank.",
+      "remediationStatus": "partially-remediated-through-IMPLEMENT-019A-2026-08-05",
+      "remediationEvidence": [
+        "docs/reviews/documentation-reconciliation/decision-requests/DR-0005-initial-resources-rank-and-renown-boundary.md",
+        "docs/reviews/werewolf-executable-completeness/implement-019-remediation-contract.json",
+        "docs/reviews/werewolf-executable-completeness/implement-019a-completion-evidence.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfResourceRankInitialization.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceRankInitializationTests.cs",
+        "commit: 939578e"
+      ]
     },
     {
       "id": "WEC-007",

@@ -170,11 +170,11 @@
       "sourceEvidenceStatus": "source-supported for derivation; current equals permanent is a prototype decision",
       "extractionStatus": "present in EXTRACTION-0002 and EXTRACTION-0003",
       "prototypeDecisionStatus": "creation profile and completion validation require resource initialization",
-      "packageSourceStatus": "not materialized beyond unset resource dictionary",
-      "runtimeStatus": "not implemented",
-      "completionImpact": "blocks completion for every path",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement deterministic resource initialization/reconciliation for selected Race, Auspice, and Tribe."
+      "packageSourceStatus": "materialized for Race→Gnosis, Auspice→Rage, Tribe→Willpower",
+      "runtimeStatus": "implemented and evidenced by IMPLEMENT-019A",
+      "completionImpact": "Resources and Rank no longer block completion; Renown, identity fields, and completion validation still block completion",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for Resources; Renown tracked under IMPLEMENT-019B."
     },
     {
       "area": "Rank",
@@ -182,11 +182,11 @@
       "sourceEvidenceStatus": "source-supported",
       "extractionStatus": "present in EXTRACTION-0003",
       "prototypeDecisionStatus": "rank review and completion validation require Cliath rank",
-      "packageSourceStatus": "not represented in runtime draft",
-      "runtimeStatus": "not implemented",
-      "completionImpact": "blocks completion for every path",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Add rank state and deterministic initialization to Cliath/1."
+      "packageSourceStatus": "represented in runtime draft",
+      "runtimeStatus": "implemented and evidenced by IMPLEMENT-019A",
+      "completionImpact": "Rank no longer blocks completion; Renown, identity fields, and completion validation still block completion",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None."
     },
     {
       "area": "narrative and identity fields required for completion",
@@ -219,10 +219,10 @@
       "extractionStatus": "present or flagged as ambiguity in extraction artifacts",
       "prototypeDecisionStatus": "Metis and Gift invalidation implemented; Lupus/derived resource/renown/background rules not executable",
       "packageSourceStatus": "partially present",
-      "runtimeStatus": "partially implemented",
-      "completionImpact": "Metis deformity path can be resolved; all paths still blocked by missing derived values and allocation restrictions",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement remaining conditional derivations and restrictions or narrow executable scope."
+      "runtimeStatus": "partially implemented; Renown unresolved under IMPLEMENT-019B",
+      "completionImpact": "Metis deformity path can be resolved; all paths still blocked by missing Renown, identity fields, and completion validation",
+      "discrepancyClassification": "runtime omission (Resources and Rank remediated; Renown open)",
+      "requiredRemediation": "Implement remaining conditional derivations and restrictions or narrow executable scope. Renown deferred to IMPLEMENT-019B."
     },
     {
       "area": "package metadata and localization",

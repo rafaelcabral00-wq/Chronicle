@@ -28,7 +28,7 @@
   ],
   "knownLimitations": [
     "Runtime implements deterministic character-creation increments through classification, Metis deformity, initial Gifts, Attribute priority/allocation, Ability priority/allocation, and Background allocation.",
-    "Character creation is not complete; resources, Rank, identity fields, and completion validation remain unimplemented.",
+    "Character creation is not complete; Renown, identity fields, and completion validation remain unimplemented.",
     "Package is not promoted, published, installed, enabled, active, or Campaign-bound.",
     "Final PackageId remains a governance decision; packageId value is provisional."
   ],
