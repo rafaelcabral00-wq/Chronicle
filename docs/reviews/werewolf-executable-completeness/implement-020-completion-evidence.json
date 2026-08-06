@@ -1,0 +1,102 @@
+{
+  "completionEvidenceId": "EVIDENCE-IMPLEMENT-020",
+  "workPackage": "IMPLEMENT-020",
+  "governingDecision": "DR-0006",
+  "governingDecisionArtifact": "docs/reviews/documentation-reconciliation/decision-requests/DR-0006-werewolf-identity-name-boundary.md",
+  "remediationContract": "docs/reviews/werewolf-executable-completeness/implement-020-remediation-contract.json",
+  "implementationCommit": "939578e",
+  "status": "completed",
+  "completedDate": "2026-08-06",
+  "scope": {
+    "approved": true,
+    "description": "Identity-name state, operation, and completion-required validation for the current executable slice.",
+    "state": {
+      "propertyName": "IdentityName",
+      "propertyType": "string?",
+      "initialValue": null,
+      "storage": "dedicated property on WerewolfInitializedCharacterState",
+      "notStoredIn": "NarrativeFields"
+    },
+    "validation": {
+      "ruleKey": "character.completion.identity.name-required",
+      "severity": "blocking",
+      "failureCondition": "IdentityName is null, empty, or whitespace",
+      "successCondition": "stored canonical value is valid trimmed text with length 1-120"
+    },
+    "operation": {
+      "operationKey": "character-creation.set-identity-name",
+      "capabilityKey": "character-creation",
+      "boundary": "atomic-after-required-classifications",
+      "preconditions": [
+        "draft-initialized",
+        "draft-version-matches"
+      ],
+      "postconditions": [
+        "identity-name-populated",
+        "draft-version-incremented-exactly-once",
+        "required-next-steps-updated",
+        "unrelated-state-preserved"
+      ]
+    }
+  },
+  "exclusions": [
+    "optional-identity-fields",
+    "player-name",
+    "chronicle-name",
+    "pack-name",
+    "concept",
+    "nature",
+    "demeanor",
+    "nature-and-demeanor-archetype-catalogs",
+    "complete-character",
+    "snapshot",
+    "freeze",
+    "persistence",
+    "activation",
+    "campaign-binding",
+    "completion-validation",
+    "renown-behavior"
+  ],
+  "productionFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfIdentityNameOperation.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+    "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"
+  ],
+  "testFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfIdentityNameOperationTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs"
+  ],
+  "buildAndTestEvidence": {
+    "dotnetBuild": "passed",
+    "dotnetTestWerewolf": "343 passed, 0 failed",
+    "dotnetTestSolution": "passed",
+    "packageValidator": "valid, 20 files, 0 findings",
+    "warnings": 0,
+    "whitespaceErrors": 0
+  },
+  "completionCriteriaAssessment": {
+    "dr0006Approved": true,
+    "identityNamePropertyAdded": true,
+    "draftInitializerUpdated": true,
+    "setIdentityNameOperationImplemented": true,
+    "validationRuleExposed": true,
+    "allTestsPass": true,
+    "wec007RemediationStatusRecorded": true,
+    "packageMetadataAndManifestReconciled": true,
+    "notes": "DR-0006 serves as the governing behavioral approval. The operation is declared in runtime metadata and authorized by the declared character-creation capability. Optional identity fields, completion validation, and Renown remain unimplemented."
+  },
+  "unresolvedContradictions": [
+    "WEC-008 (completion validation) remains open and depends on IMPLEMENT-020",
+    "WEC-006 Renown portion remains open, assigned to blocked IMPLEMENT-019B",
+    "Optional identity fields (player-name, chronicle-name, pack-name, concept, nature, demeanor) remain unimplemented",
+    "Nature and Demeanor archetype catalogs remain blocked"
+  ],
+  "authorizationChain": {
+    "behavioralAuthority": "DR-0006-werewolf-identity-name-boundary.md",
+    "executableDeclaration": "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs (RuleSetOperationDescriptor for character-creation.set-identity-name, capability character-creation, status Enabled)",
+    "packageAuthorization": "manifest capabilities array declares character-creation capability; enabled operations are implicit through declared capabilities unless explicitly disabled",
+    "note": "No separate manifest enabledOperations declaration is required or present. The operation is authorized by the declared character-creation capability."
+  }
+}

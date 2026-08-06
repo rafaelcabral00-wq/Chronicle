@@ -132,7 +132,18 @@
         "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs"
       ],
       "completionImpact": "All paths blocked because name is required for completion.",
-      "requiredRemediation": "IMPLEMENT-020: identity-name operation and completion-required field validation."
+      "requiredRemediation": "IMPLEMENT-020: identity-name operation and completion-required field validation.",
+      "remediationStatus": "remediated-by-IMPLEMENT-020-2026-08-06",
+      "remediationEvidence": [
+        "docs/reviews/documentation-reconciliation/decision-requests/DR-0006-werewolf-identity-name-boundary.md",
+        "docs/reviews/werewolf-executable-completeness/implement-020-remediation-contract.json",
+        "docs/reviews/werewolf-executable-completeness/implement-020-completion-evidence.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfIdentityNameOperation.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfIdentityNameOperationTests.cs"
+      ]
     },
     {
       "id": "WEC-008",

@@ -19,6 +19,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string AllocateAbilitiesOperation = "character-creation.allocate-abilities";
     public const string AllocateBackgroundsOperation = "character-creation.allocate-backgrounds";
     public const string InitializeResourcesAndRankOperation = "character-creation.initialize-resources-and-rank";
+    public const string SetIdentityNameOperation = "character-creation.set-identity-name";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -48,6 +49,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(AllocateAttributesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(AllocateBackgroundsOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(InitializeResourcesAndRankOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(SetIdentityNameOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAbilityPrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAttributePrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectMetisDeformityOperation, "character-creation", RuleSetOperationStatus.Enabled),
@@ -126,6 +128,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, InitializeResourcesAndRankOperation))
         {
             return ExecuteInitializeResourcesAndRank(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, SetIdentityNameOperation))
+        {
+            return ExecuteSetIdentityName(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -748,6 +755,50 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                     finding.Code.ToString(),
                     finding.Message))
                 .ToArray());
+    }
+
+    private static RuleSetOperationResult ExecuteSetIdentityName(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("identityName", out var identityName) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidIdentityNameRequest", "Identity name operation requires draftId, draftVersion, expectedDraftVersion, and identityName.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var draft = BuildDraftFromInputs(request, draftId, draftVersion);
+        var result = WerewolfIdentityNameOperation.SetIdentityName(new WerewolfIdentityNameRequest(draft, expectedVersion, identityName));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfIdentityNameFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                .ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["draftId"] = result.Draft.DraftIdentity.Value,
+                ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["identityName"] = result.Draft.IdentityName ?? string.Empty,
+                ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps)
+            });
     }
 
     private static WerewolfInitializedCharacterState BuildDraftFromInputs(RuleSetOperationRequest request, string draftId, int draftVersion)

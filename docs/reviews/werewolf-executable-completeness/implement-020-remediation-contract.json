@@ -1,0 +1,135 @@
+{
+  "remediationId": "REM-WEC-007-identity-name-operation-and-validation",
+  "status": "proposed",
+  "effectiveDate": "2026-08-06",
+  "problem": "Completion-required identity name is not executable.",
+  "rootCause": "No approved project decision authorizes identity-name state, operation, or validation. The prototype identity field definition is candidate-status. No operation exists in the runtime.",
+  "authorityInspected": [
+    "docs/reviews/werewolf-executable-completeness/discrepancy-register.json",
+    "docs/reviews/werewolf-executable-completeness/executable-completeness-matrix.json",
+    "docs/reviews/werewolf-executable-completeness/executable-completeness-audit-report.md",
+    "docs/reviews/werewolf-executable-completeness/supported-path-matrix.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/fields/identity.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/operation-index.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/creation-mechanics-review.json",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0006-werewolf-identity-name-boundary.md",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfIdentityNameOperation.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfIdentityNameOperationTests.cs"
+  ],
+  "decisionGovernance": {
+    "existingDecisionSetReopened": false,
+    "newDecisionRequestRequired": true,
+    "decisionRequestArtifact": "docs/reviews/documentation-reconciliation/decision-requests/DR-0006-werewolf-identity-name-boundary.md",
+    "decisionBoundary": "Approves only IMPLEMENT-020 identity-name state, operation, and required-name validation rule. Does not approve optional identity fields, completion validation, completion operation, persistence, snapshot, freeze, activation, or Campaign binding."
+  },
+  "implement020Scope": {
+    "approved": true,
+    "description": "Identity-name state, operation, and completion-required validation for the current executable slice.",
+    "state": {
+      "propertyName": "IdentityName",
+      "propertyType": "string?",
+      "initialValue": null,
+      "storage": "dedicated property on WerewolfInitializedCharacterState",
+      "notStoredIn": "NarrativeFields"
+    },
+    "validation": {
+      "ruleKey": "character.completion.identity.name-required",
+      "severity": "blocking",
+      "failureConditions": [
+        "IdentityName is null → MissingIdentityName",
+        "IdentityName is empty → MissingIdentityName",
+        "IdentityName is whitespace-only → IdentityNameWhitespace",
+        "Trimmed length exceeds 120 → IdentityNameTooLong"
+      ],
+      "successCondition": "stored canonical value is valid trimmed text with length 1-120"
+    },
+    "operation": {
+      "operationKey": "character-creation.set-identity-name",
+      "capabilityKey": "character-creation",
+      "boundary": "atomic-after-required-classifications",
+      "preconditions": [
+        "draft-initialized",
+        "draft-version-matches"
+      ],
+      "postconditions": [
+        "identity-name-populated",
+        "draft-version-incremented-exactly-once",
+        "required-next-steps-updated",
+        "unrelated-state-preserved"
+      ]
+    }
+  },
+  "implement020Exclusions": [
+    "optional-identity-fields",
+    "player-name",
+    "chronicle-name",
+    "pack-name",
+    "concept",
+    "nature",
+    "demeanor",
+    "nature-and-demeanor-archetype-catalogs",
+    "complete-character",
+    "snapshot",
+    "freeze",
+    "persistence",
+    "activation",
+    "campaign-binding",
+    "completion-validation",
+    "renown-behavior"
+  ],
+  "implement020ExpectedProductionChanges": [
+    "WerewolfCharacterCreationDraftContracts.cs: add string? IdentityName property",
+    "WerewolfCharacterCreationDraftInitializer.cs: initialize IdentityName to null; add set-identity-name to RequiredNextSteps",
+    "WerewolfIdentityNameOperation.cs: new file implementing set-identity-name operation",
+    "WerewolfReferenceRuntime.cs: register and dispatch character-creation.set-identity-name",
+    "RuleSetPackageSourceValidation.cs: add new file to package-source required/declared resource collections",
+    "Expose reusable pure validation rule for character.completion.identity.name-required"
+  ],
+  "implement020RequiredTests": [
+    "Successful name assignment",
+    "Trimming",
+    "Minimum length (1)",
+    "Maximum length (120)",
+    "Rejection of empty and whitespace-only values",
+    "Rejection above 120 characters",
+    "Missing draft",
+    "Uninitialized draft",
+    "Stale version",
+    "Version increment exactly once",
+    "Immutable preservation of unrelated state",
+    "Reassignment of existing name",
+    "Deterministic findings and RequiredNextSteps",
+    "identity-name-required validation rule",
+    "Runtime-registry integration",
+    "Package-source validation",
+    "Forbidden dependencies",
+    "Deterministic repeated execution"
+  ],
+  "implement020CompletionCriteria": [
+    "DR-0006 decision record approved",
+    "IdentityName property added to WerewolfInitializedCharacterState",
+    "Draft initializer sets IdentityName to null and adds set-identity-name to RequiredNextSteps",
+    "set-identity-name operation implemented and registered",
+    "Validation rule character.completion.identity.name-required exposed",
+    "All listed tests pass",
+    "WEC-007 remediationStatus and remediationEvidence recorded",
+    "Package metadata and manifest reconciled"
+  ],
+  "implement021Dependency": {
+    "description": "IMPLEMENT-021 (completion validation) depends on IMPLEMENT-020 completing identity-name state, operation, and required-name validation. Final completion validation and activation remain unavailable until IMPLEMENT-021 is authorized and implemented.",
+    "blocking": true
+  },
+  "relationshipToWEC007": {
+    "wecId": "WEC-007",
+    "title": "Completion-required identity name is not executable",
+    "currentStatus": "open",
+    "proposedStatusAfter020": "remediated-by-IMPLEMENT-020",
+    "fullClosureRequirement": "WEC-007 may be closed once identity state, operation, reusable required-name validation, tests, and evidence are complete."
+  }
+}

@@ -194,11 +194,11 @@
       "sourceEvidenceStatus": "source-supported for identity/narrative presence",
       "extractionStatus": "present in EXTRACTION-0003",
       "prototypeDecisionStatus": "completion validation requires name; narrative requiredness decision says no narrative field blocks completion",
-      "packageSourceStatus": "draft has narrative fields but no identity name field or set-name operation",
-      "runtimeStatus": "not implemented for completion-required name",
-      "completionImpact": "blocks completion for every path",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement identity-name state and validation; keep narrative fields optional."
+      "packageSourceStatus": "identity-name state and set-identity-name operation implemented; optional narrative fields remain deferred",
+      "runtimeStatus": "implemented for completion-required identity name; optional identity fields not implemented",
+      "completionImpact": "identity name no longer blocks completion; optional identity fields, Renown, and completion validation still block completion",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for identity name; optional identity fields deferred."
     },
     {
       "area": "completion validation prerequisites",

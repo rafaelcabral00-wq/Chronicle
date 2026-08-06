@@ -95,8 +95,8 @@ public static class WerewolfCharacterCreationDraftFactory
         "character.renown.wisdom.permanent",
         "character.renown.wisdom.temporary"
     ];
-    private static readonly string[] NarrativeFieldKeys = ["character-concept", "character-goals", "character-relationships", "name"];
-    private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "initialize-resources-and-rank", "add-narrative-fields"];
+    private static readonly string[] NarrativeFieldKeys = ["character-concept", "character-goals", "character-relationships"];
+    private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "initialize-resources-and-rank", "set-identity-name", "add-narrative-fields"];
 
     public static WerewolfInitializedCharacterState CreateInitializedDraft(WerewolfCharacterDraftIdentity identity, int draftVersion)
     {
@@ -123,6 +123,7 @@ public static class WerewolfCharacterCreationDraftFactory
             Renown: UnsetDictionary(RenownKeys),
             Rank: null,
             RankValue: null,
+            IdentityName: null,
             NarrativeFields: NarrativeDictionary(NarrativeFieldKeys),
             RequiredNextSteps: Array.AsReadOnly(RequiredNextSteps.ToArray()),
             DisabledCapabilities: new ReadOnlyDictionary<string, string>(new Dictionary<string, string>(StringComparer.Ordinal)

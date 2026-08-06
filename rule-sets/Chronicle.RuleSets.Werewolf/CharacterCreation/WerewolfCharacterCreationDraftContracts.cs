@@ -32,6 +32,7 @@ public sealed record WerewolfInitializedCharacterState(
     IReadOnlyDictionary<string, int?> Renown,
     string? Rank,
     int? RankValue,
+    string? IdentityName,
     IReadOnlyDictionary<string, string?> NarrativeFields,
     IReadOnlyList<string> RequiredNextSteps,
     IReadOnlyDictionary<string, string> DisabledCapabilities);
