@@ -6,7 +6,8 @@ public sealed record WerewolfCharacterDraftIdentity(string Value);
 
 public enum WerewolfCharacterDraftStatus
 {
-    Initialized
+    Initialized,
+    Completed
 }
 
 public sealed record WerewolfInitializedCharacterState(

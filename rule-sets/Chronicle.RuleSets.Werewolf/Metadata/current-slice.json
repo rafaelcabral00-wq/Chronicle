@@ -10,10 +10,11 @@
     "packagePublished": false
   },
   "supportedCapabilities": [
-    "character-model",
+    "character-completion",
     "character-creation",
-    "character-validation",
+    "character-model",
     "character-sheet",
+    "character-validation",
     "fixture-driven-tests"
   ],
   "disabledCapabilities": [
@@ -27,8 +28,9 @@
     "umbra"
   ],
   "knownLimitations": [
-    "Runtime implements deterministic character-creation increments through classification, Metis deformity, initial Gifts, Attribute priority/allocation, Ability priority/allocation, and Background allocation.",
-    "Character creation is not complete; optional identity fields, Renown, and completion validation remain unimplemented.",
+    "Runtime implements deterministic character-creation increments through classification, Metis deformity, initial Gifts, Attribute priority/allocation, Ability priority/allocation, Background allocation, resources, Rank, identity name, and completion validation.",
+    "Character creation completion validation is executable for the approved current slice; completion does not perform Chronicle-owned persistence or activation.",
+    "Optional identity fields, Renown, and post-creation runtime remain unimplemented.",
     "Package is not promoted, published, installed, enabled, active, or Campaign-bound.",
     "Final PackageId remains a governance decision; packageId value is provisional."
   ],

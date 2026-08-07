@@ -62,11 +62,11 @@
       "sourceEvidenceStatus": "source-supported",
       "extractionStatus": "present in EXTRACTION-0003 sections 4 and 11",
       "prototypeDecisionStatus": "present in creation profile; initialization plan includes Attribute, Ability, Background, and Rank initialization",
-      "packageSourceStatus": "partially present: draft identity, status, unset choices, current-slice Attribute/Ability dictionaries, Background dictionary, disabled Gift capabilities",
-      "runtimeStatus": "partially implemented: creates draft but does not initialize Rank, Renown, resources, package binding, creation ledger, or Background catalog-backed field entries",
-      "completionImpact": "blocks completion for every path because Rank, resources, Renown, ledger, and package binding completion prerequisites cannot be satisfied",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement source-backed initialization for Rank, resources, Renown placeholders or derived values, package binding, and creation ledger before enabling completion."
+      "packageSourceStatus": "present for draft identity, status, unset choices, current-slice Attribute/Ability dictionaries, Background dictionary, disabled Gift capabilities, completion validation, and package binding",
+      "runtimeStatus": "implemented for draft creation, Attribute/Ability/Background initialization, resource and Rank initialization, identity name, and completion validation",
+      "completionImpact": "draft initialization no longer blocks completion for the supported 15 paths",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for current-slice draft initialization; Renown deferred to IMPLEMENT-019B."
     },
     {
       "area": "Race",
@@ -75,22 +75,22 @@
       "extractionStatus": "present in EXTRACTION-0002 and EXTRACTION-0003",
       "prototypeDecisionStatus": "race review approved current-slice identities; Metis deformity condition represented",
       "packageSourceStatus": "present for three Race identifiers",
-      "runtimeStatus": "partially implemented: selection and Metis deformity requirement exist; initial Gnosis is not calculated",
-      "completionImpact": "Race choice is executable, but resource completion remains blocked",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement Race-derived Gnosis initialization/recalculation or mark completion unavailable until resource initialization exists."
+      "runtimeStatus": "implemented for selection and Metis deformity requirement; Race-derived Gnosis is initialized as part of resource initialization",
+      "completionImpact": "Race choice is executable for all three supported races",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for current-slice Race support."
     },
     {
       "area": "Auspice",
       "expectedAuthoritativeEntriesOrRules": "Ragabash, Theurge, Philodox, Galliard, Ahroun; Auspice derives initial Rage, Renown, and one level-one Auspice Gift eligibility.",
       "sourceEvidenceStatus": "source-supported",
       "extractionStatus": "present for all five Auspices; initial Rage and Renown are documented as candidates",
-      "prototypeDecisionStatus": "Auspice identities approved; only two current-slice Auspice Gift identities approved",
-      "packageSourceStatus": "supports all five Auspice identifiers but only two Auspice Gift identifiers",
-      "runtimeStatus": "contradictory: accepts all five Auspices, but only Ragabash and Philodox can satisfy an executable Auspice Gift selection",
-      "completionImpact": "Theurge, Galliard, and Ahroun paths cannot satisfy required initial Gift selection; all Auspices also lack Rage/Renown runtime initialization",
-      "discrepancyClassification": "contradiction between authoritative artifacts",
-      "requiredRemediation": "Either approve and implement at least one executable level-one Auspice Gift for Theurge, Galliard, and Ahroun, or restrict runtime-supported Auspices/declare those paths not completion-capable."
+      "prototypeDecisionStatus": "Auspice identities approved; five current-slice Auspice Gift identities approved",
+      "packageSourceStatus": "supports all five Auspice identifiers and five Auspice Gift identifiers",
+      "runtimeStatus": "implements all five Auspices with executable Auspice Gift selection for each",
+      "completionImpact": "All five Auspices can satisfy required initial Gift selection; Auspice Gift gap no longer blocks completion; Rage/Renown initialization remains out of current slice",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for current-slice Auspice Gift support."
     },
     {
       "area": "Tribe",
@@ -99,10 +99,10 @@
       "extractionStatus": "EXTRACTION-0003 lists Tribe mechanical summaries as required; current package runtime intentionally supports only Glass Walkers",
       "prototypeDecisionStatus": "tribe catalog contains twelve candidate entries; current runtime support narrowed to Glass Walkers",
       "packageSourceStatus": "supports only glass-walkers",
-      "runtimeStatus": "implemented for glass-walkers only; Willpower and Background restrictions are not calculated",
-      "completionImpact": "All runtime paths use Glass Walkers, but completion remains blocked by missing Willpower and Background restriction handling",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement Glass Walker-derived Willpower and Background restriction validation or explicitly block completion."
+      "runtimeStatus": "implemented for glass-walkers selection; Willpower derived from Tribe and Background restrictions enforced",
+      "completionImpact": "Tribe choice is executable for the supported Glass Walkers path",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for current-slice Tribe support."
     },
     {
       "area": "Metis deformity",
@@ -121,12 +121,12 @@
       "expectedAuthoritativeEntriesOrRules": "Exactly one level-one Race Gift, one level-one Auspice Gift, and one level-one Tribe Gift; distinct identities; no Gift effects.",
       "sourceEvidenceStatus": "source-supported for three-slot requirement; broad prototype catalog includes more candidate options",
       "extractionStatus": "initial Gift slots extracted; cleaned extraction did not support all concrete names, original-source reconciliation approved six current-slice identities",
-      "prototypeDecisionStatus": "six identities approved: three Race, two Auspice, one Tribe",
-      "packageSourceStatus": "matches six approved identities",
-      "runtimeStatus": "implements six approved identities and keeps Gift effects/additional purchase disabled",
-      "completionImpact": "Ragabash and Philodox can choose an Auspice Gift; Theurge, Galliard, and Ahroun cannot",
-      "discrepancyClassification": "contradiction between authoritative artifacts",
-      "requiredRemediation": "Reconcile runtime Auspice support with executable Gift support; do not expand Gift catalog without source-backed decision."
+      "prototypeDecisionStatus": "six identities approved: three Race, two Auspice, one Tribe; later expanded to five Auspice Gifts",
+      "packageSourceStatus": "matches five approved Race/Auspice/Tribe Gift identities",
+      "runtimeStatus": "implements five approved Race/Auspice/Tribe Gift identities and keeps Gift effects/additional purchase disabled",
+      "completionImpact": "All five Auspices can satisfy required initial Gift selection; completion no longer blocked by Auspice Gift gap",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for current-slice Gift support."
     },
     {
       "area": "Attribute categories, priorities, catalogs, and budgets",
@@ -172,7 +172,7 @@
       "prototypeDecisionStatus": "creation profile and completion validation require resource initialization",
       "packageSourceStatus": "materialized for Race→Gnosis, Auspice→Rage, Tribe→Willpower",
       "runtimeStatus": "implemented and evidenced by IMPLEMENT-019A",
-      "completionImpact": "Resources and Rank no longer block completion; Renown, identity fields, and completion validation still block completion",
+      "completionImpact": "Resources and Rank no longer block completion; all 15 supported Race x Auspice x Glass Walkers paths are completable",
       "discrepancyClassification": "remediated runtime omission",
       "requiredRemediation": "None for Resources; Renown tracked under IMPLEMENT-019B."
     },
@@ -184,7 +184,7 @@
       "prototypeDecisionStatus": "rank review and completion validation require Cliath rank",
       "packageSourceStatus": "represented in runtime draft",
       "runtimeStatus": "implemented and evidenced by IMPLEMENT-019A",
-      "completionImpact": "Rank no longer blocks completion; Renown, identity fields, and completion validation still block completion",
+      "completionImpact": "Rank no longer blocks completion; all 15 supported Race x Auspice x Glass Walkers paths are completable",
       "discrepancyClassification": "remediated runtime omission",
       "requiredRemediation": "None."
     },
@@ -196,7 +196,7 @@
       "prototypeDecisionStatus": "completion validation requires name; narrative requiredness decision says no narrative field blocks completion",
       "packageSourceStatus": "identity-name state and set-identity-name operation implemented; optional narrative fields remain deferred",
       "runtimeStatus": "implemented for completion-required identity name; optional identity fields not implemented",
-      "completionImpact": "identity name no longer blocks completion; optional identity fields, Renown, and completion validation still block completion",
+      "completionImpact": "identity name no longer blocks completion; completion validation is executable for all 15 supported paths",
       "discrepancyClassification": "remediated runtime omission",
       "requiredRemediation": "None for identity name; optional identity fields deferred."
     },
@@ -206,11 +206,11 @@
       "sourceEvidenceStatus": "source-derived and prototype-owned",
       "extractionStatus": "present in EXTRACTION-0003 and SPEC/RFC-driven architecture",
       "prototypeDecisionStatus": "character-completion validation and operation artifacts define the boundary",
-      "packageSourceStatus": "not materialized",
-      "runtimeStatus": "not implemented",
-      "completionImpact": "blocks completion for every path",
-      "discrepancyClassification": "runtime omission",
-      "requiredRemediation": "Implement completion validation and completion operation only after mandatory data operations exist."
+      "packageSourceStatus": "implemented: completion contracts, operation, runtime dispatch, and package-source allow-list update",
+      "runtimeStatus": "implemented: WerewolfCharacterCompletionOperation.Complete and character-creation.complete-character runtime operation",
+      "completionImpact": "completion validation is executable for all 15 supported Race x Auspice x Glass Walkers paths; Renown and Chronicle-owned persistence/activation remain out of scope",
+      "discrepancyClassification": "remediated runtime omission",
+      "requiredRemediation": "None for completion validation boundary; creation ledger, persistence, and activation remain Chronicle-owned out-of-scope items."
     },
     {
       "area": "conditional rules required by supported Race/Auspice/Tribe",
@@ -220,8 +220,8 @@
       "prototypeDecisionStatus": "Metis and Gift invalidation implemented; Lupus/derived resource/renown/background rules not executable",
       "packageSourceStatus": "partially present",
       "runtimeStatus": "partially implemented; Renown unresolved under IMPLEMENT-019B",
-      "completionImpact": "Metis deformity path can be resolved; all paths still blocked by missing Renown, identity fields, and completion validation",
-      "discrepancyClassification": "runtime omission (Resources and Rank remediated; Renown open)",
+      "completionImpact": "Metis deformity path can be resolved; all 15 supported paths are now completable",
+      "discrepancyClassification": "remediated runtime omission (Resources and Rank remediated; Renown open)",
       "requiredRemediation": "Implement remaining conditional derivations and restrictions or narrow executable scope. Renown deferred to IMPLEMENT-019B."
     },
     {

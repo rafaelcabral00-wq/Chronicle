@@ -25,7 +25,7 @@
     "scopeStatus": "executable-increment",
     "sourceSystemCompleteness": "not-complete",
     "declaredScopeCompleteness": "partial-executable-current-slice",
-    "implementationCompleteness": "classification-initial-selection-attribute-ability-background-resource-rank-and-identity-name-initialization-increments",
+    "implementationCompleteness": "classification-initial-selection-attribute-ability-background-resource-rank-identity-name-and-completion-validation-increments",
     "validationCompleteness": "bootstrap-and-runtime-increment-tests",
     "publicationStatus": "not-published"
   },
@@ -51,6 +51,10 @@
     "sourcebookTextIncluded": false
   },
   "capabilities": [
+    {
+      "capabilityKey": "character-completion",
+      "status": "partial-executable"
+    },
     {
       "capabilityKey": "character-creation",
       "status": "partial-executable"

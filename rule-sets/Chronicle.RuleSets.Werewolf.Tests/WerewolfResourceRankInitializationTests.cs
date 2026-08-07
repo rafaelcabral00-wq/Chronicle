@@ -248,9 +248,9 @@ public sealed class WerewolfResourceRankInitializationTests
             inputs[pair.Key] = pair.Value;
         }
 
-        foreach (var key in new[] { "raceId", "auspiceId", "tribeId", "metisDeformityId", "raceGiftId", "auspiceGiftId", "tribeGiftId", "attributePriorityOrder", "attributeBudgets", "abilityPriorityOrder", "abilityBudgets", "attributes", "abilities", "backgrounds", "resources", "renown", "rankId", "rankValue" })
+        foreach (var key in new[] { "raceId", "auspiceId", "tribeId", "metisDeformityId", "raceGiftId", "auspiceGiftId", "tribeGiftId", "attributePriorityOrder", "attributeBudgets", "abilityPriorityOrder", "abilityBudgets", "attributes", "abilities", "backgrounds", "resources", "renown", "rankId", "rankValue", "identityName", "nextSteps", "status" })
         {
-            if (outputs.TryGetValue(key, out var value) && !inputs.ContainsKey($"current{char.ToUpperInvariant(key[0])}{key[1..]}"))
+            if (outputs.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value) && !inputs.ContainsKey($"current{char.ToUpperInvariant(key[0])}{key[1..]}"))
             {
                 inputs[key switch
                 {
@@ -261,6 +261,7 @@ public sealed class WerewolfResourceRankInitializationTests
                     "raceGiftId" => "currentRaceGift",
                     "auspiceGiftId" => "currentAuspiceGift",
                     "tribeGiftId" => "currentTribeGift",
+                    "status" => "draftStatus",
                     _ => key
                 }] = value;
             }

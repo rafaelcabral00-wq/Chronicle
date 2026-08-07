@@ -21,86 +21,53 @@
       "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfAuspiceSelection.cs",
       "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfTribeSelection.cs",
       "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfInitialGiftSelection.cs",
+      "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfCharacterCompletionTests.cs",
       "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/reviews/initial-gift-review-record.json",
       "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json"
     ]
   },
-  "currentlyCompletablePaths": [],
-  "currentlyBlockedPaths": [
+  "currentlyCompletablePaths": [
     {
       "race": "homid",
       "auspice": "ragabash",
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
-      "blockingReasons": [
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "completionStatus": "completable"
     },
     {
       "race": "homid",
       "auspice": "theurge",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for theurge",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable"
     },
     {
       "race": "homid",
       "auspice": "philodox",
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
-      "blockingReasons": [
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "completionStatus": "completable"
     },
     {
       "race": "homid",
       "auspice": "galliard",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for galliard",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable"
     },
     {
       "race": "homid",
       "auspice": "ahroun",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for ahroun",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable"
     },
     {
       "race": "metis",
       "auspice": "ragabash",
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
-      "blockingReasons": [
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ],
+      "completionStatus": "completable",
       "conditionalRequirementsExecutable": [
         "select-metis-deformity with horns"
       ]
@@ -109,14 +76,8 @@
       "race": "metis",
       "auspice": "theurge",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for theurge",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ],
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable",
       "conditionalRequirementsExecutable": [
         "select-metis-deformity with horns"
       ]
@@ -126,12 +87,7 @@
       "auspice": "philodox",
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
-      "blockingReasons": [
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ],
+      "completionStatus": "completable",
       "conditionalRequirementsExecutable": [
         "select-metis-deformity with horns"
       ]
@@ -140,14 +96,8 @@
       "race": "metis",
       "auspice": "galliard",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for galliard",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ],
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable",
       "conditionalRequirementsExecutable": [
         "select-metis-deformity with horns"
       ]
@@ -156,14 +106,8 @@
       "race": "metis",
       "auspice": "ahroun",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for ahroun",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ],
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable",
       "conditionalRequirementsExecutable": [
         "select-metis-deformity with horns"
       ]
@@ -173,72 +117,43 @@
       "auspice": "ragabash",
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
-      "blockingReasons": [
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "completionStatus": "completable"
     },
     {
       "race": "lupus",
       "auspice": "theurge",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for theurge",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable"
     },
     {
       "race": "lupus",
       "auspice": "philodox",
       "tribe": "glass-walkers",
       "mandatorySelectionsExecutable": true,
-      "blockingReasons": [
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "completionStatus": "completable"
     },
     {
       "race": "lupus",
       "auspice": "galliard",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for galliard",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable"
     },
     {
       "race": "lupus",
       "auspice": "ahroun",
       "tribe": "glass-walkers",
-      "mandatorySelectionsExecutable": false,
-      "blockingReasons": [
-        "No approved executable current-slice Auspice Gift for ahroun",
-        "resource and Renown initialization not implemented",
-        "Rank initialization not implemented",
-        "completion-required name not implemented",
-        "completion validation/ledger/package binding not implemented"
-      ]
+      "mandatorySelectionsExecutable": true,
+      "completionStatus": "completable"
     }
   ],
+  "currentlyBlockedPaths": [],
   "summary": {
     "runtimePermittedPathCount": 15,
-    "currentlyCompletablePathCount": 0,
-    "blockedPathCount": 15,
-    "pathsBlockedByAuspiceGiftGap": 9,
-    "pathsWithMandatorySelectionsExecutableButCompletionBlockedLater": 6
+    "currentlyCompletablePathCount": 15,
+    "blockedPathCount": 0,
+    "pathsBlockedByAuspiceGiftGap": 0,
+    "pathsWithMandatorySelectionsExecutableButCompletionBlockedLater": 0
   }
 }
-
-

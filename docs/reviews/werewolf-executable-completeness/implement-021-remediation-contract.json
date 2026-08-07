@@ -1,0 +1,161 @@
+{
+  "remediationId": "REM-WEC-008-completion-validation-and-atomic-completion-boundary",
+  "status": "proposed",
+  "effectiveDate": "2026-08-06",
+  "problem": "Completion validation, creation ledger, package binding, invalidation lifecycle, and atomic completion are not executable.",
+  "rootCause": "No approved project decision authorizes completion validation, snapshot contract, or complete-character operation boundary. The prototype completion artifacts are candidate-status. No completion operation exists in the runtime.",
+  "authorityInspected": [
+    "docs/reviews/werewolf-executable-completeness/discrepancy-register.json",
+    "docs/reviews/werewolf-executable-completeness/executable-completeness-matrix.json",
+    "docs/reviews/werewolf-executable-completeness/executable-completeness-audit-report.md",
+    "docs/reviews/werewolf-executable-completeness/supported-path-matrix.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/validation/character-completion.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-creation/complete-character.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/creation/creation-ledger.json",
+    "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/creation/invalidations.json",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0005-initial-resources-rank-and-renown-boundary.md",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0006-werewolf-identity-name-boundary.md",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0007-werewolf-character-completion-boundary.md",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfIdentityNameOperation.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfResourceRankInitialization.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs"
+  ],
+  "decisionGovernance": {
+    "existingDecisionSetReopened": false,
+    "newDecisionRequestRequired": true,
+    "decisionRequestArtifact": "docs/reviews/documentation-reconciliation/decision-requests/DR-0007-werewolf-character-completion-boundary.md",
+    "decisionBoundary": "Approves only IMPLEMENT-021 completion validation, snapshot contract, and complete-character operation boundary. Does not approve persistence, activation, ledger persistence, events, timestamps, optional identity fields, Renown, or post-creation runtime."
+  },
+  "implement021Scope": {
+    "approved": true,
+    "description": "Completion validation and atomic character completion boundary for the current executable slice.",
+    "validator": {
+      "type": "pure",
+      "inputs": ["draft state"],
+      "outputs": ["deterministic findings", "completion eligibility", "validation fingerprint"],
+      "sideEffects": "none"
+    },
+    "snapshot": {
+      "type": "immutable completed-character snapshot",
+      "contains": ["approved character state", "package binding", "validation result", "deterministic metadata"],
+      "doesNotContain": ["timestamps", "persistence IDs", "provider data", "raw narrative text"],
+      "immutable": true
+    },
+    "operation": {
+      "operationKey": "character-creation.complete-character",
+      "capabilityKey": "character-creation",
+      "boundary": "atomic-after-mandatory-data-operations",
+      "preconditions": [
+        "draft-initialized",
+        "draft-version-matches",
+        "all-mandatory-current-slice-fields-complete",
+        "no-open-blocking-invalidations",
+        "identity-name-valid"
+      ],
+      "postconditions": [
+        "draft-status-set-to-completed",
+        "snapshot-produced",
+        "validation-fingerprint-produced",
+        "required-next-steps-cleared",
+        "draft-version-incremented-exactly-once",
+        "source-draft-unchanged-on-failure"
+      ]
+    },
+    "idempotency": {
+      "behavior": "explicit-rejection",
+      "description": "If the draft is already in a completed state, the operation returns a deterministic canonical finding rather than returning a previous result."
+    }
+  },
+  "implement021Exclusions": [
+    "database-persistence",
+    "chronicle-aggregate-activation",
+    "creation-ledger-persistence",
+    "snapshot-persistence",
+    "timestamp-generation",
+    "event-emission",
+    "combat",
+    "dice",
+    "runtime-gifts",
+    "advancement",
+    "optional-identity-fields",
+    "renown-behavior",
+    "nature-and-demeanor",
+    "additional-gift-purchase",
+    "generic-dice",
+    "post-creation-runtime"
+  ],
+  "implement021ExpectedProductionChanges": [
+    "WerewolfCharacterCreationDraftContracts.cs: add Completed status to WerewolfCharacterDraftStatus",
+    "WerewolfCharacterCompletion.cs: new file implementing pure completion validator, completion service, and snapshot contract",
+    "WerewolfReferenceRuntime.cs: register and dispatch character-creation.complete-character",
+    "RuleSetPackageSourceValidation.cs: add new file to package-source required/declared resource collections"
+  ],
+  "implement021RequiredTests": [
+    "One complete Homid path",
+    "One complete Metis path",
+    "One complete Lupus path",
+    "Ragabash completion without Renown behavior",
+    "Philodox completion without Renown behavior",
+    "Every blocking validation family",
+    "Stale version",
+    "Immutable source draft",
+    "Deterministic findings ordering",
+    "Deterministic snapshot",
+    "Package binding retained",
+    "No persistence/network/random/clock/provider dependencies",
+    "Runtime-registry integration",
+    "Repeated completion behavior (already-completed rejection)",
+    "Package-source validation",
+    "All executable Race x Auspice x Glass Walkers paths where current Gift support permits completion",
+    "Explicit proof that Renown absence does not block completion",
+    "Explicit proof that optional identity fields do not block completion"
+  ],
+  "implement021CompletionCriteria": [
+    "DR-0007 decision record approved",
+    "Pure completion validator implemented with deterministic canonical findings for all blocking families",
+    "Immutable completed-character snapshot contract implemented",
+    "character-creation.complete-character operation implemented and registered",
+    "All listed tests pass",
+    "WEC-008 remediationStatus and remediationEvidence recorded",
+    "Package metadata and manifest reconciled",
+    "No persistence, network, random, clock, or provider dependencies in Rule Set completion code"
+  ],
+  "relationshipToWEC008": {
+    "wecId": "WEC-008",
+    "title": "Completion validation, creation ledger, package binding, invalidation lifecycle, and atomic completion are not executable",
+    "currentStatus": "open",
+    "proposedStatusAfter021": "remediated-by-IMPLEMENT-021",
+    "fullClosureRequirement": "WEC-008 may be closed once completion validator, snapshot contract, complete-character operation, tests, and evidence are complete."
+  },
+  "ownershipBoundary": {
+    "ruleSetOwns": [
+      "deterministic mechanical validation",
+      "completion eligibility",
+      "completion snapshot data structure",
+      "validation findings",
+      "canonical error codes"
+    ],
+    "chronicleOwns": [
+      "persistence",
+      "aggregate activation",
+      "transaction coordination",
+      "ledger persistence",
+      "snapshot persistence",
+      "timestamps",
+      "event emission"
+    ],
+    "ruleSetMustNotCall": [
+      "database",
+      "filesystem",
+      "network",
+      "random",
+      "clock",
+      "provider",
+      "persistence APIs"
+    ]
+  }
+}

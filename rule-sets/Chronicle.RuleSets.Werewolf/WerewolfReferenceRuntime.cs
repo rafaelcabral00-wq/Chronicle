@@ -20,6 +20,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string AllocateBackgroundsOperation = "character-creation.allocate-backgrounds";
     public const string InitializeResourcesAndRankOperation = "character-creation.initialize-resources-and-rank";
     public const string SetIdentityNameOperation = "character-creation.set-identity-name";
+    public const string CompleteCharacterOperation = "character-creation.complete-character";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -33,6 +34,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     {
         characterCreation = new WerewolfCharacterCreationDraftInitializer(identitySource);
     }
+
+    private static readonly System.Text.Json.JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNamingPolicy = null
+    };
 
     public RuleSetRuntimeMetadata Metadata { get; } = new(
         new RuleSetRuntimeIdentity(
@@ -50,6 +56,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(AllocateBackgroundsOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(InitializeResourcesAndRankOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SetIdentityNameOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(CompleteCharacterOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAbilityPrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectAttributePrioritiesOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectMetisDeformityOperation, "character-creation", RuleSetOperationStatus.Enabled),
@@ -133,6 +140,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, SetIdentityNameOperation))
         {
             return ExecuteSetIdentityName(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, CompleteCharacterOperation))
+        {
+            return ExecuteCompleteCharacter(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -364,10 +376,15 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         var attributeBudgets = ParseBudgets(request.Inputs.GetValueOrDefault("attributeBudgets"));
         var metisRequirement = request.Inputs.TryGetValue("requiresMetisDeformity", out var requiresMetisDeformity) &&
             StringComparer.Ordinal.Equals(requiresMetisDeformity, "true");
-        var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
+        var defaultNextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-auspice"))
+            .Where(step => !StringComparer.Ordinal.Equals(step, "select-tribe"))
             .ToList();
+
+        var nextSteps = request.Inputs.TryGetValue("nextSteps", out var nextStepsText) && !string.IsNullOrWhiteSpace(nextStepsText)
+            ? nextStepsText.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
+            : defaultNextSteps;
 
         if (metisRequirement && !nextSteps.Contains("select-metis-deformity", StringComparer.Ordinal))
         {
@@ -444,11 +461,20 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         var currentTribeGift = request.Inputs.GetValueOrDefault("currentTribeGift");
         var attributePriorityOrder = ParseCsv(request.Inputs.GetValueOrDefault("attributePriorityOrder"));
         var attributeBudgets = ParseBudgets(request.Inputs.GetValueOrDefault("attributeBudgets"));
-        var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
+        var defaultNextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-auspice"))
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-tribe"))
             .ToList();
+
+        var nextSteps = request.Inputs.TryGetValue("nextSteps", out var nextStepsText) && !string.IsNullOrWhiteSpace(nextStepsText)
+            ? nextStepsText.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
+            : defaultNextSteps;
+
+        if (attributePriorityOrder.Length > 0 || attributeBudgets.Count > 0)
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "select-attribute-priorities"));
+        }
 
         if (!nextSteps.Contains("select-metis-deformity", StringComparer.Ordinal))
         {
@@ -784,11 +810,48 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 new Dictionary<string, string>(StringComparer.Ordinal));
         }
 
+        return ToDraftOperationResult(
+            result.Draft,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfIdentityNameFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                .ToArray());
+    }
+
+    private static RuleSetOperationResult ExecuteCompleteCharacter(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCompletionRequest", "Completion operation requires draftId, draftVersion, and expectedDraftVersion.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var draft = BuildDraftFromInputs(request, draftId, draftVersion);
+        var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, expectedVersion));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var snapshotJson = System.Text.Json.JsonSerializer.Serialize(result.Snapshot, JsonOptions);
+
         return new RuleSetOperationResult(
             true,
             null,
             result.Findings.Select(finding => new RuleSetRuntimeFinding(
-                    finding.Severity == WerewolfIdentityNameFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Severity == WerewolfCharacterCompletionFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
                     finding.Code.ToString(),
                     finding.Message))
                 .ToArray(),
@@ -796,8 +859,12 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             {
                 ["draftId"] = result.Draft.DraftIdentity.Value,
                 ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["status"] = result.Draft.Status.ToString(),
                 ["identityName"] = result.Draft.IdentityName ?? string.Empty,
-                ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps)
+                ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps),
+                ["validationFingerprint"] = result.Snapshot!.ValidationFingerprint,
+                ["completedStepKeys"] = string.Join(",", result.Snapshot.CompletedStepKeys),
+                ["snapshot"] = snapshotJson
             });
     }
 
@@ -824,15 +891,68 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             int.TryParse(rankValueText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var parsedRankValue)
             ? parsedRankValue
             : (int?)null;
+        var identityName = request.Inputs.GetValueOrDefault("identityName");
+        var draftStatus = request.Inputs.TryGetValue("draftStatus", out var draftStatusText) &&
+            Enum.TryParse<WerewolfCharacterDraftStatus>(draftStatusText, true, out var parsedDraftStatus)
+            ? parsedDraftStatus
+            : WerewolfCharacterDraftStatus.Initialized;
 
-        var nextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
+        var defaultNextSteps = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion).RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-race"))
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-auspice"))
             .Where(step => !StringComparer.Ordinal.Equals(step, "select-tribe"))
             .ToList();
 
+        var nextSteps = request.Inputs.TryGetValue("nextSteps", out var nextStepsText) && !string.IsNullOrWhiteSpace(nextStepsText)
+            ? nextStepsText.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
+            : defaultNextSteps;
+
+        if (attributePriorityOrder.Length > 0 || attributeBudgets.Count > 0)
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "select-attribute-priorities"));
+        }
+
+        if (abilityPriorityOrder.Length > 0 || abilityBudgets.Count > 0)
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "select-ability-priorities"));
+        }
+
+        if (attributes.Count > 0)
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "allocate-attributes"));
+        }
+
+        if (abilities.Count > 0)
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "allocate-abilities"));
+        }
+
+        if (backgrounds.Count > 0)
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "allocate-backgrounds"));
+        }
+
+        if (!string.IsNullOrWhiteSpace(currentRaceGift) && !string.IsNullOrWhiteSpace(currentAuspiceGift) && !string.IsNullOrWhiteSpace(currentTribeGift))
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "select-initial-gifts"));
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "select-race-gift"));
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "select-auspice-gift"));
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "select-tribe-gift"));
+        }
+
+        if (resources.Count > 0 || !string.IsNullOrWhiteSpace(rank))
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "initialize-resources-and-rank"));
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Inputs.GetValueOrDefault("identityName")))
+        {
+            nextSteps.RemoveAll(step => StringComparer.Ordinal.Equals(step, "set-identity-name"));
+        }
+
         var draft = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity(draftId), draftVersion) with
         {
+            Status = draftStatus,
             Race = string.IsNullOrWhiteSpace(currentRace) ? null : currentRace,
             Auspice = string.IsNullOrWhiteSpace(currentAuspice) ? null : currentAuspice,
             Tribe = string.IsNullOrWhiteSpace(currentTribe) ? null : currentTribe,
@@ -861,6 +981,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 : renown,
             Rank = string.IsNullOrWhiteSpace(rank) ? null : rank,
             RankValue = rankValue,
+            IdentityName = string.IsNullOrWhiteSpace(identityName) ? null : identityName,
             RequiredNextSteps = Array.AsReadOnly(nextSteps.Order(StringComparer.Ordinal).ToArray())
         };
 
@@ -899,6 +1020,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["backgrounds"] = FormatNullableRatings(draft.Backgrounds),
                 ["draftId"] = draft.DraftIdentity.Value,
                 ["draftVersion"] = draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["identityName"] = draft.IdentityName ?? string.Empty,
                 ["metisDeformityId"] = draft.MetisDeformity ?? string.Empty,
                 ["nextSteps"] = string.Join(",", draft.RequiredNextSteps),
                 ["raceGiftId"] = draft.RaceGift ?? string.Empty,

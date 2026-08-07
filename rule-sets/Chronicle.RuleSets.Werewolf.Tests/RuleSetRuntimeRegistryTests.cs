@@ -119,6 +119,7 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.AllocateAbilitiesOperation,
                 WerewolfReferenceRuntime.AllocateAttributesOperation,
                 WerewolfReferenceRuntime.AllocateBackgroundsOperation,
+                WerewolfReferenceRuntime.CompleteCharacterOperation,
                 WerewolfReferenceRuntime.CreateCharacterOperation,
                 WerewolfReferenceRuntime.InitializeResourcesAndRankOperation,
                 WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation,

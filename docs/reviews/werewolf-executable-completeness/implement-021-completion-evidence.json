@@ -1,0 +1,161 @@
+{
+  "evidenceId": "EVIDENCE-IMPLEMENT-021-2026-08-06",
+  "implementId": "IMPLEMENT-021",
+  "status": "completed",
+  "effectiveDate": "2026-08-06",
+  "boundary": {
+    "ruleSetOwns": [
+      "deterministic mechanical validation",
+      "completion eligibility",
+      "completion snapshot data structure",
+      "validation findings",
+      "canonical error codes"
+    ],
+    "chronicleOwns": [
+      "persistence",
+      "aggregate activation",
+      "transaction coordination",
+      "ledger persistence",
+      "snapshot persistence",
+      "timestamps",
+      "event emission"
+    ],
+    "ruleSetMustNotCall": [
+      "database",
+      "filesystem",
+      "network",
+      "random",
+      "clock",
+      "provider",
+      "persistence APIs"
+    ]
+  },
+  "productionFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCompletion.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+    "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"
+  ],
+  "testFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfCharacterCompletionTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfIdentityNameOperationTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceRankInitializationTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetPackageSourceValidatorTests.cs"
+  ],
+  "documentationFiles": [
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0007-werewolf-character-completion-boundary.md",
+    "docs/reviews/werewolf-executable-completeness/implement-021-remediation-contract.json"
+  ],
+  "operation": {
+    "operationKey": "character-creation.complete-character",
+    "capabilityKey": "character-creation",
+    "preconditions": [
+      "draft-initialized",
+      "draft-version-matches",
+      "all-mandatory-current-slice-fields-complete",
+      "no-open-blocking-invalidations",
+      "identity-name-valid"
+    ],
+    "postconditions": [
+      "draft-status-set-to-completed",
+      "snapshot-produced",
+      "validation-fingerprint-produced",
+      "required-next-steps-cleared",
+      "draft-version-incremented-exactly-once",
+      "source-draft-unchanged-on-failure"
+    ],
+    "idempotency": {
+      "behavior": "explicit-rejection",
+      "finding": "DraftAlreadyCompleted"
+    }
+  },
+  "snapshot": {
+    "type": "immutable completed-character snapshot",
+    "contains": [
+      "approved character state",
+      "package binding",
+      "validation result",
+      "deterministic metadata"
+    ],
+    "doesNotContain": [
+      "timestamps",
+      "persistence IDs",
+      "provider data",
+      "raw narrative text"
+    ],
+    "immutable": true,
+    "packageBinding": {
+      "packageId": "chronicle.rulesets.werewolf",
+      "packageVersion": "0.1.0-source-skeleton",
+      "declaredReleaseScope": "werewolf3e.character-creation.current-slice",
+      "contractVersion": "1"
+    }
+  },
+  "validationFamilies": [
+    "IdentityName",
+    "Race",
+    "Auspice",
+    "Tribe",
+    "conditional Metis deformity",
+    "Race/Auspice/Tribe Gifts",
+    "Attribute priorities and allocation",
+    "Ability priorities and allocation",
+    "Background allocation",
+    "Resources",
+    "Rank",
+    "mandatory RequiredNextSteps"
+  ],
+  "explicitlyNonBlocking": [
+    "Renown",
+    "optional identity/narrative fields",
+    "nature/demeanor",
+    "additional Gift purchase",
+    "dice",
+    "runtime Gift effects"
+  ],
+  "testResults": {
+    "werewolfTestTotal": 390,
+    "werewolfTestPassed": 390,
+    "werewolfTestFailed": 0,
+    "fullSolutionTestTotal": 414,
+    "fullSolutionTestPassed": 414,
+    "fullSolutionTestFailed": 0
+  },
+  "packageValidator": {
+    "result": "passed",
+    "inventoryCount": 21,
+    "command": "dotnet run --project tools/Chronicle.Tools.PackageValidator/Chronicle.Tools.PackageValidator.csproj -- rule-sets/Chronicle.RuleSets.Werewolf"
+  },
+  "executablePaths": [
+    "Homid + Ragabash + Glass Walkers",
+    "Homid + Theurge + Glass Walkers",
+    "Homid + Philodox + Glass Walkers",
+    "Homid + Galliard + Glass Walkers",
+    "Homid + Ahroun + Glass Walkers",
+    "Metis + Ragabash + Glass Walkers + deformity",
+    "Metis + Theurge + Glass Walkers + deformity",
+    "Metis + Philodox + Glass Walkers + deformity",
+    "Metis + Galliard + Glass Walkers + deformity",
+    "Metis + Ahroun + Glass Walkers + deformity",
+    "Lupus + Ragabash + Glass Walkers",
+    "Lupus + Theurge + Glass Walkers",
+    "Lupus + Philodox + Glass Walkers",
+    "Lupus + Galliard + Glass Walkers",
+    "Lupus + Ahroun + Glass Walkers"
+  ],
+  "blockedPaths": [],
+  "explicitAbsence": [
+    "Chronicle persistence is not implemented in IMPLEMENT-021",
+    "aggregate activation is not implemented in IMPLEMENT-021",
+    "the package is not promoted or published",
+    "Renown is not implemented and does not block completion"
+  ],
+  "wec008": {
+    "id": "WEC-008",
+    "title": "Completion validation, creation ledger, package binding, invalidation lifecycle, and atomic completion are not executable",
+    "remediationStatus": "remediated-by-IMPLEMENT-021-2026-08-06",
+    "note": "Creation ledger, package binding, and invalidation lifecycle remain Chronicle-owned and are out of scope for IMPLEMENT-021. The Rule Set returns deterministic state for Chronicle to persist/activate later."
+  }
+}

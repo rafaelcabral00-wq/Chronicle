@@ -10,10 +10,11 @@ public static class WerewolfRuleSetPackage
 
     public static IReadOnlyList<string> SupportedCapabilities { get; } =
     [
-        "character-model",
+        "character-completion",
         "character-creation",
-        "character-validation",
+        "character-model",
         "character-sheet",
+        "character-validation",
         "fixture-driven-tests"
     ];
 

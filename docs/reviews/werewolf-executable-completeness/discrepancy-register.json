@@ -156,7 +156,17 @@
         "docs/rule-sets/Chronicle.RuleSets.Werewolf/prototype/character-model/creation/invalidations.json"
       ],
       "completionImpact": "All paths blocked from valid completion state.",
-      "requiredRemediation": "IMPLEMENT-021: completion validation and completion boundary after mandatory data operations exist."
+      "requiredRemediation": "IMPLEMENT-021: completion validation and completion boundary after mandatory data operations exist.",
+      "remediationStatus": "remediated-by-IMPLEMENT-021-2026-08-06",
+      "remediationEvidence": [
+        "docs/reviews/documentation-reconciliation/decision-requests/DR-0007-werewolf-character-completion-boundary.md",
+        "docs/reviews/werewolf-executable-completeness/implement-021-remediation-contract.json",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCompletion.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+        "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfCharacterCompletionTests.cs",
+        "commit: pending"
+      ]
     },
     {
       "id": "WEC-009",
