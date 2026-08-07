@@ -133,6 +133,8 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.SelectTribeOperation,
                 WerewolfReferenceRuntime.SelectTribeGiftOperation,
                 WerewolfReferenceRuntime.SetIdentityNameOperation,
+                WerewolfReferenceRuntime.DefineActionTestOperation,
+                WerewolfReferenceRuntime.InterpretActionRollOperation,
                 WerewolfReferenceRuntime.ExecuteGiftEffectOperation
             ],
             first[0].Operations.Select(operation => operation.OperationKey).ToArray());

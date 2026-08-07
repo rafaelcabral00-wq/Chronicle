@@ -74,6 +74,10 @@
     {
       "capabilityKey": "fixture-driven-tests",
       "status": "declared-not-yet-executable"
+    },
+    {
+      "capabilityKey": "generic-dice",
+      "status": "partial-executable"
     }
   ],
   "excludedMechanics": [

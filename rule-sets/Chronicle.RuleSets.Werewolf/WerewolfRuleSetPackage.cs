@@ -15,18 +15,21 @@ public static class WerewolfRuleSetPackage
         "character-model",
         "character-sheet",
         "character-validation",
-        "fixture-driven-tests"
+        "fixture-driven-tests",
+        "generic-dice"
     ];
 
     public static IReadOnlyList<string> DisabledCapabilities { get; } =
     [
         "additional-gift-purchase",
         "runtime-gift-execution",
-        "generic-dice",
         "post-creation-character-operations",
         "combat",
         "progression",
         "rites",
         "umbra"
     ];
+
+    public const string DefineActionTestOperation = "character-runtime.define-action-test";
+    public const string InterpretActionRollOperation = "character-runtime.interpret-action-roll";
 }

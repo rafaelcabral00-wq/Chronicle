@@ -1,0 +1,198 @@
+{
+  "workPackageId": "PLAYABLE-001",
+  "status": "completed",
+  "effectiveDate": "2026-08-07",
+  "title": "Chronicle-owned dice execution + Werewolf-owned action-test definition and result interpretation",
+  "boundary": {
+    "ruleSetOwns": [
+      "dice plan definition",
+      "Attribute+Ability pool calculation",
+      "difficulty input",
+      "raw dice result interpretation",
+      "canonical findings",
+      "stable serialized form"
+    ],
+    "chronicleOwns": [
+      "random number generation",
+      "dice execution",
+      "deterministic test RNG",
+      "orchestration sequence",
+      "evidence commitment",
+      "persistence (future)"
+    ],
+    "ruleSetMustNotCall": [
+      "database",
+      "filesystem",
+      "network",
+      "random",
+      "clock",
+      "provider",
+      "persistence APIs",
+      "Narrative Intelligence"
+    ],
+    "narrativeIntelligenceMustNot": [
+      "own rules",
+      "own randomness",
+      "choose canonical state",
+      "persist state",
+      "choose mechanical outcomes"
+    ]
+  },
+  "genericDiceContracts": {
+    "project": "Chronicle.Contracts",
+    "types": [
+      "DiceSize (enum: D4, D6, D8, D10, D12, D20, D100)",
+      "DiceRollFailureCode (enum: InvalidQuantity, InvalidFaces, GeneratorUnavailable)",
+      "DiceRollRequest (record: RequestId, Quantity, DiceSize, Metadata)",
+      "DiceRollResult (record: RequestId, Succeeded, DiceValues, FailureCode, Metadata)",
+      "IDiceValueGenerator (interface: Generate, SupportsSize)"
+    ]
+  },
+  "chronicleInfrastructure": {
+    "project": "Chronicle.Infrastructure",
+    "implementations": [
+      "SystemDiceValueGenerator (OS randomness)",
+      "ScriptedDiceValueGenerator (deterministic test sequences)"
+    ]
+  },
+  "chronicleApplication": {
+    "project": "Chronicle.Application",
+    "services": [
+      "DiceRollService (static: Execute request with generator)",
+      "ActionResolutionOrchestrator (instance: completed character -> define -> execute -> interpret)"
+    ]
+  },
+  "werewolfOperations": {
+    "project": "Chronicle.RuleSets.Werewolf",
+    "operations": [
+      {
+        "key": "character-runtime.define-action-test",
+        "capability": "generic-dice",
+        "status": "enabled",
+        "inputs": [
+          "draftId",
+          "draftVersion",
+          "expectedDraftVersion",
+          "requestId",
+          "attributeId",
+          "abilityId",
+          "difficulty",
+          "modifier"
+        ],
+        "outputs": [
+          "requestId",
+          "diceQuantity",
+          "diceFaces",
+          "attributeId",
+          "abilityId",
+          "difficulty",
+          "modifier"
+        ],
+        "validates": [
+          "completed character state",
+          "Attribute identifier",
+          "Ability identifier",
+          "current ratings",
+          "difficulty >= 1"
+        ],
+        "calculates": "Attribute rating + Ability rating + modifier (minimum 0)",
+        "returns": "generic DiceRollRequest fields"
+      },
+      {
+        "key": "character-runtime.interpret-action-roll",
+        "capability": "generic-dice",
+        "status": "enabled",
+        "inputs": [
+          "requestId",
+          "diceValues",
+          "difficulty",
+          "diceQuantity"
+        ],
+        "outputs": [
+          "requestId",
+          "rawDiceValues",
+          "diceQuantity",
+          "difficulty",
+          "successCount",
+          "failureClassification",
+          "botchClassification",
+          "interpretationStatus",
+          "serializedInterpretation"
+        ],
+        "validates": [
+          "requestId present",
+          "diceQuantity >= 0",
+          "difficulty >= 1",
+          "dice count matches",
+          "each die face in [1,10]"
+        ],
+        "returns": "raw dice values + pending-extraction status"
+      }
+    ]
+  },
+  "approvedSubset": [
+    "Chronicle-owned generic d10 pool execution",
+    "Rule Set request for an action test",
+    "Rule Set interpretation of raw dice results (pending extraction for success-counting semantics)"
+  ],
+  "deferredMechanics": [
+    "success threshold (exact value unresolved per EXTRACTION-0004 ambiguity A-001)",
+    "botch definition and triggering conditions",
+    "cancellation by 1s (whether and when 1s cancel successes)",
+    "specialization resolution (additional die generation, chaining, result-of-1 handling)",
+    "result-of-10 behavior without specialization",
+    "difficulty range and source (Storyteller-set vs. fixed)",
+    "minimum Dice pool behavior when pool is zero",
+    "automatic success or failure rules",
+    "modifier application rules beyond Attribute+Ability base pool"
+  ],
+  "orchestrationFlow": [
+    "completed character",
+    "Werewolf defines test (Attribute + Ability + difficulty)",
+    "Chronicle executes dice (deterministic RNG in tests)",
+    "Werewolf interprets raw result",
+    "application receives resolved mechanical outcome"
+  ],
+  "testTotals": {
+    "fullSolution": {
+      "total": 424,
+      "passed": 424,
+      "failed": 0
+    },
+    "werewolf": {
+      "total": 418,
+      "passed": 418,
+      "failed": 0
+    },
+    "newTestsAdded": {
+      "genericDiceContracts": 4,
+      "systemDiceGenerator": 5,
+      "scriptedDiceGenerator": 5,
+      "diceRollService": 5,
+      "actionTestDefinition": 13,
+      "actionRollInterpretation": 8,
+      "actionRuntime": 4,
+      "totalNew": 44
+    }
+  },
+  "architectureTestResult": "passed",
+  "packageValidatorResult": {
+    "status": "valid",
+    "files": 23,
+    "findings": 0
+  },
+  "documentationCreated": [
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0008-action-resolution-and-randomness-boundary.md",
+    "docs/reviews/playable-runtime/playable-001-action-resolution-contract.json",
+    "docs/reviews/playable-runtime/playable-001-completion-evidence.json"
+  ],
+  "remainingBlockers": [
+    "Werewolf success-counting semantics pending extraction (EXTRACTION-0004 ambiguity A-001)",
+    "Specialization resolution pending extraction (EXTRACTION-0004 ambiguity A-002)",
+    "Botch semantics unresolved",
+    "Cancellation by 1s unresolved",
+    "Result-of-10 behavior unresolved"
+  ],
+  "gitDiffCheck": "passed (no whitespace errors)",
+  "gitStatusShort": "see git status output"
+}

@@ -1,0 +1,87 @@
+{
+  "evidenceId": "EVIDENCE-PLAYABLE-001-2026-08-07",
+  "workPackageId": "PLAYABLE-001",
+  "status": "completed",
+  "effectiveDate": "2026-08-07",
+  "decisionAuthority": [
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0008-action-resolution-and-randomness-boundary.md"
+  ],
+  "productionFiles": [
+    "src/Chronicle.Contracts/Dice/DiceSize.cs",
+    "src/Chronicle.Contracts/Dice/DiceRollFailureCode.cs",
+    "src/Chronicle.Contracts/Dice/DiceRollRequest.cs",
+    "src/Chronicle.Contracts/Dice/DiceRollResult.cs",
+    "src/Chronicle.Contracts/Dice/IDiceValueGenerator.cs",
+    "src/Chronicle.Infrastructure/Dice/SystemDiceValueGenerator.cs",
+    "src/Chronicle.Infrastructure/Dice/ScriptedDiceValueGenerator.cs",
+    "src/Chronicle.Application/Dice/DiceRollService.cs",
+    "src/Chronicle.Application/Dice/ActionResolutionOrchestrator.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfActionTestDefinitionService.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfActionRollInterpretationService.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfRuleSetPackage.cs",
+    "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"
+  ],
+  "testFiles": [
+    "tests/Chronicle.Contracts.Tests/DiceContractTests.cs",
+    "tests/Chronicle.Infrastructure.Tests/SystemDiceValueGeneratorTests.cs",
+    "tests/Chronicle.Infrastructure.Tests/ScriptedDiceValueGeneratorTests.cs",
+    "tests/Chronicle.Application.Tests/DiceRollServiceTests.cs",
+    "tests/Chronicle.Application.Tests/FakeDiceValueGenerator.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfActionTestDefinitionTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfActionRollInterpretationTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfActionRuntimeTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfTestRuntimeHelpers.cs"
+  ],
+  "documentationFiles": [
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0008-action-resolution-and-randomness-boundary.md",
+    "docs/reviews/playable-runtime/playable-001-action-resolution-contract.json"
+  ],
+  "boundary": {
+    "ruleSetOwns": [
+      "dice plan definition",
+      "Attribute+Ability pool calculation",
+      "difficulty input",
+      "raw dice result interpretation",
+      "canonical findings",
+      "stable serialized form"
+    ],
+    "chronicleOwns": [
+      "random number generation",
+      "dice execution",
+      "deterministic test RNG",
+      "orchestration sequence",
+      "evidence commitment",
+      "persistence (future)"
+    ]
+  },
+  "testResults": {
+    "fullSolutionTestTotal": 424,
+    "fullSolutionTestPassed": 424,
+    "fullSolutionTestFailed": 0,
+    "werewolfTestTotal": 418,
+    "werewolfTestPassed": 418,
+    "werewolfTestFailed": 0,
+    "newTestFiles": 9,
+    "newTestCount": 44
+  },
+  "packageValidator": {
+    "result": "passed",
+    "files": 23,
+    "findings": 0
+  },
+  "architectureTests": "passed",
+  "gitDiffCheck": "passed",
+  "explicitlyDeferred": [
+    "success threshold (exact value unresolved per EXTRACTION-0004 ambiguity A-001)",
+    "botch definition and triggering conditions",
+    "cancellation by 1s (whether and when 1s cancel successes)",
+    "specialization resolution (additional die generation, chaining, result-of-1 handling)",
+    "result-of-10 behavior without specialization",
+    "difficulty range and source (Storyteller-set vs. fixed)",
+    "minimum Dice pool behavior when pool is zero",
+    "automatic success or failure rules",
+    "modifier application rules beyond Attribute+Ability base pool"
+  ],
+  "unresolvedContradictions": []
+}
