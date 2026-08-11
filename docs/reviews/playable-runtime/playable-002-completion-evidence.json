@@ -1,0 +1,91 @@
+{
+  "evidenceId": "EVIDENCE-PLAYABLE-002-2026-08-07",
+  "workPackageId": "PLAYABLE-002",
+  "status": "completed",
+  "effectiveDate": "2026-08-07",
+  "decisionAuthority": [
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0009-werewolf-runtime-resource-boundary.md",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0005-initial-resources-rank-and-renown-boundary.md",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0007-werewolf-character-completion-boundary.md",
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0008-action-resolution-and-randomness-boundary.md"
+  ],
+  "productionFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRuntimeCharacterState.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfResourceTransitionContracts.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfResourceTransitionService.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/WerewolfRuleSetPackage.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json",
+    "rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json",
+    "src/Chronicle.Application/Resources/ResourceTransitionOrchestrator.cs",
+    "src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs"
+  ],
+  "testFiles": [
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceTransitionTests.cs",
+    "rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceRuntimeTests.cs",
+    "tests/Chronicle.Application.Tests/ResourceTransitionOrchestratorTests.cs"
+  ],
+  "documentationFiles": [
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0009-werewolf-runtime-resource-boundary.md",
+    "docs/reviews/playable-runtime/playable-002-runtime-resources-contract.json"
+  ],
+  "boundary": {
+    "ruleSetOwns": [
+      "resource identifier validation",
+      "spend/recover transition validation",
+      "current/permanent bound enforcement",
+      "deterministic state transition",
+      "canonical findings",
+      "new immutable runtime state"
+    ],
+    "chronicleOwns": [
+      "orchestration sequence",
+      "runtime state pass-through",
+      "result delivery",
+      "persistence (future)",
+      "aggregate activation (future)"
+    ]
+  },
+  "testResults": {
+    "fullSolutionTestTotal": 501,
+    "fullSolutionTestPassed": 501,
+    "fullSolutionTestFailed": 0,
+    "werewolfTestTotal": 451,
+    "werewolfTestPassed": 451,
+    "werewolfTestFailed": 0,
+    "newTestFiles": 3,
+    "newTestCount": 31
+  },
+  "packageValidator": {
+    "result": "passed",
+    "files": 26,
+    "findings": 0
+  },
+  "architectureTests": "passed",
+  "gitDiffCheck": "passed",
+  "approvedSubset": [
+    "Mutable runtime values are the .current values of character.resource.rage, character.resource.gnosis, character.resource.willpower",
+    ".permanent values remain unchanged by PLAYABLE-002",
+    "Spending cannot reduce current below zero",
+    "Recovery cannot increase current above permanent",
+    "Invalid transitions are rejected rather than silently clamped",
+    "Both operations require completed character state binding",
+    "Both operations require positive integer amount",
+    "Both operations require expected runtime-state version (optimistic concurrency)",
+    "Runtime state version increments exactly once per successful transition",
+    "Creation snapshot remains immutable historical completion evidence",
+    "Rule Set returns new immutable runtime state suitable for Chronicle persistence later"
+  ],
+  "explicitlyDeferred": [
+    "Renown (unresolved under IMPLEMENT-019B)",
+    "Permanent value mutation",
+    "Automatic regeneration or time-based recovery",
+    "Resource-specific narrative/trigger rules",
+    "Combat, damage, Frenzy, Gifts runtime, advancement",
+    "Session persistence",
+    "Narrative Intelligence integration",
+    "Freebie-points interaction with runtime Resources",
+    "Difficulty, dice, or action resolution"
+  ],
+  "unresolvedContradictions": []
+}

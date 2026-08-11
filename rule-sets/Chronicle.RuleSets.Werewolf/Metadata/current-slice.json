@@ -16,12 +16,12 @@
     "character-sheet",
     "character-validation",
     "fixture-driven-tests",
-    "generic-dice"
+    "generic-dice",
+    "post-creation-character-operations"
   ],
   "disabledCapabilities": [
     "additional-gift-purchase",
     "runtime-gift-execution",
-    "post-creation-character-operations",
     "combat",
     "progression",
     "rites",

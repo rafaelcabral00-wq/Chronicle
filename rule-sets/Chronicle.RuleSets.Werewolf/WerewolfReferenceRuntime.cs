@@ -23,6 +23,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string CompleteCharacterOperation = "character-creation.complete-character";
     public const string DefineActionTestOperation = "character-runtime.define-action-test";
     public const string InterpretActionRollOperation = "character-runtime.interpret-action-roll";
+    public const string SpendResourceOperation = "character-runtime.spend-resource";
+    public const string RecoverResourceOperation = "character-runtime.recover-resource";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -68,6 +70,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(SelectTribeGiftOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineActionTestOperation, "generic-dice", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(InterpretActionRollOperation, "generic-dice", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(SpendResourceOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(RecoverResourceOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
             new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
         ]);
@@ -159,6 +163,16 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, InterpretActionRollOperation))
         {
             return ExecuteInterpretActionRoll(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, SpendResourceOperation))
+        {
+            return ExecuteSpendResource(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, RecoverResourceOperation))
+        {
+            return ExecuteRecoverResource(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -1356,6 +1370,125 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["botchClassification"] = result.BotchClassification ?? string.Empty,
                 ["interpretationStatus"] = result.InterpretationStatus,
                 ["serializedInterpretation"] = result.SerializedInterpretation
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteSpendResource(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("resourceId", out var resourceId) ||
+            !request.Inputs.TryGetValue("amount", out var amountText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(amountText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var amount))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidSpendResourceRequest", "Spend-resource requires requestId, currentState, expectedRuntimeStateVersion, resourceId, and amount.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not a valid WerewolfRuntimeCharacterState.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var result = WerewolfResourceTransitionService.Spend(new WerewolfResourceTransitionRequest(currentState, expectedVersion, requestId, resourceId, amount));
+
+        if (!result.Succeeded || result.NewState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfResourceTransitionFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                        finding.Code.ToString(),
+                        finding.Message))
+                    .ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return ToOperationResult(result);
+    }
+
+    private static RuleSetOperationResult ExecuteRecoverResource(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("resourceId", out var resourceId) ||
+            !request.Inputs.TryGetValue("amount", out var amountText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(amountText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var amount))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidRecoverResourceRequest", "Recover-resource requires requestId, currentState, expectedRuntimeStateVersion, resourceId, and amount.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not a valid WerewolfRuntimeCharacterState.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var result = WerewolfResourceTransitionService.Recover(new WerewolfResourceTransitionRequest(currentState, expectedVersion, requestId, resourceId, amount));
+
+        if (!result.Succeeded || result.NewState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfResourceTransitionFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                        finding.Code.ToString(),
+                        finding.Message))
+                    .ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return ToOperationResult(result);
+    }
+
+    private static RuleSetOperationResult ToOperationResult(WerewolfResourceTransitionResult result)
+    {
+        var newState = result.NewState!;
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfResourceTransitionFindingSeverity.Error
+                        ? RuleSetRuntimeFindingSeverity.Error
+                        : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                .ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId ?? string.Empty,
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(newState, JsonOptions),
+                ["newRuntimeStateVersion"] = newState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["previousCurrent"] = result.PreviousCurrent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                ["newCurrent"] = result.NewCurrent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                ["previousPermanent"] = result.PreviousPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                ["newPermanent"] = result.NewPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
             });
     }
 }

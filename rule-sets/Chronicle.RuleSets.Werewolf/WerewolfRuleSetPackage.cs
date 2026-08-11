@@ -16,14 +16,14 @@ public static class WerewolfRuleSetPackage
         "character-sheet",
         "character-validation",
         "fixture-driven-tests",
-        "generic-dice"
+        "generic-dice",
+        "post-creation-character-operations"
     ];
 
     public static IReadOnlyList<string> DisabledCapabilities { get; } =
     [
         "additional-gift-purchase",
         "runtime-gift-execution",
-        "post-creation-character-operations",
         "combat",
         "progression",
         "rites",

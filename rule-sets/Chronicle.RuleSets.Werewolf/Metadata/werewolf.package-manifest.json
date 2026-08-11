@@ -25,7 +25,7 @@
     "scopeStatus": "executable-increment",
     "sourceSystemCompleteness": "not-complete",
     "declaredScopeCompleteness": "partial-executable-current-slice",
-    "implementationCompleteness": "classification-initial-selection-attribute-ability-background-resource-rank-identity-name-and-completion-validation-increments",
+    "implementationCompleteness": "classification-initial-selection-attribute-ability-background-resource-rank-identity-name-and-completion-validation-increments-plus-runtime-resource-spend-and-recover-operations",
     "validationCompleteness": "bootstrap-and-runtime-increment-tests",
     "publicationStatus": "not-published"
   },
@@ -78,12 +78,15 @@
     {
       "capabilityKey": "generic-dice",
       "status": "partial-executable"
+    },
+    {
+      "capabilityKey": "post-creation-character-operations",
+      "status": "partial-executable"
     }
   ],
   "excludedMechanics": [
     "combat",
     "complete-source-rpg-system",
-    "post-creation-character-operations",
     "progression",
     "rites",
     "umbra"

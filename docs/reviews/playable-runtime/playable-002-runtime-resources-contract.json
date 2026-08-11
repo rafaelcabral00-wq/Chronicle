@@ -1,0 +1,218 @@
+{
+  "workPackageId": "PLAYABLE-002",
+  "status": "completed",
+  "effectiveDate": "2026-08-07",
+  "title": "Werewolf runtime Resources state mutation with Chronicle-neutral orchestration",
+  "boundary": {
+    "ruleSetOwns": [
+      "resource identifier validation",
+      "spend/recover transition validation",
+      "current/permanent bound enforcement",
+      "deterministic state transition",
+      "canonical findings",
+      "new immutable runtime state"
+    ],
+    "chronicleOwns": [
+      "orchestration sequence",
+      "runtime state pass-through",
+      "result delivery",
+      "persistence (future)",
+      "aggregate activation (future)"
+    ],
+    "ruleSetMustNotCall": [
+      "database",
+      "filesystem",
+      "network",
+      "random",
+      "clock",
+      "provider",
+      "persistence APIs",
+      "Narrative Intelligence"
+    ]
+  },
+  "runtimeState": {
+    "record": "WerewolfRuntimeCharacterState",
+    "namespace": "Chronicle.RuleSets.Werewolf.CharacterCreation",
+    "properties": [
+      "PackageId",
+      "PackageVersion",
+      "DraftId",
+      "RuntimeStateVersion",
+      "PackageBinding",
+      "RagePermanent",
+      "RageCurrent",
+      "GnosisPermanent",
+      "GnosisCurrent",
+      "WillpowerPermanent",
+      "WillpowerCurrent"
+    ],
+    "versioning": {
+      "type": "monotonically increasing integer",
+      "startsAt": 1,
+      "incremented": "exactly once per successful transition",
+      "source": "separate from creation DraftVersion"
+    }
+  },
+  "werewolfOperations": {
+    "project": "Chronicle.RuleSets.Werewolf",
+    "operations": [
+      {
+        "key": "character-runtime.spend-resource",
+        "capability": "post-creation-character-operations",
+        "status": "enabled",
+        "inputs": [
+          "requestId",
+          "currentState",
+          "expectedRuntimeStateVersion",
+          "resourceId",
+          "amount"
+        ],
+        "outputs": [
+          "requestId",
+          "newState",
+          "newRuntimeStateVersion",
+          "previousCurrent",
+          "newCurrent",
+          "previousPermanent",
+          "newPermanent"
+        ],
+        "validates": [
+          "state present and well-formed",
+          "package binding valid",
+          "draft bound to completed character",
+          "expected runtime state version matches",
+          "resource identifier recognized",
+          "amount is positive integer",
+          "current value >= amount"
+        ],
+        "transition": "newCurrent = current - amount, newPermanent = permanent (unchanged)"
+      },
+      {
+        "key": "character-runtime.recover-resource",
+        "capability": "post-creation-character-operations",
+        "status": "enabled",
+        "inputs": [
+          "requestId",
+          "currentState",
+          "expectedRuntimeStateVersion",
+          "resourceId",
+          "amount"
+        ],
+        "outputs": [
+          "requestId",
+          "newState",
+          "newRuntimeStateVersion",
+          "previousCurrent",
+          "newCurrent",
+          "previousPermanent",
+          "newPermanent"
+        ],
+        "validates": [
+          "state present and well-formed",
+          "package binding valid",
+          "draft bound to completed character",
+          "expected runtime state version matches",
+          "resource identifier recognized",
+          "amount is positive integer",
+          "current + amount <= permanent"
+        ],
+        "transition": "newCurrent = current + amount, newPermanent = permanent (unchanged)"
+      }
+    ]
+  },
+  "chronicleApplication": {
+    "project": "Chronicle.Application",
+    "services": [
+      "ResourceTransitionOrchestrator (instance: runtime state -> request resource transition -> receive deterministic new state -> return to caller)"
+    ],
+    "orchestrationFlow": [
+      "runtime character state",
+      "request resource transition through registered Rule Set runtime",
+      "receive deterministic new runtime state/result",
+      "return it to caller"
+    ],
+    "mustNotContain": [
+      "Rage/Gnosis/Willpower identifiers",
+      "Werewolf-specific bounds",
+      "Werewolf concrete service references"
+    ]
+  },
+  "approvedSemantics": [
+    "Mutable runtime values are the .current values of character.resource.rage, character.resource.gnosis, character.resource.willpower",
+    ".permanent values remain unchanged by PLAYABLE-002",
+    "Spending cannot reduce current below zero",
+    "Recovery cannot increase current above permanent",
+    "Invalid transitions are rejected rather than silently clamped",
+    "Both operations require completed character state binding",
+    "Both operations require positive integer amount",
+    "Both operations require expected runtime-state version (optimistic concurrency)",
+    "Runtime state version increments exactly once per successful transition",
+    "Resource identifiers support base and .current suffixed forms only; .permanent identifiers are rejected",
+    "Creation snapshot remains immutable historical completion evidence"
+  ],
+  "deferredMechanics": [
+    "Renown (unresolved under IMPLEMENT-019B)",
+    "Permanent value mutation",
+    "Automatic regeneration or time-based recovery",
+    "Resource-specific narrative/trigger rules",
+    "Combat, damage, Frenzy, Gifts runtime, advancement",
+    "Session persistence",
+    "Narrative Intelligence integration",
+    "Freebie-points interaction with runtime Resources",
+    "Difficulty, dice, or action resolution"
+  ],
+  "validationCodes": [
+    "MissingState",
+    "InvalidPackageBinding",
+    "CharacterNotCompleted",
+    "StaleRuntimeStateVersion",
+    "UnknownResource",
+    "MalformedResourceIdentifier",
+    "PermanentResourceMutationUnsupported",
+    "AmountMissingOrZero",
+    "AmountNegative",
+    "InsufficientCurrentValue",
+    "RecoveryExceedsPermanent",
+    "InvalidSourceCurrentAbovePermanent",
+    "ResourceSpendSucceeded",
+    "ResourceRecoverSucceeded"
+  ],
+  "testTotals": {
+    "fullSolution": {
+      "total": 501,
+      "passed": 501,
+      "failed": 0
+    },
+    "werewolf": {
+      "total": 451,
+      "passed": 451,
+      "failed": 0
+    },
+    "newTestsAdded": {
+      "resourceTransitionUnit": 24,
+      "resourceRuntimeIntegration": 4,
+      "applicationOrchestration": 3,
+      "totalNew": 31
+    }
+  },
+  "architectureTestResult": "passed",
+  "packageValidatorResult": {
+    "status": "valid",
+    "files": 26,
+    "findings": 0
+  },
+  "documentationCreated": [
+    "docs/reviews/documentation-reconciliation/decision-requests/DR-0009-werewolf-runtime-resource-boundary.md",
+    "docs/reviews/playable-runtime/playable-002-runtime-resources-contract.json",
+    "docs/reviews/playable-runtime/playable-002-completion-evidence.json"
+  ],
+  "remainingBlockers": [
+    "Werewolf success-counting semantics pending extraction (EXTRACTION-0004 ambiguity A-001)",
+    "Specialization resolution pending extraction (EXTRACTION-0004 ambiguity A-002)",
+    "Botch semantics unresolved",
+    "Cancellation by 1s unresolved",
+    "Result-of-10 behavior unresolved",
+    "Renown remains unresolved under IMPLEMENT-019B"
+  ],
+  "gitDiffCheck": "passed (no whitespace errors)"
+}
