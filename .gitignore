@@ -63,4 +63,7 @@ Desktop.ini
 *.sig
 *.sha256
 
+# Local copyrighted Rule Set source material
+.rule-set-sources/
+
 # Keep documentation review artifacts tracked unless explicitly ignored later.
