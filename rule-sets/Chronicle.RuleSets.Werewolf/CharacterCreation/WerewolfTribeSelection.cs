@@ -38,27 +38,41 @@ public enum WerewolfTribeSelectionErrorCode
 public static class WerewolfTribeIdentifiers
 {
     public const string GlassWalkers = "glass-walkers";
+    public const string GetOfFenris = "get-of-fenris";
+    public const string Fianna = "fianna";
+    public const string ChildrenOfGaia = "children-of-gaia";
+    public const string BlackFuries = "black-furies";
+    public const string RedTalons = "red-talons";
+    public const string SilentStriders = "silent-striders";
+    public const string SilverFangs = "silver-fangs";
+    public const string BoneGnawers = "bone-gnawers";
+    public const string ShadowLords = "shadow-lords";
+    public const string Uktena = "uktena";
+    public const string Wendigo = "wendigo";
 
-    public static IReadOnlyList<string> Supported { get; } = [GlassWalkers];
+    public static IReadOnlyList<string> Supported { get; } =
+    [
+        GlassWalkers,
+        GetOfFenris,
+        Fianna,
+        ChildrenOfGaia,
+        BlackFuries,
+        RedTalons,
+        SilentStriders,
+        SilverFangs,
+        BoneGnawers,
+        ShadowLords,
+        Uktena,
+        Wendigo
+    ];
 }
 
 public static class WerewolfTribeSelectionService
 {
-    private static readonly string[] KnownOutOfScopeTribes =
-    [
-        "black-furies",
-        "bone-gnawers",
-        "children-of-gaia",
-        "fianna",
-        "get-of-fenris",
-        "red-talons",
-        "shadow-lords",
-        "silent-striders",
-        "silver-fangs",
-        "uktena",
-        "wendigo"
-    ];
-
+    // Silver Fangs require Pure Breed >= 3 per source line 779.
+    // Pure Breed is not in the current executable Background catalog.
+    // This requirement is preserved as a known blocker pending a later
+    // Background-catalog completion package.
     public static WerewolfTribeSelectionResult SelectTribe(WerewolfTribeSelectionRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
@@ -87,11 +101,6 @@ public static class WerewolfTribeSelectionService
         if (!StringComparer.Ordinal.Equals(tribe, request.TribeId) || tribe.Any(char.IsWhiteSpace))
         {
             return Invalid(WerewolfTribeSelectionErrorCode.MalformedTribe, "Tribe identifier must be canonical and whitespace-free.");
-        }
-
-        if (KnownOutOfScopeTribes.Contains(tribe, StringComparer.Ordinal))
-        {
-            return Invalid(WerewolfTribeSelectionErrorCode.TribeOutOfScope, "Tribe identifier is cataloged but not declared by the current slice.");
         }
 
         if (!WerewolfTribeIdentifiers.Supported.Contains(tribe, StringComparer.Ordinal))
@@ -152,14 +161,53 @@ public static class WerewolfTribeSelectionService
     private static ReadOnlyDictionary<string, int?> ClearInvalidBackgroundsForTribe(IReadOnlyDictionary<string, int?> values, string tribe)
     {
         var copy = values.ToDictionary(entry => entry.Key, entry => entry.Value, StringComparer.Ordinal);
-        if (StringComparer.Ordinal.Equals(tribe, WerewolfTribeIdentifiers.GlassWalkers) &&
-            copy.TryGetValue(WerewolfBackgroundIdentifiers.Mentor, out var mentorRating) &&
-            mentorRating.GetValueOrDefault() > 0)
+        var restricted = GetRestrictedBackgroundsForTribe(tribe);
+        foreach (var backgroundId in restricted)
         {
-            copy[WerewolfBackgroundIdentifiers.Mentor] = null;
+            if (copy.ContainsKey(backgroundId))
+            {
+                copy[backgroundId] = null;
+            }
         }
 
         return new ReadOnlyDictionary<string, int?>(copy);
+    }
+
+    private static string[] GetRestrictedBackgroundsForTribe(string tribe)
+    {
+        switch (tribe)
+        {
+            case WerewolfTribeIdentifiers.GlassWalkers:
+                return [WerewolfBackgroundIdentifiers.Ancestors, WerewolfBackgroundIdentifiers.Mentor, WerewolfBackgroundIdentifiers.PureBreed];
+            case WerewolfTribeIdentifiers.GetOfFenris:
+                return [WerewolfBackgroundIdentifiers.Contacts];
+            case WerewolfTribeIdentifiers.RedTalons:
+                return [WerewolfBackgroundIdentifiers.Allies, WerewolfBackgroundIdentifiers.Contacts, WerewolfBackgroundIdentifiers.Resources];
+            case WerewolfTribeIdentifiers.SilentStriders:
+                return [WerewolfBackgroundIdentifiers.Ancestors, WerewolfBackgroundIdentifiers.Resources];
+            case WerewolfTribeIdentifiers.BoneGnawers:
+                return [WerewolfBackgroundIdentifiers.Ancestors, WerewolfBackgroundIdentifiers.PureBreed, WerewolfBackgroundIdentifiers.Resources];
+            case WerewolfTribeIdentifiers.ShadowLords:
+                return [WerewolfBackgroundIdentifiers.Allies, WerewolfBackgroundIdentifiers.Mentor];
+            case WerewolfTribeIdentifiers.Wendigo:
+                return [WerewolfBackgroundIdentifiers.Contacts, WerewolfBackgroundIdentifiers.Resources];
+            default:
+                return [];
+        }
+    }
+
+    private static IReadOnlyDictionary<string, int?> GetRequiredMinimumBackgroundsForTribe(string tribe)
+    {
+        switch (tribe)
+        {
+            case WerewolfTribeIdentifiers.SilverFangs:
+                return new Dictionary<string, int?>(StringComparer.Ordinal)
+                {
+                    [WerewolfBackgroundIdentifiers.PureBreed] = 3
+                };
+            default:
+                return new ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal));
+        }
     }
 
     private static ReadOnlyDictionary<string, string?> CopyOptionalText(IReadOnlyDictionary<string, string?> values)

@@ -11,16 +11,17 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **11/68 domains (16.2%)**.
+2. Full-source mechanical implementation completeness is **12/68 domains (17.6%)**.
 3. Current-slice executable coverage is **28/68 domains (41.2%)**.
-4. The finite completion backlog contains **12 work packages**.
+4. The finite completion backlog contains **11 remaining work packages** (RULESET-COMPLETION-003 through RULESET-COMPLETION-013).
 
 **Critical gaps:**
 1. Health/damage mechanics are entirely absent (DR-0010 blocks PLAYABLE-003)
 2. Renown initialization is blocked by DR-0005 (IMPLEMENT-019B)
 3. Generic dice resolution algorithm is not source-derived (A-001, A-002 open)
-4. Tribe catalog is narrowed to Glass Walkers only (A-004 open)
-5. 57 of 68 domains are not mechanically complete for the full registered source
+4. Silver Fangs require Pure Breed ≥ 3, which is not in the current executable Background catalog; Silver Fang character paths are pipeline-executable but not source-valid (blocked pending Background expansion)
+5. Tribe eligibility restrictions remain partially ambiguous (A-016 deferred to RULESET-COMPLETION-009)
+6. 56 of 68 domains are not mechanically complete for the full registered source
 
 ## 1. Source File Verification
 
@@ -60,44 +61,44 @@ Each domain is evaluated across multiple dimensions:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| mechanically complete | 11 | 16.2% |
-| current-slice executable (full-source incomplete) | 17 | 25.0% |
+| mechanically complete | 12 | 17.6% |
+| current-slice executable (full-source incomplete) | 16 | 23.5% |
 | incomplete | 40 | 58.8% |
 | **Total** | **68** | **100%** |
 
-### 2.3 Mechanically Complete Domains (11)
+### 2.3 Mechanically Complete Domains (12)
 
 These domains satisfy all formal mechanically-complete criteria for the full registered source:
 1. Race selection
 2. Auspice selection
-3. Attribute priority selection
-4. Attribute allocation
-5. Ability priority selection
-6. Rank initialization
-7. Rage initialization
-8. Gnosis initialization
-9. Willpower initialization
-10. Identity name
-11. Character completion validation
+3. Tribe selection
+4. Attribute priority selection
+5. Attribute allocation
+6. Ability priority selection
+7. Rank initialization
+8. Rage initialization
+9. Gnosis initialization
+10. Willpower initialization
+11. Initial Tribe Gifts
+12. Character completion validation
 
-### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (17)
+### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (16)
 
 These domains are executable within the declared `werewolf3e.character-creation.current-slice` scope but are not mechanically complete for the full registered source due to partial catalogs, pending semantics, or structural-only presence:
-12. Tribe selection (1 of 12+ tribes)
 13. Metis deformity (1 of many deformities)
 14. Ability allocation (18 of 27+ abilities)
 15. Background allocation (5 of 10 backgrounds)
 16. Initial Race Gifts (partial catalog)
 17. Initial Auspice Gifts (partial catalog)
-18. Initial Tribe Gifts (partial catalog)
-19. Character draft persistence (structural only, not behavioral)
-20. Dice pools and difficulty (semantics source-pending)
-21. Success determination (semantics source-pending)
-22. Failure determination (semantics source-pending)
-23. Botch determination (semantics source-pending)
-24. Specialties (semantics source-pending)
-25. Race Gift catalog (partial catalog)
-26. Auspice Gift catalog (partial catalog)
+18. Character draft persistence (structural only, not behavioral)
+19. Dice pools and difficulty (semantics source-pending)
+20. Success determination (semantics source-pending)
+21. Failure determination (semantics source-pending)
+22. Botch determination (semantics source-pending)
+23. Specialties (semantics source-pending)
+24. Race Gift catalog (partial catalog)
+25. Auspice Gift catalog (partial catalog)
+26. Tribe Gift catalog (catalog complete, behavioral restrictions pending)
 27. Tribe Gift catalog (partial catalog)
 28. Attribute + Ability test definition (operation declared, semantics pending)
 
@@ -158,11 +159,11 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 | `character-creation.create-character` | Enabled | Draft initialization |
 | `character-creation.select-race` | Enabled | Homid, Metis, Lupus |
 | `character-creation.select-auspice` | Enabled | All 5 Auspices |
-| `character-creation.select-tribe` | Enabled | Glass Walkers only |
+| `character-creation.select-tribe` | Enabled | 12 Tribes selectable; 165 source-valid paths, 15 Silver Fang paths blocked pending Pure Breed Background support |
 | `character-creation.select-metis-deformity` | Enabled | Horns only |
 | `character-creation.select-race-gift` | Enabled | 5 Race Gifts |
 | `character-creation.select-auspice-gift` | Enabled | 5 Auspice Gifts |
-| `character-creation.select-tribe-gift` | Enabled | 1 Tribe Gift |
+| `character-creation.select-tribe-gift` | Enabled | 36 Tribe Gifts |
 | `character-creation.select-attribute-priorities` | Enabled | 7/5/3 |
 | `character-creation.allocate-attributes` | Enabled | 9 Attributes, base 1 |
 | `character-creation.select-ability-priorities` | Enabled | 13/9/5 |

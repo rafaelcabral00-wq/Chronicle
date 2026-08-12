@@ -49,8 +49,10 @@ public enum WerewolfBackgroundAllocationErrorCode
 public static class WerewolfBackgroundIdentifiers
 {
     public const string Allies = "character.background.allies";
+    public const string Ancestors = "character.background.ancestors";
     public const string Contacts = "character.background.contacts";
     public const string Mentor = "character.background.mentor";
+    public const string PureBreed = "character.background.pure-breed";
     public const string Resources = "character.background.resources";
     public const string Rites = "character.background.rites";
 
@@ -70,11 +72,6 @@ public static class WerewolfBackgroundAllocationService
     public const int CreationBudget = 5;
     public const int CreationMinimumRating = 0;
     public const int CreationMaximumRating = 5;
-
-    private static readonly string[] GlassWalkersRestrictedBackgrounds =
-    [
-        WerewolfBackgroundIdentifiers.Mentor
-    ];
 
     public static WerewolfBackgroundAllocationResult AllocateBackgrounds(WerewolfBackgroundAllocationRequest request)
     {
@@ -205,19 +202,53 @@ public static class WerewolfBackgroundAllocationService
 
     public static bool IsBackgroundAllocationValidForTribe(IReadOnlyDictionary<string, int?> backgrounds, string? tribe)
     {
-        if (!StringComparer.Ordinal.Equals(tribe, WerewolfTribeIdentifiers.GlassWalkers))
+        if (string.IsNullOrWhiteSpace(tribe) || !IsKnownTribe(tribe))
         {
             return true;
         }
 
-        return GlassWalkersRestrictedBackgrounds.All(backgroundId =>
-            !backgrounds.TryGetValue(backgroundId, out var rating) || !rating.HasValue || rating.Value == 0);
+        foreach (var backgroundId in GetRestrictedBackgroundsForTribe(tribe))
+        {
+            if (backgrounds.TryGetValue(backgroundId, out var rating) && rating.HasValue && rating.Value > 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static bool IsRestricted(string tribe, string backgroundId)
     {
-        return StringComparer.Ordinal.Equals(tribe, WerewolfTribeIdentifiers.GlassWalkers) &&
-            GlassWalkersRestrictedBackgrounds.Contains(backgroundId, StringComparer.Ordinal);
+        return IsKnownTribe(tribe) && GetRestrictedBackgroundsForTribe(tribe).Contains(backgroundId, StringComparer.Ordinal);
+    }
+
+    private static string[] GetRestrictedBackgroundsForTribe(string tribe)
+    {
+        switch (tribe)
+        {
+            case WerewolfTribeIdentifiers.GlassWalkers:
+                return [WerewolfBackgroundIdentifiers.Ancestors, WerewolfBackgroundIdentifiers.Mentor, WerewolfBackgroundIdentifiers.PureBreed];
+            case WerewolfTribeIdentifiers.GetOfFenris:
+                return [WerewolfBackgroundIdentifiers.Contacts];
+            case WerewolfTribeIdentifiers.RedTalons:
+                return [WerewolfBackgroundIdentifiers.Allies, WerewolfBackgroundIdentifiers.Contacts, WerewolfBackgroundIdentifiers.Resources];
+            case WerewolfTribeIdentifiers.SilentStriders:
+                return [WerewolfBackgroundIdentifiers.Ancestors, WerewolfBackgroundIdentifiers.Resources];
+            case WerewolfTribeIdentifiers.BoneGnawers:
+                return [WerewolfBackgroundIdentifiers.Ancestors, WerewolfBackgroundIdentifiers.PureBreed, WerewolfBackgroundIdentifiers.Resources];
+            case WerewolfTribeIdentifiers.ShadowLords:
+                return [WerewolfBackgroundIdentifiers.Allies, WerewolfBackgroundIdentifiers.Mentor];
+            case WerewolfTribeIdentifiers.Wendigo:
+                return [WerewolfBackgroundIdentifiers.Contacts, WerewolfBackgroundIdentifiers.Resources];
+            default:
+                return [];
+        }
+    }
+
+    private static bool IsKnownTribe(string tribe)
+    {
+        return WerewolfTribeIdentifiers.Supported.Contains(tribe, StringComparer.Ordinal);
     }
 
     private static WerewolfBackgroundAllocationResult Invalid(WerewolfBackgroundAllocationErrorCode code, string message)

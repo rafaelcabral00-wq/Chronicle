@@ -1,7 +1,7 @@
 # Rule Set Mechanical Completeness Criteria
 
-**Status:** Accepted  
-**Applies to:** All Chronicle Rule Set packages  
+**Status:** Accepted
+**Applies to:** All Chronicle Rule Set packages
 **Depends on:** SPEC-0001, DR-0002
 
 ## 1. Purpose

@@ -57,6 +57,36 @@ public static class WerewolfInitialGiftIdentifiers
     public const string GalliardBeastSpeech = "gift.auspice.galliard.beast-speech";
     public const string AhrounFallingTouch = "gift.auspice.ahroun.falling-touch";
     public const string GlassWalkersControlSimpleMachine = "gift.tribe.glass-walkers.control-simple-machine";
+    public const string GlassWalkersDiagnostics = "gift.tribe.glass-walkers.diagnostics";
+    public const string GlassWalkersTrickShot = "gift.tribe.glass-walkers.trick-shot";
+    public const string GetOfFenrisRazorClaws = "gift.tribe.get-of-fenris.razor-claws";
+    public const string GetOfFenrisResistPain = "gift.tribe.get-of-fenris.resist-pain";
+    public const string GetOfFenrisVisageOfFenris = "gift.tribe.get-of-fenris.visage-of-fenris";
+    public const string FiannaFaerieLight = "gift.tribe.fianna.faerie-light";
+    public const string FiannaPersuasion = "gift.tribe.fianna.persuasion";
+    public const string FiannaResistToxin = "gift.tribe.fianna.resist-toxin";
+    public const string ChildrenOfGaiaMercy = "gift.tribe.children-of-gaia.mercy";
+    public const string ChildrenOfGaiaMothersTouch = "gift.tribe.children-of-gaia.mothers-touch";
+    public const string BlackFuriesBreathOfTheWyrm = "gift.tribe.black-furies.breath-of-the-wyrm";
+    public const string BlackFuriesHeightenedSenses = "gift.tribe.black-furies.heightened-senses";
+    public const string BlackFuriesSenseWyrm = "gift.tribe.black-furies.sense-wyrm";
+    public const string RedTalonsBeastSpeech = "gift.tribe.red-talons.beast-speech";
+    public const string RedTalonsWolfAtTheDoor = "gift.tribe.red-talons.wolf-at-the-door";
+    public const string RedTalonsScentOfRunningWater = "gift.tribe.red-talons.scent-of-running-water";
+    public const string SilentStridersSilence = "gift.tribe.silent-striders.silence";
+    public const string SilentStridersSpeedOfThought = "gift.tribe.silent-striders.speed-of-thought";
+    public const string SilverFangsLambentFlame = "gift.tribe.silver-fangs.lambent-flame";
+    public const string SilverFangsFalconsGrasp = "gift.tribe.silver-fangs.falcons-grasp";
+    public const string BoneGnawersCooking = "gift.tribe.bone-gnawers.cooking";
+    public const string BoneGnawersStickyFingers = "gift.tribe.bone-gnawers.sticky-fingers";
+    public const string ShadowLordsSeizingTheEdge = "gift.tribe.shadow-lords.seizing-the-edge";
+    public const string ShadowLordsAuraOfConfidence = "gift.tribe.shadow-lords.aura-of-confidence";
+    public const string ShadowLordsFatalFlaw = "gift.tribe.shadow-lords.fatal-flaw";
+    public const string UktenaSpiritSpeech = "gift.tribe.uktena.spirit-speech";
+    public const string UktenaShroud = "gift.tribe.uktena.shroud";
+    public const string UktenaSenseMagic = "gift.tribe.uktena.sense-magic";
+    public const string WendigoCamouflage = "gift.tribe.wendigo.camouflage";
+    public const string WendigoCallTheBreeze = "gift.tribe.wendigo.call-the-breeze";
 
     public static IReadOnlyList<string> Supported { get; } =
     [
@@ -68,7 +98,37 @@ public static class WerewolfInitialGiftIdentifiers
         HomidMasterOfFire,
         LupusHareLeap,
         MetisCreateElement,
-        GlassWalkersControlSimpleMachine
+        GlassWalkersControlSimpleMachine,
+        GlassWalkersDiagnostics,
+        GlassWalkersTrickShot,
+        GetOfFenrisRazorClaws,
+        GetOfFenrisResistPain,
+        GetOfFenrisVisageOfFenris,
+        FiannaFaerieLight,
+        FiannaPersuasion,
+        FiannaResistToxin,
+        ChildrenOfGaiaMercy,
+        ChildrenOfGaiaMothersTouch,
+        BlackFuriesBreathOfTheWyrm,
+        BlackFuriesHeightenedSenses,
+        BlackFuriesSenseWyrm,
+        RedTalonsBeastSpeech,
+        RedTalonsWolfAtTheDoor,
+        RedTalonsScentOfRunningWater,
+        SilentStridersSilence,
+        SilentStridersSpeedOfThought,
+        SilverFangsLambentFlame,
+        SilverFangsFalconsGrasp,
+        BoneGnawersCooking,
+        BoneGnawersStickyFingers,
+        ShadowLordsSeizingTheEdge,
+        ShadowLordsAuraOfConfidence,
+        ShadowLordsFatalFlaw,
+        UktenaSpiritSpeech,
+        UktenaShroud,
+        UktenaSenseMagic,
+        WendigoCamouflage,
+        WendigoCallTheBreeze
     ];
 }
 
@@ -89,7 +149,37 @@ public static class WerewolfInitialGiftSelectionService
         new(WerewolfInitialGiftIdentifiers.PhilodoxResistPain, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Philodox, 1),
         new(WerewolfInitialGiftIdentifiers.GalliardBeastSpeech, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Galliard, 1),
         new(WerewolfInitialGiftIdentifiers.AhrounFallingTouch, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Ahroun, 1),
-        new(WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GlassWalkers, 1)
+        new(WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GlassWalkers, 1),
+        new(WerewolfInitialGiftIdentifiers.GlassWalkersDiagnostics, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GlassWalkers, 1),
+        new(WerewolfInitialGiftIdentifiers.GlassWalkersTrickShot, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GlassWalkers, 1),
+        new(WerewolfInitialGiftIdentifiers.GetOfFenrisRazorClaws, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GetOfFenris, 1),
+        new(WerewolfInitialGiftIdentifiers.GetOfFenrisResistPain, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GetOfFenris, 1),
+        new(WerewolfInitialGiftIdentifiers.GetOfFenrisVisageOfFenris, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GetOfFenris, 1),
+        new(WerewolfInitialGiftIdentifiers.FiannaFaerieLight, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Fianna, 1),
+        new(WerewolfInitialGiftIdentifiers.FiannaPersuasion, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Fianna, 1),
+        new(WerewolfInitialGiftIdentifiers.FiannaResistToxin, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Fianna, 1),
+        new(WerewolfInitialGiftIdentifiers.ChildrenOfGaiaMercy, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ChildrenOfGaia, 1),
+        new(WerewolfInitialGiftIdentifiers.ChildrenOfGaiaMothersTouch, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ChildrenOfGaia, 1),
+        new(WerewolfInitialGiftIdentifiers.BlackFuriesBreathOfTheWyrm, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.BlackFuries, 1),
+        new(WerewolfInitialGiftIdentifiers.BlackFuriesHeightenedSenses, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.BlackFuries, 1),
+        new(WerewolfInitialGiftIdentifiers.BlackFuriesSenseWyrm, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.BlackFuries, 1),
+        new(WerewolfInitialGiftIdentifiers.RedTalonsBeastSpeech, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.RedTalons, 1),
+        new(WerewolfInitialGiftIdentifiers.RedTalonsWolfAtTheDoor, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.RedTalons, 1),
+        new(WerewolfInitialGiftIdentifiers.RedTalonsScentOfRunningWater, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.RedTalons, 1),
+        new(WerewolfInitialGiftIdentifiers.SilentStridersSilence, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.SilentStriders, 1),
+        new(WerewolfInitialGiftIdentifiers.SilentStridersSpeedOfThought, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.SilentStriders, 1),
+        new(WerewolfInitialGiftIdentifiers.SilverFangsLambentFlame, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.SilverFangs, 1),
+        new(WerewolfInitialGiftIdentifiers.SilverFangsFalconsGrasp, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.SilverFangs, 1),
+        new(WerewolfInitialGiftIdentifiers.BoneGnawersCooking, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.BoneGnawers, 1),
+        new(WerewolfInitialGiftIdentifiers.BoneGnawersStickyFingers, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.BoneGnawers, 1),
+        new(WerewolfInitialGiftIdentifiers.ShadowLordsSeizingTheEdge, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ShadowLords, 1),
+        new(WerewolfInitialGiftIdentifiers.ShadowLordsAuraOfConfidence, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ShadowLords, 1),
+        new(WerewolfInitialGiftIdentifiers.ShadowLordsFatalFlaw, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ShadowLords, 1),
+        new(WerewolfInitialGiftIdentifiers.UktenaSpiritSpeech, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Uktena, 1),
+        new(WerewolfInitialGiftIdentifiers.UktenaShroud, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Uktena, 1),
+        new(WerewolfInitialGiftIdentifiers.UktenaSenseMagic, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Uktena, 1),
+        new(WerewolfInitialGiftIdentifiers.WendigoCamouflage, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Wendigo, 1),
+        new(WerewolfInitialGiftIdentifiers.WendigoCallTheBreeze, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Wendigo, 1)
     ];
 
     private static readonly string[] KnownOutOfScopeGiftPrefixes =

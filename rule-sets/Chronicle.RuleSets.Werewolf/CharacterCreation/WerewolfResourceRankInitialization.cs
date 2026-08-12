@@ -214,7 +214,22 @@ public static class WerewolfResourceRankInitializationService
 
     private static bool TryGetWillpower(string tribe, out int value)
     {
-        value = StringComparer.Ordinal.Equals(tribe, WerewolfTribeIdentifiers.GlassWalkers) ? 3 : -1;
+        value = tribe switch
+        {
+            WerewolfTribeIdentifiers.GlassWalkers => 3,
+            WerewolfTribeIdentifiers.GetOfFenris => 3,
+            WerewolfTribeIdentifiers.Fianna => 3,
+            WerewolfTribeIdentifiers.ChildrenOfGaia => 4,
+            WerewolfTribeIdentifiers.BlackFuries => 3,
+            WerewolfTribeIdentifiers.RedTalons => 3,
+            WerewolfTribeIdentifiers.SilentStriders => 3,
+            WerewolfTribeIdentifiers.SilverFangs => 3,
+            WerewolfTribeIdentifiers.BoneGnawers => 4,
+            WerewolfTribeIdentifiers.ShadowLords => 3,
+            WerewolfTribeIdentifiers.Uktena => 3,
+            WerewolfTribeIdentifiers.Wendigo => 4,
+            _ => -1
+        };
         return value >= 0;
     }
 
