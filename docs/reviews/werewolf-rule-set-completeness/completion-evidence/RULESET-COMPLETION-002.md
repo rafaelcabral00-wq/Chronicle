@@ -1,9 +1,9 @@
 # RULESET-COMPLETION-002 Completion Evidence
 
-**Package:** Chronicle.RuleSets.Werewolf  
-**Work Package:** RULESET-COMPLETION-002 — Expand Tribe catalog beyond Glass Walkers  
-**Status:** Complete  
-**Date:** 2026-08-12  
+**Package:** Chronicle.RuleSets.Werewolf
+**Work Package:** RULESET-COMPLETION-002 — Expand Tribe catalog beyond Glass Walkers
+**Status:** Complete
+**Date:** 2026-08-12
 
 ## 1. Authoritative Scope
 
@@ -14,9 +14,9 @@
 - `Initial Tribe Gifts`
 - `Tribe Gift catalog`
 
-**Prerequisites:** None  
-**Blocks:** full character-creation completeness  
-**Depends on:** A-004, A-016 (both resolved by this package for executable mechanics)  
+**Prerequisites:** None
+**Blocks:** full character-creation completeness
+**Depends on:** A-004, A-016 (both resolved by this package for executable mechanics)
 
 ## 2. Source Locators
 
