@@ -87,7 +87,7 @@ For every ambiguity:
 ```yaml
 ambiguityId: ambiguity.werewolf3e.dice.basic-resolution
 severity: Critical
-status: SourceSearchRequired
+status: Resolved
 classification:
   - MechanicalResolutionRule
 ```
@@ -102,49 +102,91 @@ The source contains sections about:
 - results of 1;
 - failure;
 - botches;
-- specializations;
 - tests using Attribute + Ability.
 
-### Unresolved question
+### Resolved algorithm (source lines 2703–2760)
 
-What is the exact ordered algorithm for resolving one generic test?
-
-The implementation needs explicit answers for:
+This is the **ordinary non-specialized** test resolution algorithm. Specialization
+behavior is deferred to the Specialties completion domain (A-002).
 
 ```text
-valid difficulty range
-success threshold
-effect of each result of 1
-whether 1 cancels a success
-whether cancellation occurs before or after specialization Dice
-definition of failure
-definition of botch
-behavior when the initial pool is zero
-behavior when modifiers reduce a pool below one
-automatic successes
-automatic failure
-result of 10 without specialization
-result of 10 with specialization
+1. If DiceQuantity <= 0:
+   - The character cannot attempt the action (source line 2720).
+   - Return ZeroPoolCannotAttempt error.
+
+2. Validate Difficulty is between 2 and 10 (source line 2781: "Valor de 2 a 10").
+
+3. For each die in DiceValues:
+   a. If die < 1 or die > 10: return InvalidDieFace error.
+   b. Count rawSuccesses: die >= Difficulty (source line 2781: "igualar ou superar este número em pelo menos um dado").
+   c. Count ones: die == 1.
+
+4. Apply base cancellation rule (source line 2705: "Cada dado que mostra o valor 1 anula um sucesso obtido na jogada"):
+   - finalSuccesses = max(0, rawSuccesses - ones)
+
+5. Determine result classification:
+   a. If finalSuccesses > 0: Success.
+   b. If finalSuccesses == 0 and onesCount > 0: Botch (source line 2706: "Ocorre quando um teste não resulta em nenhum sucesso e apresenta um ou mais 1s").
+   c. If finalSuccesses == 0 and onesCount == 0: Failure.
+
+6. Return result with:
+   - SuccessCount = finalSuccesses
+   - RawSuccesses = rawSuccesses
+   - OnesCount = onesCount
+   - FailureClassification = "NoSuccesses" (for failures)
+   - BotchClassification = "CriticalFailure" (for botches)
+   - InterpretationStatus = "success" | "failure" | "botch" | "zero-pool"
 ```
 
-### Candidate interpretations
+### Source-derived answers to implementation questions
 
-No candidate algorithm is approved in this document.
+```text
+valid difficulty range: 2 to 10 inclusive (source line 2781)
+success threshold: die >= Difficulty (source line 2781)
+effect of each result of 1: cancels one raw success (source line 2705)
+whether 1 cancels a success: yes, in the base non-specialized algorithm
+definition of failure: finalSuccesses == 0 and onesCount == 0
+definition of botch: finalSuccesses == 0 and onesCount > 0 (source line 2706)
+behavior when the initial pool is zero: cannot attempt action (source line 2720)
+behavior when modifiers reduce a pool below one: clamped to 0 at test definition; interpretation returns ZeroPoolCannotAttempt
+automatic successes: not applied by interpretation service (pre-roll decision per source line 2709)
+automatic failure: not explicitly defined in source; zero successes with no ones is a normal failure
+result of 10 without specialization: counts as one success (10 >= Difficulty for any valid Difficulty)
+specialization behavior: NOT implemented in RULESET-COMPLETION-004; deferred to Specialties domain (A-002)
+```
+
+### Worked examples (base non-specialized algorithm)
+
+| Dice | Diff | Raw successes | Ones | Final successes | Outcome |
+|------|------|---------------|------|-----------------|---------|
+| [6] | 6 | 1 | 0 | 1 | Success |
+| [6,1] | 6 | 1 | 1 | 0 | Botch |
+| [6,6,1] | 6 | 2 | 1 | 1 | Success |
+| [1] | 6 | 0 | 1 | 0 | Botch |
+| [2,3] | 6 | 0 | 0 | 0 | Failure |
+| [10,1] | 6 | 1 | 1 | 0 | Botch |
+| [10,10,1] | 6 | 2 | 1 | 1 | Success |
+| [] | 6 | 0 | 0 | 0 | ZeroPoolCannotAttempt |
+
+Note: [10,1] yields 1 raw success (10 >= 6, 1 < 6), not 2. The 10 does not grant an additional die in the base algorithm; that is specialization behavior.
+
+### Implementation notes
+
+- The interpretation service receives already-rolled dice values from the Chronicle (DR-0008: Chronicle owns RNG).
+- The base algorithm contains NO specialization logic.
+- Specialization eligibility, selection, applicability, and dice provenance are deferred to the Specialties completion domain (A-002).
 
 ### Impact
 
-Blocks:
+Resolved blocks:
 
 ```text
 dice/resolution/basic-success-test.json
-IDiceResolver prototype
-generic Dice fixtures
-end-to-end Slice 001 acceptance test
+WerewolfActionRollInterpretationService (base algorithm)
+WerewolfActionTestDefinitionService (base test definition)
+WerewolfActionRollInterpretationTests (base algorithm cases)
+WerewolfActionTestDefinitionTests (base test definition cases)
 ```
-
-### Required resolution
-
-Extract the dedicated generic system section as several precise source segments before writing the resolver.
 
 ---
 
@@ -153,52 +195,50 @@ Extract the dedicated generic system section as several precise source segments 
 ```yaml
 ambiguityId: ambiguity.werewolf3e.dice.specialization
 severity: Critical
-status: SemanticReviewRequired
+status: PartiallyResolved
 classification:
   - MechanicalResolutionRule
 ```
 
-### Source-derived candidate
+### Source-derived semantics (NOT executable in RULESET-COMPLETION-004)
 
-The cleaned source associates specialization with a rating of 4 or higher and describes additional Dice behavior for results of 10.
+The cleaned source associates specialization with a rating of 4 or higher and describes additional Dice behavior for results of 10 (source line 1083, 1085, 1086).
 
-It also indicates that results of 1 on added specialization Dice may behave differently from ordinary Dice.
-
-### Unresolved questions
+### What is known from source
 
 ```text
-Does every 10 grant exactly one additional die?
-Can an added die generate another added die?
-Are added Dice part of the same evidence group or a linked stage?
-Can added Dice produce successes normally?
-Can results of 1 on added Dice cancel successes from other Dice?
-Can they cancel successes generated by other added Dice?
-When is specialization eligibility evaluated?
-Does rating 4 automatically require a specialization or merely permit one?
-Can a Character have more than one specialization per field?
+Specialization eligibility: Ability rating >= 4 grants the right to choose a specialization (source line 1083: "adquire o direito de escolher").
+Specialization selection requirement: Rating >= 4 does NOT automatically grant specialization. The character must actively select a specific specialization.
+Specialization applicability: Benefits apply only when the test is within the chosen specialization area (source line 1085: "dentro da sua área de especialização").
+10-again/additional-die behavior: Each rolled 10 grants +1 additional die (source line 1085: "cada número 10 obtido nos dados permite rolar +1 dado adicional").
+Special handling of 1s on additional dice: 1s on added specialization dice do not cancel already-obtained successes (source line 1086).
 ```
 
-### Candidate implementation models
+### Unresolved (deferred to Specialties domain)
 
-#### Model A — Linked Additional-Dice Stage
+```text
+How is a specific specialization selected and recorded? Deferred to Specialties completion domain.
+How is applicability to a specific test determined? Deferred to Specialties completion domain.
+What is the continuation roll protocol for 10-again? Deferred to Specialties completion domain.
+How are original and added dice distinguished (provenance)? Deferred to Specialties completion domain.
+Does chaining have any limit? Source does not explicitly limit, but exact protocol is deferred.
+```
 
-Every qualifying 10 creates one linked additional die.
+### Implementation status
 
-Benefits:
-
-- preserves causality;
-- fits Chronicle's generic additional-Dice model;
-- supports chained evidence if later confirmed.
-
-#### Model B — Immediate Extra Success
-
-A qualifying 10 is converted into an additional success.
-
-Rejected unless the source explicitly supports it.
+- **RULESET-COMPLETION-004:** Does NOT implement executable Specialties behavior.
+- The base dice algorithm (A-001) is implemented without any specialization approximation.
+- Any `HasSpecialization` field previously present in contracts has been removed from the executable path to prevent unsourced mechanical benefits.
+- The Specialties completion domain owns: chosen specialty character state, applicability to current test, continuation roll protocol, dice provenance, and exact chaining behavior.
 
 ### Impact
 
-Blocks exact specialization resolver and fixtures.
+Partially resolved blocks:
+
+```text
+A-002 source semantics extracted
+A-002 executable implementation remains blocked on Specialties domain
+```
 
 ### Required resolution
 

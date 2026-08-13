@@ -6,21 +6,90 @@ namespace Chronicle.RuleSets.Werewolf.Tests;
 public sealed class WerewolfActionRollInterpretationTests
 {
     [Fact]
-    public void InterpretReturnsPendingStatusWithRawDice()
+    public void InterpretReturnsSuccessWhenSuccessesExceedDifficulty()
     {
-        var request = new WerewolfActionRollInterpretationRequest("req-1", [1, 5, 10], 6, 3);
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [8, 9, 10], 6, 3);
         var result = WerewolfActionRollInterpretationService.Interpret(request);
 
         Assert.True(result.Succeeded);
         Assert.Equal("req-1", result.RequestId);
-        Assert.Equal(3, result.RawDiceValues.Count);
-        Assert.Equal(6, result.Difficulty);
-        Assert.Equal(3, result.DiceQuantity);
-        Assert.Equal(WerewolfActionRollInterpretationService.PendingExtractionStatus, result.InterpretationStatus);
-        Assert.Null(result.SuccessCount);
+        Assert.Equal(3, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.SuccessStatus, result.InterpretationStatus);
         Assert.Null(result.FailureClassification);
         Assert.Null(result.BotchClassification);
-        Assert.NotEmpty(result.SerializedInterpretation);
+    }
+
+    [Fact]
+    public void InterpretReturnsFailureWhenNoSuccessesAndNoOnes()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [2, 3, 4], 6, 3);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(0, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.FailureStatus, result.InterpretationStatus);
+        Assert.Equal("NoSuccesses", result.FailureClassification);
+        Assert.Null(result.BotchClassification);
+    }
+
+    [Fact]
+    public void InterpretReturnsBotchWhenNoSuccessesAndOnesPresent()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [1, 2, 3], 6, 3);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(0, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.BotchStatus, result.InterpretationStatus);
+        Assert.Null(result.FailureClassification);
+        Assert.Equal("CriticalFailure", result.BotchClassification);
+    }
+
+    [Fact]
+    public void InterpretDoesNotBotchWhenSuccessesExistEvenWithOnes()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [1, 6, 7], 6, 3);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(1, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.SuccessStatus, result.InterpretationStatus);
+        Assert.Null(result.BotchClassification);
+    }
+
+    [Fact]
+    public void InterpretCancelsSuccessesWithOnes()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [1, 6, 7], 6, 3);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(1, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.SuccessStatus, result.InterpretationStatus);
+    }
+
+    [Fact]
+    public void InterpretReturnsBotchWhenOnesExceedSuccesses()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [1, 1, 6], 6, 3);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(0, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.BotchStatus, result.InterpretationStatus);
+        Assert.Equal("CriticalFailure", result.BotchClassification);
+    }
+
+    [Fact]
+    public void InterpretReturnsZeroPoolErrorForZeroDiceQuantity()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [], 6, 0);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.False(result.Succeeded);
+        Assert.Equal(0, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.ZeroPoolStatus, result.InterpretationStatus);
+        Assert.Contains(result.Findings, f => f.Code == "ZeroPoolCannotAttempt");
     }
 
     [Fact]
@@ -95,7 +164,65 @@ public sealed class WerewolfActionRollInterpretationTests
 
         Assert.True(result.Succeeded);
         Assert.Equal([3, 7, 10], result.RawDiceValues);
-        Assert.Null(result.SuccessCount);
-        Assert.Null(result.FailureClassification);
+        Assert.Equal(2, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.SuccessStatus, result.InterpretationStatus);
+    }
+
+    [Fact]
+    public void InterpretCountsTensAsSuccesses()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [10, 10, 1], 6, 3);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(2, result.RawSuccesses);
+        Assert.Equal(1, result.OnesCount);
+        Assert.Equal(1, result.SuccessCount);
+    }
+
+    [Fact]
+    public void InterpretTenAndOneWithoutSpecializationCancelsToOne()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [10, 1], 6, 2);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(1, result.RawSuccesses);
+        Assert.Equal(1, result.OnesCount);
+        Assert.Equal(0, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.BotchStatus, result.InterpretationStatus);
+    }
+
+    [Fact]
+    public void InterpretTwoTensAndOneWithoutSpecializationCancelsToOne()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [10, 10, 1], 6, 3);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(2, result.RawSuccesses);
+        Assert.Equal(1, result.OnesCount);
+        Assert.Equal(1, result.SuccessCount);
+        Assert.Equal(WerewolfActionRollInterpretationService.SuccessStatus, result.InterpretationStatus);
+    }
+
+    [Fact]
+    public void InterpretRejectsDifficultyBelowTwo()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [6], 1, 1);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, f => f.Code == "InvalidDifficulty");
+    }
+
+    [Fact]
+    public void InterpretRejectsDifficultyAboveTen()
+    {
+        var request = new WerewolfActionRollInterpretationRequest("req-1", [10], 11, 1);
+        var result = WerewolfActionRollInterpretationService.Interpret(request);
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, f => f.Code == "InvalidDifficulty");
     }
 }

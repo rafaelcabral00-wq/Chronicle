@@ -107,6 +107,16 @@ public sealed class WerewolfActionRuntimeTests
     public void InterpretActionRollSucceedsForValidRawDice()
     {
         var registry = WerewolfTestRuntimeHelpers.RegisteredRuntimeRegistry();
+        var draft = WerewolfTestRuntimeHelpers.BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash, WerewolfTribeIdentifiers.GlassWalkers);
+        var defineInputs = BuildInputsFromDraft(draft, "action-req-1", WerewolfAttributeIdentifiers.Strength, WerewolfAbilityIdentifiers.Athletics, 6, 0);
+
+        var defineResult = registry.Execute(new RuleSetOperationRequest(
+            WerewolfRuleSetPackage.ProvisionalPackageId,
+            WerewolfRuleSetPackage.PackageVersion,
+            WerewolfReferenceRuntime.DefineActionTestOperation,
+            defineInputs));
+
+        Assert.True(defineResult.Succeeded);
 
         var result = registry.Execute(new RuleSetOperationRequest(
             WerewolfRuleSetPackage.ProvisionalPackageId,
@@ -123,13 +133,23 @@ public sealed class WerewolfActionRuntimeTests
         Assert.True(result.Succeeded);
         Assert.Equal("action-req-1", result.Outputs["requestId"]);
         Assert.Equal("3,7,10", result.Outputs["rawDiceValues"]);
-        Assert.Equal(WerewolfActionRollInterpretationService.PendingExtractionStatus, result.Outputs["interpretationStatus"]);
+        Assert.Equal(WerewolfActionRollInterpretationService.SuccessStatus, result.Outputs["interpretationStatus"]);
     }
 
     [Fact]
     public void InterpretActionRollRejectsInvalidDieFace()
     {
         var registry = WerewolfTestRuntimeHelpers.RegisteredRuntimeRegistry();
+        var draft = WerewolfTestRuntimeHelpers.BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash, WerewolfTribeIdentifiers.GlassWalkers);
+        var defineInputs = BuildInputsFromDraft(draft, "action-req-1", WerewolfAttributeIdentifiers.Strength, WerewolfAbilityIdentifiers.Athletics, 6, 0);
+
+        var defineResult = registry.Execute(new RuleSetOperationRequest(
+            WerewolfRuleSetPackage.ProvisionalPackageId,
+            WerewolfRuleSetPackage.PackageVersion,
+            WerewolfReferenceRuntime.DefineActionTestOperation,
+            defineInputs));
+
+        Assert.True(defineResult.Succeeded);
 
         var result = registry.Execute(new RuleSetOperationRequest(
             WerewolfRuleSetPackage.ProvisionalPackageId,

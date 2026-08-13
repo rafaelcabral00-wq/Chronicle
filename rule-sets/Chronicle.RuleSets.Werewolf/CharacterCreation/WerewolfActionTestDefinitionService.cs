@@ -98,12 +98,12 @@ public static class WerewolfActionTestDefinitionService
             return new WerewolfActionTestDefinitionResult(false, request.Draft, findings, null, null, null, null, null, null, null);
         }
 
-        if (request.Difficulty < 1)
+        if (request.Difficulty < 2 || request.Difficulty > 10)
         {
             findings.Add(new WerewolfActionTestDefinitionFinding(
                 WerewolfActionTestDefinitionFindingSeverity.Error,
                 "InvalidDifficulty",
-                "Difficulty must be a positive integer."));
+                "Difficulty must be between 2 and 10 (source line 2781)."));
             return new WerewolfActionTestDefinitionResult(false, request.Draft, findings, null, null, null, null, null, null, null);
         }
 

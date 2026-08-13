@@ -11,17 +11,17 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **12/68 domains (17.6%)**.
-3. Current-slice executable coverage is **28/68 domains (41.2%)**.
-4. The finite completion backlog contains **11 remaining work packages** (RULESET-COMPLETION-003 through RULESET-COMPLETION-013).
+2. Full-source mechanical implementation completeness is **17/68 domains (25.0%)**.
+3. Current-slice executable coverage is **29/68 domains (42.6%)**.
+4. The finite completion backlog contains **10 remaining work packages** (RULESET-COMPLETION-005 through RULESET-COMPLETION-014).
 
 **Critical gaps:**
 1. Health/damage mechanics are entirely absent (DR-0010 blocks PLAYABLE-003)
 2. Renown initialization is blocked by DR-0005 (IMPLEMENT-019B)
-3. Generic dice resolution algorithm is not source-derived (A-001, A-002 open)
+3. Generic dice resolution algorithm is now source-derived (A-001 resolved in RULESET-COMPLETION-004; A-002 partially resolved — dice algorithm known, specialization selection/applicability deferred to Specialties domain)
 4. Silver Fangs require Pure Breed ≥ 3, which is not in the current executable Background catalog; Silver Fang character paths are pipeline-executable but not source-valid (blocked pending Background expansion)
 5. Tribe eligibility restrictions remain partially ambiguous (A-016 deferred to RULESET-COMPLETION-009)
-6. 56 of 68 domains are not mechanically complete for the full registered source
+6. 51 of 68 domains are not mechanically complete for the full registered source
 
 ## 1. Source File Verification
 
