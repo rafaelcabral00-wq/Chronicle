@@ -11,7 +11,13 @@ public sealed record WerewolfRuntimeCharacterState(
     int GnosisPermanent,
     int GnosisCurrent,
     int WillpowerPermanent,
-    int WillpowerCurrent)
+    int WillpowerCurrent,
+    int GloryPermanent,
+    int GloryCurrent,
+    int HonorPermanent,
+    int HonorCurrent,
+    int WisdomPermanent,
+    int WisdomCurrent)
 {
     public static WerewolfRuntimeCharacterState FromSnapshot(WerewolfCharacterSnapshot snapshot)
     {
@@ -21,6 +27,12 @@ public sealed record WerewolfRuntimeCharacterState(
         if (resources is null)
         {
             throw new ArgumentException("Completed character snapshot must contain Resources.", nameof(snapshot));
+        }
+
+        var renown = snapshot.Renown;
+        if (renown is null)
+        {
+            throw new ArgumentException("Completed character snapshot must contain Renown.", nameof(snapshot));
         }
 
         if (!resources.TryGetValue(WerewolfCharacterResourceIdentifiers.RagePermanent, out var ragePermanent) || ragePermanent is null)
@@ -53,6 +65,13 @@ public sealed record WerewolfRuntimeCharacterState(
             throw new ArgumentException("Snapshot is missing Willpower current value.", nameof(snapshot));
         }
 
+        var gloryPermanent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.GloryPermanent, 0);
+        var gloryCurrent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.GloryCurrent, 0);
+        var honorPermanent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.HonorPermanent, 0);
+        var honorCurrent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.HonorCurrent, 0);
+        var wisdomPermanent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.WisdomPermanent, 0);
+        var wisdomCurrent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.WisdomCurrent, 0);
+
         return new WerewolfRuntimeCharacterState(
             snapshot.PackageBinding.TryGetValue("packageId", out var pkgId) ? pkgId : string.Empty,
             snapshot.PackageBinding.TryGetValue("packageVersion", out var pkgVer) ? pkgVer : string.Empty,
@@ -64,6 +83,12 @@ public sealed record WerewolfRuntimeCharacterState(
             gnosisPermanent.Value,
             gnosisCurrent.Value,
             willpowerPermanent.Value,
-            willpowerCurrent.Value);
+            willpowerCurrent.Value,
+            gloryPermanent ?? 0,
+            gloryCurrent ?? 0,
+            honorPermanent ?? 0,
+            honorCurrent ?? 0,
+            wisdomPermanent ?? 0,
+            wisdomCurrent ?? 0);
     }
 }

@@ -19,12 +19,16 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string AllocateAbilitiesOperation = "character-creation.allocate-abilities";
     public const string AllocateBackgroundsOperation = "character-creation.allocate-backgrounds";
     public const string InitializeResourcesAndRankOperation = "character-creation.initialize-resources-and-rank";
+    public const string SelectRagabashRenownOperation = "character-creation.select-ragabash-renown";
     public const string SetIdentityNameOperation = "character-creation.set-identity-name";
     public const string CompleteCharacterOperation = "character-creation.complete-character";
     public const string DefineActionTestOperation = "character-runtime.define-action-test";
     public const string InterpretActionRollOperation = "character-runtime.interpret-action-roll";
     public const string SpendResourceOperation = "character-runtime.spend-resource";
     public const string RecoverResourceOperation = "character-runtime.recover-resource";
+    public const string AwardTemporaryRenownOperation = "character-runtime.award-temporary-renown";
+    public const string LoseTemporaryRenownOperation = "character-runtime.lose-temporary-renown";
+    public const string ConvertTemporaryToPermanentRenownOperation = "character-runtime.convert-temporary-to-permanent-renown";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -66,12 +70,16 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(SelectMetisDeformityOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectRaceOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectRaceGiftOperation, "character-creation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(SelectRagabashRenownOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectTribeOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SelectTribeGiftOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineActionTestOperation, "generic-dice", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(InterpretActionRollOperation, "generic-dice", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SpendResourceOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(RecoverResourceOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(AwardTemporaryRenownOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(LoseTemporaryRenownOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ConvertTemporaryToPermanentRenownOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
             new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
         ]);
@@ -145,6 +153,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             return ExecuteInitializeResourcesAndRank(request);
         }
 
+        if (StringComparer.Ordinal.Equals(request.OperationKey, SelectRagabashRenownOperation))
+        {
+            return ExecuteSelectRagabashRenown(request);
+        }
+
         if (StringComparer.Ordinal.Equals(request.OperationKey, SetIdentityNameOperation))
         {
             return ExecuteSetIdentityName(request);
@@ -173,6 +186,21 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, RecoverResourceOperation))
         {
             return ExecuteRecoverResource(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, AwardTemporaryRenownOperation))
+        {
+            return ExecuteAwardTemporaryRenown(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, LoseTemporaryRenownOperation))
+        {
+            return ExecuteLoseTemporaryRenown(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ConvertTemporaryToPermanentRenownOperation))
+        {
+            return ExecuteConvertTemporaryToPermanentRenown(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -806,6 +834,47 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             result.Draft,
             result.Findings.Select(finding => new RuleSetRuntimeFinding(
                     finding.Severity == WerewolfResourceRankInitializationFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                .ToArray());
+    }
+
+    private static RuleSetOperationResult ExecuteSelectRagabashRenown(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("glory", out var gloryText) ||
+            !request.Inputs.TryGetValue("honor", out var honorText) ||
+            !request.Inputs.TryGetValue("wisdom", out var wisdomText) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(gloryText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var glory) ||
+            !int.TryParse(honorText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var honor) ||
+            !int.TryParse(wisdomText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var wisdom))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidRagabashRenownRequest", "Ragabash Renown selection requires draftId, draftVersion, expectedDraftVersion, glory, honor, and wisdom.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var draft = BuildDraftFromInputs(request, draftId, draftVersion);
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, expectedVersion, glory, honor, wisdom));
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return ToDraftOperationResult(
+            result.Draft,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfRagabashRenownSelectionFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
                     finding.Code.ToString(),
                     finding.Message))
                 .ToArray());
@@ -1490,5 +1559,149 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["previousPermanent"] = result.PreviousPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
                 ["newPermanent"] = result.NewPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
             });
+    }
+
+    private static RuleSetOperationResult ExecuteAwardTemporaryRenown(RuleSetOperationRequest request)
+    {
+        var currentState = GetCurrentRuntimeState(request);
+        var expectedVersion = GetExpectedVersion(request);
+        var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+        var renownId = request.Inputs.GetValueOrDefault("renownId", string.Empty);
+        var amount = ParseInt(request.Inputs.GetValueOrDefault("amount", "0"));
+
+        var result = WerewolfRenownTransitionService.AwardTemporaryRenown(new WerewolfRenownTransitionRequest(currentState, expectedVersion, requestId, renownId, amount, false));
+
+        if (!result.Succeeded || result.NewState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfRenownTransitionFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                    .ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return ToRenownOperationResult(result);
+    }
+
+    private static RuleSetOperationResult ExecuteLoseTemporaryRenown(RuleSetOperationRequest request)
+    {
+        var currentState = GetCurrentRuntimeState(request);
+        var expectedVersion = GetExpectedVersion(request);
+        var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+        var renownId = request.Inputs.GetValueOrDefault("renownId", string.Empty);
+        var amount = ParseInt(request.Inputs.GetValueOrDefault("amount", "0"));
+
+        var result = WerewolfRenownTransitionService.LoseTemporaryRenown(new WerewolfRenownTransitionRequest(currentState, expectedVersion, requestId, renownId, amount, false));
+
+        if (!result.Succeeded || result.NewState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfRenownTransitionFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                    .ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return ToRenownOperationResult(result);
+    }
+
+    private static RuleSetOperationResult ExecuteConvertTemporaryToPermanentRenown(RuleSetOperationRequest request)
+    {
+        var currentState = GetCurrentRuntimeState(request);
+        var expectedVersion = GetExpectedVersion(request);
+        var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+        var renownId = request.Inputs.GetValueOrDefault("renownId", string.Empty);
+
+        var result = WerewolfRenownTransitionService.ConvertTemporaryToPermanent(new WerewolfRenownTransitionRequest(currentState, expectedVersion, requestId, renownId, WerewolfRenownTransitionService.TemporaryToPermanentThreshold, false));
+
+        if (!result.Succeeded || result.NewState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfRenownTransitionFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message))
+                    .ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return ToRenownOperationResult(result);
+    }
+
+    private static RuleSetOperationResult ToRenownOperationResult(WerewolfRenownTransitionResult result)
+    {
+        var newState = result.NewState!;
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfRenownTransitionFindingSeverity.Error
+                        ? RuleSetRuntimeFindingSeverity.Error
+                        : RuleSetRuntimeFindingSeverity.Information,
+                finding.Code.ToString(),
+                finding.Message))
+            .ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId ?? string.Empty,
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(newState, JsonOptions),
+                ["newRuntimeStateVersion"] = newState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["previousCurrent"] = result.PreviousCurrent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                ["newCurrent"] = result.NewCurrent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                ["previousPermanent"] = result.PreviousPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                ["newPermanent"] = result.NewPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+            });
+    }
+
+    private static WerewolfRuntimeCharacterState GetCurrentRuntimeState(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("newState", out var newStateJson) || string.IsNullOrWhiteSpace(newStateJson))
+        {
+            throw new ArgumentException("Runtime Renown transition requires a current state payload.", nameof(request));
+        }
+
+        var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(newStateJson, JsonOptions);
+        if (state is null)
+        {
+            throw new ArgumentException("Runtime Renown transition state payload is invalid.", nameof(request));
+        }
+
+        return state;
+    }
+
+    private static int GetExpectedVersion(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var versionString) || !int.TryParse(versionString, out var version))
+        {
+            throw new ArgumentException("Runtime Renown transition requires expected runtime state version.", nameof(request));
+        }
+
+        return version;
+    }
+
+    private static int ParseInt(string value)
+    {
+        if (int.TryParse(value, out var result))
+        {
+            return result;
+        }
+
+        return 0;
     }
 }

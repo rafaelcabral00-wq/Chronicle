@@ -399,7 +399,13 @@ public sealed class WerewolfCharacterCompletionTests
         var resources = registry.Execute(Request(WerewolfReferenceRuntime.InitializeResourcesAndRankOperation, Inputs(backgrounds.Outputs)));
         Assert.True(resources.Succeeded, "InitializeResourcesAndRank failed: " + string.Join("; ", resources.Findings.Select(f => f.Code + ":" + f.Message)));
 
-        var identity = registry.Execute(Request(WerewolfReferenceRuntime.SetIdentityNameOperation, Inputs(resources.Outputs, ("identityName", "test-character"))));
+        var ragbashRenown = registry.Execute(Request(WerewolfReferenceRuntime.SelectRagabashRenownOperation, Inputs(resources.Outputs,
+            ("glory", "0"),
+            ("honor", "0"),
+            ("wisdom", "3"))));
+        Assert.True(ragbashRenown.Succeeded, "SelectRagabashRenown failed: " + string.Join("; ", ragbashRenown.Findings.Select(f => f.Code + ":" + f.Message)));
+
+        var identity = registry.Execute(Request(WerewolfReferenceRuntime.SetIdentityNameOperation, Inputs(ragbashRenown.Outputs, ("identityName", "test-character"))));
         Assert.True(identity.Succeeded, "SetIdentityName failed: " + string.Join("; ", identity.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var completed = registry.Execute(Request(WerewolfReferenceRuntime.CompleteCharacterOperation, Inputs(identity.Outputs)));
@@ -448,7 +454,13 @@ public sealed class WerewolfCharacterCompletionTests
         var resources = registry.Execute(Request(WerewolfReferenceRuntime.InitializeResourcesAndRankOperation, Inputs(backgrounds.Outputs)));
         Assert.True(resources.Succeeded, "InitializeResourcesAndRank failed: " + string.Join("; ", resources.Findings.Select(f => f.Code + ":" + f.Message)));
 
-        var identity = registry.Execute(Request(WerewolfReferenceRuntime.SetIdentityNameOperation, Inputs(resources.Outputs, ("identityName", "test-character"))));
+        var ragbashRenown = registry.Execute(Request(WerewolfReferenceRuntime.SelectRagabashRenownOperation, Inputs(resources.Outputs,
+            ("glory", "0"),
+            ("honor", "0"),
+            ("wisdom", "3"))));
+        Assert.True(ragbashRenown.Succeeded, "SelectRagabashRenown failed: " + string.Join("; ", ragbashRenown.Findings.Select(f => f.Code + ":" + f.Message)));
+
+        var identity = registry.Execute(Request(WerewolfReferenceRuntime.SetIdentityNameOperation, Inputs(ragbashRenown.Outputs, ("identityName", "test-character"))));
         Assert.True(identity.Succeeded, "SetIdentityName failed: " + string.Join("; ", identity.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var first = registry.Execute(Request(WerewolfReferenceRuntime.CompleteCharacterOperation, Inputs(identity.Outputs)));
@@ -461,7 +473,7 @@ public sealed class WerewolfCharacterCompletionTests
     }
 
     [Fact]
-    public void RenownAbsenceDoesNotBlockCompletion()
+    public void RenownAbsenceBlocksCompletion()
     {
         var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash) with
         {
@@ -470,7 +482,8 @@ public sealed class WerewolfCharacterCompletionTests
 
         var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
 
-        Assert.True(result.Succeeded, Format(result.Findings));
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, finding => finding.Code == WerewolfCharacterCompletionErrorCode.RenownNotInitialized);
     }
 
     [Fact]
@@ -605,6 +618,49 @@ public sealed class WerewolfCharacterCompletionTests
                 [WerewolfCharacterResourceIdentifiers.GnosisCurrent] = race == WerewolfRaceIdentifiers.Lupus ? 5 : race == WerewolfRaceIdentifiers.Metis ? 3 : 1,
                 [WerewolfCharacterResourceIdentifiers.WillpowerPermanent] = 3,
                 [WerewolfCharacterResourceIdentifiers.WillpowerCurrent] = 3
+            },
+            Renown = new Dictionary<string, int?>(StringComparer.Ordinal)
+            {
+                [WerewolfRenownIdentifiers.GloryPermanent] = auspice switch
+                {
+                    WerewolfAuspiceIdentifiers.Galliard => 2,
+                    WerewolfAuspiceIdentifiers.Ahroun => 2,
+                    _ => 0
+                },
+                [WerewolfRenownIdentifiers.GloryCurrent] = auspice switch
+                {
+                    WerewolfAuspiceIdentifiers.Galliard => 2,
+                    WerewolfAuspiceIdentifiers.Ahroun => 2,
+                    _ => 0
+                },
+                [WerewolfRenownIdentifiers.HonorPermanent] = auspice switch
+                {
+                    WerewolfAuspiceIdentifiers.Ragabash => 0,
+                    WerewolfAuspiceIdentifiers.Philodox => 3,
+                    WerewolfAuspiceIdentifiers.Ahroun => 1,
+                    _ => 0
+                },
+                [WerewolfRenownIdentifiers.HonorCurrent] = auspice switch
+                {
+                    WerewolfAuspiceIdentifiers.Ragabash => 0,
+                    WerewolfAuspiceIdentifiers.Philodox => 3,
+                    WerewolfAuspiceIdentifiers.Ahroun => 1,
+                    _ => 0
+                },
+                [WerewolfRenownIdentifiers.WisdomPermanent] = auspice switch
+                {
+                    WerewolfAuspiceIdentifiers.Ragabash => 3,
+                    WerewolfAuspiceIdentifiers.Theurge => 3,
+                    WerewolfAuspiceIdentifiers.Galliard => 1,
+                    _ => 0
+                },
+                [WerewolfRenownIdentifiers.WisdomCurrent] = auspice switch
+                {
+                    WerewolfAuspiceIdentifiers.Ragabash => 3,
+                    WerewolfAuspiceIdentifiers.Theurge => 3,
+                    WerewolfAuspiceIdentifiers.Galliard => 1,
+                    _ => 0
+                }
             },
             Rank = WerewolfRankIdentifiers.Cliath,
             RankValue = 1,

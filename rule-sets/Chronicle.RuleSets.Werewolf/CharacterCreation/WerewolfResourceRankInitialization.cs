@@ -10,11 +10,14 @@ public sealed record WerewolfInitialResourceValue(string ResourceId, int Permane
 
 public sealed record WerewolfInitialRankValue(string RankId, int NumericRank);
 
+public sealed record WerewolfInitialRenownValue(string RenownId, int Permanent, int Current);
+
 public sealed record WerewolfResourceRankInitializationResult(
     bool Succeeded,
     WerewolfInitializedCharacterState? Draft,
     IReadOnlyList<WerewolfInitialResourceValue> Resources,
     WerewolfInitialRankValue? Rank,
+    IReadOnlyList<WerewolfInitialRenownValue> Renown,
     IReadOnlyList<WerewolfResourceRankInitializationFinding> Findings);
 
 public sealed record WerewolfResourceRankInitializationFinding(
@@ -62,6 +65,26 @@ public static class WerewolfCharacterResourceIdentifiers
 public static class WerewolfRankIdentifiers
 {
     public const string Cliath = "character.rank.cliath";
+}
+
+public static class WerewolfRenownIdentifiers
+{
+    public const string Glory = "character.renown.glory";
+    public const string Honor = "character.renown.honor";
+    public const string Wisdom = "character.renown.wisdom";
+    public const string GloryPermanent = "character.renown.glory.permanent";
+    public const string GloryCurrent = "character.renown.glory.current";
+    public const string HonorPermanent = "character.renown.honor.permanent";
+    public const string HonorCurrent = "character.renown.honor.current";
+    public const string WisdomPermanent = "character.renown.wisdom.permanent";
+    public const string WisdomCurrent = "character.renown.wisdom.current";
+
+    public static IReadOnlyList<string> Supported { get; } =
+    [
+        Glory,
+        Honor,
+        Wisdom
+    ];
 }
 
 
@@ -131,18 +154,29 @@ public static class WerewolfResourceRankInitializationService
             new WerewolfInitialResourceValue(WerewolfCharacterResourceIdentifiers.Willpower, willpower, willpower)
         }.OrderBy(value => value.ResourceId, StringComparer.Ordinal).ToArray();
 
+        var renown = GetInitialRenown(request.Draft.Auspice)
+            .OrderBy(value => value.RenownId, StringComparer.Ordinal)
+            .ToArray();
+
         var findings = new List<WerewolfResourceRankInitializationFinding>
         {
-            new(WerewolfResourceRankInitializationFindingSeverity.Information, WerewolfResourceRankInitializationErrorCode.ResourcesRenownAndRankInitialized, "Resources and Rank initialized from current-slice evidence.")
+            new(WerewolfResourceRankInitializationFindingSeverity.Information, WerewolfResourceRankInitializationErrorCode.ResourcesRenownAndRankInitialized, "Resources, Renown, and Rank initialized from source-derived evidence.")
         };
 
         var nextSteps = request.Draft.RequiredNextSteps
             .Where(step => !StringComparer.Ordinal.Equals(step, InitializeResourcesAndRankStep))
             .ToList();
 
+        if (StringComparer.Ordinal.Equals(request.Draft.Auspice, WerewolfAuspiceIdentifiers.Ragabash))
+        {
+            nextSteps.Add(WerewolfRagabashRenownSelectionService.SelectRagabashRenownStep);
+            renown = [];
+        }
+
         var updated = request.Draft with
         {
             Resources = ToResourceDictionary(resources),
+            Renown = ToRenownDictionary(renown),
             Rank = WerewolfRankIdentifiers.Cliath,
             RankValue = 1,
             DraftVersion = request.Draft.DraftVersion + 1,
@@ -164,6 +198,7 @@ public static class WerewolfResourceRankInitializationService
             updated,
             resources,
             new WerewolfInitialRankValue(WerewolfRankIdentifiers.Cliath, 1),
+            renown,
             findings.OrderBy(finding => finding.Code.ToString(), StringComparer.Ordinal).ToArray());
     }
 
@@ -177,9 +212,19 @@ public static class WerewolfResourceRankInitializationService
             .Order(StringComparer.Ordinal)
             .ToArray();
 
+        if (StringComparer.Ordinal.Equals(draft.Auspice, WerewolfAuspiceIdentifiers.Ragabash))
+        {
+            nextSteps = nextSteps
+                .Append(WerewolfRagabashRenownSelectionService.SelectRagabashRenownStep)
+                .Distinct(StringComparer.Ordinal)
+                .Order(StringComparer.Ordinal)
+                .ToArray();
+        }
+
         return draft with
         {
             Resources = ClearNumeric(draft.Resources),
+            Renown = ClearNumeric(draft.Renown),
             Rank = null,
             RankValue = null,
             RequiredNextSteps = Array.AsReadOnly(nextSteps)
@@ -233,6 +278,50 @@ public static class WerewolfResourceRankInitializationService
         return value >= 0;
     }
 
+    private static List<WerewolfInitialRenownValue> GetInitialRenown(string auspice)
+    {
+        int glory = 0, honor = 0, wisdom = 0;
+
+        switch (auspice)
+        {
+            case WerewolfAuspiceIdentifiers.Ragabash:
+                break;
+            case WerewolfAuspiceIdentifiers.Theurge:
+                wisdom = 3;
+                break;
+            case WerewolfAuspiceIdentifiers.Philodox:
+                honor = 3;
+                break;
+            case WerewolfAuspiceIdentifiers.Galliard:
+                glory = 2;
+                wisdom = 1;
+                break;
+            case WerewolfAuspiceIdentifiers.Ahroun:
+                glory = 2;
+                honor = 1;
+                break;
+        }
+
+        return
+        [
+            new WerewolfInitialRenownValue(WerewolfRenownIdentifiers.Glory, glory, glory),
+            new WerewolfInitialRenownValue(WerewolfRenownIdentifiers.Honor, honor, honor),
+            new WerewolfInitialRenownValue(WerewolfRenownIdentifiers.Wisdom, wisdom, wisdom)
+        ];
+    }
+
+    private static ReadOnlyDictionary<string, int?> ToRenownDictionary(IEnumerable<WerewolfInitialRenownValue> renown)
+    {
+        var values = new Dictionary<string, int?>(StringComparer.Ordinal);
+        foreach (var entry in renown)
+        {
+            values[$"{entry.RenownId}.permanent"] = entry.Permanent;
+            values[$"{entry.RenownId}.current"] = entry.Current;
+        }
+
+        return new ReadOnlyDictionary<string, int?>(values.OrderBy(entry => entry.Key, StringComparer.Ordinal).ToDictionary(entry => entry.Key, entry => entry.Value, StringComparer.Ordinal));
+    }
+
 
     private static ReadOnlyDictionary<string, int?> ToResourceDictionary(IEnumerable<WerewolfInitialResourceValue> resources)
     {
@@ -254,6 +343,7 @@ public static class WerewolfResourceRankInitializationService
             null,
             [],
             null,
+            [],
             [new WerewolfResourceRankInitializationFinding(WerewolfResourceRankInitializationFindingSeverity.Error, code, message)]);
     }
 

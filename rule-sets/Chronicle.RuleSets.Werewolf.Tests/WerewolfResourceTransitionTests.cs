@@ -12,6 +12,12 @@ public sealed class WerewolfResourceTransitionTests
         int gnosisCurrent = 3,
         int willpowerPermanent = 4,
         int willpowerCurrent = 4,
+        int gloryPermanent = 0,
+        int gloryCurrent = 0,
+        int honorPermanent = 0,
+        int honorCurrent = 0,
+        int wisdomPermanent = 0,
+        int wisdomCurrent = 0,
         int runtimeStateVersion = 1)
     {
         return new WerewolfRuntimeCharacterState(
@@ -31,7 +37,13 @@ public sealed class WerewolfResourceTransitionTests
             gnosisPermanent,
             gnosisCurrent,
             willpowerPermanent,
-            willpowerCurrent);
+            willpowerCurrent,
+            gloryPermanent,
+            gloryCurrent,
+            honorPermanent,
+            honorCurrent,
+            wisdomPermanent,
+            wisdomCurrent);
     }
 
     [Fact]

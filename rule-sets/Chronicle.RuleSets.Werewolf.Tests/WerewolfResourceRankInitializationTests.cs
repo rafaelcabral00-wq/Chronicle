@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Chronicle.RuleSets.Abstractions.PackageSources;
 using Chronicle.RuleSets.Abstractions.Runtime;
 using Chronicle.RuleSets.Werewolf.CharacterCreation;
@@ -48,13 +49,13 @@ public sealed class WerewolfResourceRankInitializationTests
         Assert.Equal(expectedRage, result.Draft?.Resources[WerewolfCharacterResourceIdentifiers.RagePermanent]);
         Assert.Equal(expectedRage, result.Draft?.Resources[WerewolfCharacterResourceIdentifiers.RageCurrent]);
         Assert.NotNull(result.Draft);
-        Assert.All(result.Draft.Renown.Values, Assert.Null);
+        AssertRenownForAuspice(auspice, result.Draft.Renown);
         Assert.DoesNotContain(result.Findings, finding => finding.Severity == WerewolfResourceRankInitializationFindingSeverity.Warning);
         Assert.DoesNotContain(WerewolfResourceRankInitializationService.InitializeResourcesAndRankStep, result.Draft.RequiredNextSteps);
     }
 
     [Fact]
-    public void RagabashReceivesNoRenownFindingOrNextStep()
+    public void RagabashReceivesNoInitialRenownButRequiresSelection()
     {
         var draft = Draft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash);
 
@@ -63,7 +64,8 @@ public sealed class WerewolfResourceRankInitializationTests
         Assert.True(result.Succeeded, Format(result.Findings));
         Assert.DoesNotContain(result.Findings, finding => finding.Severity == WerewolfResourceRankInitializationFindingSeverity.Warning);
         Assert.DoesNotContain(WerewolfResourceRankInitializationService.InitializeResourcesAndRankStep, result.Draft!.RequiredNextSteps);
-        Assert.All(result.Draft.Renown.Values, Assert.Null);
+        Assert.Contains(WerewolfRagabashRenownSelectionService.SelectRagabashRenownStep, result.Draft.RequiredNextSteps);
+        AssertRenownForAuspice(WerewolfAuspiceIdentifiers.Ragabash, result.Draft.Renown);
     }
 
     [Fact]
@@ -75,8 +77,8 @@ public sealed class WerewolfResourceRankInitializationTests
         var result = Initialize(draft);
 
         Assert.True(result.Succeeded, Format(result.Findings));
-        Assert.Same(originalRenown, result.Draft!.Renown);
-        Assert.All(result.Draft.Renown.Values, Assert.Null);
+        Assert.NotSame(originalRenown, result.Draft!.Renown);
+        AssertRenownForAuspice(WerewolfAuspiceIdentifiers.Philodox, result.Draft.Renown);
     }
 
     [Fact]
@@ -130,8 +132,8 @@ public sealed class WerewolfResourceRankInitializationTests
 
         Assert.True(second.Succeeded, Format(second.Findings));
         Assert.NotSame(first.Resources, second.Draft!.Resources);
-        Assert.Same(first.Renown, second.Draft.Renown);
-        Assert.All(second.Draft.Renown.Values, Assert.Null);
+        Assert.NotSame(first.Renown, second.Draft.Renown);
+        AssertRenownForAuspice(WerewolfAuspiceIdentifiers.Theurge, second.Draft.Renown);
         Assert.Equal(5, second.Draft.Resources[WerewolfCharacterResourceIdentifiers.GnosisPermanent]);
         Assert.Equal(first.DraftVersion + 1, second.Draft.DraftVersion);
     }
@@ -198,7 +200,8 @@ public sealed class WerewolfResourceRankInitializationTests
         Assert.Contains("character.resource.rage.permanent:3", initialized.Outputs["resources"], StringComparison.Ordinal);
         Assert.Contains("character.resource.gnosis.current:1", initialized.Outputs["resources"], StringComparison.Ordinal);
         Assert.Contains("character.resource.willpower.permanent:3", initialized.Outputs["resources"], StringComparison.Ordinal);
-        Assert.False(initialized.Outputs.TryGetValue("renown", out var renownOutput) && !string.IsNullOrEmpty(renownOutput));
+        Assert.Contains("character.renown.honor.permanent:3", initialized.Outputs["renown"], StringComparison.Ordinal);
+        Assert.Contains("character.renown.honor.current:3", initialized.Outputs["renown"], StringComparison.Ordinal);
     }
 
     [Fact]
@@ -280,6 +283,48 @@ public sealed class WerewolfResourceRankInitializationTests
         return string.Join(Environment.NewLine, findings.Select(finding => $"{finding.Severity}|{finding.Code}|{finding.Message}"));
     }
 
+    private static void AssertRenownForAuspice(string auspice, IReadOnlyDictionary<string, int?> renown)
+    {
+        switch (auspice)
+        {
+            case WerewolfAuspiceIdentifiers.Ragabash:
+                Assert.Empty(renown);
+                break;
+            case WerewolfAuspiceIdentifiers.Theurge:
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.GloryPermanent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.GloryCurrent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.HonorPermanent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.HonorCurrent]);
+                Assert.Equal(3, renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+                Assert.Equal(3, renown[WerewolfRenownIdentifiers.WisdomCurrent]);
+                break;
+            case WerewolfAuspiceIdentifiers.Philodox:
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.GloryPermanent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.GloryCurrent]);
+                Assert.Equal(3, renown[WerewolfRenownIdentifiers.HonorPermanent]);
+                Assert.Equal(3, renown[WerewolfRenownIdentifiers.HonorCurrent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.WisdomCurrent]);
+                break;
+            case WerewolfAuspiceIdentifiers.Galliard:
+                Assert.Equal(2, renown[WerewolfRenownIdentifiers.GloryPermanent]);
+                Assert.Equal(2, renown[WerewolfRenownIdentifiers.GloryCurrent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.HonorPermanent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.HonorCurrent]);
+                Assert.Equal(1, renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+                Assert.Equal(1, renown[WerewolfRenownIdentifiers.WisdomCurrent]);
+                break;
+            case WerewolfAuspiceIdentifiers.Ahroun:
+                Assert.Equal(2, renown[WerewolfRenownIdentifiers.GloryPermanent]);
+                Assert.Equal(2, renown[WerewolfRenownIdentifiers.GloryCurrent]);
+                Assert.Equal(1, renown[WerewolfRenownIdentifiers.HonorPermanent]);
+                Assert.Equal(1, renown[WerewolfRenownIdentifiers.HonorCurrent]);
+                 Assert.Equal(0, renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+                Assert.Equal(0, renown[WerewolfRenownIdentifiers.WisdomCurrent]);
+                break;
+        }
+    }
+
     private static RuleSetOperationRequest Request(string operationKey, IReadOnlyDictionary<string, string> inputs)
     {
         return new RuleSetOperationRequest(
@@ -318,5 +363,289 @@ public sealed class WerewolfResourceRankInitializationTests
         {
             return new WerewolfCharacterDraftIdentity("runtime-draft-001");
         }
+    }
+}
+
+public sealed class WerewolfRagabashRenownSelectionTests
+{
+    private static WerewolfInitializedCharacterState BuildRagabashDraft()
+    {
+        var draft = WerewolfCharacterCreationDraftFactory.CreateInitializedDraft(new WerewolfCharacterDraftIdentity("ragabash-draft-001"), 1) with
+        {
+            Race = WerewolfRaceIdentifiers.Homid,
+            Auspice = WerewolfAuspiceIdentifiers.Ragabash,
+            Tribe = WerewolfTribeIdentifiers.GlassWalkers,
+            MetisDeformity = null,
+            RaceGift = WerewolfInitialGiftIdentifiers.HomidMasterOfFire,
+            AuspiceGift = WerewolfInitialGiftIdentifiers.RagabashOpenSeal,
+            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine,
+            AttributePriorityOrder = Array.AsReadOnly(["physical", "social", "mental"]),
+            AttributeBudgets = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>(StringComparer.Ordinal)
+            {
+                ["physical"] = 7,
+                ["social"] = 5,
+                ["mental"] = 3
+            }),
+            AbilityPriorityOrder = Array.AsReadOnly(["talents", "skills", "knowledges"]),
+            AbilityBudgets = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>(StringComparer.Ordinal)
+            {
+                ["talents"] = 13,
+                ["skills"] = 9,
+                ["knowledges"] = 5
+            }),
+            Attributes = new ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal)
+            {
+                ["character.attribute.strength"] = 2,
+                ["character.attribute.dexterity"] = 2,
+                ["character.attribute.stamina"] = 2,
+                ["character.attribute.charisma"] = 2,
+                ["character.attribute.manipulation"] = 4,
+                ["character.attribute.appearance"] = 2,
+                ["character.attribute.perception"] = 3,
+                ["character.attribute.intelligence"] = 3,
+                ["character.attribute.wits"] = 2
+            }),
+            Abilities = new ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal)
+            {
+                ["character.ability.alertness"] = 2,
+                ["character.ability.athletics"] = 2,
+                ["character.ability.brawl"] = 2,
+                ["character.ability.empathy"] = 2,
+                ["character.ability.expression"] = 3,
+                ["character.ability.intimidation"] = 1,
+                ["character.ability.stealth"] = 1,
+                ["character.ability.subterfuge"] = 3,
+                ["character.ability.survival"] = 0,
+                ["character.ability.computer"] = 1,
+                ["character.ability.drive"] = 2,
+                ["character.ability.etiquette"] = 2,
+                ["character.ability.law"] = 1,
+                ["character.ability.leadership"] = 2,
+                ["character.ability.occult"] = 1,
+                ["character.ability.performance"] = 2,
+                ["character.ability.politics"] = 1,
+                ["character.ability.investigation"] = 1
+            }),
+            Backgrounds = new ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal)
+            {
+                ["character.background.allies"] = 0,
+                ["character.background.contacts"] = 0,
+                ["character.background.mentor"] = 0,
+                ["character.background.resources"] = 0,
+                ["character.background.rites"] = 0
+            }),
+            Gifts = Array.AsReadOnly([
+                WerewolfInitialGiftIdentifiers.HomidMasterOfFire,
+                WerewolfInitialGiftIdentifiers.RagabashOpenSeal,
+                WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine
+            ])
+        };
+
+        var initialized = WerewolfResourceRankInitializationService.Initialize(new WerewolfResourceRankInitializationRequest(draft, draft.DraftVersion));
+        return initialized.Draft!;
+    }
+
+    [Fact]
+    public void RagabashInitializationLeavesSelectionPending()
+    {
+        var draft = BuildRagabashDraft();
+
+        Assert.Empty(draft.Renown);
+        Assert.Contains(WerewolfRagabashRenownSelectionService.SelectRagabashRenownStep, draft.RequiredNextSteps);
+    }
+
+    [Fact]
+    public void ValidAllocation030IsAccepted()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 0, 0, 3));
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(0, result.Draft!.Renown[WerewolfRenownIdentifiers.GloryPermanent]);
+        Assert.Equal(0, result.Draft.Renown[WerewolfRenownIdentifiers.HonorPermanent]);
+        Assert.Equal(3, result.Draft.Renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+        Assert.Equal(0, result.Draft.Renown[WerewolfRenownIdentifiers.GloryCurrent]);
+        Assert.Equal(0, result.Draft.Renown[WerewolfRenownIdentifiers.HonorCurrent]);
+        Assert.Equal(3, result.Draft.Renown[WerewolfRenownIdentifiers.WisdomCurrent]);
+    }
+
+    [Fact]
+    public void ValidAllocation300IsAccepted()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 3, 0, 0));
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(3, result.Draft!.Renown[WerewolfRenownIdentifiers.GloryPermanent]);
+        Assert.Equal(0, result.Draft.Renown[WerewolfRenownIdentifiers.HonorPermanent]);
+        Assert.Equal(0, result.Draft.Renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+    }
+
+    [Fact]
+    public void ValidAllocation003IsAccepted()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 0, 3, 0));
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(0, result.Draft!.Renown[WerewolfRenownIdentifiers.GloryPermanent]);
+        Assert.Equal(3, result.Draft.Renown[WerewolfRenownIdentifiers.HonorPermanent]);
+        Assert.Equal(0, result.Draft.Renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+    }
+
+    [Fact]
+    public void ValidAllocation111IsAccepted()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 1, 1, 1));
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(1, result.Draft!.Renown[WerewolfRenownIdentifiers.GloryPermanent]);
+        Assert.Equal(1, result.Draft.Renown[WerewolfRenownIdentifiers.HonorPermanent]);
+        Assert.Equal(1, result.Draft.Renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+    }
+
+    [Fact]
+    public void ValidAllocation210IsAccepted()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 2, 1, 0));
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(2, result.Draft!.Renown[WerewolfRenownIdentifiers.GloryPermanent]);
+        Assert.Equal(1, result.Draft.Renown[WerewolfRenownIdentifiers.HonorPermanent]);
+        Assert.Equal(0, result.Draft.Renown[WerewolfRenownIdentifiers.WisdomPermanent]);
+    }
+
+    [Fact]
+    public void TotalLessThanThreeIsRejected()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 1, 1, 0));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, f => f.Code == WerewolfRagabashRenownSelectionErrorCode.TotalMustBeThree);
+    }
+
+    [Fact]
+    public void TotalGreaterThanThreeIsRejected()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 2, 1, 1));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, f => f.Code == WerewolfRagabashRenownSelectionErrorCode.TotalMustBeThree);
+    }
+
+    [Fact]
+    public void NegativeAllocationIsRejected()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, -1, 2, 2));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, f => f.Code == WerewolfRagabashRenownSelectionErrorCode.NegativeAllocation);
+    }
+
+    [Fact]
+    public void NonRagabashInvocationIsRejected()
+    {
+        var draft = BuildRagabashDraft();
+        var theurgeDraft = draft with { Auspice = WerewolfAuspiceIdentifiers.Theurge };
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(theurgeDraft, theurgeDraft.DraftVersion, 0, 0, 3));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, f => f.Code == WerewolfRagabashRenownSelectionErrorCode.NotRagabash);
+    }
+
+    [Fact]
+    public void StaleVersionIsRejected()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion - 1, 0, 0, 3));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, f => f.Code == WerewolfRagabashRenownSelectionErrorCode.StaleDraftVersion);
+    }
+
+    [Fact]
+    public void SourceDraftRemainsImmutableOnFailure()
+    {
+        var draft = BuildRagabashDraft();
+        var originalVersion = draft.DraftVersion;
+
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion - 1, 0, 0, 3));
+
+        Assert.False(result.Succeeded);
+        Assert.Null(result.Draft);
+        Assert.Equal(originalVersion, draft.DraftVersion);
+    }
+
+    [Fact]
+    public void VersionIncrementsExactlyOnceOnSuccess()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 1, 1, 1));
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(draft.DraftVersion + 1, result.Draft!.DraftVersion);
+    }
+
+    [Fact]
+    public void RequiredNextStepsRemovedOnSuccess()
+    {
+        var draft = BuildRagabashDraft();
+        var result = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 0, 0, 3));
+
+        Assert.True(result.Succeeded);
+        Assert.DoesNotContain(WerewolfRagabashRenownSelectionService.SelectRagabashRenownStep, result.Draft!.RequiredNextSteps);
+    }
+
+    [Fact]
+    public void CompletionBlockedBeforeSelection()
+    {
+        var draft = BuildRagabashDraft();
+        var completion = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
+
+        Assert.False(completion.Succeeded);
+        Assert.Contains(completion.Findings, f => f.Code == WerewolfCharacterCompletionErrorCode.RagabashRenownNotSelected);
+    }
+
+    [Fact]
+    public void CompletionSucceedsAfterSelection()
+    {
+        var draft = BuildRagabashDraft();
+        var selected = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 0, 0, 3));
+        Assert.True(selected.Succeeded);
+
+        var ready = selected.Draft! with { IdentityName = "test", RequiredNextSteps = Array.AsReadOnly<string>([]) };
+        var completion = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(ready, ready.DraftVersion));
+
+        Assert.True(completion.Succeeded, Format(completion.Findings));
+    }
+
+    [Fact]
+    public void RuntimeRoundTripPreservesAllocation()
+    {
+        var draft = BuildRagabashDraft();
+        var selected = WerewolfRagabashRenownSelectionService.SelectRenown(new WerewolfRagabashRenownSelectionRequest(draft, draft.DraftVersion, 1, 1, 1));
+        Assert.True(selected.Succeeded);
+
+        var ready = selected.Draft! with { IdentityName = "test", RequiredNextSteps = Array.AsReadOnly<string>([]) };
+        var completion = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(ready, ready.DraftVersion));
+        Assert.True(completion.Succeeded, Format(completion.Findings));
+
+        var state = WerewolfRuntimeCharacterState.FromSnapshot(completion.Snapshot!);
+        Assert.Equal(1, state.GloryPermanent);
+        Assert.Equal(1, state.HonorPermanent);
+        Assert.Equal(1, state.WisdomPermanent);
+        Assert.Equal(1, state.GloryCurrent);
+        Assert.Equal(1, state.HonorCurrent);
+        Assert.Equal(1, state.WisdomCurrent);
+    }
+
+    private static string Format(IEnumerable<WerewolfCharacterCompletionFinding> findings)
+    {
+        return string.Join(Environment.NewLine, findings.Select(finding => $"{finding.Severity}|{finding.Code}|{finding.Message}"));
     }
 }

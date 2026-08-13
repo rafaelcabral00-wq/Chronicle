@@ -26,6 +26,7 @@ public sealed record WerewolfCharacterSnapshot(
     IReadOnlyDictionary<string, int?> Backgrounds,
     IReadOnlyList<string> Gifts,
     IReadOnlyDictionary<string, int?> Resources,
+    IReadOnlyDictionary<string, int?> Renown,
     string? Rank,
     int? RankValue,
     string? IdentityName,
@@ -74,6 +75,8 @@ public enum WerewolfCharacterCompletionErrorCode
     AbilityAllocationIncomplete,
     BackgroundAllocationIncomplete,
     ResourcesNotInitialized,
+    RenownNotInitialized,
+    RagabashRenownNotSelected,
     RankNotInitialized,
     MandatoryNextStepsPending
 }
@@ -90,6 +93,7 @@ public static class WerewolfCharacterCompletionOperation
         "allocate-backgrounds",
         "select-initial-gifts",
         "initialize-resources-and-rank",
+        "select-ragabash-renown",
         "set-identity-name"
     ];
 
@@ -222,6 +226,34 @@ public static class WerewolfCharacterCompletionOperation
             }
         }
 
+        var renownKeys = new[]
+        {
+            WerewolfRenownIdentifiers.GloryPermanent,
+            WerewolfRenownIdentifiers.GloryCurrent,
+            WerewolfRenownIdentifiers.HonorPermanent,
+            WerewolfRenownIdentifiers.HonorCurrent,
+            WerewolfRenownIdentifiers.WisdomPermanent,
+            WerewolfRenownIdentifiers.WisdomCurrent
+        };
+        foreach (var key in renownKeys)
+        {
+            if (!request.Draft.Renown.TryGetValue(key, out var value) || value is null)
+            {
+                findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, WerewolfCharacterCompletionErrorCode.RenownNotInitialized, $"Renown {key} is not initialized."));
+                break;
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Draft.Auspice) &&
+            StringComparer.Ordinal.Equals(request.Draft.Auspice, WerewolfAuspiceIdentifiers.Ragabash))
+        {
+            var hasAllRenownKeys = renownKeys.All(key => request.Draft.Renown.TryGetValue(key, out var value) && value is not null);
+            if (!hasAllRenownKeys)
+            {
+                findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, WerewolfCharacterCompletionErrorCode.RagabashRenownNotSelected, "Ragabash initial Renown allocation is required before completion."));
+            }
+        }
+
         if (string.IsNullOrWhiteSpace(request.Draft.Rank) || request.Draft.RankValue is null)
         {
             findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, WerewolfCharacterCompletionErrorCode.RankNotInitialized, "Rank is required."));
@@ -265,6 +297,7 @@ public static class WerewolfCharacterCompletionOperation
             CopyNumeric(request.Draft.Backgrounds),
             Array.AsReadOnly<string>(request.Draft.Gifts.ToArray()),
             CopyNumeric(request.Draft.Resources),
+            CopyNumeric(request.Draft.Renown),
             request.Draft.Rank,
             request.Draft.RankValue,
             request.Draft.IdentityName,
