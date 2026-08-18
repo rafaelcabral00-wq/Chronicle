@@ -1,17 +1,17 @@
 # RULESET-COMPLETION-004 Semantic Completion Report
 ## Complete Generic Dice Resolution Algorithm Extraction
 
-**Status:** Complete. A-002 partially resolved (semantics extracted, execution deferred).  
-**Package:** `Chronicle.RuleSets.Werewolf`  
-**Canonical Source:** `.rule-set-sources/werewolf/Werewolf the Apocalypse 3e-pt_br.txt`  
-**Decision Authority:** DR-0008 (accepted 2026-08-07), EXTRACTION-0004 A-001/A-002  
-**Implementation Date:** 2026-08-13  
+**Status:** Complete. A-002 partially resolved (semantics extracted, execution deferred).
+**Package:** `Chronicle.RuleSets.Werewolf`
+**Canonical Source:** `.rule-set-sources/werewolf/Werewolf the Apocalypse 3e-pt_br.txt`
+**Decision Authority:** DR-0008 (accepted 2026-08-07), EXTRACTION-0004 A-001/A-002
+**Implementation Date:** 2026-08-13
 
 ---
 
 ## 1. A-001 — Exact General Dice Resolution Algorithm
 
-**Status:** Resolved.  
+**Status:** Resolved.
 **Source Lines:** 2703–2760 (basic rules), 1083–1086 (specialization, NOT executed), 2781 (difficulty definition), 2822 (Willpower loss on botch).
 
 ### Final ordinary dice algorithm (non-specialized)
@@ -80,7 +80,7 @@ Source line 2720: "Se a parada de dados resultante for igual ou inferior a zero,
 
 ## 2. A-002 — Specialization Resolution
 
-**Status:** Partially resolved.  
+**Status:** Partially resolved.
 **Source Lines:** 1083–1086.
 
 ### What is known from source

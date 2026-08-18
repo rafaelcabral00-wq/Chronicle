@@ -29,6 +29,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string AwardTemporaryRenownOperation = "character-runtime.award-temporary-renown";
     public const string LoseTemporaryRenownOperation = "character-runtime.lose-temporary-renown";
     public const string ConvertTemporaryToPermanentRenownOperation = "character-runtime.convert-temporary-to-permanent-renown";
+    public const string ApplyDamageOperation = "character-runtime.apply-damage";
+    public const string RecoverDamageOperation = "character-runtime.recover-damage";
+    public const string PermanecerAtivoOperation = "character-runtime.permanecer-ativo";
+    public const string RegenerateOperation = "character-runtime.regenerate";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -80,6 +84,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(AwardTemporaryRenownOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(LoseTemporaryRenownOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(ConvertTemporaryToPermanentRenownOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(RecoverDamageOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ApplyDamageOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(PermanecerAtivoOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(RegenerateOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
             new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
         ]);
@@ -201,6 +209,26 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, ConvertTemporaryToPermanentRenownOperation))
         {
             return ExecuteConvertTemporaryToPermanentRenown(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ApplyDamageOperation))
+        {
+            return ExecuteApplyDamage(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, RecoverDamageOperation))
+        {
+            return ExecuteRecoverDamage(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, PermanecerAtivoOperation))
+        {
+            return ExecutePermanecerAtivo(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, RegenerateOperation))
+        {
+            return ExecuteRegenerate(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -1666,6 +1694,306 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["newCurrent"] = result.NewCurrent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
                 ["previousPermanent"] = result.PreviousPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
                 ["newPermanent"] = result.NewPermanent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteApplyDamage(RuleSetOperationRequest request)
+    {
+        var currentState = GetCurrentRuntimeState(request);
+        var expectedVersion = GetExpectedVersion(request);
+        var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+        var damageTypeText = request.Inputs.GetValueOrDefault("damageType", string.Empty);
+        var amountText = request.Inputs.GetValueOrDefault("amount", string.Empty);
+
+        if (!Enum.TryParse<WerewolfDamageCategory>(damageTypeText, true, out var damageType))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidDamageType", $"Invalid damage type: {damageTypeText}")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        if (!int.TryParse(amountText, out var amount) || amount <= 0)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAmount", "Amount must be a positive integer")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var result = WerewolfApplyDamageService.ApplyDamage(new WerewolfApplyDamageRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            damageType,
+            amount));
+
+        if (!result.Succeeded || result.UpdatedState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "ApplyDamageFailed", f)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "ApplyDamageSucceeded", f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId,
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthTrack"] = System.Text.Json.JsonSerializer.Serialize(result.HealthTrack, JsonOptions),
+                ["currentLevel"] = result.HealthTrack.CurrentLevel.ToString(),
+                ["woundPenalty"] = result.HealthTrack.WoundPenalty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthState"] = result.HealthTrack.HealthState.ToString(),
+                ["fatalDamageType"] = result.HealthTrack.FatalDamageType?.ToString() ?? string.Empty,
+                ["isIncapacitated"] = (result.HealthTrack.HealthState == WerewolfHealthState.Incapacitated).ToString(),
+                ["isUnconscious"] = (result.HealthTrack.HealthState == WerewolfHealthState.Unconscious).ToString(),
+                ["isNearDeath"] = (result.HealthTrack.HealthState == WerewolfHealthState.NearDeath).ToString(),
+                ["isDead"] = (result.HealthTrack.HealthState == WerewolfHealthState.Dead).ToString(),
+                ["totalDamage"] = result.HealthTrack.TotalDamage.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteRecoverDamage(RuleSetOperationRequest request)
+    {
+        var currentState = GetCurrentRuntimeState(request);
+        var expectedVersion = GetExpectedVersion(request);
+        var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+        var damageTypeText = request.Inputs.GetValueOrDefault("damageType", string.Empty);
+        var amountText = request.Inputs.GetValueOrDefault("amount", string.Empty);
+        var requiresAlternateFormRestText = request.Inputs.GetValueOrDefault("requiresAlternateFormRest", "false");
+
+        if (!Enum.TryParse<WerewolfDamageCategory>(damageTypeText, true, out var damageType))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidDamageType", $"Invalid damage type: {damageTypeText}")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        if (!int.TryParse(amountText, out var amount) || amount <= 0)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAmount", "Amount must be a positive integer")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        if (!bool.TryParse(requiresAlternateFormRestText, out var requiresAlternateFormRest))
+        {
+            requiresAlternateFormRest = false;
+        }
+
+        var result = WerewolfRecoverDamageService.RecoverDamage(new WerewolfRecoverDamageRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            damageType,
+            amount,
+            requiresAlternateFormRest));
+
+        if (!result.Succeeded || result.UpdatedState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "RecoverDamageFailed", f)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "RecoverDamageSucceeded", f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId,
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthTrack"] = System.Text.Json.JsonSerializer.Serialize(result.HealthTrack, JsonOptions),
+                ["currentLevel"] = result.HealthTrack.CurrentLevel.ToString(),
+                ["woundPenalty"] = result.HealthTrack.WoundPenalty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthState"] = result.HealthTrack.HealthState.ToString(),
+                ["fatalDamageType"] = result.HealthTrack.FatalDamageType?.ToString() ?? string.Empty,
+                ["isIncapacitated"] = (result.HealthTrack.HealthState == WerewolfHealthState.Incapacitated).ToString(),
+                ["isUnconscious"] = (result.HealthTrack.HealthState == WerewolfHealthState.Unconscious).ToString(),
+                ["isNearDeath"] = (result.HealthTrack.HealthState == WerewolfHealthState.NearDeath).ToString(),
+                ["isDead"] = (result.HealthTrack.HealthState == WerewolfHealthState.Dead).ToString(),
+                ["totalDamage"] = result.HealthTrack.TotalDamage.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteRegenerate(RuleSetOperationRequest request)
+    {
+        var currentState = GetCurrentRuntimeState(request);
+        var expectedVersion = GetExpectedVersion(request);
+        var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+        var damageTypeText = request.Inputs.GetValueOrDefault("damageType", string.Empty);
+         var amountText = request.Inputs.GetValueOrDefault("amount", string.Empty);
+         var currentTurnText = request.Inputs.GetValueOrDefault("currentTurn", "0");
+         var isStressfulText = request.Inputs.GetValueOrDefault("isStressful", "false");
+        var requiresAlternateFormRestText = request.Inputs.GetValueOrDefault("requiresAlternateFormRest", "false");
+        var vigorDicePoolText = request.Inputs.GetValueOrDefault("vigorDicePool", "0");
+        var vigorSuccessesText = request.Inputs.GetValueOrDefault("vigorSuccesses", "0");
+        var vigorOnesText = request.Inputs.GetValueOrDefault("vigorOnes", "0");
+
+        if (!Enum.TryParse<WerewolfDamageCategory>(damageTypeText, true, out var damageType))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidDamageType", $"Invalid damage type: {damageTypeText}")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        if (!int.TryParse(amountText, out var amount) || amount <= 0)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAmount", "Amount must be a positive integer")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        if (!int.TryParse(currentTurnText, out var currentTurn))
+        {
+            currentTurn = 0;
+        }
+
+        if (!bool.TryParse(isStressfulText, out var isStressful))
+        {
+            isStressful = false;
+        }
+
+        if (!bool.TryParse(requiresAlternateFormRestText, out var requiresAlternateFormRest))
+        {
+            requiresAlternateFormRest = false;
+        }
+
+        if (!int.TryParse(vigorDicePoolText, out var vigorDicePool))
+        {
+            vigorDicePool = 0;
+        }
+
+        if (!int.TryParse(vigorSuccessesText, out var vigorSuccesses))
+        {
+            vigorSuccesses = 0;
+        }
+
+        if (!int.TryParse(vigorOnesText, out var vigorOnes))
+        {
+            vigorOnes = 0;
+        }
+
+        var result = WerewolfRegenerationService.Regenerate(new WerewolfRegenerationRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            damageType,
+            amount,
+            currentTurn,
+            isStressful,
+            requiresAlternateFormRest,
+            vigorDicePool,
+            vigorSuccesses,
+            vigorOnes));
+
+        if (!result.Succeeded || result.UpdatedState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "RegenerateFailed", f)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "RegenerateSucceeded", f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId,
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthTrack"] = System.Text.Json.JsonSerializer.Serialize(result.HealthTrack, JsonOptions),
+                ["currentLevel"] = result.HealthTrack.CurrentLevel.ToString(),
+                ["woundPenalty"] = result.HealthTrack.WoundPenalty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthState"] = result.HealthTrack.HealthState.ToString(),
+                ["fatalDamageType"] = result.HealthTrack.FatalDamageType?.ToString() ?? string.Empty,
+                ["isIncapacitated"] = (result.HealthTrack.HealthState == WerewolfHealthState.Incapacitated).ToString(),
+                ["isUnconscious"] = (result.HealthTrack.HealthState == WerewolfHealthState.Unconscious).ToString(),
+                ["isNearDeath"] = (result.HealthTrack.HealthState == WerewolfHealthState.NearDeath).ToString(),
+                ["isDead"] = (result.HealthTrack.HealthState == WerewolfHealthState.Dead).ToString(),
+                ["totalDamage"] = result.HealthTrack.TotalDamage.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["successes"] = result.Successes?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+            });
+    }
+
+    private static RuleSetOperationResult ExecutePermanecerAtivo(RuleSetOperationRequest request)
+    {
+        var currentState = GetCurrentRuntimeState(request);
+        var expectedVersion = GetExpectedVersion(request);
+        var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+        var furySuccessesText = request.Inputs.GetValueOrDefault("furySuccesses", "0");
+        var furyOnesText = request.Inputs.GetValueOrDefault("furyOnes", "0");
+
+        if (!int.TryParse(furySuccessesText, out var furySuccesses))
+        {
+            furySuccesses = 0;
+        }
+
+        if (!int.TryParse(furyOnesText, out var furyOnes))
+        {
+            furyOnes = 0;
+        }
+
+        var result = WerewolfPermanecerAtivoService.PermanecerAtivo(new WerewolfPermanecerAtivoRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            furySuccesses,
+            furyOnes));
+
+        if (!result.Succeeded || result.UpdatedState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "PermanecerAtivoFailed", f)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "PermanecerAtivoSucceeded", f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId,
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthTrack"] = System.Text.Json.JsonSerializer.Serialize(result.HealthTrack, JsonOptions),
+                ["currentLevel"] = result.HealthTrack.CurrentLevel.ToString(),
+                ["woundPenalty"] = result.HealthTrack.WoundPenalty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["healthState"] = result.HealthTrack.HealthState.ToString(),
+                ["fatalDamageType"] = result.HealthTrack.FatalDamageType?.ToString() ?? string.Empty,
+                ["isIncapacitated"] = (result.HealthTrack.HealthState == WerewolfHealthState.Incapacitated).ToString(),
+                ["isUnconscious"] = (result.HealthTrack.HealthState == WerewolfHealthState.Unconscious).ToString(),
+                ["isNearDeath"] = (result.HealthTrack.HealthState == WerewolfHealthState.NearDeath).ToString(),
+                ["isDead"] = (result.HealthTrack.HealthState == WerewolfHealthState.Dead).ToString(),
+                ["isSurvived"] = (result.HealthTrack.HealthState == WerewolfHealthState.Survived).ToString(),
+                ["totalDamage"] = result.HealthTrack.TotalDamage.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["successes"] = result.Successes?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
             });
     }
 

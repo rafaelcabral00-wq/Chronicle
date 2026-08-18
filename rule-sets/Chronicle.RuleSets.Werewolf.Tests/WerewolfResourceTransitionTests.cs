@@ -43,7 +43,8 @@ public sealed class WerewolfResourceTransitionTests
             honorPermanent,
             honorCurrent,
             wisdomPermanent,
-            wisdomCurrent);
+            wisdomCurrent,
+            null);
     }
 
     [Fact]

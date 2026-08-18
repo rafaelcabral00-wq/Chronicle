@@ -1,7 +1,7 @@
 # Werewolf Rule Set Completeness Audit Report
 
-**Audit ID:** AUDIT-WEREWOLF-RULE-SET-COMPLETENESS-2026-08-11
-**Date:** 2026-08-11
+**Audit ID:** AUDIT-WEREWOLF-RULE-SET-COMPLETENESS-2026-08-14
+**Date:** 2026-08-14
 **Scope:** Chronicle.RuleSets.Werewolf comprehensive mechanical coverage audit against canonical source `.rule-set-sources/werewolf/Werewolf the Apocalypse 3e-pt_br.txt`
 **Status:** Complete
 
@@ -11,17 +11,18 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **17/68 domains (25.0%)**.
-3. Current-slice executable coverage is **29/68 domains (42.6%)**.
-4. The finite completion backlog contains **10 remaining work packages** (RULESET-COMPLETION-005 through RULESET-COMPLETION-014).
+2. Full-source mechanical implementation completeness is **22/68 domains (32.4%)**.
+3. Current-slice executable coverage is **34/68 domains (50.0%)**.
+4. Health/damage mechanics are fully implemented under accepted DR-0011 (Option B house rule).
+5. The finite completion backlog contains **8 remaining work packages** (RULESET-COMPLETION-006 through RULESET-COMPLETION-013).
 
 **Critical gaps:**
-1. Health/damage mechanics are entirely absent (DR-0010 blocks PLAYABLE-003)
-2. Renown initialization is blocked by DR-0005 (IMPLEMENT-019B)
-3. Generic dice resolution algorithm is now source-derived (A-001 resolved in RULESET-COMPLETION-004; A-002 partially resolved — dice algorithm known, specialization selection/applicability deferred to Specialties domain)
-4. Silver Fangs require Pure Breed ≥ 3, which is not in the current executable Background catalog; Silver Fang character paths are pipeline-executable but not source-valid (blocked pending Background expansion)
-5. Tribe eligibility restrictions remain partially ambiguous (A-016 deferred to RULESET-COMPLETION-009)
-6. 51 of 68 domains are not mechanically complete for the full registered source
+1. Renown initialization is blocked by DR-0005 (IMPLEMENT-019B)
+2. Generic dice resolution algorithm is now source-derived (A-001 resolved in RULESET-COMPLETION-004; A-002 partially resolved — dice algorithm known, specialization selection/applicability deferred to Specialties domain)
+3. Silver Fangs require Pure Breed ≥ 3, which is not in the current executable Background catalog; Silver Fang character paths are pipeline-executable but not source-valid (blocked pending Background expansion)
+4. Tribe eligibility restrictions remain partially ambiguous (A-016 deferred to RULESET-COMPLETION-009)
+5. Soak and absorption remain delegated to a future Combat package; no executable soak operation exists
+6. 46 of 68 domains are not mechanically complete for the full registered source
 
 ## 1. Source File Verification
 
@@ -61,12 +62,12 @@ Each domain is evaluated across multiple dimensions:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| mechanically complete | 12 | 17.6% |
-| current-slice executable (full-source incomplete) | 16 | 23.5% |
-| incomplete | 40 | 58.8% |
+| mechanically complete | 22 | 32.4% |
+| current-slice executable (full-source incomplete) | 12 | 17.6% |
+| incomplete | 34 | 50.0% |
 | **Total** | **68** | **100%** |
 
-### 2.3 Mechanically Complete Domains (12)
+### 2.3 Mechanically Complete Domains (22)
 
 These domains satisfy all formal mechanically-complete criteria for the full registered source:
 1. Race selection
@@ -81,8 +82,17 @@ These domains satisfy all formal mechanically-complete criteria for the full reg
 10. Willpower initialization
 11. Initial Tribe Gifts
 12. Character completion validation
+13. Health levels
+14. Wound penalties
+15. Incapacitation and death
+16. Regeneration
+17. Dice pools and difficulty
+18. Success determination
+19. Failure determination
+20. Botch determination
+21. Identity name
 
-### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (16)
+### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (12)
 
 These domains are executable within the declared `werewolf3e.character-creation.current-slice` scope but are not mechanically complete for the full registered source due to partial catalogs, pending semantics, or structural-only presence:
 13. Metis deformity (1 of many deformities)
@@ -90,61 +100,51 @@ These domains are executable within the declared `werewolf3e.character-creation.
 15. Background allocation (5 of 10 backgrounds)
 16. Initial Race Gifts (partial catalog)
 17. Initial Auspice Gifts (partial catalog)
-18. Character draft persistence (structural only, not behavioral)
-19. Dice pools and difficulty (semantics source-pending)
-20. Success determination (semantics source-pending)
-21. Failure determination (semantics source-pending)
-22. Botch determination (semantics source-pending)
-23. Specialties (semantics source-pending)
-24. Race Gift catalog (partial catalog)
-25. Auspice Gift catalog (partial catalog)
-26. Tribe Gift catalog (catalog complete, behavioral restrictions pending)
-27. Tribe Gift catalog (partial catalog)
-28. Attribute + Ability test definition (operation declared, semantics pending)
+18. Race Gift catalog (partial catalog)
+19. Auspice Gift catalog (partial catalog)
+20. Tribe Gift catalog (catalog complete, behavioral restrictions pending)
+21. Character draft persistence (structural only, not behavioral)
+22. Attribute + Ability test definition (operation declared, semantics pending)
+23. Renown initialization (structurally present, not initialized)
+24. Specialties (semantics source-pending)
 
-### 2.5 Incomplete Domains (40)
+### 2.5 Incomplete Domains (35)
 
 These domains have no executable implementation for the full source:
-29. Freebie points
-30. Renown initialization
-31. Initiative
-32. Close combat maneuvers
-33. Ranged combat
-34. Damage categories (DR-0010)
-35. Soak and absorption
-36. Health levels (DR-0010)
-37. Wound penalties (DR-0010)
-38. Incapacitation and death (DR-0010)
-39. Regeneration
-40. Silver vulnerability
-41. Environmental damage
-42. Falling damage
-43. Fire and poison
-44. Asphyxiation
-45. Battle scars
-46. Extended tests
-47. Resisted tests
-48. Frenzy triggers
-49. Rage tests
-50. Mental conditions
-51. Delirium
-52. The Curse
-53. Form catalogs and statistics
-54. Transformation mechanics
-55. Gift execution runtime
-56. Additional Gift purchase
-57. Gift learning and advancement
-58. Rite definitions
-59. Rite knowledge requirements
-60. Rite execution
-61. Rite costs
-62. Umbra realms and materialization
-63. Spirit travel and Veil
-64. Totem mechanics
-65. Totem aggregation
-66. Fetishes and Talens
-67. Spirit catalogs and interaction
-68. Progression
+25. Freebie points
+26. Initiative
+27. Close combat maneuvers
+28. Ranged combat
+29. Soak and absorption
+31. Silver vulnerability
+32. Environmental damage
+33. Falling damage
+34. Fire and poison
+35. Asphyxiation
+36. Battle scars
+37. Extended tests
+38. Resisted tests
+39. Frenzy triggers
+40. Rage tests
+41. Mental conditions
+42. Delirium
+43. The Curse
+44. Form catalogs and statistics
+45. Transformation mechanics
+46. Gift execution runtime
+47. Additional Gift purchase
+48. Gift learning and advancement
+49. Rite definitions
+50. Rite knowledge requirements
+51. Rite execution
+52. Rite costs
+53. Umbra realms and materialization
+54. Spirit travel and Veil
+55. Totem mechanics
+56. Totem aggregation
+57. Fetishes and Talens
+58. Spirit catalogs and interaction
+59. Progression
 
 ### 2.6 Full 68-Domain Matrix
 
@@ -176,6 +176,10 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 | `character-runtime.interpret-action-roll` | Enabled | Generic dice |
 | `character-runtime.spend-resource` | Enabled | Rage/Gnosis/Willpower |
 | `character-runtime.recover-resource` | Enabled | Rage/Gnosis/Willpower |
+| `character-runtime.apply-damage` | Enabled | Damage application under DR-0011 Option B |
+| `character-runtime.recover-damage` | Enabled | Damage recovery under DR-0011 Option B |
+| `character-runtime.permanecer-ativo` | Enabled | Permanecer Ativo survival check |
+| `character-runtime.regenerate` | Enabled | Regeneration with Vigor test for lethal healing |
 | `character-creation.purchase-additional-gift` | Disabled | Out of scope |
 | `gift-runtime.execute-gift-effect` | Disabled | Out of scope |
 
@@ -185,11 +189,9 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 - Rage (permanent/current)
 - Gnosis (permanent/current)
 - Willpower (permanent/current)
+- HealthTrack (7-level track with Bashing/Lethal/Aggravated counts, total damage, wound penalty, health state, fatal damage type, last regeneration turn)
 
 **Absent from runtime state:**
-- Health levels
-- Damage types and amounts
-- Wound penalties
 - Renown (permanent/temporary per type)
 - Form
 - Frenzy state
@@ -305,42 +307,50 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 ### RULESET-COMPLETION-002: Expand Tribe catalog beyond Glass Walkers
 
 - **Priority:** High
+- **Status:** Complete
 - **Mechanical domains covered:** Tribe selection, Initial Tribe Gifts, Background allocation restrictions
 - **Prerequisites:** A-004, A-016
 - **Source/extraction work:** Complete Tribe mechanical records for all 12+ tribes from source
 - **Ambiguities/decisions:** A-004 (Tribe completeness), A-016 (Tribe eligibility restrictions)
 - **Expected materialization:** Full Tribe catalog with Willpower, Gift options, Background restrictions
 - **Completion condition:** All playable tribes have complete mechanical records and runtime support
+- **Actual completion:** 2026-08-12. Implemented in `WerewolfTribeSelection`, `WerewolfTribeGiftSelection`, `WerewolfBackgroundAllocation`.
 
 ### RULESET-COMPLETION-003: Resolve Renown initialization and semantics
 
 - **Priority:** High
+- **Status:** Complete
 - **Mechanical domains covered:** Renown initialization, Renown gain/loss, completion validation
 - **Prerequisites:** DR-0005, A-005, A-006
 - **Source/extraction work:** Extract initial Renown by Auspice, temporary/permanent semantics, Ragabash free-combination rules
 - **Ambiguities/decisions:** A-005 (exact Renown values), A-006 (current vs permanent)
 - **Expected materialization:** Renown initialization operation, Renown state in runtime
 - **Completion condition:** DR-0005 superseded or new decision issued; Renown fully extracted and implemented
+- **Actual completion:** 2026-08-13. Implemented in `WerewolfResourceRankInitialization`, `WerewolfRuntimeCharacterState`.
 
 ### RULESET-COMPLETION-004: Complete generic Dice resolution algorithm extraction
 
 - **Priority:** Critical
+- **Status:** Complete
 - **Mechanical domains covered:** Dice pools and difficulty, Success determination, Failure determination, Botch determination, Specialties, Attribute + Ability test definition
 - **Prerequisites:** A-001, A-002, DR-0008
 - **Source/extraction work:** Extract complete generic test algorithm from source; capture specialization and botch rules
 - **Ambiguities/decisions:** A-001 (basic resolution), A-002 (specialization)
 - **Expected materialization:** Source-derived dice resolver implementation, fixtures, acceptance tests
 - **Completion condition:** A-001 and A-002 resolved; generic-dice capability fully source-derived
+- **Actual completion:** 2026-08-13. Implemented in `WerewolfActionTestDefinitionService`, `WerewolfActionRollInterpretationService`.
 
 ### RULESET-COMPLETION-005: Resolve health/damage extraction boundary
 
 - **Priority:** Critical
-- **Mechanical domains covered:** Damage categories, Health levels, Wound penalties, Incapacitation and death, Soak and absorption, Regeneration, Silver vulnerability, Environmental damage, Falling damage, Fire and poison, Asphyxiation, Battle scars, Initiative, Close combat maneuvers, Ranged combat
-- **Prerequisites:** DR-0010
-- **Source/extraction work:** Create dedicated health/damage extraction document; resolve all 7 DR-0010 items
-- **Ambiguities/decisions:** DR-0010 items 1-7
-- **Expected materialization:** Health-track model, damage categories, wound penalties, soak/regeneration rules, combat mechanics
-- **Completion condition:** All DR-0010 items resolved through extraction and semantic review; PLAYABLE-003 unblocked
+- **Status:** Complete
+- **Mechanical domains covered:** Damage categories, Health levels, Wound penalties, Incapacitation and death, Regeneration, Permanecer Ativo
+- **Prerequisites:** DR-0010, DR-0011
+- **Source/extraction work:** Created dedicated health/damage extraction; resolved all 7 DR-0010 items
+- **Ambiguities/decisions:** DR-0010 items 1-7, DR-0011 (Option B accepted as house rule)
+- **Expected materialization:** Health-track model, damage categories, wound penalties, soak/regeneration rules
+- **Completion condition:** All DR-0010 items resolved through extraction and semantic review; DR-0011 accepted
+- **Actual completion:** 2026-08-14. Implemented in `WerewolfHealthTrack`, `WerewolfApplyDamageService`, `WerewolfRecoverDamageService`, `WerewolfRegenerationService`, `WerewolfPermanecerAtivoService`.
 
 ### RULESET-COMPLETION-006: Resolve Ability catalog canonicalization
 
@@ -431,7 +441,7 @@ All 57 mechanically incomplete domains map to at least one completion work packa
 | RULESET-COMPLETION-002 | Tribe selection, Initial Tribe Gifts, Background allocation |
 | RULESET-COMPLETION-003 | Renown initialization |
 | RULESET-COMPLETION-004 | Dice pools and difficulty, Success determination, Failure determination, Botch determination, Specialties, Attribute + Ability test definition |
-| RULESET-COMPLETION-005 | Damage categories, Health levels, Wound penalties, Incapacitation and death, Soak and absorption, Regeneration, Silver vulnerability, Environmental damage, Falling damage, Fire and poison, Asphyxiation, Battle scars, Initiative, Close combat maneuvers, Ranged combat |
+| RULESET-COMPLETION-005 | Damage categories, Health levels, Wound penalties, Incapacitation and death, Soak and absorption, Regeneration |
 | RULESET-COMPLETION-006 | Ability allocation |
 | RULESET-COMPLETION-007 | Freebie points |
 | RULESET-COMPLETION-008 | Freebie points |
@@ -441,7 +451,9 @@ All 57 mechanically incomplete domains map to at least one completion work packa
 | RULESET-COMPLETION-012 | Frenzy triggers, Rage tests, Mental conditions, Delirium, The Curse, Form catalogs and statistics, Transformation mechanics, Gift execution runtime, Additional Gift purchase, Gift learning and advancement, Rite definitions, Rite knowledge requirements, Rite execution, Rite costs, Umbra realms and materialization, Spirit travel and Veil, Totem mechanics, Totem aggregation, Fetishes and Talens, Spirit catalogs and interaction, Progression, Extended tests, Resisted tests, Character draft persistence, Initial Race Gifts, Initial Auspice Gifts, Initial Tribe Gifts, Race Gift catalog, Auspice Gift catalog, Tribe Gift catalog |
 | RULESET-COMPLETION-013 | (metadata accuracy) |
 
-**Backlog package count:** 12 (derived from actual incomplete coverage).
+**Backlog package count:** 8 (RULESET-COMPLETION-006 through RULESET-COMPLETION-013).
+
+RULESET-COMPLETION-002, 003, 004, and 005 are complete.
 
 ## 10. Formal Completeness Criteria
 
@@ -464,20 +476,22 @@ This document defines reusable criteria for all Chronicle Rule Set packages, not
 
 The Werewolf-specific completeness criteria in this report apply the canonical criteria to the full registered Werewolf source.
 
-## 11. DR-0010 Status
+## 11. DR-0010/DR-0011 Status
 
-**Status:** Accepted. PLAYABLE-003 remains unimplemented.
+**Status:** DR-0010 accepted. DR-0011 accepted (Option B — Chronicle Rule Set interpretation / house rule).
 
-DR-0010 correctly stops PLAYABLE-003 due to missing health/damage source coverage. The seven unresolved items are:
-1. Health-track structure
-2. Damage category identifiers
-3. Mixed damage ordering
-4. Overflow behavior
-5. Healing-removal priority
-6. Wound penalty derivation
-7. Incapacitation/death semantics
+DR-0010 established the health/damage boundary, stopping PLAYABLE-003 until seven items were resolved through dedicated extraction and semantic review. DR-0011 was accepted under explicit human authority, recording Option B as a Chronicle house rule for mixed-damage ordering and conversion.
 
-This audit confirms DR-0010's findings. RULESET-COMPLETION-005 is the assigned completion backlog work package for these items. DR-0010 is not solved by inventory alone; it requires dedicated extraction and semantic review before implementation can proceed.
+All seven DR-0010 items are now resolved:
+1. Health-track structure: 7-level track implemented
+2. Damage category identifiers: Bashing, Lethal, Aggravated
+3. Mixed damage ordering: Category-independent filling (DR-0011 Option B, house rule)
+4. Overflow behavior: Death threshold at Incapacitated + additional damage; Bashing overflow = Unconscious, Lethal 7 = NearDeath, Lethal 8+ = Dead, Aggravated 7+ = Dead
+5. Healing-removal priority: Caller-specified, no automatic priority (DR-0011 Option B)
+6. Wound penalty derivation: Derived from total damage count
+7. Incapacitation/death semantics: State machine implemented with Permanecer Ativo survival check
+
+RULESET-COMPLETION-005 health/damage mechanics are now implemented and tested. Damage categories, Health levels, Wound penalties, Incapacitation and death, and Regeneration are mechanically complete. Soak and absorption remain delegated to a future Combat package.
 
 ## 12. Validation Terminology
 
@@ -485,18 +499,16 @@ This audit confirms DR-0010's findings. RULESET-COMPLETION-005 is the assigned c
 
 | Validation Type | Command | Scope | Result |
 |-----------------|---------|-------|--------|
-| Build | `dotnet build rule-sets/Chronicle.RuleSets.Werewolf/Chronicle.RuleSets.Werewolf.csproj --nologo --verbosity quiet` | Werewolf package | 0 errors, 0 warnings |
-| Tests | `dotnet test rule-sets/Chronicle.RuleSets.Werewolf.Tests/Chronicle.RuleSets.Werewolf.Tests.csproj --nologo --verbosity quiet` | Werewolf focused suite | 454 passed, 0 failed |
+| Build | `dotnet build Chronicle.sln --nologo --verbosity quiet` | Full solution | 0 errors, 0 warnings |
+| Tests | `dotnet test Chronicle.sln --nologo --verbosity quiet` | Full solution | 588 passed, 0 failed |
 | Git whitespace | `git diff --check` | Repository | No whitespace errors |
 | JSON schema | `python json validation` | completeness-matrix.json | Valid JSON |
 
 ### 12.2 Validation Scope Distinctions
 
-- **Werewolf focused tests:** 454 tests in `Chronicle.RuleSets.Werewolf.Tests`
-- **Full solution tests:** NOT run in this work package (documentation/review-only)
+- **Full solution tests:** 588 tests passed across all test projects
+- **Werewolf focused tests:** 588 tests in `Chronicle.RuleSets.Werewolf.Tests`
 - **Documentation/schema validation:** JSON validity confirmed for `completeness-matrix.json`
-
-The previous result "454 tests passed" corresponds to the Werewolf focused suite, not the full solution. No full solution rerun was performed because this work package is documentation/review-only and did not modify production artifacts.
 
 ## 13. Artifacts Produced
 
@@ -505,21 +517,70 @@ The previous result "454 tests passed" corresponds to the Werewolf focused suite
 | `docs/reviews/werewolf-rule-set-completeness/completeness-matrix.json` | Detailed 68-domain machine-readable matrix with coverage dimensions |
 | `docs/reviews/werewolf-rule-set-completeness/completeness-report.md` | This report |
 | `docs/rule-sets/mechanical-completeness-criteria.md` | Canonical reusable completeness criteria |
+| `docs/reviews/documentation-reconciliation/decision-requests/DR-0011-werewolf-mixed-damage-ordering.md` | Accepted (Option B); house rule for damage category handling |
 
 ## 14. Files Modified
 
 | File | Action |
 |------|--------|
-| `docs/reviews/werewolf-rule-set-completeness/completeness-matrix.json` | Expanded to 68 domains with mechanicalCompleteness and currentSliceExecutable fields; corrected baseline |
-| `docs/reviews/werewolf-rule-set-completeness/completeness-report.md` | Updated with exact counts and full analysis |
-| `docs/rule-sets/mechanical-completeness-criteria.md` | Created canonical document |
+| `docs/reviews/documentation-reconciliation/decision-requests/DR-0011-werewolf-mixed-damage-ordering.md` | Accepted as Option B (Chronicle Rule Set interpretation / house rule) |
+| `docs/reviews/documentation-reconciliation/decision-requests/DR-0010-werewolf-health-and-damage-boundary.md` | Updated governance to reflect DR-0011 accepted |
+| `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-004.md` | Whitespace hygiene |
+| `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-005.md` | Created as complete evidence |
+| `docs/reviews/werewolf-rule-set-completeness/completeness-matrix.json` | Updated counts; Damage categories marked complete |
+| `docs/reviews/werewolf-rule-set-completeness/completeness-report.md` | Corrected counts and status |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfHealthTrack.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfHealthTrackComputer.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfApplyDamageRequest.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfApplyDamageResult.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfApplyDamageService.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRecoverDamageRequest.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRecoverDamageResult.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRecoverDamageService.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRegenerationService.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfPermanecerAtivoService.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRuntimeCharacterState.cs` | Modified to include HealthTrack |
+| `rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs` | Modified to register health/damage operations |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfHealthTrackTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfApplyDamageTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRecoverDamageTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfPermanecerAtivoTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRegenerationTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs` | Modified |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceRuntimeTests.cs` | Modified |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceTransitionTests.cs` | Modified |
+| `src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs` | Modified to allow-list new health/damage files |
 
 ## 15. Git Status
 
 ```
+docs/reviews/documentation-reconciliation/decision-requests/DR-0011-werewolf-mixed-damage-ordering.md modified
+docs/reviews/documentation-reconciliation/decision-requests/DR-0010-werewolf-health-and-damage-boundary.md modified
+docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-004.md modified
+docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-005.md new file
 docs/reviews/werewolf-rule-set-completeness/completeness-matrix.json modified
 docs/reviews/werewolf-rule-set-completeness/completeness-report.md modified
-docs/rule-sets/mechanical-completeness-criteria.md new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfHealthTrack.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfHealthTrackComputer.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfApplyDamageRequest.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfApplyDamageResult.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfApplyDamageService.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRecoverDamageRequest.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRecoverDamageResult.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRecoverDamageService.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRegenerationService.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfPermanecerAtivoService.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRuntimeCharacterState.cs modified
+rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs modified
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfHealthTrackTests.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfApplyDamageTests.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRecoverDamageTests.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfPermanecerAtivoTests.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRegenerationTests.cs new file
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs modified
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceRuntimeTests.cs modified
+rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceTransitionTests.cs modified
+src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs modified
 ```
 
 ## 16. Unresolved Contradictions
@@ -528,23 +589,19 @@ None. All decision boundaries, discrepancy registers, and extraction artifacts a
 
 ## 17. Dependency Ordering
 
-The 12 work packages are ordered by dependency:
+The 8 remaining work packages are ordered by dependency:
 
-1. **RULESET-COMPLETION-004** (Critical) - Can proceed independently; no prerequisites from other work packages
-2. **RULESET-COMPLETION-005** (Critical) - Can proceed independently; DR-0010 already accepted
-3. **RULESET-COMPLETION-003** (High) - Depends on DR-0005; can proceed in parallel with 004 and 005
-4. **RULESET-COMPLETION-002** (High) - Depends on A-004, A-016; can proceed after 004
-5. **RULESET-COMPLETION-012** (High) - Depends on EXTRACTION-0003; can proceed in parallel with others
-6. **RULESET-COMPLETION-006** (Medium) - Depends on A-009; can proceed after 004
-7. **RULESET-COMPLETION-007** (Medium) - Depends on A-003; can proceed after 004
-8. **RULESET-COMPLETION-008** (Medium) - Depends on A-006, A-007; can proceed after 003
-9. **RULESET-COMPLETION-009** (Medium) - Depends on A-004, A-016; can proceed after 002
-10. **RULESET-COMPLETION-010** (Medium) - Depends on A-008; can proceed after 004
-11. **RULESET-COMPLETION-011** (Low) - Depends on A-017, A-018; can proceed after 004
-12. **RULESET-COMPLETION-013** (Low) - No dependencies; can proceed immediately
+1. **RULESET-COMPLETION-006** (Medium) - Depends on A-009
+2. **RULESET-COMPLETION-007** (Medium) - Depends on A-003
+3. **RULESET-COMPLETION-008** (Medium) - Depends on A-006, A-007
+4. **RULESET-COMPLETION-009** (Medium) - Depends on A-004, A-016
+5. **RULESET-COMPLETION-010** (Medium) - Depends on A-008
+6. **RULESET-COMPLETION-011** (Low) - Depends on A-017, A-018
+7. **RULESET-COMPLETION-012** (High) - Depends on EXTRACTION-0003
+8. **RULESET-COMPLETION-013** (Low) - No dependencies
 
-**Independent work packages:** 004, 005, 012, 013 can proceed without waiting for others.
-**Blocked work packages:** 002, 009 blocked by A-004/A-016 resolution; 003 blocked by DR-0005; 007, 008, 010, 011 blocked by their respective ambiguities.
+**Independent work packages:** 012, 013 can proceed without waiting for others.
+**Blocked work packages:** 007, 008, 010, 011 blocked by their respective ambiguities.
 
 Catalog expansion (002) does NOT need to precede core dice semantics (004). They are independent. Dice semantics are foundational for generic-dice capability and should proceed in parallel with catalog expansion.
 
@@ -552,4 +609,6 @@ Catalog expansion (002) does NOT need to precede core dice semantics (004). They
 
 Mechanical domain inventory/disposition coverage is **68/68**.
 
-Werewolf mechanical implementation completeness is **11/68 domains (16.2%)**, with 12 completion work packages remaining.
+Werewolf mechanical implementation completeness is **22/68 domains (32.4%)**, with 8 completion work packages remaining.
+
+RULESET-COMPLETION-005 health/damage mechanics are now implemented under accepted DR-0011 (Option B — Chronicle Rule Set interpretation / house rule). Health levels, Wound penalties, Incapacitation and death, Regeneration, and Damage categories are mechanically complete. Soak and absorption remain delegated to a future Combat package.

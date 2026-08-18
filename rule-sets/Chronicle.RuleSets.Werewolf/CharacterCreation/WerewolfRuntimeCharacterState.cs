@@ -17,7 +17,8 @@ public sealed record WerewolfRuntimeCharacterState(
     int HonorPermanent,
     int HonorCurrent,
     int WisdomPermanent,
-    int WisdomCurrent)
+    int WisdomCurrent,
+    WerewolfHealthTrack? HealthTrack)
 {
     public static WerewolfRuntimeCharacterState FromSnapshot(WerewolfCharacterSnapshot snapshot)
     {
@@ -89,6 +90,7 @@ public sealed record WerewolfRuntimeCharacterState(
             honorPermanent ?? 0,
             honorCurrent ?? 0,
             wisdomPermanent ?? 0,
-            wisdomCurrent ?? 0);
+            wisdomCurrent ?? 0,
+            WerewolfHealthTrackComputer.Compute([], lastRegenerationTurn: -1));
     }
 }

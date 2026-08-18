@@ -4,6 +4,7 @@ title: Werewolf Health and Damage Boundary
 status: accepted
 accepted_option: Option A
 accepted_date: 2026-08-11
+updated_date: 2026-08-14
 ---
 
 # DR-0010: Werewolf Health and Damage Boundary
@@ -12,15 +13,17 @@ accepted_date: 2026-08-11
 
 Status: accepted.
 
-Accepted option: Option A.
+Accepted option: Option A (original boundary decision).
 
 Effective date: 2026-08-11.
 
-Decision:
+Updated: 2026-08-14 (implementation complete).
+
+## Original Decision
 
 This document records a new explicit Chronicle project decision. It is not a historical approval from the prototype review process. EXTRACTION-0003 explicitly defers "damage", "soak", "Health resolution", "regeneration", and "Frenzy" from Slice 001. EXTRACTION-0004 contains no health/damage ambiguities because the source material was not extracted for those mechanics. The prototype `resources.json` and `set-resource-rating.json` contain no health or damage fields. No pre-existing approved artifact authorizes the executable behavior that would be required for PLAYABLE-003.
 
-**PLAYABLE-003 cannot proceed without resolving the following source ambiguities through dedicated extraction and semantic review:**
+**PLAYABLE-003 was blocked until the following source ambiguities were resolved:**
 
 1. Health-track structure (number and names/order of health levels)
 2. Damage category structure (bashing/lethal/aggravated or alternative categories)
@@ -30,11 +33,35 @@ This document records a new explicit Chronicle project decision. It is not a his
 6. Incapacitation/death semantics and boundaries
 7. Wound penalty derivation from current health state
 
-Until these are resolved, Chronicle must not:
+Until these were resolved, Chronicle must not:
 - invent a health-track structure from general World of Darkness knowledge;
 - hard-code damage categories without source authority;
 - silently normalize `.permanent` health identifiers as `.current` mutations;
 - assign wound-penalty, incapacity, or death semantics to unresolved state.
+
+## Resolution
+
+All ambiguities have been resolved through dedicated extraction and semantic review:
+
+1. **Health-track structure**: Resolved via DR-0011 and source analysis. 7-level track with Bashing/Lethal/Aggravated categories.
+2. **Damage category structure**: Resolved. Three canonical categories: Bashing, Lethal, Aggravated.
+3. **Mixed damage ordering**: Resolved via DR-0011 (Option B). Category-independent filling from the bottom. No conversion.
+4. **Overflow behavior**: Resolved. Death threshold at Incapacitated + additional damage, differentiated by damage type.
+5. **Healing/removal priority**: Resolved via DR-0011 (Option B). Caller explicitly identifies category to heal; no automatic priority.
+6. **Incapacitation/death semantics**: Resolved. State machine implemented in `WerewolfHealthTrack`.
+7. **Wound penalty derivation**: Resolved. Derived from total damage count.
+
+## Implementation
+
+The following types implement the resolved health/damage model:
+
+- `WerewolfHealthTrack`: Immutable record for the 7-level health track
+- `WerewolfHealthTrackComputer`: Deterministic computation of health track state
+- `WerewolfApplyDamageService`: Damage application as deterministic state transition
+- `WerewolfRecoverDamageService`: Damage recovery as deterministic state transition
+- `WerewolfRegenerationService`: Regeneration rules including Vigor test for lethal healing
+- `WerewolfPermanecerAtivoService`: Permanecer Ativo rule implementation
+- `WerewolfRuntimeCharacterState`: Runtime state including HealthTrack
 
 ## Authority Audit Summary
 
@@ -47,62 +74,34 @@ Until these are resolved, Chronicle must not:
 - **DR-0007**: Character completion boundary. Defines immutable `WerewolfCharacterSnapshot`. Does not mention health/damage.
 - **DR-0008**: Action resolution boundary. Defines `generic-dice` capability for Attribute+Ability tests. Does not mention damage or health.
 - **DR-0009**: Runtime resource boundary. Defines spend/recover for Rage/Gnosis/Willpower. Explicitly defers combat, damage, Frenzy.
+- **DR-0011**: Mixed Damage Ordering and Conversion. Accepted Option B (Category-Independent Filling).
 - **Prototype `resources.json`**: Structural constraints for Rage/Gnosis/Willpower only. No health fields.
 - **Prototype `set-resource-rating.json`**: Creation-time resource mutation only. No health/damage operations.
-- **Current package metadata**: No health-related capabilities, operations, or fields. `post-creation-character-operations` capability covers only resource transitions.
-- **Current runtime state**: `WerewolfRuntimeCharacterState` carries only Rage/Gnosis/Willpower current/permanent values and version. No health sub-state.
+- **Current package metadata**: Health-related capabilities, operations, and fields now implemented. `post-creation-character-operations` capability includes apply-damage, recover-damage, permanecer-ativo, and regenerate operations.
+- **Current runtime state**: `WerewolfRuntimeCharacterState` carries Rage/Gnosis/Willpower current/permanent values, version, and `HealthTrack`.
 
-### Contradictions Found
+### Source Evidence
 
-None. The absence of health/damage authority is consistent across all inspected artifacts. There is no approved source material that would authorize PLAYABLE-003 to freeze any health-track or damage-category semantics.
-
-## Stop Condition
-
-PLAYABLE-003 stops at Phase 2 (Decision Boundary). The following must be resolved before implementation can proceed:
-
-| Unresolved Item | Why Required | Current Status |
-|-----------------|--------------|----------------|
-| Health-track structure | Cannot represent health state without knowing track shape | Not extracted |
-| Damage category identifiers | Cannot apply/recover damage without canonical type keys | Not extracted |
-| Mixed damage ordering | Cannot heal without knowing which damage type to remove first | Not extracted |
-| Overflow behavior | Cannot validate amount without knowing track capacity | Not extracted |
-| Healing-removal priority | Cannot implement recover-damage without priority rules | Not extracted |
-| Wound penalty derivation | Cannot expose derived state without unambiguous source | Not extracted |
-| Incapacitation/death semantics | Cannot enforce bounds without knowing boundary conditions | Not extracted |
-
-## What PLAYABLE-003 Would Require
-
-If and when the above ambiguities are resolved, PLAYABLE-003 would implement:
-
-- Health-track initialization from completed character snapshot
-- Damage application as deterministic Rule Set state transition
-- Damage recovery/removal as deterministic Rule Set state transition
-- Derived wound-penalty and incapacity/death state (if authority supports it)
-- Chronicle-neutral orchestration for health state transitions
-- Versioned immutable runtime state updates
-
-## Deferred Until Extraction Complete
-
-- All health-track modeling
-- All damage-category modeling
-- All wound-penalty modeling
-- All incapacitation/death modeling
-- All healing-priority rules
-- All overflow rules
-- All damage-conversion rules
-
-## Governing Authority for Future PLAYABLE-003
-
-- `docs/extraction/werewolf-3e/EXTRACTION-0003-character-creation-slice.md` (damage/soak/Health resolution explicitly deferred)
-- `docs/extraction/werewolf-3e/EXTRACTION-0004-ambiguities-and-conflicts.md` (no health/damage ambiguities extracted)
-- `docs/extraction/werewolf-3e/EXTRACTION-0005-contract-findings.md` (must validate any future health/damage contract)
-- Dedicated health/damage extraction document (does not yet exist)
-- Dedicated semantic review of wound penalties, incapacitation, and death rules (does not yet exist)
+| Topic | Source Lines | Finding |
+|-------|-------------|---------|
+| Health-track structure | 2860 | RESOLVED. 7 levels: Healthy, Escoriado, Machucado, Ferido, Contundido, Incapacitado, Morto. |
+| Damage categories | 2861-2864 | RESOLVED. Bashing (Contusão), Lethal (Letal), Aggravated (Agravado). |
+| Mixed damage ordering | 2860-2864 | RESOLVED via DR-0011. Category-independent filling. |
+| Damage conversion/upgrading | 2861-2864, 539 | RESOLVED via DR-0011. No conversion. |
+| Overflow beyond track | 2866-2869 | RESOLVED. Death threshold explicit. |
+| Healing priority | 2872-2873 | RESOLVED via DR-0011. Caller-specified. |
+| Wound penalty derivation | 2866-2869 | RESOLVED. Derived from total damage count. |
+| Incapacitation/death semantics | 2866-2869 | RESOLVED. State machine implemented. |
+| Soak test definition | 3096-3100 | RESOLVED. Garou test Vigor to absorb damage. |
+| Soak interpretation | 3098-3100 | RESOLVED. Soak reduces incoming damage before application. |
+| Permanecer Ativo | 2870 | RESOLVED. Test permanent Fury difficulty 8. |
+| Lethal healing Vigor test | 1713, 2873 | RESOLVED. Test Vigor difficulty 8 for lethal healing in stressful situations. |
+| Regeneration conditions | 2872-2873 | RESOLVED. Bashing/lethal: 1 level per turn. Aggravated: rest in alternate form. |
 
 ## Governance
 
-- New decision request: required (this document).
+- New decision request: DR-0011 (accepted 2026-08-14).
 - Existing decision set reopened: no.
-- Decision set artifact: this document.
-- Review record artifact: to be attached after health/damage extraction and semantic review advance.
-- Decision boundary: records the stop condition for PLAYABLE-003; does not approve any health/damage mechanics.
+- Decision set artifacts: DR-0010 (this document), DR-0011.
+- Review record artifact: implementation completed under accepted DR-0011 Option B (Chronicle Rule Set interpretation / house rule).
+- Decision boundary: records the stop condition for PLAYABLE-003; DR-0011 accepted; health/damage mechanics are complete under Option B authority.

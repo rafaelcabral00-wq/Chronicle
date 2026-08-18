@@ -54,7 +54,8 @@ public sealed class WerewolfResourceRuntimeTests
             honorPermanent,
             honorCurrent,
             wisdomPermanent,
-            wisdomCurrent);
+            wisdomCurrent,
+            null);
     }
 
     [Fact]
