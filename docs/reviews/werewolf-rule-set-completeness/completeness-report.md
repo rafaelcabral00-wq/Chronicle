@@ -11,10 +11,10 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **22/68 domains (32.4%)**.
+2. Full-source mechanical implementation completeness is **23/68 domains (33.8%)**.
 3. Current-slice executable coverage is **34/68 domains (50.0%)**.
 4. Health/damage mechanics are fully implemented under accepted DR-0011 (Option B house rule).
-5. The finite completion backlog contains **8 remaining work packages** (RULESET-COMPLETION-006 through RULESET-COMPLETION-013).
+5. The finite completion backlog contains **7 remaining work packages** (RULESET-COMPLETION-007 through RULESET-COMPLETION-013).
 
 **Critical gaps:**
 1. Renown initialization is blocked by DR-0005 (IMPLEMENT-019B)
@@ -62,12 +62,12 @@ Each domain is evaluated across multiple dimensions:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| mechanically complete | 22 | 32.4% |
+| mechanically complete | 23 | 33.8% |
 | current-slice executable (full-source incomplete) | 12 | 17.6% |
-| incomplete | 34 | 50.0% |
+| incomplete | 33 | 48.5% |
 | **Total** | **68** | **100%** |
 
-### 2.3 Mechanically Complete Domains (22)
+### 2.3 Mechanically Complete Domains (23)
 
 These domains satisfy all formal mechanically-complete criteria for the full registered source:
 1. Race selection
@@ -76,75 +76,75 @@ These domains satisfy all formal mechanically-complete criteria for the full reg
 4. Attribute priority selection
 5. Attribute allocation
 6. Ability priority selection
-7. Rank initialization
-8. Rage initialization
-9. Gnosis initialization
-10. Willpower initialization
-11. Initial Tribe Gifts
-12. Character completion validation
-13. Health levels
-14. Wound penalties
-15. Incapacitation and death
-16. Regeneration
-17. Dice pools and difficulty
-18. Success determination
-19. Failure determination
-20. Botch determination
-21. Identity name
+7. Ability allocation
+8. Rank initialization
+9. Rage initialization
+10. Gnosis initialization
+11. Willpower initialization
+12. Initial Tribe Gifts
+13. Character completion validation
+14. Health levels
+15. Wound penalties
+16. Incapacitation and death
+17. Regeneration
+18. Dice pools and difficulty
+19. Success determination
+20. Failure determination
+21. Botch determination
+22. Identity name
 
 ### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (12)
 
 These domains are executable within the declared `werewolf3e.character-creation.current-slice` scope but are not mechanically complete for the full registered source due to partial catalogs, pending semantics, or structural-only presence:
 13. Metis deformity (1 of many deformities)
-14. Ability allocation (18 of 27+ abilities)
-15. Background allocation (5 of 10 backgrounds)
-16. Initial Race Gifts (partial catalog)
-17. Initial Auspice Gifts (partial catalog)
-18. Race Gift catalog (partial catalog)
-19. Auspice Gift catalog (partial catalog)
-20. Tribe Gift catalog (catalog complete, behavioral restrictions pending)
-21. Character draft persistence (structural only, not behavioral)
-22. Attribute + Ability test definition (operation declared, semantics pending)
-23. Renown initialization (structurally present, not initialized)
-24. Specialties (semantics source-pending)
+14. Background allocation (5 of 10 backgrounds)
+15. Initial Race Gifts (partial catalog)
+16. Initial Auspice Gifts (partial catalog)
+17. Race Gift catalog (partial catalog)
+18. Auspice Gift catalog (partial catalog)
+19. Tribe Gift catalog (catalog complete, behavioral restrictions pending)
+20. Character draft persistence (structural only, not behavioral)
+21. Attribute + Ability test definition (operation declared, semantics pending)
+22. Renown initialization (structurally present, not initialized)
+23. Specialties (semantics source-pending)
 
-### 2.5 Incomplete Domains (35)
+### 2.5 Incomplete Domains (33)
 
 These domains have no executable implementation for the full source:
-25. Freebie points
-26. Initiative
-27. Close combat maneuvers
-28. Ranged combat
-29. Soak and absorption
-31. Silver vulnerability
-32. Environmental damage
-33. Falling damage
-34. Fire and poison
-35. Asphyxiation
-36. Battle scars
-37. Extended tests
-38. Resisted tests
-39. Frenzy triggers
-40. Rage tests
-41. Mental conditions
-42. Delirium
-43. The Curse
-44. Form catalogs and statistics
-45. Transformation mechanics
-46. Gift execution runtime
-47. Additional Gift purchase
-48. Gift learning and advancement
-49. Rite definitions
-50. Rite knowledge requirements
-51. Rite execution
-52. Rite costs
-53. Umbra realms and materialization
-54. Spirit travel and Veil
-55. Totem mechanics
-56. Totem aggregation
-57. Fetishes and Talens
-58. Spirit catalogs and interaction
-59. Progression
+24. Freebie points
+25. Initiative
+26. Close combat maneuvers
+27. Ranged combat
+28. Soak and absorption
+29. Silver vulnerability
+30. Environmental damage
+31. Falling damage
+32. Fire and poison
+33. Asphyxiation
+34. Battle scars
+35. Extended tests
+36. Resisted tests
+37. Frenzy triggers
+38. Rage tests
+39. Mental conditions
+40. Delirium
+41. The Curse
+42. Form catalogs and statistics
+43. Transformation mechanics
+44. Gift execution runtime
+45. Additional Gift purchase
+46. Gift learning and advancement
+47. Rite definitions
+48. Rite knowledge requirements
+49. Rite execution
+50. Rite costs
+51. Umbra realms and materialization
+52. Spirit travel and Veil
+53. Totem mechanics
+54. Totem aggregation
+55. Fetishes and Talens
+56. Spirit catalogs and interaction
+57. Progression
 
 ### 2.6 Full 68-Domain Matrix
 
@@ -167,7 +167,7 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 | `character-creation.select-attribute-priorities` | Enabled | 7/5/3 |
 | `character-creation.allocate-attributes` | Enabled | 9 Attributes, base 1 |
 | `character-creation.select-ability-priorities` | Enabled | 13/9/5 |
-| `character-creation.allocate-abilities` | Enabled | 18 Abilities, base 0, cap 3, Lupus restrictions |
+| `character-creation.allocate-abilities` | Enabled | 30 Abilities, base 0, cap 3, Lupus restrictions |
 | `character-creation.allocate-backgrounds` | Enabled | 5 Backgrounds, 5 budget, Glass Walker restrictions |
 | `character-creation.initialize-resources-and-rank` | Enabled | Rage/Gnosis/Willpower, Cliath |
 | `character-creation.set-identity-name` | Enabled | Required for completion |
@@ -289,7 +289,7 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 | Fetishes/Talens | 0 | Not extracted |
 | Spirits | 0 | Not extracted |
 | Backgrounds | 5 of 10 | Only current-slice identities materialized |
-| Abilities | 18 of 27+ | Only current-slice identities materialized |
+| Abilities | 30 of 30 | Complete current-slice catalog |
 | Renown | 0 | Structurally present, not initialized |
 
 ### 7.2 Metadata Overclaims
@@ -355,12 +355,14 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 ### RULESET-COMPLETION-006: Resolve Ability catalog canonicalization
 
 - **Priority:** Medium
+- **Status:** Complete
 - **Mechanical domains covered:** Ability allocation, Dice operation inputs, Localization
 - **Prerequisites:** A-009
-- **Source/extraction work:** Map Portuguese source terminology to stable English canonical keys for all 27+ abilities
+- **Source/extraction work:** Map Portuguese source terminology to stable English canonical keys for all 30 abilities
 - **Ambiguities/decisions:** A-009 (Ability catalog canonicalization)
 - **Expected materialization:** Stable canonical Ability keys, updated localization, complete ability catalog
 - **Completion condition:** A-009 resolved; all Ability keys reviewed and stabilized; full catalog materialized
+- **Actual completion:** 2026-08-17. Implemented in `WerewolfAbilitySelection.cs`, localization files, tests.
 
 ### RULESET-COMPLETION-007: Resolve Lupus freebie spending timing
 
@@ -434,7 +436,7 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 
 ## 9. Backlog Coverage Proof
 
-All 57 mechanically incomplete domains map to at least one completion work package:
+All 45 mechanically incomplete domains map to at least one completion work package:
 
 | Work Package | Domains Covered |
 |--------------|-----------------|
@@ -451,9 +453,9 @@ All 57 mechanically incomplete domains map to at least one completion work packa
 | RULESET-COMPLETION-012 | Frenzy triggers, Rage tests, Mental conditions, Delirium, The Curse, Form catalogs and statistics, Transformation mechanics, Gift execution runtime, Additional Gift purchase, Gift learning and advancement, Rite definitions, Rite knowledge requirements, Rite execution, Rite costs, Umbra realms and materialization, Spirit travel and Veil, Totem mechanics, Totem aggregation, Fetishes and Talens, Spirit catalogs and interaction, Progression, Extended tests, Resisted tests, Character draft persistence, Initial Race Gifts, Initial Auspice Gifts, Initial Tribe Gifts, Race Gift catalog, Auspice Gift catalog, Tribe Gift catalog |
 | RULESET-COMPLETION-013 | (metadata accuracy) |
 
-**Backlog package count:** 8 (RULESET-COMPLETION-006 through RULESET-COMPLETION-013).
+**Backlog package count:** 7 (RULESET-COMPLETION-007 through RULESET-COMPLETION-013).
 
-RULESET-COMPLETION-002, 003, 004, and 005 are complete.
+RULESET-COMPLETION-002, 003, 004, 005, and 006 are complete.
 
 ## 10. Formal Completeness Criteria
 
@@ -589,16 +591,15 @@ None. All decision boundaries, discrepancy registers, and extraction artifacts a
 
 ## 17. Dependency Ordering
 
-The 8 remaining work packages are ordered by dependency:
+The 7 remaining work packages are ordered by dependency:
 
-1. **RULESET-COMPLETION-006** (Medium) - Depends on A-009
-2. **RULESET-COMPLETION-007** (Medium) - Depends on A-003
-3. **RULESET-COMPLETION-008** (Medium) - Depends on A-006, A-007
-4. **RULESET-COMPLETION-009** (Medium) - Depends on A-004, A-016
-5. **RULESET-COMPLETION-010** (Medium) - Depends on A-008
-6. **RULESET-COMPLETION-011** (Low) - Depends on A-017, A-018
-7. **RULESET-COMPLETION-012** (High) - Depends on EXTRACTION-0003
-8. **RULESET-COMPLETION-013** (Low) - No dependencies
+1. **RULESET-COMPLETION-007** (Medium) - Depends on A-003
+2. **RULESET-COMPLETION-008** (Medium) - Depends on A-006, A-007
+3. **RULESET-COMPLETION-009** (Medium) - Depends on A-004, A-016
+4. **RULESET-COMPLETION-010** (Medium) - Depends on A-008
+5. **RULESET-COMPLETION-011** (Low) - Depends on A-017, A-018
+6. **RULESET-COMPLETION-012** (High) - Depends on EXTRACTION-0003
+7. **RULESET-COMPLETION-013** (Low) - No dependencies
 
 **Independent work packages:** 012, 013 can proceed without waiting for others.
 **Blocked work packages:** 007, 008, 010, 011 blocked by their respective ambiguities.
@@ -609,6 +610,6 @@ Catalog expansion (002) does NOT need to precede core dice semantics (004). They
 
 Mechanical domain inventory/disposition coverage is **68/68**.
 
-Werewolf mechanical implementation completeness is **22/68 domains (32.4%)**, with 8 completion work packages remaining.
+Werewolf mechanical implementation completeness is **23/68 domains (33.8%)**, with 7 completion work packages remaining.
 
-RULESET-COMPLETION-005 health/damage mechanics are now implemented under accepted DR-0011 (Option B — Chronicle Rule Set interpretation / house rule). Health levels, Wound penalties, Incapacitation and death, Regeneration, and Damage categories are mechanically complete. Soak and absorption remain delegated to a future Combat package.
+RULESET-COMPLETION-005 health/damage mechanics and RULESET-COMPLETION-006 Ability catalog canonicalization are now complete. Health levels, Wound penalties, Incapacitation and death, Regeneration, Damage categories, and Ability allocation are mechanically complete. Soak and absorption remain delegated to a future Combat package.

@@ -389,7 +389,7 @@ public sealed class WerewolfCharacterCompletionTests
         var abilityAllocation = registry.Execute(Request(WerewolfReferenceRuntime.AllocateAbilitiesOperation, Inputs(abilityPriorities.Outputs,
             ("abilityPriorityOrder", abilityPriorities.Outputs["abilityPriorityOrder"]),
             ("abilityBudgets", abilityPriorities.Outputs["abilityBudgets"]),
-            ("abilities", "character.ability.alertness:2,character.ability.athletics:2,character.ability.brawl:2,character.ability.empathy:2,character.ability.expression:2,character.ability.intimidation:2,character.ability.subterfuge:1,character.ability.stealth:1,character.ability.survival:0,character.ability.computer:1,character.ability.drive:2,character.ability.etiquette:2,character.ability.law:1,character.ability.leadership:2,character.ability.occult:1,character.ability.performance:2,character.ability.politics:1,character.ability.investigation:1"))));
+            ("abilities", "character.ability.alertness:2,character.ability.athletics:2,character.ability.brawl:2,character.ability.dodge:0,character.ability.empathy:2,character.ability.expression:2,character.ability.intimidation:2,character.ability.primal-instinct:0,character.ability.streetwise:0,character.ability.subterfuge:1,character.ability.animal-empathy:0,character.ability.crafts:0,character.ability.drive:2,character.ability.etiquette:2,character.ability.firearms:0,character.ability.leadership:2,character.ability.melee:0,character.ability.performance:2,character.ability.stealth:1,character.ability.survival:0,character.ability.computer:1,character.ability.enigmas:0,character.ability.investigation:1,character.ability.law:1,character.ability.linguistics:0,character.ability.medicine:0,character.ability.occult:1,character.ability.politics:1,character.ability.rituals:0,character.ability.science:0"))));
         Assert.True(abilityAllocation.Succeeded, "AllocateAbilities failed: " + string.Join("; ", abilityAllocation.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var backgrounds = registry.Execute(Request(WerewolfReferenceRuntime.AllocateBackgroundsOperation, Inputs(abilityAllocation.Outputs,
@@ -444,7 +444,7 @@ public sealed class WerewolfCharacterCompletionTests
         var abilityAllocation = registry.Execute(Request(WerewolfReferenceRuntime.AllocateAbilitiesOperation, Inputs(abilityPriorities.Outputs,
             ("abilityPriorityOrder", abilityPriorities.Outputs["abilityPriorityOrder"]),
             ("abilityBudgets", abilityPriorities.Outputs["abilityBudgets"]),
-            ("abilities", "character.ability.alertness:2,character.ability.athletics:2,character.ability.brawl:2,character.ability.empathy:2,character.ability.expression:2,character.ability.intimidation:2,character.ability.subterfuge:1,character.ability.stealth:1,character.ability.survival:0,character.ability.computer:1,character.ability.drive:2,character.ability.etiquette:2,character.ability.law:1,character.ability.leadership:2,character.ability.occult:1,character.ability.performance:2,character.ability.politics:1,character.ability.investigation:1"))));
+            ("abilities", "character.ability.alertness:2,character.ability.athletics:2,character.ability.brawl:2,character.ability.dodge:0,character.ability.empathy:2,character.ability.expression:2,character.ability.intimidation:2,character.ability.primal-instinct:0,character.ability.streetwise:0,character.ability.subterfuge:1,character.ability.animal-empathy:0,character.ability.crafts:0,character.ability.drive:2,character.ability.etiquette:2,character.ability.firearms:0,character.ability.leadership:2,character.ability.melee:0,character.ability.performance:2,character.ability.stealth:1,character.ability.survival:0,character.ability.computer:1,character.ability.enigmas:0,character.ability.investigation:1,character.ability.law:1,character.ability.linguistics:0,character.ability.medicine:0,character.ability.occult:1,character.ability.politics:1,character.ability.rituals:0,character.ability.science:0"))));
         Assert.True(abilityAllocation.Succeeded, "AllocateAbilities failed: " + string.Join("; ", abilityAllocation.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var backgrounds = registry.Execute(Request(WerewolfReferenceRuntime.AllocateBackgroundsOperation, Inputs(abilityAllocation.Outputs,
@@ -586,21 +586,33 @@ public sealed class WerewolfCharacterCompletionTests
                 [WerewolfAbilityIdentifiers.Alertness] = 2,
                 [WerewolfAbilityIdentifiers.Athletics] = 2,
                 [WerewolfAbilityIdentifiers.Brawl] = 1,
+                [WerewolfAbilityIdentifiers.Dodge] = 0,
                 [WerewolfAbilityIdentifiers.Empathy] = 1,
-                [WerewolfAbilityIdentifiers.Intimidation] = 1,
                 [WerewolfAbilityIdentifiers.Expression] = 1,
+                [WerewolfAbilityIdentifiers.Intimidation] = 1,
+                [WerewolfAbilityIdentifiers.PrimalInstinct] = 0,
+                [WerewolfAbilityIdentifiers.Streetwise] = 0,
                 [WerewolfAbilityIdentifiers.Subterfuge] = 1,
+                [WerewolfAbilityIdentifiers.AnimalEmpathy] = 0,
+                [WerewolfAbilityIdentifiers.Crafts] = 0,
+                [WerewolfAbilityIdentifiers.Drive] = 1,
+                [WerewolfAbilityIdentifiers.Etiquette] = 1,
+                [WerewolfAbilityIdentifiers.Firearms] = 0,
+                [WerewolfAbilityIdentifiers.Leadership] = 1,
+                [WerewolfAbilityIdentifiers.Melee] = 0,
+                [WerewolfAbilityIdentifiers.Performance] = 1,
                 [WerewolfAbilityIdentifiers.Stealth] = 1,
                 [WerewolfAbilityIdentifiers.Survival] = 1,
                 [WerewolfAbilityIdentifiers.Computer] = 1,
-                [WerewolfAbilityIdentifiers.Drive] = 1,
-                [WerewolfAbilityIdentifiers.Etiquette] = 1,
+                [WerewolfAbilityIdentifiers.Enigmas] = 0,
+                [WerewolfAbilityIdentifiers.Investigation] = 1,
                 [WerewolfAbilityIdentifiers.Law] = 1,
-                [WerewolfAbilityIdentifiers.Leadership] = 1,
+                [WerewolfAbilityIdentifiers.Linguistics] = 0,
+                [WerewolfAbilityIdentifiers.Medicine] = 0,
                 [WerewolfAbilityIdentifiers.Occult] = 1,
-                [WerewolfAbilityIdentifiers.Performance] = 1,
                 [WerewolfAbilityIdentifiers.Politics] = 1,
-                [WerewolfAbilityIdentifiers.Investigation] = 1
+                [WerewolfAbilityIdentifiers.Rituals] = 0,
+                [WerewolfAbilityIdentifiers.Science] = 0
             },
             Backgrounds = new Dictionary<string, int?>(StringComparer.Ordinal)
             {

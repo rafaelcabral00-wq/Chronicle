@@ -100,42 +100,66 @@ public static class WerewolfAbilityIdentifiers
     public const string Alertness = "character.ability.alertness";
     public const string Athletics = "character.ability.athletics";
     public const string Brawl = "character.ability.brawl";
+    public const string Dodge = "character.ability.dodge";
     public const string Empathy = "character.ability.empathy";
     public const string Expression = "character.ability.expression";
     public const string Intimidation = "character.ability.intimidation";
+    public const string PrimalInstinct = "character.ability.primal-instinct";
+    public const string Streetwise = "character.ability.streetwise";
     public const string Subterfuge = "character.ability.subterfuge";
+    public const string AnimalEmpathy = "character.ability.animal-empathy";
+    public const string Crafts = "character.ability.crafts";
     public const string Drive = "character.ability.drive";
     public const string Etiquette = "character.ability.etiquette";
+    public const string Firearms = "character.ability.firearms";
     public const string Leadership = "character.ability.leadership";
+    public const string Melee = "character.ability.melee";
     public const string Performance = "character.ability.performance";
     public const string Stealth = "character.ability.stealth";
     public const string Survival = "character.ability.survival";
     public const string Computer = "character.ability.computer";
+    public const string Enigmas = "character.ability.enigmas";
     public const string Investigation = "character.ability.investigation";
     public const string Law = "character.ability.law";
+    public const string Linguistics = "character.ability.linguistics";
+    public const string Medicine = "character.ability.medicine";
     public const string Occult = "character.ability.occult";
     public const string Politics = "character.ability.politics";
+    public const string Rituals = "character.ability.rituals";
+    public const string Science = "character.ability.science";
 
     public static IReadOnlyList<string> Supported { get; } =
     [
         Alertness,
         Athletics,
         Brawl,
-        Computer,
-        Drive,
+        Dodge,
         Empathy,
-        Etiquette,
         Expression,
         Intimidation,
+        PrimalInstinct,
+        Streetwise,
+        Subterfuge,
+        AnimalEmpathy,
+        Crafts,
+        Drive,
+        Etiquette,
+        Firearms,
+        Leadership,
+        Melee,
+        Performance,
+        Stealth,
+        Survival,
+        Computer,
+        Enigmas,
         Investigation,
         Law,
-        Leadership,
+        Linguistics,
+        Medicine,
         Occult,
-        Performance,
         Politics,
-        Stealth,
-        Subterfuge,
-        Survival
+        Rituals,
+        Science
     ];
 }
 
@@ -153,30 +177,46 @@ public static class WerewolfAbilitySelectionService
             [WerewolfAbilityIdentifiers.Alertness] = WerewolfAbilityCategoryIdentifiers.Talents,
             [WerewolfAbilityIdentifiers.Athletics] = WerewolfAbilityCategoryIdentifiers.Talents,
             [WerewolfAbilityIdentifiers.Brawl] = WerewolfAbilityCategoryIdentifiers.Talents,
+            [WerewolfAbilityIdentifiers.Dodge] = WerewolfAbilityCategoryIdentifiers.Talents,
             [WerewolfAbilityIdentifiers.Empathy] = WerewolfAbilityCategoryIdentifiers.Talents,
             [WerewolfAbilityIdentifiers.Expression] = WerewolfAbilityCategoryIdentifiers.Talents,
             [WerewolfAbilityIdentifiers.Intimidation] = WerewolfAbilityCategoryIdentifiers.Talents,
+            [WerewolfAbilityIdentifiers.PrimalInstinct] = WerewolfAbilityCategoryIdentifiers.Talents,
+            [WerewolfAbilityIdentifiers.Streetwise] = WerewolfAbilityCategoryIdentifiers.Talents,
             [WerewolfAbilityIdentifiers.Subterfuge] = WerewolfAbilityCategoryIdentifiers.Talents,
+            [WerewolfAbilityIdentifiers.AnimalEmpathy] = WerewolfAbilityCategoryIdentifiers.Skills,
+            [WerewolfAbilityIdentifiers.Crafts] = WerewolfAbilityCategoryIdentifiers.Skills,
             [WerewolfAbilityIdentifiers.Drive] = WerewolfAbilityCategoryIdentifiers.Skills,
             [WerewolfAbilityIdentifiers.Etiquette] = WerewolfAbilityCategoryIdentifiers.Skills,
+            [WerewolfAbilityIdentifiers.Firearms] = WerewolfAbilityCategoryIdentifiers.Skills,
             [WerewolfAbilityIdentifiers.Leadership] = WerewolfAbilityCategoryIdentifiers.Skills,
+            [WerewolfAbilityIdentifiers.Melee] = WerewolfAbilityCategoryIdentifiers.Skills,
             [WerewolfAbilityIdentifiers.Performance] = WerewolfAbilityCategoryIdentifiers.Skills,
             [WerewolfAbilityIdentifiers.Stealth] = WerewolfAbilityCategoryIdentifiers.Skills,
             [WerewolfAbilityIdentifiers.Survival] = WerewolfAbilityCategoryIdentifiers.Skills,
             [WerewolfAbilityIdentifiers.Computer] = WerewolfAbilityCategoryIdentifiers.Knowledges,
+            [WerewolfAbilityIdentifiers.Enigmas] = WerewolfAbilityCategoryIdentifiers.Knowledges,
             [WerewolfAbilityIdentifiers.Investigation] = WerewolfAbilityCategoryIdentifiers.Knowledges,
             [WerewolfAbilityIdentifiers.Law] = WerewolfAbilityCategoryIdentifiers.Knowledges,
+            [WerewolfAbilityIdentifiers.Linguistics] = WerewolfAbilityCategoryIdentifiers.Knowledges,
+            [WerewolfAbilityIdentifiers.Medicine] = WerewolfAbilityCategoryIdentifiers.Knowledges,
             [WerewolfAbilityIdentifiers.Occult] = WerewolfAbilityCategoryIdentifiers.Knowledges,
-            [WerewolfAbilityIdentifiers.Politics] = WerewolfAbilityCategoryIdentifiers.Knowledges
+            [WerewolfAbilityIdentifiers.Politics] = WerewolfAbilityCategoryIdentifiers.Knowledges,
+            [WerewolfAbilityIdentifiers.Rituals] = WerewolfAbilityCategoryIdentifiers.Knowledges,
+            [WerewolfAbilityIdentifiers.Science] = WerewolfAbilityCategoryIdentifiers.Knowledges
         });
 
     private static readonly string[] LupusBaseRestrictedAbilities =
     [
         WerewolfAbilityIdentifiers.Computer,
+        WerewolfAbilityIdentifiers.Crafts,
         WerewolfAbilityIdentifiers.Drive,
         WerewolfAbilityIdentifiers.Etiquette,
+        WerewolfAbilityIdentifiers.Firearms,
         WerewolfAbilityIdentifiers.Law,
-        WerewolfAbilityIdentifiers.Politics
+        WerewolfAbilityIdentifiers.Linguistics,
+        WerewolfAbilityIdentifiers.Politics,
+        WerewolfAbilityIdentifiers.Science
     ];
 
     public static WerewolfAbilityPrioritySelectionResult SelectPriorities(WerewolfAbilityPrioritySelectionRequest request)

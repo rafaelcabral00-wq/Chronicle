@@ -12,21 +12,33 @@ public sealed class WerewolfAbilitySelectionTests
         WerewolfAbilityIdentifiers.Alertness,
         WerewolfAbilityIdentifiers.Athletics,
         WerewolfAbilityIdentifiers.Brawl,
-        WerewolfAbilityIdentifiers.Computer,
-        WerewolfAbilityIdentifiers.Drive,
+        WerewolfAbilityIdentifiers.Dodge,
         WerewolfAbilityIdentifiers.Empathy,
-        WerewolfAbilityIdentifiers.Etiquette,
         WerewolfAbilityIdentifiers.Expression,
         WerewolfAbilityIdentifiers.Intimidation,
+        WerewolfAbilityIdentifiers.PrimalInstinct,
+        WerewolfAbilityIdentifiers.Streetwise,
+        WerewolfAbilityIdentifiers.Subterfuge,
+        WerewolfAbilityIdentifiers.AnimalEmpathy,
+        WerewolfAbilityIdentifiers.Crafts,
+        WerewolfAbilityIdentifiers.Drive,
+        WerewolfAbilityIdentifiers.Etiquette,
+        WerewolfAbilityIdentifiers.Firearms,
+        WerewolfAbilityIdentifiers.Leadership,
+        WerewolfAbilityIdentifiers.Melee,
+        WerewolfAbilityIdentifiers.Performance,
+        WerewolfAbilityIdentifiers.Stealth,
+        WerewolfAbilityIdentifiers.Survival,
+        WerewolfAbilityIdentifiers.Computer,
+        WerewolfAbilityIdentifiers.Enigmas,
         WerewolfAbilityIdentifiers.Investigation,
         WerewolfAbilityIdentifiers.Law,
-        WerewolfAbilityIdentifiers.Leadership,
+        WerewolfAbilityIdentifiers.Linguistics,
+        WerewolfAbilityIdentifiers.Medicine,
         WerewolfAbilityIdentifiers.Occult,
-        WerewolfAbilityIdentifiers.Performance,
         WerewolfAbilityIdentifiers.Politics,
-        WerewolfAbilityIdentifiers.Stealth,
-        WerewolfAbilityIdentifiers.Subterfuge,
-        WerewolfAbilityIdentifiers.Survival
+        WerewolfAbilityIdentifiers.Rituals,
+        WerewolfAbilityIdentifiers.Science
     };
 
     public static TheoryData<string, string, string> ValidPriorityOrders => new()
@@ -155,6 +167,10 @@ public sealed class WerewolfAbilitySelectionTests
         AssertCode(draft, allocations.Select(allocation => allocation.AbilityId == WerewolfAbilityIdentifiers.Computer ? allocation with { Rating = 1 } : allocation).ToArray(), WerewolfAbilityAllocationErrorCode.RestrictedAbility);
         AssertCode(draft, allocations.Select(allocation => allocation.AbilityId == WerewolfAbilityIdentifiers.Law ? allocation with { Rating = 1 } : allocation).ToArray(), WerewolfAbilityAllocationErrorCode.RestrictedAbility);
         AssertCode(draft, allocations.Select(allocation => allocation.AbilityId == WerewolfAbilityIdentifiers.Politics ? allocation with { Rating = 1 } : allocation).ToArray(), WerewolfAbilityAllocationErrorCode.RestrictedAbility);
+        AssertCode(draft, allocations.Select(allocation => allocation.AbilityId == WerewolfAbilityIdentifiers.Crafts ? allocation with { Rating = 1 } : allocation).ToArray(), WerewolfAbilityAllocationErrorCode.RestrictedAbility);
+        AssertCode(draft, allocations.Select(allocation => allocation.AbilityId == WerewolfAbilityIdentifiers.Firearms ? allocation with { Rating = 1 } : allocation).ToArray(), WerewolfAbilityAllocationErrorCode.RestrictedAbility);
+        AssertCode(draft, allocations.Select(allocation => allocation.AbilityId == WerewolfAbilityIdentifiers.Linguistics ? allocation with { Rating = 1 } : allocation).ToArray(), WerewolfAbilityAllocationErrorCode.RestrictedAbility);
+        AssertCode(draft, allocations.Select(allocation => allocation.AbilityId == WerewolfAbilityIdentifiers.Science ? allocation with { Rating = 1 } : allocation).ToArray(), WerewolfAbilityAllocationErrorCode.RestrictedAbility);
     }
 
     [Fact]
@@ -174,6 +190,10 @@ public sealed class WerewolfAbilitySelectionTests
         Assert.Equal(0, result.Draft?.Abilities[WerewolfAbilityIdentifiers.Computer]);
         Assert.Equal(0, result.Draft?.Abilities[WerewolfAbilityIdentifiers.Law]);
         Assert.Equal(0, result.Draft?.Abilities[WerewolfAbilityIdentifiers.Politics]);
+        Assert.Equal(0, result.Draft?.Abilities[WerewolfAbilityIdentifiers.Crafts]);
+        Assert.Equal(0, result.Draft?.Abilities[WerewolfAbilityIdentifiers.Firearms]);
+        Assert.Equal(0, result.Draft?.Abilities[WerewolfAbilityIdentifiers.Linguistics]);
+        Assert.Equal(0, result.Draft?.Abilities[WerewolfAbilityIdentifiers.Science]);
     }
 
     [Fact]
@@ -191,7 +211,7 @@ public sealed class WerewolfAbilitySelectionTests
 
         AssertCode(draft, valid.Where(item => item.AbilityId != WerewolfAbilityIdentifiers.Occult).ToArray(), WerewolfAbilityAllocationErrorCode.MissingAbility);
         AssertCode(draft, valid.Concat([new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Occult, 0)]).ToArray(), WerewolfAbilityAllocationErrorCode.DuplicateAbility);
-        AssertCode(draft, valid.Select(item => item.AbilityId == WerewolfAbilityIdentifiers.Occult ? item with { AbilityId = "character.ability.enigmas" } : item).ToArray(), WerewolfAbilityAllocationErrorCode.UnknownAbility);
+        AssertCode(draft, valid.Select(item => item.AbilityId == WerewolfAbilityIdentifiers.Occult ? item with { AbilityId = "character.ability.nonexistent" } : item).ToArray(), WerewolfAbilityAllocationErrorCode.UnknownAbility);
         AssertCode(draft, valid.Select(item => item.AbilityId == WerewolfAbilityIdentifiers.Occult ? item with { AbilityId = " character.ability.occult" } : item).ToArray(), WerewolfAbilityAllocationErrorCode.MalformedAbility);
         AssertCode(draft, valid.Select(item => item.AbilityId == WerewolfAbilityIdentifiers.Occult ? item with { Rating = -1 } : item).ToArray(), WerewolfAbilityAllocationErrorCode.ValueBelowMinimum);
         AssertCode(draft, valid.Select(item => item.AbilityId == WerewolfAbilityIdentifiers.Alertness ? item with { Rating = 4 } : item).ToArray(), WerewolfAbilityAllocationErrorCode.ValueAboveMaximum);
@@ -435,21 +455,33 @@ public sealed class WerewolfAbilitySelectionTests
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Alertness, 3),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Athletics, 2),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Brawl, 2),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Dodge, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Empathy, 2),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Expression, 2),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Intimidation, 1),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.PrimalInstinct, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Streetwise, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Subterfuge, 1),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.AnimalEmpathy, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Crafts, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Drive, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Etiquette, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Firearms, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Leadership, 3),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Melee, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Performance, 3),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Stealth, 3),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Survival, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Computer, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Enigmas, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Investigation, 3),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Law, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Linguistics, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Medicine, 0),
             new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Occult, 2),
-            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Politics, 0)
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Politics, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Rituals, 0),
+            new WerewolfAbilityDotAllocation(WerewolfAbilityIdentifiers.Science, 0)
         ];
     }
 
@@ -457,15 +489,15 @@ public sealed class WerewolfAbilitySelectionTests
     {
         return (category, budget) switch
         {
-            (WerewolfAbilityCategoryIdentifiers.Talents, 13) => [3, 2, 2, 2, 2, 1, 1],
-            (WerewolfAbilityCategoryIdentifiers.Talents, 9) => [2, 2, 1, 1, 1, 1, 1],
-            (WerewolfAbilityCategoryIdentifiers.Talents, 5) => [1, 1, 1, 1, 1, 0, 0],
-            (WerewolfAbilityCategoryIdentifiers.Skills, 13) => [3, 3, 2, 2, 2, 1],
-            (WerewolfAbilityCategoryIdentifiers.Skills, 9) => [2, 2, 2, 1, 1, 1],
-            (WerewolfAbilityCategoryIdentifiers.Skills, 5) => [1, 1, 1, 1, 1, 0],
-            (WerewolfAbilityCategoryIdentifiers.Knowledges, 13) => [3, 3, 3, 2, 2],
-            (WerewolfAbilityCategoryIdentifiers.Knowledges, 9) => [2, 2, 2, 2, 1],
-            (WerewolfAbilityCategoryIdentifiers.Knowledges, 5) => [1, 1, 1, 1, 1],
+            (WerewolfAbilityCategoryIdentifiers.Talents, 13) => [3, 2, 2, 0, 2, 2, 1, 0, 0, 1],
+            (WerewolfAbilityCategoryIdentifiers.Talents, 9) => [2, 2, 1, 0, 1, 1, 1, 0, 0, 1],
+            (WerewolfAbilityCategoryIdentifiers.Talents, 5) => [1, 1, 1, 0, 1, 1, 0, 0, 0, 0],
+            (WerewolfAbilityCategoryIdentifiers.Skills, 13) => [0, 0, 3, 3, 0, 2, 0, 2, 2, 1],
+            (WerewolfAbilityCategoryIdentifiers.Skills, 9) => [0, 0, 2, 2, 0, 2, 0, 1, 1, 1],
+            (WerewolfAbilityCategoryIdentifiers.Skills, 5) => [0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+            (WerewolfAbilityCategoryIdentifiers.Knowledges, 13) => [3, 0, 3, 3, 0, 0, 2, 2, 0, 0],
+            (WerewolfAbilityCategoryIdentifiers.Knowledges, 9) => [2, 0, 2, 2, 0, 0, 2, 1, 0, 0],
+            (WerewolfAbilityCategoryIdentifiers.Knowledges, 5) => [1, 0, 1, 1, 0, 0, 1, 1, 0, 0],
             _ => []
         };
     }
@@ -488,16 +520,23 @@ public sealed class WerewolfAbilitySelectionTests
                 WerewolfAbilityIdentifiers.Alertness,
                 WerewolfAbilityIdentifiers.Athletics,
                 WerewolfAbilityIdentifiers.Brawl,
+                WerewolfAbilityIdentifiers.Dodge,
                 WerewolfAbilityIdentifiers.Empathy,
                 WerewolfAbilityIdentifiers.Expression,
                 WerewolfAbilityIdentifiers.Intimidation,
+                WerewolfAbilityIdentifiers.PrimalInstinct,
+                WerewolfAbilityIdentifiers.Streetwise,
                 WerewolfAbilityIdentifiers.Subterfuge
             ],
             WerewolfAbilityCategoryIdentifiers.Skills =>
             [
+                WerewolfAbilityIdentifiers.AnimalEmpathy,
+                WerewolfAbilityIdentifiers.Crafts,
                 WerewolfAbilityIdentifiers.Drive,
                 WerewolfAbilityIdentifiers.Etiquette,
+                WerewolfAbilityIdentifiers.Firearms,
                 WerewolfAbilityIdentifiers.Leadership,
+                WerewolfAbilityIdentifiers.Melee,
                 WerewolfAbilityIdentifiers.Performance,
                 WerewolfAbilityIdentifiers.Stealth,
                 WerewolfAbilityIdentifiers.Survival
@@ -505,10 +544,15 @@ public sealed class WerewolfAbilitySelectionTests
             WerewolfAbilityCategoryIdentifiers.Knowledges =>
             [
                 WerewolfAbilityIdentifiers.Computer,
+                WerewolfAbilityIdentifiers.Enigmas,
                 WerewolfAbilityIdentifiers.Investigation,
                 WerewolfAbilityIdentifiers.Law,
+                WerewolfAbilityIdentifiers.Linguistics,
+                WerewolfAbilityIdentifiers.Medicine,
                 WerewolfAbilityIdentifiers.Occult,
-                WerewolfAbilityIdentifiers.Politics
+                WerewolfAbilityIdentifiers.Politics,
+                WerewolfAbilityIdentifiers.Rituals,
+                WerewolfAbilityIdentifiers.Science
             ],
             _ => []
         };

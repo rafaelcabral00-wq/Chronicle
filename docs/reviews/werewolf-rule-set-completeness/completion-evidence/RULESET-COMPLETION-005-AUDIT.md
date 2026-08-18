@@ -1,7 +1,7 @@
 # RULESET-COMPLETION-005 Pre-Commit Authority and Completeness Audit
 
-**Date:** 2026-08-14  
-**Auditor:** Kilo (automated pre-commit audit)  
+**Date:** 2026-08-14
+**Auditor:** Kilo (automated pre-commit audit)
 **Scope:** DR-0011 authority, completeness accounting, soak status, randomness boundaries, test counts, backlog counts, whitespace hygiene, validation
 
 ---
@@ -254,7 +254,7 @@ if effectiveTotal > 6:
 1. **Lethal vs Dead distinction**: The condition `lethalCount >= 7 || (effectiveTotal > 6 && lethalCount > 0)` maps ANY lethal damage beyond 6 total to `NearDeath`. Per source: "revert to racial form and die if loses another level." This implies:
    - 7 total with lethal: NearDeath (revert to racial form)
    - 8+ total with lethal: Dead (die)
-   
+
    The current code does not distinguish these two states. Both map to `NearDeath`.
 
 2. **Permanecer Ativo availability**: Correctly restricted to `NearDeath` and `Dead` states.
@@ -349,7 +349,7 @@ The report's claim of "9 work packages remain" was incorrect.
 **Status: CLEANED.**
 
 Trailing whitespace was found on 3 lines in `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-004.md`:
-- Line 4: `**Status:** Complete. A-002 partially resolved...` 
+- Line 4: `**Status:** Complete. A-002 partially resolved...`
 - Line 5: `**Package:** \`Chronicle.RuleSets.Werewolf\``
 - Line 6: `**Canonical Source:** \`.rule-set-sources/...\``
 - Line 7: `**Decision Authority:** DR-0008...`
