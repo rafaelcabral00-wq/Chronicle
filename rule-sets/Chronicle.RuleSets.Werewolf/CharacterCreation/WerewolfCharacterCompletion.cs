@@ -83,7 +83,10 @@ public enum WerewolfCharacterCompletionErrorCode
     RankNotInitialized,
     MandatoryNextStepsPending,
     FreebieBudgetOverspent,
-    FreebieBudgetLedgerMismatch
+    FreebieBudgetLedgerMismatch,
+    TribeRaceBreedIneligible,
+    TribeBackgroundMinimumNotMet,
+    TribeDependencyUnavailable
 }
 
 public static class WerewolfCharacterCompletionOperation
@@ -150,6 +153,27 @@ public static class WerewolfCharacterCompletionOperation
         if (string.IsNullOrWhiteSpace(request.Draft.Tribe))
         {
             findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, WerewolfCharacterCompletionErrorCode.TribeMissing, "Tribe is required."));
+        }
+        else
+        {
+            var eligibility = WerewolfTribeEligibilityService.CheckEligibility(new WerewolfTribeEligibilityRequest(request.Draft.Tribe, request.Draft.Race, request.Draft.Backgrounds));
+            if (!eligibility.IsEligible)
+            {
+                foreach (var finding in eligibility.Findings)
+                {
+                    if (finding.Severity == WerewolfTribeEligibilitySeverity.Error)
+                    {
+                        var code = finding.Code switch
+                        {
+                            WerewolfTribeEligibilityErrorCode.RaceBreedIneligible => WerewolfCharacterCompletionErrorCode.TribeRaceBreedIneligible,
+                            WerewolfTribeEligibilityErrorCode.BackgroundMinimumNotMet => WerewolfCharacterCompletionErrorCode.TribeBackgroundMinimumNotMet,
+                            WerewolfTribeEligibilityErrorCode.DependencyUnavailable => WerewolfCharacterCompletionErrorCode.TribeDependencyUnavailable,
+                            _ => WerewolfCharacterCompletionErrorCode.TribeDependencyUnavailable
+                        };
+                        findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, code, finding.Message));
+                    }
+                }
+            }
         }
 
         if (StringComparer.Ordinal.Equals(request.Draft.Race, WerewolfRaceIdentifiers.Metis) &&

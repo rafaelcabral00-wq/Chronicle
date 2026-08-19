@@ -32,7 +32,10 @@ public enum WerewolfTribeSelectionErrorCode
     MissingTribe,
     MalformedTribe,
     UnknownTribe,
-    TribeOutOfScope
+    TribeOutOfScope,
+    RaceBreedIneligible,
+    BackgroundMinimumNotMet,
+    DependencyUnavailable
 }
 
 public static class WerewolfTribeIdentifiers
@@ -106,6 +109,20 @@ public static class WerewolfTribeSelectionService
         if (!WerewolfTribeIdentifiers.Supported.Contains(tribe, StringComparer.Ordinal))
         {
             return Invalid(WerewolfTribeSelectionErrorCode.UnknownTribe, "Tribe identifier is not declared by the current slice.");
+        }
+
+        var eligibility = WerewolfTribeEligibilityService.CheckEligibility(new WerewolfTribeEligibilityRequest(tribe, request.Draft.Race, request.Draft.Backgrounds));
+        if (!eligibility.IsEligible)
+        {
+            var finding = eligibility.Findings.First(finding => finding.Severity == WerewolfTribeEligibilitySeverity.Error);
+            var code = finding.Code switch
+            {
+                WerewolfTribeEligibilityErrorCode.RaceBreedIneligible => WerewolfTribeSelectionErrorCode.RaceBreedIneligible,
+                WerewolfTribeEligibilityErrorCode.BackgroundMinimumNotMet => WerewolfTribeSelectionErrorCode.BackgroundMinimumNotMet,
+                WerewolfTribeEligibilityErrorCode.DependencyUnavailable => WerewolfTribeSelectionErrorCode.DependencyUnavailable,
+                _ => WerewolfTribeSelectionErrorCode.TribeOutOfScope
+            };
+            return new WerewolfTribeSelectionResult(false, null, [new WerewolfTribeSelectionFinding(WerewolfTribeSelectionFindingSeverity.Error, code, finding.Message)]);
         }
 
         var tribeChanged = !StringComparer.Ordinal.Equals(request.Draft.Tribe, tribe);

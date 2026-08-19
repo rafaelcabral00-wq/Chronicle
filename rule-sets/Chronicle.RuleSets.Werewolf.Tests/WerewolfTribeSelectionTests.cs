@@ -12,17 +12,14 @@ public sealed class WerewolfTribeSelectionTests
     [InlineData(WerewolfTribeIdentifiers.GetOfFenris)]
     [InlineData(WerewolfTribeIdentifiers.Fianna)]
     [InlineData(WerewolfTribeIdentifiers.ChildrenOfGaia)]
-    [InlineData(WerewolfTribeIdentifiers.BlackFuries)]
-    [InlineData(WerewolfTribeIdentifiers.RedTalons)]
     [InlineData(WerewolfTribeIdentifiers.SilentStriders)]
-    [InlineData(WerewolfTribeIdentifiers.SilverFangs)]
     [InlineData(WerewolfTribeIdentifiers.BoneGnawers)]
     [InlineData(WerewolfTribeIdentifiers.ShadowLords)]
     [InlineData(WerewolfTribeIdentifiers.Uktena)]
     [InlineData(WerewolfTribeIdentifiers.Wendigo)]
     public void SelectsEveryCurrentSliceTribe(string tribeId)
     {
-        var result = Select(Draft(), tribeId);
+        var result = Select(Draft() with { Race = WerewolfRaceIdentifiers.Homid }, tribeId);
 
         Assert.True(result.Succeeded);
         Assert.Equal(tribeId, result.Draft?.Tribe);
@@ -141,10 +138,7 @@ public sealed class WerewolfTribeSelectionTests
     [InlineData(WerewolfTribeIdentifiers.GetOfFenris, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
     [InlineData(WerewolfTribeIdentifiers.Fianna, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
     [InlineData(WerewolfTribeIdentifiers.ChildrenOfGaia, WerewolfCharacterResourceIdentifiers.Willpower, 4)]
-    [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
-    [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
     [InlineData(WerewolfTribeIdentifiers.SilentStriders, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
-    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
     [InlineData(WerewolfTribeIdentifiers.BoneGnawers, WerewolfCharacterResourceIdentifiers.Willpower, 4)]
     [InlineData(WerewolfTribeIdentifiers.ShadowLords, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
     [InlineData(WerewolfTribeIdentifiers.Uktena, WerewolfCharacterResourceIdentifiers.Willpower, 3)]
@@ -197,10 +191,7 @@ public sealed class WerewolfTribeSelectionTests
     [InlineData(WerewolfTribeIdentifiers.GetOfFenris, WerewolfInitialGiftIdentifiers.GetOfFenrisRazorClaws)]
     [InlineData(WerewolfTribeIdentifiers.Fianna, WerewolfInitialGiftIdentifiers.FiannaFaerieLight)]
     [InlineData(WerewolfTribeIdentifiers.ChildrenOfGaia, WerewolfInitialGiftIdentifiers.ChildrenOfGaiaMercy)]
-    [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfInitialGiftIdentifiers.BlackFuriesBreathOfTheWyrm)]
-    [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfInitialGiftIdentifiers.RedTalonsBeastSpeech)]
     [InlineData(WerewolfTribeIdentifiers.SilentStriders, WerewolfInitialGiftIdentifiers.SilentStridersSilence)]
-    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfInitialGiftIdentifiers.SilverFangsLambentFlame)]
     [InlineData(WerewolfTribeIdentifiers.BoneGnawers, WerewolfInitialGiftIdentifiers.BoneGnawersCooking)]
     [InlineData(WerewolfTribeIdentifiers.ShadowLords, WerewolfInitialGiftIdentifiers.ShadowLordsSeizingTheEdge)]
     [InlineData(WerewolfTribeIdentifiers.Uktena, WerewolfInitialGiftIdentifiers.UktenaSpiritSpeech)]
@@ -270,6 +261,57 @@ public sealed class WerewolfTribeSelectionTests
         Assert.Equal(WerewolfRaceIdentifiers.Metis, tribe.Outputs["raceId"]);
         Assert.Equal("4", tribe.Outputs["draftVersion"]);
         Assert.Contains("select-metis-deformity", tribe.Outputs["nextSteps"], StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfRaceIdentifiers.Homid)]
+    [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfRaceIdentifiers.Metis)]
+    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Homid)]
+    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Lupus)]
+    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Metis)]
+    [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfRaceIdentifiers.Homid)]
+    [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfRaceIdentifiers.Lupus)]
+    [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfRaceIdentifiers.Metis)]
+    public void RejectsTribeSelectionForIneligibleRaceOrDependency(string tribeId, string raceId)
+    {
+        var draft = Draft() with { Race = raceId };
+
+        var result = Select(draft, tribeId);
+
+        Assert.False(result.Succeeded);
+        Assert.Null(result.Draft);
+        Assert.Contains(result.Findings, finding => finding.Severity == WerewolfTribeSelectionFindingSeverity.Error);
+    }
+
+    [Fact]
+    public void RedTalonsLupusSelectionSucceeds()
+    {
+        var draft = Draft() with { Race = WerewolfRaceIdentifiers.Lupus };
+
+        var result = Select(draft, WerewolfTribeIdentifiers.RedTalons);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(WerewolfTribeIdentifiers.RedTalons, result.Draft?.Tribe);
+    }
+
+    [Theory]
+    [InlineData(WerewolfTribeIdentifiers.GlassWalkers, WerewolfRaceIdentifiers.Homid)]
+    [InlineData(WerewolfTribeIdentifiers.GetOfFenris, WerewolfRaceIdentifiers.Lupus)]
+    [InlineData(WerewolfTribeIdentifiers.Fianna, WerewolfRaceIdentifiers.Metis)]
+    [InlineData(WerewolfTribeIdentifiers.ChildrenOfGaia, WerewolfRaceIdentifiers.Homid)]
+    [InlineData(WerewolfTribeIdentifiers.SilentStriders, WerewolfRaceIdentifiers.Lupus)]
+    [InlineData(WerewolfTribeIdentifiers.BoneGnawers, WerewolfRaceIdentifiers.Metis)]
+    [InlineData(WerewolfTribeIdentifiers.ShadowLords, WerewolfRaceIdentifiers.Homid)]
+    [InlineData(WerewolfTribeIdentifiers.Uktena, WerewolfRaceIdentifiers.Lupus)]
+    [InlineData(WerewolfTribeIdentifiers.Wendigo, WerewolfRaceIdentifiers.Metis)]
+    public void UnrestrictedTribesRemainSelectableForAllRaces(string tribeId, string raceId)
+    {
+        var draft = Draft() with { Race = raceId };
+
+        var result = Select(draft, tribeId);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(tribeId, result.Draft?.Tribe);
     }
 
     [Fact]

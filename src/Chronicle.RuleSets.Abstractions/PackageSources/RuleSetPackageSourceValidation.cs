@@ -315,6 +315,7 @@ public static class RuleSetPackageSourceValidator
             "CharacterCreation/WerewolfResourceTransitionContracts.cs",
             "CharacterCreation/WerewolfResourceTransitionService.cs",
             "CharacterCreation/WerewolfTribeSelection.cs",
+            "CharacterCreation/WerewolfTribeEligibilityService.cs",
             "CharacterCreation/WerewolfHealthContracts.cs",
             "CharacterCreation/WerewolfHealthTrack.cs",
             "CharacterCreation/WerewolfHealthTrackComputer.cs",

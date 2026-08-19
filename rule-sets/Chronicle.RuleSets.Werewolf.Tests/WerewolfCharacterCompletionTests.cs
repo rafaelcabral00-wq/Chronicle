@@ -142,6 +142,86 @@ public sealed class WerewolfCharacterCompletionTests
     }
 
     [Fact]
+    public void RejectsRedTalonsWithHomidRace()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash) with { Tribe = WerewolfTribeIdentifiers.RedTalons };
+
+        var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, finding => finding.Code == WerewolfCharacterCompletionErrorCode.TribeRaceBreedIneligible);
+    }
+
+    [Fact]
+    public void RejectsRedTalonsWithMetisRace()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Metis, WerewolfAuspiceIdentifiers.Ragabash, WerewolfMetisDeformityIdentifiers.Horns) with { Tribe = WerewolfTribeIdentifiers.RedTalons };
+
+        var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, finding => finding.Code == WerewolfCharacterCompletionErrorCode.TribeRaceBreedIneligible);
+    }
+
+    [Fact]
+    public void AcceptsRedTalonsWithLupusRace()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Lupus, WerewolfAuspiceIdentifiers.Ahroun) with { Tribe = WerewolfTribeIdentifiers.RedTalons };
+
+        var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
+
+        Assert.True(result.Succeeded);
+    }
+
+    [Fact]
+    public void RejectsSilverFangsDueToPureBreedDependency()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash) with { Tribe = WerewolfTribeIdentifiers.SilverFangs };
+
+        var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, finding => finding.Code == WerewolfCharacterCompletionErrorCode.TribeDependencyUnavailable);
+        Assert.Contains(result.Findings, finding => finding.Message.Contains("Pure Breed is not available"));
+    }
+
+    [Fact]
+    public void RejectsBlackFuriesDueToGenderDependency()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash) with { Tribe = WerewolfTribeIdentifiers.BlackFuries };
+
+        var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains(result.Findings, finding => finding.Code == WerewolfCharacterCompletionErrorCode.TribeDependencyUnavailable);
+        Assert.Contains(result.Findings, finding => finding.Message.Contains("female gender"));
+    }
+
+    [Fact]
+    public void AcceptsUnrestrictedTribesForAnyRace()
+    {
+        var unrestrictedTribes = new[]
+        {
+            WerewolfTribeIdentifiers.GlassWalkers,
+            WerewolfTribeIdentifiers.GetOfFenris,
+            WerewolfTribeIdentifiers.Fianna,
+            WerewolfTribeIdentifiers.ChildrenOfGaia,
+            WerewolfTribeIdentifiers.SilentStriders,
+            WerewolfTribeIdentifiers.BoneGnawers,
+            WerewolfTribeIdentifiers.ShadowLords,
+            WerewolfTribeIdentifiers.Uktena,
+            WerewolfTribeIdentifiers.Wendigo
+        };
+
+        foreach (var tribeId in unrestrictedTribes)
+        {
+            var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash) with { Tribe = tribeId };
+            var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
+            Assert.True(result.Succeeded, $"Completion should succeed for unrestricted Tribe {tribeId}.");
+        }
+    }
+
+    [Fact]
     public void RejectsMissingAttributePriorities()
     {
         var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash) with { AttributePriorityOrder = [] };
