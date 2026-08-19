@@ -206,7 +206,7 @@ public static class WerewolfAbilitySelectionService
             [WerewolfAbilityIdentifiers.Science] = WerewolfAbilityCategoryIdentifiers.Knowledges
         });
 
-    private static readonly string[] LupusBaseRestrictedAbilities =
+    public static readonly string[] LupusBaseRestrictedAbilities =
     [
         WerewolfAbilityIdentifiers.Computer,
         WerewolfAbilityIdentifiers.Crafts,

@@ -1,7 +1,7 @@
 # RULESET-COMPLETION-006 Pre-Commit Authority and Completeness Audit
 
-**Date:** 2026-08-17  
-**Auditor:** Kilo (automated pre-commit audit)  
+**Date:** 2026-08-17
+**Auditor:** Kilo (automated pre-commit audit)
 **Scope:** Ability catalog canonicalization, localization coverage, Lupus restriction completeness, test coverage, mechanical completeness accounting
 
 ---

@@ -251,7 +251,9 @@ Capture and review the complete specialization section.
 ```yaml
 ambiguityId: ambiguity.werewolf3e.creation.lupus-restricted-abilities
 severity: High
-status: SemanticReviewRequired
+status: ResolvedFromSourceCrossReference
+resolution: OptionA
+decisionAuthority: human
 classification:
   - CharacterCreationRule
   - MechanicalConstraint
@@ -259,37 +261,40 @@ classification:
 
 ### Source-derived statements
 
-The source lists Abilities in which a Lupus may not place initial points during creation.
+Source line 547 states Lupus cannot apply "pontos iniciais" (initial points) to 9 restricted Abilities during creation. The same line states these Abilities "podem ser adquiridos posteriormente com pontos de bônus/experiência via treino" (can be acquired later with bonus points/experience via training).
 
-It also states that these Abilities may later be acquired with freebie points or experience through training.
+### Resolution
 
-### Unresolved question
+**Resolved as Option A — Creation-time freebies permitted.**
 
-Does “later with freebie points” mean:
+The source explicitly distinguishes between:
+- "pontos iniciais" (base allocation, Step 3) — restricted for Lupus
+- "pontos de bônus" (creation-time bonus points, Step 5) — explicitly named as a later acquisition mechanism
+- "experiência" (post-creation experience) — post-creation acquisition
 
-```text
-A. freebie spending during the same Character creation workflow is permitted;
-B. only a later post-creation award called freebie points is intended;
-C. freebie spending is permitted only with narrative justification;
-D. the cleaned summary compressed a more specific original rule.
-```
+The phrase "posteriormente com pontos de bônus/experiência via treino" explicitly permits Lupus to acquire restricted Abilities using creation-time bonus points (Step 5) after base allocation is complete.
 
-### Candidate prototype policy
+"Via treino" is interpreted as narrative flavor explaining the acquisition path, not a mechanically testable prerequisite during character creation.
 
-```text
-Permit freebie purchase only after base allocation,
-mark the purchase with a required training-justification field,
-and label the rule Candidate.
-```
+### Source locators
 
-This is not approved source truth.
+- Base restriction: source line 547
+- Bonus Points definition: source line 938-939
+- Bonus Point spending example: source line 1063
+- Human confirmation: DR-0011-equivalent decision for A-003, Option A selected
+
+### Implementation
+
+- Base allocation: Lupus restricted Abilities rejected (RULESET-COMPLETION-006)
+- Freebie stage: Lupus restricted Abilities allowed (RULESET-COMPLETION-007)
+- Post-creation: no further restriction
+- Completion validator: permits nonzero restricted Ability ratings for Lupus
 
 ### Impact
 
-Affects:
-
+Resolved. Affects:
 - Ability allocation validator;
-- freebie operation;
+- freebie operation (when materialized);
 - Lupus fixtures;
 - Character completion validation.
 
@@ -384,7 +389,7 @@ Blocks approved `initialize-renown` operation.
 ```yaml
 ambiguityId: ambiguity.werewolf3e.creation.resource-current-values
 severity: High
-status: SemanticReviewRequired
+status: ResolvedFromSource
 classification:
   - ResourceRule
 ```
@@ -393,29 +398,23 @@ classification:
 
 Race, Auspice, and Tribe initialize Gnosis, Rage, and Willpower respectively.
 
-### Unresolved questions
+Source line 934-937 places resource initialization in Step 5 (Final Touches), alongside Bonus Points.
 
-```text
-Are the listed values permanent ratings?
-Does each current pool begin equal to its permanent rating?
-Can freebie points increase permanent rating, current pool, or both?
-Are maximum values equal to permanent ratings?
-Are any resources initialized after freebie spending instead?
-```
+Source line 1063-1068 provides an example: Gnosis 1→2 and Rage 1→3 via bonus points, with the note "1 base de Homínideo + 1 comprado com PB" (1 base from Homid + 1 purchased with PB).
 
-### Candidate Character schema
+### Resolution
 
-```text
-permanent
-current
-maximum
-```
+**Resolved from source:**
 
-The schema may support all three without asserting identical behavior.
+- Listed values ARE permanent ratings.
+- Current pool begins equal to permanent rating.
+- Freebie points increase the permanent rating; current pool follows permanent.
+- No explicit maximum is stated in the source for resources during creation.
+- Resources are initialized in Step 5; the example shows base values first, then bonus point increases.
 
 ### Impact
 
-Affects resource initialization, freebie spending, sheet display, and later spend/restore operations.
+Resolved. Affects resource initialization, freebie spending, sheet display, and later spend/restore operations.
 
 ---
 
@@ -424,55 +423,38 @@ Affects resource initialization, freebie spending, sheet display, and later spen
 ```yaml
 ambiguityId: ambiguity.werewolf3e.creation.freebie-limits
 severity: High
-status: SemanticReviewRequired
+status: ResolvedFromSource
 classification:
   - CharacterCreationRule
   - CostRule
 ```
 
-### Source-derived candidates
+### Source-derived facts
 
-```text
-budget: 15
+Source line 938-939: 15 Pontos de Bônus budget.
+Source line 988-997: Cost table.
+Source line 920: Levels 4 and 5 of Abilities can only be acquired using Bonus Points.
+Source line 908: No Attribute can exceed level 5 during creation.
+Source line 1063-1068: Example shows Abilities, Backgrounds, Rage, Gnosis, and Willpower purchased with bonus points.
 
-Attribute:
-    5 per point
+### Resolution
 
-Ability:
-    2 per point
+**Resolved from source:**
 
-Background:
-    1 per point
-
-Level One Gift:
-    7 per Gift
-
-Rage:
-    1 per point
-
-Gnosis:
-    2 per point
-
-Willpower:
-    1 per point
-```
-
-### Unresolved questions
-
-```text
-Can freebies raise an Ability above the base-allocation limit of 3?
-Can freebies raise an Attribute to 5?
-Can freebies exceed normal creation maxima?
-Can a new Background be purchased or only an existing one increased?
-Can Tribe-prohibited Backgrounds ever be purchased?
-Can a fourth Gift be chosen from any of Race, Auspice, or Tribe lists?
-Can freebie purchases change initial Renown or Rank?
-Do freebies modify permanent resources only?
-```
+- Budget: 15 points (source explicit)
+- Attribute cost: 5 per point; maximum 5 during creation (source explicit)
+- Ability cost: 2 per point; levels 4-5 require bonus points (source explicit)
+- Background cost: 1 per point; new Backgrounds can be purchased (example shows Ritos and Totem)
+- Gift cost: 7 per Gift (Level 1 only); additional Gifts beyond the initial 3 can be purchased
+- Rage cost: 1 per point
+- Gnosis cost: 2 per point
+- Willpower cost: 1 per point
+- Renown/Rank: cannot be changed with freebies (not mentioned in source)
+- Resource interaction: freebies increase permanent rating; current follows permanent (A-006 resolution)
 
 ### Impact
 
-Blocks final freebie validator and several fixtures.
+Resolved. Affects freebie validator and fixtures.
 
 ---
 

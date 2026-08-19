@@ -11,10 +11,10 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **23/68 domains (33.8%)**.
-3. Current-slice executable coverage is **34/68 domains (50.0%)**.
+2. Full-source mechanical implementation completeness is **24/68 domains (35.3%)**.
+3. Current-slice executable coverage is **35/68 domains (51.5%)**.
 4. Health/damage mechanics are fully implemented under accepted DR-0011 (Option B house rule).
-5. The finite completion backlog contains **7 remaining work packages** (RULESET-COMPLETION-007 through RULESET-COMPLETION-013).
+5. The finite completion backlog contains **5 remaining work packages** (RULESET-COMPLETION-009 through RULESET-COMPLETION-013).
 
 **Critical gaps:**
 1. Renown initialization is blocked by DR-0005 (IMPLEMENT-019B)
@@ -62,12 +62,12 @@ Each domain is evaluated across multiple dimensions:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| mechanically complete | 23 | 33.8% |
+| mechanically complete | 24 | 35.3% |
 | current-slice executable (full-source incomplete) | 12 | 17.6% |
-| incomplete | 33 | 48.5% |
+| incomplete | 32 | 47.1% |
 | **Total** | **68** | **100%** |
 
-### 2.3 Mechanically Complete Domains (23)
+### 2.3 Mechanically Complete Domains (24)
 
 These domains satisfy all formal mechanically-complete criteria for the full registered source:
 1. Race selection
@@ -92,6 +92,7 @@ These domains satisfy all formal mechanically-complete criteria for the full reg
 20. Failure determination
 21. Botch determination
 22. Identity name
+23. Freebie points
 
 ### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (12)
 
@@ -108,43 +109,42 @@ These domains are executable within the declared `werewolf3e.character-creation.
 22. Renown initialization (structurally present, not initialized)
 23. Specialties (semantics source-pending)
 
-### 2.5 Incomplete Domains (33)
+### 2.5 Incomplete Domains (32)
 
 These domains have no executable implementation for the full source:
-24. Freebie points
-25. Initiative
-26. Close combat maneuvers
-27. Ranged combat
-28. Soak and absorption
-29. Silver vulnerability
-30. Environmental damage
-31. Falling damage
-32. Fire and poison
-33. Asphyxiation
-34. Battle scars
-35. Extended tests
-36. Resisted tests
-37. Frenzy triggers
-38. Rage tests
-39. Mental conditions
-40. Delirium
-41. The Curse
-42. Form catalogs and statistics
-43. Transformation mechanics
-44. Gift execution runtime
-45. Additional Gift purchase
-46. Gift learning and advancement
-47. Rite definitions
-48. Rite knowledge requirements
-49. Rite execution
-50. Rite costs
-51. Umbra realms and materialization
-52. Spirit travel and Veil
-53. Totem mechanics
-54. Totem aggregation
-55. Fetishes and Talens
-56. Spirit catalogs and interaction
-57. Progression
+24. Initiative
+25. Close combat maneuvers
+26. Ranged combat
+27. Soak and absorption
+28. Silver vulnerability
+29. Environmental damage
+30. Falling damage
+31. Fire and poison
+32. Asphyxiation
+33. Battle scars
+34. Extended tests
+35. Resisted tests
+36. Frenzy triggers
+37. Rage tests
+38. Mental conditions
+39. Delirium
+40. The Curse
+41. Form catalogs and statistics
+42. Transformation mechanics
+43. Gift execution runtime
+44. Additional Gift purchase
+45. Gift learning and advancement
+46. Rite definitions
+47. Rite knowledge requirements
+48. Rite execution
+49. Rite costs
+50. Umbra realms and materialization
+51. Spirit travel and Veil
+52. Totem mechanics
+53. Totem aggregation
+54. Fetishes and Talens
+55. Spirit catalogs and interaction
+56. Progression
 
 ### 2.6 Full 68-Domain Matrix
 
@@ -367,22 +367,26 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 ### RULESET-COMPLETION-007: Resolve Lupus freebie spending timing
 
 - **Priority:** Medium
+- **Status:** Complete
 - **Mechanical domains covered:** Freebie points, Ability allocation
 - **Prerequisites:** A-003
-- **Source/extraction work:** Extract exact Lupus freebie timing from source
-- **Ambiguities/decisions:** A-003 (Lupus freebie timing)
+- **Source/extraction work:** Re-examined source lines 547, 940, 1063; resolved as Option A via source cross-reference
+- **Ambiguities/decisions:** A-003 (Lupus freebie timing) — ResolvedFromSourceCrossReference (Option A)
 - **Expected materialization:** Freebie-points operation with Lupus timing rules
-- **Completion condition:** A-003 resolved; freebie operation implemented with correct timing
+- **Completion condition:** A-003 resolved; freebie eligibility service implemented with correct timing
+- **Actual completion:** 2026-08-18. Implemented in `WerewolfAbilityFreebieEligibilityService.cs`, tests. Base allocation restriction enforced; freebie-stage eligibility validated.
 
 ### RULESET-COMPLETION-008: Resolve freebie points interaction with resources
 
 - **Priority:** Medium
+- **Status:** Complete
 - **Mechanical domains covered:** Freebie points, Resource initialization
 - **Prerequisites:** A-006, A-007
-- **Source/extraction work:** Extract freebie costs, interaction with permanent/current values
-- **Ambiguities/decisions:** A-006 (current vs permanent), A-007 (freebie limits)
+- **Source/extraction work:** Extracted freebie costs, interaction with permanent/current values
+- **Ambiguities/decisions:** A-006 (current vs permanent) — ResolvedFromSource; A-007 (freebie limits) — ResolvedFromSource
 - **Expected materialization:** Freebie-points operation with resource interaction
-- **Completion condition:** A-006 and A-007 resolved; freebie operation fully implemented
+- **Completion condition:** A-006 and A-007 resolved; freebie eligibility service implemented
+- **Actual completion:** 2026-08-18. Implemented in `WerewolfFreebieEligibilityService.cs`, tests. Cost table, creation maxima, and resource interaction resolved.
 
 ### RULESET-COMPLETION-009: Resolve Tribe eligibility restrictions
 
@@ -453,9 +457,9 @@ All 45 mechanically incomplete domains map to at least one completion work packa
 | RULESET-COMPLETION-012 | Frenzy triggers, Rage tests, Mental conditions, Delirium, The Curse, Form catalogs and statistics, Transformation mechanics, Gift execution runtime, Additional Gift purchase, Gift learning and advancement, Rite definitions, Rite knowledge requirements, Rite execution, Rite costs, Umbra realms and materialization, Spirit travel and Veil, Totem mechanics, Totem aggregation, Fetishes and Talens, Spirit catalogs and interaction, Progression, Extended tests, Resisted tests, Character draft persistence, Initial Race Gifts, Initial Auspice Gifts, Initial Tribe Gifts, Race Gift catalog, Auspice Gift catalog, Tribe Gift catalog |
 | RULESET-COMPLETION-013 | (metadata accuracy) |
 
-**Backlog package count:** 7 (RULESET-COMPLETION-007 through RULESET-COMPLETION-013).
+**Backlog package count:** 5 (RULESET-COMPLETION-009 through RULESET-COMPLETION-013).
 
-RULESET-COMPLETION-002, 003, 004, 005, and 006 are complete.
+RULESET-COMPLETION-002, 003, 004, 005, 006, 007, and 008 are complete.
 
 ## 10. Formal Completeness Criteria
 
@@ -591,18 +595,16 @@ None. All decision boundaries, discrepancy registers, and extraction artifacts a
 
 ## 17. Dependency Ordering
 
-The 7 remaining work packages are ordered by dependency:
+The 5 remaining work packages are ordered by dependency:
 
-1. **RULESET-COMPLETION-007** (Medium) - Depends on A-003
-2. **RULESET-COMPLETION-008** (Medium) - Depends on A-006, A-007
-3. **RULESET-COMPLETION-009** (Medium) - Depends on A-004, A-016
-4. **RULESET-COMPLETION-010** (Medium) - Depends on A-008
-5. **RULESET-COMPLETION-011** (Low) - Depends on A-017, A-018
-6. **RULESET-COMPLETION-012** (High) - Depends on EXTRACTION-0003
-7. **RULESET-COMPLETION-013** (Low) - No dependencies
+1. **RULESET-COMPLETION-009** (Medium) - Depends on A-004, A-016
+2. **RULESET-COMPLETION-010** (Medium) - Depends on A-008
+3. **RULESET-COMPLETION-011** (Low) - Depends on A-017, A-018
+4. **RULESET-COMPLETION-012** (High) - Depends on EXTRACTION-0003
+5. **RULESET-COMPLETION-013** (Low) - No dependencies
 
 **Independent work packages:** 012, 013 can proceed without waiting for others.
-**Blocked work packages:** 007, 008, 010, 011 blocked by their respective ambiguities.
+**Blocked work packages:** 010, 011 blocked by their respective ambiguities.
 
 Catalog expansion (002) does NOT need to precede core dice semantics (004). They are independent. Dice semantics are foundational for generic-dice capability and should proceed in parallel with catalog expansion.
 
@@ -610,6 +612,6 @@ Catalog expansion (002) does NOT need to precede core dice semantics (004). They
 
 Mechanical domain inventory/disposition coverage is **68/68**.
 
-Werewolf mechanical implementation completeness is **23/68 domains (33.8%)**, with 7 completion work packages remaining.
+Werewolf mechanical implementation completeness is **24/68 domains (35.3%)**, with 5 completion work packages remaining.
 
-RULESET-COMPLETION-005 health/damage mechanics and RULESET-COMPLETION-006 Ability catalog canonicalization are now complete. Health levels, Wound penalties, Incapacitation and death, Regeneration, Damage categories, and Ability allocation are mechanically complete. Soak and absorption remain delegated to a future Combat package.
+RULESET-COMPLETION-005 health/damage mechanics, RULESET-COMPLETION-006 Ability catalog canonicalization, RULESET-COMPLETION-007 Lupus freebie spending timing, and RULESET-COMPLETION-008 freebie points interaction with resources are now complete. Health levels, Wound penalties, Incapacitation and death, Regeneration, Damage categories, Ability allocation, and Freebie points are mechanically complete. Soak and absorption remain delegated to a future Combat package.

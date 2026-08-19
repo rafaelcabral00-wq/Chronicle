@@ -34,7 +34,10 @@ public sealed record WerewolfCharacterSnapshot(
     IReadOnlyDictionary<string, string> PackageBinding,
     IReadOnlyList<WerewolfCharacterCompletionFinding> ValidationResult,
     IReadOnlyList<string> CompletedStepKeys,
-    string ValidationFingerprint);
+    string ValidationFingerprint,
+    IReadOnlyList<WerewolfFreebieLedgerEntry> FreebieLedger,
+    int FreebieBudgetTotal,
+    int FreebieBudgetSpent);
 
 public sealed record WerewolfCharacterCompletionResult(
     bool Succeeded,
@@ -78,7 +81,9 @@ public enum WerewolfCharacterCompletionErrorCode
     RenownNotInitialized,
     RagabashRenownNotSelected,
     RankNotInitialized,
-    MandatoryNextStepsPending
+    MandatoryNextStepsPending,
+    FreebieBudgetOverspent,
+    FreebieBudgetLedgerMismatch
 }
 
 public static class WerewolfCharacterCompletionOperation
@@ -259,6 +264,17 @@ public static class WerewolfCharacterCompletionOperation
             findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, WerewolfCharacterCompletionErrorCode.RankNotInitialized, "Rank is required."));
         }
 
+        if (request.Draft.FreebieBudgetSpent > request.Draft.FreebieBudgetTotal)
+        {
+            findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, WerewolfCharacterCompletionErrorCode.FreebieBudgetOverspent, $"Freebie budget overspent: {request.Draft.FreebieBudgetSpent} spent exceeds total {request.Draft.FreebieBudgetTotal}."));
+        }
+
+        var ledgerCostSum = request.Draft.FreebieLedger.Sum(entry => entry.Cost);
+        if (ledgerCostSum != request.Draft.FreebieBudgetSpent)
+        {
+            findings.Add(new WerewolfCharacterCompletionFinding(WerewolfCharacterCompletionFindingSeverity.Error, WerewolfCharacterCompletionErrorCode.FreebieBudgetLedgerMismatch, $"Freebie budget spent {request.Draft.FreebieBudgetSpent} does not match ledger cost sum {ledgerCostSum}."));
+        }
+
         var pendingMandatorySteps = request.Draft.RequiredNextSteps
             .Where(step => MandatoryStepKeys.Contains(step, StringComparer.Ordinal))
             .ToArray();
@@ -311,7 +327,10 @@ public static class WerewolfCharacterCompletionOperation
             }),
             Array.AsReadOnly<WerewolfCharacterCompletionFinding>([]),
             Array.AsReadOnly<string>(MandatoryStepKeys.Order(StringComparer.Ordinal).ToArray()),
-            ComputeValidationFingerprint(request.Draft));
+            ComputeValidationFingerprint(request.Draft),
+            Array.AsReadOnly(request.Draft.FreebieLedger.ToArray()),
+            request.Draft.FreebieBudgetTotal,
+            request.Draft.FreebieBudgetSpent);
 
         var updatedDraft = request.Draft with
         {
@@ -421,6 +440,13 @@ public static class WerewolfCharacterCompletionOperation
             {
                 parts.Add($"{key}={value}");
             }
+        }
+
+        parts.Add($"freebie-total={draft.FreebieBudgetTotal}");
+        parts.Add($"freebie-spent={draft.FreebieBudgetSpent}");
+        foreach (var entry in draft.FreebieLedger.OrderBy(e => e.ItemId, StringComparer.Ordinal))
+        {
+            parts.Add($"freebie-{entry.ItemId}={entry.Cost}:{entry.ResultingRating}");
         }
 
         return string.Join("|", parts);

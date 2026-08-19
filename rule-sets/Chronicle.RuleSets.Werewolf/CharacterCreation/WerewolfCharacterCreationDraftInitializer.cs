@@ -53,21 +53,33 @@ public static class WerewolfCharacterCreationDraftFactory
         "character.ability.alertness",
         "character.ability.athletics",
         "character.ability.brawl",
-        "character.ability.computer",
-        "character.ability.drive",
+        "character.ability.dodge",
         "character.ability.empathy",
-        "character.ability.etiquette",
         "character.ability.expression",
         "character.ability.intimidation",
+        "character.ability.primal-instinct",
+        "character.ability.streetwise",
+        "character.ability.subterfuge",
+        "character.ability.animal-empathy",
+        "character.ability.crafts",
+        "character.ability.drive",
+        "character.ability.etiquette",
+        "character.ability.firearms",
+        "character.ability.leadership",
+        "character.ability.melee",
+        "character.ability.performance",
+        "character.ability.stealth",
+        "character.ability.survival",
+        "character.ability.computer",
+        "character.ability.enigmas",
         "character.ability.investigation",
         "character.ability.law",
-        "character.ability.leadership",
+        "character.ability.linguistics",
+        "character.ability.medicine",
         "character.ability.occult",
-        "character.ability.performance",
         "character.ability.politics",
-        "character.ability.stealth",
-        "character.ability.subterfuge",
-        "character.ability.survival"
+        "character.ability.rituals",
+        "character.ability.science"
     ];
     private static readonly string[] BackgroundKeys =
     [
@@ -89,11 +101,11 @@ public static class WerewolfCharacterCreationDraftFactory
     private static readonly string[] RenownKeys =
     [
         "character.renown.glory.permanent",
-        "character.renown.glory.temporary",
+        "character.renown.glory.current",
         "character.renown.honor.permanent",
-        "character.renown.honor.temporary",
+        "character.renown.honor.current",
         "character.renown.wisdom.permanent",
-        "character.renown.wisdom.temporary"
+        "character.renown.wisdom.current"
     ];
     private static readonly string[] NarrativeFieldKeys = ["character-concept", "character-goals", "character-relationships"];
     private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "initialize-resources-and-rank", "set-identity-name", "add-narrative-fields"];
@@ -138,7 +150,10 @@ public static class WerewolfCharacterCreationDraftFactory
             {
                 ["additional-gift-purchase"] = "disabled",
                 ["runtime-gift-execution"] = "disabled"
-            }));
+            }),
+            FreebieLedger: Array.AsReadOnly<WerewolfFreebieLedgerEntry>([]),
+            FreebieBudgetTotal: 15,
+            FreebieBudgetSpent: 0);
     }
 
     private static ReadOnlyDictionary<string, int?> UnsetDictionary(IEnumerable<string> keys)

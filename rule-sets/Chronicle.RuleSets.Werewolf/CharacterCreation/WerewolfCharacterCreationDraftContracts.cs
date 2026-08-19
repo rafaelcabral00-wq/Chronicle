@@ -36,7 +36,10 @@ public sealed record WerewolfInitializedCharacterState(
     string? IdentityName,
     IReadOnlyDictionary<string, string?> NarrativeFields,
     IReadOnlyList<string> RequiredNextSteps,
-    IReadOnlyDictionary<string, string> DisabledCapabilities);
+    IReadOnlyDictionary<string, string> DisabledCapabilities,
+    IReadOnlyList<WerewolfFreebieLedgerEntry> FreebieLedger,
+    int FreebieBudgetTotal,
+    int FreebieBudgetSpent);
 
 public sealed record WerewolfCreateCharacterResultPayload(
     bool Succeeded,
@@ -58,3 +61,10 @@ public interface IWerewolfCharacterDraftIdentitySource
 {
     WerewolfCharacterDraftIdentity CreateDraftIdentity(WerewolfCreateCharacterRequest request);
 }
+
+public sealed record WerewolfFreebieLedgerEntry(
+    string ItemId,
+    string Category,
+    int Cost,
+    int ResultingRating,
+    string RequestId);
