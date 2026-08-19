@@ -398,7 +398,7 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 - **Ambiguities/decisions:** A-016 (Tribe eligibility restrictions) — ResolvedFromSource; narrative descriptions excluded from mechanical enforcement per A-016 rule
 - **Expected materialization:** Complete Tribe restriction catalog with executable eligibility validator
 - **Completion condition:** A-016 resolved; all Tribe restrictions explicitly extracted and enforced where dependencies available
-- **Actual completion:** 2026-08-19. Implemented `WerewolfTribeEligibilityService` with Race/Breed, Background minimum, and dependency checks. Integrated into Tribe selection and Character completion. 49 new tests added. Silver Fangs Pure Breed and Ancestors classified as dependency-blocked (owner: RULESET-COMPLETION-012). Black Furies gender classified as dependency-blocked (no explicit owner in current backlog; coverage defect).
+- **Actual completion:** 2026-08-19. Implemented `WerewolfTribeEligibilityService` with Race/Breed, Background minimum, and dependency checks. Integrated into Tribe selection and Character completion. 49 new tests added. Silver Fangs Pure Breed and Ancestors classified as dependency-blocked (owner: RULESET-COMPLETION-012). Black Furies gender classified as dependency-blocked (owner: RULESET-COMPLETION-012).
 
 ### RULESET-COMPLETION-010: Resolve Metis deformity modeling
 

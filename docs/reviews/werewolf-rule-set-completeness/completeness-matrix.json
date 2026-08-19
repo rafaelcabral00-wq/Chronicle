@@ -76,7 +76,7 @@
       "packageSourceStatus": "complete: 12 tribes cataloged; explicit eligibility validator enforces Race/Breed, dependency-blocked, and Background restrictions",
       "runtimeStatus": "implemented: WerewolfTribeEligibilityService enforces Red Talons Lupus-only, Silver Fangs Pure Breed >= 3 dependency, Black Furies gender dependency, and Background prohibitions",
       "completionImpact": "Tribe selection rejects ineligible Race/Breed and dependency-blocked combinations at selection and completion",
-      "requiredRemediation": "Silver Fangs and Ancestors unblocked by full Background catalog (RULESET-COMPLETION-012); Black Furies gender field has no explicit owner in current backlog",
+      "requiredRemediation": "Silver Fangs and Ancestors unblocked by full Background catalog (RULESET-COMPLETION-012); Black Furies gender field unblocked by Character identity field implementation (RULESET-COMPLETION-012)",
       "mechanicalCompleteness": true,
       "currentSliceExecutable": true,
       "extractionCoverage": "complete",
@@ -433,7 +433,7 @@
       "packageSourceStatus": "complete: validates Race, Auspice, Tribe, Backgrounds, Gifts, Resources, Renown, Rank, identity, and freebie budget; Tribe eligibility enforced via WerewolfTribeEligibilityService",
       "runtimeStatus": "implemented with deterministic Tribe eligibility validation: Race/Breed restrictions, dependency-blocked restrictions, and Background minimums",
       "completionImpact": "completion validation rejects invalid final state regardless of caller order; Silver Fangs and Black Furies dependency-blocked at completion",
-      "requiredRemediation": "None for executable restrictions; Silver Fangs and Ancestors unblocked by full Background catalog (RULESET-COMPLETION-012); Black Furies gender field has no explicit owner in current backlog",
+      "requiredRemediation": "None for executable restrictions; Silver Fangs and Ancestors unblocked by full Background catalog (RULESET-COMPLETION-012); Black Furies gender field unblocked by Character identity field implementation (RULESET-COMPLETION-012)",
       "mechanicalCompleteness": true,
       "currentSliceExecutable": true,
       "extractionCoverage": "complete",
@@ -1695,7 +1695,7 @@
       "dependsOn": [
         "EXTRACTION-0003"
       ],
-      "description": "These domains are present in source but not extracted or only partially materialized for current slice: combat, frenzy, forms, rites, umbra, spirits, totem mechanics and aggregation, progression, antagonists, pack creation, full Gift catalog and runtime, full Background catalog, full Tribe catalog, Fetishes/Talens, extended/resisted tests, and implementation decisions for extracted domains (A-013, A-014). Requires dedicated extraction passes per EXTRACTION-0001 recommended order."
+      "description": "These domains are present in source but not extracted or only partially materialized for current slice: combat, frenzy, forms, rites, umbra, spirits, totem mechanics and aggregation, progression, antagonists, pack creation, full Gift catalog and runtime, full Background catalog, full Tribe catalog, Fetishes/Talens, extended/resisted tests, remaining Character identity fields required by source-derived mechanics (specifically sex/gender field for Black Furies Tribe eligibility) and corresponding eligibility integration and validation, and implementation decisions for extracted domains (A-013, A-014). Requires dedicated extraction passes per EXTRACTION-0001 recommended order."
     },
     {
       "id": "RULESET-COMPLETION-013",

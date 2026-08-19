@@ -1,8 +1,8 @@
 # RULESET-COMPLETION-009: Resolve Tribe Eligibility Restrictions
 
-**Status:** Complete  
-**Priority:** Medium  
-**Completed:** 2026-08-19  
+**Status:** Complete
+**Priority:** Medium
+**Completed:** 2026-08-19
 **Owner:** Kilo (Chronicle Werewolf package)
 
 ## 1. Exact Owned Domain Keys
@@ -43,7 +43,7 @@ A-016 resolved; all 12 Tribe eligibility restrictions explicitly extracted from 
 
 | Tribe | Restriction | Source Lines | Executable? | Implementation |
 |-------|-------------|--------------|-------------|----------------|
-| Black Furies | Female only | 712, 102 | No | `CheckDependencies` returns DependencyUnavailable; no explicit owner in current backlog (coverage defect) |
+| Black Furies | Female only | 712, 102 | No | `CheckDependencies` returns DependencyUnavailable; owner: RULESET-COMPLETION-012 (Character identity field implementation) |
 
 ## 6. Background Restriction Matrix
 
@@ -111,7 +111,7 @@ Verified that:
 |---------|-------|-------------|
 | Pure Breed Background not in current slice | RULESET-COMPLETION-012 | Blocks Silver Fangs Pure Breed >= 3 requirement |
 | Ancestors Background not in current slice | RULESET-COMPLETION-012 | Blocks Glass Walkers, Silent Striders, Bone Gnawers Pure Breed/Ancestors prohibitions |
-| Gender field not in character model | Backlog coverage defect | Blocks Black Furies female-only restriction; no explicit owner in RULESET-COMPLETION-010..013 |
+| Gender field not in character model | RULESET-COMPLETION-012 | Blocks Black Furies female-only restriction |
 
 No other blockers.
 
