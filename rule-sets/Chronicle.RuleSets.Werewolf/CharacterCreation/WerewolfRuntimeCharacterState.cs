@@ -18,7 +18,9 @@ public sealed record WerewolfRuntimeCharacterState(
     int HonorCurrent,
     int WisdomPermanent,
     int WisdomCurrent,
-    WerewolfHealthTrack? HealthTrack)
+    string BirthRace,
+    WerewolfHealthTrack? HealthTrack,
+    string CurrentForm = "")
 {
     public static WerewolfRuntimeCharacterState FromSnapshot(WerewolfCharacterSnapshot snapshot)
     {
@@ -73,6 +75,20 @@ public sealed record WerewolfRuntimeCharacterState(
         var wisdomPermanent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.WisdomPermanent, 0);
         var wisdomCurrent = renown.GetValueOrDefault(WerewolfRenownIdentifiers.WisdomCurrent, 0);
 
+        var race = snapshot.Race;
+        if (string.IsNullOrWhiteSpace(race))
+        {
+            throw new ArgumentException("Snapshot is missing Race value.", nameof(snapshot));
+        }
+
+        var currentForm = race switch
+        {
+            WerewolfRaceIdentifiers.Homid => WerewolfFormIdentifiers.Homid,
+            WerewolfRaceIdentifiers.Metis => WerewolfFormIdentifiers.Crinos,
+            WerewolfRaceIdentifiers.Lupus => WerewolfFormIdentifiers.Lupus,
+            _ => throw new ArgumentException($"Unknown birth race '{race}' for form initialization.", nameof(snapshot))
+        };
+
         return new WerewolfRuntimeCharacterState(
             snapshot.PackageBinding.TryGetValue("packageId", out var pkgId) ? pkgId : string.Empty,
             snapshot.PackageBinding.TryGetValue("packageVersion", out var pkgVer) ? pkgVer : string.Empty,
@@ -91,9 +107,11 @@ public sealed record WerewolfRuntimeCharacterState(
             honorCurrent ?? 0,
             wisdomPermanent ?? 0,
             wisdomCurrent ?? 0,
+            race,
             WerewolfHealthTrackComputer.Compute(
                 [],
                 hasWeakenedImmuneSystem: StringComparer.Ordinal.Equals(snapshot.MetisDeformity, WerewolfMetisDeformityIdentifiers.WeakImmuneSystem),
-                lastRegenerationTurn: -1));
+                lastRegenerationTurn: -1),
+            currentForm);
     }
 }

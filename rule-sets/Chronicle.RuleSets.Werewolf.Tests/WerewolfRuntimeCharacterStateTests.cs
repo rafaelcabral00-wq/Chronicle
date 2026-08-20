@@ -48,13 +48,54 @@ public sealed class WerewolfRuntimeCharacterStateTests
         Assert.Equal(WerewolfHealthLevelName.Escoriado, state.HealthTrack.CurrentLevel);
     }
 
-    private static WerewolfCharacterSnapshot BuildSnapshot(string? metisDeformity)
+    [Fact]
+    public void FromSnapshotWithMetisRaceInitializesCrinosForm()
+    {
+        var snapshot = BuildSnapshot(null, WerewolfRaceIdentifiers.Metis);
+
+        var state = WerewolfRuntimeCharacterState.FromSnapshot(snapshot);
+
+        Assert.Equal(WerewolfFormIdentifiers.Crinos, state.CurrentForm);
+    }
+
+    [Fact]
+    public void FromSnapshotWithHomidRaceInitializesHomidForm()
+    {
+        var snapshot = BuildSnapshot(null, WerewolfRaceIdentifiers.Homid);
+
+        var state = WerewolfRuntimeCharacterState.FromSnapshot(snapshot);
+
+        Assert.Equal(WerewolfFormIdentifiers.Homid, state.CurrentForm);
+    }
+
+    [Fact]
+    public void FromSnapshotWithLupusRaceInitializesLupusForm()
+    {
+        var snapshot = BuildSnapshot(null, WerewolfRaceIdentifiers.Lupus);
+
+        var state = WerewolfRuntimeCharacterState.FromSnapshot(snapshot);
+
+        Assert.Equal(WerewolfFormIdentifiers.Lupus, state.CurrentForm);
+    }
+
+    [Fact]
+    public void BirthRaceRemainsImmutableRegardlessOfForm()
+    {
+        var snapshot = BuildSnapshot(null, WerewolfRaceIdentifiers.Metis);
+
+        var state = WerewolfRuntimeCharacterState.FromSnapshot(snapshot);
+
+        Assert.Equal(WerewolfRaceIdentifiers.Metis, state.BirthRace);
+        Assert.Equal(WerewolfFormIdentifiers.Crinos, state.CurrentForm);
+    }
+
+    private static WerewolfCharacterSnapshot BuildSnapshot(string? metisDeformity, string race = WerewolfRaceIdentifiers.Metis)
     {
         return new WerewolfCharacterSnapshot(
             "draft-1",
             1,
             WerewolfCharacterDraftStatus.Completed,
-            WerewolfRaceIdentifiers.Metis,
+            race,
             WerewolfAuspiceIdentifiers.Ragabash,
             WerewolfTribeIdentifiers.BoneGnawers,
             metisDeformity,
@@ -97,6 +138,7 @@ public sealed class WerewolfRuntimeCharacterStateTests
             "fingerprint",
             Array.AsReadOnly(EmptyFreebieLedger),
             0,
-            0);
+            0,
+            WerewolfFormIdentifiers.Homid);
     }
 }

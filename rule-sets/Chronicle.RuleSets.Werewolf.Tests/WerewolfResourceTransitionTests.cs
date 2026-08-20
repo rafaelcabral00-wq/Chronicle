@@ -44,6 +44,7 @@ public sealed class WerewolfResourceTransitionTests
             honorCurrent,
             wisdomPermanent,
             wisdomCurrent,
+            BirthRace: WerewolfRaceIdentifiers.Homid,
             null);
     }
 

@@ -18,7 +18,8 @@ public sealed record WerewolfActionTestDefinitionRequest(
     string AttributeId,
     string AbilityId,
     int Difficulty,
-    int? Modifier);
+    int? Modifier,
+    string? CurrentForm = null);
 
 public sealed record WerewolfActionTestDefinitionResult(
     bool Succeeded,
@@ -107,16 +108,25 @@ public static class WerewolfActionTestDefinitionService
             return new WerewolfActionTestDefinitionResult(false, request.Draft, findings, null, null, null, null, null, null, null);
         }
 
-        var pool = attributeRating.Value + abilityRating.Value + (request.Modifier ?? 0);
+        var baseAttributeRating = attributeRating.Value;
+        var effectiveAttributeRating = !string.IsNullOrWhiteSpace(request.CurrentForm)
+            ? WerewolfEffectiveAttributeService.GetEffectiveAttribute(request.Draft.Attributes, request.CurrentForm, request.AttributeId)
+            : baseAttributeRating;
+
+        var pool = effectiveAttributeRating + abilityRating.Value + (request.Modifier ?? 0);
         if (pool < 0)
         {
             pool = 0;
         }
 
+        var effectiveNote = !string.IsNullOrWhiteSpace(request.CurrentForm) && effectiveAttributeRating != baseAttributeRating
+            ? $" (effective {effectiveAttributeRating} from base {baseAttributeRating} in form {request.CurrentForm})"
+            : string.Empty;
+
         findings.Add(new WerewolfActionTestDefinitionFinding(
             WerewolfActionTestDefinitionFindingSeverity.Information,
             "ActionTestDefined",
-            $"Dice pool of {pool} d10 defined for {request.AttributeId} + {request.AbilityId} at difficulty {request.Difficulty}."));
+            $"Dice pool of {pool} d10 defined for {request.AttributeId} + {request.AbilityId} at difficulty {request.Difficulty}.{effectiveNote}"));
 
         return new WerewolfActionTestDefinitionResult(
             true,

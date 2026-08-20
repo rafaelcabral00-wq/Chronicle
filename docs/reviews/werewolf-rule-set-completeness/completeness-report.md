@@ -11,8 +11,8 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **25/68 domains (36.8%)**.
-3. Current-slice executable coverage is **36/68 domains (52.9%)**.
+2. Full-source mechanical implementation completeness is **27/68 domains (39.7%)**.
+3. Current-slice executable coverage is **37/68 domains (54.4%)**.
 4. Health/damage mechanics are fully implemented under accepted DR-0011 (Option B house rule).
 5. The finite completion backlog contains **4 remaining work packages** (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013).
 
@@ -62,7 +62,7 @@ Each domain is evaluated across multiple dimensions:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| mechanically complete | 25 | 36.8% |
+| mechanically complete | 27 | 39.7% |
 | current-slice executable (full-source incomplete) | 11 | 16.2% |
 | incomplete | 32 | 47.1% |
 | **Total** | **68** | **100%** |
@@ -618,6 +618,6 @@ Catalog expansion (002) does NOT need to precede core dice semantics (004). They
 
 Mechanical domain inventory/disposition coverage is **68/68**.
 
-Werewolf mechanical implementation completeness is **25/68 domains (36.8%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion) is complete as first subpackage of 012.
+Werewolf mechanical implementation completeness is **27/68 domains (39.7%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion) is complete as first subpackage of 012.
 
 RULESET-COMPLETION-005 health/damage mechanics, RULESET-COMPLETION-006 Ability catalog canonicalization, RULESET-COMPLETION-007 Lupus freebie spending timing, and RULESET-COMPLETION-008 freebie points interaction with resources are now complete. Health levels, Wound penalties, Incapacitation and death, Regeneration, Damage categories, Ability allocation, Background allocation, and Freebie points are mechanically complete. Soak and absorption remain delegated to a future Combat package.

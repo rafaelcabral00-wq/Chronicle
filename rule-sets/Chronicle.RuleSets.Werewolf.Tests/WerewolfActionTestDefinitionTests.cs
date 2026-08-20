@@ -221,4 +221,42 @@ public sealed class WerewolfActionTestDefinitionTests
         Assert.NotNull(result.DiceQuantity);
         Assert.True(result.DiceQuantity >= 0);
     }
+
+    [Fact]
+    public void DefineTestWithCrinosFormUsesEffectiveStrength()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash, WerewolfTribeIdentifiers.GlassWalkers);
+        var request = new WerewolfActionTestDefinitionRequest(draft, draft.DraftVersion, "req-1", WerewolfAttributeIdentifiers.Strength, WerewolfAbilityIdentifiers.Athletics, 6, 0, WerewolfFormIdentifiers.Crinos);
+
+        var result = WerewolfActionTestDefinitionService.DefineTest(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(10, result.DiceQuantity); // 7 (effective) + 3 = 10
+        Assert.Contains(result.Findings, f => f.Message.Contains("effective 7 from base 3"));
+    }
+
+    [Fact]
+    public void DefineTestWithHomidFormUsesBaseStrength()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash, WerewolfTribeIdentifiers.GlassWalkers);
+        var request = new WerewolfActionTestDefinitionRequest(draft, draft.DraftVersion, "req-1", WerewolfAttributeIdentifiers.Strength, WerewolfAbilityIdentifiers.Athletics, 6, 0, WerewolfFormIdentifiers.Homid);
+
+        var result = WerewolfActionTestDefinitionService.DefineTest(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(6, result.DiceQuantity); // 3 (base) + 3 = 6
+        Assert.DoesNotContain(result.Findings, f => f.Message.Contains("effective"));
+    }
+
+    [Fact]
+    public void DefineTestWithNullFormUsesBaseStrength()
+    {
+        var draft = BuildCompletedDraft(WerewolfRaceIdentifiers.Homid, WerewolfAuspiceIdentifiers.Ragabash, WerewolfTribeIdentifiers.GlassWalkers);
+        var request = new WerewolfActionTestDefinitionRequest(draft, draft.DraftVersion, "req-1", WerewolfAttributeIdentifiers.Strength, WerewolfAbilityIdentifiers.Athletics, 6, 0, null);
+
+        var result = WerewolfActionTestDefinitionService.DefineTest(request);
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(6, result.DiceQuantity);
+    }
 }

@@ -22,6 +22,7 @@ public sealed class WerewolfRecoverDamageTests
                 ["contractVersion"] = "1"
             },
             5, 5, 3, 3, 4, 4, 0, 0, 0, 0, 0, 0,
+            BirthRace: WerewolfRaceIdentifiers.Homid,
             track);
     }
 

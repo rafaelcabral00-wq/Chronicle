@@ -1358,6 +1358,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             ? parsedModifier
             : (int?)null;
 
+        var currentFormText = request.Inputs.GetValueOrDefault("currentForm");
+
         var draft = BuildDraftFromInputs(request, draftId, draftVersion);
         var result = WerewolfActionTestDefinitionService.DefineTest(new WerewolfActionTestDefinitionRequest(
             draft,
@@ -1366,7 +1368,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             attributeId,
             abilityId,
             difficulty,
-            modifier));
+            modifier,
+            currentFormText));
 
         if (!result.Succeeded || result.Draft is null)
         {

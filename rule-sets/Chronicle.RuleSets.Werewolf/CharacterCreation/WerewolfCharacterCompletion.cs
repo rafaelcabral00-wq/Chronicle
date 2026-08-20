@@ -37,7 +37,8 @@ public sealed record WerewolfCharacterSnapshot(
     string ValidationFingerprint,
     IReadOnlyList<WerewolfFreebieLedgerEntry> FreebieLedger,
     int FreebieBudgetTotal,
-    int FreebieBudgetSpent);
+    int FreebieBudgetSpent,
+    string CurrentForm = WerewolfFormIdentifiers.Homid);
 
 public sealed record WerewolfCharacterCompletionResult(
     bool Succeeded,
@@ -354,7 +355,14 @@ public static class WerewolfCharacterCompletionOperation
             ComputeValidationFingerprint(request.Draft),
             Array.AsReadOnly(request.Draft.FreebieLedger.ToArray()),
             request.Draft.FreebieBudgetTotal,
-            request.Draft.FreebieBudgetSpent);
+            request.Draft.FreebieBudgetSpent,
+            request.Draft.Race switch
+            {
+                WerewolfRaceIdentifiers.Homid => WerewolfFormIdentifiers.Homid,
+                WerewolfRaceIdentifiers.Metis => WerewolfFormIdentifiers.Crinos,
+                WerewolfRaceIdentifiers.Lupus => WerewolfFormIdentifiers.Lupus,
+                _ => WerewolfFormIdentifiers.Homid
+            });
 
         var updatedDraft = request.Draft with
         {

@@ -55,6 +55,7 @@ public sealed class WerewolfResourceRuntimeTests
             honorCurrent,
             wisdomPermanent,
             wisdomCurrent,
+            BirthRace: WerewolfRaceIdentifiers.Homid,
             null);
     }
 
