@@ -91,6 +91,9 @@ public sealed record WerewolfRuntimeCharacterState(
             honorCurrent ?? 0,
             wisdomPermanent ?? 0,
             wisdomCurrent ?? 0,
-            WerewolfHealthTrackComputer.Compute([], lastRegenerationTurn: -1));
+            WerewolfHealthTrackComputer.Compute(
+                [],
+                hasWeakenedImmuneSystem: StringComparer.Ordinal.Equals(snapshot.MetisDeformity, WerewolfMetisDeformityIdentifiers.WeakImmuneSystem),
+                lastRegenerationTurn: -1));
     }
 }

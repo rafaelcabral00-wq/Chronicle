@@ -78,5 +78,18 @@
   "gift.tribe.uktena.shroud.display-name": "Shroud",
   "gift.tribe.uktena.sense-magic.display-name": "Sense Magic",
   "gift.tribe.wendigo.camouflage.display-name": "Camouflage",
-  "gift.tribe.wendigo.call-the-breeze.display-name": "Call the Breeze"
+  "gift.tribe.wendigo.call-the-breeze.display-name": "Call the Breeze",
+  "character.metis-deformity.fits-of-madness.display-name": "Fits of Madness",
+  "character.metis-deformity.albinism.display-name": "Albinism",
+  "character.metis-deformity.hairless.display-name": "Hairless",
+  "character.metis-deformity.blind.display-name": "Blind",
+  "character.metis-deformity.seizures.display-name": "Seizures",
+  "character.metis-deformity.hunchback.display-name": "Hunchback",
+  "character.metis-deformity.horns.display-name": "Horns",
+  "character.metis-deformity.tough-hide.display-name": "Tough Hide",
+  "character.metis-deformity.debilitating-disease.display-name": "Debilitating Disease",
+  "character.metis-deformity.withered-limb.display-name": "Withered Limb",
+  "character.metis-deformity.tailless.display-name": "Tailless",
+  "character.metis-deformity.no-sense-of-smell.display-name": "No Sense of Smell",
+  "character.metis-deformity.weak-immune-system.display-name": "Weak Immune System"
 }

@@ -236,4 +236,32 @@ public sealed class WerewolfApplyDamageTests
         Assert.False(result.Succeeded);
         Assert.Equal("InvalidDamageType", result.ErrorCode);
     }
+
+    [Fact]
+    public void WeakenedImmuneSystemStartsTrackAtMachucado()
+    {
+        var track = WerewolfHealthTrackComputer.Compute([], hasWeakenedImmuneSystem: true);
+
+        Assert.Equal(WerewolfHealthLevelName.Machucado, track.CurrentLevel);
+        Assert.Equal(0, track.TotalDamage);
+        Assert.Equal(-1, track.WoundPenalty);
+    }
+
+    [Fact]
+    public void WeakenedImmuneSystemDoesNotAdvanceTrackBeyondFirstLevel()
+    {
+        var track = WerewolfHealthTrackComputer.Compute([], hasWeakenedImmuneSystem: true);
+
+        Assert.NotEqual(WerewolfHealthLevelName.Escoriado, track.CurrentLevel);
+    }
+
+    [Fact]
+    public void NormalImmuneSystemStartsAtEscoriado()
+    {
+        var track = WerewolfHealthTrackComputer.Compute([]);
+
+        Assert.Equal(WerewolfHealthLevelName.Escoriado, track.CurrentLevel);
+        Assert.Equal(0, track.TotalDamage);
+        Assert.Equal(0, track.WoundPenalty);
+    }
 }

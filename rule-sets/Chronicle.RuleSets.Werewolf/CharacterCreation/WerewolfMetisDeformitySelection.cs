@@ -32,36 +32,12 @@ public enum WerewolfMetisDeformitySelectionErrorCode
     RaceNotMetis,
     MissingDeformity,
     MalformedDeformity,
-    UnknownDeformity,
-    DeformityOutOfScope
-}
-
-public static class WerewolfMetisDeformityIdentifiers
-{
-    public const string Horns = "horns";
-
-    public static IReadOnlyList<string> Supported { get; } = [Horns];
+    UnknownDeformity
 }
 
 public static class WerewolfMetisDeformitySelectionService
 {
     private const string MetisDeformityStep = "select-metis-deformity";
-
-    private static readonly string[] KnownOutOfScopeDeformities =
-    [
-        "albinism",
-        "blind",
-        "debilitating-disease",
-        "fits-of-madness",
-        "hairless",
-        "hunchback",
-        "no-sense-of-smell",
-        "seizures",
-        "tailless",
-        "tough-hide",
-        "weak-immune-system",
-        "withered-limb"
-    ];
 
     public static WerewolfMetisDeformitySelectionResult SelectDeformity(WerewolfMetisDeformitySelectionRequest request)
     {
@@ -96,11 +72,6 @@ public static class WerewolfMetisDeformitySelectionService
         if (!StringComparer.Ordinal.Equals(deformity, request.DeformityId) || deformity.Any(char.IsWhiteSpace))
         {
             return Invalid(WerewolfMetisDeformitySelectionErrorCode.MalformedDeformity, "Metis deformity identifier must be canonical and whitespace-free.");
-        }
-
-        if (KnownOutOfScopeDeformities.Contains(deformity, StringComparer.Ordinal))
-        {
-            return Invalid(WerewolfMetisDeformitySelectionErrorCode.DeformityOutOfScope, "Metis deformity identifier is cataloged but not declared by the current slice.");
         }
 
         if (!WerewolfMetisDeformityIdentifiers.Supported.Contains(deformity, StringComparer.Ordinal))
@@ -138,7 +109,12 @@ public static class WerewolfMetisDeformitySelectionService
         return new WerewolfMetisDeformitySelectionResult(
             false,
             null,
-            [new WerewolfMetisDeformitySelectionFinding(WerewolfMetisDeformitySelectionFindingSeverity.Error, code, message)]);
+            [Error(code, message)]);
+    }
+
+    private static WerewolfMetisDeformitySelectionFinding Error(WerewolfMetisDeformitySelectionErrorCode code, string message)
+    {
+        return new WerewolfMetisDeformitySelectionFinding(WerewolfMetisDeformitySelectionFindingSeverity.Error, code, message);
     }
 
     private static ReadOnlyDictionary<string, int?> CopyNumeric(IReadOnlyDictionary<string, int?> values)

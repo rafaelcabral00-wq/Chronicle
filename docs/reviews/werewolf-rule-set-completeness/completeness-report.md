@@ -97,7 +97,7 @@ These domains satisfy all formal mechanically-complete criteria for the full reg
 ### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (12)
 
 These domains are executable within the declared `werewolf3e.character-creation.current-slice` scope but are not mechanically complete for the full registered source due to partial catalogs, pending semantics, or structural-only presence:
-13. Metis deformity (1 of many deformities)
+13. Metis deformity (catalog complete; effects declaratively modeled; runtime enforcement deferred)
 14. Background allocation (5 of 10 backgrounds)
 15. Initial Race Gifts (partial catalog)
 16. Initial Auspice Gifts (partial catalog)
@@ -253,7 +253,7 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 | Initial Renown by Auspice | A-005 (High) | Extract exact Renown values |
 | Resource current/permanent | A-006 (High) | Resolve initialization semantics |
 | Freebie points and limits | A-007 (High) | Extract freebie interaction rules |
-| Metis deformity modeling | A-008 (High) | Define deformity effect model |
+| Metis deformity modeling | A-008 (High) | Resolved: hybrid declarative effect model |
 | Ability catalog canonicalization | A-009 (Medium) | Map Portuguese to canonical keys |
 | Rites dual concept | A-010 (Medium) | Distinguish Background vs Knowledge |
 | Totem ownership | A-011 (Medium) | Deferred |
@@ -405,10 +405,11 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 - **Priority:** Medium
 - **Mechanical domains covered:** Metis deformity
 - **Prerequisites:** A-008
-- **Source/extraction work:** Extract full Metis deformity catalog with mechanical effects
-- **Ambiguities/decisions:** A-008 (deformity modeling)
+- **Source/extraction work:** Extracted full Metis deformity catalog with mechanical effects
+- **Ambiguities/decisions:** A-008 (deformity modeling) — ResolvedFromSource; hybrid model adopted per A-008 recommendation
 - **Expected materialization:** Full deformity catalog with declarative effects
 - **Completion condition:** A-008 resolved; all deformities modeled and implemented
+- **Actual completion:** 2026-08-20. Implemented complete 13-deformity catalog with stable machine keys. Added `WerewolfMetisDeformityEffects` record and `WerewolfMetisDeformityEffectKind` enum for declarative effect modeling. Expanded `WerewolfMetisDeformityIdentifiers` with full `Effects` dictionary. Updated selection service to support all 13 deformities. Removed out-of-scope error path; all source-defined deformities are now in-scope. Added 13 new test cases for catalog coverage, effect model, and effect kinds. Updated localization for all deformities in `en` and `pt-BR`.
 
 ### RULESET-COMPLETION-011: Resolve Metis and Race/Breed terminology
 

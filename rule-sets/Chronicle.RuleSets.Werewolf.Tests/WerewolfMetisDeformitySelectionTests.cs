@@ -8,7 +8,19 @@ namespace Chronicle.RuleSets.Werewolf.Tests;
 public sealed class WerewolfMetisDeformitySelectionTests
 {
     [Theory]
+    [InlineData(WerewolfMetisDeformityIdentifiers.FitsOfMadness)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Albinism)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Hairless)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Blind)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Seizures)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Hunchback)]
     [InlineData(WerewolfMetisDeformityIdentifiers.Horns)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.ToughHide)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.DebilitatingDisease)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.WitheredLimb)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Tailless)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.NoSenseOfSmell)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.WeakImmuneSystem)]
     public void SelectsEveryCurrentSliceDeformity(string deformityId)
     {
         var result = Select(MetisDraft(), deformityId);
@@ -34,7 +46,7 @@ public sealed class WerewolfMetisDeformitySelectionTests
     [Fact]
     public void DeformityIdentifiersAreCanonicalAndLocalizationIndependent()
     {
-        Assert.Equal(["horns"], WerewolfMetisDeformityIdentifiers.Supported);
+        Assert.Equal(13, WerewolfMetisDeformityIdentifiers.Supported.Count);
 
         var result = Select(MetisDraft(), "Horns");
 
@@ -65,27 +77,6 @@ public sealed class WerewolfMetisDeformitySelectionTests
 
         Assert.False(result.Succeeded);
         Assert.Null(result.Draft);
-    }
-
-    [Theory]
-    [InlineData("albinism")]
-    [InlineData("blind")]
-    [InlineData("debilitating-disease")]
-    [InlineData("fits-of-madness")]
-    [InlineData("hairless")]
-    [InlineData("hunchback")]
-    [InlineData("no-sense-of-smell")]
-    [InlineData("seizures")]
-    [InlineData("tailless")]
-    [InlineData("tough-hide")]
-    [InlineData("weak-immune-system")]
-    [InlineData("withered-limb")]
-    public void RejectsCatalogedButOutOfScopeDeformities(string deformityId)
-    {
-        var result = Select(MetisDraft(), deformityId);
-
-        Assert.False(result.Succeeded);
-        Assert.Contains(result.Findings, finding => finding.Code == WerewolfMetisDeformitySelectionErrorCode.DeformityOutOfScope);
     }
 
     [Fact]
@@ -294,5 +285,57 @@ public sealed class WerewolfMetisDeformitySelectionTests
         {
             return new WerewolfCharacterDraftIdentity("runtime-draft-001");
         }
+    }
+
+    [Fact]
+    public void CatalogContainsExactlyThirteenSourceDefinedDeformities()
+    {
+        Assert.Equal(13, WerewolfMetisDeformityIdentifiers.Supported.Count);
+        Assert.Equal(13, WerewolfMetisDeformityIdentifiers.Effects.Count);
+        Assert.All(WerewolfMetisDeformityIdentifiers.Supported, key => Assert.NotNull(WerewolfMetisDeformityIdentifiers.Effects[key]));
+    }
+
+    [Fact]
+    public void CatalogKeysAreUniqueAndCanonical()
+    {
+        var keys = WerewolfMetisDeformityIdentifiers.Supported;
+        Assert.Equal(keys.Count, keys.Distinct(StringComparer.Ordinal).Count());
+        Assert.DoesNotContain(keys, key => key.Any(char.IsWhiteSpace));
+    }
+
+    [Theory]
+    [InlineData(WerewolfMetisDeformityIdentifiers.FitsOfMadness, 1)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Albinism, 1)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Hairless, 1)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Blind, 1)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Seizures, 1)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Hunchback, 2)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Horns, 3)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.ToughHide, 2)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.DebilitatingDisease, 1)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.WitheredLimb, 1)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.Tailless, 2)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.NoSenseOfSmell, 2)]
+    [InlineData(WerewolfMetisDeformityIdentifiers.WeakImmuneSystem, 1)]
+    public void EveryDeformityHasDeclaredEffects(string deformityId, int expectedEffectCount)
+    {
+        Assert.Equal(expectedEffectCount, WerewolfMetisDeformityIdentifiers.Effects[deformityId].Count);
+    }
+
+    [Fact]
+    public void EffectModelCoversAllRequiredKinds()
+    {
+        var kinds = WerewolfMetisDeformityIdentifiers.Effects.Values.SelectMany(e => e.Select(e => e.Kind)).Distinct().ToList();
+        Assert.Contains(WerewolfMetisDeformityEffectKind.DifficultyModifier, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.AutomaticFailure, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.HealthLevelRemoved, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.ConditionalTest, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.CombatDamage, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.RenownPenalty, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.SensoryFailure, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.TrackingPenalty, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.FormRestricted, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.DiceBonus, kinds);
+        Assert.Contains(WerewolfMetisDeformityEffectKind.AttributeMaximum, kinds);
     }
 }

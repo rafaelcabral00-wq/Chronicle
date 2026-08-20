@@ -78,5 +78,18 @@
   "gift.tribe.uktena.shroud.display-name": "Mortalha",
   "gift.tribe.uktena.sense-magic.display-name": "Sentir Magia",
   "gift.tribe.wendigo.camouflage.display-name": "Camuflagem",
-  "gift.tribe.wendigo.call-the-breeze.display-name": "Invocar a Brisa"
+  "gift.tribe.wendigo.call-the-breeze.display-name": "Invocar a Brisa",
+  "character.metis-deformity.fits-of-madness.display-name": "Acessos de Loucura",
+  "character.metis-deformity.albinism.display-name": "Albino",
+  "character.metis-deformity.hairless.display-name": "Alopécico",
+  "character.metis-deformity.blind.display-name": "Cego",
+  "character.metis-deformity.seizures.display-name": "Convulsões",
+  "character.metis-deformity.hunchback.display-name": "Corcunda",
+  "character.metis-deformity.horns.display-name": "Cornos",
+  "character.metis-deformity.tough-hide.display-name": "Couro Duro",
+  "character.metis-deformity.debilitating-disease.display-name": "Doença Debilitante",
+  "character.metis-deformity.withered-limb.display-name": "Membro Atrofiado",
+  "character.metis-deformity.tailless.display-name": "Sem Cauda",
+  "character.metis-deformity.no-sense-of-smell.display-name": "Sem Olfato",
+  "character.metis-deformity.weak-immune-system.display-name": "Sistema Imunológico Fraco"
 }
