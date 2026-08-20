@@ -417,9 +417,10 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 - **Mechanical domains covered:** Terminology and localization
 - **Prerequisites:** A-017, A-018
 - **Source/extraction work:** Review and stabilize canonical technical keys for Race/Breed and Metis
-- **Ambiguities/decisions:** A-017 (Metis terminology), A-018 (Race vs Breed naming)
-- **Expected materialization:** Stable canonical keys, updated localization
+- **Ambiguities/decisions:** A-017 (Metis terminology) — ResolvedFromSource; A-018 (Race vs Breed naming) — ResolvedFromSource
+- **Expected materialization:** Stable canonical keys, updated localization, birth-identity documentation
 - **Completion condition:** A-017 and A-018 resolved; terminology stable
+- **Actual completion:** 2026-08-20. Confirmed `WerewolfRaceIdentifiers` with keys `homid`, `metis`, `lupus` as canonical birth-identity identifiers. A-017 resolved: `metis` is canonical technical key; `impuro` documented as in-world derogatory synonym. A-018 resolved: `Race` field represents source "Raça" (birth identity); no rename required. Added birth-identity localization keys to `en` and `pt-BR`. Added `WerewolfBirthIdentitySemanticsTests` with 7 tests verifying stable keys, birth-identity vs form distinction, Red Talons eligibility, Metis deformity eligibility, and runtime state preservation. No mechanical conflation found between birth identity and shapeshift forms.
 
 ### RULESET-COMPLETION-012: Extract remaining domains and resolve implementation decisions
 
