@@ -58,10 +58,14 @@ public static class WerewolfTestRuntimeHelpers
             Backgrounds = new Dictionary<string, int?>(StringComparer.Ordinal)
             {
                 [WerewolfBackgroundIdentifiers.Allies] = 1,
+                [WerewolfBackgroundIdentifiers.Ancestors] = 0,
                 [WerewolfBackgroundIdentifiers.Contacts] = 1,
+                [WerewolfBackgroundIdentifiers.Fetish] = 0,
+                [WerewolfBackgroundIdentifiers.Kinfolk] = 0,
+                [WerewolfBackgroundIdentifiers.Mentor] = 1,
+                [WerewolfBackgroundIdentifiers.PureBreed] = 0,
                 [WerewolfBackgroundIdentifiers.Resources] = 1,
-                [WerewolfBackgroundIdentifiers.Rites] = 1,
-                [WerewolfBackgroundIdentifiers.Mentor] = 1
+                [WerewolfBackgroundIdentifiers.Rites] = 1
             },
             Resources = new Dictionary<string, int?>(StringComparer.Ordinal)
             {

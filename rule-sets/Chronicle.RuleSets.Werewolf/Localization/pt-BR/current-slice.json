@@ -94,5 +94,14 @@
   "character.metis-deformity.withered-limb.display-name": "Membro Atrofiado",
   "character.metis-deformity.tailless.display-name": "Sem Cauda",
   "character.metis-deformity.no-sense-of-smell.display-name": "Sem Olfato",
-  "character.metis-deformity.weak-immune-system.display-name": "Sistema Imunológico Fraco"
+  "character.metis-deformity.weak-immune-system.display-name": "Sistema Imunológico Fraco",
+  "character.background.allies.display-name": "Aliados",
+  "character.background.ancestors.display-name": "Ancestrais",
+  "character.background.contacts.display-name": "Contatos",
+  "character.background.fetish.display-name": "Fetiche",
+  "character.background.kinfolk.display-name": "Parentes",
+  "character.background.mentor.display-name": "Mentor",
+  "character.background.pure-breed.display-name": "Raça Pura",
+  "character.background.resources.display-name": "Recursos",
+  "character.background.rites.display-name": "Ritos"
 }

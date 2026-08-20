@@ -441,8 +441,12 @@ public sealed class WerewolfRagabashRenownSelectionTests
             Backgrounds = new ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal)
             {
                 ["character.background.allies"] = 0,
+                ["character.background.ancestors"] = 0,
                 ["character.background.contacts"] = 0,
+                ["character.background.fetish"] = 0,
+                ["character.background.kinfolk"] = 0,
                 ["character.background.mentor"] = 0,
+                ["character.background.pure-breed"] = 0,
                 ["character.background.resources"] = 0,
                 ["character.background.rites"] = 0
             }),

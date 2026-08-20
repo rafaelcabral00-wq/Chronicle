@@ -206,9 +206,18 @@ public sealed class WerewolfAbilityFreebieEligibilityTests
 
         var backgroundKeys = WerewolfCharacterCreationDraftFactory.GetBackgroundKeys();
         var backgrounds = new Dictionary<string, int?>(StringComparer.Ordinal);
+        var allowedCount = 0;
         foreach (var key in backgroundKeys)
         {
-            backgrounds[key] = 1;
+            if (key == WerewolfBackgroundIdentifiers.Ancestors || key == WerewolfBackgroundIdentifiers.PureBreed || key == WerewolfBackgroundIdentifiers.Resources)
+            {
+                backgrounds[key] = 0;
+            }
+            else
+            {
+                backgrounds[key] = allowedCount < 5 ? 1 : 0;
+                allowedCount++;
+            }
         }
 
         var resourceKeys = WerewolfCharacterCreationDraftFactory.GetResourceKeys();

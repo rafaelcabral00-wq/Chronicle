@@ -181,8 +181,8 @@ public sealed class WerewolfCharacterCompletionTests
         var result = WerewolfCharacterCompletionOperation.Complete(new WerewolfCharacterCompletionRequest(draft, draft.DraftVersion));
 
         Assert.False(result.Succeeded);
-        Assert.Contains(result.Findings, finding => finding.Code == WerewolfCharacterCompletionErrorCode.TribeDependencyUnavailable);
-        Assert.Contains(result.Findings, finding => finding.Message.Contains("Pure Breed is not available"));
+        Assert.Contains(result.Findings, finding => finding.Code == WerewolfCharacterCompletionErrorCode.TribeBackgroundMinimumNotMet);
+        Assert.Contains(result.Findings, finding => finding.Message.Contains("Pure Breed >= 3"));
     }
 
     [Fact]
@@ -473,7 +473,7 @@ public sealed class WerewolfCharacterCompletionTests
         Assert.True(abilityAllocation.Succeeded, "AllocateAbilities failed: " + string.Join("; ", abilityAllocation.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var backgrounds = registry.Execute(Request(WerewolfReferenceRuntime.AllocateBackgroundsOperation, Inputs(abilityAllocation.Outputs,
-            ("backgrounds", "character.background.allies:2,character.background.contacts:1,character.background.mentor:0,character.background.resources:1,character.background.rites:1"))));
+            ("backgrounds", "character.background.allies:2,character.background.ancestors:0,character.background.contacts:1,character.background.fetish:0,character.background.kinfolk:0,character.background.mentor:0,character.background.pure-breed:0,character.background.resources:1,character.background.rites:1"))));
         Assert.True(backgrounds.Succeeded, "AllocateBackgrounds failed: " + string.Join("; ", backgrounds.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var resources = registry.Execute(Request(WerewolfReferenceRuntime.InitializeResourcesAndRankOperation, Inputs(backgrounds.Outputs)));
@@ -528,7 +528,7 @@ public sealed class WerewolfCharacterCompletionTests
         Assert.True(abilityAllocation.Succeeded, "AllocateAbilities failed: " + string.Join("; ", abilityAllocation.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var backgrounds = registry.Execute(Request(WerewolfReferenceRuntime.AllocateBackgroundsOperation, Inputs(abilityAllocation.Outputs,
-            ("backgrounds", "character.background.allies:2,character.background.contacts:1,character.background.mentor:0,character.background.resources:1,character.background.rites:1"))));
+            ("backgrounds", "character.background.allies:2,character.background.ancestors:0,character.background.contacts:1,character.background.fetish:0,character.background.kinfolk:0,character.background.mentor:0,character.background.pure-breed:0,character.background.resources:1,character.background.rites:1"))));
         Assert.True(backgrounds.Succeeded, "AllocateBackgrounds failed: " + string.Join("; ", backgrounds.Findings.Select(f => f.Code + ":" + f.Message)));
 
         var resources = registry.Execute(Request(WerewolfReferenceRuntime.InitializeResourcesAndRankOperation, Inputs(backgrounds.Outputs)));
@@ -697,8 +697,12 @@ public sealed class WerewolfCharacterCompletionTests
             Backgrounds = new Dictionary<string, int?>(StringComparer.Ordinal)
             {
                 [WerewolfBackgroundIdentifiers.Allies] = 2,
+                [WerewolfBackgroundIdentifiers.Ancestors] = 0,
                 [WerewolfBackgroundIdentifiers.Contacts] = 1,
+                [WerewolfBackgroundIdentifiers.Fetish] = 0,
+                [WerewolfBackgroundIdentifiers.Kinfolk] = 0,
                 [WerewolfBackgroundIdentifiers.Mentor] = 0,
+                [WerewolfBackgroundIdentifiers.PureBreed] = 1,
                 [WerewolfBackgroundIdentifiers.Resources] = 1,
                 [WerewolfBackgroundIdentifiers.Rites] = 1
             },

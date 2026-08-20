@@ -84,8 +84,12 @@ public static class WerewolfCharacterCreationDraftFactory
     private static readonly string[] BackgroundKeys =
     [
         "character.background.allies",
+        "character.background.ancestors",
         "character.background.contacts",
+        "character.background.fetish",
+        "character.background.kinfolk",
         "character.background.mentor",
+        "character.background.pure-breed",
         "character.background.resources",
         "character.background.rites"
     ];

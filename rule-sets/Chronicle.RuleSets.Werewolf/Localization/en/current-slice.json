@@ -94,5 +94,14 @@
   "character.metis-deformity.withered-limb.display-name": "Withered Limb",
   "character.metis-deformity.tailless.display-name": "Tailless",
   "character.metis-deformity.no-sense-of-smell.display-name": "No Sense of Smell",
-  "character.metis-deformity.weak-immune-system.display-name": "Weak Immune System"
+  "character.metis-deformity.weak-immune-system.display-name": "Weak Immune System",
+  "character.background.allies.display-name": "Allies",
+  "character.background.ancestors.display-name": "Ancestors",
+  "character.background.contacts.display-name": "Contacts",
+  "character.background.fetish.display-name": "Fetish",
+  "character.background.kinfolk.display-name": "Kinfolk",
+  "character.background.mentor.display-name": "Mentor",
+  "character.background.pure-breed.display-name": "Pure Breed",
+  "character.background.resources.display-name": "Resources",
+  "character.background.rites.display-name": "Rites"
 }

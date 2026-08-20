@@ -10,8 +10,12 @@ public sealed class WerewolfBackgroundAllocationTests
     public static TheoryData<string> EveryBackground => new()
     {
         WerewolfBackgroundIdentifiers.Allies,
+        WerewolfBackgroundIdentifiers.Ancestors,
         WerewolfBackgroundIdentifiers.Contacts,
+        WerewolfBackgroundIdentifiers.Fetish,
+        WerewolfBackgroundIdentifiers.Kinfolk,
         WerewolfBackgroundIdentifiers.Mentor,
+        WerewolfBackgroundIdentifiers.PureBreed,
         WerewolfBackgroundIdentifiers.Resources,
         WerewolfBackgroundIdentifiers.Rites
     };
@@ -36,7 +40,14 @@ public sealed class WerewolfBackgroundAllocationTests
         Assert.Equal(5, result.Budget);
         Assert.Equal(0, result.Remaining);
         Assert.Equal(2, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Allies]);
+        Assert.Equal(0, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Ancestors]);
+        Assert.Equal(1, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Contacts]);
+        Assert.Equal(0, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Fetish]);
+        Assert.Equal(0, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Kinfolk]);
         Assert.Equal(0, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Mentor]);
+        Assert.Equal(0, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.PureBreed]);
+        Assert.Equal(1, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Resources]);
+        Assert.Equal(1, result.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Rites]);
         Assert.DoesNotContain(WerewolfBackgroundAllocationService.AllocateBackgroundsStep, result.Draft?.RequiredNextSteps ?? []);
     }
 
@@ -62,8 +73,12 @@ public sealed class WerewolfBackgroundAllocationTests
 
         var maxSingleBackground = Allocate(draft, [
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Allies, 5),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Ancestors, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Contacts, 0),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Fetish, 0),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Kinfolk, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Mentor, 0),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.PureBreed, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Resources, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Rites, 0)
         ]);
@@ -98,8 +113,12 @@ public sealed class WerewolfBackgroundAllocationTests
         var first = Allocate(draft, ValidAllocation()).Draft!;
         var replacement = Allocate(first, [
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Allies, 1),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Ancestors, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Contacts, 1),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Fetish, 0),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Kinfolk, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Mentor, 0),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.PureBreed, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Resources, 2),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Rites, 1)
         ]);
@@ -107,7 +126,14 @@ public sealed class WerewolfBackgroundAllocationTests
         Assert.True(replacement.Succeeded, Format(replacement.Findings));
         Assert.NotSame(first.Backgrounds, replacement.Draft?.Backgrounds);
         Assert.Equal(1, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Allies]);
+        Assert.Equal(0, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Ancestors]);
+        Assert.Equal(1, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Contacts]);
+        Assert.Equal(0, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Fetish]);
+        Assert.Equal(0, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Kinfolk]);
+        Assert.Equal(0, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Mentor]);
+        Assert.Equal(0, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.PureBreed]);
         Assert.Equal(2, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Resources]);
+        Assert.Equal(1, replacement.Draft?.Backgrounds[WerewolfBackgroundIdentifiers.Rites]);
         Assert.Equal(first.DraftVersion + 1, replacement.Draft?.DraftVersion);
     }
 
@@ -232,8 +258,12 @@ public sealed class WerewolfBackgroundAllocationTests
         return
         [
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Allies, 2),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Ancestors, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Contacts, 1),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Fetish, 0),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Kinfolk, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Mentor, 0),
+            new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.PureBreed, 0),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Resources, 1),
             new WerewolfBackgroundRatingAllocation(WerewolfBackgroundIdentifiers.Rites, 1)
         ];

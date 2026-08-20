@@ -51,6 +51,8 @@ public static class WerewolfBackgroundIdentifiers
     public const string Allies = "character.background.allies";
     public const string Ancestors = "character.background.ancestors";
     public const string Contacts = "character.background.contacts";
+    public const string Fetish = "character.background.fetish";
+    public const string Kinfolk = "character.background.kinfolk";
     public const string Mentor = "character.background.mentor";
     public const string PureBreed = "character.background.pure-breed";
     public const string Resources = "character.background.resources";
@@ -59,8 +61,12 @@ public static class WerewolfBackgroundIdentifiers
     public static IReadOnlyList<string> Supported { get; } =
     [
         Allies,
+        Ancestors,
         Contacts,
+        Fetish,
+        Kinfolk,
         Mentor,
+        PureBreed,
         Resources,
         Rites
     ];

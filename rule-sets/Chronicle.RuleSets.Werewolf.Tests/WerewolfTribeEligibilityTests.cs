@@ -69,7 +69,7 @@ public sealed class WerewolfTribeEligibilityTests
     [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfRaceIdentifiers.Homid, WerewolfTribeEligibilityErrorCode.RaceBreedIneligible, "Red Talons are restricted to Lupus race per source")]
     [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfRaceIdentifiers.Metis, WerewolfTribeEligibilityErrorCode.RaceBreedIneligible, "Red Talons are restricted to Lupus race per source")]
     [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfRaceIdentifiers.Homid, WerewolfTribeEligibilityErrorCode.DependencyUnavailable, "Black Furies require female gender")]
-    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Homid, WerewolfTribeEligibilityErrorCode.DependencyUnavailable, "Silver Fangs require Pure Breed >= 3")]
+    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Homid, WerewolfTribeEligibilityErrorCode.BackgroundMinimumNotMet, "Silver Fangs require Pure Breed >= 3")]
     public void CheckRaceBreedEligibilityProducesExpectedFinding(string tribeId, string raceId, WerewolfTribeEligibilityErrorCode expectedCode, string? expectedMessageFragment)
     {
         var backgrounds = new Dictionary<string, int?>(StringComparer.Ordinal);
@@ -98,19 +98,24 @@ public sealed class WerewolfTribeEligibilityTests
     }
 
     [Fact]
-    public void SilverFangsDependencyUnavailableWhenPureBreedNotInBackgrounds()
+    public void SilverFangsEligibleWhenPureBreedMeetsMinimumAndAllOtherBackgroundsZero()
     {
-        var backgrounds = new Dictionary<string, int?>(StringComparer.Ordinal);
-        foreach (var backgroundId in WerewolfBackgroundIdentifiers.Supported)
+        var backgrounds = new Dictionary<string, int?>(StringComparer.Ordinal)
         {
-            backgrounds[backgroundId] = 0;
-        }
+            [WerewolfBackgroundIdentifiers.Allies] = 0,
+            [WerewolfBackgroundIdentifiers.Ancestors] = 0,
+            [WerewolfBackgroundIdentifiers.Contacts] = 0,
+            [WerewolfBackgroundIdentifiers.Fetish] = 0,
+            [WerewolfBackgroundIdentifiers.Kinfolk] = 0,
+            [WerewolfBackgroundIdentifiers.Mentor] = 0,
+            [WerewolfBackgroundIdentifiers.PureBreed] = 3,
+            [WerewolfBackgroundIdentifiers.Resources] = 0,
+            [WerewolfBackgroundIdentifiers.Rites] = 0
+        };
 
         var result = WerewolfTribeEligibilityService.CheckEligibility(new WerewolfTribeEligibilityRequest(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Homid, backgrounds));
 
-        Assert.False(result.IsEligible);
-        var finding = result.Findings.First(f => f.Code == WerewolfTribeEligibilityErrorCode.DependencyUnavailable);
-        Assert.Contains("Pure Breed is not available in the current character creation slice", finding.Message);
+        Assert.True(result.IsEligible);
     }
 
     [Fact]

@@ -300,6 +300,8 @@ public static class RuleSetPackageSourceValidator
             "CharacterCreation/WerewolfFreebieEligibilityService.cs",
             "CharacterCreation/WerewolfFreebiePurchaseService.cs",
             "CharacterCreation/WerewolfBackgroundAllocation.cs",
+            "CharacterCreation/WerewolfBackgroundEffectCatalog.cs",
+            "CharacterCreation/WerewolfBackgroundEffects.cs",
             "CharacterCreation/WerewolfCharacterCreationDraftContracts.cs",
             "CharacterCreation/WerewolfCharacterCreationDraftInitializer.cs",
             "CharacterCreation/WerewolfInitialGiftSelection.cs",
