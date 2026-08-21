@@ -95,11 +95,11 @@ public sealed class WerewolfFormCatalogTests
     }
 
     [Fact]
-    public void HispoBiteHasExtraDamageNote()
+    public void HispoClawHasNaturalWeaponNote()
     {
         var hispo = WerewolfFormCatalog.Entries.First(f => f.FormId == WerewolfFormIdentifiers.Hispo);
-        var biteEffect = hispo.Effects.First(e => e.Target == "bite");
-        Assert.Equal("Massive jaws; bite deals +1 extra damage die", biteEffect.Notes);
+        var clawEffect = hispo.Effects.First(e => e.Target == "claw");
+        Assert.Equal("Fully developed claws", clawEffect.Notes);
     }
 
     [Fact]
@@ -113,14 +113,14 @@ public sealed class WerewolfFormCatalogTests
     public void LupusHasPerceptionSensoryModifier()
     {
         var lupus = WerewolfFormCatalog.Entries.First(f => f.FormId == WerewolfFormIdentifiers.Lupus);
-        Assert.Equal(-2, lupus.SensoryModifiers[WerewolfAttributeIdentifiers.Perception]);
+        Assert.Equal(-2, lupus.SensoryModifiers["Perception"]);
     }
 
     [Fact]
     public void HispoHasPerceptionSensoryModifier()
     {
         var hispo = WerewolfFormCatalog.Entries.First(f => f.FormId == WerewolfFormIdentifiers.Hispo);
-        Assert.Equal(-1, hispo.SensoryModifiers[WerewolfAttributeIdentifiers.Perception]);
+        Assert.Equal(-1, hispo.SensoryModifiers["Perception"]);
     }
 
     [Fact]

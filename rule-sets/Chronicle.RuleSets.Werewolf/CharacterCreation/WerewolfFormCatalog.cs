@@ -80,10 +80,13 @@ public static class WerewolfFormCatalog
                 new WerewolfFormAttributeModifier(WerewolfAttributeIdentifiers.Manipulation, 0, IsAbsolute: true)
             ]),
             MovementModifiers: new Dictionary<string, int>(StringComparer.Ordinal),
-            SensoryModifiers: new Dictionary<string, int>(StringComparer.Ordinal),
+            SensoryModifiers: new Dictionary<string, int>(StringComparer.Ordinal)
+            {
+                ["Perception"] = -1
+            },
             Effects: Array.AsReadOnly([
                 new WerewolfFormEffect(WerewolfFormEffectKind.ManipulationLimitation, Notes: "No manual dexterity (quadrupedal)"),
-                new WerewolfFormEffect(WerewolfFormEffectKind.NaturalWeapon, Target: "bite", Notes: "Massive jaws; bite deals +1 extra damage die"),
+                new WerewolfFormEffect(WerewolfFormEffectKind.NaturalWeapon, Target: "claw", Notes: "Fully developed claws"),
                 new WerewolfFormEffect(WerewolfFormEffectKind.SpeechLimitation, Notes: "No human speech"),
                 new WerewolfFormEffect(WerewolfFormEffectKind.RegenerationModifier, Notes: "Standard regeneration; can absorb lethal/aggravated vs difficulty 6"),
                 new WerewolfFormEffect(WerewolfFormEffectKind.SoakModifier, Notes: "Silver damage requires Gifts/fetishes to absorb"),
@@ -106,11 +109,13 @@ public static class WerewolfFormCatalog
             {
                 ["speed"] = 2
             },
-            SensoryModifiers: new Dictionary<string, int>(StringComparer.Ordinal),
+            SensoryModifiers: new Dictionary<string, int>(StringComparer.Ordinal)
+            {
+                ["Perception"] = -2
+            },
             Effects: Array.AsReadOnly([
                 new WerewolfFormEffect(WerewolfFormEffectKind.ManipulationLimitation, Notes: "No manual dexterity (quadrupedal)"),
                 new WerewolfFormEffect(WerewolfFormEffectKind.NaturalWeapon, Target: "bite", Notes: "Natural wolf bite"),
-                new WerewolfFormEffect(WerewolfFormEffectKind.NaturalWeapon, Target: "claw", Notes: "Natural wolf claws"),
                 new WerewolfFormEffect(WerewolfFormEffectKind.SpeechLimitation, Notes: "No human speech"),
                 new WerewolfFormEffect(WerewolfFormEffectKind.RegenerationModifier, Notes: "Standard regeneration; can absorb lethal/aggravated vs difficulty 6"),
                 new WerewolfFormEffect(WerewolfFormEffectKind.SoakModifier, Notes: "Silver damage only absorbable for lupus birth identity"),

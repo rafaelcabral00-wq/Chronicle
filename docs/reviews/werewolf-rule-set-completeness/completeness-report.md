@@ -11,18 +11,17 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **27/68 domains (39.7%)**.
-3. Current-slice executable coverage is **37/68 domains (54.4%)**.
+2. Full-source mechanical implementation completeness is **32/68 domains (47.1%)**.
+3. Current-slice executable coverage is **42/68 domains (61.8%)**.
 4. Health/damage mechanics are fully implemented under accepted DR-0011 (Option B house rule).
-5. The finite completion backlog contains **4 remaining work packages** (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013).
+5. The finite completion backlog contains **3 remaining work packages** (RULESET-COMPLETION-009, RULESET-COMPLETION-012, and RULESET-COMPLETION-013).
 
 **Critical gaps:**
 1. Renown initialization is blocked by DR-0005 (IMPLEMENT-019B)
 2. Generic dice resolution algorithm is now source-derived (A-001 resolved in RULESET-COMPLETION-004; A-002 partially resolved — dice algorithm known, specialization selection/applicability deferred to Specialties domain)
 3. Silver Fangs require Pure Breed ≥ 3, which is now in the executable Background catalog; Silver Fang character paths are fully source-valid
 4. Tribe eligibility restrictions remain partially ambiguous (A-016 deferred to RULESET-COMPLETION-009)
-5. Soak and absorption remain delegated to a future Combat package; no executable soak operation exists
-6. 46 of 68 domains are not mechanically complete for the full registered source
+5. 41 of 68 domains are not mechanically complete for the full registered source
 
 ## 1. Source File Verification
 
@@ -62,12 +61,12 @@ Each domain is evaluated across multiple dimensions:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| mechanically complete | 27 | 39.7% |
+| mechanically complete | 32 | 47.1% |
 | current-slice executable (full-source incomplete) | 11 | 16.2% |
-| incomplete | 32 | 47.1% |
+| incomplete | 25 | 36.8% |
 | **Total** | **68** | **100%** |
 
-### 2.3 Mechanically Complete Domains (25)
+### 2.3 Mechanically Complete Domains (29)
 
 These domains satisfy all formal mechanically-complete criteria for the full registered source:
 1. Race selection
@@ -94,6 +93,11 @@ These domains satisfy all formal mechanically-complete criteria for the full reg
 22. Identity name
 23. Freebie points
 24. Background allocation
+25. Initiative
+26. Close combat maneuvers
+27. Ranged combat
+28. Soak and absorption
+29. Silver vulnerability
 
 ### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (11)
 
@@ -109,42 +113,37 @@ These domains are executable within the declared `werewolf3e.character-creation.
 21. Renown initialization (structurally present, not initialized)
 22. Specialties (semantics source-pending)
 
-### 2.5 Incomplete Domains (32)
+### 2.5 Incomplete Domains (27)
 
 These domains have no executable implementation for the full source:
-24. Initiative
-25. Close combat maneuvers
-26. Ranged combat
-27. Soak and absorption
-28. Silver vulnerability
-29. Environmental damage
-30. Falling damage
-31. Fire and poison
-32. Asphyxiation
-33. Battle scars
-34. Extended tests
-35. Resisted tests
-36. Frenzy triggers
-37. Rage tests
-38. Mental conditions
-39. Delirium
-40. The Curse
-41. Form catalogs and statistics
-42. Transformation mechanics
-43. Gift execution runtime
-44. Additional Gift purchase
-45. Gift learning and advancement
-46. Rite definitions
-47. Rite knowledge requirements
-48. Rite execution
-49. Rite costs
-50. Umbra realms and materialization
-51. Spirit travel and Veil
-52. Totem mechanics
-53. Totem aggregation
-54. Fetishes and Talens
-55. Spirit catalogs and interaction
-56. Progression
+24. Environmental damage
+25. Falling damage
+26. Fire and poison
+27. Asphyxiation
+28. Battle scars
+29. Extended tests
+30. Resisted tests
+31. Frenzy triggers
+32. Rage tests
+33. Mental conditions
+34. Delirium
+35. The Curse
+36. Form catalogs and statistics
+37. Transformation mechanics
+38. Gift execution runtime
+39. Additional Gift purchase
+40. Gift learning and advancement
+41. Rite definitions
+42. Rite knowledge requirements
+43. Rite execution
+44. Rite costs
+45. Umbra realms and materialization
+46. Spirit travel and Veil
+47. Totem mechanics
+48. Totem aggregation
+49. Fetishes and Talens
+50. Spirit catalogs and interaction
+51. Progression
 
 ### 2.6 Full 68-Domain Matrix
 

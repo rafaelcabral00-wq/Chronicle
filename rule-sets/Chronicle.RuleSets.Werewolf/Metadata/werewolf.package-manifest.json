@@ -72,6 +72,10 @@
       "status": "declared-not-yet-executable"
     },
     {
+      "capabilityKey": "combat",
+      "status": "partial-executable"
+    },
+    {
       "capabilityKey": "fixture-driven-tests",
       "status": "declared-not-yet-executable"
     },
@@ -85,7 +89,6 @@
     }
   ],
   "excludedMechanics": [
-    "combat",
     "complete-source-rpg-system",
     "progression",
     "rites",

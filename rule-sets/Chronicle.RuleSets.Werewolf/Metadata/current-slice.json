@@ -15,6 +15,7 @@
     "character-model",
     "character-sheet",
     "character-validation",
+    "combat",
     "fixture-driven-tests",
     "generic-dice",
     "post-creation-character-operations"
@@ -22,7 +23,6 @@
   "disabledCapabilities": [
     "additional-gift-purchase",
     "runtime-gift-execution",
-    "combat",
     "progression",
     "rites",
     "umbra"

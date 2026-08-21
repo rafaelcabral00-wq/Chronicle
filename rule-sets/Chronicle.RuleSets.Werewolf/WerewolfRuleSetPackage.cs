@@ -15,6 +15,7 @@ public static class WerewolfRuleSetPackage
         "character-model",
         "character-sheet",
         "character-validation",
+        "combat",
         "fixture-driven-tests",
         "generic-dice",
         "post-creation-character-operations"
@@ -24,7 +25,6 @@ public static class WerewolfRuleSetPackage
     [
         "additional-gift-purchase",
         "runtime-gift-execution",
-        "combat",
         "progression",
         "rites",
         "umbra"

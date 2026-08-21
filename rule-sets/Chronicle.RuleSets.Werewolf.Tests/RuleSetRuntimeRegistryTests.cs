@@ -73,7 +73,7 @@ public sealed class RuleSetRuntimeRegistryTests
             Operations =
             [
                 .. baseRuntime.Metadata.Operations,
-                new RuleSetOperationDescriptor("combat.roll-initiative", "combat", RuleSetOperationStatus.Enabled)
+                new RuleSetOperationDescriptor("combat.roll-initiative", "undeclared-capability", RuleSetOperationStatus.Enabled)
             ]
         });
 
@@ -145,6 +145,16 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.RecoverResourceOperation,
                 WerewolfReferenceRuntime.RegenerateOperation,
                 WerewolfReferenceRuntime.SpendResourceOperation,
+                WerewolfReferenceRuntime.ApplyCombatConditionOperation,
+                WerewolfReferenceRuntime.ApplyRageOperation,
+                WerewolfReferenceRuntime.ApplySilverOperation,
+                WerewolfReferenceRuntime.CalculateDamageOperation,
+                WerewolfReferenceRuntime.CalculateSoakOperation,
+                WerewolfReferenceRuntime.DefineAttackOperation,
+                WerewolfReferenceRuntime.DefineDefenseOperation,
+                WerewolfReferenceRuntime.DefineInitiativeOperation,
+                WerewolfReferenceRuntime.DefineManeuverOperation,
+                WerewolfReferenceRuntime.TransitionCombatStateOperation,
                 WerewolfReferenceRuntime.ExecuteGiftEffectOperation
             ],
             first[0].Operations.Select(operation => operation.OperationKey).ToArray());

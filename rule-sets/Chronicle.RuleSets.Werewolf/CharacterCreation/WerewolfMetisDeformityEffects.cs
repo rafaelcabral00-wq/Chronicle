@@ -10,6 +10,7 @@ public enum WerewolfMetisDeformityEffectKind
     RenownPenalty,
     ConditionalTest,
     CombatDamage,
+    ToughHide,
     FormRestricted,
     SensoryFailure,
     TrackingPenalty

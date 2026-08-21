@@ -1,5 +1,6 @@
 using Chronicle.RuleSets.Abstractions.Runtime;
 using Chronicle.RuleSets.Werewolf.CharacterCreation;
+using System.Linq;
 
 namespace Chronicle.RuleSets.Werewolf;
 
@@ -33,6 +34,16 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string RecoverDamageOperation = "character-runtime.recover-damage";
     public const string PermanecerAtivoOperation = "character-runtime.permanecer-ativo";
     public const string RegenerateOperation = "character-runtime.regenerate";
+    public const string DefineInitiativeOperation = "combat.define-initiative";
+    public const string DefineAttackOperation = "combat.define-attack";
+    public const string DefineDefenseOperation = "combat.define-defense";
+    public const string CalculateDamageOperation = "combat.calculate-damage";
+    public const string CalculateSoakOperation = "combat.calculate-soak";
+    public const string ApplySilverOperation = "combat.apply-silver";
+    public const string ApplyRageOperation = "combat.apply-rage";
+    public const string ApplyCombatConditionOperation = "combat.apply-combat-condition";
+    public const string TransitionCombatStateOperation = "combat.transition-combat-state";
+    public const string DefineManeuverOperation = "combat.define-maneuver";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -88,6 +99,16 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(ApplyDamageOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PermanecerAtivoOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(RegenerateOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(DefineInitiativeOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(DefineAttackOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(DefineDefenseOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(CalculateDamageOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(CalculateSoakOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ApplySilverOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ApplyRageOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ApplyCombatConditionOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(TransitionCombatStateOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(DefineManeuverOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
             new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
         ]);
@@ -229,6 +250,56 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, RegenerateOperation))
         {
             return ExecuteRegenerate(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, DefineInitiativeOperation))
+        {
+            return ExecuteDefineInitiative(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, DefineAttackOperation))
+        {
+            return ExecuteDefineAttack(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, DefineDefenseOperation))
+        {
+            return ExecuteDefineDefense(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, CalculateDamageOperation))
+        {
+            return ExecuteCalculateDamage(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, CalculateSoakOperation))
+        {
+            return ExecuteCalculateSoak(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ApplySilverOperation))
+        {
+            return ExecuteApplySilver(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ApplyRageOperation))
+        {
+            return ExecuteApplyRage(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ApplyCombatConditionOperation))
+        {
+            return ExecuteApplyCombatCondition(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, TransitionCombatStateOperation))
+        {
+            return ExecuteTransitionCombatState(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, DefineManeuverOperation))
+        {
+            return ExecuteDefineManeuver(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -2034,5 +2105,491 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         }
 
         return 0;
+    }
+
+    private static RuleSetOperationResult ExecuteDefineInitiative(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidInitiativeRequest", "Initiative requires currentState and expectedRuntimeStateVersion.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var baseAttributes = request.Inputs.TryGetValue("baseAttributes", out var baseAttributesText)
+            ? ParseNullableRatings(baseAttributesText)
+            : new System.Collections.ObjectModel.ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal));
+        var attributes = WerewolfEffectiveAttributeService.ComputeEffectiveAttributes(baseAttributes, currentState.CurrentForm);
+
+        var pool = WerewolfCombatInitiativeService.ComputeInitiativeModifier(attributes);
+        var turnStructure = WerewolfCombatInitiativeService.GetTurnStructure();
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "InitiativeComputed", $"Initiative modifier computed as {pool}.")],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["initiativeModifier"] = pool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["turnStructure"] = string.Join(",", turnStructure),
+                ["turnDuration"] = WerewolfCombatInitiativeService.GetTurnDuration()
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteDefineAttack(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("attackId", out var attackId) ||
+            !request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAttackRequest", "Attack definition requires attackId, currentState, and expectedRuntimeStateVersion.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        try
+        {
+            var definition = WerewolfCombatAttackDefinitionService.ResolveAttack(attackId);
+            var baseAttributes = request.Inputs.TryGetValue("baseAttributes", out var baseAttributesText)
+                ? ParseNullableRatings(baseAttributesText)
+                : new System.Collections.ObjectModel.ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal));
+            var attributes = WerewolfEffectiveAttributeService.ComputeEffectiveAttributes(baseAttributes, currentState.CurrentForm);
+
+            var pool = WerewolfCombatDefenseService.ComputeDefensePool(attributes, attackId);
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "AttackDefined", $"Attack {attackId} defined with pool {pool}.")],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["attackId"] = attackId,
+                    ["attackPool"] = pool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["damageType"] = definition.DamageType ?? string.Empty,
+                    ["notes"] = definition.Notes ?? string.Empty
+                });
+        }
+        catch (ArgumentException ex)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAttackId", ex.Message)],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+    }
+
+    private static RuleSetOperationResult ExecuteDefineDefense(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("defenseId", out var defenseId) ||
+            !request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidDefenseRequest", "Defense definition requires defenseId, currentState, and expectedRuntimeStateVersion.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        try
+        {
+            var definition = WerewolfCombatDefenseService.ResolveDefense(defenseId);
+            var baseAttributes = request.Inputs.TryGetValue("baseAttributes", out var baseAttributesText)
+                ? ParseNullableRatings(baseAttributesText)
+                : new System.Collections.ObjectModel.ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal));
+            var attributes = WerewolfEffectiveAttributeService.ComputeEffectiveAttributes(baseAttributes, currentState.CurrentForm);
+
+            var pool = WerewolfCombatDefenseService.ComputeDefensePool(attributes, defenseId);
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "DefenseDefined", $"Defense {defenseId} defined with pool {pool}.")],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["defenseId"] = defenseId,
+                    ["defensePool"] = pool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["effectiveAgainstFirearms"] = definition.IsEffectiveAgainstFirearms.ToString(),
+                    ["notes"] = definition.Notes ?? string.Empty
+                });
+        }
+        catch (ArgumentException ex)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidDefenseId", ex.Message)],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+    }
+
+    private static RuleSetOperationResult ExecuteCalculateDamage(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("attackSuccesses", out var successesText) ||
+            !request.Inputs.TryGetValue("damageExpression", out var damageExpressionText) ||
+            !request.Inputs.TryGetValue("damageCategory", out var damageCategoryText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(successesText, out var successes))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidDamageRequest", "Damage calculation requires currentState, expectedRuntimeStateVersion, attackSuccesses, damageExpression, and damageCategory.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var strengthBonusText = request.Inputs.TryGetValue("strengthBonus", out var sbText) && int.TryParse(sbText, out var sb) ? sb : (int?)null;
+
+        var damageRequest = new WerewolfCombatDamageRequest(
+            request.Inputs.GetValueOrDefault("requestId", string.Empty),
+            currentState,
+            expectedVersion,
+            successes,
+            damageExpressionText,
+            damageCategoryText,
+            strengthBonusText);
+
+        var definition = WerewolfCombatDamageService.DefineDamageRoll(damageRequest);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "DamageDefined", string.Join("; ", definition.Findings))],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["damagePoolSize"] = definition.DamagePoolSize.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["difficulty"] = definition.Difficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["damageCategory"] = definition.DamageCategory,
+                ["attackSuccesses"] = successes.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["findings"] = string.Join("; ", definition.Findings)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteCalculateSoak(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("damageType", out var damageTypeText) ||
+            !request.Inputs.TryGetValue("amount", out var amountText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(amountText, out var amount) ||
+            !Enum.TryParse<WerewolfDamageCategory>(damageTypeText, true, out var damageType))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidSoakRequest", "Soak requires currentState, expectedRuntimeStateVersion, damageType, and amount.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var hasGiftsOrFetishes = request.Inputs.TryGetValue("hasGiftsOrFetishes", out var giftsText) &&
+            bool.TryParse(giftsText, out var gifts) && gifts;
+        var isImpure = StringComparer.Ordinal.Equals(currentState.BirthRace, WerewolfRaceIdentifiers.Metis);
+
+        var soakRequest = new WerewolfCombatSoakRequest(
+            request.Inputs.GetValueOrDefault("requestId", string.Empty),
+            currentState,
+            expectedVersion,
+            damageType,
+            amount);
+
+        var soakDefinition = WerewolfCombatSoakService.DefineSoakRoll(soakRequest);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "SoakDefined", string.Join("; ", soakDefinition.Findings))],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["soakPoolSize"] = soakDefinition.SoakPoolSize.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["difficulty"] = soakDefinition.Difficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["isRacialForm"] = soakDefinition.IsRacialForm.ToString(),
+                ["isSilver"] = soakDefinition.IsSilver.ToString(),
+                ["soakBlocked"] = soakDefinition.SoakBlocked.ToString(),
+                ["damageType"] = damageType.ToString(),
+                ["incomingDamage"] = amount.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["findings"] = string.Join("; ", soakDefinition.Findings)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteApplySilver(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("turnsOfContact", out var turnsText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(turnsText, out var turnsOfContact))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidSilverRequest", "Silver application requires currentState, expectedRuntimeStateVersion, and turnsOfContact.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var hasGiftsOrFetishes = request.Inputs.TryGetValue("hasGiftsOrFetishes", out var giftsText) &&
+            bool.TryParse(giftsText, out var gifts) && gifts;
+
+        var silverDamage = WerewolfCombatSilverService.ApplySilverContact(currentState, turnsOfContact, hasGiftsOrFetishes);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "SilverApplied", $"Silver contact applied: {silverDamage} aggravated damage.")],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["totalAggravatedDamage"] = silverDamage.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["damageType"] = WerewolfDamageCategory.Aggravated.ToString(),
+                ["findings"] = $"Silver contact: {silverDamage} aggravated damage."
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteApplyRage(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("rageInvested", out var rageText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(rageText, out var rageInvested))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidRageRequest", "Rage application requires currentState, expectedRuntimeStateVersion, and rageInvested.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var result = WerewolfCombatRageService.CalculateExtraActions(currentState, rageInvested);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "RageApplied", string.Join("; ", result.Findings))],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["extraActions"] = result.ExtraActions.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["rageInvested"] = result.RageInvested.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["findings"] = string.Join("; ", result.Findings)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteApplyCombatCondition(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentCombatState", out var combatStateText) ||
+            !request.Inputs.TryGetValue("conditionKind", out var conditionKindText) ||
+            !Enum.TryParse<WerewolfCombatConditionKind>(conditionKindText, true, out var conditionKind))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidConditionRequest", "Condition application requires currentCombatState and conditionKind.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var condition = conditionKind switch
+        {
+            WerewolfCombatConditionKind.Blinded => new WerewolfCombatCondition(WerewolfCombatConditionKind.Blinded, "Line 3107", "Cannot dodge/parry/block, +2 difficulty to all actions", DifficultyModifier: 2, CanDodge: false, CanParry: false, CanBlock: false),
+            WerewolfCombatConditionKind.Immobilized => new WerewolfCombatCondition(WerewolfCombatConditionKind.Immobilized, "Line 3109", "Totally immobile; automatic failure on actions", DifficultyModifier: -2),
+            WerewolfCombatConditionKind.Stunned => new WerewolfCombatCondition(WerewolfCombatConditionKind.Stunned, "Line 3111", "No actions except stagger, +2 difficulty to received attacks next turn", CanAct: false),
+            WerewolfCombatConditionKind.Prone => new WerewolfCombatCondition(WerewolfCombatConditionKind.Prone, "Lines 3110-3111", "Knocked down; requires actions to stand"),
+            WerewolfCombatConditionKind.ChangeAction => new WerewolfCombatCondition(WerewolfCombatConditionKind.ChangeAction, "Line 3108", "+1 difficulty except aborting to defensive", DifficultyModifier: 1),
+            _ => null
+        };
+
+        if (condition is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidConditionKind", $"Unknown condition kind: {conditionKind}")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var combatState = System.Text.Json.JsonSerializer.Deserialize<WerewolfCombatState>(combatStateText, JsonOptions);
+        if (combatState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCombatState", "Combat state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var updatedCombatState = WerewolfCombatStateService.AddCondition(combatState, condition);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "ConditionApplied", $"Condition {conditionKind} applied.")],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["updatedCombatState"] = System.Text.Json.JsonSerializer.Serialize(updatedCombatState, JsonOptions),
+                ["conditionKind"] = conditionKind.ToString(),
+                ["difficultyModifier"] = condition.DifficultyModifier.HasValue ? condition.DifficultyModifier.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : string.Empty
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteTransitionCombatState(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentCombatState", out var combatStateText) ||
+            !request.Inputs.TryGetValue("expectedCombatStateVersion", out var versionText) ||
+            !int.TryParse(versionText, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidTransitionRequest", "Transition requires currentCombatState and expectedCombatStateVersion.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var combatState = System.Text.Json.JsonSerializer.Deserialize<WerewolfCombatState>(combatStateText, JsonOptions);
+        if (combatState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCombatState", "Combat state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        if (combatState.CombatStateVersion != expectedVersion)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "StaleVersion", $"Version mismatch: expected {expectedVersion}, actual {combatState.CombatStateVersion}")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var updatedCombatState = combatState with { CombatStateVersion = combatState.CombatStateVersion + 1 };
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "CombatStateTransitioned", "Combat state transitioned.")],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["updatedCombatState"] = System.Text.Json.JsonSerializer.Serialize(updatedCombatState, JsonOptions),
+                ["newCombatStateVersion"] = updatedCombatState.CombatStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteDefineManeuver(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("maneuverId", out var maneuverId))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidManeuverRequest", "Maneuver definition requires maneuverId.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var maneuver = WerewolfCombatManeuverCatalog.Entries.FirstOrDefault(m => StringComparer.Ordinal.Equals(m.ManeuverId, maneuverId));
+        if (maneuver is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidManeuverId", $"Unknown maneuver: {maneuverId}")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "ManeuverDefined", $"Maneuver {maneuverId} defined.")],
+             new Dictionary<string, string>(StringComparer.Ordinal)
+             {
+                 ["maneuverId"] = maneuverId,
+                 ["sourceLocator"] = maneuver.SourceLocator,
+                 ["allowedForms"] = string.Join(",", maneuver.AllowedForms),
+                 ["baseDifficulty"] = maneuver.BaseDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["damageCategory"] = maneuver.DamageCategory ?? string.Empty,
+                 ["damageExpression"] = maneuver.DamageExpression ?? string.Empty,
+                 ["actionCost"] = maneuver.ActionCost.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["notes"] = maneuver.Notes ?? string.Empty
+             });
     }
 }
