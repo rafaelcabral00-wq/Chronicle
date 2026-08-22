@@ -18,7 +18,14 @@ public static class WerewolfCombatAttackDefinitionService
                 [WerewolfFormIdentifiers.Homid, WerewolfFormIdentifiers.Glabro, WerewolfFormIdentifiers.Crinos],
                 false,
                 null,
-                1),
+                1,
+                null,
+                null,
+                true,
+                WerewolfAbilityIdentifiers.Firearms,
+                1,
+                true,
+                false),
 
             [WerewolfCombatIdentifiers.Thrown] = new WerewolfCombatAttackDefinition(
                 WerewolfCombatIdentifiers.Thrown,
@@ -33,7 +40,14 @@ public static class WerewolfCombatAttackDefinitionService
                 [WerewolfFormIdentifiers.Homid, WerewolfFormIdentifiers.Glabro, WerewolfFormIdentifiers.Crinos],
                 false,
                 null,
-                1),
+                1,
+                null,
+                null,
+                true,
+                WerewolfAbilityIdentifiers.Athletics,
+                null,
+                false,
+                false),
 
             [WerewolfCombatIdentifiers.MeleeWeapon] = new WerewolfCombatAttackDefinition(
                 WerewolfCombatIdentifiers.MeleeWeapon,
@@ -48,7 +62,14 @@ public static class WerewolfCombatAttackDefinitionService
                 [WerewolfFormIdentifiers.Homid, WerewolfFormIdentifiers.Glabro, WerewolfFormIdentifiers.Crinos],
                 false,
                 null,
-                1),
+                1,
+                null,
+                null,
+                false,
+                null,
+                null,
+                false,
+                false),
 
             [WerewolfCombatIdentifiers.Brawl] = new WerewolfCombatAttackDefinition(
                 WerewolfCombatIdentifiers.Brawl,
@@ -63,7 +84,14 @@ public static class WerewolfCombatAttackDefinitionService
                 [WerewolfFormIdentifiers.Homid, WerewolfFormIdentifiers.Glabro, WerewolfFormIdentifiers.Crinos, WerewolfFormIdentifiers.Hispo, WerewolfFormIdentifiers.Lupus],
                 false,
                 null,
-                1),
+                1,
+                null,
+                null,
+                false,
+                null,
+                null,
+                false,
+                false),
 
             [WerewolfCombatIdentifiers.Claw] = new WerewolfCombatAttackDefinition(
                 WerewolfCombatIdentifiers.Claw,
@@ -78,7 +106,14 @@ public static class WerewolfCombatAttackDefinitionService
                 [WerewolfFormIdentifiers.Crinos, WerewolfFormIdentifiers.Hispo],
                 true,
                 "claw",
-                1),
+                1,
+                null,
+                null,
+                false,
+                null,
+                null,
+                false,
+                false),
 
             [WerewolfCombatIdentifiers.Bite] = new WerewolfCombatAttackDefinition(
                 WerewolfCombatIdentifiers.Bite,
@@ -93,7 +128,36 @@ public static class WerewolfCombatAttackDefinitionService
                 [WerewolfFormIdentifiers.Crinos, WerewolfFormIdentifiers.Lupus, WerewolfFormIdentifiers.Glabro],
                 true,
                 "bite",
-                1)
+                1,
+                null,
+                null,
+                false,
+                null,
+                null,
+                false,
+                false),
+
+            [WerewolfCombatIdentifiers.Bow] = new WerewolfCombatAttackDefinition(
+                WerewolfCombatIdentifiers.Bow,
+                "Line 3117",
+                WerewolfAttributeIdentifiers.Dexterity,
+                WerewolfAbilityIdentifiers.Athletics,
+                6,
+                1,
+                "Variable",
+                WerewolfDamageCategory.Lethal.ToString(),
+                false,
+                [WerewolfFormIdentifiers.Homid, WerewolfFormIdentifiers.Glabro, WerewolfFormIdentifiers.Crinos],
+                false,
+                null,
+                1,
+                null,
+                null,
+                true,
+                WerewolfAbilityIdentifiers.Athletics,
+                null,
+                false,
+                false)
         };
 
     public static WerewolfCombatAttackDefinition ResolveAttack(string attackId)

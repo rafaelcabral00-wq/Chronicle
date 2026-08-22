@@ -15,4 +15,9 @@ public sealed record WerewolfCombatAttackDefinition(
     string? NaturalWeaponTarget,
     int ActionCost,
     string? DamageType = null,
-    string? Notes = null);
+    string? Notes = null,
+    bool IsRanged = false,
+    string? RangedAbility = null,
+    int? RateOfFire = null,
+    bool CanUseAutomaticFire = false,
+    bool CanUseAreaFire = false);
