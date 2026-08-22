@@ -102,14 +102,14 @@ These domains satisfy all formal mechanically-complete criteria for the full reg
 ### 2.4 Current-Slice Executable but Full-Source Incomplete Domains (11)
 
 These domains are executable within the declared `werewolf3e.character-creation.current-slice` scope but are not mechanically complete for the full registered source due to partial catalogs, pending semantics, or structural-only presence:
-13. Metis deformity (catalog complete; effects declaratively modeled; runtime enforcement deferred)
+13. Metis deformity (catalog complete; action-resolution effects enforced; social effects deferred to 012F)
 14. Initial Race Gifts (partial catalog)
 15. Initial Auspice Gifts (partial catalog)
 16. Race Gift catalog (partial catalog)
 17. Auspice Gift catalog (partial catalog)
 18. Tribe Gift catalog (catalog complete, behavioral restrictions pending)
 19. Character draft persistence (structural only, not behavioral)
-20. Attribute + Ability test definition (operation declared, semantics pending)
+20. Attribute + Ability test definition (operation declared, deformity modifiers integrated)
 21. Renown initialization (structurally present, not initialized)
 22. Specialties (semantics source-pending)
 
@@ -173,6 +173,10 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 | `character-creation.complete-character` | Enabled | Validation and completion |
 | `character-runtime.define-action-test` | Enabled | Generic dice |
 | `character-runtime.interpret-action-roll` | Enabled | Generic dice |
+| `action-resolution.resolve-action-test` | Enabled | Action test with deformity modifiers |
+| `action-resolution.apply-condition` | Enabled | Apply condition to runtime state |
+| `action-resolution.clear-condition` | Enabled | Clear condition from runtime state |
+| `action-resolution.evaluate-action-availability` | Enabled | Evaluate if action can be attempted |
 | `character-runtime.spend-resource` | Enabled | Rage/Gnosis/Willpower |
 | `character-runtime.recover-resource` | Enabled | Rage/Gnosis/Willpower |
 | `character-runtime.apply-damage` | Enabled | Damage application under DR-0011 Option B |
@@ -441,6 +445,17 @@ No metadata overclaims are critical. The medium-severity gaps relate to generic-
 - **Expected materialization:** Updated DisabledCapabilities list
 - **Completion condition:** All deferred domains explicitly listed in DisabledCapabilities or documented why omitted
 
+### RULESET-COMPLETION-012E: Action Resolution and Condition Taxonomy
+
+- **Priority:** Medium
+- **Mechanical domains covered:** Metis deformity (action-resolution effects), Attribute + Ability test definition (modifier integration)
+- **Prerequisites:** RULESET-COMPLETION-010 (deformity catalog), RULESET-COMPLETION-004 (generic dice)
+- **Source/extraction work:** Extracted deformity effect enforcement rules from source lines 523-539
+- **Ambiguities/decisions:** None — all effects are explicitly defined in source
+- **Expected materialization:** Action-resolution modifier service, condition service, integration tests
+- **Completion condition:** All source-defined action-resolution deformity effects are enforced; condition model supports triggered states; tests cover modifier computation, condition lifecycle, and end-to-end scenarios
+- **Actual completion:** 2026-08-22. Implemented `WerewolfActionResolutionModifierService`, `WerewolfActionResolutionService`, `WerewolfCondition`, `WerewolfConditionService`. Added 57 new test cases across 3 test files. Updated `WerewolfRuntimeCharacterState` to carry condition state. Registered 4 new runtime operations. Updated package validator allow-list and localization.
+
 ## 9. Backlog Coverage Proof
 
 All 45 mechanically incomplete domains map to at least one completion work package:
@@ -458,12 +473,17 @@ All 45 mechanically incomplete domains map to at least one completion work packa
 | RULESET-COMPLETION-010 | Metis deformity |
 | RULESET-COMPLETION-011 | Race selection, Auspice selection, Metis deformity, Tribe selection, Initial Race Gifts, Initial Auspice Gifts, Initial Tribe Gifts |
 | RULESET-COMPLETION-012A | Background catalog expansion (Ancestors, Pure Breed, Fetish, Kinfolk), Background runtime effects, Silver Fang eligibility |
+| RULESET-COMPLETION-012C | Combat Mechanics Runtime (Initiative, Close combat maneuvers, Ranged combat, Soak and absorption, Silver vulnerability) |
+| RULESET-COMPLETION-012D | Complete Ranged Combat |
+| RULESET-COMPLETION-012E | Action Resolution and Condition Taxonomy (Metis deformity action-resolution effects, Attribute + Ability test definition modifier integration) |
 | RULESET-COMPLETION-012 | Frenzy triggers, Rage tests, Mental conditions, Delirium, The Curse, Form catalogs and statistics, Transformation mechanics, Gift execution runtime, Additional Gift purchase, Gift learning and advancement, Rite definitions, Rite knowledge requirements, Rite execution, Rite costs, Umbra realms and materialization, Spirit travel and Veil, Totem mechanics, Totem aggregation, Fetishes and Talens, Spirit catalogs and interaction, Progression, Extended tests, Resisted tests, Character draft persistence, Initial Race Gifts, Initial Auspice Gifts, Initial Tribe Gifts, Race Gift catalog, Auspice Gift catalog, Tribe Gift catalog |
 | RULESET-COMPLETION-013 | (metadata accuracy) |
 
 **Backlog package count:** 4 parent packages (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013), with RULESET-COMPLETION-012A as first completed subpackage.
 
 RULESET-COMPLETION-002, 003, 004, 005, 006, 007, and 008 are complete.
+
+RULESET-COMPLETION-012A, 012C, 012D, and 012E are complete as subpackages of RULESET-COMPLETION-012.
 
 ## 10. Formal Completeness Criteria
 
@@ -510,14 +530,14 @@ RULESET-COMPLETION-005 health/damage mechanics are now implemented and tested. D
 | Validation Type | Command | Scope | Result |
 |-----------------|---------|-------|--------|
 | Build | `dotnet build Chronicle.sln --nologo --verbosity quiet` | Full solution | 0 errors, 0 warnings |
-| Tests | `dotnet test Chronicle.sln --nologo --verbosity quiet` | Full solution | 588 passed, 0 failed |
+| Tests | `dotnet test Chronicle.sln --nologo --verbosity quiet` | Full solution | 1150 passed, 0 failed |
 | Git whitespace | `git diff --check` | Repository | No whitespace errors |
 | JSON schema | `python json validation` | completeness-matrix.json | Valid JSON |
 
 ### 12.2 Validation Scope Distinctions
 
-- **Full solution tests:** 588 tests passed across all test projects
-- **Werewolf focused tests:** 588 tests in `Chronicle.RuleSets.Werewolf.Tests`
+- **Full solution tests:** 1150 tests passed across all test projects
+- **Werewolf focused tests:** 1150 tests in `Chronicle.RuleSets.Werewolf.Tests`
 - **Documentation/schema validation:** JSON validity confirmed for `completeness-matrix.json`
 
 ## 13. Artifacts Produced
@@ -537,7 +557,10 @@ RULESET-COMPLETION-005 health/damage mechanics are now implemented and tested. D
 | `docs/reviews/documentation-reconciliation/decision-requests/DR-0010-werewolf-health-and-damage-boundary.md` | Updated governance to reflect DR-0011 accepted |
 | `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-004.md` | Whitespace hygiene |
 | `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-005.md` | Created as complete evidence |
-| `docs/reviews/werewolf-rule-set-completeness/completeness-matrix.json` | Updated counts; Damage categories marked complete |
+| `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-012C.md` | Created as complete evidence |
+| `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-012D.md` | Created as complete evidence |
+| `docs/reviews/werewolf-rule-set-completeness/completion-evidence/RULESET-COMPLETION-012E.md` | Created as complete evidence |
+| `docs/reviews/werewolf-rule-set-completeness/completeness-matrix.json` | Updated counts; Metis deformity and Attribute + Ability test definition updated |
 | `docs/reviews/werewolf-rule-set-completeness/completeness-report.md` | Corrected counts and status |
 | `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfHealthTrack.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfHealthTrackComputer.cs` | New file |
@@ -549,17 +572,29 @@ RULESET-COMPLETION-005 health/damage mechanics are now implemented and tested. D
 | `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRecoverDamageService.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRegenerationService.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfPermanecerAtivoService.cs` | New file |
-| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRuntimeCharacterState.cs` | Modified to include HealthTrack |
-| `rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs` | Modified to register health/damage operations |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfActionResolutionContext.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfActionResolutionModifierService.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfActionResolutionService.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfCondition.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfConditionService.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf/CharacterCreation/WerewolfRuntimeCharacterState.cs` | Modified to include Conditions and health/damage |
+| `rule-sets/Chronicle.RuleSets.Werewolf/WerewolfReferenceRuntime.cs` | Modified to register action-resolution operations |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfHealthTrackTests.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfApplyDamageTests.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRecoverDamageTests.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfPermanecerAtivoTests.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfRegenerationTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfActionResolutionModifierTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfConditionTests.cs` | New file |
+| `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfActionResolutionIntegrationTests.cs` | New file |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/RuleSetRuntimeRegistryTests.cs` | Modified |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceRuntimeTests.cs` | Modified |
 | `rule-sets/Chronicle.RuleSets.Werewolf.Tests/WerewolfResourceTransitionTests.cs` | Modified |
-| `src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs` | Modified to allow-list new health/damage files |
+| `rule-sets/Chronicle.RuleSets.Werewolf/Localization/en/current-slice.json` | Modified |
+| `rule-sets/Chronicle.RuleSets.Werewolf/Localization/pt-BR/current-slice.json` | Modified |
+| `rule-sets/Chronicle.RuleSets.Werewolf/Metadata/current-slice.json` | Modified |
+| `rule-sets/Chronicle.RuleSets.Werewolf/Metadata/werewolf.package-manifest.json` | Modified |
+| `src/Chronicle.RuleSets.Abstractions/PackageSources/RuleSetPackageSourceValidation.cs` | Modified to allow-list new files |
 
 ## 15. Git Status
 
@@ -617,6 +652,6 @@ Catalog expansion (002) does NOT need to precede core dice semantics (004). They
 
 Mechanical domain inventory/disposition coverage is **68/68**.
 
-Werewolf mechanical implementation completeness is **31/68 domains (45.6%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion) is complete as first subpackage of 012. RULESET-COMPLETION-012D (Complete Ranged Combat) is complete as fourth subpackage of 012.
+Werewolf mechanical implementation completeness is **31/68 domains (45.6%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion), RULESET-COMPLETION-012C (Combat Mechanics Runtime), RULESET-COMPLETION-012D (Complete Ranged Combat), and RULESET-COMPLETION-012E (Action Resolution and Condition Taxonomy) are complete as subpackages of RULESET-COMPLETION-012.
 
 RULESET-COMPLETION-005 health/damage mechanics, RULESET-COMPLETION-006 Ability catalog canonicalization, RULESET-COMPLETION-007 Lupus freebie spending timing, and RULESET-COMPLETION-008 freebie points interaction with resources are now complete. Health levels, Wound penalties, Incapacitation and death, Regeneration, Damage categories, Ability allocation, Background allocation, and Freebie points are mechanically complete. Soak and absorption remain delegated to a future Combat package.

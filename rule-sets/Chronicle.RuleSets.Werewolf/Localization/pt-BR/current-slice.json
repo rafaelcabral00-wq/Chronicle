@@ -136,5 +136,9 @@
   "combat.condition.immobilized.display-name": "Imobilizado",
   "combat.condition.stun.display-name": "Atordoado",
   "combat.condition.fall.display-name": "Queda",
-  "combat.condition.change-action.display-name": "Mudar ação"
+  "combat.condition.change-action.display-name": "Mudar ação",
+  "action-resolution.condition.temporary-psychotic-episode.display-name": "Surto Psicótico Temporário",
+  "action-resolution.condition.incapacitated.display-name": "Incapacitado",
+  "action-resolution.condition.under-tension.display-name": "Sob Tensão",
+  "action-resolution.condition.critical-failure.display-name": "Falha Crítica"
 }

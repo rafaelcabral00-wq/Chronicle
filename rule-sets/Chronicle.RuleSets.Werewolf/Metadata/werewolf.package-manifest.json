@@ -52,6 +52,10 @@
   },
   "capabilities": [
     {
+      "capabilityKey": "action-resolution",
+      "status": "partial-executable"
+    },
+    {
       "capabilityKey": "character-completion",
       "status": "partial-executable"
     },

@@ -20,7 +20,8 @@ public sealed record WerewolfRuntimeCharacterState(
     int WisdomCurrent,
     string BirthRace,
     WerewolfHealthTrack? HealthTrack,
-    string CurrentForm = "")
+    string CurrentForm = "",
+    IReadOnlyList<WerewolfCondition> Conditions = null!)
 {
     public static WerewolfRuntimeCharacterState FromSnapshot(WerewolfCharacterSnapshot snapshot)
     {

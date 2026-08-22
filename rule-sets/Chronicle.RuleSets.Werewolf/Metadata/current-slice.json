@@ -10,6 +10,7 @@
     "packagePublished": false
   },
   "supportedCapabilities": [
+    "action-resolution",
     "character-completion",
     "character-creation",
     "character-model",

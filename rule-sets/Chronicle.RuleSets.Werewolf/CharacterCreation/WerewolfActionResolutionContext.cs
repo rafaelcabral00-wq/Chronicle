@@ -1,0 +1,15 @@
+namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
+
+public sealed record WerewolfActionResolutionContext(
+    string AttributeId,
+    string AbilityId,
+    string CurrentForm,
+    string? MetisDeformity,
+    bool IsDaylightWithoutProtection,
+    bool IsUnderTension,
+    bool IsUsingWitheredLimb,
+    string? SenseBeingTested,
+    bool IsTracking,
+    bool IsVisionBased,
+    bool IsBalanceTest,
+    IReadOnlyList<string> ActiveConditions);

@@ -44,6 +44,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string ApplyCombatConditionOperation = "combat.apply-combat-condition";
     public const string TransitionCombatStateOperation = "combat.transition-combat-state";
     public const string DefineManeuverOperation = "combat.define-maneuver";
+    public const string ResolveActionResolutionOperation = "action-resolution.resolve-action-test";
+    public const string ApplyConditionOperation = "action-resolution.apply-condition";
+    public const string ClearConditionOperation = "action-resolution.clear-condition";
+    public const string EvaluateActionAvailabilityOperation = "action-resolution.evaluate-action-availability";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
 
@@ -109,6 +113,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(ApplyCombatConditionOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(TransitionCombatStateOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineManeuverOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ResolveActionResolutionOperation, "action-resolution", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ApplyConditionOperation, "action-resolution", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ClearConditionOperation, "action-resolution", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluateActionAvailabilityOperation, "action-resolution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
             new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
         ]);
@@ -300,6 +308,26 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, DefineManeuverOperation))
         {
             return ExecuteDefineManeuver(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ResolveActionResolutionOperation))
+        {
+            return ExecuteResolveActionResolution(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ApplyConditionOperation))
+        {
+            return ExecuteApplyCondition(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ClearConditionOperation))
+        {
+            return ExecuteClearCondition(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateActionAvailabilityOperation))
+        {
+            return ExecuteEvaluateActionAvailability(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -2552,6 +2580,255 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             {
                 ["updatedCombatState"] = System.Text.Json.JsonSerializer.Serialize(updatedCombatState, JsonOptions),
                 ["newCombatStateVersion"] = updatedCombatState.CombatStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteResolveActionResolution(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("attributeId", out var attributeId) ||
+            !request.Inputs.TryGetValue("abilityId", out var abilityId) ||
+            !request.Inputs.TryGetValue("baseDifficulty", out var baseDifficultyText) ||
+            !int.TryParse(baseDifficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var baseDifficulty))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidActionResolutionRequest", "Action resolution requires currentState, expectedRuntimeStateVersion, requestId, attributeId, abilityId, and baseDifficulty.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var isDaylight = request.Inputs.TryGetValue("isDaylightWithoutProtection", out var daylightText) &&
+            bool.TryParse(daylightText, out var daylight) && daylight;
+        var isTension = request.Inputs.TryGetValue("isUnderTension", out var tensionText) &&
+            bool.TryParse(tensionText, out var tension) && tension;
+        var isWitheredLimb = request.Inputs.TryGetValue("isUsingWitheredLimb", out var limbText) &&
+            bool.TryParse(limbText, out var limb) && limb;
+        var senseTested = request.Inputs.TryGetValue("senseBeingTested", out var senseText) ? senseText : null;
+        var isTracking = request.Inputs.TryGetValue("isTracking", out var trackingText) &&
+            bool.TryParse(trackingText, out var tracking) && tracking;
+        var isVision = request.Inputs.TryGetValue("isVisionBased", out var visionText) &&
+            bool.TryParse(visionText, out var vision) && vision;
+        var isBalance = request.Inputs.TryGetValue("isBalanceTest", out var balanceText) &&
+            bool.TryParse(balanceText, out var balance) && balance;
+
+        var resolutionRequest = new WerewolfActionResolutionRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            attributeId,
+            abilityId,
+            baseDifficulty,
+            isDaylight,
+            isTension,
+            isWitheredLimb,
+            senseTested,
+            isTracking,
+            isVision,
+            isBalance);
+
+        var result = WerewolfActionResolutionService.ResolveActionTest(resolutionRequest);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "ActionResolution", f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId,
+                ["basePool"] = result.BasePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["dicePoolModifier"] = result.DicePoolModifier.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["finalPool"] = result.FinalPool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["baseDifficulty"] = result.BaseDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["difficultyModifier"] = result.DifficultyModifier.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["finalDifficulty"] = result.FinalDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["isActionUnavailable"] = result.IsActionUnavailable.ToString(),
+                ["isAutomaticFailure"] = result.IsAutomaticFailure.ToString(),
+                ["conditionalTests"] = System.Text.Json.JsonSerializer.Serialize(result.ConditionalTests.Select(c => new { c.Condition, c.Target, c.TestDifficulty, c.MinimumSuccesses, c.Consequence }), JsonOptions),
+                ["findings"] = string.Join("; ", result.Findings)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteApplyCondition(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("conditionKey", out var conditionKey) ||
+            !request.Inputs.TryGetValue("conditionKind", out var conditionKindText) ||
+            !Enum.TryParse<WerewolfConditionKind>(conditionKindText, true, out var conditionKind) ||
+            !request.Inputs.TryGetValue("sourceLocator", out var sourceLocator) ||
+            !request.Inputs.TryGetValue("sourceDeformity", out var sourceDeformity))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidApplyConditionRequest", "Apply condition requires currentState, expectedRuntimeStateVersion, requestId, conditionKey, conditionKind, sourceLocator, and sourceDeformity.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        int? durationTurns = null;
+        if (request.Inputs.TryGetValue("durationTurns", out var durationText) && int.TryParse(durationText, out var duration))
+        {
+            durationTurns = duration;
+        }
+
+        var applyRequest = new WerewolfApplyConditionRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            conditionKey,
+            conditionKind,
+            sourceLocator,
+            sourceDeformity,
+            durationTurns);
+
+        var result = WerewolfConditionService.ApplyCondition(applyRequest);
+
+        if (!result.Succeeded || result.NewState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "ApplyConditionFailed", f)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "ConditionApplied", f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                ["newRuntimeStateVersion"] = result.NewRuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["findings"] = string.Join("; ", result.Findings)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteClearCondition(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("conditionKey", out var conditionKey))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidClearConditionRequest", "Clear condition requires currentState, expectedRuntimeStateVersion, requestId, and conditionKey.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var clearRequest = new WerewolfClearConditionRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            conditionKey);
+
+        var result = WerewolfConditionService.ClearCondition(clearRequest);
+
+        if (!result.Succeeded || result.NewState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "ClearConditionFailed", f)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "ConditionCleared", f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                ["newRuntimeStateVersion"] = result.NewRuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["findings"] = string.Join("; ", result.Findings)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteEvaluateActionAvailability(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("actionType", out var actionType))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidAvailabilityRequest", "Availability evaluation requires currentState, expectedRuntimeStateVersion, requestId, and actionType.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var availabilityRequest = new WerewolfEvaluateActionAvailabilityRequest(
+            requestId,
+            currentState,
+            expectedVersion,
+            actionType);
+
+        var result = WerewolfConditionService.EvaluateActionAvailability(availabilityRequest);
+
+        return new RuleSetOperationResult(
+            result.Succeeded,
+            null,
+            result.Findings.Select(f => new RuleSetRuntimeFinding(
+                result.IsAvailable ? RuleSetRuntimeFindingSeverity.Information : RuleSetRuntimeFindingSeverity.Error,
+                "ActionAvailability",
+                f)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                 ["isAvailable"] = result.IsAvailable.ToString(),
+                ["unavailableReason"] = result.UnavailableReason ?? string.Empty,
+                ["findings"] = string.Join("; ", result.Findings)
             });
     }
 

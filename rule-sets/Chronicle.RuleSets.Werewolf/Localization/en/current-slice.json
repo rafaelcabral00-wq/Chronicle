@@ -136,5 +136,9 @@
   "combat.condition.immobilized.display-name": "Immobilized",
   "combat.condition.stun.display-name": "Stun",
   "combat.condition.fall.display-name": "Fall",
-  "combat.condition.change-action.display-name": "Change action"
+  "combat.condition.change-action.display-name": "Change action",
+  "action-resolution.condition.temporary-psychotic-episode.display-name": "Temporary Psychotic Episode",
+  "action-resolution.condition.incapacitated.display-name": "Incapacitated",
+  "action-resolution.condition.under-tension.display-name": "Under Tension",
+  "action-resolution.condition.critical-failure.display-name": "Critical Failure"
 }
