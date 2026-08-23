@@ -140,5 +140,11 @@
   "action-resolution.condition.temporary-psychotic-episode.display-name": "Temporary Psychotic Episode",
   "action-resolution.condition.incapacitated.display-name": "Incapacitated",
   "action-resolution.condition.under-tension.display-name": "Under Tension",
-  "action-resolution.condition.critical-failure.display-name": "Critical Failure"
+  "action-resolution.condition.critical-failure.display-name": "Critical Failure",
+  "frenzy.type.wild.display-name": "Wild Frenzy",
+  "frenzy.type.fox.display-name": "Fox Frenzy",
+  "frenzy.type.extreme.display-name": "Extreme Frenzy",
+  "frenzy.trigger.rage-test.display-name": "Rage Test",
+  "frenzy.suppression.willpower.display-name": "Willpower Suppression",
+  "frenzy.besta-interior.display-name": "Besta Interior"
 }

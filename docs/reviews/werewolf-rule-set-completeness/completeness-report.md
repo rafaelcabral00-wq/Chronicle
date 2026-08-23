@@ -11,8 +11,8 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 
 **Key findings:**
 1. Mechanical domain inventory/disposition coverage is **68/68**.
-2. Full-source mechanical implementation completeness is **31/68 domains (45.6%)**.
-3. Current-slice executable coverage is **41/68 domains (60.3%)**.
+2. Full-source mechanical implementation completeness is **34/68 domains (50.0%)**.
+3. Current-slice executable coverage is **44/68 domains (64.7%)**.
 4. Health/damage mechanics are fully implemented under accepted DR-0011 (Option B house rule).
 5. The finite completion backlog contains **3 remaining work packages** (RULESET-COMPLETION-009, RULESET-COMPLETION-012, and RULESET-COMPLETION-013).
 
@@ -21,7 +21,7 @@ The canonical source file is a 3,948-line Brazilian Portuguese cleaned working s
 2. Generic dice resolution algorithm is now source-derived (A-001 resolved in RULESET-COMPLETION-004; A-002 partially resolved — dice algorithm known, specialization selection/applicability deferred to Specialties domain)
 3. Silver Fangs require Pure Breed ≥ 3, which is now in the executable Background catalog; Silver Fang character paths are fully source-valid
 4. Tribe eligibility restrictions remain partially ambiguous (A-016 deferred to RULESET-COMPLETION-009)
-5. 41 of 68 domains are not mechanically complete for the full registered source
+5. 34 of 68 domains are not mechanically complete for the full registered source
 
 ## 1. Source File Verification
 
@@ -483,7 +483,7 @@ All 45 mechanically incomplete domains map to at least one completion work packa
 
 RULESET-COMPLETION-002, 003, 004, 005, 006, 007, and 008 are complete.
 
-RULESET-COMPLETION-012A, 012C, 012D, and 012E are complete as subpackages of RULESET-COMPLETION-012.
+RULESET-COMPLETION-012A, 012C, 012D, 012E, and 012H are complete as subpackages of RULESET-COMPLETION-012. 012F (Social) and 012G (Gift Runtime) remain reserved/pending.
 
 ## 10. Formal Completeness Criteria
 
@@ -652,6 +652,6 @@ Catalog expansion (002) does NOT need to precede core dice semantics (004). They
 
 Mechanical domain inventory/disposition coverage is **68/68**.
 
-Werewolf mechanical implementation completeness is **31/68 domains (45.6%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion), RULESET-COMPLETION-012C (Combat Mechanics Runtime), RULESET-COMPLETION-012D (Complete Ranged Combat), and RULESET-COMPLETION-012E (Action Resolution and Condition Taxonomy) are complete as subpackages of RULESET-COMPLETION-012.
+Werewolf mechanical implementation completeness is **34/68 domains (50.0%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion), RULESET-COMPLETION-012C (Combat Mechanics Runtime), RULESET-COMPLETION-012D (Complete Ranged Combat), RULESET-COMPLETION-012E (Action Resolution and Condition Taxonomy), and RULESET-COMPLETION-012H (Frenzy Runtime Mechanics) are complete as subpackages of RULESET-COMPLETION-012. 012F (Social) and 012G (Gift Runtime) remain reserved/pending.
 
 RULESET-COMPLETION-005 health/damage mechanics, RULESET-COMPLETION-006 Ability catalog canonicalization, RULESET-COMPLETION-007 Lupus freebie spending timing, and RULESET-COMPLETION-008 freebie points interaction with resources are now complete. Health levels, Wound penalties, Incapacitation and death, Regeneration, Damage categories, Ability allocation, Background allocation, and Freebie points are mechanically complete. Soak and absorption remain delegated to a future Combat package.

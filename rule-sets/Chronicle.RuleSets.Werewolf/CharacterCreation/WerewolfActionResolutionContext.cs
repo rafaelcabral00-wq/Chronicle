@@ -12,4 +12,7 @@ public sealed record WerewolfActionResolutionContext(
     bool IsTracking,
     bool IsVisionBased,
     bool IsBalanceTest,
-    IReadOnlyList<string> ActiveConditions);
+    IReadOnlyList<string> ActiveConditions,
+    bool IsInFrenzy = false,
+    int? RagePermanent = null,
+    int? WillpowerPermanent = null);

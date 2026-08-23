@@ -34,6 +34,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string RecoverDamageOperation = "character-runtime.recover-damage";
     public const string PermanecerAtivoOperation = "character-runtime.permanecer-ativo";
     public const string RegenerateOperation = "character-runtime.regenerate";
+    public const string FrenzyDefineTestOperation = "frenzy.define-test";
+    public const string FrenzyEnterOperation = "frenzy.enter";
+    public const string FrenzySuppressOperation = "frenzy.suppress";
+    public const string FrenzyEndOperation = "frenzy.end";
+    public const string FrenzyEvaluateActionOperation = "frenzy.evaluate-action";
     public const string DefineInitiativeOperation = "combat.define-initiative";
     public const string DefineAttackOperation = "combat.define-attack";
     public const string DefineDefenseOperation = "combat.define-defense";
@@ -103,6 +108,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(ApplyDamageOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PermanecerAtivoOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(RegenerateOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(FrenzyDefineTestOperation, "frenzy", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(FrenzyEnterOperation, "frenzy", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(FrenzySuppressOperation, "frenzy", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(FrenzyEndOperation, "frenzy", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(FrenzyEvaluateActionOperation, "frenzy", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineInitiativeOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineAttackOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineDefenseOperation, "combat", RuleSetOperationStatus.Enabled),
@@ -258,6 +268,31 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, RegenerateOperation))
         {
             return ExecuteRegenerate(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, FrenzyDefineTestOperation))
+        {
+            return ExecuteFrenzyDefineTest(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, FrenzyEnterOperation))
+        {
+            return ExecuteFrenzyEnter(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, FrenzySuppressOperation))
+        {
+            return ExecuteFrenzySuppress(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, FrenzyEndOperation))
+        {
+            return ExecuteFrenzyEnd(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, FrenzyEvaluateActionOperation))
+        {
+            return ExecuteFrenzyEvaluateAction(request);
         }
 
         if (StringComparer.Ordinal.Equals(request.OperationKey, DefineInitiativeOperation))
@@ -2857,16 +2892,197 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             true,
             null,
             [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "ManeuverDefined", $"Maneuver {maneuverId} defined.")],
+              new Dictionary<string, string>(StringComparer.Ordinal)
+              {
+                  ["maneuverId"] = maneuverId,
+                  ["sourceLocator"] = maneuver.SourceLocator,
+                  ["allowedForms"] = string.Join(",", maneuver.AllowedForms),
+                  ["baseDifficulty"] = maneuver.BaseDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                  ["damageCategory"] = maneuver.DamageCategory ?? string.Empty,
+                  ["damageExpression"] = maneuver.DamageExpression ?? string.Empty,
+                  ["actionCost"] = maneuver.ActionCost.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                  ["notes"] = maneuver.Notes ?? string.Empty
+              });
+     }
+
+     private static RuleSetOperationResult ExecuteFrenzyDefineTest(RuleSetOperationRequest request)
+     {
+         if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+             !request.Inputs.TryGetValue("ragePermanent", out var rageText) ||
+             !request.Inputs.TryGetValue("willpowerPermanent", out var willpowerText) ||
+             !request.Inputs.TryGetValue("rank", out var rankText) ||
+             !int.TryParse(rageText, out var ragePermanent) ||
+             !int.TryParse(willpowerText, out var willpowerPermanent) ||
+             !int.TryParse(rankText, out var rank))
+         {
+             return new RuleSetOperationResult(
+                 false,
+                 RuleSetOperationFailureCode.InvalidRequest,
+                 [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidFrenzyTestDefinitionRequest", "Frenzy test definition requires requestId, ragePermanent, willpowerPermanent, and rank.")],
+                 new Dictionary<string, string>(StringComparer.Ordinal));
+         }
+
+         var currentForm = request.Inputs.GetValueOrDefault("currentForm");
+         var auspiceMoon = request.Inputs.GetValueOrDefault("auspiceMoon");
+         var moonPhase = request.Inputs.GetValueOrDefault("moonPhase");
+         var environmentalModifier = request.Inputs.GetValueOrDefault("environmentalModifier");
+
+          var result = WerewolfFrenzyTestDefinitionService.ComputeTestDefinition(
+              requestId,
+              ragePermanent,
+              willpowerPermanent,
+              rank,
+              currentForm,
+              auspiceMoon,
+              moonPhase,
+              environmentalModifier);
+
+         if (!result.IsValid)
+         {
+             return new RuleSetOperationResult(
+                 false,
+                 RuleSetOperationFailureCode.InvalidRequest,
+                 result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidFrenzyTestDefinition", f)).ToArray(),
+                 new Dictionary<string, string>(StringComparer.Ordinal));
+         }
+
+         return new RuleSetOperationResult(
+             true,
+             null,
+             result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "FrenzyTestDefined", f)).ToArray(),
              new Dictionary<string, string>(StringComparer.Ordinal)
              {
-                 ["maneuverId"] = maneuverId,
-                 ["sourceLocator"] = maneuver.SourceLocator,
-                 ["allowedForms"] = string.Join(",", maneuver.AllowedForms),
-                 ["baseDifficulty"] = maneuver.BaseDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
-                 ["damageCategory"] = maneuver.DamageCategory ?? string.Empty,
-                 ["damageExpression"] = maneuver.DamageExpression ?? string.Empty,
-                 ["actionCost"] = maneuver.ActionCost.ToString(System.Globalization.CultureInfo.InvariantCulture),
-                 ["notes"] = maneuver.Notes ?? string.Empty
+                 ["requestId"] = result.RequestId,
+                 ["dicePool"] = result.DicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["baseDifficulty"] = result.BaseDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["finalDifficulty"] = result.FinalDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["difficultyModifier"] = result.DifficultyModifier.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["successThreshold"] = result.SuccessThreshold.ToString(System.Globalization.CultureInfo.InvariantCulture)
              });
-    }
-}
+     }
+
+     private static RuleSetOperationResult ExecuteFrenzyEnter(RuleSetOperationRequest request)
+     {
+         var currentState = GetCurrentRuntimeState(request);
+         var expectedVersion = GetExpectedVersion(request);
+         var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+         var frenzyTypeText = request.Inputs.GetValueOrDefault("frenzyType", string.Empty);
+         var trigger = request.Inputs.GetValueOrDefault("trigger", string.Empty);
+         var successesText = request.Inputs.GetValueOrDefault("accumulatedSuccesses", "0");
+         var targetRestriction = request.Inputs.GetValueOrDefault("targetRestriction");
+
+         if (!Enum.TryParse<WerewolfFrenzyType>(frenzyTypeText, true, out var frenzyType))
+         {
+             return new RuleSetOperationResult(
+                 false,
+                 RuleSetOperationFailureCode.InvalidRequest,
+                 [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidFrenzyType", $"Invalid frenzy type: {frenzyTypeText}")],
+                 new Dictionary<string, string>(StringComparer.Ordinal));
+         }
+
+         if (!int.TryParse(successesText, out var accumulatedSuccesses))
+         {
+             accumulatedSuccesses = 0;
+         }
+
+         var result = WerewolfFrenzyResolutionService.EnterFrenzy(new WerewolfEnterFrenzyRequest(
+             requestId, currentState, expectedVersion, frenzyType, trigger, accumulatedSuccesses, targetRestriction));
+
+         if (!result.Succeeded || result.UpdatedState is null)
+         {
+             return new RuleSetOperationResult(
+                 false,
+                 RuleSetOperationFailureCode.InvalidRequest,
+                 result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "EnterFrenzyFailed", f)).ToArray(),
+                 new Dictionary<string, string>(StringComparer.Ordinal));
+         }
+
+         return new RuleSetOperationResult(
+             true,
+             null,
+             result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "FrenzyEntered", f)).ToArray(),
+             new Dictionary<string, string>(StringComparer.Ordinal)
+             {
+                 ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                 ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["frenzyType"] = frenzyType.ToString(),
+                 ["findings"] = string.Join("; ", result.Findings)
+             });
+     }
+
+     private static RuleSetOperationResult ExecuteFrenzySuppress(RuleSetOperationRequest request)
+     {
+         var currentState = GetCurrentRuntimeState(request);
+         var expectedVersion = GetExpectedVersion(request);
+
+         var result = WerewolfFrenzyResolutionService.SuppressFrenzy(currentState, expectedVersion);
+
+         if (!result.Succeeded || result.UpdatedState is null)
+         {
+             return new RuleSetOperationResult(
+                 false,
+                 RuleSetOperationFailureCode.InvalidRequest,
+                 result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "SuppressFrenzyFailed", f)).ToArray(),
+                 new Dictionary<string, string>(StringComparer.Ordinal));
+         }
+
+         return new RuleSetOperationResult(
+             true,
+             null,
+             result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "FrenzySuppressed", f)).ToArray(),
+             new Dictionary<string, string>(StringComparer.Ordinal)
+             {
+                 ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                 ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["willpowerCurrent"] = result.UpdatedState.WillpowerCurrent.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["findings"] = string.Join("; ", result.Findings)
+             });
+     }
+
+     private static RuleSetOperationResult ExecuteFrenzyEnd(RuleSetOperationRequest request)
+     {
+         var currentState = GetCurrentRuntimeState(request);
+         var expectedVersion = GetExpectedVersion(request);
+
+         var result = WerewolfFrenzyResolutionService.EndFrenzy(currentState, expectedVersion);
+
+         if (!result.Succeeded || result.UpdatedState is null)
+         {
+             return new RuleSetOperationResult(
+                 false,
+                 RuleSetOperationFailureCode.InvalidRequest,
+                 result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "EndFrenzyFailed", f)).ToArray(),
+                 new Dictionary<string, string>(StringComparer.Ordinal));
+         }
+
+         return new RuleSetOperationResult(
+             true,
+             null,
+             result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "FrenzyEnded", f)).ToArray(),
+             new Dictionary<string, string>(StringComparer.Ordinal)
+             {
+                 ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                 ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                 ["findings"] = string.Join("; ", result.Findings)
+             });
+     }
+
+     private static RuleSetOperationResult ExecuteFrenzyEvaluateAction(RuleSetOperationRequest request)
+     {
+         var currentState = GetCurrentRuntimeState(request);
+         var actionType = request.Inputs.GetValueOrDefault("actionType", string.Empty);
+
+         var availability = WerewolfFrenzyResolutionService.EvaluateFrenzyAction(currentState, actionType);
+
+         return new RuleSetOperationResult(
+             true,
+             null,
+             [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "FrenzyActionEvaluated", $"Action '{actionType}' availability: {availability}")],
+             new Dictionary<string, string>(StringComparer.Ordinal)
+             {
+                 ["actionType"] = actionType,
+                 ["availability"] = availability,
+                 ["isAvailable"] = availability == "available" ? "true" : "false"
+             });
+     }
+ }

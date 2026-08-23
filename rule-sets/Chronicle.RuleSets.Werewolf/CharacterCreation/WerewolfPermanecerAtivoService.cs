@@ -134,7 +134,16 @@ public static class WerewolfPermanecerAtivoService
         var survivedState = request.CurrentState with
         {
             RuntimeStateVersion = request.CurrentState.RuntimeStateVersion + 1,
-            HealthTrack = survivedTrack
+            HealthTrack = survivedTrack,
+            FrenzyState = new WerewolfFrenzyState(
+                IsInFrenzy: true,
+                FrenzyType: WerewolfFrenzyType.Wild,
+                Trigger: "permanecer-ativo",
+                AccumulatedSuccesses: finalSuccesses,
+                StartedAtTurn: 0,
+                TargetRestriction: null,
+                IsSuppressed: false,
+                SourceLocator: "Line 2870")
         };
 
         findings.Add($"Permanecer Ativo succeeded with {finalSuccesses} successes. Recovered {recoveredLevels - remaining} vitality levels. Character will start next turn in wild frenzy.");

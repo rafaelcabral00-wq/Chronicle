@@ -66,6 +66,19 @@ public static class WerewolfActionResolutionModifierService
             }
         }
 
+        if (context.IsInFrenzy && context.RagePermanent.HasValue && context.WillpowerPermanent.HasValue)
+        {
+            var socialPenalty = WerewolfBestaInteriorService.ComputeSocialDicePenalty(
+                context.RagePermanent.Value,
+                context.WillpowerPermanent.Value);
+
+            if (socialPenalty > 0 && WerewolfBestaInteriorService.IsSocialTest(context.AttributeId, context.AbilityId))
+            {
+                dicePoolModifier -= socialPenalty;
+                findings.Add($"Besta Interior: -{socialPenalty} dice penalty on Social test (Rage {context.RagePermanent} > Willpower {context.WillpowerPermanent}).");
+            }
+        }
+
         return new WerewolfActionResolutionModifierResult(
             dicePoolModifier,
             difficultyModifier,

@@ -18,6 +18,7 @@
     "character-validation",
     "combat",
     "fixture-driven-tests",
+    "frenzy",
     "generic-dice",
     "post-creation-character-operations"
   ],
@@ -33,7 +34,8 @@
     "Character creation completion validation is executable for the approved current slice; completion does not perform Chronicle-owned persistence or activation.",
     "Optional identity fields, Renown, and post-creation runtime remain unimplemented.",
     "Package is not promoted, published, installed, enabled, active, or Campaign-bound.",
-    "Final PackageId remains a governance decision; packageId value is provisional."
+    "Final PackageId remains a governance decision; packageId value is provisional.",
+    "Frenzy runtime mechanics are partially executable: test definition, enter/suppress/end operations, and Besta Interior dice penalty are implemented. Gift/Rite/Spirit interactions are deferred."
   ],
   "enforcement": {
     "additionalGiftPurchase": "disabled",

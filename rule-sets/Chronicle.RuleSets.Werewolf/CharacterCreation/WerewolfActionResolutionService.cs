@@ -74,7 +74,10 @@ public static class WerewolfActionResolutionService
             request.IsTracking,
             request.IsVisionBased,
             request.IsBalanceTest,
-            activeConditions);
+            activeConditions,
+            request.CurrentState.FrenzyState?.IsInFrenzy ?? false,
+            request.CurrentState.RagePermanent,
+            request.CurrentState.WillpowerPermanent);
 
         var modifierResult = WerewolfActionResolutionModifierService.ComputeModifiers(context);
         findings.AddRange(modifierResult.Findings);

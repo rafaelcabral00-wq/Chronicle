@@ -159,6 +159,11 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.DefineInitiativeOperation,
                 WerewolfReferenceRuntime.DefineManeuverOperation,
                 WerewolfReferenceRuntime.TransitionCombatStateOperation,
+                WerewolfReferenceRuntime.FrenzyDefineTestOperation,
+                WerewolfReferenceRuntime.FrenzyEndOperation,
+                WerewolfReferenceRuntime.FrenzyEnterOperation,
+                WerewolfReferenceRuntime.FrenzyEvaluateActionOperation,
+                WerewolfReferenceRuntime.FrenzySuppressOperation,
                 WerewolfReferenceRuntime.ExecuteGiftEffectOperation
             ],
             first[0].Operations.Select(operation => operation.OperationKey).ToArray());

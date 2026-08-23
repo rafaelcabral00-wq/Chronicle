@@ -84,6 +84,10 @@
       "status": "declared-not-yet-executable"
     },
     {
+      "capabilityKey": "frenzy",
+      "status": "partial-executable"
+    },
+    {
       "capabilityKey": "generic-dice",
       "status": "partial-executable"
     },

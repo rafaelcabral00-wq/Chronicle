@@ -140,5 +140,11 @@
   "action-resolution.condition.temporary-psychotic-episode.display-name": "Surto Psicótico Temporário",
   "action-resolution.condition.incapacitated.display-name": "Incapacitado",
   "action-resolution.condition.under-tension.display-name": "Sob Tensão",
-  "action-resolution.condition.critical-failure.display-name": "Falha Crítica"
+  "action-resolution.condition.critical-failure.display-name": "Falha Crítica",
+  "frenzy.type.wild.display-name": "Fúria Selvagem",
+  "frenzy.type.fox.display-name": "Fúria Raposa",
+  "frenzy.type.extreme.display-name": "Fúria Extrema",
+  "frenzy.trigger.rage-test.display-name": "Teste de Fúria",
+  "frenzy.suppression.willpower.display-name": "Supressão por Força de Vontade",
+  "frenzy.besta-interior.display-name": "Besta Interior"
 }
