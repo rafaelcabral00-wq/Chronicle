@@ -281,9 +281,9 @@ public sealed class WerewolfAbilitySelectionTests
             Auspice = WerewolfAuspiceIdentifiers.Theurge,
             Tribe = WerewolfTribeIdentifiers.GlassWalkers,
             MetisDeformity = WerewolfMetisDeformityIdentifiers.Horns,
-            RaceGift = WerewolfInitialGiftIdentifiers.MetisCreateElement,
-            AuspiceGift = WerewolfInitialGiftIdentifiers.TheurgeSpiritSpeech,
-            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine,
+            RaceGift = WerewolfGiftIdentifiers.MetisCreateElement,
+            AuspiceGift = WerewolfGiftIdentifiers.TheurgeSpiritSpeech,
+            TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             AttributePriorityOrder = Array.AsReadOnly([WerewolfAttributeCategoryIdentifiers.Physical, WerewolfAttributeCategoryIdentifiers.Social, WerewolfAttributeCategoryIdentifiers.Mental]),
             AttributeBudgets = new Dictionary<string, int>(StringComparer.Ordinal)
             {

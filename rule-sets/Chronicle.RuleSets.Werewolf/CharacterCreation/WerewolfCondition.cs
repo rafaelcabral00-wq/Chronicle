@@ -5,7 +5,10 @@ public enum WerewolfConditionKind
     TemporaryPsychoticEpisode,
     Incapacitated,
     UnderTension,
-    CriticalFailure
+    CriticalFailure,
+    Prone,
+    Grappled,
+    Restrained
 }
 
 public sealed record WerewolfCondition(
@@ -23,4 +26,7 @@ public static class WerewolfConditionIdentifiers
     public const string Incapacitated = "condition.incapacitated";
     public const string UnderTension = "condition.under-tension";
     public const string CriticalFailure = "condition.critical-failure";
+    public const string Prone = "condition.prone";
+    public const string Grappled = "condition.grappled";
+    public const string Restrained = "condition.restrained";
 }

@@ -48,6 +48,24 @@ public static class WerewolfApplyDamageService
         var currentTrack = request.CurrentState.HealthTrack;
         var newDamageMarks = new List<WerewolfDamageMark>(currentTrack.DamageMarks);
 
+        if (request.IsPoison)
+        {
+            var poisonEffects = WerewolfGiftEffectService.GetSceneValidEffects(request.CurrentState);
+            var hasPoisonImmunity = poisonEffects.Any(e => e.EffectKind == WerewolfActiveGiftEffectKind.PoisonImmunity);
+            if (hasPoisonImmunity)
+            {
+                findings.Add("Gift effect grants immunity to poison damage.");
+                return new WerewolfApplyDamageResult(
+                    true,
+                    request.CurrentState with { RuntimeStateVersion = request.CurrentState.RuntimeStateVersion + 1 },
+                    WerewolfHealthLevelDefinitions.All,
+                    currentTrack,
+                    findings,
+                    null,
+                    request.RequestId);
+            }
+        }
+
         for (var i = 0; i < request.Amount; i++)
         {
             newDamageMarks.Add(new WerewolfDamageMark(request.DamageType, 1));
@@ -63,6 +81,14 @@ public static class WerewolfApplyDamageService
             currentTrack.HasWeakenedImmuneSystem,
             currentTrack.PermanecerAtivoAttempted,
             currentTrack.LastRegenerationTurn);
+
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(request.CurrentState);
+        var ignoresWoundPenalties = activeEffects.Any(e => e.EffectKind == WerewolfActiveGiftEffectKind.WoundPenaltyRemoval);
+        if (ignoresWoundPenalties && newTrack.WoundPenalty != 0)
+        {
+            newTrack = newTrack with { WoundPenalty = 0 };
+            findings.Add("Gift effect ignores wound penalties.");
+        }
 
         var updatedState = request.CurrentState with
         {

@@ -55,6 +55,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string EvaluateActionAvailabilityOperation = "action-resolution.evaluate-action-availability";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
+    public const string ActivateGiftOperation = "gift-runtime.activate-gift";
 
     private readonly WerewolfCharacterCreationDraftInitializer characterCreation;
     public WerewolfReferenceRuntime()
@@ -128,7 +129,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(ClearConditionOperation, "action-resolution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(EvaluateActionAvailabilityOperation, "action-resolution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
-            new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
+            new RuleSetOperationDescriptor(ActivateGiftOperation, "runtime-gift-activation", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Enabled)
         ]);
 
     public RuleSetOperationResult Execute(RuleSetOperationRequest request)
@@ -363,6 +365,16 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateActionAvailabilityOperation))
         {
             return ExecuteEvaluateActionAvailability(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ActivateGiftOperation))
+        {
+            return ExecuteActivateGift(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ExecuteGiftEffectOperation))
+        {
+            return ExecuteGiftEffect(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -1105,6 +1117,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         }
 
         var snapshotJson = System.Text.Json.JsonSerializer.Serialize(result.Snapshot, JsonOptions);
+        var runtimeState = WerewolfRuntimeCharacterState.FromSnapshot(result.Snapshot!);
+        var newStateJson = System.Text.Json.JsonSerializer.Serialize(runtimeState, JsonOptions);
 
         return new RuleSetOperationResult(
             true,
@@ -1123,7 +1137,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["nextSteps"] = string.Join(",", result.Draft.RequiredNextSteps),
                 ["validationFingerprint"] = result.Snapshot!.ValidationFingerprint,
                 ["completedStepKeys"] = string.Join(",", result.Snapshot.CompletedStepKeys),
-                ["snapshot"] = snapshotJson
+                ["snapshot"] = snapshotJson,
+                ["newState"] = newStateJson
             });
     }
 
@@ -3082,7 +3097,104 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
              {
                  ["actionType"] = actionType,
                  ["availability"] = availability,
-                 ["isAvailable"] = availability == "available" ? "true" : "false"
-             });
-     }
- }
+                  ["isAvailable"] = availability == "available" ? "true" : "false"
+              });
+      }
+
+      private static RuleSetOperationResult ExecuteActivateGift(RuleSetOperationRequest request)
+      {
+          var currentState = GetCurrentRuntimeState(request);
+          var expectedVersion = GetExpectedVersion(request);
+          var giftKey = request.Inputs.GetValueOrDefault("giftKey", string.Empty);
+
+          var result = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+              request.Inputs.GetValueOrDefault("requestId", string.Empty),
+              currentState,
+              expectedVersion,
+              giftKey));
+
+          if (!result.Succeeded || result.UpdatedState is null || result.ActivationDefinition is null)
+          {
+              return new RuleSetOperationResult(
+                  false,
+                  RuleSetOperationFailureCode.InvalidRequest,
+                  result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "GiftActivationFailed", f)).ToArray(),
+                  new Dictionary<string, string>(StringComparer.Ordinal));
+          }
+
+          return new RuleSetOperationResult(
+              true,
+              null,
+              result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "GiftActivated", f)).ToArray(),
+              new Dictionary<string, string>(StringComparer.Ordinal)
+              {
+                  ["giftKey"] = result.ActivationDefinition.GiftKey,
+                  ["giftName"] = result.ActivationDefinition.GiftName,
+                  ["dicePool"] = result.ActivationDefinition.DicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                  ["difficulty"] = result.ActivationDefinition.Difficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                  ["testComponents"] = string.Join(",", result.ActivationDefinition.TestComponents),
+                  ["costType"] = result.ActivationDefinition.CostType.ToString(),
+                  ["costAmount"] = result.ActivationDefinition.CostAmount.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                  ["costPaid"] = result.ActivationDefinition.CostPaid.ToString(),
+                  ["durationType"] = result.ActivationDefinition.DurationType.ToString(),
+                  ["durationTurns"] = result.ActivationDefinition.DurationTurns.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                  ["sourceLocator"] = result.ActivationDefinition.SourceLocator,
+                  ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+                  ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture)
+              });
+      }
+
+      private static RuleSetOperationResult ExecuteGiftEffect(RuleSetOperationRequest request)
+      {
+          var currentState = GetCurrentRuntimeState(request);
+          var expectedVersion = GetExpectedVersion(request);
+          var giftKey = request.Inputs.GetValueOrDefault("giftKey", string.Empty);
+          var successesText = request.Inputs.GetValueOrDefault("activationSuccesses", "0");
+          if (!int.TryParse(successesText, out var activationSuccesses))
+          {
+              activationSuccesses = 0;
+          }
+
+          var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+              request.Inputs.GetValueOrDefault("requestId", string.Empty),
+              currentState,
+              expectedVersion,
+              giftKey,
+              activationSuccesses));
+
+          if (!result.Succeeded || result.UpdatedState is null)
+          {
+              return new RuleSetOperationResult(
+                  false,
+                  RuleSetOperationFailureCode.InvalidRequest,
+                  result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, result.ErrorCode ?? "GiftEffectFailed", f)).ToArray(),
+                  new Dictionary<string, string>(StringComparer.Ordinal));
+          }
+
+          var outputs = new Dictionary<string, string>(StringComparer.Ordinal)
+          {
+              ["giftKey"] = giftKey,
+              ["activationSuccesses"] = activationSuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+              ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.UpdatedState, JsonOptions),
+              ["newRuntimeStateVersion"] = result.UpdatedState.RuntimeStateVersion.ToString(System.Globalization.CultureInfo.InvariantCulture),
+              ["activeEffectsCount"] = result.ActiveEffects.Count.ToString(System.Globalization.CultureInfo.InvariantCulture),
+              ["findings"] = string.Join("; ", result.Findings)
+          };
+
+          for (var i = 0; i < result.ActiveEffects.Count; i++)
+          {
+              var effect = result.ActiveEffects[i];
+              outputs[$"activeEffect_{i}_giftKey"] = effect.GiftKey;
+              outputs[$"activeEffect_{i}_kind"] = effect.EffectKind.ToString();
+              outputs[$"activeEffect_{i}_magnitude"] = effect.Magnitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+              outputs[$"activeEffect_{i}_durationTurns"] = effect.RemainingDuration.ToString(System.Globalization.CultureInfo.InvariantCulture);
+              outputs[$"activeEffect_{i}_sourceLocator"] = effect.SourceLocator;
+          }
+
+          return new RuleSetOperationResult(
+              true,
+              null,
+              result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "GiftEffectApplied", f)).ToArray(),
+              outputs);
+      }
+  }

@@ -5,4 +5,5 @@ public sealed record WerewolfApplyDamageRequest(
     WerewolfRuntimeCharacterState CurrentState,
     int ExpectedRuntimeStateVersion,
     WerewolfDamageCategory DamageType,
-    int Amount);
+    int Amount,
+    bool IsPoison = false);

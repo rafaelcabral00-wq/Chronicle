@@ -184,7 +184,8 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 | `character-runtime.permanecer-ativo` | Enabled | Permanecer Ativo survival check |
 | `character-runtime.regenerate` | Enabled | Regeneration with Vigor test for lethal healing |
 | `character-creation.purchase-additional-gift` | Disabled | Out of scope |
-| `gift-runtime.execute-gift-effect` | Disabled | Out of scope |
+| `gift-runtime.activate-gift` | Enabled | Initial Gift activation with versioning |
+| `gift-runtime.execute-gift-effect` | Enabled | Initial Gift effect execution with active effects |
 
 ### Runtime State Coverage
 
@@ -193,12 +194,12 @@ The detailed per-domain matrix with all coverage dimensions is available in `com
 - Gnosis (permanent/current)
 - Willpower (permanent/current)
 - HealthTrack (7-level track with Bashing/Lethal/Aggravated counts, total damage, wound penalty, health state, fatal damage type, last regeneration turn)
+- ActiveGiftEffects (immutable list of active Gift effects with duration and magnitude)
 
 **Absent from runtime state:**
 - Renown (permanent/temporary per type)
 - Form
 - Frenzy state
-- Gift effects active
 - Totem contributions
 
 ## 4. Decision Boundary Reconciliation
@@ -476,14 +477,15 @@ All 45 mechanically incomplete domains map to at least one completion work packa
 | RULESET-COMPLETION-012C | Combat Mechanics Runtime (Initiative, Close combat maneuvers, Ranged combat, Soak and absorption, Silver vulnerability) |
 | RULESET-COMPLETION-012D | Complete Ranged Combat |
 | RULESET-COMPLETION-012E | Action Resolution and Condition Taxonomy (Metis deformity action-resolution effects, Attribute + Ability test definition modifier integration) |
-| RULESET-COMPLETION-012 | Frenzy triggers, Rage tests, Mental conditions, Delirium, The Curse, Form catalogs and statistics, Transformation mechanics, Gift execution runtime, Additional Gift purchase, Gift learning and advancement, Rite definitions, Rite knowledge requirements, Rite execution, Rite costs, Umbra realms and materialization, Spirit travel and Veil, Totem mechanics, Totem aggregation, Fetishes and Talens, Spirit catalogs and interaction, Progression, Extended tests, Resisted tests, Character draft persistence, Initial Race Gifts, Initial Auspice Gifts, Initial Tribe Gifts, Race Gift catalog, Auspice Gift catalog, Tribe Gift catalog |
+| RULESET-COMPLETION-012 | Frenzy triggers, Rage tests, Mental conditions, Delirium, The Curse, Form catalogs and statistics, Transformation mechanics, Additional Gift purchase, Gift learning and advancement, Rite definitions, Rite knowledge requirements, Rite execution, Rite costs, Umbra realms and materialization, Spirit travel and Veil, Totem mechanics, Totem aggregation, Fetishes and Talens, Spirit catalogs and interaction, Progression, Extended tests, Resisted tests, Character draft persistence, Initial Race Gifts, Initial Auspice Gifts, Initial Tribe Gifts, Race Gift catalog, Auspice Gift catalog, Tribe Gift catalog |
+| RULESET-COMPLETION-012G | Gift execution runtime (initial Gifts: 39 Gifts executable, activation, effect, versioning, active effects) |
 | RULESET-COMPLETION-013 | (metadata accuracy) |
 
 **Backlog package count:** 4 parent packages (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013), with RULESET-COMPLETION-012A as first completed subpackage.
 
 RULESET-COMPLETION-002, 003, 004, 005, 006, 007, and 008 are complete.
 
-RULESET-COMPLETION-012A, 012C, 012D, 012E, and 012H are complete as subpackages of RULESET-COMPLETION-012. 012F (Social) and 012G (Gift Runtime) remain reserved/pending.
+RULESET-COMPLETION-012A, 012C, 012D, 012E, 012F, and 012H are complete as subpackages of RULESET-COMPLETION-012. 012G (Gift Runtime) is complete.
 
 ## 10. Formal Completeness Criteria
 
@@ -652,6 +654,6 @@ Catalog expansion (002) does NOT need to precede core dice semantics (004). They
 
 Mechanical domain inventory/disposition coverage is **68/68**.
 
-Werewolf mechanical implementation completeness is **34/68 domains (50.0%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion), RULESET-COMPLETION-012C (Combat Mechanics Runtime), RULESET-COMPLETION-012D (Complete Ranged Combat), RULESET-COMPLETION-012E (Action Resolution and Condition Taxonomy), and RULESET-COMPLETION-012H (Frenzy Runtime Mechanics) are complete as subpackages of RULESET-COMPLETION-012. 012F (Social) and 012G (Gift Runtime) remain reserved/pending.
+Werewolf mechanical implementation completeness is **34/68 domains (50.0%)**, with 4 parent completion work packages remaining (RULESET-COMPLETION-009 through RULESET-COMPLETION-012 and RULESET-COMPLETION-013). RULESET-COMPLETION-012A (Background catalog expansion), RULESET-COMPLETION-012C (Combat Mechanics Runtime), RULESET-COMPLETION-012D (Complete Ranged Combat), RULESET-COMPLETION-012E (Action Resolution and Condition Taxonomy), RULESET-COMPLETION-012F (Social Mechanics), RULESET-COMPLETION-012G (Gift Runtime), and RULESET-COMPLETION-012H (Frenzy Runtime Mechanics) are complete as subpackages of RULESET-COMPLETION-012.
 
 RULESET-COMPLETION-005 health/damage mechanics, RULESET-COMPLETION-006 Ability catalog canonicalization, RULESET-COMPLETION-007 Lupus freebie spending timing, and RULESET-COMPLETION-008 freebie points interaction with resources are now complete. Health levels, Wound penalties, Incapacitation and death, Regeneration, Damage categories, Ability allocation, Background allocation, and Freebie points are mechanically complete. Soak and absorption remain delegated to a future Combat package.

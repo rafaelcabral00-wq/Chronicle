@@ -35,9 +35,9 @@ public static class WerewolfTestRuntimeHelpers
             Auspice = auspice,
             Tribe = tribe,
             MetisDeformity = null,
-            RaceGift = WerewolfInitialGiftIdentifiers.HomidMasterOfFire,
-            AuspiceGift = WerewolfInitialGiftIdentifiers.RagabashOpenSeal,
-            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine,
+            RaceGift = WerewolfGiftIdentifiers.HomidMasterOfFire,
+            AuspiceGift = WerewolfGiftIdentifiers.RagabashOpenSeal,
+            TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             Attributes = new Dictionary<string, int?>(StringComparer.Ordinal)
             {
                 [WerewolfAttributeIdentifiers.Strength] = 3,

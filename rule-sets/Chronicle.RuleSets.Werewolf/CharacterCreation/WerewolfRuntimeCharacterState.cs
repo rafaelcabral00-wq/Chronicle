@@ -22,7 +22,12 @@ public sealed record WerewolfRuntimeCharacterState(
     WerewolfHealthTrack? HealthTrack,
     string CurrentForm = "",
     IReadOnlyList<WerewolfCondition> Conditions = null!,
-    WerewolfFrenzyState? FrenzyState = null)
+    WerewolfFrenzyState? FrenzyState = null,
+    IReadOnlyList<WerewolfActiveGiftEffect> ActiveGiftEffects = null!,
+    IReadOnlyList<string> KnownGiftKeys = null!,
+    IReadOnlyDictionary<string, int> SceneGiftUsage = null!,
+    string CurrentSceneToken = "",
+    IReadOnlyList<string> ActivatedGiftKeys = null!)
 {
     public static WerewolfRuntimeCharacterState FromSnapshot(WerewolfCharacterSnapshot snapshot)
     {
@@ -91,6 +96,25 @@ public sealed record WerewolfRuntimeCharacterState(
             _ => throw new ArgumentException($"Unknown birth race '{race}' for form initialization.", nameof(snapshot))
         };
 
+        var knownGiftKeys = snapshot.Gifts ?? [];
+        if (knownGiftKeys.Count == 0)
+        {
+            var fallback = new List<string>();
+            if (!string.IsNullOrWhiteSpace(snapshot.RaceGift))
+            {
+                fallback.Add(snapshot.RaceGift);
+            }
+            if (!string.IsNullOrWhiteSpace(snapshot.AuspiceGift))
+            {
+                fallback.Add(snapshot.AuspiceGift);
+            }
+            if (!string.IsNullOrWhiteSpace(snapshot.TribeGift))
+            {
+                fallback.Add(snapshot.TribeGift);
+            }
+            knownGiftKeys = fallback;
+        }
+
         return new WerewolfRuntimeCharacterState(
             snapshot.PackageBinding.TryGetValue("packageId", out var pkgId) ? pkgId : string.Empty,
             snapshot.PackageBinding.TryGetValue("packageVersion", out var pkgVer) ? pkgVer : string.Empty,
@@ -114,6 +138,12 @@ public sealed record WerewolfRuntimeCharacterState(
                 [],
                 hasWeakenedImmuneSystem: StringComparer.Ordinal.Equals(snapshot.MetisDeformity, WerewolfMetisDeformityIdentifiers.WeakImmuneSystem),
                 lastRegenerationTurn: -1),
-            currentForm);
+            currentForm,
+            Conditions: [],
+            FrenzyState: null,
+            ActiveGiftEffects: [],
+            KnownGiftKeys: knownGiftKeys,
+            SceneGiftUsage: new Dictionary<string, int>(StringComparer.Ordinal),
+            CurrentSceneToken: string.Empty);
     }
 }

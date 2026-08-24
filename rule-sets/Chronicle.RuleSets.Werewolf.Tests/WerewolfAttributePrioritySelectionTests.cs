@@ -98,9 +98,9 @@ public sealed class WerewolfAttributePrioritySelectionTests
             Auspice = WerewolfAuspiceIdentifiers.Philodox,
             Tribe = WerewolfTribeIdentifiers.GlassWalkers,
             MetisDeformity = WerewolfMetisDeformityIdentifiers.Horns,
-            RaceGift = WerewolfInitialGiftIdentifiers.MetisCreateElement,
-            AuspiceGift = WerewolfInitialGiftIdentifiers.PhilodoxResistPain,
-            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine
+            RaceGift = WerewolfGiftIdentifiers.MetisCreateElement,
+            AuspiceGift = WerewolfGiftIdentifiers.PhilodoxResistPain,
+            TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine
         };
 
         var result = Select(draft, WerewolfAttributeCategoryIdentifiers.Physical, WerewolfAttributeCategoryIdentifiers.Social, WerewolfAttributeCategoryIdentifiers.Mental);

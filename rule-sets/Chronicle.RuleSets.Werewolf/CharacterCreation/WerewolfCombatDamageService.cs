@@ -63,9 +63,20 @@ public static class WerewolfCombatDamageService
 
         var baseDamageDice = EvaluateDamageExpression(request.DamageExpression, request.StrengthBonus ?? 0);
         var extraSuccessDice = request.AttackSuccesses > 1 ? request.AttackSuccesses - 1 : 0;
-        var damagePoolSize = Math.Max(0, baseDamageDice + extraSuccessDice);
+        var giftDamageBonus = ComputeGiftDamageBonus(request.CurrentState);
+        var giftDamageReduction = ComputeGiftDamageReduction(request.CurrentState, request.DamageCategory);
+        var damagePoolSize = Math.Max(0, baseDamageDice + extraSuccessDice + giftDamageBonus);
 
-        findings.Add($"Damage roll defined: {baseDamageDice} base + {extraSuccessDice} extra success dice = {damagePoolSize} dice vs difficulty {DefaultDifficulty}.");
+        if (giftDamageBonus != 0)
+        {
+            findings.Add($"Gift damage bonus: {giftDamageBonus} dice from active Gift effects.");
+        }
+        if (giftDamageReduction != 0)
+        {
+            findings.Add($"Gift damage reduction: {giftDamageReduction} dice reduced from active Gift effects.");
+        }
+
+        findings.Add($"Damage roll defined: {baseDamageDice} base + {extraSuccessDice} extra success dice + {giftDamageBonus} gift bonus - {giftDamageReduction} gift reduction = {damagePoolSize} dice vs difficulty {DefaultDifficulty}.");
 
         return new WerewolfCombatDamageRollDefinition(
             request.RequestId,
@@ -73,6 +84,46 @@ public static class WerewolfCombatDamageService
             DefaultDifficulty,
             request.DamageCategory,
             findings);
+    }
+
+    private static int ComputeGiftDamageBonus(WerewolfRuntimeCharacterState state)
+    {
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(state);
+        if (activeEffects.Count == 0)
+        {
+            return 0;
+        }
+
+        return activeEffects
+            .Where(e => e.EffectKind == WerewolfActiveGiftEffectKind.CombatDamageBonus && e.Magnitude > 0)
+            .Sum(e => e.Magnitude);
+    }
+
+    private static int ComputeGiftDamageReduction(WerewolfRuntimeCharacterState state, string damageCategory)
+    {
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(state);
+        if (activeEffects.Count == 0)
+        {
+            return 0;
+        }
+
+        var hasDamageReduction = activeEffects.Any(e => e.EffectKind == WerewolfActiveGiftEffectKind.DamageReduction);
+        if (!hasDamageReduction)
+        {
+            return 0;
+        }
+
+        if (!Enum.TryParse(damageCategory, true, out WerewolfDamageCategory category))
+        {
+            return 0;
+        }
+
+        if (category == WerewolfDamageCategory.Aggravated)
+        {
+            return 0;
+        }
+
+        return 1;
     }
 
     public static WerewolfCombatDamageRollResult InterpretDamageRoll(WerewolfCombatDamageRollDefinition definition, IReadOnlyList<int> diceValues)

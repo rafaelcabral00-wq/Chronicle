@@ -66,6 +66,12 @@ public static class WerewolfActionResolutionModifierService
             }
         }
 
+        var giftBonus = ComputeGiftActionModifiers(context, ref dicePoolModifier, ref difficultyModifier, findings);
+        if (giftBonus != 0)
+        {
+            findings.Add($"Gift action modifier: {giftBonus} applied to action resolution.");
+        }
+
         if (context.IsInFrenzy && context.RagePermanent.HasValue && context.WillpowerPermanent.HasValue)
         {
             var socialPenalty = WerewolfBestaInteriorService.ComputeSocialDicePenalty(
@@ -315,5 +321,164 @@ public static class WerewolfActionResolutionModifierService
         return StringComparer.OrdinalIgnoreCase.Equals(attributeId, WerewolfAttributeIdentifiers.Charisma) ||
                StringComparer.OrdinalIgnoreCase.Equals(attributeId, WerewolfAttributeIdentifiers.Manipulation) ||
                StringComparer.OrdinalIgnoreCase.Equals(attributeId, WerewolfAttributeIdentifiers.Appearance);
+    }
+
+    private static int ComputeGiftActionModifiers(WerewolfActionResolutionContext context, ref int dicePoolModifier, ref int difficultyModifier, List<string> findings)
+    {
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(context);
+        if (activeEffects.Count == 0)
+        {
+            return 0;
+        }
+
+        var total = 0;
+
+        foreach (var effect in activeEffects)
+        {
+            switch (effect.EffectKind)
+            {
+                case WerewolfActiveGiftEffectKind.PerceptionBonus:
+                    if (string.Equals(context.AttributeId, WerewolfAttributeIdentifiers.Perception, StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(context.SenseBeingTested, "perception", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Perception Bonus: +{bonus} dice to Perception test.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.MovementBonus:
+                    if (context.IsBalanceTest || string.Equals(context.AbilityId, "athletics", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Movement Bonus: +{bonus} dice to movement/athletics test.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.StealthBonus:
+                    if (string.Equals(context.AbilityId, "stealth", StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(context.SenseBeingTested, "perception", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        if (string.Equals(context.SenseBeingTested, "perception", StringComparison.OrdinalIgnoreCase))
+                        {
+                            difficultyModifier += bonus;
+                            findings.Add($"Gift Stealth Bonus: +{bonus} difficulty to Perception tests to detect character.");
+                        }
+                        else
+                        {
+                            dicePoolModifier += bonus;
+                            findings.Add($"Gift Stealth Bonus: +{bonus} dice to Stealth test.");
+                        }
+                        total += bonus;
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.WyrmSense:
+                    if (string.Equals(context.AttributeId, WerewolfAttributeIdentifiers.Perception, StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(context.AbilityId, "occult", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Wyrm Sense: +{bonus} dice to detect Wyrm manifestations.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.AnimalCommunication:
+                    if (string.Equals(context.AbilityId, "animal-empathy", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Animal Communication: +{bonus} dice to Animal Empathy test.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.FearAura:
+                    if (IsSocialAttribute(context.AttributeId))
+                    {
+                        var penalty = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier -= penalty;
+                        total -= penalty;
+                        findings.Add($"Gift Fear Aura: -{penalty} dice to Social test.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.MentalTestBonus:
+                    if (string.Equals(context.AttributeId, WerewolfAttributeIdentifiers.Intelligence, StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(context.AttributeId, WerewolfAttributeIdentifiers.Wits, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Mental Test Bonus: +{bonus} dice to Mental test.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.WindEffect:
+                    if (string.Equals(context.AbilityId, "survival", StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(context.AttributeId, WerewolfAttributeIdentifiers.Perception, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Wind Effect: +{bonus} dice to Survival/Perception test in natural environment.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.MagicDetection:
+                    if (string.Equals(context.AbilityId, "occult", StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(context.AttributeId, WerewolfAttributeIdentifiers.Perception, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Magic Detection: +{bonus} dice to detect magical auras.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.AuraBlocking:
+                    if (IsSocialAttribute(context.AttributeId) && string.Equals(context.AbilityId, "subterfuge", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        dicePoolModifier += bonus;
+                        total += bonus;
+                        findings.Add($"Gift Aura Blocking: +{bonus} dice to block aura analysis and flaw detection.");
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.LightEffect:
+                    if (string.Equals(context.SenseBeingTested, "vision", StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(context.AttributeId, WerewolfAttributeIdentifiers.Perception, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bonus = Math.Max(0, effect.Magnitude);
+                        if (string.Equals(context.SenseBeingTested, "vision", StringComparison.OrdinalIgnoreCase))
+                        {
+                            difficultyModifier -= bonus;
+                            findings.Add($"Gift Light Effect: -{bonus} difficulty to Perception tests to detect character by vision.");
+                        }
+                        else
+                        {
+                            dicePoolModifier += bonus;
+                            findings.Add($"Gift Light Effect: +{bonus} dice to Perception test.");
+                        }
+                        total += bonus;
+                    }
+                    break;
+
+                case WerewolfActiveGiftEffectKind.TestBonus:
+                    var testBonus = Math.Max(0, effect.Magnitude);
+                    dicePoolModifier += testBonus;
+                    total += testBonus;
+                    findings.Add($"Gift Test Bonus: +{testBonus} dice to test.");
+                    break;
+            }
+        }
+
+        return total;
     }
 }

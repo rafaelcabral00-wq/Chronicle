@@ -188,7 +188,83 @@ public static class WerewolfConditionService
             return new WerewolfEvaluateActionAvailabilityResult(true, false, findings, request.RequestId, "Temporary psychotic episode");
         }
 
+        if (activeConditions.Contains(WerewolfConditionIdentifiers.Prone, StringComparer.Ordinal))
+        {
+            findings.Add("Action unavailable: character is prone and must stand before acting.");
+            return new WerewolfEvaluateActionAvailabilityResult(true, false, findings, request.RequestId, "Prone");
+        }
+
+        if (activeConditions.Contains(WerewolfConditionIdentifiers.Restrained, StringComparer.Ordinal))
+        {
+            findings.Add("Action unavailable: character is restrained and cannot act freely.");
+            return new WerewolfEvaluateActionAvailabilityResult(true, false, findings, request.RequestId, "Restrained");
+        }
+
         findings.Add("Action is available.");
         return new WerewolfEvaluateActionAvailabilityResult(true, true, findings, request.RequestId, null);
+    }
+
+    public static WerewolfRuntimeCharacterState ApplyGiftConditions(WerewolfRuntimeCharacterState state)
+    {
+        if (state.ActiveGiftEffects is null || state.ActiveGiftEffects.Count == 0)
+        {
+            return state;
+        }
+
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(state);
+        if (activeEffects.Count == 0)
+        {
+            return state;
+        }
+
+        var existingConditions = state.Conditions?.ToList() ?? new List<WerewolfCondition>();
+        var updated = false;
+
+        foreach (var effect in activeEffects)
+        {
+            var conditionKey = effect.EffectKind switch
+            {
+                WerewolfActiveGiftEffectKind.ProneCondition => WerewolfConditionIdentifiers.Prone,
+                WerewolfActiveGiftEffectKind.RestrainedCondition => WerewolfConditionIdentifiers.Restrained,
+                _ => null
+            };
+
+            if (string.IsNullOrWhiteSpace(conditionKey))
+            {
+                continue;
+            }
+
+            if (existingConditions.Any(c => string.Equals(c.ConditionKey, conditionKey, StringComparison.Ordinal) && c.IsActive))
+            {
+                continue;
+            }
+
+            var condition = new WerewolfCondition(
+                conditionKey,
+                effect.EffectKind switch
+                {
+                    WerewolfActiveGiftEffectKind.ProneCondition => WerewolfConditionKind.Prone,
+                    WerewolfActiveGiftEffectKind.RestrainedCondition => WerewolfConditionKind.Restrained,
+                    _ => WerewolfConditionKind.CriticalFailure
+                },
+                effect.SourceLocator,
+                string.Empty,
+                state.RuntimeStateVersion,
+                true,
+                effect.DurationType == WerewolfGiftDurationType.Turn ? 1 : null);
+
+            existingConditions.Add(condition);
+            updated = true;
+        }
+
+        if (!updated)
+        {
+            return state;
+        }
+
+        return state with
+        {
+            Conditions = Array.AsReadOnly(existingConditions.ToArray())
+        };
     }
 }

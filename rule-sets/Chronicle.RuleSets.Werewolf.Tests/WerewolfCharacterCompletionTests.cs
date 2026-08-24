@@ -439,13 +439,13 @@ public sealed class WerewolfCharacterCompletionTests
         var tribeSelected = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeOperation, Inputs(auspiceSelected.Outputs, ("tribeId", WerewolfTribeIdentifiers.GlassWalkers))));
         Assert.True(tribeSelected.Succeeded);
 
-        var raceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectRaceGiftOperation, Inputs(tribeSelected.Outputs, ("giftId", WerewolfInitialGiftIdentifiers.HomidMasterOfFire))));
+        var raceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectRaceGiftOperation, Inputs(tribeSelected.Outputs, ("giftId", WerewolfGiftIdentifiers.HomidMasterOfFire))));
         Assert.True(raceGift.Succeeded, "SelectRaceGift failed: " + string.Join("; ", raceGift.Findings.Select(f => f.Code + ":" + f.Message)));
 
-        var auspiceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectAuspiceGiftOperation, Inputs(raceGift.Outputs, ("giftId", WerewolfInitialGiftIdentifiers.RagabashOpenSeal))));
+        var auspiceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectAuspiceGiftOperation, Inputs(raceGift.Outputs, ("giftId", WerewolfGiftIdentifiers.RagabashOpenSeal))));
         Assert.True(auspiceGift.Succeeded, "SelectAuspiceGift failed: " + string.Join("; ", auspiceGift.Findings.Select(f => f.Code + ":" + f.Message)));
 
-        var tribeGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeGiftOperation, Inputs(auspiceGift.Outputs, ("giftId", WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine))));
+        var tribeGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeGiftOperation, Inputs(auspiceGift.Outputs, ("giftId", WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine))));
         Assert.True(tribeGift.Succeeded);
 
         var attributePriorities = registry.Execute(Request(WerewolfReferenceRuntime.SelectAttributePrioritiesOperation, Inputs(tribeGift.Outputs,
@@ -503,9 +503,9 @@ public sealed class WerewolfCharacterCompletionTests
         var race = registry.Execute(Request(WerewolfReferenceRuntime.SelectRaceOperation, Inputs(created.Outputs, ("raceId", WerewolfRaceIdentifiers.Homid))));
         var auspice = registry.Execute(Request(WerewolfReferenceRuntime.SelectAuspiceOperation, Inputs(race.Outputs, ("auspiceId", WerewolfAuspiceIdentifiers.Ragabash))));
         var tribe = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeOperation, Inputs(auspice.Outputs, ("tribeId", WerewolfTribeIdentifiers.GlassWalkers))));
-        var raceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectRaceGiftOperation, Inputs(tribe.Outputs, ("giftId", WerewolfInitialGiftIdentifiers.HomidMasterOfFire))));
-        var auspiceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectAuspiceGiftOperation, Inputs(raceGift.Outputs, ("giftId", WerewolfInitialGiftIdentifiers.RagabashOpenSeal))));
-        var tribeGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeGiftOperation, Inputs(auspiceGift.Outputs, ("giftId", WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine))));
+        var raceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectRaceGiftOperation, Inputs(tribe.Outputs, ("giftId", WerewolfGiftIdentifiers.HomidMasterOfFire))));
+        var auspiceGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectAuspiceGiftOperation, Inputs(raceGift.Outputs, ("giftId", WerewolfGiftIdentifiers.RagabashOpenSeal))));
+        var tribeGift = registry.Execute(Request(WerewolfReferenceRuntime.SelectTribeGiftOperation, Inputs(auspiceGift.Outputs, ("giftId", WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine))));
         var attributePriorities = registry.Execute(Request(WerewolfReferenceRuntime.SelectAttributePrioritiesOperation, Inputs(tribeGift.Outputs,
             ("primaryCategoryId", WerewolfAttributeCategoryIdentifiers.Physical),
             ("secondaryCategoryId", WerewolfAttributeCategoryIdentifiers.Social),
@@ -632,21 +632,21 @@ public sealed class WerewolfCharacterCompletionTests
             MetisDeformity = metisDeformity,
             RaceGift = race switch
             {
-                WerewolfRaceIdentifiers.Homid => WerewolfInitialGiftIdentifiers.HomidMasterOfFire,
-                WerewolfRaceIdentifiers.Metis => WerewolfInitialGiftIdentifiers.MetisCreateElement,
-                WerewolfRaceIdentifiers.Lupus => WerewolfInitialGiftIdentifiers.LupusHareLeap,
+                WerewolfRaceIdentifiers.Homid => WerewolfGiftIdentifiers.HomidMasterOfFire,
+                WerewolfRaceIdentifiers.Metis => WerewolfGiftIdentifiers.MetisCreateElement,
+                WerewolfRaceIdentifiers.Lupus => WerewolfGiftIdentifiers.LupusHareLeap,
                 _ => null
             },
             AuspiceGift = auspice switch
             {
-                WerewolfAuspiceIdentifiers.Ragabash => WerewolfInitialGiftIdentifiers.RagabashOpenSeal,
-                WerewolfAuspiceIdentifiers.Theurge => WerewolfInitialGiftIdentifiers.TheurgeSpiritSpeech,
-                WerewolfAuspiceIdentifiers.Philodox => WerewolfInitialGiftIdentifiers.PhilodoxResistPain,
-                WerewolfAuspiceIdentifiers.Galliard => WerewolfInitialGiftIdentifiers.GalliardBeastSpeech,
-                WerewolfAuspiceIdentifiers.Ahroun => WerewolfInitialGiftIdentifiers.AhrounFallingTouch,
+                WerewolfAuspiceIdentifiers.Ragabash => WerewolfGiftIdentifiers.RagabashOpenSeal,
+                WerewolfAuspiceIdentifiers.Theurge => WerewolfGiftIdentifiers.TheurgeSpiritSpeech,
+                WerewolfAuspiceIdentifiers.Philodox => WerewolfGiftIdentifiers.PhilodoxResistPain,
+                WerewolfAuspiceIdentifiers.Galliard => WerewolfGiftIdentifiers.GalliardBeastSpeech,
+                WerewolfAuspiceIdentifiers.Ahroun => WerewolfGiftIdentifiers.AhrounFallingTouch,
                 _ => null
             },
-            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine,
+            TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             AttributePriorityOrder = Array.AsReadOnly([WerewolfAttributeCategoryIdentifiers.Physical, WerewolfAttributeCategoryIdentifiers.Social, WerewolfAttributeCategoryIdentifiers.Mental]),
             AbilityPriorityOrder = Array.AsReadOnly([WerewolfAbilityCategoryIdentifiers.Talents, WerewolfAbilityCategoryIdentifiers.Skills, WerewolfAbilityCategoryIdentifiers.Knowledges]),
             Attributes = new Dictionary<string, int?>(StringComparer.Ordinal)

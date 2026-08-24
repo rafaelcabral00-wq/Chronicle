@@ -25,7 +25,7 @@
     "scopeStatus": "executable-increment",
     "sourceSystemCompleteness": "not-complete",
     "declaredScopeCompleteness": "partial-executable-current-slice",
-    "implementationCompleteness": "classification-initial-selection-attribute-ability-background-resource-rank-identity-name-and-completion-validation-increments-plus-runtime-resource-spend-and-recover-operations",
+    "implementationCompleteness": "classification-initial-selection-attribute-ability-background-resource-rank-identity-name-and-completion-validation-increments-plus-runtime-resource-spend-and-recover-operations-and-initial-gift-runtime-activation-and-effect-execution",
     "validationCompleteness": "bootstrap-and-runtime-increment-tests",
     "publicationStatus": "not-published"
   },
@@ -94,6 +94,14 @@
     {
       "capabilityKey": "post-creation-character-operations",
       "status": "partial-executable"
+    },
+    {
+      "capabilityKey": "runtime-gift-activation",
+      "status": "partial-executable"
+    },
+    {
+      "capabilityKey": "runtime-gift-execution",
+      "status": "partial-executable"
     }
   ],
   "excludedMechanics": [
@@ -108,12 +116,6 @@
       "capabilityKey": "additional-gift-purchase",
       "status": "disabled",
       "reasonKey": "additional-gift-eligibility-unresolved"
-    },
-    {
-      "operationKey": "gift-runtime.execute-gift-effect",
-      "capabilityKey": "runtime-gift-execution",
-      "status": "disabled",
-      "reasonKey": "runtime-gift-execution-outside-current-slice"
     }
   ],
   "security": {

@@ -15,4 +15,6 @@ public sealed record WerewolfActionResolutionContext(
     IReadOnlyList<string> ActiveConditions,
     bool IsInFrenzy = false,
     int? RagePermanent = null,
-    int? WillpowerPermanent = null);
+    int? WillpowerPermanent = null,
+    IReadOnlyList<WerewolfActiveGiftEffect>? ActiveGiftEffects = null,
+    string CurrentSceneToken = "");

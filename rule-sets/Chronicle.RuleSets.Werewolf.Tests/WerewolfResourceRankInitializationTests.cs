@@ -143,9 +143,9 @@ public sealed class WerewolfResourceRankInitializationTests
     {
         var draft = Draft(WerewolfRaceIdentifiers.Metis, WerewolfAuspiceIdentifiers.Galliard) with
         {
-            RaceGift = WerewolfInitialGiftIdentifiers.MetisCreateElement,
-            AuspiceGift = WerewolfInitialGiftIdentifiers.GalliardBeastSpeech,
-            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine,
+            RaceGift = WerewolfGiftIdentifiers.MetisCreateElement,
+            AuspiceGift = WerewolfGiftIdentifiers.GalliardBeastSpeech,
+            TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             AttributePriorityOrder = Array.AsReadOnly([WerewolfAttributeCategoryIdentifiers.Physical, WerewolfAttributeCategoryIdentifiers.Social, WerewolfAttributeCategoryIdentifiers.Mental]),
             AbilityPriorityOrder = Array.AsReadOnly([WerewolfAbilityCategoryIdentifiers.Talents, WerewolfAbilityCategoryIdentifiers.Skills, WerewolfAbilityCategoryIdentifiers.Knowledges]),
             Attributes = new Dictionary<string, int?>(StringComparer.Ordinal) { [WerewolfAttributeIdentifiers.Strength] = 5 },
@@ -376,9 +376,9 @@ public sealed class WerewolfRagabashRenownSelectionTests
             Auspice = WerewolfAuspiceIdentifiers.Ragabash,
             Tribe = WerewolfTribeIdentifiers.GlassWalkers,
             MetisDeformity = null,
-            RaceGift = WerewolfInitialGiftIdentifiers.HomidMasterOfFire,
-            AuspiceGift = WerewolfInitialGiftIdentifiers.RagabashOpenSeal,
-            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine,
+            RaceGift = WerewolfGiftIdentifiers.HomidMasterOfFire,
+            AuspiceGift = WerewolfGiftIdentifiers.RagabashOpenSeal,
+            TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             AttributePriorityOrder = Array.AsReadOnly(["physical", "social", "mental"]),
             AttributeBudgets = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>(StringComparer.Ordinal)
             {
@@ -451,9 +451,9 @@ public sealed class WerewolfRagabashRenownSelectionTests
                 ["character.background.rites"] = 0
             }),
             Gifts = Array.AsReadOnly([
-                WerewolfInitialGiftIdentifiers.HomidMasterOfFire,
-                WerewolfInitialGiftIdentifiers.RagabashOpenSeal,
-                WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine
+                WerewolfGiftIdentifiers.HomidMasterOfFire,
+                WerewolfGiftIdentifiers.RagabashOpenSeal,
+                WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine
             ])
         };
 

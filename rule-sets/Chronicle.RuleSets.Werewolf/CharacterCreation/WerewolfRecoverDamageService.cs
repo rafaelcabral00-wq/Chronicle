@@ -74,6 +74,17 @@ public static class WerewolfRecoverDamageService
         var actualRecovery = Math.Min(request.Amount, recoverable);
         var newDamageMarks = new List<WerewolfDamageMark>(currentTrack.DamageMarks);
 
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(request.CurrentState);
+        var giftHealing = activeEffects
+            .Where(e => e.EffectKind == WerewolfActiveGiftEffectKind.HealthLevelRepair && e.Magnitude > 0)
+            .Sum(e => e.Magnitude);
+
+        if (giftHealing > 0)
+        {
+            actualRecovery = Math.Min(actualRecovery + giftHealing, currentTrack.TotalDamage);
+            findings.Add($"Gift healing: +{giftHealing} damage levels recovered from active Gift effects.");
+        }
+
         var remaining = actualRecovery;
         for (var i = newDamageMarks.Count - 1; i >= 0 && remaining > 0; i--)
         {

@@ -186,9 +186,9 @@ public sealed class WerewolfAttributeAllocationTests
             Auspice = WerewolfAuspiceIdentifiers.Theurge,
             Tribe = WerewolfTribeIdentifiers.GlassWalkers,
             MetisDeformity = WerewolfMetisDeformityIdentifiers.Horns,
-            RaceGift = WerewolfInitialGiftIdentifiers.MetisCreateElement,
-            AuspiceGift = WerewolfInitialGiftIdentifiers.TheurgeSpiritSpeech,
-            TribeGift = WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine
+            RaceGift = WerewolfGiftIdentifiers.MetisCreateElement,
+            AuspiceGift = WerewolfGiftIdentifiers.TheurgeSpiritSpeech,
+            TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine
         };
 
         var result = Allocate(draft, ValidAllocation(

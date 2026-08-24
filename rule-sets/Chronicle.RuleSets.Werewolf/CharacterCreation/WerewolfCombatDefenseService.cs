@@ -95,6 +95,13 @@ public static class WerewolfCombatDefenseService
             pool = 0;
         }
 
+        var giftDefenseBonus = ComputeGiftDefenseBonus(request.CurrentState);
+        if (giftDefenseBonus > 0)
+        {
+            pool += giftDefenseBonus;
+            findings.Add($"Gift defense bonus: +{giftDefenseBonus} dice from active Gift effects.");
+        }
+
         var updatedState = request.CurrentState with
         {
             RuntimeStateVersion = request.CurrentState.RuntimeStateVersion + 1
@@ -108,6 +115,19 @@ public static class WerewolfCombatDefenseService
             defenseType,
             pool,
             difficulty);
+    }
+
+    private static int ComputeGiftDefenseBonus(WerewolfRuntimeCharacterState state)
+    {
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(state);
+        if (activeEffects.Count == 0)
+        {
+            return 0;
+        }
+
+        return activeEffects
+            .Where(e => e.EffectKind == WerewolfActiveGiftEffectKind.DefenseBonus && e.Magnitude > 0)
+            .Sum(e => e.Magnitude);
     }
 
     public static int ComputeDefensePool(IReadOnlyDictionary<string, int> effectiveAttributes, string attackId, string defenseType)

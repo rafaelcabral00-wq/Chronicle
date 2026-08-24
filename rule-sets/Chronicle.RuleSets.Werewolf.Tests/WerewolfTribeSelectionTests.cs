@@ -187,15 +187,15 @@ public sealed class WerewolfTribeSelectionTests
     }
 
     [Theory]
-    [InlineData(WerewolfTribeIdentifiers.GlassWalkers, WerewolfInitialGiftIdentifiers.GlassWalkersControlSimpleMachine)]
-    [InlineData(WerewolfTribeIdentifiers.GetOfFenris, WerewolfInitialGiftIdentifiers.GetOfFenrisRazorClaws)]
-    [InlineData(WerewolfTribeIdentifiers.Fianna, WerewolfInitialGiftIdentifiers.FiannaFaerieLight)]
-    [InlineData(WerewolfTribeIdentifiers.ChildrenOfGaia, WerewolfInitialGiftIdentifiers.ChildrenOfGaiaMercy)]
-    [InlineData(WerewolfTribeIdentifiers.SilentStriders, WerewolfInitialGiftIdentifiers.SilentStridersSilence)]
-    [InlineData(WerewolfTribeIdentifiers.BoneGnawers, WerewolfInitialGiftIdentifiers.BoneGnawersCooking)]
-    [InlineData(WerewolfTribeIdentifiers.ShadowLords, WerewolfInitialGiftIdentifiers.ShadowLordsSeizingTheEdge)]
-    [InlineData(WerewolfTribeIdentifiers.Uktena, WerewolfInitialGiftIdentifiers.UktenaSpiritSpeech)]
-    [InlineData(WerewolfTribeIdentifiers.Wendigo, WerewolfInitialGiftIdentifiers.WendigoCamouflage)]
+    [InlineData(WerewolfTribeIdentifiers.GlassWalkers, WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine)]
+    [InlineData(WerewolfTribeIdentifiers.GetOfFenris, WerewolfGiftIdentifiers.GetOfFenrisRazorClaws)]
+    [InlineData(WerewolfTribeIdentifiers.Fianna, WerewolfGiftIdentifiers.FiannaFaerieLight)]
+    [InlineData(WerewolfTribeIdentifiers.ChildrenOfGaia, WerewolfGiftIdentifiers.ChildrenOfGaiaMercy)]
+    [InlineData(WerewolfTribeIdentifiers.SilentStriders, WerewolfGiftIdentifiers.SilentStridersSilence)]
+    [InlineData(WerewolfTribeIdentifiers.BoneGnawers, WerewolfGiftIdentifiers.BoneGnawersCooking)]
+    [InlineData(WerewolfTribeIdentifiers.ShadowLords, WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge)]
+    [InlineData(WerewolfTribeIdentifiers.Uktena, WerewolfGiftIdentifiers.UktenaSpiritSpeech)]
+    [InlineData(WerewolfTribeIdentifiers.Wendigo, WerewolfGiftIdentifiers.WendigoCamouflage)]
     public void TribeGiftIsEligibleForTribe(string tribeId, string giftId)
     {
         var draft = Select(Draft() with { Race = WerewolfRaceIdentifiers.Homid, Auspice = WerewolfAuspiceIdentifiers.Ragabash }, tribeId).Draft!;

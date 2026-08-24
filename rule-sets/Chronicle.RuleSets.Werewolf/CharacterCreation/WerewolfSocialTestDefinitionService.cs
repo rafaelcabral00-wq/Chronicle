@@ -127,7 +127,9 @@ public static class WerewolfSocialTestDefinitionService
                 request.CurrentState.Conditions?.Where(c => c.IsActive).Select(c => c.ConditionKey).ToList() ?? [],
                 true,
                 request.CurrentState.RagePermanent,
-                request.CurrentState.WillpowerCurrent));
+                request.CurrentState.WillpowerCurrent,
+                request.CurrentState.ActiveGiftEffects,
+                request.CurrentState.CurrentSceneToken));
 
         findings.AddRange(modifierResult.Findings.Select(f => new WerewolfSocialTestDefinitionFinding(WerewolfSocialTestDefinitionFindingSeverity.Information, "ModifierApplied", f)));
 
@@ -160,10 +162,15 @@ public static class WerewolfSocialTestDefinitionService
         }
 
         var pureBreedBonus = ComputePureBreedBonus(request.CurrentState, request.TargetContext);
-        var finalPool = Math.Max(0, basePool + modifierResult.DicePoolModifier + pureBreedBonus + (request.Modifier ?? 0));
+        var giftSocialBonus = ComputeGiftSocialBonus(request.CurrentState);
+        var finalPool = Math.Max(0, basePool + modifierResult.DicePoolModifier + pureBreedBonus + giftSocialBonus + (request.Modifier ?? 0));
         if (pureBreedBonus > 0)
         {
             findings.Add(new WerewolfSocialTestDefinitionFinding(WerewolfSocialTestDefinitionFindingSeverity.Information, "PureBreedBonus", $"Pure Breed grants +{pureBreedBonus} dice to Social test involving other Garou."));
+        }
+        if (giftSocialBonus > 0)
+        {
+            findings.Add(new WerewolfSocialTestDefinitionFinding(WerewolfSocialTestDefinitionFindingSeverity.Information, "GiftSocialBonus", $"Gift effect grants +{giftSocialBonus} dice to Social test."));
         }
 
         var baseDifficulty = ComputeBaseDifficulty(challenge, request.TargetContext);
@@ -214,6 +221,25 @@ public static class WerewolfSocialTestDefinitionService
         }
 
         return 0;
+    }
+
+    private static int ComputeGiftSocialBonus(WerewolfRuntimeCharacterState state)
+    {
+        var activeEffects = WerewolfGiftEffectService.GetSceneValidEffects(state);
+        if (activeEffects.Count == 0)
+        {
+            return 0;
+        }
+
+        var socialBonus = activeEffects
+            .Where(e => e.EffectKind == WerewolfActiveGiftEffectKind.SocialTestBonus && e.Magnitude > 0)
+            .Sum(e => e.Magnitude);
+
+        var intimidationBonus = activeEffects
+            .Where(e => e.EffectKind == WerewolfActiveGiftEffectKind.SocialIntimidationBonus && e.Magnitude > 0)
+            .Sum(e => e.Magnitude);
+
+        return socialBonus + intimidationBonus;
     }
 
     private static bool ValidateChallengeAttributeAbility(WerewolfRuntimeCharacterState state, WerewolfSocialChallengeDefinition challenge, List<WerewolfSocialTestDefinitionFinding> findings)
