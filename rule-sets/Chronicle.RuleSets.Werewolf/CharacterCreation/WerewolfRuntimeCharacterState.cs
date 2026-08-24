@@ -27,7 +27,10 @@ public sealed record WerewolfRuntimeCharacterState(
     IReadOnlyList<string> KnownGiftKeys = null!,
     IReadOnlyDictionary<string, int> SceneGiftUsage = null!,
     string CurrentSceneToken = "",
-    IReadOnlyList<string> ActivatedGiftKeys = null!)
+    IReadOnlyList<string> ActivatedGiftKeys = null!,
+    int UnspentXp = 0,
+    IReadOnlyDictionary<string, int> PostCreationAttributeRatings = null!,
+    IReadOnlyDictionary<string, int> PostCreationAbilityRatings = null!)
 {
     public static WerewolfRuntimeCharacterState FromSnapshot(WerewolfCharacterSnapshot snapshot)
     {
@@ -139,11 +142,15 @@ public sealed record WerewolfRuntimeCharacterState(
                 hasWeakenedImmuneSystem: StringComparer.Ordinal.Equals(snapshot.MetisDeformity, WerewolfMetisDeformityIdentifiers.WeakImmuneSystem),
                 lastRegenerationTurn: -1),
             currentForm,
-            Conditions: [],
-            FrenzyState: null,
-            ActiveGiftEffects: [],
-            KnownGiftKeys: knownGiftKeys,
-            SceneGiftUsage: new Dictionary<string, int>(StringComparer.Ordinal),
-            CurrentSceneToken: string.Empty);
+             Conditions: [],
+             FrenzyState: null,
+             ActiveGiftEffects: [],
+             KnownGiftKeys: knownGiftKeys,
+             SceneGiftUsage: new Dictionary<string, int>(StringComparer.Ordinal),
+              CurrentSceneToken: string.Empty,
+              ActivatedGiftKeys: null!,
+              UnspentXp: 0,
+              PostCreationAttributeRatings: new Dictionary<string, int>(StringComparer.Ordinal),
+              PostCreationAbilityRatings: new Dictionary<string, int>(StringComparer.Ordinal));
     }
 }
