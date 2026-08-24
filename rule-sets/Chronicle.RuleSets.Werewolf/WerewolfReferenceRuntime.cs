@@ -56,6 +56,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
     public const string ActivateGiftOperation = "gift-runtime.activate-gift";
+    public const string CalculateAdvancementCostOperation = "character-runtime.calculate-advancement-cost";
+    public const string AdvanceTraitOperation = "character-runtime.advance-trait";
+    public const string EvaluateSpecialtyEligibilityOperation = "character-runtime.evaluate-specialty-eligibility";
+    public const string EvaluateGiftAdvancementOperation = "character-runtime.evaluate-gift-advancement";
 
     private readonly WerewolfCharacterCreationDraftInitializer characterCreation;
     public WerewolfReferenceRuntime()
@@ -130,7 +134,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(EvaluateActionAvailabilityOperation, "action-resolution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
             new RuleSetOperationDescriptor(ActivateGiftOperation, "runtime-gift-activation", RuleSetOperationStatus.Enabled),
-            new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Enabled)
+            new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(CalculateAdvancementCostOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(AdvanceTraitOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluateSpecialtyEligibilityOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluateGiftAdvancementOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled)
         ]);
 
     public RuleSetOperationResult Execute(RuleSetOperationRequest request)
@@ -375,6 +383,26 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, ExecuteGiftEffectOperation))
         {
             return ExecuteGiftEffect(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, CalculateAdvancementCostOperation))
+        {
+            return ExecuteCalculateAdvancementCost(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, AdvanceTraitOperation))
+        {
+            return ExecuteAdvanceTrait(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateSpecialtyEligibilityOperation))
+        {
+            return ExecuteEvaluateSpecialtyEligibility(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateGiftAdvancementOperation))
+        {
+            return ExecuteEvaluateGiftAdvancement(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -3191,10 +3219,143 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
               outputs[$"activeEffect_{i}_sourceLocator"] = effect.SourceLocator;
           }
 
-          return new RuleSetOperationResult(
-              true,
-              null,
-              result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "GiftEffectApplied", f)).ToArray(),
-              outputs);
-      }
-  }
+           return new RuleSetOperationResult(
+               true,
+               null,
+               result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "GiftEffectApplied", f)).ToArray(),
+               outputs);
+       }
+
+       private static RuleSetOperationResult ExecuteCalculateAdvancementCost(RuleSetOperationRequest request)
+       {
+           var currentState = GetCurrentRuntimeState(request);
+           var expectedVersion = GetExpectedVersion(request);
+           var traitType = request.Inputs.GetValueOrDefault("traitType", string.Empty);
+           var traitIdentifier = request.Inputs.GetValueOrDefault("traitIdentifier", string.Empty);
+           var currentRatingText = request.Inputs.GetValueOrDefault("currentRating", "0");
+           if (!int.TryParse(currentRatingText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var currentRating))
+           {
+               currentRating = 0;
+           }
+
+           var result = WerewolfAdvancementCostService.CalculateCost(new WerewolfAdvancementCostRequest(currentState, expectedVersion, traitType, traitIdentifier, currentRating));
+
+           if (!result.Succeeded || result.Cost is null)
+           {
+               return new RuleSetOperationResult(
+                   false,
+                   RuleSetOperationFailureCode.InvalidRequest,
+                   result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                   new Dictionary<string, string>(StringComparer.Ordinal));
+           }
+
+           return new RuleSetOperationResult(
+               true,
+               null,
+               result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray(),
+               new Dictionary<string, string>(StringComparer.Ordinal)
+               {
+                   ["cost"] = result.Cost.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                   ["traitType"] = traitType,
+                   ["traitIdentifier"] = traitIdentifier ?? string.Empty,
+                   ["currentRating"] = currentRating.ToString(System.Globalization.CultureInfo.InvariantCulture)
+               });
+       }
+
+       private static RuleSetOperationResult ExecuteAdvanceTrait(RuleSetOperationRequest request)
+       {
+           var currentState = GetCurrentRuntimeState(request);
+           var expectedVersion = GetExpectedVersion(request);
+           var requestId = request.Inputs.GetValueOrDefault("requestId", string.Empty);
+           var traitType = request.Inputs.GetValueOrDefault("traitType", string.Empty);
+           var traitIdentifier = request.Inputs.GetValueOrDefault("traitIdentifier", string.Empty);
+
+           var result = WerewolfAdvancementService.Advance(new WerewolfAdvanceTraitRequest(currentState, expectedVersion, requestId, traitType, traitIdentifier));
+
+           if (!result.Succeeded || result.NewState is null)
+           {
+               return new RuleSetOperationResult(
+                   false,
+                   RuleSetOperationFailureCode.InvalidRequest,
+                   result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                   new Dictionary<string, string>(StringComparer.Ordinal)
+                   {
+                       ["remainingXp"] = result.RemainingXp?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+                   });
+           }
+
+           return new RuleSetOperationResult(
+               true,
+               null,
+               result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray(),
+               new Dictionary<string, string>(StringComparer.Ordinal)
+               {
+                   ["requestId"] = result.RequestId ?? string.Empty,
+                   ["newState"] = System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                   ["newRuntimeStateVersion"] = result.NewRuntimeStateVersion?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                   ["xpSpent"] = result.XpSpent?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                   ["remainingXp"] = result.RemainingXp?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+               });
+       }
+
+       private static RuleSetOperationResult ExecuteEvaluateSpecialtyEligibility(RuleSetOperationRequest request)
+       {
+           var traitType = request.Inputs.GetValueOrDefault("traitType", string.Empty);
+           var traitIdentifier = request.Inputs.GetValueOrDefault("traitIdentifier", string.Empty);
+           var currentRatingText = request.Inputs.GetValueOrDefault("currentRating", "0");
+           if (!int.TryParse(currentRatingText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var currentRating))
+           {
+               currentRating = 0;
+           }
+
+           var result = WerewolfSpecialtyEligibilityService.Evaluate(new WerewolfSpecialtyEligibilityRequest(traitType, traitIdentifier, currentRating));
+
+           return new RuleSetOperationResult(
+               result.Succeeded,
+               result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+               result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                       finding.Severity == WerewolfProgressionFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                   finding.Code.ToString(),
+                   finding.Message)).ToArray(),
+               new Dictionary<string, string>(StringComparer.Ordinal)
+               {
+                   ["isEligible"] = result.IsEligible.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                   ["traitType"] = traitType,
+                   ["traitIdentifier"] = traitIdentifier,
+                   ["currentRating"] = currentRating.ToString(System.Globalization.CultureInfo.InvariantCulture)
+               });
+       }
+
+       private static RuleSetOperationResult ExecuteEvaluateGiftAdvancement(RuleSetOperationRequest request)
+       {
+           var currentState = GetCurrentRuntimeState(request);
+           var expectedVersion = GetExpectedVersion(request);
+           var giftKey = request.Inputs.GetValueOrDefault("giftKey", string.Empty);
+
+           var result = WerewolfGiftAdvancementEligibilityService.Evaluate(new WerewolfGiftAdvancementRequest(currentState, expectedVersion, giftKey));
+
+           if (!result.Succeeded)
+           {
+               return new RuleSetOperationResult(
+                   false,
+                   RuleSetOperationFailureCode.InvalidRequest,
+                   result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                   new Dictionary<string, string>(StringComparer.Ordinal));
+           }
+
+           return new RuleSetOperationResult(
+               true,
+               null,
+               result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                       finding.Severity == WerewolfProgressionFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                   finding.Code.ToString(),
+                   finding.Message)).ToArray(),
+               new Dictionary<string, string>(StringComparer.Ordinal)
+               {
+                   ["giftKey"] = giftKey,
+                   ["cost"] = result.Cost?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                   ["isEligible"] = result.IsEligible?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                   ["ineligibilityReason"] = result.IneligibilityReason ?? string.Empty
+               });
+       }
+   }

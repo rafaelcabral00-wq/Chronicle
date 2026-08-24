@@ -20,12 +20,12 @@
     "fixture-driven-tests",
     "frenzy",
     "generic-dice",
-    "post-creation-character-operations"
+    "post-creation-character-operations",
+    "progression"
   ],
   "disabledCapabilities": [
     "additional-gift-purchase",
     "runtime-gift-execution",
-    "progression",
     "rites",
     "umbra"
   ],
