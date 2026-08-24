@@ -32,4 +32,8 @@ public static class WerewolfRuleSetPackage
 
     public const string DefineActionTestOperation = "character-runtime.define-action-test";
     public const string InterpretActionRollOperation = "character-runtime.interpret-action-roll";
+    public const string DefineExtendedTestOperation = "character-runtime.define-extended-test";
+    public const string AdvanceExtendedTestOperation = "character-runtime.advance-extended-test";
+    public const string DefineResistedTestOperation = "character-runtime.define-resisted-test";
+    public const string InterpretResistedTestOperation = "character-runtime.interpret-resisted-test";
 }

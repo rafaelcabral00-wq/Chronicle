@@ -25,6 +25,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string CompleteCharacterOperation = "character-creation.complete-character";
     public const string DefineActionTestOperation = "character-runtime.define-action-test";
     public const string InterpretActionRollOperation = "character-runtime.interpret-action-roll";
+    public const string DefineExtendedTestOperation = "character-runtime.define-extended-test";
+    public const string AdvanceExtendedTestOperation = "character-runtime.advance-extended-test";
+    public const string DefineResistedTestOperation = "character-runtime.define-resisted-test";
+    public const string InterpretResistedTestOperation = "character-runtime.interpret-resisted-test";
     public const string SpendResourceOperation = "character-runtime.spend-resource";
     public const string RecoverResourceOperation = "character-runtime.recover-resource";
     public const string AwardTemporaryRenownOperation = "character-runtime.award-temporary-renown";
@@ -104,6 +108,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(SelectTribeGiftOperation, "character-creation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineActionTestOperation, "generic-dice", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(InterpretActionRollOperation, "generic-dice", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(DefineExtendedTestOperation, "generic-dice", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(AdvanceExtendedTestOperation, "generic-dice", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(DefineResistedTestOperation, "generic-dice", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(InterpretResistedTestOperation, "generic-dice", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(SpendResourceOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(RecoverResourceOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(AwardTemporaryRenownOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
@@ -233,6 +241,26 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, InterpretActionRollOperation))
         {
             return ExecuteInterpretActionRoll(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, DefineExtendedTestOperation))
+        {
+            return ExecuteDefineExtendedTest(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, AdvanceExtendedTestOperation))
+        {
+            return ExecuteAdvanceExtendedTest(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, DefineResistedTestOperation))
+        {
+            return ExecuteDefineResistedTest(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, InterpretResistedTestOperation))
+        {
+            return ExecuteInterpretResistedTest(request);
         }
 
         if (StringComparer.Ordinal.Equals(request.OperationKey, SpendResourceOperation))
@@ -1647,6 +1675,231 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["botchClassification"] = result.BotchClassification ?? string.Empty,
                 ["interpretationStatus"] = result.InterpretationStatus,
                 ["serializedInterpretation"] = result.SerializedInterpretation
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteDefineExtendedTest(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("dicePool", out var dicePoolText) ||
+            !request.Inputs.TryGetValue("difficulty", out var difficultyText) ||
+            !request.Inputs.TryGetValue("requiredSuccesses", out var requiredSuccessesText) ||
+            !int.TryParse(dicePoolText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var dicePool) ||
+            !int.TryParse(difficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var difficulty) ||
+            !int.TryParse(requiredSuccessesText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var requiredSuccesses))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidExtendedTestDefinitionRequest", "Extended test definition requires requestId, dicePool, difficulty, and requiredSuccesses.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var definition = new WerewolfExtendedTestDefinition(requestId, dicePool, difficulty, requiredSuccesses);
+        var progress = WerewolfExtendedTestService.CreateInitialProgress(definition);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = progress.RequestId,
+                ["dicePool"] = dicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["difficulty"] = difficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["requiredSuccesses"] = requiredSuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["diceFaces"] = "10",
+                ["accumulatedSuccesses"] = progress.AccumulatedSuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["attemptCount"] = progress.AttemptCount.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["isBotched"] = progress.IsBotched.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["status"] = progress.Status.ToString()
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteAdvanceExtendedTest(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("dicePool", out var dicePoolText) ||
+            !request.Inputs.TryGetValue("difficulty", out var difficultyText) ||
+            !request.Inputs.TryGetValue("requiredSuccesses", out var requiredSuccessesText) ||
+            !request.Inputs.TryGetValue("diceValues", out var diceValuesText) ||
+            !request.Inputs.TryGetValue("previousProgressJson", out var previousProgressJson) ||
+            !int.TryParse(dicePoolText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var dicePool) ||
+            !int.TryParse(difficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var difficulty) ||
+            !int.TryParse(requiredSuccessesText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var requiredSuccesses))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidExtendedTestAdvanceRequest", "Extended test advance requires requestId, dicePool, difficulty, requiredSuccesses, diceValues, and previousProgressJson.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        WerewolfExtendedTestProgress? previousProgress = null;
+        if (!string.IsNullOrWhiteSpace(previousProgressJson))
+        {
+            try
+            {
+                previousProgress = System.Text.Json.JsonSerializer.Deserialize<WerewolfExtendedTestProgress>(previousProgressJson, JsonOptions);
+            }
+            catch
+            {
+            }
+        }
+
+        if (previousProgress is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidPreviousProgress", "previousProgressJson must be a valid WerewolfExtendedTestProgress.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var definition = new WerewolfExtendedTestDefinition(requestId, dicePool, difficulty, requiredSuccesses);
+        var diceValues = ParseCsv(diceValuesText)
+            .Select(value => int.TryParse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var die) ? die : 0)
+            .ToArray();
+
+        var result = WerewolfExtendedTestService.Advance(definition, previousProgress, Array.AsReadOnly(diceValues));
+
+        if (!result.Succeeded)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfExtendedTestFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code,
+                    finding.Message))
+                    .ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfExtendedTestFindingSeverity.Error
+                        ? RuleSetRuntimeFindingSeverity.Error
+                        : RuleSetRuntimeFindingSeverity.Information,
+                finding.Code,
+                finding.Message))
+            .ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId,
+                ["accumulatedSuccesses"] = result.UpdatedProgress.AccumulatedSuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["attemptCount"] = result.UpdatedProgress.AttemptCount.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["isBotched"] = result.UpdatedProgress.IsBotched.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["status"] = result.Status.ToString(),
+                ["serializedResult"] = result.SerializedResult
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteDefineResistedTest(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("sideADicePool", out var sideADicePoolText) ||
+            !request.Inputs.TryGetValue("sideADifficulty", out var sideADifficultyText) ||
+            !request.Inputs.TryGetValue("sideBDicePool", out var sideBDicePoolText) ||
+            !request.Inputs.TryGetValue("sideBDifficulty", out var sideBDifficultyText) ||
+            !int.TryParse(sideADicePoolText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideADicePool) ||
+            !int.TryParse(sideADifficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideADifficulty) ||
+            !int.TryParse(sideBDicePoolText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideBDicePool) ||
+            !int.TryParse(sideBDifficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideBDifficulty))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidResistedTestDefinitionRequest", "Resisted test definition requires requestId, sideADicePool, sideADifficulty, sideBDicePool, and sideBDifficulty.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var definition = new WerewolfResistedTestDefinition(requestId, sideADicePool, sideADifficulty, sideBDicePool, sideBDifficulty);
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            [],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = definition.RequestId,
+                ["sideADicePool"] = sideADicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["sideADifficulty"] = sideADifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["sideBDicePool"] = sideBDicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["sideBDifficulty"] = sideBDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            });
+    }
+
+    private static RuleSetOperationResult ExecuteInterpretResistedTest(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+            !request.Inputs.TryGetValue("sideADiceValues", out var sideADiceValuesText) ||
+            !request.Inputs.TryGetValue("sideBDiceValues", out var sideBDiceValuesText) ||
+            !request.Inputs.TryGetValue("sideADifficulty", out var sideADifficultyText) ||
+            !request.Inputs.TryGetValue("sideBDifficulty", out var sideBDifficultyText) ||
+            !request.Inputs.TryGetValue("sideADicePool", out var sideADicePoolText) ||
+            !request.Inputs.TryGetValue("sideBDicePool", out var sideBDicePoolText) ||
+            !int.TryParse(sideADifficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideADifficulty) ||
+            !int.TryParse(sideBDifficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideBDifficulty) ||
+            !int.TryParse(sideADicePoolText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideADicePool) ||
+            !int.TryParse(sideBDicePoolText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var sideBDicePool))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidResistedTestInterpretationRequest", "Resisted test interpretation requires requestId, sideADiceValues, sideBDiceValues, sideADifficulty, sideBDifficulty, sideADicePool, and sideBDicePool.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var sideADiceValues = ParseCsv(sideADiceValuesText)
+            .Select(value => int.TryParse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var die) ? die : 0)
+            .ToArray();
+
+        var sideBDiceValues = ParseCsv(sideBDiceValuesText)
+            .Select(value => int.TryParse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var die) ? die : 0)
+            .ToArray();
+
+        var definition = new WerewolfResistedTestDefinition(requestId, sideADicePool, sideADifficulty, sideBDicePool, sideBDifficulty);
+        var result = WerewolfResistedTestService.Interpret(definition, Array.AsReadOnly(sideADiceValues), Array.AsReadOnly(sideBDiceValues));
+
+        if (!result.Succeeded)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfResistedTestFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code,
+                    finding.Message))
+                    .ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                    finding.Severity == WerewolfResistedTestFindingSeverity.Error
+                        ? RuleSetRuntimeFindingSeverity.Error
+                        : RuleSetRuntimeFindingSeverity.Information,
+                finding.Code,
+                finding.Message))
+            .ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["requestId"] = result.RequestId,
+                ["sideASuccesses"] = result.SideASuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["sideBSuccesses"] = result.SideBSuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["netSuccesses"] = result.NetSuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["winner"] = result.Winner.ToString(),
+                ["status"] = result.Status,
+                ["serializedResult"] = result.SerializedResult
             });
     }
 
