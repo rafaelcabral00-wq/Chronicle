@@ -173,7 +173,8 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.FrenzyEvaluateActionOperation,
                 WerewolfReferenceRuntime.FrenzySuppressOperation,
                 WerewolfReferenceRuntime.ActivateGiftOperation,
-                WerewolfReferenceRuntime.ExecuteGiftEffectOperation
+                WerewolfReferenceRuntime.ExecuteGiftEffectOperation,
+                WerewolfReferenceRuntime.ExecuteRiteOperation
             ],
             first[0].Operations.Select(operation => operation.OperationKey).ToArray());
     }
