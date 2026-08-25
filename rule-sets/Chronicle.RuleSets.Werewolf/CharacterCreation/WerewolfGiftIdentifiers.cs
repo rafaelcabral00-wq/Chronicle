@@ -42,6 +42,54 @@ public static class WerewolfGiftIdentifiers
     public const string WendigoCamouflage = "gift.tribe.wendigo.camouflage";
     public const string WendigoCallTheBreeze = "gift.tribe.wendigo.call-the-breeze";
 
+    public const string HomidSimularOdorDeHomem = "gift.homid.simular-odor-de-homem";
+    public const string HomidPerturbarTecnologia = "gift.homid.perturbar-tecnologia";
+    public const string MetisRaivaPrimordial = "gift.metis.raiva-primordial";
+    public const string MetisSentirAWyrm = "gift.metis.sentir-a-wyrm";
+    public const string MetisCavar = "gift.metis.cavar";
+    public const string MetisOlhosDeGato = "gift.metis.olhos-de-gato";
+    public const string LupusSentidosAgucados = "gift.lupus.sentidos-agucados";
+    public const string RagabashEmbacamentoDaPropriaForma = "gift.ragabash.embacamento-da-propria-forma";
+    public const string RagabashSimularOCheiroDeAguaCorrente = "gift.ragabash.simular-o-cheiro-de-agua-corrente";
+    public const string RagabashInduzirEsquecimento = "gift.ragabash.induzir-esquecimento";
+    public const string TheurgeSentirAWyrm = "gift.theurge.sentir-a-wyrm";
+    public const string PhilodoxFaroParaAFormaVerdadeira = "gift.philodox.faro-para-a-forma-verdadeira";
+    public const string PhilodoxVerdadeDeGaia = "gift.philodox.verdade-de-gaia";
+    public const string PhilodoxReiDosAnimais = "gift.philodox.rei-dos-animais";
+    public const string GalliardComunicacaoComAnimais = "gift.galliard.comunicacao-com-animais";
+    public const string GalliardDistracoes = "gift.galliard.distracoes";
+    public const string AhrounGarrasAfiadas = "gift.ahroun.garras-afiadas";
+    public const string AhrounInspiracao = "gift.ahroun.inspiracao";
+    public const string AhrounEspiritoDaBatalha = "gift.ahroun.espirito-da-batalha";
+    public const string AhrounMedoVerdadeiro = "gift.ahroun.medo-verdadeiro";
+    public const string AhrounSentirAPrata = "gift.ahroun.sentir-a-prata";
+    public const string GlassWalkersSentidosCiberneticos = "gift.glass-walkers.sentidos-ciberneticos";
+    public const string GlassWalkersSobrecargaDeEnergia = "gift.glass-walkers.sobrecarga-de-energia";
+    public const string GetOfFenrisDeterAFugaDosCovardes = "gift.get-of-fenris.deter-a-fuga-dos-covardes";
+    public const string GetOfFenrisRugidoDoPredador = "gift.get-of-fenris.rugido-do-predador";
+    public const string FiannaUivoDaBanshee = "gift.fianna.uivo-da-banshee";
+    public const string ChildrenOfGaiaResistenciaADor = "gift.children-of-gaia.resistencia-a-dor";
+    public const string ChildrenOfGaiaAcalmar = "gift.children-of-gaia.acalmar";
+    public const string ChildrenOfGaiaArmaduraDeLuna = "gift.children-of-gaia.armadura-de-luna";
+    public const string BlackFuriesMaldicaoDeEolo = "gift.black-furies.maldicao-de-eolo";
+    public const string BlackFuriesSentirAPresa = "gift.black-furies.sentir-a-presa";
+    public const string RedTalonsMenteAnimal = "gift.red-talons.mente-animal";
+    public const string RedTalonsSentirAPresa = "gift.red-talons.sentir-a-presa";
+    public const string SilentStridersSentirAWyrm = "gift.silent-striders.sentir-a-wyrm";
+    public const string SilentStridersGerarIgnorancia = "gift.silent-striders.gerar-ignorancia";
+    public const string SilentStridersResistenciaDeMensageiro = "gift.silent-striders.resistencia-de-mensageiro";
+    public const string SilverFangsSentirAWyrm = "gift.silver-fangs.sentir-a-wyrm";
+    public const string SilverFangsArmaduraDeLuna = "gift.silver-fangs.armadura-de-luna";
+    public const string SilverFangsEmpatia = "gift.silver-fangs.empatia";
+    public const string BoneGnawersGerarIgnorancia = "gift.bone-gnawers.gerar-ignorancia";
+    public const string BoneGnawersOdorRepugnante = "gift.bone-gnawers.odor-repugnante";
+    public const string ShadowLordsAplausoTrovejante = "gift.shadow-lords.aplauso-trovejante";
+    public const string ShadowLordsArmaduraDeLuna = "gift.shadow-lords.armadura-de-luna";
+    public const string UktenaEspiritoDoPassaro = "gift.uktena.espirito-do-passaro";
+    public const string UktenaEspiritoDoPeixe = "gift.uktena.espirito-do-peixe";
+    public const string WendigoResistenciaADor = "gift.wendigo.resistencia-a-dor";
+    public const string WendigoVentoCortante = "gift.wendigo.vento-cortante";
+
     public static IReadOnlyList<string> Supported { get; } =
     [
         HomidMasterOfFire,
@@ -82,6 +130,53 @@ public static class WerewolfGiftIdentifiers
         UktenaShroud,
         UktenaSenseMagic,
         WendigoCamouflage,
-        WendigoCallTheBreeze
+        WendigoCallTheBreeze,
+        HomidSimularOdorDeHomem,
+        HomidPerturbarTecnologia,
+        MetisRaivaPrimordial,
+        MetisSentirAWyrm,
+        MetisCavar,
+        MetisOlhosDeGato,
+        LupusSentidosAgucados,
+        RagabashEmbacamentoDaPropriaForma,
+        RagabashSimularOCheiroDeAguaCorrente,
+        RagabashInduzirEsquecimento,
+        TheurgeSentirAWyrm,
+        PhilodoxFaroParaAFormaVerdadeira,
+        PhilodoxVerdadeDeGaia,
+        PhilodoxReiDosAnimais,
+        GalliardComunicacaoComAnimais,
+        GalliardDistracoes,
+        AhrounGarrasAfiadas,
+        AhrounInspiracao,
+        AhrounEspiritoDaBatalha,
+        AhrounMedoVerdadeiro,
+        AhrounSentirAPrata,
+        GlassWalkersSentidosCiberneticos,
+        GlassWalkersSobrecargaDeEnergia,
+        GetOfFenrisDeterAFugaDosCovardes,
+        GetOfFenrisRugidoDoPredador,
+        FiannaUivoDaBanshee,
+        ChildrenOfGaiaResistenciaADor,
+        ChildrenOfGaiaAcalmar,
+        ChildrenOfGaiaArmaduraDeLuna,
+        BlackFuriesMaldicaoDeEolo,
+        BlackFuriesSentirAPresa,
+        RedTalonsMenteAnimal,
+        RedTalonsSentirAPresa,
+        SilentStridersSentirAWyrm,
+        SilentStridersGerarIgnorancia,
+        SilentStridersResistenciaDeMensageiro,
+        SilverFangsSentirAWyrm,
+        SilverFangsArmaduraDeLuna,
+        SilverFangsEmpatia,
+        BoneGnawersGerarIgnorancia,
+        BoneGnawersOdorRepugnante,
+        ShadowLordsAplausoTrovejante,
+        ShadowLordsArmaduraDeLuna,
+        UktenaEspiritoDoPassaro,
+        UktenaEspiritoDoPeixe,
+        WendigoResistenciaADor,
+        WendigoVentoCortante
     ];
 }

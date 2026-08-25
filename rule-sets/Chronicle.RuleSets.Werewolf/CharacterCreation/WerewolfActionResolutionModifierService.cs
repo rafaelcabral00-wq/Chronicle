@@ -28,41 +28,34 @@ public static class WerewolfActionResolutionModifierService
         var isAutomaticFailure = false;
         var conditionalTests = new List<WerewolfConditionalTest>();
 
-        if (string.IsNullOrWhiteSpace(context.MetisDeformity))
+        if (!string.IsNullOrWhiteSpace(context.MetisDeformity) && WerewolfMetisDeformityIdentifiers.Effects.TryGetValue(context.MetisDeformity, out var effects) && effects is not null)
         {
-            return new WerewolfActionResolutionModifierResult(0, 0, false, false, findings, []);
-        }
-
-        if (!WerewolfMetisDeformityIdentifiers.Effects.TryGetValue(context.MetisDeformity, out var effects) || effects is null)
-        {
-            return new WerewolfActionResolutionModifierResult(0, 0, false, false, findings, []);
-        }
-
-        foreach (var effect in effects)
-        {
-            switch (effect.Kind)
+            foreach (var effect in effects)
             {
-                case WerewolfMetisDeformityEffectKind.DifficultyModifier:
-                    ApplyDifficultyModifier(effect, context, findings, ref difficultyModifier);
-                    break;
-                case WerewolfMetisDeformityEffectKind.DiceBonus:
-                    ApplyDiceBonus(effect, context, findings, ref dicePoolModifier);
-                    break;
-                case WerewolfMetisDeformityEffectKind.AutomaticFailure:
-                    ApplyAutomaticFailure(effect, context, findings, ref isAutomaticFailure);
-                    break;
-                case WerewolfMetisDeformityEffectKind.ConditionalTest:
-                    ApplyConditionalTest(effect, context, findings, conditionalTests);
-                    break;
-                case WerewolfMetisDeformityEffectKind.FormRestricted:
-                    ApplyFormRestricted(effect, context, findings, ref difficultyModifier);
-                    break;
-                case WerewolfMetisDeformityEffectKind.SensoryFailure:
-                    ApplySensoryFailure(effect, context, findings, ref isAutomaticFailure);
-                    break;
-                case WerewolfMetisDeformityEffectKind.TrackingPenalty:
-                    ApplyTrackingPenalty(effect, context, findings, ref difficultyModifier);
-                    break;
+                switch (effect.Kind)
+                {
+                    case WerewolfMetisDeformityEffectKind.DifficultyModifier:
+                        ApplyDifficultyModifier(effect, context, findings, ref difficultyModifier);
+                        break;
+                    case WerewolfMetisDeformityEffectKind.DiceBonus:
+                        ApplyDiceBonus(effect, context, findings, ref dicePoolModifier);
+                        break;
+                    case WerewolfMetisDeformityEffectKind.AutomaticFailure:
+                        ApplyAutomaticFailure(effect, context, findings, ref isAutomaticFailure);
+                        break;
+                    case WerewolfMetisDeformityEffectKind.ConditionalTest:
+                        ApplyConditionalTest(effect, context, findings, conditionalTests);
+                        break;
+                    case WerewolfMetisDeformityEffectKind.FormRestricted:
+                        ApplyFormRestricted(effect, context, findings, ref difficultyModifier);
+                        break;
+                    case WerewolfMetisDeformityEffectKind.SensoryFailure:
+                        ApplySensoryFailure(effect, context, findings, ref isAutomaticFailure);
+                        break;
+                    case WerewolfMetisDeformityEffectKind.TrackingPenalty:
+                        ApplyTrackingPenalty(effect, context, findings, ref difficultyModifier);
+                        break;
+                }
             }
         }
 

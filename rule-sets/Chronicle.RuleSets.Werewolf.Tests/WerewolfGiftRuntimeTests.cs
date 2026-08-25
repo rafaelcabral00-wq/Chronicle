@@ -8,52 +8,99 @@ namespace Chronicle.RuleSets.Werewolf.Tests;
 public sealed class WerewolfGiftRuntimeTests
 {
     [Theory]
-    [InlineData(WerewolfGiftIdentifiers.HomidMasterOfFire)]
-    [InlineData(WerewolfGiftIdentifiers.MetisCreateElement)]
-    [InlineData(WerewolfGiftIdentifiers.LupusHareLeap)]
-    [InlineData(WerewolfGiftIdentifiers.RagabashOpenSeal)]
-    [InlineData(WerewolfGiftIdentifiers.TheurgeSpiritSpeech)]
-    [InlineData(WerewolfGiftIdentifiers.PhilodoxResistPain)]
-    [InlineData(WerewolfGiftIdentifiers.GalliardBeastSpeech)]
-    [InlineData(WerewolfGiftIdentifiers.AhrounFallingTouch)]
-    [InlineData(WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine)]
-    [InlineData(WerewolfGiftIdentifiers.GlassWalkersDiagnostics)]
-    [InlineData(WerewolfGiftIdentifiers.GlassWalkersTrickShot)]
-    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisRazorClaws)]
-    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisResistPain)]
-    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisVisageOfFenris)]
-    [InlineData(WerewolfGiftIdentifiers.FiannaFaerieLight)]
-    [InlineData(WerewolfGiftIdentifiers.FiannaPersuasion)]
-    [InlineData(WerewolfGiftIdentifiers.FiannaResistToxin)]
-    [InlineData(WerewolfGiftIdentifiers.ChildrenOfGaiaMercy)]
-    [InlineData(WerewolfGiftIdentifiers.ChildrenOfGaiaMothersTouch)]
-    [InlineData(WerewolfGiftIdentifiers.BlackFuriesBreathOfTheWyrm)]
-    [InlineData(WerewolfGiftIdentifiers.BlackFuriesHeightenedSenses)]
-    [InlineData(WerewolfGiftIdentifiers.BlackFuriesSenseWyrm)]
-    [InlineData(WerewolfGiftIdentifiers.RedTalonsBeastSpeech)]
-    [InlineData(WerewolfGiftIdentifiers.RedTalonsWolfAtTheDoor)]
-    [InlineData(WerewolfGiftIdentifiers.RedTalonsScentOfRunningWater)]
-    [InlineData(WerewolfGiftIdentifiers.SilentStridersSilence)]
-    [InlineData(WerewolfGiftIdentifiers.SilentStridersSpeedOfThought)]
-    [InlineData(WerewolfGiftIdentifiers.SilverFangsLambentFlame)]
-    [InlineData(WerewolfGiftIdentifiers.SilverFangsFalconsGrasp)]
-    [InlineData(WerewolfGiftIdentifiers.BoneGnawersCooking)]
-    [InlineData(WerewolfGiftIdentifiers.BoneGnawersStickyFingers)]
-    [InlineData(WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge)]
-    [InlineData(WerewolfGiftIdentifiers.ShadowLordsAuraOfConfidence)]
-    [InlineData(WerewolfGiftIdentifiers.ShadowLordsFatalFlaw)]
-    [InlineData(WerewolfGiftIdentifiers.UktenaSpiritSpeech)]
-    [InlineData(WerewolfGiftIdentifiers.UktenaShroud)]
-    [InlineData(WerewolfGiftIdentifiers.UktenaSenseMagic)]
-    [InlineData(WerewolfGiftIdentifiers.WendigoCamouflage)]
-    [InlineData(WerewolfGiftIdentifiers.WendigoCallTheBreeze)]
-    public void CatalogReturnsDefinitionForEveryInitialGift(string giftKey)
+    [InlineData(WerewolfGiftIdentifiers.HomidMasterOfFire, 1)]
+    [InlineData(WerewolfGiftIdentifiers.MetisCreateElement, 1)]
+    [InlineData(WerewolfGiftIdentifiers.LupusHareLeap, 1)]
+    [InlineData(WerewolfGiftIdentifiers.RagabashOpenSeal, 1)]
+    [InlineData(WerewolfGiftIdentifiers.TheurgeSpiritSpeech, 1)]
+    [InlineData(WerewolfGiftIdentifiers.PhilodoxResistPain, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GalliardBeastSpeech, 1)]
+    [InlineData(WerewolfGiftIdentifiers.AhrounFallingTouch, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GlassWalkersDiagnostics, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GlassWalkersTrickShot, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisRazorClaws, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisResistPain, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisVisageOfFenris, 1)]
+    [InlineData(WerewolfGiftIdentifiers.FiannaFaerieLight, 1)]
+    [InlineData(WerewolfGiftIdentifiers.FiannaPersuasion, 1)]
+    [InlineData(WerewolfGiftIdentifiers.FiannaResistToxin, 1)]
+    [InlineData(WerewolfGiftIdentifiers.ChildrenOfGaiaMercy, 1)]
+    [InlineData(WerewolfGiftIdentifiers.ChildrenOfGaiaMothersTouch, 1)]
+    [InlineData(WerewolfGiftIdentifiers.BlackFuriesBreathOfTheWyrm, 1)]
+    [InlineData(WerewolfGiftIdentifiers.BlackFuriesHeightenedSenses, 1)]
+    [InlineData(WerewolfGiftIdentifiers.BlackFuriesSenseWyrm, 1)]
+    [InlineData(WerewolfGiftIdentifiers.RedTalonsBeastSpeech, 1)]
+    [InlineData(WerewolfGiftIdentifiers.RedTalonsWolfAtTheDoor, 1)]
+    [InlineData(WerewolfGiftIdentifiers.RedTalonsScentOfRunningWater, 1)]
+    [InlineData(WerewolfGiftIdentifiers.SilentStridersSilence, 1)]
+    [InlineData(WerewolfGiftIdentifiers.SilentStridersSpeedOfThought, 1)]
+    [InlineData(WerewolfGiftIdentifiers.SilverFangsLambentFlame, 1)]
+    [InlineData(WerewolfGiftIdentifiers.SilverFangsFalconsGrasp, 1)]
+    [InlineData(WerewolfGiftIdentifiers.BoneGnawersCooking, 1)]
+    [InlineData(WerewolfGiftIdentifiers.BoneGnawersStickyFingers, 1)]
+    [InlineData(WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge, 1)]
+    [InlineData(WerewolfGiftIdentifiers.ShadowLordsAuraOfConfidence, 1)]
+    [InlineData(WerewolfGiftIdentifiers.ShadowLordsFatalFlaw, 1)]
+    [InlineData(WerewolfGiftIdentifiers.UktenaSpiritSpeech, 1)]
+    [InlineData(WerewolfGiftIdentifiers.UktenaShroud, 1)]
+    [InlineData(WerewolfGiftIdentifiers.UktenaSenseMagic, 1)]
+    [InlineData(WerewolfGiftIdentifiers.WendigoCamouflage, 1)]
+    [InlineData(WerewolfGiftIdentifiers.WendigoCallTheBreeze, 1)]
+    [InlineData(WerewolfGiftIdentifiers.HomidSimularOdorDeHomem, 1)]
+    [InlineData(WerewolfGiftIdentifiers.HomidPerturbarTecnologia, 2)]
+    [InlineData(WerewolfGiftIdentifiers.MetisRaivaPrimordial, 1)]
+    [InlineData(WerewolfGiftIdentifiers.MetisSentirAWyrm, 1)]
+    [InlineData(WerewolfGiftIdentifiers.MetisCavar, 2)]
+    [InlineData(WerewolfGiftIdentifiers.MetisOlhosDeGato, 3)]
+    [InlineData(WerewolfGiftIdentifiers.LupusSentidosAgucados, 1)]
+    [InlineData(WerewolfGiftIdentifiers.RagabashEmbacamentoDaPropriaForma, 1)]
+    [InlineData(WerewolfGiftIdentifiers.RagabashSimularOCheiroDeAguaCorrente, 1)]
+    [InlineData(WerewolfGiftIdentifiers.RagabashInduzirEsquecimento, 2)]
+    [InlineData(WerewolfGiftIdentifiers.TheurgeSentirAWyrm, 1)]
+    [InlineData(WerewolfGiftIdentifiers.PhilodoxFaroParaAFormaVerdadeira, 1)]
+    [InlineData(WerewolfGiftIdentifiers.PhilodoxVerdadeDeGaia, 1)]
+    [InlineData(WerewolfGiftIdentifiers.PhilodoxReiDosAnimais, 2)]
+    [InlineData(WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GalliardDistracoes, 2)]
+    [InlineData(WerewolfGiftIdentifiers.AhrounGarrasAfiadas, 1)]
+    [InlineData(WerewolfGiftIdentifiers.AhrounInspiracao, 1)]
+    [InlineData(WerewolfGiftIdentifiers.AhrounEspiritoDaBatalha, 2)]
+    [InlineData(WerewolfGiftIdentifiers.AhrounMedoVerdadeiro, 2)]
+    [InlineData(WerewolfGiftIdentifiers.AhrounSentirAPrata, 2)]
+    [InlineData(WerewolfGiftIdentifiers.GlassWalkersSentidosCiberneticos, 2)]
+    [InlineData(WerewolfGiftIdentifiers.GlassWalkersSobrecargaDeEnergia, 2)]
+    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisDeterAFugaDosCovardes, 2)]
+    [InlineData(WerewolfGiftIdentifiers.GetOfFenrisRugidoDoPredador, 2)]
+    [InlineData(WerewolfGiftIdentifiers.FiannaUivoDaBanshee, 2)]
+    [InlineData(WerewolfGiftIdentifiers.ChildrenOfGaiaResistenciaADor, 1)]
+    [InlineData(WerewolfGiftIdentifiers.ChildrenOfGaiaAcalmar, 2)]
+    [InlineData(WerewolfGiftIdentifiers.ChildrenOfGaiaArmaduraDeLuna, 2)]
+    [InlineData(WerewolfGiftIdentifiers.BlackFuriesMaldicaoDeEolo, 2)]
+    [InlineData(WerewolfGiftIdentifiers.BlackFuriesSentirAPresa, 2)]
+    [InlineData(WerewolfGiftIdentifiers.RedTalonsMenteAnimal, 2)]
+    [InlineData(WerewolfGiftIdentifiers.RedTalonsSentirAPresa, 2)]
+    [InlineData(WerewolfGiftIdentifiers.SilentStridersSentirAWyrm, 1)]
+    [InlineData(WerewolfGiftIdentifiers.SilentStridersGerarIgnorancia, 2)]
+    [InlineData(WerewolfGiftIdentifiers.SilentStridersResistenciaDeMensageiro, 2)]
+    [InlineData(WerewolfGiftIdentifiers.SilverFangsSentirAWyrm, 1)]
+    [InlineData(WerewolfGiftIdentifiers.SilverFangsArmaduraDeLuna, 2)]
+    [InlineData(WerewolfGiftIdentifiers.SilverFangsEmpatia, 2)]
+    [InlineData(WerewolfGiftIdentifiers.BoneGnawersGerarIgnorancia, 2)]
+    [InlineData(WerewolfGiftIdentifiers.BoneGnawersOdorRepugnante, 2)]
+    [InlineData(WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante, 2)]
+    [InlineData(WerewolfGiftIdentifiers.ShadowLordsArmaduraDeLuna, 2)]
+    [InlineData(WerewolfGiftIdentifiers.UktenaEspiritoDoPassaro, 2)]
+    [InlineData(WerewolfGiftIdentifiers.UktenaEspiritoDoPeixe, 2)]
+    [InlineData(WerewolfGiftIdentifiers.WendigoResistenciaADor, 1)]
+    [InlineData(WerewolfGiftIdentifiers.WendigoVentoCortante, 2)]
+    public void CatalogReturnsDefinitionForEveryGift(string giftKey, int expectedLevel)
     {
         var definition = WerewolfGiftCatalog.Get(giftKey);
 
         Assert.NotNull(definition);
         Assert.Equal(giftKey, definition.GiftKey);
-        Assert.Equal(1, definition.Level);
+        Assert.Equal(expectedLevel, definition.Level);
     }
 
     [Fact]
@@ -512,18 +559,18 @@ public sealed class WerewolfGiftRuntimeTests
     }
 
     [Fact]
-    public void GiftCatalogAllInitialGiftsHaveLevelOne()
+    public void GiftCatalogAllGiftsHaveValidLevel()
     {
         foreach (var definition in WerewolfGiftCatalog.AllDefinitions)
         {
-            Assert.Equal(1, definition.Level);
+            Assert.True(definition.Level >= 1 && definition.Level <= 3);
         }
     }
 
     [Fact]
     public void GiftCatalogHasExpectedCount()
     {
-        Assert.Equal(39, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(86, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -868,9 +915,9 @@ public sealed class WerewolfGiftRuntimeTests
     }
 
     [Fact]
-    public void AllInitialGiftsAreCatalogued()
+    public void AllCataloguedGiftsArePresent()
     {
-        Assert.Equal(39, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(86, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -1124,6 +1171,271 @@ public sealed class WerewolfGiftRuntimeTests
         Assert.True(result.Succeeded);
         Assert.False(result.IsAvailable);
         Assert.Equal("Restrained", result.UnavailableReason);
+    }
+
+    [Fact]
+    public void WaveAGiftsAreAllCatalogued()
+    {
+        var waveAGiftKeys = new[]
+        {
+            WerewolfGiftIdentifiers.HomidSimularOdorDeHomem,
+            WerewolfGiftIdentifiers.HomidPerturbarTecnologia,
+            WerewolfGiftIdentifiers.MetisRaivaPrimordial,
+            WerewolfGiftIdentifiers.MetisSentirAWyrm,
+            WerewolfGiftIdentifiers.MetisCavar,
+            WerewolfGiftIdentifiers.MetisOlhosDeGato,
+            WerewolfGiftIdentifiers.LupusSentidosAgucados,
+            WerewolfGiftIdentifiers.RagabashEmbacamentoDaPropriaForma,
+            WerewolfGiftIdentifiers.RagabashSimularOCheiroDeAguaCorrente,
+            WerewolfGiftIdentifiers.RagabashInduzirEsquecimento,
+            WerewolfGiftIdentifiers.TheurgeSentirAWyrm,
+            WerewolfGiftIdentifiers.PhilodoxFaroParaAFormaVerdadeira,
+            WerewolfGiftIdentifiers.PhilodoxVerdadeDeGaia,
+            WerewolfGiftIdentifiers.PhilodoxReiDosAnimais,
+            WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais,
+            WerewolfGiftIdentifiers.GalliardDistracoes,
+            WerewolfGiftIdentifiers.AhrounGarrasAfiadas,
+            WerewolfGiftIdentifiers.AhrounInspiracao,
+            WerewolfGiftIdentifiers.AhrounEspiritoDaBatalha,
+            WerewolfGiftIdentifiers.AhrounMedoVerdadeiro,
+            WerewolfGiftIdentifiers.AhrounSentirAPrata,
+            WerewolfGiftIdentifiers.GlassWalkersSentidosCiberneticos,
+            WerewolfGiftIdentifiers.GlassWalkersSobrecargaDeEnergia,
+            WerewolfGiftIdentifiers.GetOfFenrisDeterAFugaDosCovardes,
+            WerewolfGiftIdentifiers.GetOfFenrisRugidoDoPredador,
+            WerewolfGiftIdentifiers.FiannaUivoDaBanshee,
+            WerewolfGiftIdentifiers.ChildrenOfGaiaResistenciaADor,
+            WerewolfGiftIdentifiers.ChildrenOfGaiaAcalmar,
+            WerewolfGiftIdentifiers.ChildrenOfGaiaArmaduraDeLuna,
+            WerewolfGiftIdentifiers.BlackFuriesMaldicaoDeEolo,
+            WerewolfGiftIdentifiers.BlackFuriesSentirAPresa,
+            WerewolfGiftIdentifiers.RedTalonsMenteAnimal,
+            WerewolfGiftIdentifiers.RedTalonsSentirAPresa,
+            WerewolfGiftIdentifiers.SilentStridersSentirAWyrm,
+            WerewolfGiftIdentifiers.SilentStridersGerarIgnorancia,
+            WerewolfGiftIdentifiers.SilentStridersResistenciaDeMensageiro,
+            WerewolfGiftIdentifiers.SilverFangsSentirAWyrm,
+            WerewolfGiftIdentifiers.SilverFangsArmaduraDeLuna,
+            WerewolfGiftIdentifiers.SilverFangsEmpatia,
+            WerewolfGiftIdentifiers.BoneGnawersGerarIgnorancia,
+            WerewolfGiftIdentifiers.BoneGnawersOdorRepugnante,
+            WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante,
+            WerewolfGiftIdentifiers.ShadowLordsArmaduraDeLuna,
+            WerewolfGiftIdentifiers.UktenaEspiritoDoPassaro,
+            WerewolfGiftIdentifiers.UktenaEspiritoDoPeixe,
+            WerewolfGiftIdentifiers.WendigoResistenciaADor,
+            WerewolfGiftIdentifiers.WendigoVentoCortante
+        };
+
+        foreach (var giftKey in waveAGiftKeys)
+        {
+            var definition = WerewolfGiftCatalog.Get(giftKey);
+            Assert.NotNull(definition);
+            Assert.Equal(giftKey, definition.GiftKey);
+            Assert.False(string.IsNullOrWhiteSpace(definition.SourceLocator));
+            Assert.StartsWith("Line ", definition.SourceLocator);
+            Assert.True(Enum.IsDefined<WerewolfGiftCategory>(definition.Category));
+        }
+    }
+
+    [Fact]
+    public void WaveAGnosisGiftPaysGnosisCost()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.HomidPerturbarTecnologia);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var result = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.HomidPerturbarTecnologia));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.UpdatedState);
+        Assert.Equal(4, result.UpdatedState.GnosisCurrent);
+    }
+
+    [Fact]
+    public void WaveARageGiftPaysRageCost()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.AhrounGarrasAfiadas);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var result = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.AhrounGarrasAfiadas));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.UpdatedState);
+        Assert.Equal(4, result.UpdatedState.RageCurrent);
+    }
+
+    [Fact]
+    public void WaveATestRequiredGiftComputesTestPool()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.MetisCavar);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var result = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.MetisCavar));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.ActivationDefinition);
+        Assert.True(result.ActivationDefinition.DicePool > 0);
+        Assert.Contains("Athletics", result.ActivationDefinition.TestComponents);
+    }
+
+    [Fact]
+    public void WaveASceneDurationGiftRegistersActiveEffect()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.HomidSimularOdorDeHomem);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.HomidSimularOdorDeHomem));
+
+        Assert.True(activationResult.Succeeded);
+        var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-002", activationResult.UpdatedState!, activationResult.NewRuntimeStateVersion,
+            WerewolfGiftIdentifiers.HomidSimularOdorDeHomem, 1));
+
+        Assert.True(effectResult.Succeeded);
+        Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfGiftIdentifiers.HomidSimularOdorDeHomem, effectResult.ActiveEffects[0].GiftKey);
+        Assert.Equal(WerewolfGiftDurationType.Scene, effectResult.ActiveEffects[0].DurationType);
+    }
+
+    [Fact]
+    public void WaveATurnDurationGiftRegistersActiveEffect()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.MetisCavar);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.MetisCavar));
+
+        Assert.True(activationResult.Succeeded);
+        var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-002", activationResult.UpdatedState!, activationResult.NewRuntimeStateVersion,
+            WerewolfGiftIdentifiers.MetisCavar, 1));
+
+        Assert.True(effectResult.Succeeded);
+        Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfGiftDurationType.Turn, effectResult.ActiveEffects[0].DurationType);
+    }
+
+    [Fact]
+    public void WaveAPermanentGiftDoesNotCreateActiveEffect()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.MetisRaivaPrimordial);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.MetisRaivaPrimordial));
+
+        Assert.True(activationResult.Succeeded);
+        var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-002", activationResult.UpdatedState!, activationResult.NewRuntimeStateVersion,
+            WerewolfGiftIdentifiers.MetisRaivaPrimordial, 0));
+
+        Assert.True(effectResult.Succeeded);
+        Assert.Empty(effectResult.ActiveEffects);
+    }
+
+    [Fact]
+    public void WaveAFiannaBansheeRegistersFearAuraEffect()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.FiannaUivoDaBanshee);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.FiannaUivoDaBanshee));
+
+        Assert.True(activationResult.Succeeded);
+        var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-002", activationResult.UpdatedState!, activationResult.NewRuntimeStateVersion,
+            WerewolfGiftIdentifiers.FiannaUivoDaBanshee, 1));
+
+        Assert.True(effectResult.Succeeded);
+        Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfActiveGiftEffectKind.FearAura, effectResult.ActiveEffects[0].EffectKind);
+    }
+
+    [Fact]
+    public void WaveAShadowLordsThunderousApplauseRegistersProneCondition()
+    {
+        var state = BuildRuntimeState();
+        var knownGifts = state.KnownGiftKeys.ToList();
+        knownGifts.Add(WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante);
+        state = state with { KnownGiftKeys = knownGifts };
+
+        var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante));
+
+        Assert.True(activationResult.Succeeded);
+        var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-002", activationResult.UpdatedState!, activationResult.NewRuntimeStateVersion,
+            WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante, 1));
+
+        Assert.True(effectResult.Succeeded);
+        Assert.Contains(effectResult.UpdatedState!.Conditions!, c => c.ConditionKey == WerewolfConditionIdentifiers.Prone && c.IsActive);
+    }
+
+    [Fact]
+    public void FearAuraReducesDiceForSocialTests()
+    {
+        var context = new WerewolfActionResolutionContext(
+            WerewolfAttributeIdentifiers.Charisma,
+            WerewolfAbilityIdentifiers.Subterfuge,
+            WerewolfFormIdentifiers.Homid,
+            null,
+            false,
+            false,
+            false,
+            null,
+            false,
+            false,
+            false,
+            [],
+            false,
+            null,
+            null,
+            [
+                new WerewolfActiveGiftEffect("test-gift", 0, WerewolfGiftDurationType.Scene, 10, WerewolfActiveGiftEffectKind.FearAura, 2, "Line 1")
+            ]);
+
+        var result = WerewolfActionResolutionModifierService.ComputeModifiers(context);
+
+        Assert.Equal(-2, result.DicePoolModifier);
+    }
+
+    [Fact]
+    public void ProneConditionFromGiftBlocksActions()
+    {
+        var state = BuildRuntimeState();
+        var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
+            "req-001", state, 1, WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante));
+
+        var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-002", activationResult.UpdatedState!, activationResult.NewRuntimeStateVersion,
+            WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante, 1));
+
+        Assert.True(effectResult.Succeeded);
+        var conditionResult = WerewolfConditionService.EvaluateActionAvailability(new WerewolfEvaluateActionAvailabilityRequest(
+            "req-003", effectResult.UpdatedState!, effectResult.NewRuntimeStateVersion, "any-action"));
+
+        Assert.False(conditionResult.IsAvailable);
+        Assert.Equal("Prone", conditionResult.UnavailableReason);
     }
 }
 
