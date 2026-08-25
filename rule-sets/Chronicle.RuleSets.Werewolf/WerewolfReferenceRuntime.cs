@@ -64,6 +64,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string AdvanceTraitOperation = "character-runtime.advance-trait";
     public const string EvaluateSpecialtyEligibilityOperation = "character-runtime.evaluate-specialty-eligibility";
     public const string EvaluateGiftAdvancementOperation = "character-runtime.evaluate-gift-advancement";
+    public const string ExecuteRiteOperation = "rite-runtime.execute-rite";
 
     private readonly WerewolfCharacterCreationDraftInitializer characterCreation;
     public WerewolfReferenceRuntime()
@@ -146,7 +147,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(CalculateAdvancementCostOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(AdvanceTraitOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(EvaluateSpecialtyEligibilityOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
-            new RuleSetOperationDescriptor(EvaluateGiftAdvancementOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled)
+            new RuleSetOperationDescriptor(EvaluateGiftAdvancementOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ExecuteRiteOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled)
         ]);
 
     public RuleSetOperationResult Execute(RuleSetOperationRequest request)
@@ -431,6 +433,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateGiftAdvancementOperation))
         {
             return ExecuteEvaluateGiftAdvancement(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ExecuteRiteOperation))
+        {
+            return ExecuteRite(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -3579,36 +3586,99 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                });
        }
 
-       private static RuleSetOperationResult ExecuteEvaluateGiftAdvancement(RuleSetOperationRequest request)
-       {
-           var currentState = GetCurrentRuntimeState(request);
-           var expectedVersion = GetExpectedVersion(request);
-           var giftKey = request.Inputs.GetValueOrDefault("giftKey", string.Empty);
+        private static RuleSetOperationResult ExecuteEvaluateGiftAdvancement(RuleSetOperationRequest request)
+        {
+            var currentState = GetCurrentRuntimeState(request);
+            var expectedVersion = GetExpectedVersion(request);
+            var giftKey = request.Inputs.GetValueOrDefault("giftKey", string.Empty);
 
-           var result = WerewolfGiftAdvancementEligibilityService.Evaluate(new WerewolfGiftAdvancementRequest(currentState, expectedVersion, giftKey));
+            var result = WerewolfGiftAdvancementEligibilityService.Evaluate(new WerewolfGiftAdvancementRequest(currentState, expectedVersion, giftKey));
 
-           if (!result.Succeeded)
-           {
-               return new RuleSetOperationResult(
-                   false,
-                   RuleSetOperationFailureCode.InvalidRequest,
-                   result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
-                   new Dictionary<string, string>(StringComparer.Ordinal));
-           }
+            if (!result.Succeeded)
+            {
+                return new RuleSetOperationResult(
+                    false,
+                    RuleSetOperationFailureCode.InvalidRequest,
+                    result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code.ToString(), finding.Message)).ToArray(),
+                    new Dictionary<string, string>(StringComparer.Ordinal));
+            }
 
-           return new RuleSetOperationResult(
-               true,
-               null,
-               result.Findings.Select(finding => new RuleSetRuntimeFinding(
-                       finding.Severity == WerewolfProgressionFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
-                   finding.Code.ToString(),
-                   finding.Message)).ToArray(),
-               new Dictionary<string, string>(StringComparer.Ordinal)
-               {
-                   ["giftKey"] = giftKey,
-                   ["cost"] = result.Cost?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
-                   ["isEligible"] = result.IsEligible?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
-                   ["ineligibilityReason"] = result.IneligibilityReason ?? string.Empty
-               });
-       }
-   }
+            return new RuleSetOperationResult(
+                true,
+                null,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfProgressionFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code.ToString(),
+                    finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["giftKey"] = giftKey,
+                    ["cost"] = result.Cost?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                    ["isEligible"] = result.IsEligible?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty,
+                    ["ineligibilityReason"] = result.IneligibilityReason ?? string.Empty
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteRite(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("riteKey", out var riteKey) ||
+                !request.Inputs.TryGetValue("diceValues", out var diceValuesText))
+            {
+                return new RuleSetOperationResult(
+                    false,
+                    RuleSetOperationFailureCode.InvalidRequest,
+                    [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidRiteExecutionRequest", "Rite execution requires requestId, riteKey, and diceValues.")],
+                    new Dictionary<string, string>(StringComparer.Ordinal));
+            }
+
+            var hasTargetPieceText = request.Inputs.GetValueOrDefault("hasTargetPiece", "false");
+            var hasTargetPiece = bool.TryParse(hasTargetPieceText, out var parsedHasTargetPiece) && parsedHasTargetPiece;
+
+            var diceValues = ParseCsv(diceValuesText)
+                .Select(value => int.TryParse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var die) ? die : 0)
+                .ToArray();
+
+            var executionRequest = new WerewolfRiteExecutionRequest(
+                requestId,
+                riteKey,
+                Array.AsReadOnly(diceValues),
+                hasTargetPiece);
+
+            var result = WerewolfRiteExecutionService.Execute(executionRequest);
+
+            if (!result.Succeeded)
+            {
+                return new RuleSetOperationResult(
+                    false,
+                    RuleSetOperationFailureCode.InvalidRequest,
+                    result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                            finding.Severity == WerewolfRiteFindingSeverity.Error
+                                ? RuleSetRuntimeFindingSeverity.Error
+                                : RuleSetRuntimeFindingSeverity.Information,
+                        finding.Code,
+                        finding.Message)).ToArray(),
+                    new Dictionary<string, string>(StringComparer.Ordinal));
+            }
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                        finding.Severity == WerewolfRiteFindingSeverity.Error
+                            ? RuleSetRuntimeFindingSeverity.Error
+                            : RuleSetRuntimeFindingSeverity.Information,
+                    finding.Code,
+                    finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["requestId"] = result.RequestId,
+                    ["riteKey"] = result.RiteKey,
+                    ["dicePool"] = result.DicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["difficulty"] = result.Difficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["successCount"] = result.SuccessCount.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["interpretationStatus"] = result.InterpretationStatus,
+                    ["effect"] = result.Effect ?? string.Empty
+                });
+        }
+    }
