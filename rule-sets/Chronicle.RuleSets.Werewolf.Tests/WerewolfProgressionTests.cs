@@ -441,4 +441,16 @@ public sealed class WerewolfProgressionTests
         Assert.Null(result.NewState);
         Assert.Equal(1, state.RuntimeStateVersion);
     }
+
+    [Fact]
+    public void TotemIdentifiersAreVisible()
+    {
+        Assert.Equal(19, WerewolfTotemIdentifiers.Supported.Count);
+    }
+
+    [Fact]
+    public void PackDefinitionsAreVisible()
+    {
+        Assert.Equal("2", WerewolfPackDefinitions.PackTypicalSizeMin);
+    }
 }
