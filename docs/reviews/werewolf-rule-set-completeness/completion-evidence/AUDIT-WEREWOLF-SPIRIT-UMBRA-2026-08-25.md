@@ -20,6 +20,27 @@ The original audit over-counted because:
 
 3. **Mixed granularity:** The A-I classification mixed entity-rows with mechanic-rules in a single sum.
 
+### Source-Verification Correction: Charm Entity Count
+
+During S1 implementation, canonical source verification corrected the Charm entity count:
+
+- **Previous audit count:** 29 Charms (16 Special)
+- **Source-verified count:** 30 Charms (17 Special)
+
+**Root cause:** The original audit counted physical source lines rather than semantic Charm entries. Source line 3424 contains two distinct Charm entries:
+- `Criar Chamas` (Create Flames)
+- `Criar Vento` (Create Wind)
+
+**Authoritative inventory:**
+- Common: 4
+- Special: 17
+- Bane: 4
+- Weaver: 3
+- Wyld: 2
+- **Total: 30**
+
+This correction does NOT change the mechanic count. The Charm catalog remains ONE declarative S1 mechanic. The 53-mechanic accounting is preserved.
+
 ### Corrected Authoritative Inventory
 
 See the canonical keyed inventory table at the end of this document.
@@ -62,9 +83,9 @@ See the canonical keyed inventory table at the end of this document.
 2. Membrana (Umbra Rasa ↔ Deep Umbra)
 3. Teia do Padrão (Weaver's pattern web)
 
-### Charms = 29 (1 catalog mechanic, 29 entity values)
+### Charms = 30 (1 catalog mechanic, 30 entity values)
 - Common: 4 (Materializar, Reformar, Sentido de Orientação, Sentir o Reino)
-- Special: 16 (Abrir Ponte da Lua, Armadura, Congelar, Controle de Sistemas Elétricos, Criar Chamas/Vento, Curar, Espiar, Estilhaçar Vidro, Inundação, Levitação, Metamorfose, Purificar os Domínios Sombrios, Rajada, Rastrear, Umbramoto, Vôo Ligeiro)
+- Special: 17 (Abrir Ponte da Lua, Armadura, Congelar, Controle de Sistemas Elétricos, Criar Chamas, Criar Vento, Curar, Espiar, Estilhaçar Vidro, Inundação, Levitação, Metamorfose, Purificar os Domínios Sombrios, Rajada, Rastrear, Umbramoto, Vôo Ligeiro)
 - Bane: 4 (Corrupção, Incitar o Frenesi, Influência Maléfica, Possessão)
 - Weaver: 3 (Estática Espiritual, Petrificar, Solidificar a Realidade)
 - Wyld: 2 (Desorientar, Romper a Realidade)
@@ -80,7 +101,7 @@ The 5 new declarative mechanics are:
 2. Umbra realm catalog (19 realms/layers)
 3. Barrier catalog (3 barriers)
 4. Spirit trait schema (4 traits)
-5. Charm catalog (29 charms)
+5. Charm catalog (30 charms)
 
 **How Spirit/Umbra references Totems:**
 
@@ -413,7 +434,7 @@ Only the new audit evidence file is created. No TestResults, no .kilo, no matrix
 Summary:
 - 53 total distinct Spirit/Umbra mechanics after semantic deduplication
 - A-I classification: A=5, B=13, C=7, D=5, E=3, F=5, G=5, H=7, I=4; sum=53
-- 5 declarative mechanics (8 categories + 19 realms + 3 barriers + trait schema + 29 charms)
+- 5 declarative mechanics (8 categories + 19 realms + 3 barriers + trait schema + 30 charms)
 - 19 existing Totems reused via stable WerewolfTotemIdentifiers contracts
 - Gauntlet/crossing semantics fully extracted with source locators
 - 15-field minimum Spirit state proposed, with clear classification of required vs proposed vs unresolved fields
@@ -434,7 +455,7 @@ Summary:
 | spirit.umbra.realm.catalog | Reinos da Umbra | DeclarativeEntity | A | — | Lines 3265-3361 | Catalog of 19 Umbra realms/layers |
 | spirit.barrier.catalog | Barreiras Espirituais | DeclarativeEntity | A | — | Lines 3196-3220, 3368-3369 | Catalog of 3 barriers: Película, Membrana, Teia do Padrão |
 | spirit.trait.schema | Traços Espirituais | DeclarativeRule | A | — | Lines 3406-3410 | Schema: Willpower, Rage, Gnose, Essence |
-| spirit.charm.catalog | Encantos | DeclarativeEntity | A | — | Lines 3411-3458 | Catalog of 29 Charms: 4 common, 16 special, 4 Bane, 3 Weaver, 2 Wyld |
+| spirit.charm.catalog | Encantos | DeclarativeEntity | A | — | Lines 3411-3458 | Catalog of 30 Charms: 4 common, 17 special, 4 Bane, 3 Weaver, 2 Wyld |
 | spirit.crossing.test | Travessia da Película | ExecutableMechanic | B | — | Lines 3277-3290 | Gnose test vs Película level |
 | spirit.crossing.time-table | Tempo de Travessia | ExecutableMechanic | B | — | Lines 3282-3286 | Time by successes: 0=1h wait, 1=5min, 2=30sec, 3+=instant |
 | spirit.crossing.reflective-surface | Modificador de Superfície | ExecutableMechanic | B | — | Line 3288 | Mirrors/silver/water reduce difficulty by 1 |
@@ -511,7 +532,7 @@ DECLARATIVE_MECHANIC_COUNT = 5
 SPIRIT_CATEGORY_ENTITIES = 8
 UMBRA_REALM_ENTITIES = 19
 BARRIER_ENTITIES = 3
-CHARM_ENTITIES = 29
+CHARM_ENTITIES = 30
 EXISTING_TOTEMS_REUSED = 19
 
 SPIRIT_DOMAIN_PRIMITIVE_COUNT = 33 (A + B + C + D + E)
