@@ -109,7 +109,7 @@ Canonical source line 1761: "Modela material vivo (exceto mortos-vivos) transfor
 
 **Owner differences preserved in catalog:**
 - Homid: 1 Gnose cost, TestRequired
-- Fianna: 0 Gnose cost, TestRequired  
+- Fianna: 0 Gnose cost, TestRequired
 - BoneGnawers: 0 Gnose cost, TestRequired
 
 All three share the same `ApplyRemodelarObjeto` semantic handler and `ObjectTransformation` effect kind.
