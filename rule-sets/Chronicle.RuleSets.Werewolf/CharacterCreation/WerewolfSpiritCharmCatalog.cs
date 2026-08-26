@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
 namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
 
@@ -96,4 +96,3 @@ public static class WerewolfSpiritCharmCatalog
         }
     }
 }
-
