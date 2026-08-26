@@ -234,6 +234,11 @@ public static class WerewolfConditionService
                 continue;
             }
 
+            if (effect.Magnitude <= 0)
+            {
+                continue;
+            }
+
             if (existingConditions.Any(c => string.Equals(c.ConditionKey, conditionKey, StringComparison.Ordinal) && c.IsActive))
             {
                 continue;

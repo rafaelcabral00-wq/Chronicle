@@ -103,14 +103,29 @@ public static class WerewolfGiftEffectService
             WerewolfGiftIdentifiers.UktenaSenseMagic => currentState,
             WerewolfGiftIdentifiers.WendigoCamouflage => ApplyCamouflage(currentState, successes),
             WerewolfGiftIdentifiers.WendigoCallTheBreeze => currentState,
-            WerewolfGiftIdentifiers.HomidSimularOdorDeHomem => ApplyHomidSimularOdorDeHomem(currentState, successes),            WerewolfGiftIdentifiers.HomidPerturbarTecnologia => ApplyHomidPerturbarTecnologia(currentState, successes),            WerewolfGiftIdentifiers.MetisRaivaPrimordial => ApplyMetisRaivaPrimordial(currentState, successes),            WerewolfGiftIdentifiers.MetisSentirAWyrm => ApplyMetisSentirAWyrm(currentState, successes),            WerewolfGiftIdentifiers.MetisCavar => ApplyMetisCavar(currentState, successes),            WerewolfGiftIdentifiers.MetisOlhosDeGato => ApplyMetisOlhosDeGato(currentState, successes),            WerewolfGiftIdentifiers.LupusSentidosAgucados => ApplyLupusSentidosAgucados(currentState, successes),            WerewolfGiftIdentifiers.RagabashEmbacamentoDaPropriaForma => ApplyRagabashEmbacamentoDaPropriaForma(currentState, successes),            WerewolfGiftIdentifiers.RagabashSimularOCheiroDeAguaCorrente => ApplyRagabashSimularOCheiroDeAguaCorrente(currentState, successes),            WerewolfGiftIdentifiers.RagabashInduzirEsquecimento => ApplyRagabashInduzirEsquecimento(currentState, successes),            WerewolfGiftIdentifiers.TheurgeSentirAWyrm => ApplyTheurgeSentirAWyrm(currentState, successes),            WerewolfGiftIdentifiers.PhilodoxFaroParaAFormaVerdadeira => ApplyPhilodoxFaroParaAFormaVerdadeira(currentState, successes),            WerewolfGiftIdentifiers.PhilodoxVerdadeDeGaia => ApplyPhilodoxVerdadeDeGaia(currentState, successes),            WerewolfGiftIdentifiers.PhilodoxReiDosAnimais => ApplyPhilodoxReiDosAnimais(currentState, successes),            WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais => ApplyGalliardComunicacaoComAnimais(currentState, successes),            WerewolfGiftIdentifiers.GalliardDistracoes => ApplyGalliardDistracoes(currentState, successes),            WerewolfGiftIdentifiers.AhrounGarrasAfiadas => ApplyAhrounGarrasAfiadas(currentState, successes),            WerewolfGiftIdentifiers.AhrounInspiracao => ApplyAhrounInspiracao(currentState, successes),            WerewolfGiftIdentifiers.AhrounEspiritoDaBatalha => ApplyAhrounEspiritoDaBatalha(currentState, successes),            WerewolfGiftIdentifiers.AhrounMedoVerdadeiro => ApplyAhrounMedoVerdadeiro(currentState, successes),            WerewolfGiftIdentifiers.AhrounSentirAPrata => ApplyAhrounSentirAPrata(currentState, successes),            WerewolfGiftIdentifiers.GlassWalkersSentidosCiberneticos => ApplyGlassWalkersSentidosCiberneticos(currentState, successes),            WerewolfGiftIdentifiers.GlassWalkersSobrecargaDeEnergia => ApplyGlassWalkersSobrecargaDeEnergia(currentState, successes),            WerewolfGiftIdentifiers.GetOfFenrisDeterAFugaDosCovardes => ApplyGetOfFenrisDeterAFugaDosCovardes(currentState, successes),            WerewolfGiftIdentifiers.GetOfFenrisRugidoDoPredador => ApplyGetOfFenrisRugidoDoPredador(currentState, successes),            WerewolfGiftIdentifiers.FiannaUivoDaBanshee => ApplyFiannaUivoDaBanshee(currentState, successes),            WerewolfGiftIdentifiers.ChildrenOfGaiaResistenciaADor => ApplyChildrenOfGaiaResistenciaADor(currentState, successes),            WerewolfGiftIdentifiers.ChildrenOfGaiaAcalmar => ApplyChildrenOfGaiaAcalmar(currentState, successes),            WerewolfGiftIdentifiers.ChildrenOfGaiaArmaduraDeLuna => ApplyChildrenOfGaiaArmaduraDeLuna(currentState, successes),            WerewolfGiftIdentifiers.BlackFuriesMaldicaoDeEolo => ApplyBlackFuriesMaldicaoDeEolo(currentState, successes),            WerewolfGiftIdentifiers.BlackFuriesSentirAPresa => ApplyBlackFuriesSentirAPresa(currentState, successes),            WerewolfGiftIdentifiers.RedTalonsMenteAnimal => ApplyRedTalonsMenteAnimal(currentState, successes),            WerewolfGiftIdentifiers.RedTalonsSentirAPresa => ApplyRedTalonsSentirAPresa(currentState, successes),            WerewolfGiftIdentifiers.SilentStridersSentirAWyrm => ApplySilentStridersSentirAWyrm(currentState, successes),            WerewolfGiftIdentifiers.SilentStridersGerarIgnorancia => ApplySilentStridersGerarIgnorancia(currentState, successes),            WerewolfGiftIdentifiers.SilentStridersResistenciaDeMensageiro => ApplySilentStridersResistenciaDeMensageiro(currentState, successes),            WerewolfGiftIdentifiers.SilverFangsSentirAWyrm => ApplySilverFangsSentirAWyrm(currentState, successes),            WerewolfGiftIdentifiers.SilverFangsArmaduraDeLuna => ApplySilverFangsArmaduraDeLuna(currentState, successes),            WerewolfGiftIdentifiers.SilverFangsEmpatia => ApplySilverFangsEmpatia(currentState, successes),            WerewolfGiftIdentifiers.BoneGnawersGerarIgnorancia => ApplyBoneGnawersGerarIgnorancia(currentState, successes),            WerewolfGiftIdentifiers.BoneGnawersOdorRepugnante => ApplyBoneGnawersOdorRepugnante(currentState, successes),            WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante => ApplyShadowLordsAplausoTrovejante(currentState, successes),            WerewolfGiftIdentifiers.ShadowLordsArmaduraDeLuna => ApplyShadowLordsArmaduraDeLuna(currentState, successes),            WerewolfGiftIdentifiers.UktenaEspiritoDoPassaro => ApplyUktenaEspiritoDoPassaro(currentState, successes),            WerewolfGiftIdentifiers.UktenaEspiritoDoPeixe => ApplyUktenaEspiritoDoPeixe(currentState, successes),            WerewolfGiftIdentifiers.WendigoResistenciaADor => ApplyWendigoResistenciaADor(currentState, successes),            WerewolfGiftIdentifiers.WendigoVentoCortante => ApplyWendigoVentoCortante(currentState, successes),
+            WerewolfGiftIdentifiers.HomidPersuasao => ApplyHomidPersuasao(currentState, successes),
+            WerewolfGiftIdentifiers.HomidFitar => ApplyHomidFitar(currentState, successes),
+            WerewolfGiftIdentifiers.HomidInquietacao => ApplyHomidInquietacao(currentState, successes),
+            WerewolfGiftIdentifiers.HomidRemodelarObjeto => ApplyHomidRemodelarObjeto(currentState, successes),
+            WerewolfGiftIdentifiers.HomidCasulo => ApplyHomidCasulo(currentState, successes),
+            WerewolfGiftIdentifiers.FiannaRemodelarObjeto => ApplyFiannaRemodelarObjeto(currentState, successes),
+            WerewolfGiftIdentifiers.BoneGnawersRemodelarObjeto => ApplyBoneGnawersRemodelarObjeto(currentState, successes),
                     _ => currentState
         };
 
-        if (definition.DurationType != WerewolfGiftDurationType.Instant && definition.DurationType != WerewolfGiftDurationType.Permanent)
+        if (definition.GiftKey == WerewolfGiftIdentifiers.HomidInquietacao)
+        {
+            var rageEffect = CreateActiveEffect(definition, WerewolfActiveGiftEffectKind.RageRecoveryPenalty, 1, currentState);
+            var extendedEffect = CreateActiveEffect(definition, WerewolfActiveGiftEffectKind.ExtendedTestDifficultyModifier, 1, currentState);
+            activeEffects.Add(rageEffect);
+            activeEffects.Add(extendedEffect);
+            findings.Add($"Active effects registered: {definition.NameEn} (RageRecoveryPenalty + ExtendedTestDifficultyModifier).");
+        }
+        else if (definition.DurationType != WerewolfGiftDurationType.Instant && definition.DurationType != WerewolfGiftDurationType.Permanent)
         {
             var effectKind = MapEffectKind(definition.GiftKey);
             var magnitude = ComputeMagnitude(definition.GiftKey, successes);
+            var payload = CreatePayload(definition.GiftKey, effectKind, successes);
             var activeEffect = new WerewolfActiveGiftEffect(
                 definition.GiftKey,
                 0,
@@ -119,7 +134,8 @@ public static class WerewolfGiftEffectService
                 effectKind,
                 magnitude,
                 definition.SourceLocator,
-                currentState.CurrentSceneToken);
+                currentState.CurrentSceneToken,
+                payload);
 
             activeEffects.Add(activeEffect);
             findings.Add($"Active effect registered: {definition.NameEn} (magnitude={magnitude}, duration={activeEffect.DurationType}, scene={currentState.CurrentSceneToken}).");
@@ -148,6 +164,41 @@ public static class WerewolfGiftEffectService
             request.RequestId,
             effectResult.RuntimeStateVersion,
             null);
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyHomidPersuasao(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyHomidFitar(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyHomidInquietacao(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyHomidRemodelarObjeto(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyHomidCasulo(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyFiannaRemodelarObjeto(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyBoneGnawersRemodelarObjeto(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
     }
 
     private static WerewolfRuntimeCharacterState ApplyMasterOfFire(WerewolfRuntimeCharacterState state, int successes)
@@ -523,6 +574,13 @@ public static class WerewolfGiftEffectService
             WerewolfGiftIdentifiers.UktenaSenseMagic => WerewolfActiveGiftEffectKind.MagicDetection,
             WerewolfGiftIdentifiers.WendigoCamouflage => WerewolfActiveGiftEffectKind.StealthBonus,
             WerewolfGiftIdentifiers.WendigoCallTheBreeze => WerewolfActiveGiftEffectKind.WindEffect,
+            WerewolfGiftIdentifiers.HomidPersuasao => WerewolfActiveGiftEffectKind.SocialTestBonus,
+            WerewolfGiftIdentifiers.HomidFitar => WerewolfActiveGiftEffectKind.ProneCondition,
+            WerewolfGiftIdentifiers.HomidInquietacao => WerewolfActiveGiftEffectKind.RageRecoveryPenalty,
+            WerewolfGiftIdentifiers.HomidRemodelarObjeto => WerewolfActiveGiftEffectKind.ObjectTransformation,
+            WerewolfGiftIdentifiers.HomidCasulo => WerewolfActiveGiftEffectKind.DamageReduction,
+            WerewolfGiftIdentifiers.FiannaRemodelarObjeto => WerewolfActiveGiftEffectKind.ObjectTransformation,
+            WerewolfGiftIdentifiers.BoneGnawersRemodelarObjeto => WerewolfActiveGiftEffectKind.ObjectTransformation,
             WerewolfGiftIdentifiers.HomidSimularOdorDeHomem => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.HomidPerturbarTecnologia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.MetisRaivaPrimordial => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.MetisSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.MetisCavar => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.MetisOlhosDeGato => WerewolfActiveGiftEffectKind.SensoryEnhancement,            WerewolfGiftIdentifiers.LupusSentidosAgucados => WerewolfActiveGiftEffectKind.SensoryEnhancement,            WerewolfGiftIdentifiers.RagabashEmbacamentoDaPropriaForma => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.RagabashSimularOCheiroDeAguaCorrente => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.RagabashInduzirEsquecimento => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.TheurgeSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.PhilodoxFaroParaAFormaVerdadeira => WerewolfActiveGiftEffectKind.FormDetection,            WerewolfGiftIdentifiers.PhilodoxVerdadeDeGaia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.PhilodoxReiDosAnimais => WerewolfActiveGiftEffectKind.AnimalCommunication,            WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais => WerewolfActiveGiftEffectKind.AnimalCommunication,            WerewolfGiftIdentifiers.GalliardDistracoes => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.AhrounGarrasAfiadas => WerewolfActiveGiftEffectKind.CombatDamageBonus,            WerewolfGiftIdentifiers.AhrounInspiracao => WerewolfActiveGiftEffectKind.TestBonus,            WerewolfGiftIdentifiers.AhrounEspiritoDaBatalha => WerewolfActiveGiftEffectKind.InitiativeBonus,            WerewolfGiftIdentifiers.AhrounMedoVerdadeiro => WerewolfActiveGiftEffectKind.FearAura,            WerewolfGiftIdentifiers.AhrounSentirAPrata => WerewolfActiveGiftEffectKind.PerceptionBonus,            WerewolfGiftIdentifiers.GlassWalkersSentidosCiberneticos => WerewolfActiveGiftEffectKind.SensoryEnhancement,            WerewolfGiftIdentifiers.GlassWalkersSobrecargaDeEnergia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.GetOfFenrisDeterAFugaDosCovardes => WerewolfActiveGiftEffectKind.SocialIntimidationBonus,            WerewolfGiftIdentifiers.GetOfFenrisRugidoDoPredador => WerewolfActiveGiftEffectKind.FearAura,            WerewolfGiftIdentifiers.FiannaUivoDaBanshee => WerewolfActiveGiftEffectKind.FearAura,            WerewolfGiftIdentifiers.ChildrenOfGaiaResistenciaADor => WerewolfActiveGiftEffectKind.WoundPenaltyRemoval,            WerewolfGiftIdentifiers.ChildrenOfGaiaAcalmar => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.ChildrenOfGaiaArmaduraDeLuna => WerewolfActiveGiftEffectKind.DefenseBonus,            WerewolfGiftIdentifiers.BlackFuriesMaldicaoDeEolo => WerewolfActiveGiftEffectKind.WindEffect,            WerewolfGiftIdentifiers.BlackFuriesSentirAPresa => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.RedTalonsMenteAnimal => WerewolfActiveGiftEffectKind.AnimalCommunication,            WerewolfGiftIdentifiers.RedTalonsSentirAPresa => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.SilentStridersSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.SilentStridersGerarIgnorancia => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.SilentStridersResistenciaDeMensageiro => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.SilverFangsSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.SilverFangsArmaduraDeLuna => WerewolfActiveGiftEffectKind.DefenseBonus,            WerewolfGiftIdentifiers.SilverFangsEmpatia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.BoneGnawersGerarIgnorancia => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.BoneGnawersOdorRepugnante => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante => WerewolfActiveGiftEffectKind.ProneCondition,            WerewolfGiftIdentifiers.ShadowLordsArmaduraDeLuna => WerewolfActiveGiftEffectKind.DefenseBonus,            WerewolfGiftIdentifiers.UktenaEspiritoDoPassaro => WerewolfActiveGiftEffectKind.MovementBonus,            WerewolfGiftIdentifiers.UktenaEspiritoDoPeixe => WerewolfActiveGiftEffectKind.MovementBonus,            WerewolfGiftIdentifiers.WendigoResistenciaADor => WerewolfActiveGiftEffectKind.WoundPenaltyRemoval,            WerewolfGiftIdentifiers.WendigoVentoCortante => WerewolfActiveGiftEffectKind.WindEffect,
                     _ => WerewolfActiveGiftEffectKind.Custom
         };
@@ -539,6 +597,11 @@ public static class WerewolfGiftEffectService
             WerewolfGiftIdentifiers.BlackFuriesHeightenedSenses => successes,
             WerewolfGiftIdentifiers.SilentStridersSilence => successes,
             WerewolfGiftIdentifiers.WendigoCamouflage => successes,
+            WerewolfGiftIdentifiers.SilverFangsFalconsGrasp => 1,
+            WerewolfGiftIdentifiers.HomidInquietacao => 1,
+            WerewolfGiftIdentifiers.HomidRemodelarObjeto => successes,
+            WerewolfGiftIdentifiers.FiannaRemodelarObjeto => successes,
+            WerewolfGiftIdentifiers.BoneGnawersRemodelarObjeto => successes,
             _ => successes
         };
     }
@@ -552,6 +615,60 @@ public static class WerewolfGiftEffectService
             WerewolfGiftDurationType.Scene => -1,
             WerewolfGiftDurationType.Permanent => -1,
             _ => 0
+        };
+    }
+
+    private static WerewolfActiveGiftEffect CreateActiveEffect(
+        WerewolfGiftDefinition definition,
+        WerewolfActiveGiftEffectKind effectKind,
+        int magnitude,
+        WerewolfRuntimeCharacterState currentState)
+    {
+        var payload = CreatePayload(definition.GiftKey, effectKind, magnitude);
+        return new WerewolfActiveGiftEffect(
+            definition.GiftKey,
+            0,
+            definition.DurationType,
+            ComputeDurationTurns(definition),
+            effectKind,
+            magnitude,
+            definition.SourceLocator,
+            currentState.CurrentSceneToken,
+            payload);
+    }
+
+    private static readonly IReadOnlyList<string> RemodelarObjetoResultCategories = Array.AsReadOnly(new[] { "tools", "weapons", "shelter" });
+
+    private static object? CreatePayload(string giftKey, WerewolfActiveGiftEffectKind effectKind, int successes)
+    {
+        return giftKey switch
+        {
+            WerewolfGiftIdentifiers.HomidInquietacao when effectKind == WerewolfActiveGiftEffectKind.RageRecoveryPenalty => new WerewolfRageRecoveryPenaltyPayload(
+                PenaltyAmount: 1,
+                DurationTurns: ComputeDurationTurns(WerewolfGiftCatalog.Get(giftKey)!)),
+            WerewolfGiftIdentifiers.HomidInquietacao when effectKind == WerewolfActiveGiftEffectKind.ExtendedTestDifficultyModifier => new WerewolfExtendedTestDifficultyPayload(
+                DifficultyIncrease: 1,
+                Scope: "prolonged-actions",
+                DurationTurns: ComputeDurationTurns(WerewolfGiftCatalog.Get(giftKey)!)),
+            WerewolfGiftIdentifiers.HomidRemodelarObjeto => new WerewolfObjectTransformationPayload(
+                TargetMaterial: "living-material",
+                AllowedResultCategories: RemodelarObjetoResultCategories,
+                SupportsPermanentAlteration: true,
+                SupportsAggravatedDamage: true,
+                VariableDurationTurns: successes),
+            WerewolfGiftIdentifiers.FiannaRemodelarObjeto => new WerewolfObjectTransformationPayload(
+                TargetMaterial: "living-material",
+                AllowedResultCategories: RemodelarObjetoResultCategories,
+                SupportsPermanentAlteration: true,
+                SupportsAggravatedDamage: true,
+                VariableDurationTurns: successes),
+            WerewolfGiftIdentifiers.BoneGnawersRemodelarObjeto => new WerewolfObjectTransformationPayload(
+                TargetMaterial: "living-material",
+                AllowedResultCategories: RemodelarObjetoResultCategories,
+                SupportsPermanentAlteration: true,
+                SupportsAggravatedDamage: true,
+                VariableDurationTurns: successes),
+            _ => null
         };
     }
 

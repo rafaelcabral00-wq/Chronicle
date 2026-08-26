@@ -32,8 +32,27 @@ public enum WerewolfActiveGiftEffectKind
     AuraBlocking,
     LightEffect,
     TestBonus,
+    RageRecoveryPenalty,
+    ExtendedTestDifficultyModifier,
+    ObjectTransformation,
     Custom
 }
+
+public sealed record WerewolfRageRecoveryPenaltyPayload(
+    int PenaltyAmount,
+    int? DurationTurns = null);
+
+public sealed record WerewolfExtendedTestDifficultyPayload(
+    int DifficultyIncrease,
+    string Scope,
+    int? DurationTurns = null);
+
+public sealed record WerewolfObjectTransformationPayload(
+    string TargetMaterial,
+    IReadOnlyList<string> AllowedResultCategories,
+    bool SupportsPermanentAlteration,
+    bool SupportsAggravatedDamage,
+    int? VariableDurationTurns = null);
 
 public sealed record WerewolfActiveGiftEffect(
     string GiftKey,
@@ -43,4 +62,5 @@ public sealed record WerewolfActiveGiftEffect(
     WerewolfActiveGiftEffectKind EffectKind,
     int Magnitude,
     string SourceLocator,
-    string? SceneToken = null);
+    string? SceneToken = null,
+    object? Payload = null);

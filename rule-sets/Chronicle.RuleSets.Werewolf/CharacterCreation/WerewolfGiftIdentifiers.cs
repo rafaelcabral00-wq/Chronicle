@@ -90,6 +90,14 @@ public static class WerewolfGiftIdentifiers
     public const string WendigoResistenciaADor = "gift.wendigo.resistencia-a-dor";
     public const string WendigoVentoCortante = "gift.wendigo.vento-cortante";
 
+    public const string HomidPersuasao = "gift.homid.persuasao";
+    public const string HomidFitar = "gift.homid.fitar";
+    public const string HomidInquietacao = "gift.homid.inquietacao";
+    public const string HomidRemodelarObjeto = "gift.homid.remodelar-objeto";
+    public const string HomidCasulo = "gift.homid.casulo";
+    public const string FiannaRemodelarObjeto = "gift.fianna.remodelar-objeto";
+    public const string BoneGnawersRemodelarObjeto = "gift.bonegnawers.remodelar-objeto";
+
     public static IReadOnlyList<string> Supported { get; } =
     [
         HomidMasterOfFire,
@@ -177,6 +185,13 @@ public static class WerewolfGiftIdentifiers
         UktenaEspiritoDoPassaro,
         UktenaEspiritoDoPeixe,
         WendigoResistenciaADor,
-        WendigoVentoCortante
+        WendigoVentoCortante,
+        HomidPersuasao,
+        HomidFitar,
+        HomidInquietacao,
+        HomidRemodelarObjeto,
+        HomidCasulo,
+        FiannaRemodelarObjeto,
+        BoneGnawersRemodelarObjeto
     ];
 }
