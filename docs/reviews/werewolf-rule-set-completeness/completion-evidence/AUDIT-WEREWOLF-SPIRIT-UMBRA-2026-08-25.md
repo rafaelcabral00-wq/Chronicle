@@ -551,3 +551,135 @@ S5 = 18
 S1-S5 verify: 5 + 20 + 5 + 5 + 18 = 53 = FINAL_KEYED_ROWS. TRUE.
 
 SPIRIT_DOMAIN_PRIMITIVES + CONSUMER_INTEGRATIONS + SOURCE_GAPS = 33 + 10 + 10 = 53 = FINAL_KEYED_ROWS. TRUE.
+
+## 17. Explicit Wave Mapping Table
+
+| MechanicKey | Wave | PrimaryClass | DependencyReason |
+|---|---|---|---|
+| spirit.category.catalog | S1 | A | Declarative catalog — already implemented |
+| spirit.umbra.realm.catalog | S1 | A | Declarative catalog — already implemented |
+| spirit.barrier.catalog | S1 | A | Declarative catalog — already implemented |
+| spirit.trait.schema | S1 | A | Declarative schema — already implemented |
+| spirit.charm.catalog | S1 | A | Declarative catalog — already implemented |
+| spirit.crossing.test | S2 | B | Executable primitive: Gnose vs Película test; depends only on trait schema and Gauntlet input from Chronicle |
+| spirit.crossing.time-table | S2 | B | Executable primitive: deterministic time-by-successes table; no external state required |
+| spirit.crossing.reflective-surface | S2 | B | Executable primitive: explicit difficulty modifier; no external state required |
+| spirit.crossing.retry-restriction | S2 | B | Executable primitive: retry eligibility and difficulty progression; no persistent retry state required |
+| spirit.crossing.botch | S2 | B | Executable primitive: typed botch classification; no external state required |
+| spirit.crossing.fury-restriction | S2 | B | Executable primitive: explicit Fury-granted action restriction; no external state required |
+| spirit.crossing.silver-penalty | S2 | B | Executable primitive: silver-item count/context from Chronicle → effective Gnosis; no inventory persistence |
+| spirit.movement.speed | S2 | B | Executable primitive: 20 + Willpower meters/turn; deterministic formula |
+| spirit.detection.test | S2 | B | Executable primitive: Gnose test vs Película with automatic condition; Chronicle provides raw dice |
+| spirit.communication.requirement | S2 | B | Executable primitive: deterministic capability/requirement contract; no dialogue AI |
+| spirit.materialization.requirement | S2 | B | Executable primitive: Gnose ≥ Película requirement and 7 health levels; Chronicle provides Película |
+| spirit.essence.formula | S2 | B | Executable primitive: deterministic formula (Willpower + Rage + Gnose); no state required |
+| spirit.modorra.definition | S2 | B | Declarative rule: total inactivity state definition; no lifecycle state machine required |
+| spirit.entity.state | S2 | C | Minimum typed state record required by S2 crossing/detection/movement primitives; no Chronicle authority leakage |
+| spirit.charm.execution | S2 | C | Base Charm activation mechanics (cost, test, effect); Gift trigger integration deferred to S3 |
+| spirit.command.mechanic | S2 | C | Base spirit compel/command test (Carisma + Liderança vs Willpower); Gift wrapper deferred to S3 |
+| spirit.possession.mechanic | S2 | C | Base possession test (Gnose vs Willpower) and duration by successes; Gift/Rite integration deferred to S3/S4 |
+| spirit.damage.mechanic | S2 | C | Base spirit damage resolution (difficulty = Rage, absorption = Willpower, Essence loss); Gift-specific effects deferred to S3 |
+| spirit.essence.economy | S2 | C | Base Essence drain/recovery mechanics; no Gift dependency for core formula |
+| spirit.materialization.state | S2 | C | Sub-state of entity state: IsMaterialized flag and health level adoption; required by S2 materialization requirement |
+| spirit.gift.detection | S3 | G | Gift consumer integration of S2 detection primitive |
+| spirit.gift.command | S3 | G | Gift consumer integration of S2 command primitive |
+| spirit.gift.possession | S3 | G | Gift consumer integration of S2 possession primitive |
+| spirit.gift.charm-activation | S3 | G | Gift consumer integration of S2 charm execution primitive |
+| spirit.gift.crossing | S3 | G | Gift consumer integration of S2 crossing primitive |
+| spirit.rite.fetish-creation | S4 | F | Rite integration: create fetish via Ritual de Fetiche; requires S2 spirit state and Rite runtime |
+| spirit.rite.totem-binding | S4 | F | Rite integration: binds totemic spirit to group of Garou; requires S2 spirit state and Rite runtime |
+| spirit.rite.summoning | S4 | F | Rite integration: summon spirit with Gnose cost and test vs Willpower; requires S2 spirit state and Rite runtime |
+| spirit.rite.commitment | S4 | F | Rite integration: bind spirit to object via Ritual de Compromisso; requires S2 spirit state and Rite runtime |
+| spirit.rite.awaken | S4 | F | Rite integration: awaken spirits via Extended test; requires S2 spirit state and Rite runtime |
+| spirit.location.state | S5 | D | Chronicle world boundary: spirit location in scene/realm; requires Chronicle scene/location identity |
+| spirit.gauntlet.by-location | S5 | D | Chronicle world boundary: Gauntlet rating varies by location; requires Chronicle location-state integration |
+| spirit.realm.travel | S5 | D | Chronicle world boundary: travel via Moon Trails, Spirit Trails, Portals; requires Chronicle realm/path persistence |
+| spirit.scene.presence | S5 | D | Chronicle world boundary: spirit presence/absence in scene; requires Chronicle scene orchestration |
+| spirit.caern.película-table | S5 | D | Chronicle world boundary: Caern level ↔ Película level; requires Chronicle Caern state |
+| spirit.totem.binding | S5 | E | Pack/Totem aggregate dependency: bind totem spirit to Pack; requires Pack/Totem runtime |
+| spirit.pack.totem-link | S5 | E | Pack/Totem aggregate dependency: Pack-Totem connection; requires Pack/Totem runtime |
+| spirit.shared.totem-effects | S5 | E | Pack/Totem aggregate dependency: Totem benefits to members; requires Pack/Totem runtime |
+| spirit.disposition.ai | S5 | H | Source gap: no canonical source definition for spirit AI/disposition scale |
+| spirit.bargaining.valuation | S5 | H | Source gap: chiminage mentioned but no valuation rules defined |
+| spirit.materialization.duration | S5 | H | Human Decision: materialization duration/permanence unspecified by source |
+| spirit.death.modorra-threshold | S5 | H | Human Decision: exact death/Modorra transition threshold unspecified |
+| spirit.possession.control | S5 | H | Human Decision: possession control mechanics and permanence not fully specified |
+| spirit.crossing.non-garou | S5 | H | Human Decision: crossing difficulty for non-Garou beings unspecified |
+| spirit.hierarchy.behavior | S5 | H | Source gap: hierarchy defined but behavior rules not specified |
+| spirit.voting.system | S5 | I | Unsupported by canonical source: no spirit voting/consensus mechanics defined |
+| spirit.persistence.lifecycle | S5 | I | Unsupported by canonical source: no spirit birth/aging/death lifecycle defined |
+| spirit.world-travel.rules | S5 | I | Unsupported by canonical source: no general world-hopping rules beyond Gauntlet crossing |
+
+## 18. Wave Invariants
+
+FINAL_KEYED_ROWS = 53
+
+S1_COUNT = 5
+S2_COUNT = 20
+S3_COUNT = 5
+S4_COUNT = 5
+S5_COUNT = 18
+
+WAVE_SUM = 53
+
+UNASSIGNED_KEY_COUNT = 0
+MULTI_ASSIGNED_KEY_COUNT = 0
+UNKNOWN_KEY_COUNT = 0
+
+S1_S2_OVERLAP = 0
+S2_S3_OVERLAP = 0
+S2_S4_OVERLAP = 0
+S2_S5_OVERLAP = 0
+
+ASSERT WAVE_SUM == FINAL_KEYED_ROWS = TRUE
+ASSERT UNASSIGNED_KEY_COUNT == 0 = TRUE
+ASSERT MULTI_ASSIGNED_KEY_COUNT == 0 = TRUE
+ASSERT S1_S2_OVERLAP == 0 = TRUE
+ASSERT S2_S3_OVERLAP == 0 = TRUE
+ASSERT S2_S4_OVERLAP == 0 = TRUE
+ASSERT S2_S5_OVERLAP == 0 = TRUE
+
+## 19. S2 Key Verification
+
+Exact 20 S2 keys:
+
+1. spirit.crossing.test
+2. spirit.crossing.time-table
+3. spirit.crossing.reflective-surface
+4. spirit.crossing.retry-restriction
+5. spirit.crossing.botch
+6. spirit.crossing.fury-restriction
+7. spirit.crossing.silver-penalty
+8. spirit.movement.speed
+9. spirit.detection.test
+10. spirit.communication.requirement
+11. spirit.materialization.requirement
+12. spirit.essence.formula
+13. spirit.modorra.definition
+14. spirit.entity.state
+15. spirit.charm.execution
+16. spirit.command.mechanic
+17. spirit.possession.mechanic
+18. spirit.damage.mechanic
+19. spirit.essence.economy
+20. spirit.materialization.state
+
+S2 dependency verification:
+- No S2 key requires an S3/S4/S5 primitive first.
+- S2 introduces minimum Spirit entity state (15-field model) as the only runtime state needed for its primitives.
+- All S2 semantics are source-defined or have explicit typed boundaries.
+- No Gift/Rite consumer associations are counted as S2 primitives (Gift/Rite integrations are S3/S4).
+
+## 20. Ready to Commit
+
+**YES.** This audit reconciliation is ready to commit as evidence.
+
+Summary:
+- 53 total distinct Spirit/Umbra mechanics with explicit wave mapping
+- S1=5, S2=20, S3=5, S4=5, S5=18; sum=53 verified
+- 0 unassigned, 0 multi-assigned, 0 unknown keys
+- 0 overlap between waves
+- All S2 keys are executable primitives or minimum typed state
+- Source gaps and Human Decisions explicitly deferred to S5
+- No production code, tests, matrix, report, or metadata modified
+- No commit or push performed
