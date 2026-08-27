@@ -102,6 +102,10 @@
     {
       "capabilityKey": "runtime-gift-execution",
       "status": "partial-executable"
+    },
+    {
+      "capabilityKey": "spirit-umbra",
+      "status": "partial-executable"
     }
   ],
   "excludedMechanics": [

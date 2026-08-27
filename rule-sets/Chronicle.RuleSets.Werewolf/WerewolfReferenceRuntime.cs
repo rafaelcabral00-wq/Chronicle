@@ -65,6 +65,16 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string EvaluateSpecialtyEligibilityOperation = "character-runtime.evaluate-specialty-eligibility";
     public const string EvaluateGiftAdvancementOperation = "character-runtime.evaluate-gift-advancement";
     public const string ExecuteRiteOperation = "rite-runtime.execute-rite";
+    public const string InitializeSpiritOperation = WerewolfSpiritMechanicServices.InitializeSpiritOperation;
+    public const string EvaluateCrossingOperation = WerewolfSpiritMechanicServices.EvaluateCrossingOperation;
+    public const string ComputeMovementSpeedOperation = WerewolfSpiritMechanicServices.ComputeMovementSpeedOperation;
+    public const string EvaluateDetectionOperation = WerewolfSpiritMechanicServices.EvaluateDetectionOperation;
+    public const string EvaluateMaterializationOperation = WerewolfSpiritMechanicServices.EvaluateMaterializationOperation;
+    public const string SpendEssenceOperation = WerewolfSpiritMechanicServices.SpendEssenceOperation;
+    public const string ExecuteCharmOperation = WerewolfSpiritMechanicServices.ExecuteCharmOperation;
+    public const string EvaluateCommandOperation = WerewolfSpiritMechanicServices.EvaluateCommandOperation;
+    public const string EvaluatePossessionOperation = WerewolfSpiritMechanicServices.EvaluatePossessionOperation;
+    public const string ApplySpiritDamageOperation = WerewolfSpiritMechanicServices.ApplySpiritDamageOperation;
 
     private readonly WerewolfCharacterCreationDraftInitializer characterCreation;
     public WerewolfReferenceRuntime()
@@ -148,7 +158,17 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(AdvanceTraitOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(EvaluateSpecialtyEligibilityOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(EvaluateGiftAdvancementOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
-            new RuleSetOperationDescriptor(ExecuteRiteOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled)
+            new RuleSetOperationDescriptor(ExecuteRiteOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(InitializeSpiritOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluateCrossingOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ComputeMovementSpeedOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluateDetectionOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluateMaterializationOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(SpendEssenceOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ExecuteCharmOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluateCommandOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(EvaluatePossessionOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ApplySpiritDamageOperation, "spirit-umbra", RuleSetOperationStatus.Enabled)
         ]);
 
     public RuleSetOperationResult Execute(RuleSetOperationRequest request)
@@ -438,6 +458,56 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, ExecuteRiteOperation))
         {
             return ExecuteRite(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, InitializeSpiritOperation))
+        {
+            return ExecuteInitializeSpirit(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateCrossingOperation))
+        {
+            return ExecuteEvaluateCrossing(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ComputeMovementSpeedOperation))
+        {
+            return ExecuteComputeMovementSpeed(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateDetectionOperation))
+        {
+            return ExecuteEvaluateDetection(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateMaterializationOperation))
+        {
+            return ExecuteEvaluateMaterialization(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, SpendEssenceOperation))
+        {
+            return ExecuteSpendEssence(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ExecuteCharmOperation))
+        {
+            return ExecuteCharm(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluateCommandOperation))
+        {
+            return ExecuteEvaluateCommand(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, EvaluatePossessionOperation))
+        {
+            return ExecuteEvaluatePossession(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ApplySpiritDamageOperation))
+        {
+            return ExecuteApplySpiritDamage(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -3680,5 +3750,386 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                     ["interpretationStatus"] = result.InterpretationStatus,
                     ["effect"] = result.Effect ?? string.Empty
                 });
+        }
+
+        private static RuleSetOperationResult ExecuteInitializeSpirit(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("spiritId", out var spiritId) ||
+                !request.Inputs.TryGetValue("categoryKey", out var categoryKey) ||
+                !request.Inputs.TryGetValue("willpowerPermanent", out var willpowerText) ||
+                !request.Inputs.TryGetValue("ragePermanent", out var rageText) ||
+                !request.Inputs.TryGetValue("gnosisPermanent", out var gnosisText) ||
+                !int.TryParse(willpowerText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var willpowerPermanent) ||
+                !int.TryParse(rageText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var ragePermanent) ||
+                !int.TryParse(gnosisText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gnosisPermanent))
+            {
+                return InvalidSpiritRequest("Initialize spirit requires requestId, spiritId, categoryKey, willpowerPermanent, ragePermanent, gnosisPermanent.");
+            }
+
+            var charmKeys = ParseCsv(request.Inputs.GetValueOrDefault("knownCharmKeys"));
+            var spiritRequest = new SpiritMechanicRequest(null!, 0, requestId);
+            var result = WerewolfSpiritMechanicServices.Initialize(spiritRequest, spiritId, categoryKey, willpowerPermanent, ragePermanent, gnosisPermanent, charmKeys);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["spiritState"] = result.NewState is null ? string.Empty : System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                    ["stateVersion"] = result.NewStateVersion?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteEvaluateCrossing(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("gauntletValue", out var gauntletText) ||
+                !request.Inputs.TryGetValue("gnosisPool", out var gnosisText) ||
+                !request.Inputs.TryGetValue("difficulty", out var difficultyText) ||
+                !request.Inputs.TryGetValue("diceValues", out var diceText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+                !int.TryParse(gauntletText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gauntletValue) ||
+                !int.TryParse(gnosisText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gnosisPool) ||
+                !int.TryParse(difficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var difficulty))
+            {
+                return InvalidSpiritRequest("Crossing evaluation requires requestId, currentState, expectedStateVersion, gauntletValue, gnosisPool, difficulty, diceValues.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var diceValues = ParseCsv(diceText).Select(v => int.TryParse(v, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var d) ? d : 0).ToArray();
+            var hasReflectiveSurface = bool.TryParse(request.Inputs.GetValueOrDefault("hasReflectiveSurface"), out var r) && r;
+            var silverCount = int.TryParse(request.Inputs.GetValueOrDefault("silverItemCount"), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var s) ? s : 0;
+            var isFuryGranted = bool.TryParse(request.Inputs.GetValueOrDefault("isFuryGrantedAction"), out var f) && f;
+            var previousAttempts = int.TryParse(request.Inputs.GetValueOrDefault("previousFailedAttempts"), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var p) ? p : 0;
+
+            var crossingRequest = new CrossingRequest(state, expectedVersion, requestId, gauntletValue, gnosisPool, difficulty, hasReflectiveSurface, silverCount, isFuryGranted, previousAttempts, diceValues);
+            var result = WerewolfSpiritMechanicServices.EvaluateCrossing(crossingRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["successes"] = result.Successes.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isBotch"] = result.IsBotch.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isZeroSuccessWait"] = result.IsZeroSuccessWait.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isFuryRestricted"] = result.IsFuryRestricted.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["crossingTime"] = result.CrossingTime.ToString(),
+                    ["effectiveGnosis"] = result.EffectiveGnosis.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["effectiveDifficulty"] = result.EffectiveDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["canRetry"] = result.CanRetry.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["nextRetryDifficultyModifier"] = result.NextRetryDifficultyModifier.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteComputeMovementSpeed(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+            {
+                return InvalidSpiritRequest("Movement speed requires requestId, currentState, expectedStateVersion.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var movementRequest = new MovementRequest(state, expectedVersion, requestId);
+            var result = WerewolfSpiritMechanicServices.ComputeMovementSpeed(movementRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["maxMetersPerTurn"] = result.MaxMetersPerTurn.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteEvaluateDetection(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("gauntletValue", out var gauntletText) ||
+                !request.Inputs.TryGetValue("gnosisPool", out var gnosisText) ||
+                !request.Inputs.TryGetValue("difficulty", out var difficultyText) ||
+                !request.Inputs.TryGetValue("diceValues", out var diceText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+                !int.TryParse(gauntletText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gauntletValue) ||
+                !int.TryParse(gnosisText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gnosisPool) ||
+                !int.TryParse(difficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var difficulty))
+            {
+                return InvalidSpiritRequest("Detection requires requestId, currentState, expectedStateVersion, gauntletValue, gnosisPool, difficulty, diceValues.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var diceValues = ParseCsv(diceText).Select(v => int.TryParse(v, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var d) ? d : 0).ToArray();
+            var detectionRequest = new DetectionRequest(state, expectedVersion, requestId, gauntletValue, gnosisPool, difficulty, diceValues);
+            var result = WerewolfSpiritMechanicServices.EvaluateDetection(detectionRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isAutomatic"] = result.IsAutomatic.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isDetected"] = result.IsDetected.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["successes"] = result.Successes.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteEvaluateMaterialization(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("gauntletValue", out var gauntletText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+                !int.TryParse(gauntletText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gauntletValue))
+            {
+                return InvalidSpiritRequest("Materialization requires requestId, currentState, expectedStateVersion, gauntletValue.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var materializationRequest = new MaterializationRequest(state, expectedVersion, requestId, gauntletValue);
+            var result = WerewolfSpiritMechanicServices.EvaluateMaterialization(materializationRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["canMaterialize"] = result.CanMaterialize.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isNowMaterialized"] = result.IsNowMaterialized.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["newState"] = result.NewState is null ? string.Empty : System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                    ["newStateVersion"] = result.NewStateVersion?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteSpendEssence(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("amount", out var amountText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+                !int.TryParse(amountText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var amount))
+            {
+                return InvalidSpiritRequest("Essence spend requires requestId, currentState, expectedStateVersion, amount.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var spendRequest = new EssenceSpendRequest(state, expectedVersion, requestId, amount);
+            var result = WerewolfSpiritMechanicServices.SpendEssence(spendRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["previousEssence"] = result.PreviousEssence.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["newEssence"] = result.NewEssence.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["newState"] = result.NewState is null ? string.Empty : System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                    ["newStateVersion"] = result.NewStateVersion?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteCharm(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("charmKey", out var charmKey) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+            {
+                return InvalidSpiritRequest("Charm execution requires requestId, currentState, expectedStateVersion, charmKey.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var gnosisCost = int.TryParse(request.Inputs.GetValueOrDefault("gnosisCost"), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gc) ? gc : (int?)null;
+            var essenceCost = int.TryParse(request.Inputs.GetValueOrDefault("essenceCost"), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var ec) ? ec : (int?)null;
+            var charmRequest = new CharmExecutionRequest(state, expectedVersion, requestId, charmKey, gnosisCost, essenceCost);
+            var result = WerewolfSpiritMechanicServices.ExecuteCharm(charmRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["executedCharmKey"] = result.ExecutedCharmKey ?? string.Empty,
+                    ["effectDescription"] = result.EffectDescription ?? string.Empty,
+                    ["newState"] = result.NewState is null ? string.Empty : System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                    ["newStateVersion"] = result.NewStateVersion?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteEvaluateCommand(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("charisma", out var charismaText) ||
+                !request.Inputs.TryGetValue("leadership", out var leadershipText) ||
+                !request.Inputs.TryGetValue("targetWillpower", out var targetWillpowerText) ||
+                !request.Inputs.TryGetValue("diceValues", out var diceText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+                !int.TryParse(charismaText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var charisma) ||
+                !int.TryParse(leadershipText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var leadership) ||
+                !int.TryParse(targetWillpowerText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var targetWillpower))
+            {
+                return InvalidSpiritRequest("Command requires requestId, currentState, expectedStateVersion, charisma, leadership, targetWillpower, diceValues.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var diceValues = ParseCsv(diceText).Select(v => int.TryParse(v, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var d) ? d : 0).ToArray();
+            var commandRequest = new CommandRequest(state, expectedVersion, requestId, charisma, leadership, targetWillpower, diceValues);
+            var result = WerewolfSpiritMechanicServices.EvaluateCommand(commandRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["successes"] = result.Successes.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isCommanded"] = result.IsCommanded.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteEvaluatePossession(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("targetWillpower", out var targetWillpowerText) ||
+                !request.Inputs.TryGetValue("diceValues", out var diceText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+                !int.TryParse(targetWillpowerText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var targetWillpower))
+            {
+                return InvalidSpiritRequest("Possession requires requestId, currentState, expectedStateVersion, targetWillpower, diceValues.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var diceValues = ParseCsv(diceText).Select(v => int.TryParse(v, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var d) ? d : 0).ToArray();
+            var possessionRequest = new PossessionRequest(state, expectedVersion, requestId, targetWillpower, diceValues);
+            var result = WerewolfSpiritMechanicServices.EvaluatePossession(possessionRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["successes"] = result.Successes.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isPossessing"] = result.IsPossessing.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["duration"] = result.Duration.ToString()
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteApplySpiritDamage(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("currentState", out var stateJson) ||
+                !request.Inputs.TryGetValue("expectedStateVersion", out var versionText) ||
+                !request.Inputs.TryGetValue("damageAmount", out var damageText) ||
+                !request.Inputs.TryGetValue("difficulty", out var difficultyText) ||
+                !int.TryParse(versionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+                !int.TryParse(damageText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var damageAmount) ||
+                !int.TryParse(difficultyText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var difficulty))
+            {
+                return InvalidSpiritRequest("Spirit damage requires requestId, currentState, expectedStateVersion, damageAmount, difficulty.");
+            }
+
+            var state = System.Text.Json.JsonSerializer.Deserialize<WerewolfSpiritRuntimeState>(stateJson, JsonOptions);
+            if (state is null)
+            {
+                return InvalidSpiritRequest("Failed to deserialize spirit state.");
+            }
+
+            var isAggravated = bool.TryParse(request.Inputs.GetValueOrDefault("isAggravated"), out var a) && a;
+            var damageRequest = new SpiritDamageRequest(state, expectedVersion, requestId, damageAmount, difficulty, isAggravated);
+            var result = WerewolfSpiritMechanicServices.ApplyDamage(damageRequest);
+
+            return new RuleSetOperationResult(
+                result.Succeeded,
+                result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(f => new RuleSetRuntimeFinding(f.Severity == SpiritMechanicFindingSeverity.Error ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information, f.Code.ToString(), f.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = result.Succeeded.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["damageApplied"] = result.DamageApplied.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["essenceLost"] = result.EssenceLost.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["isAtDeathBoundary"] = result.IsAtDeathBoundary.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["newState"] = result.NewState is null ? string.Empty : System.Text.Json.JsonSerializer.Serialize(result.NewState, JsonOptions),
+                    ["newStateVersion"] = result.NewStateVersion?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty
+                });
+        }
+
+        private static RuleSetOperationResult InvalidSpiritRequest(string message)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidSpiritRequest", message)],
+                new Dictionary<string, string>(StringComparer.Ordinal));
         }
     }
