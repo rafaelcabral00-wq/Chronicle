@@ -174,7 +174,17 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.FrenzySuppressOperation,
                 WerewolfReferenceRuntime.ActivateGiftOperation,
                 WerewolfReferenceRuntime.ExecuteGiftEffectOperation,
-                WerewolfReferenceRuntime.ExecuteRiteOperation
+                WerewolfReferenceRuntime.ExecuteRiteOperation,
+                WerewolfReferenceRuntime.ApplySpiritDamageOperation,
+                WerewolfReferenceRuntime.ComputeMovementSpeedOperation,
+                WerewolfReferenceRuntime.EvaluateCommandOperation,
+                WerewolfReferenceRuntime.EvaluateCrossingOperation,
+                WerewolfReferenceRuntime.EvaluateDetectionOperation,
+                WerewolfReferenceRuntime.EvaluateMaterializationOperation,
+                WerewolfReferenceRuntime.EvaluatePossessionOperation,
+                WerewolfReferenceRuntime.ExecuteCharmOperation,
+                WerewolfReferenceRuntime.InitializeSpiritOperation,
+                WerewolfReferenceRuntime.SpendEssenceOperation
             ],
             first[0].Operations.Select(operation => operation.OperationKey).ToArray());
     }
