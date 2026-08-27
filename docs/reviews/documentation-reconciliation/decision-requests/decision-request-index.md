@@ -12,6 +12,7 @@ This index covers the architecture decision-resolution work package created from
 | [DR-0002](DR-0002-mvp-rule-set-completeness.md) | MVP Rule Set Completeness | CONTRADICTION-002; complete Rule Set decision; MAT-005 | Accepted Option B: completeness means complete declared release scope with explicit enforceable exclusions | DR-0001 |
 | [DR-0003](DR-0003-rule-set-lifecycle-promotion-and-publication.md) | Rule Set Lifecycle, Promotion, and Publication | Remaining CONTRADICTION-002 lifecycle decision; promotion/publication gap; MAT-003 | Accepted Option B: one shared normative Rule Set lifecycle across RFC-0027 and SPEC-0001 | DR-0002 accepted |
 | [DR-0004](DR-0004-prototype-materialization-and-validation-contracts.md) | Prototype Materialization and Validation Contracts | CONTRADICTION-003; SPEC artifact-family decision; materialization mapping; MAT-002; MAT-004; MAT-006 | Accepted Option B: define normative materialization-role mapping and validation evidence contract | DR-0001, DR-0002, DR-0003 accepted |
+| [DR-0012](DR-0012-spirit-umbra-capability-authority.md) | Spirit-Umbra Capability Authority | Spirit/Umbra S2 runtime operation capability; new capability key decision | Accepted Option A: new partial-executable capability `spirit-umbra` | None |
 
 ## Coverage
 
