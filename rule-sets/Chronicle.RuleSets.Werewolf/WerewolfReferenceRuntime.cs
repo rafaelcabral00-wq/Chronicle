@@ -1,5 +1,6 @@
 using Chronicle.RuleSets.Abstractions.Runtime;
 using Chronicle.RuleSets.Werewolf.CharacterCreation;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Chronicle.RuleSets.Werewolf;
@@ -3513,12 +3514,33 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
               activationSuccesses = 0;
           }
 
+          IReadOnlyList<int>? diceValues = null;
+          var diceValuesText = request.Inputs.GetValueOrDefault("diceValues", string.Empty);
+          if (!string.IsNullOrWhiteSpace(diceValuesText))
+          {
+              var parsed = new List<int>();
+              foreach (var part in diceValuesText.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+              {
+                  if (int.TryParse(part, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var value))
+                  {
+                      parsed.Add(value);
+                  }
+              }
+
+              if (parsed.Count > 0)
+              {
+                  diceValues = Array.AsReadOnly(parsed.ToArray());
+              }
+          }
+
           var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
               request.Inputs.GetValueOrDefault("requestId", string.Empty),
               currentState,
               expectedVersion,
               giftKey,
-              activationSuccesses));
+              activationSuccesses,
+              request.Inputs.GetValueOrDefault("targetId", string.Empty),
+              diceValues));
 
           if (!result.Succeeded || result.UpdatedState is null)
           {
@@ -3539,6 +3561,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
               ["findings"] = string.Join("; ", result.Findings)
           };
 
+          if (result.Payload is not null)
+          {
+              outputs["payload"] = System.Text.Json.JsonSerializer.Serialize(result.Payload, JsonOptions);
+          }
+
           for (var i = 0; i < result.ActiveEffects.Count; i++)
           {
               var effect = result.ActiveEffects[i];
@@ -3554,7 +3581,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                null,
                result.Findings.Select(f => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, "GiftEffectApplied", f)).ToArray(),
                outputs);
-       }
+      }
 
        private static RuleSetOperationResult ExecuteCalculateAdvancementCost(RuleSetOperationRequest request)
        {

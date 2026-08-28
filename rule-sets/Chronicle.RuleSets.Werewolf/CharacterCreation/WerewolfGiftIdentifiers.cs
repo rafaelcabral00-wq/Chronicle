@@ -98,6 +98,14 @@ public static class WerewolfGiftIdentifiers
     public const string FiannaRemodelarObjeto = "gift.fianna.remodelar-objeto";
     public const string BoneGnawersRemodelarObjeto = "gift.bonegnawers.remodelar-objeto";
 
+    public const string LupusNomeDoEspirito = "gift.lupus.nome-do-espirito";
+    public const string TheurgeNomeDoEspirito = "gift.theurge.nome-do-espirito";
+    public const string TheurgeComandarEspiritos = "gift.theurge.comandar-espiritos";
+    public const string TheurgeExorcismo = "gift.theurge.exorcismo";
+    public const string TheurgeRoubarPoderes = "gift.theurge.roubar-poderes";
+    public const string SilentStridersAlcancarAUmbra = "gift.silent-striders.alcancar-a-umbra";
+    public const string TheurgeCapturaADistancia = "gift.theurge.captura-a-distancia";
+
     public static IReadOnlyList<string> Supported { get; } =
     [
         HomidMasterOfFire,
@@ -139,6 +147,13 @@ public static class WerewolfGiftIdentifiers
         UktenaSenseMagic,
         WendigoCamouflage,
         WendigoCallTheBreeze,
+        LupusNomeDoEspirito,
+        TheurgeNomeDoEspirito,
+        TheurgeComandarEspiritos,
+        TheurgeExorcismo,
+        TheurgeRoubarPoderes,
+        SilentStridersAlcancarAUmbra,
+        TheurgeCapturaADistancia,
         HomidSimularOdorDeHomem,
         HomidPerturbarTecnologia,
         MetisRaivaPrimordial,
@@ -192,6 +207,13 @@ public static class WerewolfGiftIdentifiers
         HomidRemodelarObjeto,
         HomidCasulo,
         FiannaRemodelarObjeto,
-        BoneGnawersRemodelarObjeto
+        BoneGnawersRemodelarObjeto,
+        LupusNomeDoEspirito,
+        TheurgeNomeDoEspirito,
+        TheurgeComandarEspiritos,
+        TheurgeExorcismo,
+        TheurgeRoubarPoderes,
+        SilentStridersAlcancarAUmbra,
+        TheurgeCapturaADistancia
     ];
 }

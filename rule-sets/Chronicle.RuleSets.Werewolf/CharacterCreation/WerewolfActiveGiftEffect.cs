@@ -35,6 +35,11 @@ public enum WerewolfActiveGiftEffectKind
     RageRecoveryPenalty,
     ExtendedTestDifficultyModifier,
     ObjectTransformation,
+    SpiritDetection,
+    SpiritCommand,
+    SpiritPossession,
+    CharmActivation,
+    UmbraCrossing,
     Custom
 }
 
@@ -53,6 +58,42 @@ public sealed record WerewolfObjectTransformationPayload(
     bool SupportsPermanentAlteration,
     bool SupportsAggravatedDamage,
     int? VariableDurationTurns = null);
+
+public sealed record WerewolfExorcismBoundaryPayload(
+    string GiftKey,
+    string Mechanic,
+    string TargetType,
+    int RequiredConcentrationTurns,
+    string ReluctantSpiritTest,
+    string TrappedSpiritTest,
+    string SourceLocator,
+    string Note);
+
+public sealed record WerewolfCharmStealBoundaryPayload(
+    string GiftKey,
+    string StolenCharmKey,
+    int GnosisCostPerTurn,
+    string SourceLocator,
+    string Note);
+
+public sealed record WerewolfCrossingModifierPayload(
+    string GiftKey,
+    int DifficultyModifier,
+    bool AutomaticCrossing,
+    bool NoFuryAllowed,
+    string SourceLocator,
+    string Note);
+
+public sealed record WerewolfRemoteTransportBoundaryPayload(
+    string GiftKey,
+    string SourceSpiritReference,
+    string TargetEntityReference,
+    string CrossingResult,
+    string TransportIntent,
+    string DestinationSemantics,
+    string ChronicleOrchestrationRequired,
+    string SourceLocator,
+    string Note);
 
 public sealed record WerewolfActiveGiftEffect(
     string GiftKey,

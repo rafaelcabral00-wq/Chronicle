@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
@@ -8,7 +9,8 @@ public sealed record WerewolfGiftEffectRequest(
     int ExpectedRuntimeStateVersion,
     string GiftKey,
     int ActivationSuccesses,
-    string? TargetId = null);
+    string? TargetId = null,
+    IReadOnlyList<int>? DiceValues = null);
 
 public sealed record WerewolfGiftEffectResult(
     bool Succeeded,
@@ -17,7 +19,8 @@ public sealed record WerewolfGiftEffectResult(
     IReadOnlyList<string> Findings,
     string RequestId,
     int NewRuntimeStateVersion,
-    string? ErrorCode = null);
+    string? ErrorCode = null,
+    object? Payload = null);
 
 public static class WerewolfGiftEffectService
 {
@@ -110,6 +113,13 @@ public static class WerewolfGiftEffectService
             WerewolfGiftIdentifiers.HomidCasulo => ApplyHomidCasulo(currentState, successes),
             WerewolfGiftIdentifiers.FiannaRemodelarObjeto => ApplyFiannaRemodelarObjeto(currentState, successes),
             WerewolfGiftIdentifiers.BoneGnawersRemodelarObjeto => ApplyBoneGnawersRemodelarObjeto(currentState, successes),
+            WerewolfGiftIdentifiers.LupusNomeDoEspirito => ApplyLupusNomeDoEspirito(currentState, successes),
+            WerewolfGiftIdentifiers.TheurgeNomeDoEspirito => ApplyTheurgeNomeDoEspirito(currentState, successes),
+            WerewolfGiftIdentifiers.TheurgeComandarEspiritos => ApplyTheurgeComandarEspiritos(currentState, successes),
+            WerewolfGiftIdentifiers.TheurgeExorcismo => ApplyTheurgeExorcismo(currentState, successes),
+            WerewolfGiftIdentifiers.TheurgeRoubarPoderes => ApplyTheurgeRoubarPoderes(currentState, successes),
+            WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra => ApplySilentStridersAlcancarAUmbra(currentState, successes),
+            WerewolfGiftIdentifiers.TheurgeCapturaADistancia => ApplyTheurgeCapturaADistancia(currentState, successes),
                     _ => currentState
         };
 
@@ -156,6 +166,32 @@ public static class WerewolfGiftEffectService
 
         effectResult = effectResult with { RuntimeStateVersion = effectResult.RuntimeStateVersion + 1 };
 
+        object? s3Payload = null;
+        if (definition.GiftKey is WerewolfGiftIdentifiers.LupusNomeDoEspirito or WerewolfGiftIdentifiers.TheurgeNomeDoEspirito)
+        {
+            s3Payload = ApplyNomeDoEspirito(effectResult, request.DiceValues, successes);
+        }
+        else if (definition.GiftKey == WerewolfGiftIdentifiers.TheurgeComandarEspiritos)
+        {
+            s3Payload = ApplyComandarEspiritos(effectResult, request.DiceValues, successes);
+        }
+        else if (definition.GiftKey == WerewolfGiftIdentifiers.TheurgeExorcismo)
+        {
+            s3Payload = ApplyExorcismo(effectResult, successes);
+        }
+        else if (definition.GiftKey == WerewolfGiftIdentifiers.TheurgeRoubarPoderes)
+        {
+            s3Payload = ApplyRoubarPoderes(effectResult, successes);
+        }
+        else if (definition.GiftKey == WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra)
+        {
+            s3Payload = ApplyAlcancarAUmbra(effectResult, request.DiceValues, successes);
+        }
+        else if (definition.GiftKey == WerewolfGiftIdentifiers.TheurgeCapturaADistancia)
+        {
+            s3Payload = ApplyCapturaADistancia(effectResult, request.DiceValues, successes);
+        }
+
         return new WerewolfGiftEffectResult(
             true,
             effectResult,
@@ -163,7 +199,8 @@ public static class WerewolfGiftEffectService
             new ReadOnlyCollection<string>(findings),
             request.RequestId,
             effectResult.RuntimeStateVersion,
-            null);
+            null,
+            s3Payload);
     }
 
     private static WerewolfRuntimeCharacterState ApplyHomidPersuasao(WerewolfRuntimeCharacterState state, int successes)
@@ -197,6 +234,35 @@ public static class WerewolfGiftEffectService
     }
 
     private static WerewolfRuntimeCharacterState ApplyBoneGnawersRemodelarObjeto(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+
+    private static WerewolfRuntimeCharacterState ApplyLupusNomeDoEspirito(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+    private static WerewolfRuntimeCharacterState ApplyTheurgeNomeDoEspirito(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+    private static WerewolfRuntimeCharacterState ApplyTheurgeComandarEspiritos(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+    private static WerewolfRuntimeCharacterState ApplyTheurgeExorcismo(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+    private static WerewolfRuntimeCharacterState ApplyTheurgeRoubarPoderes(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+    private static WerewolfRuntimeCharacterState ApplySilentStridersAlcancarAUmbra(WerewolfRuntimeCharacterState state, int successes)
+    {
+        return state;
+    }
+    private static WerewolfRuntimeCharacterState ApplyTheurgeCapturaADistancia(WerewolfRuntimeCharacterState state, int successes)
     {
         return state;
     }
@@ -581,6 +647,13 @@ public static class WerewolfGiftEffectService
             WerewolfGiftIdentifiers.HomidCasulo => WerewolfActiveGiftEffectKind.DamageReduction,
             WerewolfGiftIdentifiers.FiannaRemodelarObjeto => WerewolfActiveGiftEffectKind.ObjectTransformation,
             WerewolfGiftIdentifiers.BoneGnawersRemodelarObjeto => WerewolfActiveGiftEffectKind.ObjectTransformation,
+            WerewolfGiftIdentifiers.LupusNomeDoEspirito => WerewolfActiveGiftEffectKind.SpiritDetection,
+            WerewolfGiftIdentifiers.TheurgeNomeDoEspirito => WerewolfActiveGiftEffectKind.SpiritDetection,
+            WerewolfGiftIdentifiers.TheurgeComandarEspiritos => WerewolfActiveGiftEffectKind.SpiritCommand,
+            WerewolfGiftIdentifiers.TheurgeExorcismo => WerewolfActiveGiftEffectKind.SpiritPossession,
+            WerewolfGiftIdentifiers.TheurgeRoubarPoderes => WerewolfActiveGiftEffectKind.CharmActivation,
+            WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra => WerewolfActiveGiftEffectKind.UmbraCrossing,
+            WerewolfGiftIdentifiers.TheurgeCapturaADistancia => WerewolfActiveGiftEffectKind.UmbraCrossing,
             WerewolfGiftIdentifiers.HomidSimularOdorDeHomem => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.HomidPerturbarTecnologia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.MetisRaivaPrimordial => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.MetisSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.MetisCavar => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.MetisOlhosDeGato => WerewolfActiveGiftEffectKind.SensoryEnhancement,            WerewolfGiftIdentifiers.LupusSentidosAgucados => WerewolfActiveGiftEffectKind.SensoryEnhancement,            WerewolfGiftIdentifiers.RagabashEmbacamentoDaPropriaForma => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.RagabashSimularOCheiroDeAguaCorrente => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.RagabashInduzirEsquecimento => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.TheurgeSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.PhilodoxFaroParaAFormaVerdadeira => WerewolfActiveGiftEffectKind.FormDetection,            WerewolfGiftIdentifiers.PhilodoxVerdadeDeGaia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.PhilodoxReiDosAnimais => WerewolfActiveGiftEffectKind.AnimalCommunication,            WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais => WerewolfActiveGiftEffectKind.AnimalCommunication,            WerewolfGiftIdentifiers.GalliardDistracoes => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.AhrounGarrasAfiadas => WerewolfActiveGiftEffectKind.CombatDamageBonus,            WerewolfGiftIdentifiers.AhrounInspiracao => WerewolfActiveGiftEffectKind.TestBonus,            WerewolfGiftIdentifiers.AhrounEspiritoDaBatalha => WerewolfActiveGiftEffectKind.InitiativeBonus,            WerewolfGiftIdentifiers.AhrounMedoVerdadeiro => WerewolfActiveGiftEffectKind.FearAura,            WerewolfGiftIdentifiers.AhrounSentirAPrata => WerewolfActiveGiftEffectKind.PerceptionBonus,            WerewolfGiftIdentifiers.GlassWalkersSentidosCiberneticos => WerewolfActiveGiftEffectKind.SensoryEnhancement,            WerewolfGiftIdentifiers.GlassWalkersSobrecargaDeEnergia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.GetOfFenrisDeterAFugaDosCovardes => WerewolfActiveGiftEffectKind.SocialIntimidationBonus,            WerewolfGiftIdentifiers.GetOfFenrisRugidoDoPredador => WerewolfActiveGiftEffectKind.FearAura,            WerewolfGiftIdentifiers.FiannaUivoDaBanshee => WerewolfActiveGiftEffectKind.FearAura,            WerewolfGiftIdentifiers.ChildrenOfGaiaResistenciaADor => WerewolfActiveGiftEffectKind.WoundPenaltyRemoval,            WerewolfGiftIdentifiers.ChildrenOfGaiaAcalmar => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.ChildrenOfGaiaArmaduraDeLuna => WerewolfActiveGiftEffectKind.DefenseBonus,            WerewolfGiftIdentifiers.BlackFuriesMaldicaoDeEolo => WerewolfActiveGiftEffectKind.WindEffect,            WerewolfGiftIdentifiers.BlackFuriesSentirAPresa => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.RedTalonsMenteAnimal => WerewolfActiveGiftEffectKind.AnimalCommunication,            WerewolfGiftIdentifiers.RedTalonsSentirAPresa => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.SilentStridersSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.SilentStridersGerarIgnorancia => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.SilentStridersResistenciaDeMensageiro => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.SilverFangsSentirAWyrm => WerewolfActiveGiftEffectKind.WyrmSense,            WerewolfGiftIdentifiers.SilverFangsArmaduraDeLuna => WerewolfActiveGiftEffectKind.DefenseBonus,            WerewolfGiftIdentifiers.SilverFangsEmpatia => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.BoneGnawersGerarIgnorancia => WerewolfActiveGiftEffectKind.StealthBonus,            WerewolfGiftIdentifiers.BoneGnawersOdorRepugnante => WerewolfActiveGiftEffectKind.Custom,            WerewolfGiftIdentifiers.ShadowLordsAplausoTrovejante => WerewolfActiveGiftEffectKind.ProneCondition,            WerewolfGiftIdentifiers.ShadowLordsArmaduraDeLuna => WerewolfActiveGiftEffectKind.DefenseBonus,            WerewolfGiftIdentifiers.UktenaEspiritoDoPassaro => WerewolfActiveGiftEffectKind.MovementBonus,            WerewolfGiftIdentifiers.UktenaEspiritoDoPeixe => WerewolfActiveGiftEffectKind.MovementBonus,            WerewolfGiftIdentifiers.WendigoResistenciaADor => WerewolfActiveGiftEffectKind.WoundPenaltyRemoval,            WerewolfGiftIdentifiers.WendigoVentoCortante => WerewolfActiveGiftEffectKind.WindEffect,
                     _ => WerewolfActiveGiftEffectKind.Custom
         };
@@ -687,6 +760,103 @@ public static class WerewolfGiftEffectService
         return state.ActiveGiftEffects
             .Where(e => string.IsNullOrWhiteSpace(e.SceneToken) || StringComparer.Ordinal.Equals(e.SceneToken, state.CurrentSceneToken))
             .ToList();
+    }
+
+    private static WerewolfSpiritRuntimeState ToSpiritState(WerewolfRuntimeCharacterState characterState)
+    {
+        return new WerewolfSpiritRuntimeState(
+            SpiritId: $"{characterState.DraftId}-spirit",
+            CategoryKey: "garou",
+            WillpowerPermanent: characterState.WillpowerPermanent,
+            WillpowerCurrent: characterState.WillpowerCurrent,
+            RagePermanent: characterState.RagePermanent,
+            RageCurrent: characterState.RageCurrent,
+            GnosisPermanent: characterState.GnosisPermanent,
+            GnosisCurrent: characterState.GnosisCurrent,
+            EssenceCurrent: characterState.WillpowerPermanent + characterState.RagePermanent + characterState.GnosisPermanent,
+            IsMaterialized: false,
+            KnownCharmKeys: [],
+            StateVersion: characterState.RuntimeStateVersion);
+    }
+
+    private static DetectionResult ApplyNomeDoEspirito(WerewolfRuntimeCharacterState characterState, IReadOnlyList<int>? diceValues, int activationSuccesses)
+    {
+        var spiritState = ToSpiritState(characterState);
+        var difficulty = 8;
+        var request = new DetectionRequest(
+            spiritState,
+            spiritState.StateVersion,
+            Guid.NewGuid().ToString(),
+            characterState.GnosisPermanent,
+            characterState.GnosisPermanent,
+            difficulty,
+            diceValues ?? Array.Empty<int>());
+        var result = WerewolfSpiritMechanicServices.EvaluateDetection(request);
+        return result;
+    }
+
+    private static CommandResult ApplyComandarEspiritos(WerewolfRuntimeCharacterState characterState, IReadOnlyList<int>? diceValues, int activationSuccesses)
+    {
+        var spiritState = ToSpiritState(characterState);
+        var targetWillpower = spiritState.WillpowerPermanent;
+        var request = new CommandRequest(
+            spiritState,
+            spiritState.StateVersion,
+            Guid.NewGuid().ToString(),
+            3,
+            3,
+            targetWillpower,
+            diceValues ?? Array.Empty<int>());
+        var result = WerewolfSpiritMechanicServices.EvaluateCommand(request);
+        return result;
+    }
+
+    private static WerewolfExorcismBoundaryPayload ApplyExorcismo(WerewolfRuntimeCharacterState characterState, int activationSuccesses)
+    {
+        return new WerewolfExorcismBoundaryPayload(
+            GiftKey: WerewolfGiftIdentifiers.TheurgeExorcismo,
+            Mechanic: "spirit.possession",
+            TargetType: "LocationObjectFetishOrHost",
+            RequiredConcentrationTurns: 3,
+            ReluctantSpiritTest: "Manipulation + Intimidation vs Spirit Willpower",
+            TrappedSpiritTest: "Wits + Subterfuge diff 8 vs creator successes",
+            SourceLocator: "Line 1945",
+            Note: "S3 represents this as a typed boundary. Full 3-turn concentration mechanics are deferred (Human Decision).");
+    }
+
+    private static WerewolfCharmStealBoundaryPayload ApplyRoubarPoderes(WerewolfRuntimeCharacterState characterState, int activationSuccesses)
+    {
+        return new WerewolfCharmStealBoundaryPayload(
+            GiftKey: WerewolfGiftIdentifiers.TheurgeRoubarPoderes,
+            StolenCharmKey: "materializar",
+            GnosisCostPerTurn: 1,
+            SourceLocator: "Line 1917",
+            Note: "S3 represents this as a typed boundary. Individual Charm effect execution is deferred (Charms remain D=30).");
+    }
+
+    private static WerewolfCrossingModifierPayload ApplyAlcancarAUmbra(WerewolfRuntimeCharacterState characterState, IReadOnlyList<int>? diceValues, int activationSuccesses)
+    {
+        return new WerewolfCrossingModifierPayload(
+            GiftKey: WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra,
+            DifficultyModifier: -2,
+            AutomaticCrossing: true,
+            NoFuryAllowed: true,
+            SourceLocator: "Line 2365",
+            Note: "Grants automatic Umbra crossing without reflective surfaces. -2 difficulty for realm entry/exit tests. Cannot use Fury in the same turn.");
+    }
+
+    private static WerewolfRemoteTransportBoundaryPayload ApplyCapturaADistancia(WerewolfRuntimeCharacterState characterState, IReadOnlyList<int>? diceValues, int activationSuccesses)
+    {
+        return new WerewolfRemoteTransportBoundaryPayload(
+            GiftKey: WerewolfGiftIdentifiers.TheurgeCapturaADistancia,
+            SourceSpiritReference: "Garou caster",
+            TargetEntityReference: "TargetId from request",
+            CrossingResult: "Gnosis test vs Película required",
+            TransportIntent: "Transport target through Película to Umbra",
+            DestinationSemantics: "Umbra (Penumbra)",
+            ChronicleOrchestrationRequired: "Cross-entity world movement and target state transition",
+            SourceLocator: "Line 1954",
+            Note: "S3 represents this as a typed boundary. Cross-entity transport orchestration is deferred to Chronicle.");
     }
 
     public static IReadOnlyList<WerewolfActiveGiftEffect> GetSceneValidEffects(WerewolfActionResolutionContext context)

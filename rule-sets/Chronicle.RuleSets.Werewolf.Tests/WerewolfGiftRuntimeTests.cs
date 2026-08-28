@@ -7,6 +7,8 @@ namespace Chronicle.RuleSets.Werewolf.Tests;
 
 public sealed class WerewolfGiftRuntimeTests
 {
+    private static readonly int[] TestDiceValues = [8, 7, 6];
+
     [Theory]
     [InlineData(WerewolfGiftIdentifiers.HomidMasterOfFire, 1)]
     [InlineData(WerewolfGiftIdentifiers.MetisCreateElement, 1)]
@@ -94,6 +96,13 @@ public sealed class WerewolfGiftRuntimeTests
     [InlineData(WerewolfGiftIdentifiers.UktenaEspiritoDoPeixe, 2)]
     [InlineData(WerewolfGiftIdentifiers.WendigoResistenciaADor, 1)]
     [InlineData(WerewolfGiftIdentifiers.WendigoVentoCortante, 2)]
+    [InlineData(WerewolfGiftIdentifiers.LupusNomeDoEspirito, 3)]
+    [InlineData(WerewolfGiftIdentifiers.TheurgeNomeDoEspirito, 2)]
+    [InlineData(WerewolfGiftIdentifiers.TheurgeComandarEspiritos, 2)]
+    [InlineData(WerewolfGiftIdentifiers.TheurgeExorcismo, 3)]
+    [InlineData(WerewolfGiftIdentifiers.TheurgeRoubarPoderes, 5)]
+    [InlineData(WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra, 5)]
+    [InlineData(WerewolfGiftIdentifiers.TheurgeCapturaADistancia, 4)]
     [InlineData(WerewolfGiftIdentifiers.HomidPersuasao, 1)]
     [InlineData(WerewolfGiftIdentifiers.HomidFitar, 2)]
     [InlineData(WerewolfGiftIdentifiers.HomidInquietacao, 3)]
@@ -577,7 +586,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void GiftCatalogHasExpectedCount()
     {
-        Assert.Equal(93, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(100, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -620,7 +629,7 @@ public sealed class WerewolfGiftRuntimeTests
         Assert.Single(effectResult.UpdatedState.ActiveGiftEffects);
     }
 
-    private static WerewolfRuntimeCharacterState BuildRuntimeState()
+    private static WerewolfRuntimeCharacterState BuildRuntimeState(params string[] activatedGiftKeys)
     {
         return new WerewolfRuntimeCharacterState(
             PackageId: "test-package",
@@ -649,7 +658,7 @@ public sealed class WerewolfGiftRuntimeTests
             KnownGiftKeys: WerewolfGiftIdentifiers.Supported.ToList(),
             SceneGiftUsage: new Dictionary<string, int>(StringComparer.Ordinal),
             CurrentSceneToken: string.Empty,
-            ActivatedGiftKeys: []);
+            ActivatedGiftKeys: activatedGiftKeys);
     }
 
     private static RuleSetOperationResult CompleteCharacter(RuleSetRuntimeRegistry registry, RuleSetOperationResult created)
@@ -924,7 +933,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void AllCataloguedGiftsArePresent()
     {
-        Assert.Equal(93, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(100, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -1614,7 +1623,7 @@ public sealed class WerewolfGiftRuntimeTests
     public void WaveBCatalogCountReflectsWaveBImplementation()
     {
         var allKeys = WerewolfGiftCatalog.AllDefinitions.Select(g => g.GiftKey).ToList();
-        Assert.Equal(93, allKeys.Count);
+        Assert.Equal(100, allKeys.Count);
     }
 
     [Fact]
@@ -1669,6 +1678,13 @@ public sealed class WerewolfGiftRuntimeTests
             WerewolfGiftIdentifiers.UktenaEspiritoDoPeixe,
             WerewolfGiftIdentifiers.WendigoResistenciaADor,
             WerewolfGiftIdentifiers.WendigoVentoCortante,
+            WerewolfGiftIdentifiers.LupusNomeDoEspirito,
+            WerewolfGiftIdentifiers.TheurgeNomeDoEspirito,
+            WerewolfGiftIdentifiers.TheurgeComandarEspiritos,
+            WerewolfGiftIdentifiers.TheurgeExorcismo,
+            WerewolfGiftIdentifiers.TheurgeRoubarPoderes,
+            WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra,
+            WerewolfGiftIdentifiers.TheurgeCapturaADistancia,
             WerewolfGiftIdentifiers.HomidMasterOfFire,
             WerewolfGiftIdentifiers.MetisCreateElement,
             WerewolfGiftIdentifiers.LupusHareLeap,
@@ -1707,7 +1723,14 @@ public sealed class WerewolfGiftRuntimeTests
             WerewolfGiftIdentifiers.UktenaShroud,
             WerewolfGiftIdentifiers.UktenaSenseMagic,
             WerewolfGiftIdentifiers.WendigoCamouflage,
-            WerewolfGiftIdentifiers.WendigoCallTheBreeze
+            WerewolfGiftIdentifiers.WendigoCallTheBreeze,
+            WerewolfGiftIdentifiers.LupusNomeDoEspirito,
+            WerewolfGiftIdentifiers.TheurgeNomeDoEspirito,
+            WerewolfGiftIdentifiers.TheurgeComandarEspiritos,
+            WerewolfGiftIdentifiers.TheurgeExorcismo,
+            WerewolfGiftIdentifiers.TheurgeRoubarPoderes,
+            WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra,
+            WerewolfGiftIdentifiers.TheurgeCapturaADistancia
         };
 
         foreach (var giftKey in waveAGiftKeys)
@@ -1718,6 +1741,251 @@ public sealed class WerewolfGiftRuntimeTests
             Assert.False(string.IsNullOrWhiteSpace(definition.SourceLocator));
             Assert.StartsWith("Line ", definition.SourceLocator);
         }
+    }
+
+    [Fact]
+    public void S3ExactKeyCountIsFive()
+    {
+        var s3Keys = new[]
+        {
+            "spirit.gift.detection",
+            "spirit.gift.command",
+            "spirit.gift.possession",
+            "spirit.gift.charm-activation",
+            "spirit.gift.crossing"
+        };
+
+        Assert.Equal(5, s3Keys.Length);
+        Assert.Equal(5, s3Keys.Distinct(StringComparer.Ordinal).Count());
+    }
+
+    [Fact]
+    public void S3GiftMappingsReuseS2Primitives()
+    {
+        var detectionGifts = new[]
+        {
+            WerewolfGiftIdentifiers.LupusNomeDoEspirito,
+            WerewolfGiftIdentifiers.TheurgeNomeDoEspirito
+        };
+
+        var commandGifts = new[]
+        {
+            WerewolfGiftIdentifiers.TheurgeComandarEspiritos
+        };
+
+        var possessionGifts = new[]
+        {
+            WerewolfGiftIdentifiers.TheurgeExorcismo
+        };
+
+        var charmGifts = new[]
+        {
+            WerewolfGiftIdentifiers.TheurgeRoubarPoderes
+        };
+
+        var crossingGifts = new[]
+        {
+            WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra,
+            WerewolfGiftIdentifiers.TheurgeCapturaADistancia
+        };
+
+        Assert.NotEmpty(detectionGifts);
+        Assert.NotEmpty(commandGifts);
+        Assert.NotEmpty(possessionGifts);
+        Assert.NotEmpty(charmGifts);
+        Assert.NotEmpty(crossingGifts);
+
+        var allS3Gifts = detectionGifts.Concat(commandGifts).Concat(possessionGifts).Concat(charmGifts).Concat(crossingGifts).ToList();
+        Assert.Equal(7, allS3Gifts.Count);
+        Assert.Equal(7, allS3Gifts.Distinct(StringComparer.Ordinal).Count());
+    }
+
+    [Fact]
+    public void S3NomeDoEspiritoProducesDetectionPayload()
+    {
+        var state = BuildRuntimeState(WerewolfGiftIdentifiers.TheurgeNomeDoEspirito);
+
+        var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-1",
+            state,
+            state.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.TheurgeNomeDoEspirito,
+            1,
+            null,
+            TestDiceValues));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        var payloadType = result.Payload.GetType();
+        Assert.Equal("Chronicle.RuleSets.Werewolf.CharacterCreation.DetectionResult", payloadType.FullName);
+    }
+
+    [Fact]
+    public void S3ComandarEspiritosProducesCommandPayload()
+    {
+        var state = BuildRuntimeState(WerewolfGiftIdentifiers.TheurgeComandarEspiritos);
+
+        var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-1",
+            state,
+            state.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.TheurgeComandarEspiritos,
+            1,
+            null,
+            TestDiceValues));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        var payloadType = result.Payload.GetType();
+        Assert.Equal("Chronicle.RuleSets.Werewolf.CharacterCreation.CommandResult", payloadType.FullName);
+    }
+
+    [Fact]
+    public void S3ExorcismoProducesTypedBoundary()
+    {
+        var state = BuildRuntimeState(WerewolfGiftIdentifiers.TheurgeExorcismo);
+
+        var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-1",
+            state,
+            state.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.TheurgeExorcismo,
+            1));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+    }
+
+    [Fact]
+    public void S3RoubarPoderesProducesCharmStealBoundary()
+    {
+        var state = BuildRuntimeState(WerewolfGiftIdentifiers.TheurgeRoubarPoderes);
+
+        var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-1",
+            state,
+            state.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.TheurgeRoubarPoderes,
+            3));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        var payloadType = result.Payload.GetType();
+        Assert.Equal("Chronicle.RuleSets.Werewolf.CharacterCreation.WerewolfCharmStealBoundaryPayload", payloadType.FullName);
+    }
+
+    [Fact]
+    public void S3AlcancarAUmbraProducesCrossingModifierBoundary()
+    {
+        var state = BuildRuntimeState(WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra);
+
+        var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-1",
+            state,
+            state.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.SilentStridersAlcancarAUmbra,
+            1,
+            null,
+            TestDiceValues));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        var payloadType = result.Payload.GetType();
+        Assert.Equal("Chronicle.RuleSets.Werewolf.CharacterCreation.WerewolfCrossingModifierPayload", payloadType.FullName);
+    }
+
+    [Fact]
+    public void S3CapturaADistanciaProducesTypedBoundary()
+    {
+        var state = BuildRuntimeState(WerewolfGiftIdentifiers.TheurgeCapturaADistancia);
+
+        var result = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-1",
+            state,
+            state.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.TheurgeCapturaADistancia,
+            1,
+            null,
+            TestDiceValues));
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        var payloadType = result.Payload.GetType();
+        Assert.Equal("Chronicle.RuleSets.Werewolf.CharacterCreation.WerewolfRemoteTransportBoundaryPayload", payloadType.FullName);
+    }
+
+    [Fact]
+    public void S3ExorcismoAndCapturaUseDifferentPayloads()
+    {
+        var exorcismoState = BuildRuntimeState(WerewolfGiftIdentifiers.TheurgeExorcismo);
+        var exorcismoResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-exorcismo",
+            exorcismoState,
+            exorcismoState.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.TheurgeExorcismo,
+            1));
+
+        var capturaState = BuildRuntimeState(WerewolfGiftIdentifiers.TheurgeCapturaADistancia);
+        var capturaResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
+            "req-captura",
+            capturaState,
+            capturaState.RuntimeStateVersion,
+            WerewolfGiftIdentifiers.TheurgeCapturaADistancia,
+            1,
+            null,
+            TestDiceValues));
+
+        Assert.True(exorcismoResult.Succeeded);
+        Assert.True(capturaResult.Succeeded);
+        Assert.NotNull(exorcismoResult.Payload);
+        Assert.NotNull(capturaResult.Payload);
+        Assert.NotEqual(exorcismoResult.Payload.GetType(), capturaResult.Payload.GetType());
+        Assert.Equal("Chronicle.RuleSets.Werewolf.CharacterCreation.WerewolfExorcismBoundaryPayload", exorcismoResult.Payload.GetType().FullName);
+        Assert.Equal("Chronicle.RuleSets.Werewolf.CharacterCreation.WerewolfRemoteTransportBoundaryPayload", capturaResult.Payload.GetType().FullName);
+    }
+
+    [Fact]
+    public void S3NoS4S5KeysImplemented()
+    {
+        var s4S5Keys = new[]
+        {
+            "spirit.rite.fetish-creation",
+            "spirit.rite.totem-binding",
+            "spirit.rite.summoning",
+            "spirit.rite.commitment",
+            "spirit.rite.awaken",
+            "spirit.location.state",
+            "spirit.gauntlet.by-location",
+            "spirit.realm.travel",
+            "spirit.scene.presence",
+            "spirit.caern.película-table",
+            "spirit.totem.binding",
+            "spirit.pack.totem-link",
+            "spirit.shared.totem-effects",
+            "spirit.disposition.ai",
+            "spirit.bargaining.valuation",
+            "spirit.materialization.duration",
+            "spirit.death.modorra-threshold",
+            "spirit.possession.control",
+            "spirit.crossing.non-garou",
+            "spirit.hierarchy.behavior",
+            "spirit.voting.system",
+            "spirit.persistence.lifecycle",
+            "spirit.world-travel.rules"
+        };
+
+        foreach (var key in s4S5Keys)
+        {
+            Assert.DoesNotContain(key, WerewolfGiftCatalog.AllDefinitions.Select(g => g.GiftKey));
+        }
+    }
+
+    [Fact]
+    public void S3InvocarAranhaDeRedeRemainsDeferred()
+    {
+        var giftKey = "gift.glass-walkers.invocar-aranha-de-rede";
+        var definition = WerewolfGiftCatalog.Get(giftKey);
+        Assert.Null(definition);
     }
 }
 
