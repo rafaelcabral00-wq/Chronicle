@@ -41,3 +41,28 @@ public sealed record WerewolfAwakenSpiritsBoundaryPayload(
     string ExtendedTestRequirement,
     string SourceLocator,
     string Note);
+
+public sealed record WerewolfCaernOpeningBoundaryPayload(
+    string RiteKey,
+    string CaernReference,
+    string SeptReference,
+    IReadOnlyList<string> ParticipantRoster,
+    string TestType,
+    string OpposedSpirit,
+    int RequiredSuccesses,
+    string SourceLocator,
+    string Note);
+
+public sealed record WerewolfCaernCreationBoundaryPayload(
+    string RiteKey,
+    string CaernReference,
+    string SeptReference,
+    IReadOnlyList<string> ParticipantRoster,
+    int BaseDifficulty,
+    int ParticipantGroupCount,
+    int DifficultyReduction,
+    int RequiredSuccesses,
+    int HourlyTestInterval,
+    bool PermanentGnoseCost,
+    string SourceLocator,
+    string Note);

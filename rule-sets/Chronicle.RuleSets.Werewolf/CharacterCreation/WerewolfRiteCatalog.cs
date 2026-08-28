@@ -95,7 +95,37 @@ public static class WerewolfRiteCatalog
             null,
             "spirit",
             "Awaken spirits. Requires Fury spend/test and Extended test.",
-            "Line 2678")
+            "Line 2678"),
+        new WerewolfRiteDefinition(
+            WerewolfRiteIdentifiers.CaernOpening,
+            "Ritual de Abertura de Caern",
+            "Caern",
+            1,
+            WerewolfAttributeIdentifiers.Wits,
+            WerewolfAbilityIdentifiers.Rituals,
+            7,
+            null,
+            null,
+            null,
+            null,
+            "place",
+            "Open Caern. Extended resisted Raciocínio + Rituais against Caern spirit. Requires Sept and collective participants.",
+            "Line 2586"),
+        new WerewolfRiteDefinition(
+            WerewolfRiteIdentifiers.CaernCreation,
+            "Ritual de Criação de Caern",
+            "Caern",
+            5,
+            WerewolfAttributeIdentifiers.Wits,
+            WerewolfAbilityIdentifiers.Rituals,
+            8,
+            40,
+            null,
+            null,
+            null,
+            "place",
+            "Create new Caern. Extended Raciocínio + Rituais accumulating 40 successes over hourly tests. Requires 13+ Garou, permanent Gnose cost.",
+            "Line 2600")
     };
 
     public static WerewolfRiteDefinition? Get(string key)

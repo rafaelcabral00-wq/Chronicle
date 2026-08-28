@@ -467,4 +467,108 @@ public sealed class WerewolfRiteExecutionTests
             Assert.True(rite.Level >= 1 && rite.Level <= 5);
         }
     }
+
+    [Fact]
+    public void WaveCCaernOpeningReturnsTypedBoundaryOnSuccess()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-caern-opening",
+            WerewolfRiteIdentifiers.CaernOpening,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfCaernOpeningBoundaryPayload>(result.Payload);
+    }
+
+    [Fact]
+    public void WaveCCaernCreationReturnsTypedBoundaryOnSuccess()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-caern-creation",
+            WerewolfRiteIdentifiers.CaernCreation,
+            [8, 9, 10],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfCaernCreationBoundaryPayload>(result.Payload);
+    }
+
+    [Fact]
+    public void WaveCCaernOpeningRecordsA010bAmbiguity()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-caern-opening",
+            WerewolfRiteIdentifiers.CaernOpening,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        var payload = Assert.IsType<WerewolfCaernOpeningBoundaryPayload>(result.Payload);
+        Assert.Equal(0, payload.RequiredSuccesses);
+        Assert.Contains("A-010b", payload.Note);
+    }
+
+    [Fact]
+    public void WaveCCaernCreationRecordsA010cAmbiguity()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-caern-creation",
+            WerewolfRiteIdentifiers.CaernCreation,
+            [8, 9, 10],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        var payload = Assert.IsType<WerewolfCaernCreationBoundaryPayload>(result.Payload);
+        Assert.Equal(8, payload.BaseDifficulty);
+        Assert.Equal(0, payload.DifficultyReduction);
+        Assert.Contains("A-010c", payload.Note);
+    }
+
+    [Fact]
+    public void WaveCNoWorldStateMutationInWerewolf()
+    {
+        var openingRequest = new WerewolfRiteExecutionRequest(
+            "req-caern-opening",
+            WerewolfRiteIdentifiers.CaernOpening,
+            [7, 8, 9],
+            false);
+        var openingResult = WerewolfRiteExecutionService.Execute(openingRequest);
+
+        var creationRequest = new WerewolfRiteExecutionRequest(
+            "req-caern-creation",
+            WerewolfRiteIdentifiers.CaernCreation,
+            [8, 9, 10],
+            false);
+        var creationResult = WerewolfRiteExecutionService.Execute(creationRequest);
+
+        Assert.True(openingResult.Succeeded);
+        Assert.True(creationResult.Succeeded);
+        Assert.DoesNotContain("CaernId", openingResult.Effect ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("SeptId", creationResult.Effect ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void WaveCCaernRitesAreCatalogued()
+    {
+        var opening = WerewolfRiteCatalog.Get(WerewolfRiteIdentifiers.CaernOpening);
+        var creation = WerewolfRiteCatalog.Get(WerewolfRiteIdentifiers.CaernCreation);
+
+        Assert.NotNull(opening);
+        Assert.NotNull(creation);
+        Assert.Equal("Caern", opening.Category);
+        Assert.Equal("Caern", creation.Category);
+        Assert.Equal(1, opening.Level);
+        Assert.Equal(5, creation.Level);
+    }
 }

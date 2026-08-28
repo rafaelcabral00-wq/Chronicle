@@ -228,7 +228,7 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 | Frenzy | COMPLETE | Frenzy state, test definition, resolution |
 | Forms | COMPLETE | Form identifiers, effects, catalog, transformation service |
 | Pack/Totem | PARTIAL | 19 Totems catalogued; Pack definitions exist; aggregate runtime (binding, links, shared effects) is S5 DEFERRED |
-| Rites | PARTIAL | 6/32 catalogued; 1 executable (Hunting Stone); 5 typed boundaries (S4); 26 remaining |
+| Rites | PARTIAL | 8/32 catalogued; 1 executable (Hunting Stone); 6 typed boundaries (S4 + Wave C); 24 remaining |
 | Spirit/Umbra | PARTIAL | S1–S4 complete (catalogs, 10 Spirit primitives, 5 S4 Rite boundaries); S5 not started (0/18 implemented) |
 
 ---
@@ -271,13 +271,12 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 | Metric | Count |
 |---|---|
 | Total canonical Rites | 32 |
-| Currently catalogued | 6 |
+| Currently catalogued | 8 |
 | Executable | 1 (`rite.mystic.hunting-stone`) |
-| Typed boundary | 5 (S4 Spirit Rites) |
-| Remaining absent/incomplete | 26 |
+| Typed boundary | 6 (S4 Spirit Rites + Wave C Caern Rites) |
+| Remaining absent/incomplete | 24 |
 
-**Remaining 26 Rites by wave:**
-- RITE-WAVE-C (Extended/Resisted): 2 (`rite.caern.opening`, `rite.caern.creation`) — dependencies met (Extended/Resisted primitives exist)
+**Remaining 24 Rites by wave:**
 - RITE-WAVE-D (Spirits/Umbra, excluding S4): 4 (`rite.pact.purification`, `rite.pact.contrition`, `rite.mystic.fire-baptism`, `rite.mystic.initiation`) — S2 Spirit domain exists
 - RITE-WAVE-E (Pack/Sept/Totem): 7 — blocked by S5 Pack/Totem aggregate
 - RITE-WAVE-F (Renown/Rank): 8 — blocked by Renown/Rank state machine
@@ -291,7 +290,7 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 | ID | Source Locator | Impact | Blocks MVP? |
 |---|---|---|---|
 | A-010 | Lines 1619–1630, 2578 | Rites as Background vs Knowledge vs ritual itself; stable key collisions | Yes — affects all Rite learning semantics |
-| A-010c | Line 2602 | Caern creation difficulty reduction formula per participant group unclear | No — affects 1 Rite |
+| A-010c | Line 2602 | Caern creation difficulty reduction formula per participant group unclear | No — affects 1 Rite; Wave C boundary records gap explicitly |
 | A-010d | Line 2692 | Fetish Rite: whether permanent Gnose is spent or committed | No — affects 1 Rite (S4 boundary already accounts for this) |
 | A-010e | Line 2640 | Satirical Ritual botch: target swap state transition unclear | No — affects 1 Rite |
 | A-010f | Line 2622 | Luna Mutable social penalty magnitude undefined | No — affects 1 Rite |
@@ -308,7 +307,7 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 ### Shortest Dependency-Aware Path
 
 **Phase 1: Unblock Immediate Rite Waves (0 S5 blockers)**
-1. **RITE-WAVE-C:** Catalog and implement `rite.caern.opening` (extended + resisted) and `rite.caern.creation` (extended). Extended/Resisted primitives already exist in codebase.
+1. ~~**RITE-WAVE-C:** Catalog and implement `rite.caern.opening` (extended + resisted) and `rite.caern.creation` (extended).~~ **COMPLETE.** Both catalogued as typed boundaries. A-010b and A-010c recorded as Human Decisions in boundary payloads.
 2. **RITE-WAVE-D (Spirit Rites):** Catalog and implement `rite.pact.purification`, `rite.pact.contrition`, `rite.mystic.fire-baptism`, `rite.mystic.initiation`. S2 Spirit domain exists.
 
 **Phase 2: S5 Typed Boundaries (enable downstream integrations)**

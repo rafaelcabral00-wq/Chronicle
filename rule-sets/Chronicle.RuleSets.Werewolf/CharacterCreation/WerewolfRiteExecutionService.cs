@@ -172,6 +172,31 @@ public static class WerewolfRiteExecutionService
                 SourceLocator: "Line 2678",
                 Note: "S4 represents this as a typed boundary. Spirit property awakening/state mutation is deferred to Chronicle/S5."),
 
+            WerewolfRiteIdentifiers.CaernOpening => new WerewolfCaernOpeningBoundaryPayload(
+                RiteKey: riteKey,
+                CaernReference: "CaernId from Chronicle",
+                SeptReference: "SeptId from Chronicle",
+                ParticipantRoster: [],
+                TestType: "Extended resisted Raciocínio + Rituais",
+                OpposedSpirit: "Caern spirit",
+                RequiredSuccesses: 0,
+                SourceLocator: "Line 2586",
+                Note: "Wave C represents this as a typed boundary. A-010b: source contains conflicting success thresholds (Willpower vs Caern level). Exact required successes are a Human Decision. Caern world-state creation/opening is deferred to Chronicle."),
+
+            WerewolfRiteIdentifiers.CaernCreation => new WerewolfCaernCreationBoundaryPayload(
+                RiteKey: riteKey,
+                CaernReference: "CaernId from Chronicle",
+                SeptReference: "SeptId from Chronicle",
+                ParticipantRoster: [],
+                BaseDifficulty: 8,
+                ParticipantGroupCount: 0,
+                DifficultyReduction: 0,
+                RequiredSuccesses: 40,
+                HourlyTestInterval: 1,
+                PermanentGnoseCost: true,
+                SourceLocator: "Line 2600",
+                Note: "Wave C represents this as a typed boundary. A-010c: exact difficulty reduction formula per group of 5 extra participants is unresolved. Chronicle must compute difficulty from participant count. Permanent Gnose cost and Caern world-state creation are deferred to Chronicle."),
+
             _ => null,
         };
     }
