@@ -9,4 +9,5 @@ public sealed record WerewolfRiteExecutionResult(
     int Difficulty,
     int SuccessCount,
     string InterpretationStatus,
-    string? Effect);
+    string? Effect,
+    object? Payload = null);

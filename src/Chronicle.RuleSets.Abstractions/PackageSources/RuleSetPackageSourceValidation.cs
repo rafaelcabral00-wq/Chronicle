@@ -392,6 +392,7 @@ public static class RuleSetPackageSourceValidator
             "CharacterCreation/WerewolfRiteExecutionService.cs",
             "CharacterCreation/WerewolfRiteFinding.cs",
             "CharacterCreation/WerewolfRiteIdentifiers.cs",
+            "CharacterCreation/WerewolfRiteBoundaryContracts.cs",
             "CharacterCreation/WerewolfRuntimeCharacterState.cs",
             "CharacterCreation/WerewolfFormIdentifiers.cs",
             "CharacterCreation/WerewolfFormEffects.cs",

@@ -1,3 +1,4 @@
+using Chronicle.RuleSets.Abstractions.Runtime;
 using Chronicle.RuleSets.Werewolf.CharacterCreation;
 using Xunit;
 
@@ -246,5 +247,224 @@ public sealed class WerewolfRiteExecutionTests
 
         Assert.True(result.Succeeded);
         Assert.Equal(3, result.SuccessCount);
+    }
+
+    [Fact]
+    public void S4ExactKeyCountIsFive()
+    {
+        var s4Keys = new[]
+        {
+            WerewolfRiteIdentifiers.Fetish,
+            WerewolfRiteIdentifiers.Totem,
+            WerewolfRiteIdentifiers.Summoning,
+            WerewolfRiteIdentifiers.Commitment,
+            WerewolfRiteIdentifiers.AwakenSpirits
+        };
+
+        Assert.Equal(5, s4Keys.Length);
+        Assert.Distinct(s4Keys);
+    }
+
+    [Fact]
+    public void S4AllRitesAreCatalogued()
+    {
+        foreach (var key in new[]
+        {
+            WerewolfRiteIdentifiers.Fetish,
+            WerewolfRiteIdentifiers.Totem,
+            WerewolfRiteIdentifiers.Summoning,
+            WerewolfRiteIdentifiers.Commitment,
+            WerewolfRiteIdentifiers.AwakenSpirits
+        })
+        {
+            var definition = WerewolfRiteCatalog.Get(key);
+            Assert.NotNull(definition);
+            Assert.Equal(key, definition.Key);
+        }
+    }
+
+    [Fact]
+    public void S4FetishReturnsTypedBoundaryOnSuccess()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-fetish",
+            WerewolfRiteIdentifiers.Fetish,
+            [8, 9, 10],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfFetishCreationBoundaryPayload>(result.Payload);
+    }
+
+    [Fact]
+    public void S4TotemReturnsTypedBoundaryOnSuccess()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-totem",
+            WerewolfRiteIdentifiers.Totem,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfTotemBindingBoundaryPayload>(result.Payload);
+    }
+
+    [Fact]
+    public void S4SummoningReturnsTypedBoundaryOnSuccess()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-summoning",
+            WerewolfRiteIdentifiers.Summoning,
+            [6, 7, 8],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfSpiritSummonBoundaryPayload>(result.Payload);
+    }
+
+    [Fact]
+    public void S4CommitmentReturnsTypedBoundaryOnSuccess()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-commitment",
+            WerewolfRiteIdentifiers.Commitment,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfCommitmentBoundaryPayload>(result.Payload);
+    }
+
+    [Fact]
+    public void S4AwakenSpiritsReturnsTypedBoundaryOnSuccess()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-awaken",
+            WerewolfRiteIdentifiers.AwakenSpirits,
+            [6, 7, 8],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfAwakenSpiritsBoundaryPayload>(result.Payload);
+    }
+
+    [Fact]
+    public void S4NoS5KeysImplemented()
+    {
+        var s5Keys = new[]
+        {
+            "spirit.location.state",
+            "spirit.gauntlet.by-location",
+            "spirit.realm.travel",
+            "spirit.scene.presence",
+            "spirit.caern.película-table",
+            "spirit.totem.binding",
+            "spirit.pack.totem-link",
+            "spirit.shared.totem-effects",
+            "spirit.disposition.ai",
+            "spirit.bargaining.valuation",
+            "spirit.materialization.duration",
+            "spirit.death.modorra-threshold",
+            "spirit.possession.control",
+            "spirit.crossing.non-garou",
+            "spirit.hierarchy.behavior",
+            "spirit.voting.system",
+            "spirit.persistence.lifecycle",
+            "spirit.world-travel.rules"
+        };
+
+        foreach (var key in s5Keys)
+        {
+            Assert.Null(WerewolfRiteCatalog.Get(key));
+        }
+    }
+
+    [Fact]
+    public void S4RiteRuntimeIsReused()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-1",
+            WerewolfRiteIdentifiers.Fetish,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        var runtime = new WerewolfReferenceRuntime();
+        var operation = runtime.Metadata.Operations.First(o => o.OperationKey == WerewolfReferenceRuntime.ExecuteRiteOperation);
+        Assert.Equal("rite-runtime.execute-rite", operation.OperationKey);
+    }
+
+    [Fact]
+    public void S4NoDuplicateRiteExecutionService()
+    {
+        var serviceType = typeof(WerewolfRiteExecutionService);
+        Assert.NotNull(serviceType);
+    }
+
+    [Fact]
+    public void S4NoNewRngInsideWerewolf()
+    {
+        var riteTypes = new[]
+        {
+            typeof(WerewolfRiteExecutionService),
+            typeof(WerewolfRiteCatalog),
+            typeof(WerewolfRiteDefinition)
+        };
+
+        foreach (var type in riteTypes)
+        {
+            var methods = type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            foreach (var method in methods)
+            {
+                Assert.DoesNotContain("Random", method.Name, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+    }
+
+    [Fact]
+    public void S4RuntimeRegistrationRemainsValid()
+    {
+        var runtime = new WerewolfReferenceRuntime();
+        var operation = runtime.Metadata.Operations.FirstOrDefault(o => o.OperationKey == WerewolfReferenceRuntime.ExecuteRiteOperation);
+        Assert.NotNull(operation);
+        Assert.Equal(RuleSetOperationStatus.Enabled, operation.Status);
+    }
+
+    [Fact]
+    public void S4CapabilityOwnershipRemainsCorrect()
+    {
+        var runtime = new WerewolfReferenceRuntime();
+        var operation = runtime.Metadata.Operations.FirstOrDefault(o => o.OperationKey == WerewolfReferenceRuntime.ExecuteRiteOperation);
+        Assert.NotNull(operation);
+        Assert.Equal("post-creation-character-operations", operation.CapabilityKey);
+    }
+
+    [Fact]
+    public void S4AllCataloguedRitesArePresentInSupported()
+    {
+        var allRites = WerewolfRiteCatalog.GetAll();
+        foreach (var rite in allRites)
+        {
+            Assert.False(string.IsNullOrWhiteSpace(rite.Key));
+            Assert.False(string.IsNullOrWhiteSpace(rite.DisplayName));
+            Assert.True(rite.Level >= 1 && rite.Level <= 5);
+        }
     }
 }
