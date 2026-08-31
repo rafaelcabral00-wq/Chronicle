@@ -310,7 +310,7 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 1. ~~**RITE-WAVE-C:** Catalog and implement `rite.caern.opening` (extended + resisted) and `rite.caern.creation` (extended).~~ **COMPLETE.** Both catalogued as typed boundaries. A-010b and A-010c recorded as Human Decisions in boundary payloads.
 2. ~~**RITE-WAVE-D (Spirit Rites):** Catalog and implement `rite.pact.purification`, `rite.pact.contrition`, `rite.mystic.fire-baptism`, `rite.mystic.initiation`.~~ **COMPLETE.** All 4 catalogued as typed boundaries. S2 Spirit domain exists. A-010 key collision (`rite.pact.contrition` vs `rite.totem.ritual-of-contrition`) recorded.
 
-**Phase 2: S5 Typed Boundaries (enable downstream integrations)**
+~~**Phase 2: S5 Typed Boundaries (enable downstream integrations)**~~ **COMPLETE.** All 8 Chronicle boundaries materialized as typed contracts.
 3. **S5 Chronicle Boundaries:** Materialize 8 typed boundary contracts for Chronicle-facing S5 keys:
    - `spirit.location.state` — location reference contract
    - `spirit.gauntlet.by-location` — Gauntlet lookup contract

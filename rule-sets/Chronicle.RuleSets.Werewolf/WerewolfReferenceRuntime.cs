@@ -76,6 +76,13 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string EvaluateCommandOperation = WerewolfSpiritMechanicServices.EvaluateCommandOperation;
     public const string EvaluatePossessionOperation = WerewolfSpiritMechanicServices.EvaluatePossessionOperation;
     public const string ApplySpiritDamageOperation = WerewolfSpiritMechanicServices.ApplySpiritDamageOperation;
+    public const string SpiritLocationOperation = WerewolfSpiritMechanicServices.SpiritLocationOperation;
+    public const string GauntletLookupOperation = WerewolfSpiritMechanicServices.GauntletLookupOperation;
+    public const string RealmTravelOperation = WerewolfSpiritMechanicServices.RealmTravelOperation;
+    public const string ScenePresenceOperation = WerewolfSpiritMechanicServices.ScenePresenceOperation;
+    public const string CaernPelículaOperation = WerewolfSpiritMechanicServices.CaernPelículaOperation;
+    public const string PackTotemLinkOperation = WerewolfSpiritMechanicServices.PackTotemLinkOperation;
+    public const string SharedTotemEffectsOperation = WerewolfSpiritMechanicServices.SharedTotemEffectsOperation;
 
     private readonly WerewolfCharacterCreationDraftInitializer characterCreation;
     public WerewolfReferenceRuntime()
@@ -169,7 +176,14 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(ExecuteCharmOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(EvaluateCommandOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(EvaluatePossessionOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
-            new RuleSetOperationDescriptor(ApplySpiritDamageOperation, "spirit-umbra", RuleSetOperationStatus.Enabled)
+            new RuleSetOperationDescriptor(ApplySpiritDamageOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(WerewolfSpiritMechanicServices.SpiritLocationOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(WerewolfSpiritMechanicServices.GauntletLookupOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(WerewolfSpiritMechanicServices.RealmTravelOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(WerewolfSpiritMechanicServices.ScenePresenceOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(WerewolfSpiritMechanicServices.CaernPelículaOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(WerewolfSpiritMechanicServices.PackTotemLinkOperation, "spirit-umbra", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(WerewolfSpiritMechanicServices.SharedTotemEffectsOperation, "spirit-umbra", RuleSetOperationStatus.Enabled)
         ]);
 
     public RuleSetOperationResult Execute(RuleSetOperationRequest request)
@@ -509,6 +523,41 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, ApplySpiritDamageOperation))
         {
             return ExecuteApplySpiritDamage(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, WerewolfSpiritMechanicServices.SpiritLocationOperation))
+        {
+            return ExecuteSpiritLocation(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, WerewolfSpiritMechanicServices.GauntletLookupOperation))
+        {
+            return ExecuteGauntletLookup(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, WerewolfSpiritMechanicServices.RealmTravelOperation))
+        {
+            return ExecuteRealmTravel(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, WerewolfSpiritMechanicServices.ScenePresenceOperation))
+        {
+            return ExecuteScenePresence(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, WerewolfSpiritMechanicServices.CaernPelículaOperation))
+        {
+            return ExecuteCaernPelícula(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, WerewolfSpiritMechanicServices.PackTotemLinkOperation))
+        {
+            return ExecutePackTotemLink(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, WerewolfSpiritMechanicServices.SharedTotemEffectsOperation))
+        {
+            return ExecuteSharedTotemEffects(request);
         }
 
         if (!StringComparer.Ordinal.Equals(request.OperationKey, CreateCharacterOperation))
@@ -4158,5 +4207,256 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 RuleSetOperationFailureCode.InvalidRequest,
                 [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidSpiritRequest", message)],
                 new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        private static RuleSetOperationResult ExecuteSpiritLocation(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("spiritId", out var spiritId) ||
+                !request.Inputs.TryGetValue("realmKey", out var realmKey))
+            {
+                return InvalidSpiritRequest("Spirit location requires requestId, spiritId, realmKey.");
+            }
+
+            var layerKey = request.Inputs.GetValueOrDefault("layerKey") ?? string.Empty;
+            var locationStateTransition = request.Inputs.GetValueOrDefault("locationStateTransition") ?? string.Empty;
+
+            var boundary = new WerewolfSpiritLocationBoundaryPayload(
+                SpiritId: spiritId,
+                RealmKey: realmKey,
+                LayerKey: layerKey,
+                GauntletReference: string.Empty,
+                LocationStateTransition: locationStateTransition,
+                ChronicleOrchestrationRequired: "Chronicle must orchestrate location state transition",
+                SourceLocator: "Lines 3384, 3462",
+                Note: "S5 boundary: spirit location in scene/realm is owned by Chronicle.");
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = true.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["boundary"] = System.Text.Json.JsonSerializer.Serialize(boundary, JsonOptions)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteGauntletLookup(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("locationCategoryKey", out var locationCategoryKey) ||
+                !request.Inputs.TryGetValue("gauntletValue", out var gauntletText) ||
+                !int.TryParse(gauntletText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var gauntletValue) ||
+                !request.Inputs.TryGetValue("películaValue", out var películaText) ||
+                !int.TryParse(películaText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var películaValue))
+            {
+                return InvalidSpiritRequest("Gauntlet lookup requires requestId, locationCategoryKey, gauntletValue, películaValue.");
+            }
+
+            if (gauntletValue < 2 || gauntletValue > 9)
+            {
+                return InvalidSpiritRequest($"Gauntlet value {gauntletValue} is outside typical range 2-9.");
+            }
+
+            var boundary = new WerewolfGauntletLookupBoundaryPayload(
+                LocationCategoryKey: locationCategoryKey,
+                LocationReference: string.Empty,
+                GauntletValue: gauntletValue,
+                PelículaValue: películaValue,
+                SourceLocator: "Lines 3235-3249",
+                Note: "S5 boundary: location-bound Gauntlet lookup requires Chronicle location context.");
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = true.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["boundary"] = System.Text.Json.JsonSerializer.Serialize(boundary, JsonOptions)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteRealmTravel(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("spiritId", out var spiritId) ||
+                !request.Inputs.TryGetValue("originRealmKey", out var originRealmKey) ||
+                !request.Inputs.TryGetValue("destinationRealmKey", out var destinationRealmKey))
+            {
+                return InvalidSpiritRequest("Realm travel requires requestId, spiritId, originRealmKey, destinationRealmKey.");
+            }
+
+            var travelPath = request.Inputs.GetValueOrDefault("travelPath") ?? string.Empty;
+
+            var boundary = new WerewolfRealmTravelBoundaryPayload(
+                SpiritId: spiritId,
+                OriginRealmKey: originRealmKey,
+                DestinationRealmKey: destinationRealmKey,
+                TravelPath: travelPath,
+                EligibilityResult: "Unknown from source",
+                ChronicleOrchestrationRequired: "Chronicle must orchestrate realm/path persistence and scene transition",
+                SourceLocator: "Lines 3376-3382",
+                Note: "S5 boundary: realm travel via Moon Trails, Spirit Trails, Portals, Webs, Wyrm Tunnels. No deterministic travel mechanics defined in source.");
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = true.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["boundary"] = System.Text.Json.JsonSerializer.Serialize(boundary, JsonOptions)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteScenePresence(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("spiritId", out var spiritId) ||
+                !request.Inputs.TryGetValue("presenceState", out var presenceState))
+            {
+                return InvalidSpiritRequest("Scene presence requires requestId, spiritId, presenceState.");
+            }
+
+            var sceneReference = request.Inputs.GetValueOrDefault("sceneReference") ?? string.Empty;
+
+            var boundary = new WerewolfScenePresenceBoundaryPayload(
+                SpiritId: spiritId,
+                SceneReference: sceneReference,
+                PresenceState: presenceState,
+                ObservableState: string.Empty,
+                ChronicleOrchestrationRequired: "Chronicle must orchestrate scene entity placement",
+                SourceLocator: "Lines 3200, 3384",
+                Note: "S5 boundary: spirit presence/absence in Chronicle scene is owned by Chronicle.");
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = true.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["boundary"] = System.Text.Json.JsonSerializer.Serialize(boundary, JsonOptions)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteCaernPelícula(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("caernLevel", out var caernLevelText) ||
+                !int.TryParse(caernLevelText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var caernLevel))
+            {
+                return InvalidSpiritRequest("Caern Película requires requestId, caernLevel.");
+            }
+
+            if (caernLevel < 1 || caernLevel > 5)
+            {
+                return InvalidSpiritRequest("Caern level must be between 1 and 5.");
+            }
+
+            var (películaLevel, moonBridgeKm) = caernLevel switch
+            {
+                1 => (3, 50),
+                2 => (2, 100),
+                3 => (1, 200),
+                4 => (1, 500),
+                5 => (0, 1000),
+                _ => (0, 0)
+            };
+
+            var boundary = new WerewolfCaernPelículaBoundaryPayload(
+                CaernReference: string.Empty,
+                CaernLevel: caernLevel,
+                PelículaLevel: películaLevel,
+                MoonBridgeMaxDistanceKm: moonBridgeKm,
+                SourceLocator: "Lines 3249-3255",
+                Note: "S5 boundary: deterministic Caern Película table materialized. Chronicle must bind table to world Caern entities.");
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = true.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["boundary"] = System.Text.Json.JsonSerializer.Serialize(boundary, JsonOptions)
+                });
+        }
+
+        private static RuleSetOperationResult ExecutePackTotemLink(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("packId", out var packId) ||
+                !request.Inputs.TryGetValue("totemId", out var totemId))
+            {
+                return InvalidSpiritRequest("Pack Totem link requires requestId, packId, totemId.");
+            }
+
+            var linkState = request.Inputs.GetValueOrDefault("linkState") ?? string.Empty;
+
+            var boundary = new WerewolfPackTotemLinkBoundaryPayload(
+                PackId: packId,
+                TotemId: totemId,
+                LinkState: linkState,
+                BenefitScope: string.Empty,
+                ChronicleOrchestrationRequired: "Chronicle must orchestrate Pack/Totem persistent linkage",
+                SourceLocator: "Lines 1632, 1636",
+                Note: "S5 boundary: Pack-Totem connection enables shared Totem benefits. Persistent linkage is owned by Chronicle.");
+
+            return new RuleSetOperationResult(
+                true,
+                null,
+                [],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["succeeded"] = true.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["boundary"] = System.Text.Json.JsonSerializer.Serialize(boundary, JsonOptions)
+                });
+        }
+
+        private static RuleSetOperationResult ExecuteSharedTotemEffects(RuleSetOperationRequest request)
+        {
+            if (!request.Inputs.TryGetValue("requestId", out var requestId) ||
+                !request.Inputs.TryGetValue("totemId", out var totemId) ||
+                !request.Inputs.TryGetValue("effectKeys", out var effectKeysJson))
+            {
+                return InvalidSpiritRequest("Shared Totem effects requires requestId, totemId, effectKeys.");
+            }
+
+            var intendedRecipients = request.Inputs.GetValueOrDefault("intendedRecipients") ?? string.Empty;
+
+            try
+            {
+                var effectKeys = System.Text.Json.JsonSerializer.Deserialize<List<string>>(effectKeysJson, JsonOptions);
+                if (effectKeys is null || effectKeys.Count == 0)
+                {
+                    return InvalidSpiritRequest("Effect keys must not be empty.");
+                }
+
+                var boundary = new WerewolfSharedTotemEffectsBoundaryPayload(
+                    TotemId: totemId,
+                    EffectKeys: effectKeys,
+                    IntendedRecipients: intendedRecipients,
+                    ApplicationScope: "Pack members",
+                    ChronicleOrchestrationRequired: "Chronicle must orchestrate per-turn benefit distribution across Pack aggregate",
+                    SourceLocator: "Lines 1636, 1646",
+                    Note: "S5 boundary: Totem benefits available to Pack members per turn. Distribution is owned by Chronicle.");
+
+                return new RuleSetOperationResult(
+                    true,
+                    null,
+                    [],
+                    new Dictionary<string, string>(StringComparer.Ordinal)
+                    {
+                        ["succeeded"] = true.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                        ["boundary"] = System.Text.Json.JsonSerializer.Serialize(boundary, JsonOptions)
+                    });
+            }
+            catch (System.Text.Json.JsonException)
+            {
+                return InvalidSpiritRequest("Failed to deserialize effectKeys.");
+            }
         }
     }

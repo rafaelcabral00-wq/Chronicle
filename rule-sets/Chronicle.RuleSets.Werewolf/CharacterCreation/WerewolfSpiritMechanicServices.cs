@@ -695,4 +695,160 @@ public static class WerewolfSpiritMechanicServices
         findings.Add(new SpiritMechanicFinding(SpiritMechanicFindingSeverity.Error, code, message));
         return new SpiritDamageResult(false, null, findings.ToArray(), null, stateVersion, 0, 0, false);
     }
+
+    public const string SpiritLocationOperation = "spirit-umbra.spirit-location";
+    public const string GauntletLookupOperation = "spirit-umbra.gauntlet-lookup";
+    public const string RealmTravelOperation = "spirit-umbra.realm-travel";
+    public const string ScenePresenceOperation = "spirit-umbra.scene-presence";
+    public const string CaernPelículaOperation = "spirit-umbra.caern-película";
+    public const string PackTotemLinkOperation = "spirit-umbra.pack-totem-link";
+    public const string SharedTotemEffectsOperation = "spirit-umbra.shared-totem-effects";
+
+    public static SpiritMechanicResult SpiritLocation(
+        SpiritMechanicRequest request,
+        string spiritId,
+        string realmKey,
+        string layerKey,
+        string locationStateTransition)
+    {
+        var findings = new List<SpiritMechanicFinding>();
+
+        if (string.IsNullOrWhiteSpace(spiritId))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidSpiritId, "Spirit ID is required.", findings);
+        }
+
+        if (string.IsNullOrWhiteSpace(realmKey))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Realm key is required.", findings);
+        }
+
+        return new SpiritMechanicResult(true, null, findings.ToArray(), request.RequestId, null);
+    }
+
+    public static SpiritMechanicResult GauntletLookup(
+        SpiritMechanicRequest request,
+        string locationCategoryKey,
+        int gauntletValue,
+        int películaValue)
+    {
+        var findings = new List<SpiritMechanicFinding>();
+
+        if (string.IsNullOrWhiteSpace(locationCategoryKey))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Location category key is required.", findings);
+        }
+
+        if (gauntletValue < 2 || gauntletValue > 9)
+        {
+            findings.Add(new SpiritMechanicFinding(SpiritMechanicFindingSeverity.Error, SpiritMechanicErrorCode.InvalidGauntletValue, $"Gauntlet value {gauntletValue} is outside typical range 2-9."));
+            return new SpiritMechanicResult(false, null, findings.ToArray(), request.RequestId, null);
+        }
+
+        return new SpiritMechanicResult(true, null, findings.ToArray(), request.RequestId, null);
+    }
+
+    public static SpiritMechanicResult RealmTravel(
+        SpiritMechanicRequest request,
+        string spiritId,
+        string originRealmKey,
+        string destinationRealmKey,
+        string travelPath)
+    {
+        var findings = new List<SpiritMechanicFinding>();
+
+        if (string.IsNullOrWhiteSpace(spiritId))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidSpiritId, "Spirit ID is required.", findings);
+        }
+
+        if (string.IsNullOrWhiteSpace(originRealmKey))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Origin realm key is required.", findings);
+        }
+
+        if (string.IsNullOrWhiteSpace(destinationRealmKey))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Destination realm key is required.", findings);
+        }
+
+        return new SpiritMechanicResult(true, null, findings.ToArray(), request.RequestId, null);
+    }
+
+    public static SpiritMechanicResult ScenePresence(
+        SpiritMechanicRequest request,
+        string spiritId,
+        string sceneReference,
+        string presenceState)
+    {
+        var findings = new List<SpiritMechanicFinding>();
+
+        if (string.IsNullOrWhiteSpace(spiritId))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidSpiritId, "Spirit ID is required.", findings);
+        }
+
+        if (string.IsNullOrWhiteSpace(presenceState))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Presence state is required.", findings);
+        }
+
+        return new SpiritMechanicResult(true, null, findings.ToArray(), request.RequestId, null);
+    }
+
+    public static SpiritMechanicResult CaernPelícula(
+        SpiritMechanicRequest request,
+        int caernLevel)
+    {
+        var findings = new List<SpiritMechanicFinding>();
+
+        if (caernLevel < 1 || caernLevel > 5)
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Caern level must be between 1 and 5.", findings);
+        }
+
+        return new SpiritMechanicResult(true, null, findings.ToArray(), request.RequestId, null);
+    }
+
+    public static SpiritMechanicResult PackTotemLink(
+        SpiritMechanicRequest request,
+        string packId,
+        string totemId,
+        string linkState)
+    {
+        var findings = new List<SpiritMechanicFinding>();
+
+        if (string.IsNullOrWhiteSpace(packId))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidSpiritId, "Pack ID is required.", findings);
+        }
+
+        if (string.IsNullOrWhiteSpace(totemId))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Totem ID is required.", findings);
+        }
+
+        return new SpiritMechanicResult(true, null, findings.ToArray(), request.RequestId, null);
+    }
+
+    public static SpiritMechanicResult SharedTotemEffects(
+        SpiritMechanicRequest request,
+        string totemId,
+        IReadOnlyList<string> effectKeys,
+        string intendedRecipients)
+    {
+        var findings = new List<SpiritMechanicFinding>();
+
+        if (string.IsNullOrWhiteSpace(totemId))
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Totem ID is required.", findings);
+        }
+
+        if (effectKeys is null || effectKeys.Count == 0)
+        {
+            return Invalid(SpiritMechanicErrorCode.InvalidCategory, "Effect keys are required.", findings);
+        }
+
+        return new SpiritMechanicResult(true, null, findings.ToArray(), request.RequestId, null);
+    }
 }

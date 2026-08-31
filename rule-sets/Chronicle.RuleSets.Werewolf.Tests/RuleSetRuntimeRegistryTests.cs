@@ -176,6 +176,7 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.ExecuteGiftEffectOperation,
                 WerewolfReferenceRuntime.ExecuteRiteOperation,
                 WerewolfReferenceRuntime.ApplySpiritDamageOperation,
+                WerewolfReferenceRuntime.CaernPelículaOperation,
                 WerewolfReferenceRuntime.ComputeMovementSpeedOperation,
                 WerewolfReferenceRuntime.EvaluateCommandOperation,
                 WerewolfReferenceRuntime.EvaluateCrossingOperation,
@@ -183,8 +184,14 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.EvaluateMaterializationOperation,
                 WerewolfReferenceRuntime.EvaluatePossessionOperation,
                 WerewolfReferenceRuntime.ExecuteCharmOperation,
+                WerewolfReferenceRuntime.GauntletLookupOperation,
                 WerewolfReferenceRuntime.InitializeSpiritOperation,
-                WerewolfReferenceRuntime.SpendEssenceOperation
+                WerewolfReferenceRuntime.PackTotemLinkOperation,
+                WerewolfReferenceRuntime.RealmTravelOperation,
+                WerewolfReferenceRuntime.ScenePresenceOperation,
+                WerewolfReferenceRuntime.SharedTotemEffectsOperation,
+                WerewolfReferenceRuntime.SpendEssenceOperation,
+                WerewolfReferenceRuntime.SpiritLocationOperation
             ],
             first[0].Operations.Select(operation => operation.OperationKey).ToArray());
     }
