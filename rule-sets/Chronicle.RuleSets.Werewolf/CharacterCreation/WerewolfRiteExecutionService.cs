@@ -35,7 +35,14 @@ public static class WerewolfRiteExecutionService
             return new WerewolfRiteExecutionResult(false, findings, request.RequestId, request.RiteKey, 0, definition.BaseDifficulty, 0, string.Empty, null, null);
         }
 
-        var difficulty = definition.BaseDifficulty;
+        if (definition.BaseDifficulty is null)
+        {
+            findings.Add(new WerewolfRiteFinding("UnspecifiedDifficulty", "BaseDifficulty is not defined for this Rite.", WerewolfRiteFindingSeverity.Error));
+            var unresolvedPayload = CreateBoundaryPayload(definition.Key, 0);
+            return new WerewolfRiteExecutionResult(false, findings, request.RequestId, request.RiteKey, request.DiceValues.Count, null, 0, "UnspecifiedDifficulty", null, unresolvedPayload);
+        }
+
+        var difficulty = definition.BaseDifficulty.Value;
         if (request.HasTargetPiece)
         {
             difficulty = Math.Max(2, difficulty - 1);
@@ -196,6 +203,40 @@ public static class WerewolfRiteExecutionService
                 PermanentGnoseCost: true,
                 SourceLocator: "Line 2600",
                 Note: "Wave C represents this as a typed boundary. A-010c: exact difficulty reduction formula per group of 5 extra participants is unresolved. Chronicle must compute difficulty from participant count. Permanent Gnose cost and Caern world-state creation are deferred to Chronicle."),
+
+            WerewolfRiteIdentifiers.Purification => new WerewolfPurificationBoundaryPayload(
+                RiteKey: riteKey,
+                TargetReference: "TargetId from Chronicle",
+                TargetType: "entity-or-place",
+                CorruptionType: "Unknown from source",
+                CleansingResult: "Net successes from Carisma + Rituais test",
+                SourceLocator: "Line 2614",
+                Note: "Wave D represents this as a typed boundary. Exact corruption/cleansing mechanics are not explicitly defined in source. Chronicle owns entity/place state mutation."),
+
+            WerewolfRiteIdentifiers.Contrition => new WerewolfContritionBoundaryPayload(
+                RiteKey: riteKey,
+                TotemId: "TotemId from Chronicle",
+                PackId: "PackId from Chronicle",
+                DogmaViolationState: "Unknown from source",
+                RelationshipResult: "Net successes from Carisma + Rituais test",
+                SourceLocator: "Line 2617",
+                Note: "Wave D represents this as a typed boundary. Existing WerewolfTotemDefinitions contains RitualOfContrition (rite.totem.ritual-of-contrition) — known key collision with audit stable key rite.pact.contrition. Totem relationship repair is deferred to Chronicle/S5."),
+
+            WerewolfRiteIdentifiers.FireBaptism => new WerewolfFireBaptismBoundaryPayload(
+                RiteKey: riteKey,
+                TargetReference: "TargetId from Chronicle",
+                TargetType: "entity",
+                SpiritAttendanceResult: "Unknown from source",
+                AncestorGuideResult: "Unknown from source",
+                SourceLocator: "Line 2663",
+                Note: "Wave D represents this as a typed boundary. Exact target and effect mechanics are not explicitly defined in source. Spirit attendance/party and ancestor/spirit guide are soft dependencies. Chronicle owns persistent spiritual relationship/status."),
+
+            WerewolfRiteIdentifiers.Initiation => new WerewolfInitiationBoundaryPayload(
+                RiteKey: riteKey,
+                InitiateReference: "CharacterId from Chronicle",
+                UmbraAccessResult: "Net successes from Raciocínio + Rituais test",
+                SourceLocator: "Line 2675",
+                Note: "Wave D represents this as a typed boundary. Grants Umbra access. Umbra traversal/materialization is a hard Spirit/Umbra dependency. Chronicle/S2 owns Umbra access state mutation."),
 
             _ => null,
         };

@@ -228,7 +228,7 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 | Frenzy | COMPLETE | Frenzy state, test definition, resolution |
 | Forms | COMPLETE | Form identifiers, effects, catalog, transformation service |
 | Pack/Totem | PARTIAL | 19 Totems catalogued; Pack definitions exist; aggregate runtime (binding, links, shared effects) is S5 DEFERRED |
-| Rites | PARTIAL | 8/32 catalogued; 1 executable (Hunting Stone); 6 typed boundaries (S4 + Wave C); 24 remaining |
+| Rites | PARTIAL | 12/32 catalogued; 1 executable (Hunting Stone); 10 typed boundaries (S4 + Wave C + Wave D); 20 remaining |
 | Spirit/Umbra | PARTIAL | S1–S4 complete (catalogs, 10 Spirit primitives, 5 S4 Rite boundaries); S5 not started (0/18 implemented) |
 
 ---
@@ -271,13 +271,12 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 | Metric | Count |
 |---|---|
 | Total canonical Rites | 32 |
-| Currently catalogued | 8 |
+| Currently catalogued | 12 |
 | Executable | 1 (`rite.mystic.hunting-stone`) |
-| Typed boundary | 6 (S4 Spirit Rites + Wave C Caern Rites) |
-| Remaining absent/incomplete | 24 |
+| Typed boundary | 11 (5 S4 Spirit Rites + 2 Wave C Caern Rites + 4 Wave D Spirit Rites) |
+| Remaining absent/incomplete | 20 |
 
-**Remaining 24 Rites by wave:**
-- RITE-WAVE-D (Spirits/Umbra, excluding S4): 4 (`rite.pact.purification`, `rite.pact.contrition`, `rite.mystic.fire-baptism`, `rite.mystic.initiation`) — S2 Spirit domain exists
+**Remaining 20 Rites by wave:**
 - RITE-WAVE-E (Pack/Sept/Totem): 7 — blocked by S5 Pack/Totem aggregate
 - RITE-WAVE-F (Renown/Rank): 8 — blocked by Renown/Rank state machine
 - RITE-WAVE-G (Human Decision): 3 — blocked by A-010 family
@@ -295,6 +294,7 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 | A-010e | Line 2640 | Satirical Ritual botch: target swap state transition unclear | No — affects 1 Rite |
 | A-010f | Line 2622 | Luna Mutable social penalty magnitude undefined | No — affects 1 Rite |
 | A-012 | Totem XP contradiction | Totem XP cost conflict (2 vs 3) | No — affects Totem progression only |
+| Contrition key collision | Line 2617 | `rite.pact.contrition` (audit) vs `rite.totem.ritual-of-contrition` (WerewolfTotemDefinitions) | No — affects 1 Rite; Wave D documents collision |
 | Spirit death vs Modorra | Line 3410 | Exact Essence=0 transition rule unspecified | Yes — affects Spirit damage resolution |
 | Materialization duration | Line 3414 | Duration/permanence of materialization unspecified | No — affects Spirit materialization only |
 | Possession control | Lines 3442–3450 | Control mechanics and permanence rules not fully specified | No — affects possession only |
@@ -308,7 +308,7 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 
 **Phase 1: Unblock Immediate Rite Waves (0 S5 blockers)**
 1. ~~**RITE-WAVE-C:** Catalog and implement `rite.caern.opening` (extended + resisted) and `rite.caern.creation` (extended).~~ **COMPLETE.** Both catalogued as typed boundaries. A-010b and A-010c recorded as Human Decisions in boundary payloads.
-2. **RITE-WAVE-D (Spirit Rites):** Catalog and implement `rite.pact.purification`, `rite.pact.contrition`, `rite.mystic.fire-baptism`, `rite.mystic.initiation`. S2 Spirit domain exists.
+2. ~~**RITE-WAVE-D (Spirit Rites):** Catalog and implement `rite.pact.purification`, `rite.pact.contrition`, `rite.mystic.fire-baptism`, `rite.mystic.initiation`.~~ **COMPLETE.** All 4 catalogued as typed boundaries. S2 Spirit domain exists. A-010 key collision (`rite.pact.contrition` vs `rite.totem.ritual-of-contrition`) recorded.
 
 **Phase 2: S5 Typed Boundaries (enable downstream integrations)**
 3. **S5 Chronicle Boundaries:** Materialize 8 typed boundary contracts for Chronicle-facing S5 keys:

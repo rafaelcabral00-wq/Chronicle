@@ -7,7 +7,7 @@ public sealed record WerewolfRiteDefinition(
     int Level,
     string AttributeId,
     string AbilityId,
-    int BaseDifficulty,
+    int? BaseDifficulty,
     int? RequiredSuccesses,
     int? GnosisCost,
     int? RageCost,

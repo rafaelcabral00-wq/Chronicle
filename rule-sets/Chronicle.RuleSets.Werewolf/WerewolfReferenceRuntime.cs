@@ -3772,7 +3772,7 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                     ["requestId"] = result.RequestId,
                     ["riteKey"] = result.RiteKey,
                     ["dicePool"] = result.DicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
-                    ["difficulty"] = result.Difficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    ["difficulty"] = result.Difficulty.HasValue ? result.Difficulty.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : string.Empty,
                     ["successCount"] = result.SuccessCount.ToString(System.Globalization.CultureInfo.InvariantCulture),
                     ["interpretationStatus"] = result.InterpretationStatus,
                     ["effect"] = result.Effect ?? string.Empty

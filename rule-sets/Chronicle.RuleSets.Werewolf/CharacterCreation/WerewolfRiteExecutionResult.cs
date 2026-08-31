@@ -6,7 +6,7 @@ public sealed record WerewolfRiteExecutionResult(
     string RequestId,
     string RiteKey,
     int DicePool,
-    int Difficulty,
+    int? Difficulty,
     int SuccessCount,
     string InterpretationStatus,
     string? Effect,

@@ -10,4 +10,8 @@ public static class WerewolfRiteIdentifiers
     public const string AwakenSpirits = "rite.mystic.awaken-spirits";
     public const string CaernOpening = "rite.caern.opening";
     public const string CaernCreation = "rite.caern.creation";
+    public const string Purification = "rite.pact.purification";
+    public const string Contrition = "rite.pact.contrition";
+    public const string FireBaptism = "rite.mystic.fire-baptism";
+    public const string Initiation = "rite.mystic.initiation";
 }

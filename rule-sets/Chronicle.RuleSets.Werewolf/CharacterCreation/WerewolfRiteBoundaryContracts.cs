@@ -66,3 +66,37 @@ public sealed record WerewolfCaernCreationBoundaryPayload(
     bool PermanentGnoseCost,
     string SourceLocator,
     string Note);
+
+public sealed record WerewolfPurificationBoundaryPayload(
+    string RiteKey,
+    string TargetReference,
+    string TargetType,
+    string CorruptionType,
+    string CleansingResult,
+    string SourceLocator,
+    string Note);
+
+public sealed record WerewolfContritionBoundaryPayload(
+    string RiteKey,
+    string TotemId,
+    string PackId,
+    string DogmaViolationState,
+    string RelationshipResult,
+    string SourceLocator,
+    string Note);
+
+public sealed record WerewolfFireBaptismBoundaryPayload(
+    string RiteKey,
+    string TargetReference,
+    string TargetType,
+    string SpiritAttendanceResult,
+    string AncestorGuideResult,
+    string SourceLocator,
+    string Note);
+
+public sealed record WerewolfInitiationBoundaryPayload(
+    string RiteKey,
+    string InitiateReference,
+    string UmbraAccessResult,
+    string SourceLocator,
+    string Note);

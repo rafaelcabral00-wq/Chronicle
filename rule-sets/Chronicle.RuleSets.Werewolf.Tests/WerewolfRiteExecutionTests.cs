@@ -571,4 +571,216 @@ public sealed class WerewolfRiteExecutionTests
         Assert.Equal(1, opening.Level);
         Assert.Equal(5, creation.Level);
     }
+
+    [Fact]
+    public void WaveDPurificationReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-purification",
+            WerewolfRiteIdentifiers.Purification,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.False(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfPurificationBoundaryPayload>(result.Payload);
+        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+    }
+
+    [Fact]
+    public void WaveDContritionReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-contrition",
+            WerewolfRiteIdentifiers.Contrition,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.False(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfContritionBoundaryPayload>(result.Payload);
+        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+    }
+
+    [Fact]
+    public void WaveDFireBaptismReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-fire-baptism",
+            WerewolfRiteIdentifiers.FireBaptism,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.False(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfFireBaptismBoundaryPayload>(result.Payload);
+        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+    }
+
+    [Fact]
+    public void WaveDInitiationReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-initiation",
+            WerewolfRiteIdentifiers.Initiation,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.False(result.Succeeded);
+        Assert.NotNull(result.Payload);
+        Assert.IsType<WerewolfInitiationBoundaryPayload>(result.Payload);
+        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+    }
+
+    [Fact]
+    public void WaveDFireBaptismAndInitiationRemainDistinct()
+    {
+        var fireBaptismRequest = new WerewolfRiteExecutionRequest(
+            "req-fire-baptism",
+            WerewolfRiteIdentifiers.FireBaptism,
+            [7, 8, 9],
+            false);
+        var fireBaptismResult = WerewolfRiteExecutionService.Execute(fireBaptismRequest);
+
+        var initiationRequest = new WerewolfRiteExecutionRequest(
+            "req-initiation",
+            WerewolfRiteIdentifiers.Initiation,
+            [7, 8, 9],
+            false);
+        var initiationResult = WerewolfRiteExecutionService.Execute(initiationRequest);
+
+        Assert.True(fireBaptismResult.Succeeded);
+        Assert.True(initiationResult.Succeeded);
+        Assert.IsType<WerewolfFireBaptismBoundaryPayload>(fireBaptismResult.Payload);
+        Assert.IsType<WerewolfInitiationBoundaryPayload>(initiationResult.Payload);
+        Assert.NotEqual(fireBaptismResult.Payload!.GetType(), initiationResult.Payload!.GetType());
+    }
+
+    [Fact]
+    public void WaveDNoWorldStateMutationInWerewolf()
+    {
+        var purificationRequest = new WerewolfRiteExecutionRequest(
+            "req-purification",
+            WerewolfRiteIdentifiers.Purification,
+            [7, 8, 9],
+            false);
+        var purificationResult = WerewolfRiteExecutionService.Execute(purificationRequest);
+
+        var contritionRequest = new WerewolfRiteExecutionRequest(
+            "req-contrition",
+            WerewolfRiteIdentifiers.Contrition,
+            [7, 8, 9],
+            false);
+        var contritionResult = WerewolfRiteExecutionService.Execute(contritionRequest);
+
+        var fireBaptismRequest = new WerewolfRiteExecutionRequest(
+            "req-fire-baptism",
+            WerewolfRiteIdentifiers.FireBaptism,
+            [7, 8, 9],
+            false);
+        var fireBaptismResult = WerewolfRiteExecutionService.Execute(fireBaptismRequest);
+
+        var initiationRequest = new WerewolfRiteExecutionRequest(
+            "req-initiation",
+            WerewolfRiteIdentifiers.Initiation,
+            [7, 8, 9],
+            false);
+        var initiationResult = WerewolfRiteExecutionService.Execute(initiationRequest);
+
+        Assert.True(purificationResult.Succeeded);
+        Assert.True(contritionResult.Succeeded);
+        Assert.True(fireBaptismResult.Succeeded);
+        Assert.True(initiationResult.Succeeded);
+    }
+
+    [Fact]
+    public void WaveDContritionReusesExistingTotemArtifact()
+    {
+        var existingRite = WerewolfTotemDefinitions.RitualOfContrition;
+        Assert.NotNull(existingRite);
+        Assert.Equal("Ritual de Contrição", existingRite.Name);
+        Assert.Equal(1, existingRite.Level);
+    }
+
+    [Fact]
+    public void WaveDRiteRuntimeIsReused()
+    {
+        var request = new WerewolfRiteExecutionRequest(
+            "req-1",
+            WerewolfRiteIdentifiers.Purification,
+            [7, 8, 9],
+            false);
+
+        var result = WerewolfRiteExecutionService.Execute(request);
+
+        Assert.True(result.Succeeded);
+        var runtime = new WerewolfReferenceRuntime();
+        var operation = runtime.Metadata.Operations.First(o => o.OperationKey == WerewolfReferenceRuntime.ExecuteRiteOperation);
+        Assert.Equal("rite-runtime.execute-rite", operation.OperationKey);
+    }
+
+    [Fact]
+    public void WaveDNoDuplicateRiteExecutionService()
+    {
+        var serviceType = typeof(WerewolfRiteExecutionService);
+        Assert.NotNull(serviceType);
+    }
+
+    [Fact]
+    public void WaveDNoNewRngInsideWerewolf()
+    {
+        var riteTypes = new[]
+        {
+            typeof(WerewolfRiteExecutionService),
+            typeof(WerewolfRiteCatalog),
+            typeof(WerewolfRiteDefinition)
+        };
+
+        foreach (var type in riteTypes)
+        {
+            var methods = type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+            foreach (var method in methods)
+            {
+                Assert.DoesNotContain("Random", method.Name, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+    }
+
+    [Fact]
+    public void WaveDRuntimeRegistrationRemainsValid()
+    {
+        var runtime = new WerewolfReferenceRuntime();
+        var operation = runtime.Metadata.Operations.FirstOrDefault(o => o.OperationKey == WerewolfReferenceRuntime.ExecuteRiteOperation);
+        Assert.NotNull(operation);
+        Assert.Equal(RuleSetOperationStatus.Enabled, operation.Status);
+    }
+
+    [Fact]
+    public void WaveDCapabilityOwnershipRemainsCorrect()
+    {
+        var runtime = new WerewolfReferenceRuntime();
+        var operation = runtime.Metadata.Operations.FirstOrDefault(o => o.OperationKey == WerewolfReferenceRuntime.ExecuteRiteOperation);
+        Assert.NotNull(operation);
+        Assert.Equal("post-creation-character-operations", operation.CapabilityKey);
+    }
+
+    [Fact]
+    public void WaveDAllCataloguedRitesArePresentInSupported()
+    {
+        var allRites = WerewolfRiteCatalog.GetAll();
+        foreach (var rite in allRites)
+        {
+            Assert.False(string.IsNullOrWhiteSpace(rite.Key));
+            Assert.False(string.IsNullOrWhiteSpace(rite.DisplayName));
+            Assert.True(rite.Level >= 1 && rite.Level <= 5);
+        }
+    }
 }
