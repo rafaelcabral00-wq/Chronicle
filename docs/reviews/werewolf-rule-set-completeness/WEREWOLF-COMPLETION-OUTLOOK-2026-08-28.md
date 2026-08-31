@@ -365,17 +365,27 @@ Invariant: 0 + 8 + 3 + 7 = 18. ✓
 - 100 Gifts with runtime activation/effect
 - 1 executable Rite (Hunting Stone)
 - S1–S2 Spirit/Umbra primitives (crossing, detection, movement, materialization, essence, charms, command, possession, damage)
+- S4 Spirit Rite typed boundaries (5 contracts: fetish, totem, summoning, commitment, awaken)
+- S5 Chronicle typed boundaries (8 contracts: location, gauntlet, realm travel, scene presence, caern película, totem binding reuse, pack totem link, shared totem effects)
+- RITE-WAVE-C Caern Rites (typed boundaries)
+- RITE-WAVE-D Spirit Rites (typed boundaries)
 
-**What remains:**
+**Source gap reconciliation (2026-08-31):** All previously listed PLAYABLE_CORE blockers re-read against canonical source. See `RULESET-COMPLETION-SOURCE-GAP-RECONCILIATION.md`. Findings:
+- A-010a/b/c/d/e → **RESOLVED_BY_SOURCE** (canonical source provides the rule).
+- A-010f (Luna Mutable social penalty) → **SOURCE_UNSPECIFIED** (Storyteller territory, non-blocking).
+- A-012 (Totem XP 2 vs 3) → **EXPLICIT_CONTRADICTION** preserved in `WerewolfTotemDefinitions.A012Conflict` (non-blocking; post-creation activity).
+- Spirit death/Modorra at Essence 0 → **SOURCE_UNSPECIFIED** (three-way OR; Storyteller territory; S2 boundary correct).
+- Materialization duration → **SOURCE_UNSPECIFIED** (Storyteller territory; S2 boundary correct).
+- Possession control → **SOURCE_UNSPECIFIED** beyond duration+fomori; S2 + S3 boundaries correct.
+- Non-Garou crossing → **SOURCE_UNSPECIFIED** (only Garou cross in canonical source; non-blocking).
+
+**Truly remaining PLAYABLE_CORE_COMPLETE blockers: 0**
+
+**What remains (catalog backlog, not blockers):**
 - ~125 remaining Gifts (estimated 30–40 are catalog backlog, implementable immediately)
-- 26 remaining Rites (estimated 6 are implementable immediately: RITE-WAVE-C + RITE-WAVE-D Spirit Rites)
-- Source gap: Spirit death vs Modorra threshold (blocks Spirit damage resolution fidelity)
-- Source gap: A-010 family (blocks Rite learning semantics)
+- ~20 remaining Rites (RITE-WAVE-E/F/G/H waves — blocked by Pack/Totem aggregate, Renown/Rank, Fetish/Talen, A-010 family which are now known to be MECHANICALLY_COMPLETE-class work)
 
-**Estimated work packages:** 3–4
-- Gift catalog wave (30–40 Gifts)
-- Rite catalog wave (6 Rites)
-- Source gap resolution (death/Modorra, A-010)
+**Estimated work packages:** 0–1 (PLAYABLE_CORE is now materially achieved by source-faithful mechanics already implemented; remaining work is catalog materialization toward MECHANICALLY_COMPLETE)
 
 ---
 
