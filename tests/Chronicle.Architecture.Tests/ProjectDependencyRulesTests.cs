@@ -51,7 +51,8 @@ public sealed class ProjectDependencyRulesTests
                 "Chronicle.Infrastructure",
                 "Chronicle.Persistence.Sqlite",
                 "Chronicle.NarrativeIntelligence.OpenAI",
-                "Chronicle.Presentation.Desktop"
+                "Chronicle.Presentation.Desktop",
+                "Chronicle.RuleSets.Werewolf"
             ],
             ["Chronicle.RuleSets.Werewolf"] =
             [
@@ -74,6 +75,11 @@ public sealed class ProjectDependencyRulesTests
             ["Chronicle.Contracts.Tests"] = ["Chronicle.Contracts"],
             ["Chronicle.Infrastructure.Tests"] = ["Chronicle.Infrastructure"],
             ["Chronicle.Persistence.Sqlite.Tests"] = ["Chronicle.Persistence.Sqlite"],
+            ["Chronicle.Desktop.Tests"] =
+            [
+                "Chronicle.Desktop",
+                "Chronicle.RuleSets.Werewolf"
+            ],
             ["Chronicle.RuleSets.Werewolf.Tests"] =
             [
                 "Chronicle.Contracts",
@@ -230,6 +236,7 @@ public sealed class ProjectDependencyRulesTests
         var graph = LoadProjectReferenceGraph();
         var coreProjects = AllowedProductionReferences.Keys
             .Where(project => project != "Chronicle.RuleSets.Werewolf")
+            .Where(project => project != "Chronicle.Desktop")
             .ToArray();
 
         foreach (var project in coreProjects)

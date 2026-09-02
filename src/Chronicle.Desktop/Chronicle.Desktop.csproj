@@ -7,6 +7,7 @@
     <ProjectReference Include="..\Chronicle.Persistence.Sqlite\Chronicle.Persistence.Sqlite.csproj" />
     <ProjectReference Include="..\Chronicle.NarrativeIntelligence.OpenAI\Chronicle.NarrativeIntelligence.OpenAI.csproj" />
     <ProjectReference Include="..\Chronicle.Presentation.Desktop\Chronicle.Presentation.Desktop.csproj" />
+    <ProjectReference Include="..\..\rule-sets\Chronicle.RuleSets.Werewolf\Chronicle.RuleSets.Werewolf.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

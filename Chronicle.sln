@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronicle.Tools.PackageVali
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronicle.Tools.PackageValidator.Tests", "tests\Chronicle.Tools.PackageValidator.Tests\Chronicle.Tools.PackageValidator.Tests.csproj", "{6BD4ECCD-810C-4516-8429-4769F0236A72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronicle.Desktop.Tests", "tests\Chronicle.Desktop.Tests\Chronicle.Desktop.Tests.csproj", "{0B8515B4-A16A-4EDC-980A-B9662D464C99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -301,6 +303,18 @@ Global
 		{6BD4ECCD-810C-4516-8429-4769F0236A72}.Release|x64.Build.0 = Release|Any CPU
 		{6BD4ECCD-810C-4516-8429-4769F0236A72}.Release|x86.ActiveCfg = Release|Any CPU
 		{6BD4ECCD-810C-4516-8429-4769F0236A72}.Release|x86.Build.0 = Release|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Debug|x64.Build.0 = Debug|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Debug|x86.Build.0 = Debug|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Release|x64.ActiveCfg = Release|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Release|x64.Build.0 = Release|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Release|x86.ActiveCfg = Release|Any CPU
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -326,5 +340,6 @@ Global
 		{98BF4C26-5CF0-49E4-BD96-5B40C12F0D3A} = {ECDD7A43-48EB-A9F1-2968-2AAD9412753F}
 		{66B060C0-6FEF-4B3A-927B-895F1C095CCE} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 		{6BD4ECCD-810C-4516-8429-4769F0236A72} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{0B8515B4-A16A-4EDC-980A-B9662D464C99} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal
