@@ -48,8 +48,27 @@ public sealed class WerewolfPackTotemIntegrationAdapter
                 FailureReason: boundary.FailureReason);
         }
 
+        var aggregateId = await orchestrator
+            .FindByPackIdAsync(request.PackId, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (aggregateId is null)
+        {
+            return new PackTotemIntegrationResult(
+                WerewolfSucceeded: boundary.Succeeded,
+                ChronicleMutationSucceeded: false,
+                Outcome: PackTotemIntegrationOutcome.AggregateNotFound,
+                BoundaryValidation: boundary,
+                AggregateResult: new PackTotemOperationResult(
+                    Succeeded: false,
+                    PackId: request.PackId,
+                    LinkState: null,
+                    FailureReason: $"Pack '{request.PackId}' was not found."),
+                FailureReason: $"Pack '{request.PackId}' was not found.");
+        }
+
         var bindRequest = new BindTotemRequest(
-            PackIdAggregateId: request.PackIdAggregateId,
+            PackIdAggregateId: aggregateId.Value,
             PackId: request.PackId,
             TotemId: request.TotemId,
             TotemRating: request.TotemRating,

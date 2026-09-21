@@ -144,6 +144,11 @@ public sealed class AggregateStoreTests
             return Task.FromResult(new DocumentPersistenceResult(
                 DocumentPersistenceStatus.NotFound, null, null));
         }
+
+        public Task<IReadOnlyList<Document>> EnumerateAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult<IReadOnlyList<Document>>(Store.Values.ToArray());
+        }
     }
 
     [Fact]

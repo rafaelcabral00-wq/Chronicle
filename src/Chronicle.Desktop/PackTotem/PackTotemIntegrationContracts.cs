@@ -12,7 +12,6 @@ public enum PackTotemIntegrationOutcome
 }
 
 public sealed record IntegratePackTotemBindingRequest(
-    Guid PackIdAggregateId,
     string PackId,
     string TotemId,
     int TotemRating,

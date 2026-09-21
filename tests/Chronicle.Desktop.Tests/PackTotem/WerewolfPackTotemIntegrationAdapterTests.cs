@@ -22,14 +22,12 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task SuccessfulRiteBindsRealChronicleTotemAndPersists()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-iron-wolves", "Iron Wolves");
-        var aggregateId = harness.GetAggregateId("pack-iron-wolves");
 
         var result = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-iron-wolves",
                 TotemId: "falcon-totem",
                 TotemRating: 4,
@@ -63,14 +61,12 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task PlaceholderTotemIdAndPackIdAreNeverPersisted()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-iron-wolves", "Iron Wolves");
-        var aggregateId = harness.GetAggregateId("pack-iron-wolves");
 
         var result = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-iron-wolves",
                 TotemId: "real-falcon-totem",
                 TotemRating: 3,
@@ -96,14 +92,12 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task WeakButValidDiceStillTriggerBoundarySignalAndBinding()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-1", "Pack One");
-        var aggregateId = harness.GetAggregateId("pack-1");
 
         var result = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-1",
                 TotemId: "wolf-totem",
                 TotemRating: 3,
@@ -131,15 +125,13 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task InvalidDicePreventAggregateMutation()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-1", "Pack One");
-        var aggregateId = harness.GetAggregateId("pack-1");
         var versionBefore = harness.GetVersion("pack-1");
 
         var result = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-1",
                 TotemId: "wolf-totem",
                 TotemRating: 3,
@@ -166,12 +158,11 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task UnknownPackReportsAggregateNotFoundWithoutPersisting()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
 
         var result = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: Guid.NewGuid(),
                 PackId: "missing-pack",
                 TotemId: "wolf-totem",
                 TotemRating: 3,
@@ -190,20 +181,19 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
         Assert.Equal(PackTotemIntegrationOutcome.AggregateNotFound, result.Outcome);
         Assert.NotNull(result.AggregateResult);
         Assert.False(result.AggregateResult!.Succeeded);
+        Assert.Equal(0, harness.GetVersion("missing-pack"));
     }
 
     [Fact]
     public async Task SecondBindingOnAlreadyBoundPackIsReportedAsInvariantViolation()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-1", "Pack One");
-        var aggregateId = harness.GetAggregateId("pack-1");
 
         var first = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-1",
                 TotemId: "falcon",
                 TotemRating: 3,
@@ -221,7 +211,6 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
         var second = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-1",
                 TotemId: "wolf",
                 TotemRating: 4,
@@ -250,14 +239,12 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task PersistenceRoundTripPreservesPackIdTotemIdAndLinkState()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-1", "Pack One");
-        var aggregateId = harness.GetAggregateId("pack-1");
 
         var result = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-1",
                 TotemId: "bear-totem",
                 TotemRating: 5,
@@ -272,7 +259,7 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
                 RequestId: "req-e4-roundtrip"));
 
         Assert.True(result.ChronicleMutationSucceeded);
-        var reloaded = harness.LoadState("pack-1", aggregateId);
+        var reloaded = harness.GetState("pack-1");
 
         Assert.Equal("pack-1", reloaded.PackId);
         Assert.Equal("bear-totem", reloaded.TotemId);
@@ -287,12 +274,10 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task SingleExecutionIsEvidencedByDeterministicBoundaryObservation()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-1", "Pack One");
-        var aggregateId = harness.GetAggregateId("pack-1");
 
         var integrateRequest = new IntegratePackTotemBindingRequest(
-            PackIdAggregateId: aggregateId,
             PackId: "pack-1",
             TotemId: "falcon",
             TotemRating: 3,
@@ -323,15 +308,13 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
     public async Task WrongRiteKeyShortCircuitsBeforeChronicleMutation()
     {
         var harness = new InMemoryPackTotemHarness();
-        var adapter = harness.BuildAdapter();
+        var adapter = harness.BuildIntegrationAdapter();
         await harness.CreatePackAsync("pack-1", "Pack One");
-        var aggregateId = harness.GetAggregateId("pack-1");
         var versionBefore = harness.GetVersion("pack-1");
 
         var result = await adapter.IntegrateAsync(
             harness.Registry,
             new IntegratePackTotemBindingRequest(
-                PackIdAggregateId: aggregateId,
                 PackId: "pack-1",
                 TotemId: "falcon",
                 TotemRating: 3,
@@ -353,6 +336,119 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
         Assert.Equal(versionBefore, harness.GetVersion("pack-1"));
     }
 
+    [Fact]
+    public async Task IntegrationResolvesPackIdThroughOrchestrator()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        await harness.CreatePackAsync("pack-iron-wolves", "Iron Wolves");
+        var orchestrator = harness.Orchestrator;
+        var resolved = await orchestrator.FindByPackIdAsync("pack-iron-wolves");
+        Assert.NotNull(resolved);
+
+        var adapter = harness.BuildIntegrationAdapter();
+        var result = await adapter.IntegrateAsync(
+            harness.Registry,
+            new IntegratePackTotemBindingRequest(
+                PackId: "pack-iron-wolves",
+                TotemId: "wolf-totem",
+                TotemRating: 3,
+                TotemAggregation: 4,
+                InitialImprovementPurchases: NoImprovements,
+                PackageId: WerewolfRuleSetPackage.ProvisionalPackageId,
+                PackageVersion: WerewolfRuleSetPackage.PackageVersion,
+                OperationKey: WerewolfReferenceRuntime.ExecuteRiteOperation,
+                ExpectedRiteKey: WerewolfRiteIdentifiers.Totem,
+                DiceValues: SuccessDice,
+                HasTargetPiece: false,
+                RequestId: "req-e5-resolve"));
+
+        Assert.True(result.ChronicleMutationSucceeded);
+        Assert.Equal(PackTotemIntegrationOutcome.Bound, result.Outcome);
+        var state = harness.GetState("pack-iron-wolves");
+        Assert.Equal("pack-iron-wolves", state.PackId);
+        Assert.Equal("wolf-totem", state.TotemId);
+        Assert.Equal(resolved.Value, harness.GetDocumentId("pack-iron-wolves"));
+    }
+
+    [Fact]
+    public async Task IntegrationFailsWithAggregateNotFoundForUnknownPackId()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var adapter = harness.BuildIntegrationAdapter();
+
+        var result = await adapter.IntegrateAsync(
+            harness.Registry,
+            new IntegratePackTotemBindingRequest(
+                PackId: "never-created-pack",
+                TotemId: "falcon",
+                TotemRating: 3,
+                TotemAggregation: 1,
+                InitialImprovementPurchases: NoImprovements,
+                PackageId: WerewolfRuleSetPackage.ProvisionalPackageId,
+                PackageVersion: WerewolfRuleSetPackage.PackageVersion,
+                OperationKey: WerewolfReferenceRuntime.ExecuteRiteOperation,
+                ExpectedRiteKey: WerewolfRiteIdentifiers.Totem,
+                DiceValues: SuccessDice,
+                HasTargetPiece: false,
+                RequestId: "req-e5-missing-pack"));
+
+        Assert.True(result.WerewolfSucceeded);
+        Assert.False(result.ChronicleMutationSucceeded);
+        Assert.Equal(PackTotemIntegrationOutcome.AggregateNotFound, result.Outcome);
+        Assert.False(harness.PackExists("never-created-pack"));
+        Assert.DoesNotContain("TotemId from Chronicle", result.FailureReason ?? string.Empty);
+        Assert.DoesNotContain("PackId from Chronicle", result.FailureReason ?? string.Empty);
+    }
+
+    [Fact]
+    public async Task IntegrationAfterMemberRosterBuildBindsTotemAndPersists()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = harness.Orchestrator;
+        await harness.CreatePackAsync("pack-iron-wolves", "Iron Wolves");
+
+        var add1 = await orchestrator.AddMemberAsync(new AddMemberRequest("pack-iron-wolves", "alpha"));
+        Assert.True(add1.Succeeded);
+        var add2 = await orchestrator.AddMemberAsync(new AddMemberRequest("pack-iron-wolves", "beta"));
+        Assert.True(add2.Succeeded);
+        var add3 = await orchestrator.AddMemberAsync(new AddMemberRequest("pack-iron-wolves", "gamma"));
+        Assert.True(add3.Succeeded);
+        var setLeader = await orchestrator.SetLeaderAsync(new SetLeaderRequest("pack-iron-wolves", "beta"));
+        Assert.True(setLeader.Succeeded);
+
+        var adapter = harness.BuildIntegrationAdapter();
+        var result = await adapter.IntegrateAsync(
+            harness.Registry,
+            new IntegratePackTotemBindingRequest(
+                PackId: "pack-iron-wolves",
+                TotemId: "grandfather-thunder",
+                TotemRating: 4,
+                TotemAggregation: 9,
+                InitialImprovementPurchases: TwoImprovements,
+                PackageId: WerewolfRuleSetPackage.ProvisionalPackageId,
+                PackageVersion: WerewolfRuleSetPackage.PackageVersion,
+                OperationKey: WerewolfReferenceRuntime.ExecuteRiteOperation,
+                ExpectedRiteKey: WerewolfRiteIdentifiers.Totem,
+                DiceValues: SuccessDice,
+                HasTargetPiece: false,
+                RequestId: "req-e5-roster"));
+
+        Assert.True(result.ChronicleMutationSucceeded);
+        Assert.Equal(PackTotemIntegrationOutcome.Bound, result.Outcome);
+
+        var reloaded = harness.GetState("pack-iron-wolves");
+        Assert.Equal("pack-iron-wolves", reloaded.PackId);
+        Assert.Equal(3, reloaded.Members.Count);
+        Assert.Contains("alpha", reloaded.Members);
+        Assert.Contains("beta", reloaded.Members);
+        Assert.Contains("gamma", reloaded.Members);
+        Assert.Equal("beta", reloaded.LeaderId);
+        Assert.Equal("grandfather-thunder", reloaded.TotemId);
+        Assert.Equal(4, reloaded.TotemRating);
+        Assert.Equal(PackTotemLinkState.Bound, reloaded.LinkState);
+        Assert.Equal(TotemXpResolutionState.Unresolved, reloaded.LastTotemXpResolution);
+    }
+
     private sealed class InMemoryPackTotemHarness
     {
         private static readonly DateTimeOffset Now = new(2026, 9, 2, 0, 0, 0, TimeSpan.Zero);
@@ -363,39 +459,36 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
         {
             Registry = BuildRegistry();
             Store = new AggregateStore(new InMemoryDocumentRepository(documents, ids));
+            Orchestrator = new PackTotemOrchestrator(Store);
         }
 
         public RuleSetRuntimeRegistry Registry { get; }
 
         public AggregateStore Store { get; }
 
-        public WerewolfPackTotemIntegrationAdapter BuildAdapter()
+        public PackTotemOrchestrator Orchestrator { get; }
+
+        public WerewolfPackTotemIntegrationAdapter BuildIntegrationAdapter()
         {
-            var orchestrator = new PackTotemOrchestrator(Store);
             var boundaryAdapter = new WerewolfPackTotemBoundaryAdapter();
-            return new WerewolfPackTotemIntegrationAdapter(boundaryAdapter, orchestrator);
+            return new WerewolfPackTotemIntegrationAdapter(boundaryAdapter, Orchestrator);
         }
 
         public async Task CreatePackAsync(string packId, string packName)
         {
-            var orchestrator = new PackTotemOrchestrator(Store);
-            var result = await orchestrator.CreatePackAsync(new CreatePackRequest(packId, packName, Now));
+            var result = await Orchestrator.CreatePackAsync(new CreatePackRequest(packId, packName, Now));
             Assert.True(result.Succeeded, $"Failed to seed pack '{packId}': {result.FailureReason}");
         }
 
-        public Guid GetAggregateId(string packId) => ids[packId];
+        public long GetVersion(string packId) =>
+            documents.TryGetValue(packId, out var document) ? document.Version : 0;
 
-        public long GetVersion(string packId) => documents[packId].Version;
+        public Guid GetDocumentId(string packId) => documents[packId].Id;
+
+        public bool PackExists(string packId) => documents.ContainsKey(packId);
 
         public PackTotemState GetState(string packId) =>
             PackTotemSerializer.Deserialize(documents[packId].PayloadJson);
-
-        public PackTotemState LoadState(string packId, Guid aggregateId)
-        {
-            var document = documents[packId];
-            Assert.Equal(aggregateId, document.Id);
-            return PackTotemSerializer.Deserialize(document.PayloadJson);
-        }
 
         private static RuleSetRuntimeRegistry BuildRegistry()
         {
@@ -504,6 +597,11 @@ public sealed class WerewolfPackTotemIntegrationAdapterTests
 
                 return Task.FromResult(new DocumentPersistenceResult(
                     DocumentPersistenceStatus.NotFound, null, null));
+            }
+
+            public Task<IReadOnlyList<Document>> EnumerateAsync(CancellationToken cancellationToken = default)
+            {
+                return Task.FromResult<IReadOnlyList<Document>>(documents.Values.ToArray());
             }
         }
     }

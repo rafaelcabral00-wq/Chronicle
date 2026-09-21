@@ -5,8 +5,8 @@ namespace Chronicle.Application.PackTotem;
 
 /// <summary>
 /// Result of a Pack/Totem operation. Provider-neutral; mirrors the
-/// existing <c>ResourceTransitionResult</c> shape used elsewhere in
-/// the Application layer.
+/// existing <c>ResourceTransitionResult</c> shape used elsewhere in the
+/// Application layer.
 /// </summary>
 public sealed record PackTotemOperationResult(
     bool Succeeded,
@@ -70,6 +70,45 @@ public sealed class PackTotemOrchestrator
                 new PackTotemOperationResult(
                     false, aggregate.PackId, aggregate.LinkState, save.FailureReason ?? save.Status.ToString())
         };
+    }
+
+    /// <summary>
+    /// Resolves a Pack's business identifier to the aggregate's
+    /// persistence identifier. Returns <c>null</c> when no aggregate
+    /// exists for the given <paramref name="packId"/>. The resolver
+    /// performs a single repository scan through the existing
+    /// <see cref="AggregateStore.EnumerateAsync"/>; it does not maintain
+    /// a dedicated index and does not change the SQLite schema.
+    /// </summary>
+    public async Task<Guid?> FindByPackIdAsync(
+        string packId,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(packId))
+        {
+            throw new ArgumentException("Pack identifier must not be empty.", nameof(packId));
+        }
+
+        var documents = await aggregateStore
+            .EnumerateAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        foreach (var document in documents)
+        {
+            if (!string.Equals(document.ContentType, PackTotemSerializer.ContentType, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var state = PackTotemSerializer.Deserialize(document.PayloadJson);
+
+            if (string.Equals(state.PackId, packId, StringComparison.Ordinal))
+            {
+                return document.Id;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -144,12 +183,174 @@ public sealed class PackTotemOrchestrator
                     false, aggregate.PackId, aggregate.LinkState, save.FailureReason ?? save.Status.ToString())
         };
     }
+
+    public async Task<PackTotemOperationResult> AddMemberAsync(
+        AddMemberRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var aggregateId = await FindByPackIdAsync(request.PackId, cancellationToken)
+            .ConfigureAwait(false);
+        if (aggregateId is null)
+        {
+            return new PackTotemOperationResult(
+                false, request.PackId, null, $"Pack '{request.PackId}' was not found.");
+        }
+
+        return await MutateAggregateAsync(
+            aggregateId.Value,
+            request.PackId,
+            aggregate => aggregate.AddMember(request.MemberId),
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<PackTotemOperationResult> RemoveMemberAsync(
+        RemoveMemberRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var aggregateId = await FindByPackIdAsync(request.PackId, cancellationToken)
+            .ConfigureAwait(false);
+        if (aggregateId is null)
+        {
+            return new PackTotemOperationResult(
+                false, request.PackId, null, $"Pack '{request.PackId}' was not found.");
+        }
+
+        return await MutateAggregateAsync(
+            aggregateId.Value,
+            request.PackId,
+            aggregate => aggregate.RemoveMember(request.MemberId),
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<PackTotemOperationResult> SetLeaderAsync(
+        SetLeaderRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var aggregateId = await FindByPackIdAsync(request.PackId, cancellationToken)
+            .ConfigureAwait(false);
+        if (aggregateId is null)
+        {
+            return new PackTotemOperationResult(
+                false, request.PackId, null, $"Pack '{request.PackId}' was not found.");
+        }
+
+        return await MutateAggregateAsync(
+            aggregateId.Value,
+            request.PackId,
+            aggregate => aggregate.SetLeader(request.LeaderId),
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<PackTotemOperationResult> DissolveAsync(
+        DissolveRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var aggregateId = await FindByPackIdAsync(request.PackId, cancellationToken)
+            .ConfigureAwait(false);
+        if (aggregateId is null)
+        {
+            return new PackTotemOperationResult(
+                false, request.PackId, null, $"Pack '{request.PackId}' was not found.");
+        }
+
+        return await MutateAggregateAsync(
+            aggregateId.Value,
+            request.PackId,
+            aggregate => aggregate.Dissolve(request.DissolvedAt),
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task<PackTotemOperationResult> MutateAggregateAsync(
+        Guid aggregateId,
+        string packId,
+        Action<PackTotemAggregate> mutation,
+        CancellationToken cancellationToken)
+    {
+        var load = await aggregateStore
+            .LoadAsync(aggregateId, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (load.Status == DocumentPersistenceStatus.NotFound)
+        {
+            return new PackTotemOperationResult(
+                false, packId, null, $"Pack '{packId}' was not found.");
+        }
+        if (load.Status != DocumentPersistenceStatus.Succeeded || load.Document is null)
+        {
+            return new PackTotemOperationResult(
+                false, packId, null, load.FailureReason ?? load.Status.ToString());
+        }
+
+        PackTotemAggregate aggregate;
+        try
+        {
+            var state = PackTotemSerializer.Deserialize(load.Document.PayloadJson);
+            aggregate = PackTotemAggregate.Rehydrate(state);
+        }
+        catch (Exception ex)
+        {
+            return new PackTotemOperationResult(
+                false, packId, null, $"Failed to rehydrate Pack state: {ex.Message}");
+        }
+
+        try
+        {
+            mutation(aggregate);
+        }
+        catch (Exception ex) when (ex is ArgumentException or ArgumentOutOfRangeException or InvalidOperationException)
+        {
+            return new PackTotemOperationResult(false, aggregate.PackId, aggregate.LinkState, ex.Message);
+        }
+
+        var updatedDocument = new Document(
+            load.Document.Id,
+            load.Document.ContentType,
+            PackTotemSerializer.Serialize(aggregate.CaptureState()),
+            load.Document.Version);
+
+        var save = await aggregateStore
+            .SaveAsync(updatedDocument, expectedVersion: load.Document.Version, cancellationToken)
+            .ConfigureAwait(false);
+
+        return save.Status switch
+        {
+            DocumentPersistenceStatus.Succeeded =>
+                new PackTotemOperationResult(true, aggregate.PackId, aggregate.LinkState, null),
+            _ =>
+                new PackTotemOperationResult(
+                    false, aggregate.PackId, aggregate.LinkState, save.FailureReason ?? save.Status.ToString())
+        };
+    }
 }
 
 public sealed record CreatePackRequest(
     string PackId,
     string PackName,
     DateTimeOffset EstablishedAt);
+
+public sealed record AddMemberRequest(
+    string PackId,
+    string MemberId);
+
+public sealed record RemoveMemberRequest(
+    string PackId,
+    string MemberId);
+
+public sealed record SetLeaderRequest(
+    string PackId,
+    string LeaderId);
+
+public sealed record DissolveRequest(
+    string PackId,
+    DateTimeOffset DissolvedAt);
 
 /// <summary>
 /// Application-side request for binding a Totem to a Pack. Mirrors the

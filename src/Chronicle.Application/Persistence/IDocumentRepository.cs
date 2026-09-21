@@ -44,4 +44,14 @@ public interface IDocumentRepository
     /// <see cref="DocumentPersistenceStatus.NotFound"/> when absent.
     /// </summary>
     Task<DocumentPersistenceResult> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Enumerates every persisted document. The result is a snapshot at
+    /// the time of the call; subsequent writes do not affect the returned
+    /// sequence. Used by the Application layer for cross-aggregate
+    /// lookups that need to resolve a business identifier to a
+    /// <see cref="Document.Id"/>. Implementations must not require the
+    /// caller to know the document's <see cref="Document.Id"/> in advance.
+    /// </summary>
+    Task<IReadOnlyList<Document>> EnumerateAsync(CancellationToken cancellationToken = default);
 }

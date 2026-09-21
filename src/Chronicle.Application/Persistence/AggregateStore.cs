@@ -64,6 +64,17 @@ public sealed class AggregateStore
             .ConfigureAwait(false);
         return new AggregateDeleteResult(result.Status, result.FailureReason);
     }
+
+    /// <summary>
+    /// Returns a snapshot of every persisted document. Used by the
+    /// Application layer to resolve a business identifier to a
+    /// <see cref="Document.Id"/> without leaking the concrete repository
+    /// shape.
+    /// </summary>
+    public Task<IReadOnlyList<Document>> EnumerateAsync(CancellationToken cancellationToken = default)
+    {
+        return repository.EnumerateAsync(cancellationToken);
+    }
 }
 
 public sealed record AggregateLoadResult(

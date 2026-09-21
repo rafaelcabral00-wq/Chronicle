@@ -184,6 +184,29 @@ public sealed class SqliteDocumentRepository : IDocumentRepository
         return new DocumentPersistenceResult(DocumentPersistenceStatus.Succeeded, null, null);
     }
 
+    public async Task<IReadOnlyList<Document>> EnumerateAsync(CancellationToken cancellationToken = default)
+    {
+        await using var connection = new SqliteConnection(connectionString);
+        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+        await EnsureSchemaAsync(connection, cancellationToken).ConfigureAwait(false);
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT Id, ContentType, PayloadJson, Version FROM documents";
+
+        var results = new List<Document>();
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+        while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+        {
+            var id = new Guid(reader.GetFieldValue<byte[]>(0));
+            var contentType = reader.GetString(1);
+            var payloadJson = reader.GetString(2);
+            var version = reader.GetInt64(3);
+            results.Add(new Document(id, contentType, payloadJson, version));
+        }
+
+        return results;
+    }
+
     private static async Task EnsureSchemaAsync(
         SqliteConnection connection,
         CancellationToken cancellationToken)

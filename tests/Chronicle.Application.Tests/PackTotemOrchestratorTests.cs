@@ -98,6 +98,8 @@ public sealed class PackTotemOrchestratorTests
     private static readonly DateTimeOffset Now = new(2026, 9, 1, 0, 0, 0, TimeSpan.Zero);
     private static readonly string[] NoPurchases = Array.Empty<string>();
     private static readonly string[] TwoImprovements = new[] { "communal-senses", "pack-speech" };
+    private static readonly string[] NoMembersLocal = Array.Empty<string>();
+    private static readonly string[] NoImprovementsLocal = Array.Empty<string>();
     private static readonly string[] SingleImprovement = new[] { "communal-senses" };
 
     [Fact]
@@ -240,6 +242,212 @@ public sealed class PackTotemOrchestratorTests
         Assert.Equal(2, harness.GetVersion("pack-1"));
     }
 
+    [Fact]
+    public async Task FindByPackIdAsyncReturnsGuidForExistingPack()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+
+        var resolved = await orchestrator.FindByPackIdAsync("pack-1");
+
+        Assert.NotNull(resolved);
+        Assert.Equal(harness.GetAggregateId("pack-1"), resolved.Value);
+    }
+
+    [Fact]
+    public async Task FindByPackIdAsyncReturnsNullForUnknownPack()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+
+        var resolved = await orchestrator.FindByPackIdAsync("never-created");
+
+        Assert.Null(resolved);
+    }
+
+    [Fact]
+    public async Task FindByPackIdAsyncIgnoresNonPackDocuments()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        var unrelatedState = new PackTotemState(
+            PackId: "unrelated-pack",
+            PackName: "Unrelated",
+            Members: NoMembersLocal,
+            LeaderId: null,
+            TotemId: null,
+            TotemRating: 0,
+            TotemImprovementPurchases: NoImprovementsLocal,
+            LinkState: PackTotemLinkState.Unbound,
+            ActiveTactics: NoMembersLocal,
+            LastTotemXpResolution: TotemXpResolutionState.Unresolved,
+            EstablishedAt: Now,
+            DissolvedAt: null);
+        var unrelatedDocument = new Document(
+            Guid.NewGuid(),
+            "some-other-content-type/v1",
+            PackTotemSerializer.Serialize(unrelatedState),
+            Version: 0);
+        await harness.Store.SaveAsync(unrelatedDocument, expectedVersion: null);
+
+        var resolved = await orchestrator.FindByPackIdAsync("unrelated-pack");
+
+        Assert.Null(resolved);
+    }
+
+    [Fact]
+    public async Task FindByPackIdAsyncPropagatesDeserializationFailureForMalformedPackDocument()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        harness.InjectMalformedPackDocument("malformed-pack", "this is not valid json");
+
+        await Assert.ThrowsAsync<System.Text.Json.JsonException>(() =>
+            orchestrator.FindByPackIdAsync("any-pack"));
+    }
+
+    [Fact]
+    public async Task AddMemberAsyncAddsAndPersists()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+
+        var result = await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+
+        Assert.True(result.Succeeded);
+        var reloaded = harness.GetState("pack-1");
+        Assert.Single(reloaded.Members);
+        Assert.Contains("alpha", reloaded.Members);
+        Assert.Equal(2, harness.GetVersion("pack-1"));
+    }
+
+    [Fact]
+    public async Task AddMemberAsyncFailsForUnknownPack()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+
+        var result = await orchestrator.AddMemberAsync(new AddMemberRequest("missing-pack", "alpha"));
+
+        Assert.False(result.Succeeded);
+        Assert.NotNull(result.FailureReason);
+    }
+
+    [Fact]
+    public async Task AddMemberAsyncFailsForDuplicateMember()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+        var first = await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+        Assert.True(first.Succeeded);
+
+        var second = await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+
+        Assert.False(second.Succeeded);
+        var reloaded = harness.GetState("pack-1");
+        Assert.Single(reloaded.Members);
+    }
+
+    [Fact]
+    public async Task RemoveMemberAsyncRemovesAndPersists()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+        await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+        await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "beta"));
+        var versionAfterAdds = harness.GetVersion("pack-1");
+
+        var result = await orchestrator.RemoveMemberAsync(new RemoveMemberRequest("pack-1", "alpha"));
+
+        Assert.True(result.Succeeded);
+        var reloaded = harness.GetState("pack-1");
+        Assert.Single(reloaded.Members);
+        Assert.DoesNotContain("alpha", reloaded.Members);
+        Assert.Contains("beta", reloaded.Members);
+        Assert.True(harness.GetVersion("pack-1") > versionAfterAdds);
+    }
+
+    [Fact]
+    public async Task RemoveMemberAsyncClearsLeaderWhenRemovingLeader()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+        await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+        var setLeader = await orchestrator.SetLeaderAsync(new SetLeaderRequest("pack-1", "alpha"));
+        Assert.True(setLeader.Succeeded);
+
+        var result = await orchestrator.RemoveMemberAsync(new RemoveMemberRequest("pack-1", "alpha"));
+
+        Assert.True(result.Succeeded);
+        var reloaded = harness.GetState("pack-1");
+        Assert.Empty(reloaded.Members);
+        Assert.Null(reloaded.LeaderId);
+    }
+
+    [Fact]
+    public async Task SetLeaderAsyncSucceedsForCurrentMember()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+        await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+
+        var result = await orchestrator.SetLeaderAsync(new SetLeaderRequest("pack-1", "alpha"));
+
+        Assert.True(result.Succeeded);
+        var reloaded = harness.GetState("pack-1");
+        Assert.Equal("alpha", reloaded.LeaderId);
+    }
+
+    [Fact]
+    public async Task SetLeaderAsyncFailsForNonMember()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+        await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+
+        var result = await orchestrator.SetLeaderAsync(new SetLeaderRequest("pack-1", "stranger"));
+
+        Assert.False(result.Succeeded);
+        var reloaded = harness.GetState("pack-1");
+        Assert.Null(reloaded.LeaderId);
+    }
+
+    [Fact]
+    public async Task DissolveAsyncSucceedsAndBlocksFurtherMutations()
+    {
+        var harness = new InMemoryPackTotemHarness();
+        var orchestrator = new PackTotemOrchestrator(harness.Store);
+        await orchestrator.CreatePackAsync(new CreatePackRequest("pack-1", "Iron Wolves", Now));
+        await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "alpha"));
+
+        var dissolve = await orchestrator.DissolveAsync(new DissolveRequest("pack-1", Now));
+
+        Assert.True(dissolve.Succeeded);
+        var reloaded = harness.GetState("pack-1");
+        Assert.Equal(PackTotemLinkState.Dissolving, reloaded.LinkState);
+        Assert.NotNull(reloaded.DissolvedAt);
+
+        var bindAttempt = await orchestrator.BindTotemAsync(new BindTotemRequest(
+            harness.GetAggregateId("pack-1"),
+            "pack-1",
+            "wolf-totem",
+            3,
+            1,
+            Array.Empty<string>()));
+        Assert.False(bindAttempt.Succeeded);
+        Assert.Contains("dissolved", bindAttempt.FailureReason ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+
+        var addAttempt = await orchestrator.AddMemberAsync(new AddMemberRequest("pack-1", "beta"));
+        Assert.False(addAttempt.Succeeded);
+    }
+
     private sealed class InMemoryPackTotemHarness
     {
         private readonly Dictionary<string, Document> documents = new();
@@ -258,6 +466,17 @@ public sealed class PackTotemOrchestratorTests
 
         public PackTotemState GetState(string packId) =>
             PackTotemSerializer.Deserialize(documents[packId].PayloadJson);
+
+        public void InjectMalformedPackDocument(string packIdKey, string payloadJson)
+        {
+            var document = new Document(
+                Guid.NewGuid(),
+                PackTotemSerializer.ContentType,
+                payloadJson,
+                Version: 0);
+            documents[packIdKey] = document;
+            ids[packIdKey] = document.Id;
+        }
     }
 
     private sealed class InMemoryDocumentRepository : IDocumentRepository
@@ -339,6 +558,11 @@ public sealed class PackTotemOrchestratorTests
             }
             return Task.FromResult(new DocumentPersistenceResult(
                 DocumentPersistenceStatus.NotFound, null, null));
+        }
+
+        public Task<IReadOnlyList<Document>> EnumerateAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult<IReadOnlyList<Document>>(documents.Values.ToArray());
         }
     }
 }
