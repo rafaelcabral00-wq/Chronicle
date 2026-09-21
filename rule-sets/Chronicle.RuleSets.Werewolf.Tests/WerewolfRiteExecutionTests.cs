@@ -573,7 +573,7 @@ public sealed class WerewolfRiteExecutionTests
     }
 
     [Fact]
-    public void WaveDPurificationReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    public void WaveDPurificationReturnsTypedBoundaryWithSpecifiedDifficulty()
     {
         var request = new WerewolfRiteExecutionRequest(
             "req-purification",
@@ -583,14 +583,16 @@ public sealed class WerewolfRiteExecutionTests
 
         var result = WerewolfRiteExecutionService.Execute(request);
 
-        Assert.False(result.Succeeded);
+        Assert.True(result.Succeeded);
         Assert.NotNull(result.Payload);
         Assert.IsType<WerewolfPurificationBoundaryPayload>(result.Payload);
-        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+        Assert.Equal(7, result.Difficulty);
+        Assert.Equal(3, result.SuccessCount);
+        Assert.DoesNotContain(result.Findings, f => f.Code == "UnspecifiedDifficulty");
     }
 
     [Fact]
-    public void WaveDContritionReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    public void WaveDContritionReturnsTypedBoundaryWithSpecifiedDifficulty()
     {
         var request = new WerewolfRiteExecutionRequest(
             "req-contrition",
@@ -600,14 +602,16 @@ public sealed class WerewolfRiteExecutionTests
 
         var result = WerewolfRiteExecutionService.Execute(request);
 
-        Assert.False(result.Succeeded);
+        Assert.True(result.Succeeded);
         Assert.NotNull(result.Payload);
         Assert.IsType<WerewolfContritionBoundaryPayload>(result.Payload);
-        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+        Assert.Equal(7, result.Difficulty);
+        Assert.Equal(3, result.SuccessCount);
+        Assert.DoesNotContain(result.Findings, f => f.Code == "UnspecifiedDifficulty");
     }
 
     [Fact]
-    public void WaveDFireBaptismReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    public void WaveDFireBaptismReturnsTypedBoundaryWithSpecifiedDifficulty()
     {
         var request = new WerewolfRiteExecutionRequest(
             "req-fire-baptism",
@@ -617,14 +621,16 @@ public sealed class WerewolfRiteExecutionTests
 
         var result = WerewolfRiteExecutionService.Execute(request);
 
-        Assert.False(result.Succeeded);
+        Assert.True(result.Succeeded);
         Assert.NotNull(result.Payload);
         Assert.IsType<WerewolfFireBaptismBoundaryPayload>(result.Payload);
-        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+        Assert.Equal(7, result.Difficulty);
+        Assert.Equal(3, result.SuccessCount);
+        Assert.DoesNotContain(result.Findings, f => f.Code == "UnspecifiedDifficulty");
     }
 
     [Fact]
-    public void WaveDInitiationReturnsTypedBoundaryWithUnspecifiedDifficulty()
+    public void WaveDInitiationReturnsTypedBoundaryWithSpecifiedDifficulty()
     {
         var request = new WerewolfRiteExecutionRequest(
             "req-initiation",
@@ -634,10 +640,12 @@ public sealed class WerewolfRiteExecutionTests
 
         var result = WerewolfRiteExecutionService.Execute(request);
 
-        Assert.False(result.Succeeded);
+        Assert.True(result.Succeeded);
         Assert.NotNull(result.Payload);
         Assert.IsType<WerewolfInitiationBoundaryPayload>(result.Payload);
-        Assert.Contains(result.Findings, f => f.Code == "UnspecifiedDifficulty");
+        Assert.Equal(7, result.Difficulty);
+        Assert.Equal(3, result.SuccessCount);
+        Assert.DoesNotContain(result.Findings, f => f.Code == "UnspecifiedDifficulty");
     }
 
     [Fact]
