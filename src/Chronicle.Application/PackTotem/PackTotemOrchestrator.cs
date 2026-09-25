@@ -15,6 +15,17 @@ public sealed record PackTotemOperationResult(
     string? FailureReason);
 
 /// <summary>
+/// Read-only result for finding a Pack by character membership.
+/// </summary>
+public sealed record PackMembershipResult(
+    bool Found,
+    string? PackId,
+    string? PackName,
+    string? LeaderId,
+    bool IsMember,
+    string? FailureReason);
+
+/// <summary>
 /// Application orchestrator for Pack/Totem operations. Coordinates the
 /// canonical <c>load → mutate → save</c> flow over the E1
 /// <see cref="AggregateStore"/>, leaving domain invariants and event
@@ -109,6 +120,51 @@ public sealed class PackTotemOrchestrator
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Finds the Pack that contains the specified character as a member.
+    /// Scans all Pack aggregates to locate the one where the character ID
+    /// appears in the member roster. Returns a read-only membership result
+    /// without mutating any aggregate or persisting state.
+    /// </summary>
+    public async Task<PackMembershipResult> FindPackByCharacterIdAsync(
+        string characterId,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(characterId))
+        {
+            return new PackMembershipResult(
+                false, null, null, null, false, "Character identifier must not be empty.");
+        }
+
+        var documents = await aggregateStore
+            .EnumerateAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        foreach (var document in documents)
+        {
+            if (!string.Equals(document.ContentType, PackTotemSerializer.ContentType, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var state = PackTotemSerializer.Deserialize(document.PayloadJson);
+
+            if (state.Members.Contains(characterId, StringComparer.Ordinal))
+            {
+                return new PackMembershipResult(
+                    true,
+                    state.PackId,
+                    state.PackName,
+                    state.LeaderId,
+                    true,
+                    null);
+            }
+        }
+
+        return new PackMembershipResult(
+            false, null, null, null, false, null);
     }
 
     /// <summary>
