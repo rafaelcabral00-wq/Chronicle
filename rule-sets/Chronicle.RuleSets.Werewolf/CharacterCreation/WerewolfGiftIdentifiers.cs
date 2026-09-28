@@ -1,4 +1,4 @@
-﻿namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
+namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
 
 public static class WerewolfGiftIdentifiers
 {
@@ -125,6 +125,45 @@ public static class WerewolfGiftIdentifiers
     public const string LupusCancaoDaGrandeFera = "gift.race.lupus.cancao-da-grande-fera";
     public const string LupusDomDosElementos = "gift.race.lupus.dom-dos-elementos";
 
+    // ---- Auspice Gift keys (source lines 1871-2103) ----
+    public const string RagabashGerarIgnorancia = "gift.auspice.ragabash.gerar-ignorancia";
+    public const string RagabashSentirAPresa = "gift.auspice.ragabash.sentir-a-presa";
+    public const string RagabashAbrirPonteDaLua = "gift.auspice.ragabash.abrir-ponte-da-lua";
+    public const string RagabashGremlins = "gift.auspice.ragabash.gremlins";
+    public const string RagabashBencaoDeLuna = "gift.auspice.ragabash.bencao-de-luna";
+    public const string RagabashFragilizarCorpos = "gift.auspice.ragabash.fragilizar-corpos";
+    public const string RagabashAsMilFormas = "gift.auspice.ragabash.as-mil-formas";
+    public const string TheurgeToqueDaMae = "gift.auspice.theurge.toque-da-mae";
+    public const string TheurgeVisoes = "gift.auspice.theurge.visoes";
+    public const string TheurgePercepcaoDoInvisivel = "gift.auspice.theurge.percepcao-do-invisivel";
+    public const string TheurgeDrenagemEspiritual = "gift.auspice.theurge.drenagem-espiritual";
+    public const string TheurgeLobotomiaAnimal = "gift.auspice.theurge.lobotomia-animal";
+    public const string TheurgeModelagemDeEspirito = "gift.auspice.theurge.modelagem-de-espirito";
+    public const string PhilodoxChamadoDoDever = "gift.auspice.philodox.chamado-do-dever";
+    public const string PhilodoxDeterminacao = "gift.auspice.philodox.determinacao";
+    public const string PhilodoxDescobrirCalcanharDeAquiles = "gift.auspice.philodox.descobrir-calcanhar-de-aquiles";
+    public const string PhilodoxSabedoriaDasAntigasTradicoes = "gift.auspice.philodox.sabedoria-das-antigas-tradicoes";
+    public const string PhilodoxFaroParaGrandesDistancias = "gift.auspice.philodox.faro-para-grandes-distancias";
+    public const string PhilodoxImposicao = "gift.auspice.philodox.imposicao";
+    public const string PhilodoxMesmerizar = "gift.auspice.philodox.mesmerizar";
+    public const string PhilodoxParedeDeGranito = "gift.auspice.philodox.parede-de-granito";
+    public const string GalliardChamadoDaWyld = "gift.auspice.galliard.chamado-da-wyld";
+    public const string GalliardComunicacaoTelepatica = "gift.auspice.galliard.comunicacao-telepatica";
+    public const string GalliardChamadoDaWyrm = "gift.auspice.galliard.chamado-da-wyrm";
+    public const string GalliardComunicacaoOnirica = "gift.auspice.galliard.comunicacao-onirica";
+    public const string GalliardCancaoDaFuria = "gift.auspice.galliard.cancao-da-furia";
+    public const string GalliardOlhoDeCobra = "gift.auspice.galliard.olho-de-cobra";
+    public const string GalliardAndarilhoDaPonte = "gift.auspice.galliard.andarilho-da-ponte";
+    public const string GalliardTeatroDeSombrio = "gift.auspice.galliard.teatro-de-sombrio";
+    public const string GalliardJogosDaMente = "gift.auspice.galliard.jogos-da-mente";
+    public const string GalliardMaterializacaoDeSonhos = "gift.auspice.galliard.materializacao-de-sonhos";
+    public const string AhrounCoracaoDaFuria = "gift.auspice.ahroun.coracao-da-furia";
+    public const string AhrounGarrasDePrata = "gift.auspice.ahroun.garras-de-prata";
+    public const string AhrounAticandoAFornalhaDaFuria = "gift.auspice.ahroun.aticando-a-fornalha-da-furia";
+    public const string AhrounMordidaDeFerro = "gift.auspice.ahroun.mordida-de-ferro";
+    public const string AhrounBeijoDeHelios = "gift.auspice.ahroun.beijo-de-helios";
+    public const string AhrounVontadeInabalavel = "gift.auspice.ahroun.vontade-inabalavel";
+
     public static IReadOnlyList<string> Supported { get; } =
     [
         HomidMasterOfFire,
@@ -133,7 +172,6 @@ public static class WerewolfGiftIdentifiers
         RagabashOpenSeal,
         TheurgeSpiritSpeech,
         PhilodoxResistPain,
-        GalliardBeastSpeech,
         AhrounFallingTouch,
         GlassWalkersControlSimpleMachine,
         GlassWalkersDiagnostics,
@@ -184,6 +222,43 @@ public static class WerewolfGiftIdentifiers
         LupusVidaAnimal,
         LupusCancaoDaGrandeFera,
         LupusDomDosElementos,
+        RagabashGerarIgnorancia,
+        RagabashSentirAPresa,
+        RagabashAbrirPonteDaLua,
+        RagabashGremlins,
+        RagabashBencaoDeLuna,
+        RagabashFragilizarCorpos,
+        RagabashAsMilFormas,
+        TheurgeToqueDaMae,
+        TheurgeVisoes,
+        TheurgePercepcaoDoInvisivel,
+        TheurgeDrenagemEspiritual,
+        TheurgeLobotomiaAnimal,
+        TheurgeModelagemDeEspirito,
+        PhilodoxChamadoDoDever,
+        PhilodoxDeterminacao,
+        PhilodoxDescobrirCalcanharDeAquiles,
+        PhilodoxSabedoriaDasAntigasTradicoes,
+        PhilodoxFaroParaGrandesDistancias,
+        PhilodoxImposicao,
+        PhilodoxMesmerizar,
+        PhilodoxParedeDeGranito,
+        GalliardChamadoDaWyld,
+        GalliardComunicacaoTelepatica,
+        GalliardChamadoDaWyrm,
+        GalliardComunicacaoOnirica,
+        GalliardCancaoDaFuria,
+        GalliardOlhoDeCobra,
+        GalliardAndarilhoDaPonte,
+        GalliardTeatroDeSombrio,
+        GalliardJogosDaMente,
+        GalliardMaterializacaoDeSonhos,
+        AhrounCoracaoDaFuria,
+        AhrounGarrasDePrata,
+        AhrounAticandoAFornalhaDaFuria,
+        AhrounMordidaDeFerro,
+        AhrounBeijoDeHelios,
+        AhrounVontadeInabalavel,
         TheurgeNomeDoEspirito,
         TheurgeComandarEspiritos,
         TheurgeExorcismo,

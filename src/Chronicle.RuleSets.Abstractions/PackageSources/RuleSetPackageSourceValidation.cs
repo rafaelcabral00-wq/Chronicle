@@ -360,6 +360,7 @@ public static class RuleSetPackageSourceValidator
             "CharacterCreation/WerewolfInitialGiftSelection.cs",
         "CharacterCreation/WerewolfGiftIdentifiers.cs",
         "CharacterCreation/WerewolfBreedGiftMechanics.cs",
+        "CharacterCreation/WerewolfAuspiceGiftMechanics.cs",
             "CharacterCreation/WerewolfGiftDefinition.cs",
             "CharacterCreation/WerewolfGiftCatalog.cs",
             "CharacterCreation/WerewolfGiftActivationService.cs",

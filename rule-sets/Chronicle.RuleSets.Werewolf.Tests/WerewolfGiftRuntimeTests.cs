@@ -16,7 +16,8 @@ public sealed class WerewolfGiftRuntimeTests
     [InlineData(WerewolfGiftIdentifiers.RagabashOpenSeal, 1)]
     [InlineData(WerewolfGiftIdentifiers.TheurgeSpiritSpeech, 1)]
     [InlineData(WerewolfGiftIdentifiers.PhilodoxResistPain, 1)]
-    [InlineData(WerewolfGiftIdentifiers.GalliardBeastSpeech, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GalliardChamadoDaWyld, 1)]
+    [InlineData(WerewolfGiftIdentifiers.GalliardChamadoDaWyrm, 2)]
     [InlineData(WerewolfGiftIdentifiers.AhrounFallingTouch, 1)]
     [InlineData(WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine, 1)]
     [InlineData(WerewolfGiftIdentifiers.GlassWalkersDiagnostics, 1)]
@@ -545,8 +546,11 @@ public sealed class WerewolfGiftRuntimeTests
     }
 
     [Fact]
-    public void PassiveSpiritGiftDoesNotCreateActiveEffect()
+    public void PassiveSpiritGiftRegistersAnInherentPermanentEffect()
     {
+        // Source line 1926: Comunicação com Espíritos is an inherent ability
+        // once learned, so it produces a permanent SpiritCommunication effect
+        // rather than nothing.
         var state = BuildRuntimeState();
         var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
             "req-001", state, 1, WerewolfGiftIdentifiers.TheurgeSpiritSpeech));
@@ -557,7 +561,11 @@ public sealed class WerewolfGiftRuntimeTests
             WerewolfGiftIdentifiers.TheurgeSpiritSpeech, 1));
 
         Assert.True(effectResult.Succeeded);
-        Assert.Empty(effectResult.ActiveEffects);
+        var effect = Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfActiveGiftEffectKind.SpiritCommunication, effect.EffectKind);
+        Assert.Equal(WerewolfGiftDurationType.Permanent, effect.DurationType);
+        Assert.Equal(string.Empty, effect.SceneToken);
+        Assert.StartsWith("Line 19", effect.SourceLocator, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -596,7 +604,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void GiftCatalogHasExpectedCount()
     {
-        Assert.Equal(117, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(153, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -874,8 +882,10 @@ public sealed class WerewolfGiftRuntimeTests
     }
 
     [Fact]
-    public void KnownPassiveGiftDoesNotCreateActiveEffect()
+    public void KnownPassiveGiftRegistersAnInherentPermanentEffect()
     {
+        // Source line 1926: an inherent ability is permanent once learned, so
+        // it registers a typed permanent effect even at zero successes.
         var state = BuildRuntimeState();
         var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
             "req-001", state, 1, WerewolfGiftIdentifiers.TheurgeSpiritSpeech));
@@ -886,7 +896,10 @@ public sealed class WerewolfGiftRuntimeTests
             WerewolfGiftIdentifiers.TheurgeSpiritSpeech, 0));
 
         Assert.True(effectResult.Succeeded);
-        Assert.Empty(effectResult.ActiveEffects);
+        var effect = Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfActiveGiftEffectKind.SpiritCommunication, effect.EffectKind);
+        Assert.Equal(WerewolfGiftDurationType.Permanent, effect.DurationType);
+        Assert.Equal(string.Empty, effect.SceneToken);
     }
 
     [Fact]
@@ -962,7 +975,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void AllCataloguedGiftsArePresent()
     {
-        Assert.Equal(117, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(153, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -1000,6 +1013,8 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void PermanentEffectsDoNotCarrySceneToken()
     {
+        // An inherent permanent ability is not bound to a scene, so its effect
+        // is registered without a scene token.
         var state = BuildRuntimeState() with { CurrentSceneToken = "scene-1" };
         var knownGifts = state.KnownGiftKeys.ToList();
         knownGifts.Add(WerewolfGiftIdentifiers.TheurgeSpiritSpeech);
@@ -1012,7 +1027,9 @@ public sealed class WerewolfGiftRuntimeTests
         var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
             "req-001", activationResult.UpdatedState!, 2, WerewolfGiftIdentifiers.TheurgeSpiritSpeech, 0));
         Assert.True(effectResult.Succeeded);
-        Assert.Empty(effectResult.ActiveEffects);
+        var effect = Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfGiftDurationType.Permanent, effect.DurationType);
+        Assert.Equal(string.Empty, effect.SceneToken);
     }
 
     [Fact]
@@ -1679,7 +1696,7 @@ public sealed class WerewolfGiftRuntimeTests
     public void WaveBCatalogCountReflectsWaveBImplementation()
     {
         var allKeys = WerewolfGiftCatalog.AllDefinitions.Select(g => g.GiftKey).ToList();
-        Assert.Equal(117, allKeys.Count);
+        Assert.Equal(153, allKeys.Count);
     }
 
     [Fact]
@@ -1747,7 +1764,10 @@ public sealed class WerewolfGiftRuntimeTests
             WerewolfGiftIdentifiers.RagabashOpenSeal,
             WerewolfGiftIdentifiers.TheurgeSpiritSpeech,
             WerewolfGiftIdentifiers.PhilodoxResistPain,
-            WerewolfGiftIdentifiers.GalliardBeastSpeech,
+            // Source lines 2019 and 2029 are two distinct Galliard Gifts; they
+            // were previously collapsed into a single entry.
+            WerewolfGiftIdentifiers.GalliardChamadoDaWyld,
+            WerewolfGiftIdentifiers.GalliardChamadoDaWyrm,
             WerewolfGiftIdentifiers.AhrounFallingTouch,
             WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             WerewolfGiftIdentifiers.GlassWalkersDiagnostics,

@@ -65,9 +65,9 @@ public static class WerewolfGiftEffectService
         var currentState = request.CurrentState;
         var successes = Math.Max(0, request.ActivationSuccesses);
 
-        // Breed Gifts (source lines 1730-1870) resolve through a single
-        // source-derived mechanics table so every one of them produces a real
-        // typed modifier instead of a per-Gift stub.
+        // Breed Gifts (source lines 1730-1870) and Auspice Gifts (1871-2103)
+        // resolve through single source-derived mechanics tables so every one
+        // of them produces a real typed modifier instead of a per-Gift stub.
         var breedMechanic = WerewolfBreedGiftMechanics.IsBreedGift(request.GiftKey)
             ? WerewolfBreedGiftMechanics.Resolve(
                 request.GiftKey,
@@ -76,7 +76,20 @@ public static class WerewolfGiftEffectService
                 ReadSheetRatings(currentState, "abilities"))
             : null;
 
-        var effectResult = breedMechanic is not null
+        var auspiceMechanic = breedMechanic is null && WerewolfAuspiceGiftMechanics.IsAuspiceGift(request.GiftKey)
+            ? WerewolfAuspiceGiftMechanics.Resolve(
+                request.GiftKey,
+                successes,
+                currentState.CurrentForm,
+                ReadSheetRatings(currentState, "abilities"))
+            : null;
+
+        var isSourceRouted = breedMechanic is not null || auspiceMechanic is not null;
+        var isBlockedGift =
+            (breedMechanic is not null && WerewolfBreedGiftMechanics.IsBlocked(request.GiftKey)) ||
+            (auspiceMechanic is not null && WerewolfAuspiceGiftMechanics.IsBlocked(request.GiftKey));
+
+        var effectResult = isSourceRouted
             ? currentState
             : definition.GiftKey switch
             {
@@ -136,24 +149,38 @@ public static class WerewolfGiftEffectService
                     _ => currentState
         };
 
-        if (breedMechanic is not null)
+        if (isSourceRouted)
         {
-            // Every Breed Gift registers exactly one typed, source-derived
-            // modifier, including inherent and instant Gifts.
+            // Every source-routed Gift registers exactly one typed,
+            // source-derived modifier, including inherent and instant Gifts.
+            // Explicit branching: a source mechanic may legitimately carry a
+            // null payload, so null-coalescing cannot be used to pick the table.
+            var mechanic = breedMechanic is not null
+                ? (breedMechanic.Kind, breedMechanic.Magnitude, breedMechanic.DurationTurns, breedMechanic.SourceLocator, breedMechanic.Payload)
+                : (auspiceMechanic!.Kind, auspiceMechanic.Magnitude, auspiceMechanic.DurationTurns, auspiceMechanic.SourceLocator, auspiceMechanic.Payload);
+
+            var (sourceKind, sourceMagnitude, sourceDuration, sourceLocator, sourcePayload) = mechanic;
+
+            // An inherent or permanent capability is not bound to the current
+            // scene, so it carries no scene token.
+            var effectSceneToken = definition.DurationType == WerewolfGiftDurationType.Permanent
+                ? string.Empty
+                : currentState.CurrentSceneToken;
+
             var effect = new WerewolfActiveGiftEffect(
                 definition.GiftKey,
                 0,
                 definition.DurationType,
-                breedMechanic.DurationTurns,
-                breedMechanic.Kind,
-                breedMechanic.Magnitude,
-                breedMechanic.SourceLocator,
-                currentState.CurrentSceneToken,
-                breedMechanic.Payload);
+                sourceDuration,
+                sourceKind,
+                sourceMagnitude,
+                sourceLocator,
+                effectSceneToken,
+                sourcePayload);
 
             activeEffects.Add(effect);
             findings.Add(
-                $"Breed Gift effect registered: {definition.NameEn} (kind={breedMechanic.Kind}, magnitude={breedMechanic.Magnitude}, source={breedMechanic.SourceLocator}).");
+                $"Gift effect registered: {definition.NameEn} (kind={sourceKind}, magnitude={sourceMagnitude}, source={sourceLocator}).");
 
             // Source line 1760 (Inquietação) has two distinct consequences: the
             // target cannot recover Rage, and prolonged-action difficulties
@@ -164,22 +191,29 @@ public static class WerewolfGiftEffectService
                     definition.GiftKey,
                     0,
                     definition.DurationType,
-                    breedMechanic.DurationTurns,
+                    sourceDuration,
                     WerewolfActiveGiftEffectKind.ExtendedTestDifficultyModifier,
                     1,
-                    breedMechanic.SourceLocator,
+                    sourceLocator,
                     currentState.CurrentSceneToken,
-                    new WerewolfExtendedTestDifficultyPayload(1, "prolonged-actions", breedMechanic.DurationTurns));
+                    new WerewolfExtendedTestDifficultyPayload(1, "prolonged-actions", sourceDuration));
 
                 activeEffects.Add(extended);
-                findings.Add($"Breed Gift effect registered: {definition.NameEn} (ExtendedTestDifficultyModifier +1, source={breedMechanic.SourceLocator}).");
+                findings.Add($"Breed Gift effect registered: {definition.NameEn} (ExtendedTestDifficultyModifier +1, source={sourceLocator}).");
             }
 
-            if (WerewolfBreedGiftMechanics.IsBlocked(definition.GiftKey))
+            if (isBlockedGift)
             {
+                var dependency = sourcePayload switch
+                {
+                    WerewolfBlockedGiftPayload blocked => blocked.MissingSubsystem,
+                    WerewolfAuspiceBlockedPayload blocked => blocked.MissingSubsystem,
+                    _ => "unspecified prerequisite subsystem"
+                };
+
                 findings.Add(
-                    $"Breed Gift blocked: {definition.NameEn} requires {breedMechanic.SourceLocator} semantics that are not implemented. " +
-                    $"Missing dependency: {((WerewolfBlockedGiftPayload)breedMechanic.Payload!).MissingSubsystem}.");
+                    $"Gift blocked: {definition.NameEn} requires {sourceLocator} semantics that are not implemented. " +
+                    $"Missing dependency: {dependency}.");
             }
         }
         else if (definition.GiftKey == WerewolfGiftIdentifiers.HomidInquietacao)
@@ -230,6 +264,19 @@ public static class WerewolfGiftEffectService
             {
                 WerewolfGiftIdentifiers.MetisRaivaPrimordial =>
                     ApplyMetisRaivaPrimordial(effectResult, breedMechanic.Magnitude),
+                _ => effectResult
+            };
+        }
+
+        if (auspiceMechanic is not null)
+        {
+            // Source line 1985 (Determinação) and 2102 (Vontade Inabalável) are
+            // the only Auspice Gifts with a self-directed state transition; the
+            // rest resolve to typed modifiers above.
+            effectResult = definition.GiftKey switch
+            {
+                WerewolfGiftIdentifiers.PhilodoxDeterminacao =>
+                    ApplyWillpowerRecovery(effectResult, successes),
                 _ => effectResult
             };
         }
@@ -303,6 +350,20 @@ public static class WerewolfGiftEffectService
             RageCurrent = rageAfter,
             RagePermanent = Math.Max(hurt.RagePermanent, rageAfter)
         };
+    }
+
+    /// <summary>
+    /// Source line 1985 (Determinação): recovers 1 Willpower for every 2
+    /// successes on a Stamina + Rituals test at difficulty 7, once per scene.
+    /// </summary>
+    private static WerewolfRuntimeCharacterState ApplyWillpowerRecovery(
+        WerewolfRuntimeCharacterState state,
+        int successCount)
+    {
+        var recovered = Math.Max(0, successCount) / 2;
+        return recovered <= 0
+            ? state
+            : state with { WillpowerCurrent = state.WillpowerCurrent + recovered };
     }
 
     private static Dictionary<string, int> ReadSheetRatings(WerewolfRuntimeCharacterState state, string bindingKey)
