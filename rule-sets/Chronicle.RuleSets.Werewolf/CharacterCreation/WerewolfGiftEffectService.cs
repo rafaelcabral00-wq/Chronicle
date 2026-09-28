@@ -178,7 +178,8 @@ public static class WerewolfGiftEffectService
             if (WerewolfBreedGiftMechanics.IsBlocked(definition.GiftKey))
             {
                 findings.Add(
-                    $"Breed Gift blocked: {definition.NameEn} requires {breedMechanic.SourceLocator} semantics that are not implemented.");
+                    $"Breed Gift blocked: {definition.NameEn} requires {breedMechanic.SourceLocator} semantics that are not implemented. " +
+                    $"Missing dependency: {((WerewolfBlockedGiftPayload)breedMechanic.Payload!).MissingSubsystem}.");
             }
         }
         else if (definition.GiftKey == WerewolfGiftIdentifiers.HomidInquietacao)

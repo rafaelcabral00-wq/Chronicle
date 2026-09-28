@@ -261,8 +261,13 @@ public static class WerewolfGiftActivationService
     }
 
     /// <summary>
-    /// Maps a short trait name such as "Strength" onto its canonical
-    /// identifier. Already-canonical identifiers are returned unchanged.
+    /// Maps a short trait name such as "Strength" or "PrimalInstinct" onto
+    /// its canonical identifier. Canonical identifiers are hyphenated
+    /// ("character.ability.primal-instinct"), so the camelCase name must be
+    /// split on its word boundaries; without that, a hyphenated trait would
+    /// silently contribute nothing to the pool. Already-canonical identifiers
+    /// are returned unchanged, and both the hyphenated and plain forms are
+    /// accepted so existing hyphenless identifiers keep resolving.
     /// </summary>
     private static string? CanonicalId(string traitName, string prefix)
     {
@@ -272,9 +277,39 @@ public static class WerewolfGiftActivationService
         }
 
         var trimmed = traitName.Trim();
-        return trimmed.StartsWith("character.", StringComparison.Ordinal)
-            ? trimmed
+        if (trimmed.StartsWith("character.", StringComparison.Ordinal))
+        {
+            return trimmed;
+        }
+
+        var words = SplitCamelCase(trimmed);
+        return words.Count > 1
+            ? prefix + string.Join('-', words)
             : prefix + trimmed.ToLowerInvariant();
+    }
+
+    private static List<string> SplitCamelCase(string value)
+    {
+        var words = new List<string>();
+        var current = new System.Text.StringBuilder();
+
+        foreach (var character in value)
+        {
+            if (char.IsUpper(character) && current.Length > 0)
+            {
+                words.Add(current.ToString().ToLowerInvariant());
+                current.Clear();
+            }
+
+            current.Append(character);
+        }
+
+        if (current.Length > 0)
+        {
+            words.Add(current.ToString().ToLowerInvariant());
+        }
+
+        return words;
     }
 
     private static int ComputeDurationTurns(WerewolfGiftDefinition definition)

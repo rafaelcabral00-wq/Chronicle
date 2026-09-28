@@ -143,6 +143,30 @@ public sealed record WerewolfHumanScentPayload(int RadiusMeters, int WildAnimalD
 public sealed record WerewolfJumpPayload(int TestDifficulty, int DistanceMultiplier);
 
 /// <summary>
+/// Explicit completion status for a Breed Gift. Every Breed Gift must resolve
+/// to exactly one of these; CATALOG_ONLY is deliberately absent so a Gift
+/// cannot silently remain without semantics.
+/// </summary>
+public enum WerewolfBreedGiftStatus
+{
+    /// <summary>Produces a real, source-derived typed mechanic at runtime.</summary>
+    Executable,
+
+    /// <summary>Cannot be implemented without a subsystem that does not exist.</summary>
+    Blocked
+}
+
+public sealed record WerewolfBreedGiftAudit(
+    string GiftKey,
+    string NameEn,
+    string NamePtBr,
+    int Level,
+    string OwnerKey,
+    string SourceLocator,
+    WerewolfBreedGiftStatus Status,
+    string? MissingDependency);
+
+/// <summary>
 /// Source-derived Breed Gift mechanics for the racial Gifts at source lines
 /// 1730-1870 (Homid, Metis, Lupus). Every number here is traceable to the
 /// cited line. Gifts whose full effect requires a subsystem that does not
@@ -221,6 +245,53 @@ public static class WerewolfBreedGiftMechanics
 
     public static bool IsBlocked(string giftKey) =>
         BlockedGiftKeys.Contains(giftKey, StringComparer.Ordinal);
+
+    /// <summary>
+    /// Returns the explicit completion status of a Breed Gift. A Gift that is
+    /// neither executable nor listed as blocked is reported as such rather than
+    /// being allowed to remain silently catalog-only.
+    /// </summary>
+    public static (WerewolfBreedGiftStatus Status, string? MissingDependency) StatusOf(string giftKey)
+    {
+        if (IsBlocked(giftKey))
+        {
+            return (WerewolfBreedGiftStatus.Blocked, BlockedSubsystem(giftKey));
+        }
+
+        return Resolve(giftKey, successes: 0, WerewolfFormIdentifiers.Homid, EmptySheet()) is null
+            ? (WerewolfBreedGiftStatus.Blocked, "No mechanic is registered for this Breed Gift.")
+            : (WerewolfBreedGiftStatus.Executable, null);
+    }
+
+    /// <summary>
+    /// Audits every Breed Gift against the catalog, returning its explicit
+    /// status. Used to prove the domain has no catalog-only remainder.
+    /// </summary>
+    public static IReadOnlyList<WerewolfBreedGiftAudit> Audit()
+    {
+        var audit = new List<WerewolfBreedGiftAudit>(BreedGiftKeys.Count);
+
+        foreach (var giftKey in BreedGiftKeys)
+        {
+            var definition = WerewolfGiftCatalog.Get(giftKey);
+            var (status, dependency) = StatusOf(giftKey);
+
+            audit.Add(new WerewolfBreedGiftAudit(
+                giftKey,
+                definition?.NameEn ?? string.Empty,
+                definition?.NamePtBr ?? string.Empty,
+                definition?.Level ?? 0,
+                definition?.OwnerKey ?? string.Empty,
+                definition?.SourceLocator ?? string.Empty,
+                status,
+                dependency));
+        }
+
+        return audit.AsReadOnly();
+    }
+
+    private static Dictionary<string, int> EmptySheet() =>
+        new(StringComparer.Ordinal);
 
     /// <summary>
     /// Resolves the typed mechanic for a Breed Gift activation.
@@ -449,16 +520,28 @@ public static class WerewolfBreedGiftMechanics
     private static string BlockedReason(string giftKey) => giftKey switch
     {
         WerewolfGiftIdentifiers.MetisDomDoTotem =>
-            "Invokes the direct power of the tribal totem; the totem's effects have no implemented semantics.",
+            "Source line 1821 makes the invoked totem's direct power the effect. " +
+            "WerewolfTotemEffect declares a Kind but its Payload is a free-text string, " +
+            "and no code consumes WerewolfTotemEffectKind, so the magnitude a totem produces " +
+            "cannot be computed without inventing it.",
         WerewolfGiftIdentifiers.LupusCancaoDaGrandeFera =>
-            "Summons legendary beasts from the Pangaea Realm; that realm and spirit summoning have no implemented semantics.",
+            "Source line 1866 names the legendary beasts (mammoths, sabre-toothed tigers, " +
+            "megalodon) but supplies no statistics, no summoning procedure and no realm-entry " +
+            "rule for them; the only occurrence of those creatures in the source is this Gift's " +
+            "own description. The source itself therefore cannot define the summoned result.",
         _ => "Blocked: prerequisite subsystem is not implemented."
     };
 
     private static string BlockedSubsystem(string giftKey) => giftKey switch
     {
-        WerewolfGiftIdentifiers.MetisDomDoTotem => "WerewolfTotemCatalog effect semantics (catalog-only free text)",
-        WerewolfGiftIdentifiers.LupusCancaoDaGrandeFera => "Pangaea Realm movement and spirit summoning semantics",
+        WerewolfGiftIdentifiers.MetisDomDoTotem =>
+            "A totem effect executor: WerewolfTotemEffect.Kind must resolve to a typed, numeric " +
+            "outcome (WerewolfTotemEffectKind is currently written only in WerewolfTotemCatalog and " +
+            "never read).",
+        WerewolfGiftIdentifiers.LupusCancaoDaGrandeFera =>
+            "A spirit-summoning mechanic that can instantiate an entity from source-defined " +
+            "characteristics. The Pangaea realm is cataloged (WerewolfUmbraRealmCatalog, " +
+            "'Lines 3326-3331') and RealmTravel exists, but no source statistics exist for the beasts.",
         _ => "unknown"
     };
 
