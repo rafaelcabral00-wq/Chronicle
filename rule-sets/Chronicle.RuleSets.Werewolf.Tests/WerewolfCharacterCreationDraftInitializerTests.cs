@@ -69,7 +69,7 @@ public sealed class WerewolfCharacterCreationDraftInitializerTests
     {
         var draft = RequiredDraft();
 
-        Assert.Equal("disabled", draft.DisabledCapabilities["additional-gift-purchase"]);
+        Assert.False(draft.DisabledCapabilities.ContainsKey("additional-gift-purchase"));
         Assert.Equal("disabled", draft.DisabledCapabilities["runtime-gift-execution"]);
         Assert.Empty(draft.Gifts);
     }

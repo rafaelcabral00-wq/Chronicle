@@ -56,6 +56,10 @@
       "status": "partial-executable"
     },
     {
+      "capabilityKey": "additional-gift-purchase",
+      "status": "partial-executable"
+    },
+    {
       "capabilityKey": "character-completion",
       "status": "partial-executable"
     },
@@ -84,6 +88,10 @@
       "status": "declared-not-yet-executable"
     },
     {
+      "capabilityKey": "freebie-economy",
+      "status": "partial-executable"
+    },
+    {
       "capabilityKey": "frenzy",
       "status": "partial-executable"
     },
@@ -104,6 +112,10 @@
       "status": "partial-executable"
     },
     {
+      "capabilityKey": "social",
+      "status": "partial-executable"
+    },
+    {
       "capabilityKey": "spirit-umbra",
       "status": "partial-executable"
     }
@@ -113,14 +125,7 @@
     "rites",
     "umbra"
   ],
-  "disabledOperations": [
-    {
-      "operationKey": "character-creation.purchase-additional-gift",
-      "capabilityKey": "additional-gift-purchase",
-      "status": "disabled",
-      "reasonKey": "additional-gift-eligibility-unresolved"
-    }
-  ],
+  "disabledOperations": [],
   "security": {
     "networkAccessRequired": false,
     "providerAccessRequired": false,

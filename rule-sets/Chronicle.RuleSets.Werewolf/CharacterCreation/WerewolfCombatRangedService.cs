@@ -68,7 +68,13 @@ public static class WerewolfCombatRangedService
         var coverModifier = WerewolfCombatCoverService.GetCoverDifficultyModifier(request.CoverType);
         var movingModifier = WerewolfCombatMovingTargetService.GetMovingTargetDifficultyModifier(request.TargetIsMoving);
 
-        var aimResult = WerewolfCombatAimService.DefineAim(request.RequestId, request.AimTurns, 3, request.HasScope);
+        // Aim is capped by the shooter's Perception, which must come from the
+        // character's own sheet rather than a fixed constant. Aim is the one
+        // place a scope counts, so DefineAim already folds the scope bonus into
+        // EffectiveAimDice; the reported ScopeDiceBonus is informational and is
+        // deliberately not added a second time below.
+        var perception = ReadPerception(request.CurrentState, request.ExpectedRuntimeStateVersion);
+        var aimResult = WerewolfCombatAimService.DefineAim(request.RequestId, request.AimTurns, perception, request.HasScope);
         var aimDiceBonus = aimResult.EffectiveAimDice;
         var scopeDiceBonus = aimResult.HasScope ? 2 : 0;
 
@@ -87,10 +93,14 @@ public static class WerewolfCombatRangedService
         var reloadPenalty = reloadResult.CanReloadAndFireSameTurn ? reloadResult.AttackDicePenalty : 0;
 
         var finalDifficulty = baseDifficulty + rangeModifier + coverModifier + movingModifier + autoFireDifficultyModifier;
-        var finalDiceBonus = aimDiceBonus + scopeDiceBonus + autoFireDiceBonus - reloadPenalty;
+
+        // aimDiceBonus already includes the scope bonus, so scopeDiceBonus is
+        // not added again here.
+        var finalDiceBonus = aimDiceBonus + autoFireDiceBonus - reloadPenalty;
 
         findings.Add($"Ranged combat resolved: base {baseDifficulty} + range {rangeModifier} + cover {coverModifier} + moving {movingModifier} + autoFire {autoFireDifficultyModifier} = {finalDifficulty} difficulty.");
-        findings.Add($"Dice bonus: aim {aimDiceBonus} + scope {scopeDiceBonus} + autoFire {autoFireDiceBonus} - reload {reloadPenalty} = {finalDiceBonus}.");
+        findings.Add($"Aim capped at Perception {perception}: {aimResult.AimTurns} turn(s) + scope {scopeDiceBonus} = {aimDiceBonus} dice (scope counted once).");
+        findings.Add($"Dice bonus: aim {aimDiceBonus} + autoFire {autoFireDiceBonus} - reload {reloadPenalty} = {finalDiceBonus}.");
 
         return new WerewolfCombatRangedResult(
             request.RequestId,
@@ -107,5 +117,26 @@ public static class WerewolfCombatRangedService
             finalDiceBonus,
             false,
             findings);
+    }
+
+    /// <summary>
+    /// Reads the shooter's Perception from the character sheet carried on the
+    /// runtime state. Falls back to 1 only when the sheet genuinely does not
+    /// carry the rating, which is the minimum value the aim cap accepts.
+    /// </summary>
+    private static int ReadPerception(WerewolfRuntimeCharacterState state, int expectedRuntimeStateVersion)
+    {
+        if (!state.PackageBinding.TryGetValue("attributes", out var text) || string.IsNullOrWhiteSpace(text))
+        {
+            return 1;
+        }
+
+        var attributes = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(text);
+        if (attributes is null)
+        {
+            return 1;
+        }
+
+        return Math.Max(1, attributes.GetValueOrDefault(WerewolfAttributeIdentifiers.Perception, 1));
     }
 }

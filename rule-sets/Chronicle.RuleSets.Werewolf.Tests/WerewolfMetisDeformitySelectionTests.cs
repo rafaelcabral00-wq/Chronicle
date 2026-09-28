@@ -116,7 +116,7 @@ public sealed class WerewolfMetisDeformitySelectionTests
         Assert.DoesNotContain("select-metis-deformity", result.Draft?.RequiredNextSteps ?? []);
         Assert.Empty(result.Draft?.Gifts ?? []);
         Assert.All(result.Draft?.Resources ?? new Dictionary<string, int?>(), entry => Assert.Null(entry.Value));
-        Assert.Equal("disabled", result.Draft?.DisabledCapabilities["additional-gift-purchase"]);
+        Assert.False((result.Draft?.DisabledCapabilities?.ContainsKey("additional-gift-purchase") ?? false));
         Assert.Equal("disabled", result.Draft?.DisabledCapabilities["runtime-gift-execution"]);
     }
 

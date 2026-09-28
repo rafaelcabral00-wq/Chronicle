@@ -434,7 +434,16 @@ public static class WerewolfCharacterCompletionOperation
         return new ReadOnlyDictionary<string, string>(values.ToDictionary(entry => entry.Key, entry => entry.Value, StringComparer.Ordinal));
     }
 
-    private static string ComputeValidationFingerprint(WerewolfInitializedCharacterState draft)
+    /// <summary>
+    /// Computes the deterministic validation fingerprint for a draft.
+    /// <para>
+    /// Covers the allocated Attribute identifiers, every Ability, every
+    /// background, and every resource, so any change to those ratings yields
+    /// a different fingerprint. Ordering is ordinal and stable, so identical
+    /// state always produces an identical fingerprint.
+    /// </para>
+    /// </summary>
+    public static string ComputeValidationFingerprint(WerewolfInitializedCharacterState draft)
     {
         var parts = new List<string>
         {
@@ -442,7 +451,7 @@ public static class WerewolfCharacterCompletionOperation
             draft.Status.ToString()
         };
 
-        foreach (var key in WerewolfCharacterCreationDraftFactory.GetAttributeKeys().Order(StringComparer.Ordinal))
+        foreach (var key in WerewolfCharacterCreationDraftFactory.GetAllocatedAttributeKeys().Order(StringComparer.Ordinal))
         {
             if (draft.Attributes.TryGetValue(key, out var value))
             {

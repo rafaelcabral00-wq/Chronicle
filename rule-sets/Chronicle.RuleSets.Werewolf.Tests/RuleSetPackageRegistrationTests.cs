@@ -23,7 +23,7 @@ public sealed class RuleSetPackageRegistrationTests
         Assert.Equal(1, registered.RuleSetContractVersion);
         Assert.Equal(["en", "pt-BR"], registered.SupportedLocales);
         Assert.Contains("character-creation", registered.Capabilities);
-        Assert.Contains("character-creation.purchase-additional-gift", registered.DisabledOperations);
+        Assert.DoesNotContain("character-creation.purchase-additional-gift", registered.DisabledOperations);
     }
 
     [Fact]

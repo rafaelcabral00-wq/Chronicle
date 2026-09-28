@@ -171,4 +171,28 @@ public static class WerewolfCombatAttackDefinitionService
             ? definition
             : throw new ArgumentException($"Unknown attack definition: {attackId}", nameof(attackId));
     }
+
+    /// <summary>
+    /// Computes an attack's dice pool from the effective character sheet.
+    /// <para>
+    /// Source lines 3081-3085 define the attack pools by weapon type:
+    /// firearm is Dexterity + Firearms, thrown is Dexterity + Athletics,
+    /// melee weapon is Dexterity + Melee, and unarmed claws or bites is
+    /// Dexterity + Brawl. Each attack definition carries its own
+    /// <see cref="WerewolfCombatAttackDefinition.AttributeId"/> and
+    /// <c>AbilityId</c>, so the pool is derived from the attack type rather
+    /// than from the defensive formulas at source lines 3086-3089.
+    /// </para>
+    /// </summary>
+    public static int ComputeAttackPool(IReadOnlyDictionary<string, int> effectiveAttributes, string attackId)
+    {
+        ArgumentNullException.ThrowIfNull(effectiveAttributes);
+        ArgumentNullException.ThrowIfNull(attackId);
+
+        var definition = ResolveAttack(attackId);
+        var attribute = effectiveAttributes.GetValueOrDefault(definition.AttributeId, 0);
+        var ability = effectiveAttributes.GetValueOrDefault(definition.AbilityId, 0);
+
+        return Math.Max(0, attribute + ability);
+    }
 }

@@ -115,10 +115,24 @@ public sealed class RuleSetPackageSourceValidatorTests
     [Fact]
     public void DisabledOperationsMustRemainDisabled()
     {
+        // The shipped manifest currently declares no disabled operations, so
+        // this injects one before flipping it to enabled.
         using var copy = PackageSourceCopy.Create();
-        var manifest = File.ReadAllText(copy.PathTo("Metadata", "werewolf.package-manifest.json"));
-        manifest = manifest.Replace("\"status\": \"disabled\"", "\"status\": \"enabled\"", StringComparison.Ordinal);
-        File.WriteAllText(copy.PathTo("Metadata", "werewolf.package-manifest.json"), manifest);
+        var manifestPath = copy.PathTo("Metadata", "werewolf.package-manifest.json");
+        var manifest = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(manifestPath))!.AsObject();
+        manifest["disabledOperations"] = new System.Text.Json.Nodes.JsonArray(
+            new System.Text.Json.Nodes.JsonObject
+            {
+                ["operationKey"] = WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation,
+                ["capabilityKey"] = "test-disabled-capability",
+                ["status"] = "disabled",
+                ["reasonKey"] = "test-disabled"
+            });
+        File.WriteAllText(manifestPath, manifest.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+
+        var rewritten = manifest.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true })
+            .Replace("\"status\": \"disabled\"", "\"status\": \"enabled\"", StringComparison.Ordinal);
+        File.WriteAllText(manifestPath, rewritten);
 
         var result = RuleSetPackageSourceValidator.Validate(copy.Root);
 

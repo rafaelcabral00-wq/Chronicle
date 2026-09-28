@@ -232,46 +232,49 @@ public static class WerewolfGiftActivationService
 
     private static int ResolveAttribute(WerewolfRuntimeCharacterState state, string attributeKey)
     {
-        return attributeKey.ToLowerInvariant() switch
+        // Source lines 3081-3085 and the Gift activation rules resolve tests
+        // from the character's own sheet. The sheet is carried on the runtime
+        // state as a serialized rating map, so the pool reflects the real
+        // character rather than a fixed placeholder.
+        if (string.Equals(attributeKey, "Gnosis", StringComparison.OrdinalIgnoreCase))
         {
-            "strength" => 3,
-            "dexterity" => 3,
-            "stamina" => 3,
-            "charisma" => 2,
-            "manipulation" => 2,
-            "appearance" => 2,
-            "perception" => 3,
-            "intelligence" => 2,
-            "wits" => 3,
-            "gnosis" => state.GnosisPermanent,
-            _ => 1
-        };
+            return state.GnosisPermanent;
+        }
+
+        return ResolveSheetRating(state, "attributes", CanonicalId(attributeKey, "character.attribute."));
     }
 
     private static int ResolveAbility(WerewolfRuntimeCharacterState state, string abilityKey)
     {
-        return abilityKey.ToLowerInvariant() switch
+        return ResolveSheetRating(state, "abilities", CanonicalId(abilityKey, "character.ability."));
+    }
+
+    private static int ResolveSheetRating(WerewolfRuntimeCharacterState state, string bindingKey, string? canonicalId)
+    {
+        if (canonicalId is null || !state.PackageBinding.TryGetValue(bindingKey, out var text) || string.IsNullOrWhiteSpace(text))
         {
-            "athletics" => 3,
-            "brawl" => 2,
-            "crafts" => 1,
-            "dodge" => 2,
-            "empathy" => 1,
-            "expression" => 1,
-            "intimidation" => 1,
-            "primal-instinct" => 2,
-            "subterfuge" => 1,
-            "stealth" => 2,
-            "survival" => 1,
-            "animal-empathy" => 1,
-            "enigmas" => 1,
-            "occult" => 1,
-            "medicine" => 1,
-            "leadership" => 1,
-            "performance" => 1,
-            "melee" => 2,
-            _ => 1
-        };
+            return 0;
+        }
+
+        var ratings = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(text);
+        return ratings is not null && ratings.TryGetValue(canonicalId, out var value) ? value : 0;
+    }
+
+    /// <summary>
+    /// Maps a short trait name such as "Strength" onto its canonical
+    /// identifier. Already-canonical identifiers are returned unchanged.
+    /// </summary>
+    private static string? CanonicalId(string traitName, string prefix)
+    {
+        if (string.IsNullOrWhiteSpace(traitName))
+        {
+            return null;
+        }
+
+        var trimmed = traitName.Trim();
+        return trimmed.StartsWith("character.", StringComparison.Ordinal)
+            ? trimmed
+            : prefix + trimmed.ToLowerInvariant();
     }
 
     private static int ComputeDurationTurns(WerewolfGiftDefinition definition)

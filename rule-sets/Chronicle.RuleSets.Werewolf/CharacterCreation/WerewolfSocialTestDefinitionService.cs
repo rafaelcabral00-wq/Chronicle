@@ -180,7 +180,24 @@ public static class WerewolfSocialTestDefinitionService
 
         findings.Add(new WerewolfSocialTestDefinitionFinding(WerewolfSocialTestDefinitionFindingSeverity.Information, "SocialTestDefined", $"Social test defined: {challenge.ChallengeId} pool {basePool} (effective attribute {baseAttributeRating} + ability {baseAbilityRating}) + dice modifier {modifierResult.DicePoolModifier} + pure breed {pureBreedBonus} + explicit modifier {request.Modifier ?? 0} = final pool {finalPool} at difficulty {finalDifficulty}."));
 
-        return new WerewolfSocialTestDefinitionResult(true, request.CurrentState, findings, request.RequestId, challenge.ChallengeId, basePool, 10, challenge.AttributeId, challenge.AbilityId, baseDifficulty, request.Modifier ?? 0, finalPool, finalDifficulty, successThreshold, challenge.SourceLocator, false, false);
+        return new WerewolfSocialTestDefinitionResult(
+            true,
+            request.CurrentState,
+            findings,
+            request.RequestId,
+            challenge.ChallengeId,
+            basePool,
+            baseDifficulty,
+            challenge.AttributeId,
+            challenge.AbilityId,
+            modifierResult.DifficultyModifier,
+            request.Modifier ?? 0,
+            finalPool,
+            finalDifficulty,
+            successThreshold,
+            challenge.SourceLocator,
+            false,
+            false);
     }
 
     private static int ComputeSuccessThreshold(WerewolfSocialChallengeDefinition challenge, WerewolfSocialTargetContext context)
@@ -264,11 +281,11 @@ public static class WerewolfSocialTestDefinitionService
 
     private static int ComputeBaseDifficulty(WerewolfSocialChallengeDefinition challenge, WerewolfSocialTargetContext context)
     {
-        if (challenge.BaseDifficulty > 0)
-        {
-            return challenge.BaseDifficulty;
-        }
-
+        // Source lines 3006-3031 derive each social challenge's difficulty from
+        // the target's own characteristics. The per-challenge calculation is
+        // therefore authoritative; the catalog's BaseDifficulty is only a
+        // fallback for challenges the source does not define, and must not
+        // override a target-derived value.
         return challenge.ChallengeId switch
         {
             WerewolfSocialChallengeIdentifiers.AtracaoAnimal => context.TargetWillpower ?? 6,
@@ -279,6 +296,7 @@ public static class WerewolfSocialTestDefinitionService
             WerewolfSocialChallengeIdentifiers.Intimidacao => context.TargetWillpower ?? 6,
             WerewolfSocialChallengeIdentifiers.OratoriaPerformance => ComputeOratoriaDifficulty(context),
             WerewolfSocialChallengeIdentifiers.Seducao => Math.Max(2, (context.TargetRaciocinio ?? 3) + 3),
+            _ when challenge.BaseDifficulty > 0 => challenge.BaseDifficulty,
             _ => 6
         };
     }

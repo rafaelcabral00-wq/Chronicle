@@ -48,6 +48,18 @@ public sealed class WerewolfCharacterCreationDraftInitializer
 public static class WerewolfCharacterCreationDraftFactory
 {
     private static readonly string[] AttributeKeys = ["mental", "physical", "social"];
+    private static readonly string[] AllocatedAttributeKeys =
+    [
+        "character.attribute.strength",
+        "character.attribute.stamina",
+        "character.attribute.dexterity",
+        "character.attribute.intelligence",
+        "character.attribute.wits",
+        "character.attribute.charisma",
+        "character.attribute.manipulation",
+        "character.attribute.appearance",
+        "character.attribute.perception"
+    ];
     private static readonly string[] AbilityKeys =
     [
         "character.ability.alertness",
@@ -115,6 +127,16 @@ public static class WerewolfCharacterCreationDraftFactory
     private static readonly string[] RequiredNextSteps = ["select-race", "select-auspice", "select-tribe", "allocate-attributes", "allocate-abilities", "allocate-backgrounds", "select-initial-gifts", "initialize-resources-and-rank", "set-identity-name", "add-narrative-fields"];
 
     public static string[] GetAttributeKeys() => AttributeKeys;
+
+    /// <summary>
+    /// The nine allocated Attribute identifiers (source lines 1088-1183).
+    /// These are distinct from <see cref="GetAttributeKeys"/>, which returns
+    /// the physical/mental/social category identifiers used to seed an
+    /// unallocated draft. Attribute allocation writes the identifiers below
+    /// into <c>draft.Attributes</c>, so validation and fingerprinting must
+    /// read these identifiers.
+    /// </summary>
+    public static string[] GetAllocatedAttributeKeys() => AllocatedAttributeKeys;
     public static string[] GetAbilityKeys() => AbilityKeys;
     public static string[] GetBackgroundKeys() => BackgroundKeys;
     public static string[] GetResourceKeys() => ResourceKeys;
@@ -152,7 +174,6 @@ public static class WerewolfCharacterCreationDraftFactory
             RequiredNextSteps: Array.AsReadOnly(RequiredNextSteps.ToArray()),
             DisabledCapabilities: new ReadOnlyDictionary<string, string>(new Dictionary<string, string>(StringComparer.Ordinal)
             {
-                ["additional-gift-purchase"] = "disabled",
                 ["runtime-gift-execution"] = "disabled"
             }),
             FreebieLedger: Array.AsReadOnly<WerewolfFreebieLedgerEntry>([]),

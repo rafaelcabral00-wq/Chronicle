@@ -206,6 +206,21 @@ public static class WerewolfAbilitySelectionService
             [WerewolfAbilityIdentifiers.Science] = WerewolfAbilityCategoryIdentifiers.Knowledges
         });
 
+    /// <summary>
+    /// The authoritative Ability-to-category mapping. Exposed so callers and
+    /// tests resolve categories from the same source of truth rather than
+    /// duplicating (and drifting from) this table.
+    /// </summary>
+    public static IReadOnlyDictionary<string, string> AbilityCategoryMap => AbilityCategories;
+
+    /// <summary>
+    /// Abilities a Lupus may not receive initial points in.
+    /// Source line 547: "Não podem aplicar pontos iniciais em Ofícios,
+    /// Condução, Etiqueta, Armas de Fogo, Computador, Direito, Linguística,
+    /// Política e Ciência (podem ser adquiridos posteriormente com pontos de
+    /// bônus/experiência via treino)." The restriction applies to base
+    /// allocation only; bonus points may still purchase these Abilities.
+    /// </summary>
     public static readonly string[] LupusBaseRestrictedAbilities =
     [
         WerewolfAbilityIdentifiers.Computer,
@@ -370,7 +385,9 @@ public static class WerewolfAbilitySelectionService
                 allocation.Rating > 0 &&
                 LupusBaseRestrictedAbilities.Contains(abilityId, StringComparer.Ordinal))
             {
-                return InvalidAllocation(WerewolfAbilityAllocationErrorCode.RestrictedAbility, "Lupus base allocation cannot assign dots to the restricted Ability.");
+                return InvalidAllocation(
+                    WerewolfAbilityAllocationErrorCode.RestrictedAbility,
+                    $"Lupus base allocation cannot assign dots to the restricted Ability '{abilityId}' (source line 547).");
             }
 
             values[abilityId] = allocation.Rating;

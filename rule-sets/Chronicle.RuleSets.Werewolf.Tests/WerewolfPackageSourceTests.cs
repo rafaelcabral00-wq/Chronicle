@@ -27,9 +27,9 @@ public sealed class WerewolfPackageSourceTests
             .ToArray();
         var enforcement = document.RootElement.GetProperty("enforcement");
 
-        Assert.Contains("additional-gift-purchase", disabled);
+        Assert.DoesNotContain("additional-gift-purchase", disabled);
         Assert.Contains("runtime-gift-execution", disabled);
-        Assert.Equal("disabled", enforcement.GetProperty("additionalGiftPurchase").GetString());
+        Assert.Equal("enabled", enforcement.GetProperty("additionalGiftPurchase").GetString());
         Assert.Equal("disabled", enforcement.GetProperty("runtimeGiftEffects").GetString());
     }
 

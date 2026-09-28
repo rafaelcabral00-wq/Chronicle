@@ -59,6 +59,9 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
     public const string ClearConditionOperation = "action-resolution.clear-condition";
     public const string EvaluateActionAvailabilityOperation = "action-resolution.evaluate-action-availability";
     public const string PurchaseAdditionalGiftOperation = "character-creation.purchase-additional-gift";
+    public const string PurchaseFreebieOperation = "character-creation.purchase-freebie";
+    public const string DefineSocialTestOperation = "social.define-test";
+    public const string ResolveRangedCombatOperation = "combat.resolve-ranged";
     public const string ExecuteGiftEffectOperation = "gift-runtime.execute-gift-effect";
     public const string ActivateGiftOperation = "gift-runtime.activate-gift";
     public const string CalculateAdvancementCostOperation = "character-runtime.calculate-advancement-cost";
@@ -155,11 +158,14 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
             new RuleSetOperationDescriptor(ApplyCombatConditionOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(TransitionCombatStateOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(DefineManeuverOperation, "combat", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(ResolveRangedCombatOperation, "combat", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(ResolveActionResolutionOperation, "action-resolution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(ApplyConditionOperation, "action-resolution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(ClearConditionOperation, "action-resolution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(EvaluateActionAvailabilityOperation, "action-resolution", RuleSetOperationStatus.Enabled),
-            new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Disabled),
+            new RuleSetOperationDescriptor(DefineSocialTestOperation, "social", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Enabled),
+            new RuleSetOperationDescriptor(PurchaseFreebieOperation, "freebie-economy", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(ActivateGiftOperation, "runtime-gift-activation", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Enabled),
             new RuleSetOperationDescriptor(CalculateAdvancementCostOperation, "post-creation-character-operations", RuleSetOperationStatus.Enabled),
@@ -258,6 +264,36 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         if (StringComparer.Ordinal.Equals(request.OperationKey, SelectRagabashRenownOperation))
         {
             return ExecuteSelectRagabashRenown(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, PurchaseAdditionalGiftOperation))
+        {
+            return ExecutePurchaseFreebie(request, WerewolfFreebieCategory.Gift);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, PurchaseFreebieOperation))
+        {
+            if (!request.Inputs.TryGetValue("category", out var freebieCategoryText) ||
+                !Enum.TryParse<WerewolfFreebieCategory>(freebieCategoryText, true, out var freebieCategory))
+            {
+                return new RuleSetOperationResult(
+                    false,
+                    RuleSetOperationFailureCode.InvalidRequest,
+                    [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidFreebieCategory", "Freebie purchase requires a valid category.")],
+                    new Dictionary<string, string>(StringComparer.Ordinal));
+            }
+
+            return ExecutePurchaseFreebie(request, freebieCategory);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, DefineSocialTestOperation))
+        {
+            return ExecuteDefineSocialTest(request);
+        }
+
+        if (StringComparer.Ordinal.Equals(request.OperationKey, ResolveRangedCombatOperation))
+        {
+            return ExecuteResolveRangedCombat(request);
         }
 
         if (StringComparer.Ordinal.Equals(request.OperationKey, SetIdentityNameOperation))
@@ -1084,6 +1120,265 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
         return ToDraftOperationResult(
             result.Draft,
             result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code.ToString(), finding.Message)).ToArray());
+    }
+
+    /// <summary>
+    /// Applies a freebie (bonus point) purchase using the source cost table at
+    /// lines 989-998: Attribute 5, Ability 2, Background 1, Gift 7 (level 1
+    /// only), Rage 1, Gnosis 2, Willpower 1. The budget is debited and the
+    /// draft version is advanced so the caller cannot replay the purchase.
+    /// </summary>
+    private static RuleSetOperationResult ExecutePurchaseFreebie(RuleSetOperationRequest request, WerewolfFreebieCategory category)
+    {
+        if (!request.Inputs.TryGetValue("draftId", out var draftId) ||
+            !request.Inputs.TryGetValue("draftVersion", out var draftVersionText) ||
+            !request.Inputs.TryGetValue("expectedDraftVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("itemId", out var itemId) ||
+            !int.TryParse(draftVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var draftVersion) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion) ||
+            !int.TryParse(request.Inputs.GetValueOrDefault("increase", "0"), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var increase))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidFreebieRequest", "Freebie purchase requires draftId, draftVersion, expectedDraftVersion, itemId, and increase.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var draft = BuildDraftFromInputs(request, draftId, draftVersion);
+        var result = WerewolfFreebiePurchaseService.Purchase(new WerewolfFreebiePurchaseRequest(
+            request.Inputs.GetValueOrDefault("requestId", string.Empty),
+            draft,
+            expectedVersion,
+            category,
+            itemId,
+            increase));
+
+        if (!result.Succeeded || result.Draft is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, finding.Code, finding.Message)).ToArray(),
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["remainingBudget"] = (result.RemainingBudget ?? 0).ToString(System.Globalization.CultureInfo.InvariantCulture)
+                });
+        }
+
+        return new RuleSetOperationResult(
+            true,
+            null,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Information, finding.Code, finding.Message)).ToArray(),
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["itemId"] = itemId,
+                ["category"] = category.ToString(),
+                ["cost"] = result.LedgerEntry?.Cost.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0",
+                ["remainingBudget"] = (result.RemainingBudget ?? 0).ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["draftVersion"] = result.Draft.DraftVersion.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            });
+    }
+
+    /// <summary>
+    /// Defines a social test. Source lines 3006-3031 derive the difficulty
+    /// from the target's own characteristics, so the target context is
+    /// forwarded rather than substituting a flat catalog difficulty.
+    /// </summary>
+    private static RuleSetOperationResult ExecuteDefineSocialTest(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("challengeId", out var challengeId) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidSocialTestRequest", "Social test definition requires currentState, expectedRuntimeStateVersion, and challengeId.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var targetContext = new WerewolfSocialTargetContext(
+            TargetWillpower: ReadOptionalInt(request.Inputs, "targetWillpower"),
+            TargetRaciocinio: ReadOptionalInt(request.Inputs, "targetRaciocinio"),
+            TargetInteligencia: ReadOptionalInt(request.Inputs, "targetInteligencia"),
+            TargetRage: ReadOptionalInt(request.Inputs, "targetRage"),
+            IsGarouTarget: ReadOptionalBool(request.Inputs, "isGarouTarget"),
+            IsHumanTarget: ReadOptionalBool(request.Inputs, "isHumanTarget"),
+            HasPriorInterest: !ReadOptionalBool(request.Inputs, "hasNoPriorInterest"),
+            IsAffectedByGarouCurse: ReadOptionalBool(request.Inputs, "isAffectedByGarouCurse"),
+            IsTruthBeingTold: ReadOptionalBool(request.Inputs, "isTruthBeingTold"),
+            TruthLevel: ReadOptionalInt(request.Inputs, "truthLevel") ?? 0,
+            CrowdDispositionBonus: ReadOptionalInt(request.Inputs, "crowdDispositionBonus"),
+            CharacterRankValue: ReadOptionalInt(request.Inputs, "characterRankValue"),
+            UsesPhysicalPosture: ReadOptionalBool(request.Inputs, "usesPhysicalPosture"));
+
+        var result = WerewolfSocialTestDefinitionService.DefineTest(new WerewolfSocialTestDefinitionRequest(
+            currentState,
+            expectedVersion,
+            request.Inputs.GetValueOrDefault("requestId", string.Empty),
+            challengeId,
+            targetContext,
+            request.Inputs.GetValueOrDefault("currentForm"),
+            ReadOptionalBool(request.Inputs, "usesPhysicalPosture"),
+            ReadOptionalInt(request.Inputs, "modifier")));
+
+        var outputs = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["challengeId"] = result.ChallengeId,
+            ["findings"] = string.Join("; ", result.Findings.Select(finding => finding.Message))
+        };
+
+        AddIfPresent(outputs, "basePool", result.BasePool);
+        AddIfPresent(outputs, "baseDifficulty", result.BaseDifficulty);
+        AddIfPresent(outputs, "attributeId", result.AttributeId);
+        AddIfPresent(outputs, "abilityId", result.AbilityId);
+        AddIfPresent(outputs, "difficultyModifier", result.DifficultyModifier);
+        AddIfPresent(outputs, "explicitModifier", result.ExplicitModifier);
+        AddIfPresent(outputs, "finalPool", result.FinalPool);
+        AddIfPresent(outputs, "finalDifficulty", result.FinalDifficulty);
+        AddIfPresent(outputs, "successThreshold", result.SuccessThreshold);
+        AddIfPresent(outputs, "specialRules", result.SpecialRules);
+
+        outputs["isAutomaticFailure"] = result.IsAutomaticFailure.ToString();
+        outputs["isActionUnavailable"] = result.IsActionUnavailable.ToString();
+
+        return new RuleSetOperationResult(
+            result.Succeeded,
+            result.Succeeded ? null : RuleSetOperationFailureCode.InvalidRequest,
+            result.Findings.Select(finding => new RuleSetRuntimeFinding(
+                finding.Severity == WerewolfSocialTestDefinitionFindingSeverity.Error
+                    ? RuleSetRuntimeFindingSeverity.Error
+                    : RuleSetRuntimeFindingSeverity.Information,
+                finding.Code,
+                finding.Message)).ToArray(),
+            outputs);
+    }
+
+    /// <summary>
+    /// Resolves ranged combat, preserving the existing aim, cover, automatic
+    /// fire, reload, bow, and thrown subcomponents.
+    /// </summary>
+    private static RuleSetOperationResult ExecuteResolveRangedCombat(RuleSetOperationRequest request)
+    {
+        if (!request.Inputs.TryGetValue("currentState", out var currentStateText) ||
+            !request.Inputs.TryGetValue("expectedRuntimeStateVersion", out var expectedVersionText) ||
+            !request.Inputs.TryGetValue("attackId", out var attackId) ||
+            !int.TryParse(expectedVersionText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var expectedVersion))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidRangedCombatRequest", "Ranged combat requires currentState, expectedRuntimeStateVersion, and attackId.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var currentState = System.Text.Json.JsonSerializer.Deserialize<WerewolfRuntimeCharacterState>(currentStateText, JsonOptions);
+        if (currentState is null)
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidCurrentState", "Current state is not valid.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        if (!Enum.TryParse<WerewolfCombatRangeBand>(request.Inputs.GetValueOrDefault("rangeBand"), true, out var rangeBand) ||
+            !Enum.TryParse<WerewolfCombatCoverType>(request.Inputs.GetValueOrDefault("coverType"), true, out var coverType) ||
+            !Enum.TryParse<WerewolfCombatFiringMode>(request.Inputs.GetValueOrDefault("firingMode"), true, out var firingMode))
+        {
+            return new RuleSetOperationResult(
+                false,
+                RuleSetOperationFailureCode.InvalidRequest,
+                [new RuleSetRuntimeFinding(RuleSetRuntimeFindingSeverity.Error, "InvalidRangedCombatEnum", "Ranged combat requires valid rangeBand, coverType, and firingMode.")],
+                new Dictionary<string, string>(StringComparer.Ordinal));
+        }
+
+        var result = WerewolfCombatRangedService.ResolveRangedCombat(new WerewolfCombatRangedRequest(
+            request.Inputs.GetValueOrDefault("requestId", string.Empty),
+            currentState,
+            expectedVersion,
+            attackId,
+            rangeBand,
+            ReadOptionalInt(request.Inputs, "aimTurns") ?? 0,
+            ReadOptionalBool(request.Inputs, "hasScope"),
+            coverType,
+            ReadOptionalBool(request.Inputs, "targetIsMoving"),
+            firingMode,
+            ReadOptionalInt(request.Inputs, "requestedShots") ?? 1,
+            ReadOptionalInt(request.Inputs, "rateOfFire"),
+            ReadOptionalInt(request.Inputs, "currentAmmunition") ?? 0,
+            ReadOptionalInt(request.Inputs, "totalAmmunitionCapacity") ?? 0,
+            ReadOptionalBool(request.Inputs, "hasSpareClips"),
+            ReadOptionalBool(request.Inputs, "isManualRevolver"),
+            ReadOptionalBool(request.Inputs, "isBowHeartShot")));
+
+        return new RuleSetOperationResult(
+            !result.IsBlocked,
+            result.IsBlocked ? RuleSetOperationFailureCode.InvalidRequest : null,
+            [new RuleSetRuntimeFinding(
+                result.IsBlocked ? RuleSetRuntimeFindingSeverity.Error : RuleSetRuntimeFindingSeverity.Information,
+                "RangedCombatResolved",
+                string.Join("; ", result.Findings))],
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["baseDifficulty"] = result.BaseDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["rangeModifier"] = result.RangeModifier.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["aimDiceBonus"] = result.AimDiceBonus.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["scopeDiceBonus"] = result.ScopeDiceBonus.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["coverDifficultyModifier"] = result.CoverDifficultyModifier.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["movingTargetModifier"] = result.MovingTargetModifier.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["automaticFireDiceBonus"] = result.AutomaticFireDiceBonus.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["automaticFireDifficultyModifier"] = result.AutomaticFireDifficultyModifier.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["reloadDicePenalty"] = result.ReloadDicePenalty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["finalDifficulty"] = result.FinalDifficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["finalDiceBonus"] = result.FinalDiceBonus.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["isBlocked"] = result.IsBlocked.ToString(),
+                ["findings"] = string.Join("; ", result.Findings)
+            });
+    }
+
+    private static int? ReadOptionalInt(IReadOnlyDictionary<string, string> inputs, string key)
+    {
+        return inputs.TryGetValue(key, out var text) &&
+               !string.IsNullOrWhiteSpace(text) &&
+               int.TryParse(text, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var value)
+            ? value
+            : null;
+    }
+
+    private static bool ReadOptionalBool(IReadOnlyDictionary<string, string> inputs, string key)
+    {
+        return inputs.TryGetValue(key, out var text) && bool.TryParse(text, out var value) && value;
+    }
+
+    private static void AddIfPresent(Dictionary<string, string> outputs, string key, object? value)
+    {
+        switch (value)
+        {
+            case null:
+                return;
+            case string text:
+                outputs[key] = text;
+                return;
+            case IFormattable formattable:
+                outputs[key] = formattable.ToString(null, System.Globalization.CultureInfo.InvariantCulture);
+                return;
+            default:
+                outputs[key] = value.ToString() ?? string.Empty;
+                return;
+        }
     }
 
     private static RuleSetOperationResult ExecuteAllocateAbilities(RuleSetOperationRequest request)
@@ -2668,7 +2963,11 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 : new System.Collections.ObjectModel.ReadOnlyDictionary<string, int?>(new Dictionary<string, int?>(StringComparer.Ordinal));
             var attributes = WerewolfEffectiveAttributeService.ComputeEffectiveAttributes(baseAttributes, currentState.CurrentForm);
 
-            var pool = WerewolfCombatDefenseService.ComputeDefensePool(attributes, attackId);
+            // Source lines 3081-3085: the attack pool is derived from the
+            // attack's own Attribute + Ability. The defensive formulas at
+            // source lines 3086-3089 are a separate mechanic and must not be
+            // reused here.
+            var pool = WerewolfCombatAttackDefinitionService.ComputeAttackPool(attributes, attackId);
 
             return new RuleSetOperationResult(
                 true,
@@ -2842,6 +3141,25 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
 
         var soakDefinition = WerewolfCombatSoakService.DefineSoakRoll(soakRequest);
 
+        // Source lines 3096-3100: the character rolls Soak to resist damage,
+        // and each success removes one damage level. The dice are supplied by
+        // the caller (Chronicle owns randomness); when they are absent the
+        // operation reports the definition only.
+        var soakSuccesses = 0;
+        var resultingDamage = amount;
+        var interpretation = string.Empty;
+
+        if (request.Inputs.TryGetValue("diceValues", out var diceText) && !string.IsNullOrWhiteSpace(diceText))
+        {
+            var diceValues = ParseCsv(diceText)
+                .Select(value => int.TryParse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var die) ? die : 0)
+                .ToArray();
+            var soakResult = WerewolfCombatSoakService.InterpretSoakRoll(soakDefinition, diceValues);
+            soakSuccesses = soakResult.SoakSuccesses;
+            resultingDamage = Math.Max(0, amount - soakSuccesses);
+            interpretation = string.Join("; ", soakResult.Findings);
+        }
+
         return new RuleSetOperationResult(
             true,
             null,
@@ -2855,6 +3173,9 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 ["soakBlocked"] = soakDefinition.SoakBlocked.ToString(),
                 ["damageType"] = damageType.ToString(),
                 ["incomingDamage"] = amount.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["soakSuccesses"] = soakSuccesses.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["resultingDamage"] = resultingDamage.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                ["soakInterpretation"] = interpretation,
                 ["findings"] = string.Join("; ", soakDefinition.Findings)
             });
     }
@@ -4356,13 +4677,17 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 return InvalidSpiritRequest("Caern level must be between 1 and 5.");
             }
 
+            // Source table (Werewolf the Apocalypse 3e-pt_br.txt lines 3249-3255):
+            // | Nível do Caern | Nível da Película | Distância Máxima da Ponte da Lua |
+            // | 1 | 4 | 1.500 km | 2 | 4 | 3.000 km | 3 | 3 | 5.000 km |
+            // | 4 | 3 | 9.500 km | 5 | 2 | 15.000 km |
             var (películaLevel, moonBridgeKm) = caernLevel switch
             {
-                1 => (3, 50),
-                2 => (2, 100),
-                3 => (1, 200),
-                4 => (1, 500),
-                5 => (0, 1000),
+                1 => (4, 1500),
+                2 => (4, 3000),
+                3 => (3, 5000),
+                4 => (3, 9500),
+                5 => (2, 15000),
                 _ => (0, 0)
             };
 
@@ -4371,8 +4696,8 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
                 CaernLevel: caernLevel,
                 PelículaLevel: películaLevel,
                 MoonBridgeMaxDistanceKm: moonBridgeKm,
-                SourceLocator: "Lines 3249-3255",
-                Note: "S5 boundary: deterministic Caern Película table materialized. Chronicle must bind table to world Caern entities.");
+                SourceLocator: "Lines 3249-3255 (Caern level / Película level / Moon Bridge maximum distance table)",
+                Note: "S5 boundary: deterministic Caern Película table materialized from the source table. Chronicle must bind table to world Caern entities.");
 
             return new RuleSetOperationResult(
                 true,

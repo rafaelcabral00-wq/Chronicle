@@ -14,11 +14,13 @@ public sealed class RuleSetRuntimeRegistryTests
 
         var result = RuleSetRuntimeRegistrationService.Register(new RuleSetRuntimeRegistrationRequest(catalog, [new WerewolfReferenceRuntime()]));
 
+        Assert.True(
+            result.RegisteredRuntimes.Count == 1,
+            string.Join(" | ", result.RejectedRuntimes.Select(r => $"{r.Code}: {r.Message}")));
         var runtime = Assert.Single(result.RegisteredRuntimes);
         Assert.Empty(result.RejectedRuntimes);
         Assert.Equal(WerewolfRuleSetPackage.ProvisionalPackageId, runtime.Identity.PackageId);
-        Assert.Equal(WerewolfRuleSetPackage.PackageVersion, runtime.Identity.PackageVersion);
-    }
+        Assert.Equal(WerewolfRuleSetPackage.PackageVersion, runtime.Identity.PackageVersion);    }
 
     [Fact]
     public void RejectsRuntimeIdentityVersionMismatch()
@@ -86,19 +88,29 @@ public sealed class RuleSetRuntimeRegistryTests
     [Fact]
     public void RejectsRuntimeThatEnablesDisabledOperation()
     {
-        var catalog = RegisteredCatalog();
+        // The shipped manifest currently declares no disabled operations, so
+        // this builds a synthetic package that disables one in order to
+        // exercise the registration rule directly.
+        var registered = Assert.Single(RegisteredCatalog().Packages);
+        var synthetic = new RuleSetPackageCatalog(
+        [
+            registered with
+            {
+                DisabledOperations = [WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation]
+            }
+        ]);
+
         var baseRuntime = new WerewolfReferenceRuntime();
         var runtime = new TestRuntime(baseRuntime.Metadata with
         {
             Operations =
             [
                 new RuleSetOperationDescriptor(WerewolfReferenceRuntime.CreateCharacterOperation, "character-creation", RuleSetOperationStatus.Enabled),
-                new RuleSetOperationDescriptor(WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Enabled),
-                new RuleSetOperationDescriptor(WerewolfReferenceRuntime.ExecuteGiftEffectOperation, "runtime-gift-execution", RuleSetOperationStatus.Disabled)
+                new RuleSetOperationDescriptor(WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation, "additional-gift-purchase", RuleSetOperationStatus.Enabled)
             ]
         });
 
-        var result = RuleSetRuntimeRegistrationService.Register(new RuleSetRuntimeRegistrationRequest(catalog, [runtime]));
+        var result = RuleSetRuntimeRegistrationService.Register(new RuleSetRuntimeRegistrationRequest(synthetic, [runtime]));
 
         var rejection = Assert.Single(result.RejectedRuntimes);
         Assert.Equal(RuleSetRuntimeRegistrationErrorCode.DisabledOperationMismatch, rejection.Code);
@@ -127,6 +139,7 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.CreateCharacterOperation,
                 WerewolfReferenceRuntime.InitializeResourcesAndRankOperation,
                 WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation,
+                WerewolfReferenceRuntime.PurchaseFreebieOperation,
                 WerewolfReferenceRuntime.SelectAbilityPrioritiesOperation,
                 WerewolfReferenceRuntime.SelectAttributePrioritiesOperation,
                 WerewolfReferenceRuntime.SelectAuspiceOperation,
@@ -166,6 +179,7 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.DefineDefenseOperation,
                 WerewolfReferenceRuntime.DefineInitiativeOperation,
                 WerewolfReferenceRuntime.DefineManeuverOperation,
+                WerewolfReferenceRuntime.ResolveRangedCombatOperation,
                 WerewolfReferenceRuntime.TransitionCombatStateOperation,
                 WerewolfReferenceRuntime.FrenzyDefineTestOperation,
                 WerewolfReferenceRuntime.FrenzyEndOperation,
@@ -175,6 +189,7 @@ public sealed class RuleSetRuntimeRegistryTests
                 WerewolfReferenceRuntime.ActivateGiftOperation,
                 WerewolfReferenceRuntime.ExecuteGiftEffectOperation,
                 WerewolfReferenceRuntime.ExecuteRiteOperation,
+                WerewolfReferenceRuntime.DefineSocialTestOperation,
                 WerewolfReferenceRuntime.ApplySpiritDamageOperation,
                 WerewolfReferenceRuntime.CaernPelículaOperation,
                 WerewolfReferenceRuntime.ComputeMovementSpeedOperation,
@@ -197,14 +212,12 @@ public sealed class RuleSetRuntimeRegistryTests
     }
 
     [Fact]
-    public void DisabledAndUndeclaredOperationsCannotBeInvoked()
+    public void UndeclaredOperationsCannotBeInvoked()
     {
         var registry = RegisteredRuntimeRegistry();
 
-        var disabled = registry.Execute(Request(WerewolfReferenceRuntime.PurchaseAdditionalGiftOperation));
         var undeclared = registry.Execute(Request("combat.roll-initiative"));
 
-        Assert.Equal(RuleSetOperationFailureCode.OperationDisabled, disabled.FailureCode);
         Assert.Equal(RuleSetOperationFailureCode.OperationUndeclared, undeclared.FailureCode);
     }
 

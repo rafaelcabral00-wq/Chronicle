@@ -629,6 +629,25 @@ public sealed class WerewolfGiftRuntimeTests
         Assert.Single(effectResult.UpdatedState.ActiveGiftEffects);
     }
 
+    /// <summary>
+    /// Binds real sheet ratings onto the runtime state so Gift activation
+    /// resolves tests from the character's own Attribute and Ability values
+    /// instead of fixed defaults.
+    /// </summary>
+    private static WerewolfRuntimeCharacterState WithSheet(
+        WerewolfRuntimeCharacterState state,
+        IReadOnlyDictionary<string, int> attributes,
+        IReadOnlyDictionary<string, int> abilities)
+    {
+        var binding = new Dictionary<string, string>(state.PackageBinding, StringComparer.Ordinal)
+        {
+            ["attributes"] = System.Text.Json.JsonSerializer.Serialize(attributes),
+            ["abilities"] = System.Text.Json.JsonSerializer.Serialize(abilities)
+        };
+
+        return state with { PackageBinding = binding };
+    }
+
     private static WerewolfRuntimeCharacterState BuildRuntimeState(params string[] activatedGiftKeys)
     {
         return new WerewolfRuntimeCharacterState(
@@ -1289,7 +1308,13 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void WaveATestRequiredGiftComputesTestPool()
     {
-        var state = BuildRuntimeState();
+        var state = WithSheet(BuildRuntimeState(), new Dictionary<string, int>(StringComparer.Ordinal)
+        {
+            [WerewolfAttributeIdentifiers.Strength] = 2
+        }, new Dictionary<string, int>(StringComparer.Ordinal)
+        {
+            [WerewolfAbilityIdentifiers.Athletics] = 3
+        });
         var knownGifts = state.KnownGiftKeys.ToList();
         knownGifts.Add(WerewolfGiftIdentifiers.MetisCavar);
         state = state with { KnownGiftKeys = knownGifts };
@@ -1299,7 +1324,7 @@ public sealed class WerewolfGiftRuntimeTests
 
         Assert.True(result.Succeeded);
         Assert.NotNull(result.ActivationDefinition);
-        Assert.True(result.ActivationDefinition.DicePool > 0);
+        Assert.Equal(5, result.ActivationDefinition.DicePool);
         Assert.Contains("Athletics", result.ActivationDefinition.TestComponents);
     }
 
@@ -1457,7 +1482,13 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void WaveBPersuasionActivatesAndCreatesSocialTestBonus()
     {
-        var state = BuildRuntimeState();
+        var state = WithSheet(BuildRuntimeState(), new Dictionary<string, int>(StringComparer.Ordinal)
+        {
+            [WerewolfAttributeIdentifiers.Charisma] = 2
+        }, new Dictionary<string, int>(StringComparer.Ordinal)
+        {
+            [WerewolfAbilityIdentifiers.Subterfuge] = 1
+        });
         var knownGifts = state.KnownGiftKeys.ToList();
         knownGifts.Add(WerewolfGiftIdentifiers.HomidPersuasao);
         state = state with { KnownGiftKeys = knownGifts };

@@ -113,7 +113,7 @@ public sealed class WerewolfTribeSelectionTests
         Assert.Equal(WerewolfRaceIdentifiers.Metis, result.Draft?.Race);
         Assert.Equal(WerewolfAuspiceIdentifiers.Galliard, result.Draft?.Auspice);
         Assert.Contains("select-metis-deformity", result.Draft?.RequiredNextSteps ?? []);
-        Assert.Equal("disabled", result.Draft?.DisabledCapabilities["additional-gift-purchase"]);
+        Assert.False((result.Draft?.DisabledCapabilities?.ContainsKey("additional-gift-purchase") ?? false));
         Assert.Equal("disabled", result.Draft?.DisabledCapabilities["runtime-gift-execution"]);
         Assert.Empty(result.Draft?.Gifts ?? []);
         Assert.All(result.Draft?.Resources ?? new Dictionary<string, int?>(), entry => Assert.Null(entry.Value));
@@ -266,9 +266,6 @@ public sealed class WerewolfTribeSelectionTests
     [Theory]
     [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfRaceIdentifiers.Homid)]
     [InlineData(WerewolfTribeIdentifiers.RedTalons, WerewolfRaceIdentifiers.Metis)]
-    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Homid)]
-    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Lupus)]
-    [InlineData(WerewolfTribeIdentifiers.SilverFangs, WerewolfRaceIdentifiers.Metis)]
     [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfRaceIdentifiers.Homid)]
     [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfRaceIdentifiers.Lupus)]
     [InlineData(WerewolfTribeIdentifiers.BlackFuries, WerewolfRaceIdentifiers.Metis)]
@@ -281,6 +278,24 @@ public sealed class WerewolfTribeSelectionTests
         Assert.False(result.Succeeded);
         Assert.Null(result.Draft);
         Assert.Contains(result.Findings, finding => finding.Severity == WerewolfTribeSelectionFindingSeverity.Error);
+    }
+
+    [Theory]
+    [InlineData(WerewolfRaceIdentifiers.Homid)]
+    [InlineData(WerewolfRaceIdentifiers.Lupus)]
+    [InlineData(WerewolfRaceIdentifiers.Metis)]
+    public void SilverFangsRemainSelectableBeforeBackgroundsAreAllocated(string raceId)
+    {
+        // Source line 779 requires Silver Fangs to invest at least 3 points in
+        // Pure Breed, but backgrounds are allocated after tribe selection. The
+        // requirement is re-checked at completion against the final values, so
+        // selection must not be blocked while Pure Breed is still unallocated.
+        var draft = Draft() with { Race = raceId };
+
+        var result = Select(draft, WerewolfTribeIdentifiers.SilverFangs);
+
+        Assert.True(result.Succeeded, string.Join("; ", result.Findings.Select(f => f.Message)));
+        Assert.Equal(WerewolfTribeIdentifiers.SilverFangs, result.Draft?.Tribe);
     }
 
     [Fact]

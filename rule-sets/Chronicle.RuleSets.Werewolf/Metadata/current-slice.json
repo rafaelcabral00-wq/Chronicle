@@ -11,6 +11,7 @@
   },
   "supportedCapabilities": [
     "action-resolution",
+    "additional-gift-purchase",
     "character-completion",
     "character-creation",
     "character-model",
@@ -19,12 +20,13 @@
     "combat",
     "fixture-driven-tests",
     "frenzy",
+    "freebie-economy",
     "generic-dice",
     "post-creation-character-operations",
-    "progression"
+    "progression",
+    "social"
   ],
   "disabledCapabilities": [
-    "additional-gift-purchase",
     "runtime-gift-execution",
     "rites",
     "umbra"
@@ -38,7 +40,7 @@
     "Frenzy runtime mechanics are partially executable: test definition, enter/suppress/end operations, and Besta Interior dice penalty are implemented. Gift/Rite/Spirit interactions are deferred."
   ],
   "enforcement": {
-    "additionalGiftPurchase": "disabled",
+    "additionalGiftPurchase": "enabled",
     "runtimeGiftEffects": "disabled",
     "networkAccess": "forbidden",
     "providerAccess": "forbidden",

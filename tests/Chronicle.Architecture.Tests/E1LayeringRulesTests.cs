@@ -93,12 +93,23 @@ public sealed class E1LayeringRulesTests
         var projects = Directory.EnumerateFiles(root, "*.csproj", SearchOption.AllDirectories)
             .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
             .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
+            // Nested checkouts and tooling directories are separate worktrees,
+            // not part of this repository, and would otherwise collide on
+            // project name during discovery.
+            .Where(path => !IsNestedWorkspace(path, root))
             .ToArray();
 
         return projects.ToDictionary(
             path => Path.GetFileNameWithoutExtension(path),
             path => LoadProjectReferences(path),
             StringComparer.Ordinal);
+    }
+
+    private static bool IsNestedWorkspace(string projectPath, string root)
+    {
+        var relative = Path.GetRelativePath(root, projectPath);
+        var segments = relative.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        return segments.Length > 1 && segments[0] is ".git" or ".kilo" or ".kilocode";
     }
 
     private static string[] LoadProjectReferences(string projectPath)

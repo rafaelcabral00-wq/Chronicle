@@ -65,8 +65,13 @@ public sealed class RuleSetManifestValidatorTests
     {
         var manifest = LoadManifestNode();
         var disabledOperations = manifest["disabledOperations"]!.AsArray();
-        var firstDisabledOperation = disabledOperations[0]!.AsObject();
-        firstDisabledOperation["capabilityKey"] = "character-creation";
+        disabledOperations.Add(new System.Text.Json.Nodes.JsonObject
+        {
+            ["operationKey"] = "character-creation.test-contradiction",
+            ["capabilityKey"] = "character-creation",
+            ["status"] = "disabled",
+            ["reasonKey"] = "test-contradiction"
+        });
 
         var result = Validate(manifest);
 

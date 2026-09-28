@@ -85,17 +85,24 @@ public static class WerewolfTribeEligibilityService
             return Array.Empty<WerewolfTribeEligibilityFinding>();
         }
 
-        if (backgrounds.TryGetValue(WerewolfBackgroundIdentifiers.PureBreed, out var pureBreed) && pureBreed.HasValue)
+        // Source line 779: Silver Fangs "Devem obrigatoriamente investir pelo
+        // menos 3 pontos no Antecedente Raça Pura."
+        if (!backgrounds.TryGetValue(WerewolfBackgroundIdentifiers.PureBreed, out var pureBreed) || !pureBreed.HasValue)
         {
-            if (pureBreed.Value >= 3)
-            {
-                return Array.Empty<WerewolfTribeEligibilityFinding>();
-            }
-
-            return [Error(WerewolfTribeEligibilityErrorCode.BackgroundMinimumNotMet, "Silver Fangs require Pure Breed >= 3.")];
+            // Backgrounds are allocated after tribe selection in the creation
+            // order, so an unallocated Pure Breed is "not yet decided" rather
+            // than "unavailable". Completion re-runs this check against the
+            // final background values, so deferring here does not weaken the
+            // rule and it keeps the tribe selectable.
+            return Array.Empty<WerewolfTribeEligibilityFinding>();
         }
 
-        return [Error(WerewolfTribeEligibilityErrorCode.DependencyUnavailable, "Silver Fangs require Pure Breed >= 3, but Pure Breed is not available in the current character creation slice.")];
+        if (pureBreed.Value >= 3)
+        {
+            return Array.Empty<WerewolfTribeEligibilityFinding>();
+        }
+
+        return [Error(WerewolfTribeEligibilityErrorCode.BackgroundMinimumNotMet, "Silver Fangs require Pure Breed >= 3 (source line 779).")];
     }
 
     public static IReadOnlyList<WerewolfTribeEligibilityFinding> CheckDependencies(string tribeId, IReadOnlyDictionary<string, int?> backgrounds)

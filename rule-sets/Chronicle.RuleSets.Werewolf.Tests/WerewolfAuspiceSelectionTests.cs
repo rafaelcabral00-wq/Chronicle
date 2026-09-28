@@ -101,7 +101,7 @@ public sealed class WerewolfAuspiceSelectionTests
 
         Assert.Equal(WerewolfRaceIdentifiers.Metis, result.Draft?.Race);
         Assert.Contains("select-metis-deformity", result.Draft?.RequiredNextSteps ?? []);
-        Assert.Equal("disabled", result.Draft?.DisabledCapabilities["additional-gift-purchase"]);
+        Assert.False((result.Draft?.DisabledCapabilities?.ContainsKey("additional-gift-purchase") ?? false));
         Assert.Equal("disabled", result.Draft?.DisabledCapabilities["runtime-gift-execution"]);
         Assert.Empty(result.Draft?.Gifts ?? []);
     }
