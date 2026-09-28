@@ -40,6 +40,18 @@ public enum WerewolfActiveGiftEffectKind
     SpiritPossession,
     CharmActivation,
     UmbraCrossing,
+    SocialPenaltyRemoval,
+    DerangementImmunity,
+    AnimalIntimidation,
+    ResourceDrain,
+    MentalCommunication,
+    LimbAtrophy,
+    Thorns,
+    MadnessInduced,
+    PreySensing,
+    SupernaturalSense,
+    FallImmunity,
+    RageGain,
     Custom
 }
 

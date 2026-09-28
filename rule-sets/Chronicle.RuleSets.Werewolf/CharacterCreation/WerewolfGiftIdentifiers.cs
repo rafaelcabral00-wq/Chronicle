@@ -1,4 +1,4 @@
-namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
+﻿namespace Chronicle.RuleSets.Werewolf.CharacterCreation;
 
 public static class WerewolfGiftIdentifiers
 {
@@ -106,6 +106,25 @@ public static class WerewolfGiftIdentifiers
     public const string SilentStridersAlcancarAUmbra = "gift.silent-striders.alcancar-a-umbra";
     public const string TheurgeCapturaADistancia = "gift.theurge.captura-a-distancia";
 
+    // ---- Breed Gift keys (source lines 1730-1870) ----
+    public const string HomidDefesaContraEspiritos = "gift.race.homid.defesa-contra-espiritos";
+    public const string HomidAssimilacao = "gift.race.homid.assimilacao";
+    public const string HomidRomperOVeu = "gift.race.homid.romper-o-veu";
+    public const string MetisMaldicaoDoOdio = "gift.race.metis.maldicao-do-odio";
+    public const string MetisComunicacaoMental = "gift.race.metis.comunicacao-mental";
+    public const string MetisDefinharMembro = "gift.race.metis.definhar-membro";
+    public const string MetisDomDoPorcoEspinho = "gift.race.metis.dom-do-porco-espinho";
+    public const string MetisDomDoTotem = "gift.race.metis.dom-do-totem";
+    public const string MetisLoucura = "gift.race.metis.loucura";
+    public const string LupusSentirACaca = "gift.race.lupus.sentir-a-caca";
+    public const string LupusSensoDoSobrenatural = "gift.race.lupus.senso-do-sobrenatural";
+    public const string LupusVisaoOlfativa = "gift.race.lupus.visao-olfativa";
+    public const string LupusPesDeGato = "gift.race.lupus.pes-de-gato";
+    public const string LupusRoer = "gift.race.lupus.roer";
+    public const string LupusVidaAnimal = "gift.race.lupus.vida-animal";
+    public const string LupusCancaoDaGrandeFera = "gift.race.lupus.cancao-da-grande-fera";
+    public const string LupusDomDosElementos = "gift.race.lupus.dom-dos-elementos";
+
     public static IReadOnlyList<string> Supported { get; } =
     [
         HomidMasterOfFire,
@@ -148,6 +167,23 @@ public static class WerewolfGiftIdentifiers
         WendigoCamouflage,
         WendigoCallTheBreeze,
         LupusNomeDoEspirito,
+        HomidDefesaContraEspiritos,
+        HomidAssimilacao,
+        HomidRomperOVeu,
+        MetisMaldicaoDoOdio,
+        MetisComunicacaoMental,
+        MetisDefinharMembro,
+        MetisDomDoPorcoEspinho,
+        MetisDomDoTotem,
+        MetisLoucura,
+        LupusSentirACaca,
+        LupusSensoDoSobrenatural,
+        LupusVisaoOlfativa,
+        LupusPesDeGato,
+        LupusRoer,
+        LupusVidaAnimal,
+        LupusCancaoDaGrandeFera,
+        LupusDomDosElementos,
         TheurgeNomeDoEspirito,
         TheurgeComandarEspiritos,
         TheurgeExorcismo,

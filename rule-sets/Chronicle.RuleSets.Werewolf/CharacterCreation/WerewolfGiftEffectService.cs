@@ -65,8 +65,21 @@ public static class WerewolfGiftEffectService
         var currentState = request.CurrentState;
         var successes = Math.Max(0, request.ActivationSuccesses);
 
-        var effectResult = definition.GiftKey switch
-        {
+        // Breed Gifts (source lines 1730-1870) resolve through a single
+        // source-derived mechanics table so every one of them produces a real
+        // typed modifier instead of a per-Gift stub.
+        var breedMechanic = WerewolfBreedGiftMechanics.IsBreedGift(request.GiftKey)
+            ? WerewolfBreedGiftMechanics.Resolve(
+                request.GiftKey,
+                successes,
+                currentState.CurrentForm,
+                ReadSheetRatings(currentState, "abilities"))
+            : null;
+
+        var effectResult = breedMechanic is not null
+            ? currentState
+            : definition.GiftKey switch
+            {
             WerewolfGiftIdentifiers.HomidMasterOfFire => ApplyMasterOfFire(currentState, successes),
             WerewolfGiftIdentifiers.MetisCreateElement => ApplyCreateElement(currentState, successes),
             WerewolfGiftIdentifiers.LupusHareLeap => ApplyHareLeap(currentState, successes),
@@ -123,7 +136,52 @@ public static class WerewolfGiftEffectService
                     _ => currentState
         };
 
-        if (definition.GiftKey == WerewolfGiftIdentifiers.HomidInquietacao)
+        if (breedMechanic is not null)
+        {
+            // Every Breed Gift registers exactly one typed, source-derived
+            // modifier, including inherent and instant Gifts.
+            var effect = new WerewolfActiveGiftEffect(
+                definition.GiftKey,
+                0,
+                definition.DurationType,
+                breedMechanic.DurationTurns,
+                breedMechanic.Kind,
+                breedMechanic.Magnitude,
+                breedMechanic.SourceLocator,
+                currentState.CurrentSceneToken,
+                breedMechanic.Payload);
+
+            activeEffects.Add(effect);
+            findings.Add(
+                $"Breed Gift effect registered: {definition.NameEn} (kind={breedMechanic.Kind}, magnitude={breedMechanic.Magnitude}, source={breedMechanic.SourceLocator}).");
+
+            // Source line 1760 (Inquietação) has two distinct consequences: the
+            // target cannot recover Rage, and prolonged-action difficulties
+            // increase by 1 for the scene.
+            if (definition.GiftKey == WerewolfGiftIdentifiers.HomidInquietacao)
+            {
+                var extended = new WerewolfActiveGiftEffect(
+                    definition.GiftKey,
+                    0,
+                    definition.DurationType,
+                    breedMechanic.DurationTurns,
+                    WerewolfActiveGiftEffectKind.ExtendedTestDifficultyModifier,
+                    1,
+                    breedMechanic.SourceLocator,
+                    currentState.CurrentSceneToken,
+                    new WerewolfExtendedTestDifficultyPayload(1, "prolonged-actions", breedMechanic.DurationTurns));
+
+                activeEffects.Add(extended);
+                findings.Add($"Breed Gift effect registered: {definition.NameEn} (ExtendedTestDifficultyModifier +1, source={breedMechanic.SourceLocator}).");
+            }
+
+            if (WerewolfBreedGiftMechanics.IsBlocked(definition.GiftKey))
+            {
+                findings.Add(
+                    $"Breed Gift blocked: {definition.NameEn} requires {breedMechanic.SourceLocator} semantics that are not implemented.");
+            }
+        }
+        else if (definition.GiftKey == WerewolfGiftIdentifiers.HomidInquietacao)
         {
             var rageEffect = CreateActiveEffect(definition, WerewolfActiveGiftEffectKind.RageRecoveryPenalty, 1, currentState);
             var extendedEffect = CreateActiveEffect(definition, WerewolfActiveGiftEffectKind.ExtendedTestDifficultyModifier, 1, currentState);
@@ -160,6 +218,19 @@ public static class WerewolfGiftEffectService
             var currentEffects = (effectResult.ActiveGiftEffects ?? []).ToList();
             currentEffects.AddRange(activeEffects);
             effectResult = effectResult with { ActiveGiftEffects = currentEffects.ToArray() };
+        }
+
+        if (breedMechanic is not null)
+        {
+            // Source line 1793 (Raiva Primordial): the Metis sacrifices one
+            // vitality level, treated as aggravated damage, to gain 2 Rage that
+            // may exceed the permanent limit. This is a real state transition.
+            effectResult = definition.GiftKey switch
+            {
+                WerewolfGiftIdentifiers.MetisRaivaPrimordial =>
+                    ApplyMetisRaivaPrimordial(effectResult, breedMechanic.Magnitude),
+                _ => effectResult
+            };
         }
 
         effectResult = WerewolfConditionService.ApplyGiftConditions(effectResult);
@@ -201,6 +272,46 @@ public static class WerewolfGiftEffectService
             effectResult.RuntimeStateVersion,
             null,
             s3Payload);
+    }
+
+    /// <summary>
+    /// Source line 1793: sacrifices one vitality level (aggravated damage) once
+    /// per scene to gain 2 Rage, which may exceed the permanent limit.
+    /// </summary>
+    private static WerewolfRuntimeCharacterState ApplyMetisRaivaPrimordial(
+        WerewolfRuntimeCharacterState state,
+        int rageGained)
+    {
+        if (rageGained <= 0)
+        {
+            return state;
+        }
+
+        var damaged = WerewolfApplyDamageService.ApplyDamage(new WerewolfApplyDamageRequest(
+            "breed-raidiva-primordial",
+            state,
+            state.RuntimeStateVersion,
+            WerewolfDamageCategory.Aggravated,
+            1));
+
+        var hurt = damaged.UpdatedState ?? state;
+        var rageAfter = hurt.RageCurrent + rageGained;
+
+        return hurt with
+        {
+            RageCurrent = rageAfter,
+            RagePermanent = Math.Max(hurt.RagePermanent, rageAfter)
+        };
+    }
+
+    private static Dictionary<string, int> ReadSheetRatings(WerewolfRuntimeCharacterState state, string bindingKey)
+    {
+        if (!state.PackageBinding.TryGetValue(bindingKey, out var text) || string.IsNullOrWhiteSpace(text))
+        {
+            return new Dictionary<string, int>(StringComparer.Ordinal);
+        }
+
+        return System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(text) ?? new Dictionary<string, int>(StringComparer.Ordinal);
     }
 
     private static WerewolfRuntimeCharacterState ApplyHomidPersuasao(WerewolfRuntimeCharacterState state, int successes)
@@ -413,10 +524,6 @@ public static class WerewolfGiftEffectService
         return state;
     }
     private static WerewolfRuntimeCharacterState ApplyHomidPerturbarTecnologia(WerewolfRuntimeCharacterState state, int successes)
-    {
-        return state;
-    }
-    private static WerewolfRuntimeCharacterState ApplyMetisRaivaPrimordial(WerewolfRuntimeCharacterState state, int successes)
     {
         return state;
     }

@@ -290,6 +290,9 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void EffectDoesNotRegisterActiveEffectForInstantGift()
     {
+        // Source line 1829 (Salto da Lebre): a success doubles the standard
+        // jump distance. The Gift is Instant, but the mechanic is real and now
+        // registers a typed MovementBonus modifier instead of nothing.
         var state = BuildRuntimeState() with { BirthRace = WerewolfRaceIdentifiers.Lupus };
         var activationResult = WerewolfGiftActivationService.ActivateGift(new WerewolfGiftActivationRequest(
             "req-001", state, 1, WerewolfGiftIdentifiers.LupusHareLeap));
@@ -300,7 +303,14 @@ public sealed class WerewolfGiftRuntimeTests
             WerewolfGiftIdentifiers.LupusHareLeap, 2));
 
         Assert.True(effectResult.Succeeded);
-        Assert.Empty(effectResult.ActiveEffects);
+        var effect = Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfActiveGiftEffectKind.MovementBonus, effect.EffectKind);
+        Assert.Equal(2, effect.Magnitude);
+
+        var payload = Assert.IsType<WerewolfJumpPayload>(effect.Payload);
+        Assert.Equal(7, payload.TestDifficulty);
+        Assert.Equal(2, payload.DistanceMultiplier);
+        Assert.Contains("1827", effect.SourceLocator, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -586,7 +596,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void GiftCatalogHasExpectedCount()
     {
-        Assert.Equal(100, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(117, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -952,7 +962,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void AllCataloguedGiftsArePresent()
     {
-        Assert.Equal(100, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(117, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -1374,6 +1384,9 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void WaveAPermanentGiftDoesNotCreateActiveEffect()
     {
+        // Source line 1793 (Raiva Primordial): the Metis sacrifices one
+        // vitality level to gain 2 Rage, which may exceed the permanent limit.
+        // This is a real state transition, not a no-op.
         var state = BuildRuntimeState();
         var knownGifts = state.KnownGiftKeys.ToList();
         knownGifts.Add(WerewolfGiftIdentifiers.MetisRaivaPrimordial);
@@ -1383,12 +1396,24 @@ public sealed class WerewolfGiftRuntimeTests
             "req-001", state, 1, WerewolfGiftIdentifiers.MetisRaivaPrimordial));
 
         Assert.True(activationResult.Succeeded);
+        var rageBefore = activationResult.UpdatedState!.RageCurrent;
+
         var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(
             "req-002", activationResult.UpdatedState!, activationResult.NewRuntimeStateVersion,
             WerewolfGiftIdentifiers.MetisRaivaPrimordial, 0));
 
         Assert.True(effectResult.Succeeded);
-        Assert.Empty(effectResult.ActiveEffects);
+        var effect = Assert.Single(effectResult.ActiveEffects);
+        Assert.Equal(WerewolfActiveGiftEffectKind.RageGain, effect.EffectKind);
+        Assert.Equal(2, effect.Magnitude);
+
+        var payload = Assert.IsType<WerewolfRageSacrificePayload>(effect.Payload);
+        Assert.Equal(2, payload.RageGained);
+        Assert.Equal(1, payload.VitalityLevelsSacrificed);
+        Assert.True(payload.MayExceedPermanentLimit);
+
+        Assert.Equal(rageBefore + 2, effectResult.UpdatedState!.RageCurrent);
+        Assert.True(effectResult.UpdatedState.RagePermanent >= effectResult.UpdatedState.RageCurrent);
     }
 
     [Fact]
@@ -1654,7 +1679,7 @@ public sealed class WerewolfGiftRuntimeTests
     public void WaveBCatalogCountReflectsWaveBImplementation()
     {
         var allKeys = WerewolfGiftCatalog.AllDefinitions.Select(g => g.GiftKey).ToList();
-        Assert.Equal(100, allKeys.Count);
+        Assert.Equal(117, allKeys.Count);
     }
 
     [Fact]
