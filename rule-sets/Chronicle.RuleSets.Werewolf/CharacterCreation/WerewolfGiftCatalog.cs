@@ -1689,7 +1689,7 @@ public static class WerewolfGiftCatalog
             "Dá forma física real a criaturas geradas na imaginação a partir da essência dos sonhos.",
             "Line 2056"),
 
-        // ---- Tribe Gifts: atomic regeneration from source sections 27-38 (lines 2104-2563) ----
+        // ---- Tribe Gifts: source sections 27-38 (lines 2104-2561) ----
         new WerewolfGiftDefinition(
 
             WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,

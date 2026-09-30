@@ -45,7 +45,7 @@ public sealed class WerewolfGiftRuntimeTests
     [InlineData(WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge, 1)]
     [InlineData(WerewolfGiftIdentifiers.ShadowLordsAuraOfConfidence, 1)]
     [InlineData(WerewolfGiftIdentifiers.ShadowLordsFatalFlaw, 1)]
-    [InlineData(WerewolfGiftIdentifiers.UktenaSpiritSpeech, 1)]
+    [InlineData(WerewolfGiftIdentifiers.UktenaComunicacaoComEspiritos, 1)]
     [InlineData(WerewolfGiftIdentifiers.UktenaShroud, 1)]
     [InlineData(WerewolfGiftIdentifiers.UktenaSenseMagic, 1)]
     [InlineData(WerewolfGiftIdentifiers.WendigoCamouflage, 1)]
@@ -604,7 +604,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void GiftCatalogHasExpectedCount()
     {
-        Assert.Equal(153, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(225, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -975,7 +975,7 @@ public sealed class WerewolfGiftRuntimeTests
     [Fact]
     public void AllCataloguedGiftsArePresent()
     {
-        Assert.Equal(153, WerewolfGiftCatalog.AllDefinitions.Count);
+        Assert.Equal(225, WerewolfGiftCatalog.AllDefinitions.Count);
     }
 
     [Fact]
@@ -1696,7 +1696,7 @@ public sealed class WerewolfGiftRuntimeTests
     public void WaveBCatalogCountReflectsWaveBImplementation()
     {
         var allKeys = WerewolfGiftCatalog.AllDefinitions.Select(g => g.GiftKey).ToList();
-        Assert.Equal(153, allKeys.Count);
+        Assert.Equal(225, allKeys.Count);
     }
 
     [Fact]
@@ -1795,7 +1795,7 @@ public sealed class WerewolfGiftRuntimeTests
             WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge,
             WerewolfGiftIdentifiers.ShadowLordsAuraOfConfidence,
             WerewolfGiftIdentifiers.ShadowLordsFatalFlaw,
-            WerewolfGiftIdentifiers.UktenaSpiritSpeech,
+            WerewolfGiftIdentifiers.UktenaComunicacaoComEspiritos,
             WerewolfGiftIdentifiers.UktenaShroud,
             WerewolfGiftIdentifiers.UktenaSenseMagic,
             WerewolfGiftIdentifiers.WendigoCamouflage,

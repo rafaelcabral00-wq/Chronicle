@@ -308,7 +308,7 @@ public sealed class WerewolfWave1CharacterCreationTests
             Auspice = WerewolfAuspiceIdentifiers.Galliard,
             Tribe = WerewolfTribeIdentifiers.GlassWalkers,
             RaceGift = WerewolfGiftIdentifiers.HomidMasterOfFire,
-            AuspiceGift = WerewolfGiftIdentifiers.GalliardBeastSpeech,
+            AuspiceGift = WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais,
             TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             AttributePriorityOrder = Array.AsReadOnly([WerewolfAttributeCategoryIdentifiers.Physical, WerewolfAttributeCategoryIdentifiers.Social, WerewolfAttributeCategoryIdentifiers.Mental]),
             AbilityPriorityOrder = Array.AsReadOnly([WerewolfAbilityCategoryIdentifiers.Talents, WerewolfAbilityCategoryIdentifiers.Skills, WerewolfAbilityCategoryIdentifiers.Knowledges]),

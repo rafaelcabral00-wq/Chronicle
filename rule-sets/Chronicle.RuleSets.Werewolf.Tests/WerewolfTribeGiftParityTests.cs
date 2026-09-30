@@ -5,7 +5,7 @@ namespace Chronicle.RuleSets.Werewolf.Tests;
 
 /// <summary>
 /// Wave 2D-1: Tribe Gift catalog parity and alias resolution.
-/// Source sections 27-38 (lines 2104-2563) define 11 Gifts for each of the
+/// Source sections 27-38 (lines 2104-2561) define 11 Gifts for each of the
 /// 12 tribes, 132 in total.
 /// </summary>
 public sealed class WerewolfTribeGiftParityTests
@@ -49,18 +49,18 @@ public sealed class WerewolfTribeGiftParityTests
     }
 
     [Theory]
-    [InlineData("GlassWalkers")]
-    [InlineData("GetOfFenris")]
-    [InlineData("Fianna")]
-    [InlineData("ChildrenOfGaia")]
-    [InlineData("BlackFuries")]
-    [InlineData("RedTalons")]
-    [InlineData("SilentStriders")]
-    [InlineData("SilverFangs")]
-    [InlineData("BoneGnawers")]
-    [InlineData("ShadowLords")]
-    [InlineData("Uktena")]
-    [InlineData("Wendigo")]
+    [InlineData(WerewolfTribeIdentifiers.GlassWalkers)]
+    [InlineData(WerewolfTribeIdentifiers.GetOfFenris)]
+    [InlineData(WerewolfTribeIdentifiers.Fianna)]
+    [InlineData(WerewolfTribeIdentifiers.ChildrenOfGaia)]
+    [InlineData(WerewolfTribeIdentifiers.BlackFuries)]
+    [InlineData(WerewolfTribeIdentifiers.RedTalons)]
+    [InlineData(WerewolfTribeIdentifiers.SilentStriders)]
+    [InlineData(WerewolfTribeIdentifiers.SilverFangs)]
+    [InlineData(WerewolfTribeIdentifiers.BoneGnawers)]
+    [InlineData(WerewolfTribeIdentifiers.ShadowLords)]
+    [InlineData(WerewolfTribeIdentifiers.Uktena)]
+    [InlineData(WerewolfTribeIdentifiers.Wendigo)]
     public void EachTribeHasExactlyElevenGifts(string tribe)
     {
         Assert.Equal(11, TribeGifts().Count(g => g.OwnerKey == tribe));

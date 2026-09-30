@@ -65,7 +65,7 @@ public static class WerewolfInitialGiftSelectionService
         new(WerewolfGiftIdentifiers.RagabashOpenSeal, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Ragabash, 1),
         new(WerewolfGiftIdentifiers.TheurgeSpiritSpeech, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Theurge, 1),
         new(WerewolfGiftIdentifiers.PhilodoxResistPain, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Philodox, 1),
-        new(WerewolfGiftIdentifiers.GalliardBeastSpeech, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Galliard, 1),
+        new(WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Galliard, 1),
         new(WerewolfGiftIdentifiers.AhrounFallingTouch, WerewolfInitialGiftSource.Auspice, WerewolfAuspiceIdentifiers.Ahroun, 1),
         new(WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GlassWalkers, 1),
         new(WerewolfGiftIdentifiers.GlassWalkersDiagnostics, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.GlassWalkers, 1),
@@ -93,12 +93,22 @@ public static class WerewolfInitialGiftSelectionService
         new(WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ShadowLords, 1),
         new(WerewolfGiftIdentifiers.ShadowLordsAuraOfConfidence, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ShadowLords, 1),
         new(WerewolfGiftIdentifiers.ShadowLordsFatalFlaw, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.ShadowLords, 1),
-        new(WerewolfGiftIdentifiers.UktenaSpiritSpeech, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Uktena, 1),
+        new(WerewolfGiftIdentifiers.UktenaComunicacaoComEspiritos, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Uktena, 1),
         new(WerewolfGiftIdentifiers.UktenaShroud, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Uktena, 1),
         new(WerewolfGiftIdentifiers.UktenaSenseMagic, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Uktena, 1),
         new(WerewolfGiftIdentifiers.WendigoCamouflage, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Wendigo, 1),
         new(WerewolfGiftIdentifiers.WendigoCallTheBreeze, WerewolfInitialGiftSource.Tribe, WerewolfTribeIdentifiers.Wendigo, 1)
     ];
+
+    /// <summary>
+    /// Gift identifiers approved as executable initial Gifts in the current slice,
+    /// projected from <c>CurrentSliceGifts</c> so the two can never drift.
+    /// Every entry must resolve to a <see cref="WerewolfGiftCatalog"/> definition;
+    /// otherwise a completed character would hold a dangling Gift reference that
+    /// activation can never resolve.
+    /// </summary>
+    public static IReadOnlyList<string> CurrentSliceGiftIds { get; } =
+        new ReadOnlyCollection<string>(CurrentSliceGifts.Select(gift => gift.GiftId).ToArray());
 
     private static readonly string[] KnownOutOfScopeGiftPrefixes =
     [

@@ -62,7 +62,7 @@ public sealed class WerewolfGiftCatalogEncodingTests
     {
         var entries = WerewolfGiftCatalog.AllDefinitions;
 
-        Assert.Equal(153, entries.Count);
+        Assert.Equal(225, entries.Count);
 
         foreach (var entry in entries)
         {

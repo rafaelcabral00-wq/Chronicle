@@ -194,7 +194,7 @@ public sealed class WerewolfTribeSelectionTests
     [InlineData(WerewolfTribeIdentifiers.SilentStriders, WerewolfGiftIdentifiers.SilentStridersSilence)]
     [InlineData(WerewolfTribeIdentifiers.BoneGnawers, WerewolfGiftIdentifiers.BoneGnawersCooking)]
     [InlineData(WerewolfTribeIdentifiers.ShadowLords, WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge)]
-    [InlineData(WerewolfTribeIdentifiers.Uktena, WerewolfGiftIdentifiers.UktenaSpiritSpeech)]
+    [InlineData(WerewolfTribeIdentifiers.Uktena, WerewolfGiftIdentifiers.UktenaComunicacaoComEspiritos)]
     [InlineData(WerewolfTribeIdentifiers.Wendigo, WerewolfGiftIdentifiers.WendigoCamouflage)]
     public void TribeGiftIsEligibleForTribe(string tribeId, string giftId)
     {

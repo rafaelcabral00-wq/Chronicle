@@ -144,7 +144,7 @@ public sealed class WerewolfResourceRankInitializationTests
         var draft = Draft(WerewolfRaceIdentifiers.Metis, WerewolfAuspiceIdentifiers.Galliard) with
         {
             RaceGift = WerewolfGiftIdentifiers.MetisCreateElement,
-            AuspiceGift = WerewolfGiftIdentifiers.GalliardBeastSpeech,
+            AuspiceGift = WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais,
             TribeGift = WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine,
             AttributePriorityOrder = Array.AsReadOnly([WerewolfAttributeCategoryIdentifiers.Physical, WerewolfAttributeCategoryIdentifiers.Social, WerewolfAttributeCategoryIdentifiers.Mental]),
             AbilityPriorityOrder = Array.AsReadOnly([WerewolfAbilityCategoryIdentifiers.Talents, WerewolfAbilityCategoryIdentifiers.Skills, WerewolfAbilityCategoryIdentifiers.Knowledges]),

@@ -14,7 +14,7 @@ public sealed class WerewolfInitialGiftSelectionTests
     [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Ragabash, null, WerewolfGiftIdentifiers.RagabashOpenSeal)]
     [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Theurge, null, WerewolfGiftIdentifiers.TheurgeSpiritSpeech)]
     [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Philodox, null, WerewolfGiftIdentifiers.PhilodoxResistPain)]
-    [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Galliard, null, WerewolfGiftIdentifiers.GalliardBeastSpeech)]
+    [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Galliard, null, WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais)]
     [InlineData(WerewolfInitialGiftSource.Auspice, null, WerewolfAuspiceIdentifiers.Ahroun, null, WerewolfGiftIdentifiers.AhrounFallingTouch)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.GlassWalkers, WerewolfGiftIdentifiers.GlassWalkersControlSimpleMachine)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.GlassWalkers, WerewolfGiftIdentifiers.GlassWalkersDiagnostics)]
@@ -42,7 +42,7 @@ public sealed class WerewolfInitialGiftSelectionTests
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.ShadowLords, WerewolfGiftIdentifiers.ShadowLordsSeizingTheEdge)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.ShadowLords, WerewolfGiftIdentifiers.ShadowLordsAuraOfConfidence)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.ShadowLords, WerewolfGiftIdentifiers.ShadowLordsFatalFlaw)]
-    [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.Uktena, WerewolfGiftIdentifiers.UktenaSpiritSpeech)]
+    [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.Uktena, WerewolfGiftIdentifiers.UktenaComunicacaoComEspiritos)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.Uktena, WerewolfGiftIdentifiers.UktenaShroud)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.Uktena, WerewolfGiftIdentifiers.UktenaSenseMagic)]
     [InlineData(WerewolfInitialGiftSource.Tribe, null, null, WerewolfTribeIdentifiers.Wendigo, WerewolfGiftIdentifiers.WendigoCamouflage)]
@@ -68,13 +68,22 @@ public sealed class WerewolfInitialGiftSelectionTests
         Assert.Contains(result.Findings, finding => finding.Code == WerewolfInitialGiftSelectionErrorCode.GiftSelected);
         Assert.Equal(giftId, SelectedGift(result.Draft!, source));
         Assert.Empty(result.Draft?.Gifts ?? []);
+
+        // Selection succeeding is not enough: the accepted identifier must be an
+        // executable catalog Gift, otherwise the character holds a dangling
+        // reference that activation can never resolve.
+        var definition = WerewolfGiftCatalog.Get(giftId);
+        Assert.NotNull(definition);
+        Assert.Equal(CategoryFor(source), definition!.Category);
+        Assert.Equal(1, definition.Level);
+        Assert.False(string.IsNullOrWhiteSpace(definition.SourceLocator));
     }
 
     [Theory]
     [InlineData(WerewolfAuspiceIdentifiers.Ragabash, WerewolfGiftIdentifiers.RagabashOpenSeal)]
     [InlineData(WerewolfAuspiceIdentifiers.Theurge, WerewolfGiftIdentifiers.TheurgeSpiritSpeech)]
     [InlineData(WerewolfAuspiceIdentifiers.Philodox, WerewolfGiftIdentifiers.PhilodoxResistPain)]
-    [InlineData(WerewolfAuspiceIdentifiers.Galliard, WerewolfGiftIdentifiers.GalliardBeastSpeech)]
+    [InlineData(WerewolfAuspiceIdentifiers.Galliard, WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais)]
     [InlineData(WerewolfAuspiceIdentifiers.Ahroun, WerewolfGiftIdentifiers.AhrounFallingTouch)]
     public void SelectsOneExecutableInitialGiftForEverySupportedAuspice(string auspiceId, string giftId)
     {
@@ -84,6 +93,16 @@ public sealed class WerewolfInitialGiftSelectionTests
 
         Assert.True(result.Succeeded);
         Assert.Equal(giftId, result.Draft?.AuspiceGift);
+
+        // An accepted Auspice initial Gift must be a real, executable catalog
+        // Gift owned by that Auspice at level one, not merely an identifier
+        // that happens to pass selection.
+        var definition = WerewolfGiftCatalog.Get(giftId);
+        Assert.NotNull(definition);
+        Assert.Equal(WerewolfGiftCategory.Auspice, definition!.Category);
+        Assert.Equal(auspiceId, definition.OwnerKey);
+        Assert.Equal(1, definition.Level);
+        Assert.False(string.IsNullOrWhiteSpace(definition.SourceLocator));
     }
 
     [Theory]
@@ -310,6 +329,35 @@ public sealed class WerewolfInitialGiftSelectionTests
     }
 
     [Fact]
+    public void EveryApprovedCurrentSliceInitialGiftResolvesToACatalogDefinition()
+    {
+        Assert.NotEmpty(WerewolfInitialGiftSelectionService.CurrentSliceGiftIds);
+
+        foreach (var giftId in WerewolfInitialGiftSelectionService.CurrentSliceGiftIds)
+        {
+            var definition = WerewolfGiftCatalog.Get(giftId);
+            Assert.True(
+                definition is not null,
+                $"Approved initial Gift '{giftId}' has no WerewolfGiftCatalog definition, so selection would leave a dangling Gift reference.");
+        }
+    }
+
+    [Fact]
+    public void SupportedGiftIdentifiersHaveNoDuplicateValues()
+    {
+        // GiftIdentifiersSupportedMatchesCatalog de-duplicates both sides, so a
+        // repeated identifier would otherwise pass unnoticed.
+        var duplicates = WerewolfGiftIdentifiers.Supported
+            .GroupBy(giftId => giftId, StringComparer.Ordinal)
+            .Where(group => group.Count() > 1)
+            .Select(group => group.Key)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+
+        Assert.Empty(duplicates);
+    }
+
+    [Fact]
     public void InitialGiftSelectionHasNoForbiddenDependencies()
     {
         var source = File.ReadAllText(Path.Combine(FindRepositoryRoot(), "rule-sets", "Chronicle.RuleSets.Werewolf", "CharacterCreation", "WerewolfInitialGiftSelection.cs"));
@@ -321,6 +369,17 @@ public sealed class WerewolfInitialGiftSelectionTests
     private static WerewolfInitialGiftSelectionResult Select(WerewolfInitializedCharacterState draft, WerewolfInitialGiftSource source, string giftId)
     {
         return WerewolfInitialGiftSelectionService.SelectGift(new WerewolfInitialGiftSelectionRequest(draft, draft.DraftVersion, source, giftId));
+    }
+
+    private static WerewolfGiftCategory CategoryFor(WerewolfInitialGiftSource source)
+    {
+        return source switch
+        {
+            WerewolfInitialGiftSource.Race => WerewolfGiftCategory.Breed,
+            WerewolfInitialGiftSource.Auspice => WerewolfGiftCategory.Auspice,
+            WerewolfInitialGiftSource.Tribe => WerewolfGiftCategory.Tribe,
+            _ => throw new ArgumentOutOfRangeException(nameof(source), source, "Unknown initial Gift source.")
+        };
     }
 
     private static string? SelectedGift(WerewolfInitializedCharacterState draft, WerewolfInitialGiftSource source)
@@ -378,7 +437,7 @@ public sealed class WerewolfInitialGiftSelectionTests
             (WerewolfAuspiceIdentifiers.Ragabash, WerewolfGiftIdentifiers.RagabashOpenSeal),
             (WerewolfAuspiceIdentifiers.Theurge, WerewolfGiftIdentifiers.TheurgeSpiritSpeech),
             (WerewolfAuspiceIdentifiers.Philodox, WerewolfGiftIdentifiers.PhilodoxResistPain),
-            (WerewolfAuspiceIdentifiers.Galliard, WerewolfGiftIdentifiers.GalliardBeastSpeech),
+            (WerewolfAuspiceIdentifiers.Galliard, WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais),
             (WerewolfAuspiceIdentifiers.Ahroun, WerewolfGiftIdentifiers.AhrounFallingTouch)
         };
 

@@ -8,7 +8,6 @@ public static class WerewolfGiftIdentifiers
     public const string RagabashOpenSeal = "gift.auspice.ragabash.open-seal";
     public const string TheurgeSpiritSpeech = "gift.auspice.theurge.spirit-speech";
     public const string PhilodoxResistPain = "gift.auspice.philodox.resist-pain";
-    public const string GalliardBeastSpeech = "gift.auspice.galliard.beast-speech";
     public const string AhrounFallingTouch = "gift.auspice.ahroun.falling-touch";
     public const string GlassWalkersControlSimpleMachine = "gift.tribe.glass-walkers.control-simple-machine";
     public const string GlassWalkersDiagnostics = "gift.tribe.glass-walkers.diagnostics";
@@ -36,7 +35,6 @@ public static class WerewolfGiftIdentifiers
     public const string ShadowLordsSeizingTheEdge = "gift.tribe.shadow-lords.seizing-the-edge";
     public const string ShadowLordsAuraOfConfidence = "gift.tribe.shadow-lords.aura-of-confidence";
     public const string ShadowLordsFatalFlaw = "gift.tribe.shadow-lords.fatal-flaw";
-    public const string UktenaSpiritSpeech = "gift.tribe.uktena.spirit-speech";
     public const string UktenaShroud = "gift.tribe.uktena.shroud";
     public const string UktenaSenseMagic = "gift.tribe.uktena.sense-magic";
     public const string WendigoCamouflage = "gift.tribe.wendigo.camouflage";
@@ -107,7 +105,7 @@ public static class WerewolfGiftIdentifiers
     public const string TheurgeCapturaADistancia = "gift.theurge.captura-a-distancia";
 
     // ---- Breed Gift keys (source lines 1730-1870) ----
-    // ---- Tribe Gift keys (source lines 2104-2563) ----
+    // ---- Tribe Gift keys (source lines 2104-2561) ----
     public const string GlassWalkersControleDeMaquinasComplexas = "gift.tribe.glasswalkers.controle-de-maquinas-complexas";
     public const string GlassWalkersFavorDoElemental = "gift.tribe.glasswalkers.favor-do-elemental";
     public const string GlassWalkersDoppelganger = "gift.tribe.glasswalkers.doppelganger";
@@ -274,7 +272,7 @@ public static class WerewolfGiftIdentifiers
         ShadowLordsSeizingTheEdge,
         ShadowLordsAuraOfConfidence,
         ShadowLordsFatalFlaw,
-        UktenaSpiritSpeech,
+        UktenaComunicacaoComEspiritos,
         UktenaShroud,
         UktenaSenseMagic,
         WendigoCamouflage,
@@ -394,12 +392,79 @@ public static class WerewolfGiftIdentifiers
         HomidCasulo,
         FiannaRemodelarObjeto,
         BoneGnawersRemodelarObjeto,
-        LupusNomeDoEspirito,
-        TheurgeNomeDoEspirito,
-        TheurgeComandarEspiritos,
-        TheurgeExorcismo,
-        TheurgeRoubarPoderes,
-        SilentStridersAlcancarAUmbra,
-        TheurgeCapturaADistancia
+
+        // ---- Remaining Tribe Gift keys (tribe gift sections 27-38, source lines 2104-2561) ----
+        GlassWalkersControleDeMaquinasComplexas,
+        GlassWalkersFavorDoElemental,
+        GlassWalkersDoppelganger,
+        GlassWalkersHarmonia,
+        GlassWalkersInvocarAranhaDeRede,
+        GlassWalkersMecanicaDoCaos,
+        GetOfFenrisPoderDeThor,
+        GetOfFenrisSangueVenenoso,
+        GetOfFenrisGritoDeGaia,
+        GetOfFenrisUniaoComATerra,
+        GetOfFenrisHordaDoValhala,
+        GetOfFenrisMordidaDeFenris,
+        FiannaBlaBlaBla,
+        FiannaParenteFada,
+        FiannaFantasma,
+        FiannaOlhoVermelho,
+        FiannaChamadoParaACacada,
+        FiannaDomDoSpriggan,
+        ChildrenOfGaiaEspiritoAmigo,
+        ChildrenOfGaiaPasmar,
+        ChildrenOfGaiaAtingirOVazio,
+        ChildrenOfGaiaVidaAnimal,
+        ChildrenOfGaiaAuraDoSol,
+        ChildrenOfGaiaMadeiraViva,
+        BlackFuriesAgoniaVisceral,
+        BlackFuriesCoupDeGrace,
+        BlackFuriesDebilitarOCorpo,
+        BlackFuriesGarrasFerroes,
+        BlackFuriesAsMilFormas,
+        BlackFuriesInvocacaoDaWyld,
+        RedTalonsFavorDoElemental,
+        RedTalonsTerrenoIrrastreavel,
+        RedTalonsAreiaMovedica,
+        RedTalonsEmpanturrarSe,
+        RedTalonsMaldicaoDeLicaon,
+        RedTalonsVingancaDeGaia,
+        SilentStridersAdaptacao,
+        SilentStridersOGrandeSalto,
+        SilentStridersHarmonia,
+        SilentStridersVelocidadeMaisRapidaQueOPensamento,
+        SilentStridersPortalDaLua,
+        SilverFangsGarrasDePrata,
+        SilverFangsIraDeGaia,
+        SilverFangsBloqueioMental,
+        SilverFangsMaestria,
+        SilverFangsPatasDeFilhoteRecemNascido,
+        SilverFangsVingadorDeLuna,
+        BoneGnawersResistenciaAToxinas,
+        BoneGnawersAmigoNaNecessidade,
+        BoneGnawersHarmonia,
+        BoneGnawersInfestar,
+        BoneGnawersSobrevivente,
+        BoneGnawersTurba,
+        ShadowLordsDirecionarATempestade,
+        ShadowLordsOlharParalisante,
+        ShadowLordsFeridasAbertas,
+        ShadowLordsImposicaoDoDominador,
+        ShadowLordsMatilhaDeSombras,
+        ShadowLordsObediencia,
+        UktenaBanirOTotem,
+        UktenaInvisibilidade,
+        UktenaAMaoDosSenhoresDaTerra,
+        UktenaInvocarElemental,
+        UktenaBonecoVodu,
+        UktenaMaterializacaoDeSonhos,
+        WendigoFalarComOsEspiritosDoVento,
+        WendigoBanqueteSangrento,
+        WendigoSabedoriaDasAntigasTradicoes,
+        WendigoFrioDeNeveNova,
+        WendigoInvocarOEspiritoCanibal,
+        WendigoCoracaoDeGelo,
+        WendigoInvocarOsEspiritosDaTempestade
     ];
 }

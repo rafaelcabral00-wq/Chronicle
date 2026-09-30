@@ -642,7 +642,7 @@ public sealed class WerewolfCharacterCompletionTests
                 WerewolfAuspiceIdentifiers.Ragabash => WerewolfGiftIdentifiers.RagabashOpenSeal,
                 WerewolfAuspiceIdentifiers.Theurge => WerewolfGiftIdentifiers.TheurgeSpiritSpeech,
                 WerewolfAuspiceIdentifiers.Philodox => WerewolfGiftIdentifiers.PhilodoxResistPain,
-                WerewolfAuspiceIdentifiers.Galliard => WerewolfGiftIdentifiers.GalliardBeastSpeech,
+                WerewolfAuspiceIdentifiers.Galliard => WerewolfGiftIdentifiers.GalliardComunicacaoComAnimais,
                 WerewolfAuspiceIdentifiers.Ahroun => WerewolfGiftIdentifiers.AhrounFallingTouch,
                 _ => null
             },
