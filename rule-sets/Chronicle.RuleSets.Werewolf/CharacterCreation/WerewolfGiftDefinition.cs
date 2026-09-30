@@ -48,4 +48,12 @@ public sealed record WerewolfGiftDefinition(
     int MaxUsesPerScene,
     string EffectDescriptionEn,
     string EffectDescriptionPtBr,
-    string SourceLocator);
+    string SourceLocator,
+    /// <summary>
+    /// Set when the source defines this Gift as identical to another Gift
+    /// (for example "Identico ao Dom dos hominideos"). The value is the
+    /// canonical Gift key whose mechanic applies; it is never the Gift's own
+    /// key. Null for Gifts the source defines in full, and for the two source
+    /// variants that derive from another Gift but differ from it.
+    /// </summary>
+    string? AliasedGiftKey = null);
