@@ -168,7 +168,7 @@ public static class WerewolfGiftCatalog
             null,
             WerewolfGiftDurationType.Turn,
             0,
-            "Causa falhas temporárias em dispositivos tecnolágicos num raio de 15 metros. Custa 1 ponto de Gnose e exige um teste de Manipulaááo + Ofácios. Cada...",
+            "Causa falhas temporárias em dispositivos tecnológicos num raio de 15 metros. Custa 1 ponto de Gnose e exige um teste de Manipulação + Ofícios. Cada...",
             "Causa falhas temporárias em dispositivos tecnológicos num raio de 15 metros.",
             "Line 1746"),        new WerewolfGiftDefinition(
             WerewolfGiftIdentifiers.MetisRaivaPrimordial,
@@ -1763,7 +1763,7 @@ public static class WerewolfGiftCatalog
             null,
             WerewolfGiftDurationType.Scene,
             0,
-            "Substitui sentidos naturais por aparatos tecnolágicos (radar, infravermelho, ultravioleta). Custa 1 ponto de Gnose por sentido e exige teste de Per...",
+            "Replaces the character's natural senses with technological apparatus (radar, infrared, ultraviolet). Costs 1 Gnosis point per sense and requires a Perception + Science test. Lasts one scene. The source states no difficulty for that test, so Chronicle records none rather than inventing one; the per-sense Gnosis cost is not expressible as a single scalar amount.",
             "Substitui sentidos naturais por aparatos tecnológicos (radar, infravermelho, ultravioleta).",
             "Line 2117"),
         new WerewolfGiftDefinition(
@@ -1777,112 +1777,142 @@ public static class WerewolfGiftCatalog
             WerewolfGiftActivationType.TestRequired,
             WerewolfGiftCostType.Gnosis,
             1,
-            null,
-            null,
+            "Wits",
+            "Science",
             7,
-            WerewolfGiftDurationType.Scene,
+            WerewolfGiftDurationType.Instant,
             0,
-            "Comunica-se com a eletricidade para provocar um blecaute na regiáo. Custa 1 ponto de Gnose e exige teste de Raciocánio + Ciáncia (dificuldade 7). A...",
+            "Communicates with electricity to cause a blackout in the region. Costs 1 Gnosis point and requires a Wits + Science test at difficulty 7. The affected area scales with successes (one room for 1 success; an entire neighbourhood for 5 successes). The source states no duration for the effect, so Chronicle records Instant and leaves the Gift blocked rather than inventing one; the area scale has no numeric unit.",
             "Comunica-se com a eletricidade para provocar um blecaute na região.",
             "Line 2120"),
         new WerewolfGiftDefinition(
             WerewolfGiftIdentifiers.GlassWalkersControleDeMaquinasComplexas,
-            "GlassWalkersControleDeMaquinasComplexas",
+            "Complex Machine Control",
             "Controle de Máquinas Complexas",
             3,
             WerewolfGiftCategory.Tribe,
             WerewolfTribeIdentifiers.GlassWalkers,
-            WerewolfGiftActivationType.Active,
-            WerewolfGiftCostType.None,
-            0,
-            null,
-            null,
-            null,
+            WerewolfGiftActivationType.TestRequired,
+            WerewolfGiftCostType.Willpower,
+            1,
+            "Manipulation",
+            "Computer",
+            8,
             WerewolfGiftDurationType.Scene,
             0,
-            "GlassWalkersControleDeMaquinasComplexas (see the Portuguese description).",
+            "Talks to and commands the spirits of advanced electronic devices (computers, cars, videogames). Costs 1 Willpower point and requires a Manipulation + Science/Computer test whose difficulty is based on the complexity of the device, generally 8; 8 is the source's own stated general value. Lasts one scene. Chronicle records the general difficulty because the source defines no device-complexity scale.",
             "Conversa e comanda espíritos de dispositivos eletrônicos avançados (computadores, carros, videogames).",
             "Line 2124"),
 
         new WerewolfGiftDefinition(
             WerewolfGiftIdentifiers.GlassWalkersFavorDoElemental,
-            "GlassWalkersFavorDoElemental",
+            "Elemental Favor",
             "Favor do Elemental",
             3,
             WerewolfGiftCategory.Tribe,
             WerewolfTribeIdentifiers.GlassWalkers,
-            WerewolfGiftActivationType.Active,
+            WerewolfGiftActivationType.TestRequired,
             WerewolfGiftCostType.None,
             0,
+            "Charisma",
+            "Subterfuge",
             null,
-            null,
-            null,
-            WerewolfGiftDurationType.Scene,
+            WerewolfGiftDurationType.Instant,
             0,
-            "GlassWalkersFavorDoElemental (see the Portuguese description).",
+            "Coerces or persuades an urban elemental to manipulate or destroy its own terrain shell (shattering windows, jamming doors, failing brakes). Requires a Charisma + Guile test opposed by the elemental's Gnosis. The source states no cost and no duration, so Chronicle records neither; no urban-elemental entity carrying a Gnosis rating exists to oppose the test.",
             "Coage ou persuade um elemental urbano a manipular ou destruir seu invólucro terreno (fazer vidros explodirem, portas emperrarem, freios falharem).",
             "Line 2127"),
 
         new WerewolfGiftDefinition(
+            // KNOWN SELF-CONTRADICTION, recorded rather than hidden. Source line
+            // 2133 says "Dura um dia por sucesso" (one day per success), so
+            // WerewolfGiftDurationType.Scene below is wrong on its face. It
+            // cannot be corrected inside the schema: WerewolfGiftDurationType
+            // has no Day member, and adding one is prohibited because both
+            // duration engines resolve an unmapped member through a `_ => 0`
+            // catch-all, which would silently turn this Gift into a zero-turn
+            // (instant) effect. The authoritative duration for this Gift is
+            // therefore (a) the source text above and (b) the tribe mechanic's
+            // DaysPerSuccess / DurationTurns, which WerewolfTribeGiftMechanics
+            // resolves for the tribe-routed path. The tribe-routed path never
+            // reads this catalog DurationType to compute a duration: its effect
+            // takes DurationTurns from the mechanic (PersistentTurns, -1) with
+            // DaysPerSuccess = 1. The only read of this field on that path is
+            // the Permanent-versus-scene test that decides whether the effect
+            // carries a scene token. Scene is retained solely so the shared enum
+            // stays a closed set.
             WerewolfGiftIdentifiers.GlassWalkersDoppelganger,
-            "GlassWalkersDoppelganger",
+            "Doppelganger",
             "Doppelgänger",
             4,
             WerewolfGiftCategory.Tribe,
             WerewolfTribeIdentifiers.GlassWalkers,
-            WerewolfGiftActivationType.Active,
-            WerewolfGiftCostType.None,
-            0,
-            null,
-            null,
-            null,
+            WerewolfGiftActivationType.TestRequired,
+            WerewolfGiftCostType.Gnosis,
+            1,
+            "Charisma",
+            "Performance",
+            8,
             WerewolfGiftDurationType.Scene,
             0,
-            "GlassWalkersDoppelganger (see the Portuguese description).",
+            "Assumes the exact physical appearance, voice, posture and smell of any human, wolf or Garou. Costs 1 Gnosis point and requires a Charisma + Performance test at difficulty 8. Does not duplicate Attributes. Lasts one day per success; the per-success day count is carried by the mechanic's payload because the source defines no turn-to-day conversion.",
             "Assume a aparência física, voz, postura e cheiro exatos de qualquer ser humano, lobo ou Garou.",
             "Line 2131"),
 
         new WerewolfGiftDefinition(
             WerewolfGiftIdentifiers.GlassWalkersHarmonia,
-            "GlassWalkersHarmonia",
+            "Harmony",
             "Harmonia",
             4,
             WerewolfGiftCategory.Tribe,
             WerewolfTribeIdentifiers.GlassWalkers,
-            WerewolfGiftActivationType.Active,
-            WerewolfGiftCostType.None,
+            WerewolfGiftActivationType.TestRequired,
+            WerewolfGiftCostType.Gnosis,
+            1,
+            "Perception",
+            // Source line 2136: "exige teste de Percepcao + Manha". The source's
+            // Manha is Chronicle's Streetwise talent, and the catalogue carries
+            // that identity explicitly: WerewolfAbilityIdentifiers.Streetwise
+            // ("character.ability.streetwise") is a member of Supported, maps to
+            // WerewolfAbilityCategoryIdentifiers.Talents, and the prototype
+            // abilities catalogue records sourceLabelPtBr "Manha" for that entry
+            // (prototype/character-model/catalogs/abilities.json, the
+            // "character.ability.streetwise" record). The short name matches the
+            // convention this catalog already uses for Crafts, Performance,
+            // Computer, Subterfuge and Science. Bone Gnawers Harmonia (source
+            // lines 2432-2434) is not a counter-example: it records no attribute
+            // or ability only because it is an Active, never-source-audited
+            // Deferred Gift, not because the source's Manha is unrepresentable.
+            "Streetwise",
+            null,
+            WerewolfGiftDurationType.Instant,
             0,
-            null,
-            null,
-            null,
-            WerewolfGiftDurationType.Scene,
-            0,
-            "GlassWalkersHarmonia (see the Portuguese description).",
+            "Obtains urban information (population, enclaves, secret tunnels) by talking with the city's spirits. Costs 1 Gnosis point and requires a Perception + Manha test, which Chronicle records as Perception + Streetwise because the source's Manha is its Streetwise talent. The source states no difficulty and no duration, so Chronicle records neither. Critical failures yield dangerous disinformation from mischievous spirits, and the source attaches no mechanical value to it.",
             "Obtém informações urbanas (população, enclaves, túneis secretos) conversando com espíritos da cidade.",
             "Line 2134"),
 
         new WerewolfGiftDefinition(
             WerewolfGiftIdentifiers.GlassWalkersInvocarAranhaDeRede,
-            "GlassWalkersInvocarAranhaDeRede",
+            "Summon Web Spider",
             "Invocar Aranha de Rede",
             5,
             WerewolfGiftCategory.Tribe,
             WerewolfTribeIdentifiers.GlassWalkers,
-            WerewolfGiftActivationType.Active,
-            WerewolfGiftCostType.None,
+            WerewolfGiftActivationType.TestRequired,
+            WerewolfGiftCostType.Gnosis,
+            1,
+            "Charisma",
+            "Computer",
+            8,
+            WerewolfGiftDurationType.Instant,
             0,
-            null,
-            null,
-            null,
-            WerewolfGiftDurationType.Scene,
-            0,
-            "GlassWalkersInvocarAranhaDeRede (see the Portuguese description).",
+            "Summons a Web Spider to take absolute control of computer systems and destroy data. Costs 1 Gnosis point and requires a Charisma + Computer test at difficulty 8. Beyond its destructive power, it halves all computer-related difficulties. The source states no duration for the effect, so Chronicle records Instant; the Web Spider is named nowhere else in the source.",
             "Invoca uma Aranha de Rede para assumir controle absoluto de sistemas computacionais e destruir dados.",
             "Line 2138"),
 
         new WerewolfGiftDefinition(
             WerewolfGiftIdentifiers.GlassWalkersMecanicaDoCaos,
-            "GlassWalkersMecanicaDoCaos",
+            "Chaos Mechanics",
             "Mecânica do Caos",
             5,
             WerewolfGiftCategory.Tribe,
@@ -1893,9 +1923,9 @@ public static class WerewolfGiftCatalog
             null,
             null,
             null,
-            WerewolfGiftDurationType.Scene,
+            WerewolfGiftDurationType.Permanent,
             0,
-            "GlassWalkersMecanicaDoCaos (see the Portuguese description).",
+            "Reconciles the energy of the Wyld and the Weaver within the Garou's body. Permanent effect. It allows Rage and Gnosis to be used on the same turn without penalty, so fetishes, Gifts and Umbral shortcuts can be activated instantly. This is the named exception to the general rule that Rage and Gnosis cannot be used on the same turn.",
             "Reconcilia a energia da Wyld e da Weaver no organismo do Garou.",
             "Line 2141"),
 
@@ -1972,7 +2002,7 @@ public static class WerewolfGiftCatalog
             null,
             WerewolfGiftDurationType.Turn,
             0,
-            "Reduz drasticamente a velocidade de movimento de um oponente em retirada. Exige 1 turno de concentraááo e teste de Carisma + Intimidaááo contra a F...",
+            "Reduz drasticamente a velocidade de movimento de um oponente em retirada. Exige 1 turno de concentração e teste de Carisma + Intimidação contra a F...",
             "Reduz drasticamente a velocidade de movimento de um oponente em retirada.",
             "Line 2157"),
         new WerewolfGiftDefinition(
@@ -1991,7 +2021,7 @@ public static class WerewolfGiftCatalog
             null,
             WerewolfGiftDurationType.Turn,
             0,
-            "Emite um rosnado bestial que drena a confianáa e a combatividade do oponente. Exige 1 turno para invocar e teste de Carisma + Intimidaááo contra Ra...",
+            "Emite um rosnado bestial que drena a confiança e a combatividade do oponente. Exige 1 turno para invocar e teste de Carisma + Intimidação contra Ra...",
             "Emite um rosnado bestial que drena a confiança e a combatividade do oponente.",
             "Line 2160"),
         new WerewolfGiftDefinition(
@@ -2413,7 +2443,7 @@ public static class WerewolfGiftCatalog
             7,
             WerewolfGiftDurationType.Turn,
             0,
-            "Invoca a proteááo de Luna, garantindo resiliáncia defensiva inclusive contra a prata. Concentraááo de 1 turno, gasto de 1 Gnose e teste de Vigor + ...",
+            "Invoca a proteção de Luna, garantindo resiliência defensiva inclusive contra a prata. Concentração de 1 turno, gasto de 1 Gnose e teste de Vigor + ...",
             "Invoca a proteção de Luna, garantindo resiliência defensiva inclusive contra a prata.",
             "Line 2237"),
         new WerewolfGiftDefinition(

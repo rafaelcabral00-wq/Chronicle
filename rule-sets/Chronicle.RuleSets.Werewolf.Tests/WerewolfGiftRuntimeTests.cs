@@ -266,8 +266,16 @@ public sealed class WerewolfGiftRuntimeTests
         Assert.True(result.Succeeded);
         Assert.NotNull(result.ActivationDefinition);
         Assert.Equal(5, result.ActivationDefinition.DicePool);
-        Assert.Equal(6, result.ActivationDefinition.Difficulty);
         Assert.Contains("Gnosis", result.ActivationDefinition.TestComponents);
+
+        // Source line 1874: "Difficulty equals local Película level". The
+        // difficulty is the Película, which the source does not fix at a
+        // number, so the difficulty is undetermined rather than a default 6.
+        Assert.Null(result.ActivationDefinition.Difficulty);
+        Assert.Contains(
+            result.ActivationDefinition.UndeterminedTestValues,
+            reason => reason.Contains("difficulty", StringComparison.OrdinalIgnoreCase)
+                   && reason.Contains("Line 1874", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -1540,7 +1548,7 @@ public sealed class WerewolfGiftRuntimeTests
         Assert.True(activationResult.Succeeded);
         Assert.NotNull(activationResult.ActivationDefinition);
         Assert.Equal(3, activationResult.ActivationDefinition.DicePool);
-        Assert.Equal(6, activationResult.ActivationDefinition.Difficulty);
+        Assert.Null(activationResult.ActivationDefinition.Difficulty);
         Assert.Equal(WerewolfGiftCostType.None, activationResult.ActivationDefinition.CostType);
 
         var effectResult = WerewolfGiftEffectService.ApplyEffect(new WerewolfGiftEffectRequest(

@@ -3859,9 +3859,10 @@ public sealed class WerewolfReferenceRuntime : IRuleSetRuntime
               {
                   ["giftKey"] = result.ActivationDefinition.GiftKey,
                   ["giftName"] = result.ActivationDefinition.GiftName,
-                  ["dicePool"] = result.ActivationDefinition.DicePool.ToString(System.Globalization.CultureInfo.InvariantCulture),
-                  ["difficulty"] = result.ActivationDefinition.Difficulty.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                  ["dicePool"] = result.ActivationDefinition.DicePool?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "undetermined",
+                  ["difficulty"] = result.ActivationDefinition.Difficulty?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "undetermined",
                   ["testComponents"] = string.Join(",", result.ActivationDefinition.TestComponents),
+                  ["undeterminedTestValues"] = string.Join(" | ", result.ActivationDefinition.UndeterminedTestValues),
                   ["costType"] = result.ActivationDefinition.CostType.ToString(),
                   ["costAmount"] = result.ActivationDefinition.CostAmount.ToString(System.Globalization.CultureInfo.InvariantCulture),
                   ["costPaid"] = result.ActivationDefinition.CostPaid.ToString(),

@@ -56,6 +56,8 @@ public sealed class WerewolfWave1RuntimeCorrectnessTests
             "req-nosheet", state with { KnownGiftKeys = known }, 1, WerewolfGiftIdentifiers.MetisCavar));
 
         Assert.True(result.Succeeded);
+        // Metis Cavar names Strength + Athletics, so the pool is a resolved
+        // number; a null pool would mean the source named no trait at all.
         Assert.Equal(0, result.ActivationDefinition!.DicePool);
     }
 
@@ -285,7 +287,7 @@ public sealed class WerewolfWave1RuntimeCorrectnessTests
     // ---------------------------------------------------------------------
     // Helpers
     // ---------------------------------------------------------------------
-    private static int TestPoolFor(int strength, int athletics)
+    private static int? TestPoolFor(int strength, int athletics)
     {
         var attributes = new Dictionary<string, int>(StringComparer.Ordinal)
         {

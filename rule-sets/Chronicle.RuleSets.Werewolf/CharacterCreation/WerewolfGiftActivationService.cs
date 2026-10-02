@@ -22,15 +22,24 @@ public sealed record WerewolfGiftActivationResult(
 public sealed record WerewolfGiftActivationDefinition(
     string GiftKey,
     string GiftName,
-    int DicePool,
-    int Difficulty,
+    int? DicePool,
+    int? Difficulty,
     IReadOnlyList<string> TestComponents,
     WerewolfGiftCostType CostType,
     int CostAmount,
     bool CostPaid,
     WerewolfGiftDurationType DurationType,
     int DurationTurns,
-    string SourceLocator);
+    string SourceLocator)
+{
+    /// <summary>
+    /// Values this activation cannot state because the source does not define
+    /// them, each with the reason. A value that appears here is null: Chronicle
+    /// reports an undetermined value as undetermined and never substitutes a
+    /// default of its own.
+    /// </summary>
+    public IReadOnlyList<string> UndeterminedTestValues { get; init; } = Array.Empty<string>();
+}
 
 public static class WerewolfGiftActivationService
 {
@@ -81,7 +90,7 @@ public static class WerewolfGiftActivationService
             return new WerewolfGiftActivationResult(false, request.CurrentState, [costError], request.RequestId, request.CurrentState.RuntimeStateVersion, null, "InsufficientResources");
         }
 
-        var (dicePool, difficulty, testComponents) = ComputeTestDefinition(request.CurrentState, definition);
+        var (dicePool, difficulty, testComponents, undeterminedTestValues) = ComputeTestDefinition(request.CurrentState, definition);
         var durationTurns = ComputeDurationTurns(definition);
 
         var activationDefinition = new WerewolfGiftActivationDefinition(
@@ -95,7 +104,10 @@ public static class WerewolfGiftActivationService
             costPaid,
             definition.DurationType,
             durationTurns,
-            definition.SourceLocator);
+            definition.SourceLocator)
+        {
+            UndeterminedTestValues = new ReadOnlyCollection<string>(undeterminedTestValues)
+        };
 
         var updatedState = ApplyCost(request.CurrentState, definition);
         updatedState = IncrementSceneUsage(updatedState, definition);
@@ -107,10 +119,20 @@ public static class WerewolfGiftActivationService
         updatedState = updatedState with { ActivatedGiftKeys = activatedGifts.ToArray() };
         updatedState = updatedState with { RuntimeStateVersion = updatedState.RuntimeStateVersion + 1 };
 
-        findings.Add($"Activated {definition.NameEn}: pool={dicePool}, difficulty={difficulty}, cost={definition.CostAmount} {definition.CostType}.");
+        findings.Add(
+            $"Activated {definition.NameEn}: pool={DescribeValue(dicePool)}, difficulty={DescribeValue(difficulty)}, " +
+            $"cost={definition.CostAmount} {definition.CostType}.");
+        foreach (var undetermined in undeterminedTestValues)
+        {
+            findings.Add($"Gift test value undetermined - {undetermined}");
+        }
+
         if (definition.ActivationType == WerewolfGiftActivationType.TestRequired)
         {
-            findings.Add($"Roll {dicePool} dice vs difficulty {difficulty}. Chronicle interprets successes.");
+            findings.Add(
+                difficulty is null
+                    ? "The source states no difficulty for this test; Chronicle will not roll it against an invented number."
+                    : $"Roll {dicePool} dice vs difficulty {difficulty}. Chronicle interprets successes.");
         }
         else if (definition.ActivationType == WerewolfGiftActivationType.Passive)
         {
@@ -197,38 +219,69 @@ public static class WerewolfGiftActivationService
         };
     }
 
-    private static (int pool, int difficulty, List<string> components) ComputeTestDefinition(WerewolfRuntimeCharacterState state, WerewolfGiftDefinition definition)
+    private static (int? pool, int? difficulty, List<string> components, List<string> undetermined) ComputeTestDefinition(
+        WerewolfRuntimeCharacterState state,
+        WerewolfGiftDefinition definition)
     {
         var components = new List<string>();
+        var undetermined = new List<string>();
 
         if (definition.ActivationType != WerewolfGiftActivationType.TestRequired)
         {
-            return (0, 0, components);
+            // No test applies, so neither a pool nor a difficulty is expected
+            // here; 0 means "not applicable", not "undetermined".
+            return (0, 0, components, undetermined);
         }
 
         int pool = 0;
-        int difficulty = definition.TestDifficulty ?? 6;
+        var attribute = definition.TestAttribute;
+        var ability = definition.TestAbility;
+        var hasAttribute = !string.IsNullOrWhiteSpace(attribute);
+        var hasAbility = !string.IsNullOrWhiteSpace(ability);
 
-        if (!string.IsNullOrWhiteSpace(definition.TestAttribute))
+        if (attribute is not null && hasAttribute)
         {
-            pool += ResolveAttribute(state, definition.TestAttribute);
-            components.Add($"{definition.TestAttribute}");
+            pool += ResolveAttribute(state, attribute);
+            components.Add($"{attribute}");
         }
 
-        if (!string.IsNullOrWhiteSpace(definition.TestAbility))
+        if (ability is not null && hasAbility)
         {
-            pool += ResolveAbility(state, definition.TestAbility);
-            components.Add($"{definition.TestAbility}");
+            pool += ResolveAbility(state, ability);
+            components.Add($"{ability}");
         }
 
-        if (string.IsNullOrWhiteSpace(definition.TestAttribute) && string.IsNullOrWhiteSpace(definition.TestAbility))
+        // The source names no trait for this Gift's test. A Gnosis pool is not
+        // a substitute: it would resolve to a completely different test.
+        int? reportedPool = pool;
+        if (!hasAttribute && !hasAbility)
         {
-            pool = state.GnosisPermanent;
-            components.Add("Gnosis");
+            reportedPool = null;
+            undetermined.Add(
+                $"Dice pool: {definition.SourceLocator} requires a test but names no attribute and no ability for it, " +
+                "so the pool is undetermined. Chronicle does not substitute another trait's rating.");
         }
 
-        return (pool, difficulty, components);
+        // Difficulty 6 is Chronicle's own convention for gifts the source leaves
+        // open; applying it here would present an invented number as a sourced
+        // one, so an unstated difficulty is reported as undetermined instead.
+        int? difficulty = definition.TestDifficulty;
+        if (difficulty is null)
+        {
+            undetermined.Add(
+                $"Difficulty: {definition.SourceLocator} states no difficulty for this Gift's test, " +
+                "so the difficulty is undetermined. Chronicle does not substitute a default.");
+        }
+
+        return (reportedPool, difficulty, components, undetermined);
     }
+
+    /// <summary>
+    /// Renders a test value for a finding, naming an undetermined value as such
+    /// rather than printing a number that would read as sourced.
+    /// </summary>
+    private static string DescribeValue(int? value) =>
+        value?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "undetermined";
 
     private static int ResolveAttribute(WerewolfRuntimeCharacterState state, string attributeKey)
     {

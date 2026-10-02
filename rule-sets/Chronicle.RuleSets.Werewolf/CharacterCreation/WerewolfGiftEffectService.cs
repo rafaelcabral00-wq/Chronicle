@@ -65,9 +65,10 @@ public static class WerewolfGiftEffectService
         var currentState = request.CurrentState;
         var successes = Math.Max(0, request.ActivationSuccesses);
 
-        // Breed Gifts (source lines 1730-1870) and Auspice Gifts (1871-2103)
-        // resolve through single source-derived mechanics tables so every one
-        // of them produces a real typed modifier instead of a per-Gift stub.
+        // Breed Gifts (source lines 1730-1870), Auspice Gifts (1871-2103) and
+        // Tribe Gifts (2104-2561) resolve through single source-derived
+        // mechanics tables so every one of them produces a real typed modifier
+        // instead of a per-Gift stub.
         var breedMechanic = WerewolfBreedGiftMechanics.IsBreedGift(request.GiftKey)
             ? WerewolfBreedGiftMechanics.Resolve(
                 request.GiftKey,
@@ -84,10 +85,35 @@ public static class WerewolfGiftEffectService
                 ReadSheetRatings(currentState, "abilities"))
             : null;
 
-        var isSourceRouted = breedMechanic is not null || auspiceMechanic is not null;
+        // The Tribe table classifies all 132 Tribe Gifts, but it only carries a
+        // real mechanic for the wave it covers: 4 executable and 7 blocked,
+        // all from Glass Walkers. The 121 deferred Tribe Gifts therefore
+        // INTENTIONALLY fall through to the effect switch below instead of
+        // being routed through the table. Routing them here would emit
+        // Kind = Custom with no semantic payload and would overwrite nine
+        // already-validated Gift behaviours that carry real source semantics.
+        // Their deferred status is NOT reported at runtime; it is reported by
+        // WerewolfTribeGiftMechanics.Audit() and .StatusOf(), which currently
+        // have test-only call sites. This gate on IsExecutable || IsBlocked
+        // is therefore also what makes the table's Deferred arm unreachable
+        // in production.
+        var tribeMechanic = breedMechanic is null &&
+            auspiceMechanic is null &&
+            (WerewolfTribeGiftMechanics.IsExecutable(request.GiftKey) ||
+             WerewolfTribeGiftMechanics.IsBlocked(request.GiftKey))
+            ? WerewolfTribeGiftMechanics.Resolve(
+                request.GiftKey,
+                successes,
+                currentState.CurrentForm,
+                ReadSheetRatings(currentState, "abilities"),
+                currentState.GloryPermanent)
+            : null;
+
+        var isSourceRouted = breedMechanic is not null || auspiceMechanic is not null || tribeMechanic is not null;
         var isBlockedGift =
             (breedMechanic is not null && WerewolfBreedGiftMechanics.IsBlocked(request.GiftKey)) ||
-            (auspiceMechanic is not null && WerewolfAuspiceGiftMechanics.IsBlocked(request.GiftKey));
+            (auspiceMechanic is not null && WerewolfAuspiceGiftMechanics.IsBlocked(request.GiftKey)) ||
+            (tribeMechanic is not null && WerewolfTribeGiftMechanics.IsBlocked(request.GiftKey));
 
         var effectResult = isSourceRouted
             ? currentState
@@ -157,7 +183,9 @@ public static class WerewolfGiftEffectService
             // null payload, so null-coalescing cannot be used to pick the table.
             var mechanic = breedMechanic is not null
                 ? (breedMechanic.Kind, breedMechanic.Magnitude, breedMechanic.DurationTurns, breedMechanic.SourceLocator, breedMechanic.Payload)
-                : (auspiceMechanic!.Kind, auspiceMechanic.Magnitude, auspiceMechanic.DurationTurns, auspiceMechanic.SourceLocator, auspiceMechanic.Payload);
+                : auspiceMechanic is not null
+                    ? (auspiceMechanic.Kind, auspiceMechanic.Magnitude, auspiceMechanic.DurationTurns, auspiceMechanic.SourceLocator, auspiceMechanic.Payload)
+                    : (tribeMechanic!.Kind, tribeMechanic.Magnitude, tribeMechanic.DurationTurns, tribeMechanic.SourceLocator, tribeMechanic.Payload);
 
             var (sourceKind, sourceMagnitude, sourceDuration, sourceLocator, sourcePayload) = mechanic;
 
@@ -208,6 +236,7 @@ public static class WerewolfGiftEffectService
                 {
                     WerewolfBlockedGiftPayload blocked => blocked.MissingSubsystem,
                     WerewolfAuspiceBlockedPayload blocked => blocked.MissingSubsystem,
+                    WerewolfTribeGiftBlockedPayload blocked => blocked.MissingSubsystem,
                     _ => "unspecified prerequisite subsystem"
                 };
 
